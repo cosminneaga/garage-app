@@ -40,7 +40,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`username`, `password`, `name`, `email`, `auth_level`) VALUES
-('admin', '21232f297a57a5a743894a0e4a801fc3', 'Cosmin Neaga', 'kosmyn.neaga@gmail.com', 'manager');
+('admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin Name', 'email@gmail.com', 'manager');
 
 -- --------------------------------------------------------
 
