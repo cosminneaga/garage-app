@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  database:
+    platform: linux/x86_64
+    container_name: database
+    image: mysql:5.7
+    networks:
+      - photography_network
+    ports:
+      - "33061:3306"
+    environment:
+        # MYSQL_ROOT_PASSWORD: Wm067A@!
+        MYSQL_USER: root
+        MYSQL_PASSWORD:
+        MYSQL_DATABASE: gbd
+    volumes:
+        - database:/var/lib/mysql
+    #restart: unless-stopped
+
+  nginx:
+    container_name: nginx
+    build: 
+      context: ./docker/nginx
+    networks:
+      - garage_app
+    ports:
+      - "80:80"
+
+networks:
+  garage_app:
+    name: garage_app
