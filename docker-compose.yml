@@ -30,23 +30,25 @@ services:
       PMA_USER: root
       PMA_PASSWORD: password
 
-  nginx:
-    container_name: nginx
-    build: 
-      context: ./docker
+  # nginx:
+  #   container_name: nginx
+  #   build: 
+  #     context: ./docker
+  #   networks:
+  #     - garage_app
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - .:/var/www/web
+
+  app:
+    container_name: app
+    build:
+      context: .
     networks:
       - garage_app
     ports:
       - "80:80"
-    volumes:
-      - .:/var/www/web
-
-  php:
-    container_name: php
-    build:
-      context: ./docker/php
-    networks:
-      - garage_app
     volumes:
       - .:/var/www/web
 
