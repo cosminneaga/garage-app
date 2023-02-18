@@ -4,16 +4,14 @@ services:
 
   database:
     container_name: database
-    # image: mysql:8.0.12
-    # image: mysql:5.7.12
     image: mariadb:latest
     networks:
       - garage_app
     ports:
-      - "33074:3306"
+      - "${DB_EXTERNAL_PORT}:${DB_PORT}"
     environment:
-        MYSQL_ROOT_PASSWORD: password
-        MYSQL_DATABASE: gdb
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+        MYSQL_DATABASE: ${DB_NAME}
     volumes:
         - garage-app-database:/var/lib/mysql
 
@@ -23,25 +21,14 @@ services:
     networks:
       - garage_app
     ports:
-      - "8080:80"
+      - "${PHPMYADMIN_EXTERNAL_PORT}:${PHPMYADMIN_PORT}"
     depends_on:
       - database
     environment:
-      PMA_HOST: database
-      PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: password
-
-  # nginx:
-  #   container_name: nginx
-  #   build: 
-  #     context: ./docker
-  #   networks:
-  #     - garage_app
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - .:/var/www/web
+      PMA_HOST: ${DB_HOST}
+      PMA_PORT: ${DB_PORT}
+      PMA_USER: ${DB_USER}
+      PMA_PASSWORD: ${DB_PASSWORD}
 
   app:
     container_name: app
@@ -50,13 +37,13 @@ services:
     networks:
       - garage_app
     ports:
-      - "80:80"
+      - "${APP_EXTERNAL_PORT}:${APP_PORT}"
     environment:
-      HOST: database
-      PORT: 3306
-      USER: root
-      PASSWORD: password
-      DATABASE: gdb
+      HOST: ${DB_HOST}
+      PORT: ${DB_PORT}
+      USER: ${DB_USER}
+      PASSWORD: ${DB_PASSWORD}
+      DATABASE: ${DB_NAME}
     volumes:
       - .:/var/www/html
 
