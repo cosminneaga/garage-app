@@ -14,9 +14,11 @@ https://docs.docker.com/engine/
 - user-portal: http://localhost
 - username: test
 - password: test
-<br/>
+\
+&nbsp;
 - admin-portal: http://localhost
 - username: admin
 - password: admin
-<br/>
+\
+&nbsp;
 - phpmyadmin: http://localhost:8080
