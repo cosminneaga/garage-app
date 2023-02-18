@@ -10,7 +10,7 @@ services:
     networks:
       - garage_app
     ports:
-      - "3306:3306"
+      - "33074:3306"
     environment:
         MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: gdb
@@ -47,10 +47,16 @@ services:
     container_name: app
     build:
       context: .
-    # networks:
-    #   - garage_app
+    networks:
+      - garage_app
     ports:
       - "80:80"
+    environment:
+      HOST: database
+      PORT: 3306
+      USER: root
+      PASSWORD: password
+      DATABASE: gdb
     volumes:
       - .:/var/www/html
 

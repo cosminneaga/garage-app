@@ -5,8 +5,10 @@
 # # Install PHP Extensions
 # RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
 
-FROM php:7.3.17-apache
+# FROM php:7.0.0-apache
+FROM php:7.2-apache
 # FROM php:5.6.40-apache
+# FROM ubuntu:20.04
 
 WORKDIR /var/www/html
 
@@ -16,6 +18,7 @@ RUN apt-get update \
     git \
     nano
 
+# RUN docker-php-ext-install mysqli mysqlnd
 RUN docker-php-ext-install pdo pdo_mysql mysqli sockets
 RUN docker-php-ext-enable mysqli
 # RUN a2enmod rewrite
