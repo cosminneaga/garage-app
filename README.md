@@ -16,7 +16,7 @@ https://docs.docker.com/engine/
 - password: test
 \
 &nbsp;
-- admin-portal: http://localhost
+- admin-portal: http://localhost/admin
 - username: admin
 - password: admin
 \
