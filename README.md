@@ -9,6 +9,9 @@ https://docs.docker.com/engine/
 ## Run
 `bash build.sh`
 
+## Import data
+> Import base data into the database, file located at `desc/gdb.sql`
+
 ## Access
 
 - user-portal: http://localhost
