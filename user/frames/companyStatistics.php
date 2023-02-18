@@ -1,6 +1,6 @@
 <?php
 require('../../php/user/auth.php');
-define('functions',TRUE);
+define('functions', TRUE);
 require('../../php/user/functions.php');
 ?>
 <!DOCTYPE html>
@@ -65,7 +65,7 @@ require('../../php/user/functions.php');
     <script src="../../app/chart.min.js"></script>
 
     <script>
-        window.onload = function() {
+        window.onload = function () {
             var today_total = document.getElementById('today-total');
             var yes_total = document.getElementById('yes-total');
             var this_month_total = document.getElementById('this-month');
@@ -92,7 +92,7 @@ require('../../php/user/functions.php');
             var td = new XMLHttpRequest();
             td.open("GET", "../../php/user/graphData.php?today-inv=<?php echo date('Y-m-d%') ?>");
             td.send();
-            td.onreadystatechange = function() {
+            td.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let data = JSON.parse(this.responseText);
                     let toSkip = [];
@@ -112,7 +112,7 @@ require('../../php/user/functions.php');
             var yes = new XMLHttpRequest();
             yes.open("GET", "../../php/user/graphData.php?yesterday=<?php echo date('Y-m-d%', strtotime(" - 1 Days ")) ?>");
             yes.send();
-            yes.onreadystatechange = function() {
+            yes.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let data = JSON.parse(this.responseText);
                     // console.log(data);
@@ -132,7 +132,7 @@ require('../../php/user/functions.php');
             var tmt = new XMLHttpRequest();
             tmt.open("GET", "../../php/user/graphData.php?this-month=<?php echo date('Y-m%') ?>");
             tmt.send();
-            tmt.onreadystatechange = function() {
+            tmt.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let data = JSON.parse(this.responseText);
 
@@ -173,7 +173,7 @@ require('../../php/user/functions.php');
             var lm = new XMLHttpRequest();
             lm.open("GET", "../../php/user/graphData.php?last-month=<?php echo date('Y-m%', strtotime('-1 Month')) ?>");
             lm.send();
-            lm.onreadystatechange = function() {
+            lm.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let data = JSON.parse(this.responseText);
                     let toSkip = [];
@@ -196,7 +196,7 @@ require('../../php/user/functions.php');
             var year = new XMLHttpRequest();
             year.open("GET", "../../php/user/graphData.php?yearly=<?php echo date('Y%') ?>");
             year.send();
-            year.onreadystatechange = function() {
+            year.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let data = JSON.parse(this.responseText);
 
@@ -406,7 +406,7 @@ require('../../php/user/functions.php');
                                 borderColor: '#0C0D5C',
                                 lineTension: 0,
                                 data: barChartData[0]
-                            },{
+                            }, {
                                 label: 'Expenses',
                                 backgroundColor: 'rgba(108, 8, 14, 0.3)',
                                 borderColor: '#6c080e',

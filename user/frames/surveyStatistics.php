@@ -1,6 +1,6 @@
 <?php
 require('../../php/user/auth.php');
-define('functions',TRUE);
+define('functions', TRUE);
 require('../../php/user/functions.php');
 $extract = new extract();
 $comp = $extract->company($conn, $ownedBy_S);
@@ -23,11 +23,22 @@ $name = $comp['name'];
         <div class="row d-flex justify-content-center mb-5">
             <h3>Questions</h3>
             <select id="question" class="custom-select" onchange="select_data(this.value)">
-                <option value="1" selected><b>1.</b> <i>What is your overall impression about the speed of the repair process the <?php echo $name ?> has done on your vehicle repair?</i></option>
-                <option value="2">2.&nbsp;How welcomed did you feel when you get in contact with <?php echo $name ?> and its members?</option>
-                <option value="3">3.&nbsp;What is your overall impression of the Quality of Service, <?php echo $name ?> had provide you with?</option>
-                <option value="4">4.&nbsp;How likely are you considering making contact with <?php echo $name ?> in case something similar happens in future?</option>
-                <option value="5">5.&nbsp;How likely would you be to recommend <?php echo $name ?> to your relatives and friends?</option>
+                <option value="1" selected><b>1.</b> <i>What is your overall impression about the speed of the repair
+                        process the
+                        <?php echo $name ?> has done on your vehicle repair?
+                    </i></option>
+                <option value="2">2.&nbsp;How welcomed did you feel when you get in contact with
+                    <?php echo $name ?> and its members?
+                </option>
+                <option value="3">3.&nbsp;What is your overall impression of the Quality of Service,
+                    <?php echo $name ?> had provide you with?
+                </option>
+                <option value="4">4.&nbsp;How likely are you considering making contact with
+                    <?php echo $name ?> in case something similar happens in future?
+                </option>
+                <option value="5">5.&nbsp;How likely would you be to recommend
+                    <?php echo $name ?> to your relatives and friends?
+                </option>
             </select>
 
         </div>
@@ -75,7 +86,7 @@ $name = $comp['name'];
             });
 
             var counts = {};
-            answers.forEach(function(x) {
+            answers.forEach(function (x) {
                 counts[x] = (counts[x] || 0) + 1;
             });
 
@@ -104,7 +115,7 @@ $name = $comp['name'];
             data: {
                 owned_by: 1
             },
-            success: function(response) {
+            success: function (response) {
                 let data = JSON.parse(response);
 
                 let que1 = [];
@@ -273,15 +284,15 @@ $name = $comp['name'];
                             position: 'nearest',
                             intersect: false,
                             callbacks: {
-                                label: function(tooltipItem, data) {
+                                label: function (tooltipItem, data) {
                                     var label = data.datasets[tooltipItem.datasetIndex].label;
                                     return label;
                                 },
-                                title: function(tooltipItem, data) {
+                                title: function (tooltipItem, data) {
                                     // console.log(tooltipItem)
                                     return 'Question no.: ' + tooltipItem[0].xLabel;
                                 },
-                                footer: function(tooltipItem, data) {
+                                footer: function (tooltipItem, data) {
                                     return tooltipItem[0].value + ' people answered.';
                                 }
                             }
@@ -330,15 +341,15 @@ $name = $comp['name'];
                     position: 'nearest',
                     intersect: false,
                     callbacks: {
-                        label: function(tooltipItem, data) {
+                        label: function (tooltipItem, data) {
                             var label = data.datasets[tooltipItem.datasetIndex].label;
                             return label;
                         },
-                        title: function(tooltipItem, data) {
+                        title: function (tooltipItem, data) {
                             var que = tooltipItem[0].index + 1;
                             return 'Answer: ' + que;
                         },
-                        footer: function(tooltipItem, data) {
+                        footer: function (tooltipItem, data) {
                             return data.datasets[0].data[tooltipItem[0].index] + ' % of people answered.';
                         }
                     }
@@ -353,7 +364,7 @@ $name = $comp['name'];
             data: {
                 question_no: 1
             },
-            success: function(response) {
+            success: function (response) {
                 let data = JSON.parse(response);
                 let chart_data = transformObjectIntoArrforPercentChart(data);
                 percentChart.data.datasets[0].data = chart_data;
@@ -393,7 +404,7 @@ $name = $comp['name'];
                 data: {
                     question_no: question_select
                 },
-                success: function(response) {
+                success: function (response) {
                     let data = JSON.parse(response);
                     let chart_data = transformObjectIntoArrforPercentChart(data);
                     percentChart.data.datasets[0].data = chart_data;

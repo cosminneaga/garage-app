@@ -1,3 +1,9 @@
+<?php
+require('../../php/user/auth.php');
+define('functions',TRUE);
+require('../../php/user/functions.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,9 +17,6 @@
 
 <body class="bg-dark">
     <?php
-require('../../php/user/auth.php');
-define('functions',TRUE);
-require('../../php/user/functions.php');
     $extract = new extract();
     $data = $extract->vehicles($conn, $ownedBy_S);
     $row = json_decode($data);
