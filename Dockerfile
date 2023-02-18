@@ -11,7 +11,9 @@ WORKDIR /var/www/html
 
 #Install git
 RUN apt-get update \
-    && apt-get install -y git
+    && apt-get install -y \
+    git \
+    nano 
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 # RUN a2enmod rewrite
 
