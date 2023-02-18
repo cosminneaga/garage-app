@@ -2,8 +2,8 @@ version: '3'
 
 services:
 
-  database:
-    container_name: database
+  garage-app-db-host:
+    container_name: garage-app-db-host
     image: mariadb:latest
     networks:
       - garage_app
@@ -15,23 +15,23 @@ services:
     volumes:
         - garage-app-database:/var/lib/mysql
 
-  phpmyadmin:
-    container_name: phpmyadmin
+  garage-app-phpmyadmin:
+    container_name: garage-app-phpmyadmin
     image: phpmyadmin:latest
     networks:
       - garage_app
     ports:
       - "${PHPMYADMIN_EXTERNAL_PORT}:${PHPMYADMIN_PORT}"
     depends_on:
-      - database
+      - garage-app-db-host
     environment:
       PMA_HOST: ${DB_HOST}
       PMA_PORT: ${DB_PORT}
       PMA_USER: ${DB_USER}
       PMA_PASSWORD: ${DB_PASSWORD}
 
-  app:
-    container_name: app
+  garage-app:
+    container_name: garage-app
     build:
       context: .
     networks:
