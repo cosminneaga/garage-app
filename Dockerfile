@@ -6,6 +6,7 @@
 # RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
 
 FROM php:7.3.17-apache
+# FROM php:5.6.40-apache
 
 WORKDIR /var/www/html
 
@@ -13,8 +14,10 @@ WORKDIR /var/www/html
 RUN apt-get update \
     && apt-get install -y \
     git \
-    nano 
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+    nano
+
+RUN docker-php-ext-install pdo pdo_mysql mysqli sockets
+RUN docker-php-ext-enable mysqli
 # RUN a2enmod rewrite
 
 #Install Composer

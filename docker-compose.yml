@@ -4,11 +4,13 @@ services:
 
   database:
     container_name: database
-    image: mysql:8.0.12
+    # image: mysql:8.0.12
+    # image: mysql:5.7.12
+    image: mariadb:latest
     networks:
       - garage_app
     ports:
-      - "33064:3306"
+      - "3306:3306"
     environment:
         MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: gdb
@@ -45,12 +47,12 @@ services:
     container_name: app
     build:
       context: .
-    networks:
-      - garage_app
+    # networks:
+    #   - garage_app
     ports:
       - "80:80"
     volumes:
-      - .:/var/www/web
+      - .:/var/www/html
 
 networks:
   garage_app:
