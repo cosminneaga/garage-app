@@ -5,7 +5,7 @@ if (!isset($_SESSION["own"])) {
 
   header("Location: ../index.php");
   exit();
-  
+
 } else {
 
   $username_S = $_SESSION['username'];
