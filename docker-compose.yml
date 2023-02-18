@@ -3,31 +3,74 @@ version: '3'
 services:
 
   database:
-    platform: linux/x86_64
+    # platform: linux/x86_64
     container_name: database
-    image: mysql:5.7
+    # image: mariadb:10.4.11
+    # image: mariadb:10.4.11
+    image: mysql:8.0.12
     networks:
-      - photography_network
+      - garage_app
     ports:
-      - "33061:3306"
+      - "3308:3306"
     environment:
-        # MYSQL_ROOT_PASSWORD: Wm067A@!
-        MYSQL_USER: root
-        MYSQL_PASSWORD:
+        MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: gbd
     volumes:
-        - database:/var/lib/mysql
-    #restart: unless-stopped
+        - ./docker-volumes/database:/var/lib/mysql
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin:latest
+    networks:
+      - garage_app
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      # PMA_USER: root
+      # PMA_PASSWORD: password
+      # - PMA_ARBITRARY=1
 
   nginx:
     container_name: nginx
     build: 
-      context: ./docker/nginx
+      context: ./docker
     networks:
       - garage_app
     ports:
       - "80:80"
+    volumes:
+      - .:/var/www/web
+
+  php:
+    container_name: php
+    image: php:fpm-alpine
+    networks:
+      - garage_app
+    volumes:
+      - .:/var/www/web
+
+  # app:
+  #   container_name: app
+  #   build: 
+  #     context: ./docker
+  #   networks:
+  #     - garage_app
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - database
+  #     - phpmyadmin
+  #   volumes:
+  #     - .:/var/www
 
 networks:
   garage_app:
     name: garage_app
+
+volumes:
+  garage-app-database:
+    driver: local
