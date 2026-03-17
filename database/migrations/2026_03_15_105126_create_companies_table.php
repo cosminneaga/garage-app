@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('street', length: 255);
             $table->string('city', length: 30);
             $table->string('postcode', length: 15);
-            $table->foreignIdFor(Country::class)->constrained()->nullable();
+            $table->foreignIdFor(Country::class)->constrained()->nullable(false);
             $table->string('registration_no', length: 20);
             $table->string('mobile', length: 20);
             $table->string('landline', length: 20);
