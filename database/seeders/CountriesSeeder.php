@@ -2,15 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CountriesSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('countries')->delete();
-
         $countries = [
             ['code' => 'US', 'name' => 'United States'],
             ['code' => 'CA', 'name' => 'Canada'],
@@ -256,6 +254,6 @@ class CountriesSeeder extends Seeder
             ['code' => 'ZW', 'name' => 'Zimbabwe'],
         ];
 
-        DB::table('countries')->insert($countries);
+        Country::factory()->createMany($countries);
     }
 }

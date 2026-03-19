@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Country;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +15,7 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name', length: 255);
-            $table->string('email', length: 30);
+            $table->string('email')->unique();
             $table->string('street', length: 255);
             $table->string('city', length: 30);
             $table->string('postcode', length: 15);
@@ -25,7 +24,6 @@ return new class extends Migration
             $table->string('mobile', length: 20);
             $table->string('landline', length: 20);
             $table->integer('tax_value')->default(20);
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Models\Country;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name', length: 40)->comment('Full name.');
-            $table->string('email', length: 30)->comment('Email address.');
+            $table->string('email')->unique()->comment('Email address.');
             $table->boolean('active')->comment('Account status.');
             $table->string('password')->nullable(false);
             $table->string('access_token')->nullable()->comment('The customer access token used to access API resources.');
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->string('postcode', length: 10)->nullable(false);
             $table->string('mobile', length: 20);
             $table->string('landline', length: 20);
+            $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
             $table->softDeletes('deleted_at', precision: 0);
             $table->timestamps();
         });

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -17,6 +16,11 @@ class PermissionsSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        Permission::create(['name' => 'users_show']);
+        Permission::create(['name' => 'users_store']);
+        Permission::create(['name' => 'users_update']);
+        Permission::create(['name' => 'users_delete']);
+
         Permission::create(['name' => 'clients_show']);
         Permission::create(['name' => 'clients_store']);
         Permission::create(['name' => 'clients_update']);
@@ -26,36 +30,25 @@ class PermissionsSeeder extends Seeder
         $userRoleEditor = Role::create(['name' => 'editor']);
         $userRoleViewer = Role::create(['name' => 'viewer']);
 
+        // super admin
+        $userRoleAdmin->givePermissionTo('users_show');
+        $userRoleAdmin->givePermissionTo('users_store');
+        $userRoleAdmin->givePermissionTo('users_update');
+        $userRoleAdmin->givePermissionTo('users_delete');
         $userRoleAdmin->givePermissionTo('clients_show');
         $userRoleAdmin->givePermissionTo('clients_store');
         $userRoleAdmin->givePermissionTo('clients_update');
         $userRoleAdmin->givePermissionTo('clients_delete');
 
+        // editor
+        $userRoleEditor->givePermissionTo('users_show');
+        $userRoleEditor->givePermissionTo('users_store');
+        $userRoleEditor->givePermissionTo('users_update');
         $userRoleEditor->givePermissionTo('clients_show');
         $userRoleEditor->givePermissionTo('clients_store');
         $userRoleEditor->givePermissionTo('clients_update');
 
+        // viewer
         $userRoleViewer->givePermissionTo('clients_show');
-
-        $adminUser = User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'admin@garage.com',
-            'active' => true,
-        ]);
-        $adminUser->assignRole($userRoleAdmin);
-
-        $editorUser = User::factory()->create([
-            'name' => 'Editor Admin',
-            'email' => 'editor@garage.com',
-            'active' => true,
-        ]);
-        $editorUser->assignRole($userRoleEditor);
-
-        $viewerUser = User::factory()->create([
-            'name' => 'Viewer Admin',
-            'email' => 'viewer@garage.com',
-            'active' => true,
-        ]);
-        $viewerUser->assignRole($userRoleViewer);
     }
 }
