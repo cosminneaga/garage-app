@@ -18,7 +18,10 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'email' => fake()->safeEmail(),
+            'password' => static::$password ??= Hash::make('password'),
+            'active' => fake()->randomElement([true, false]),
         ];
     }
 }

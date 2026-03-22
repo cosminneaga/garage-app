@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name')->nullable(false);
             $table->string('code');
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

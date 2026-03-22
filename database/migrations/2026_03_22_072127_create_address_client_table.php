@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Address;
+use App\Models\Client;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,12 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('address_client', function (Blueprint $table) {
             $table->id();
-            $table->string('name', length: 255);
-            $table->string('registration_no', length: 20);
-            $table->integer('tax_value')->default(20);
-            $table->softDeletes();
+            $table->foreignIdFor(Address::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('address_client');
     }
 };

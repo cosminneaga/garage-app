@@ -1,7 +1,8 @@
 <?php
 
+use App\Models\Address;
 use App\Models\Company;
-use App\Models\Country;
+use App\Models\Contact;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,20 +16,15 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('name', length: 40)->comment('Full name.');
-            $table->string('email')->unique()->comment('Email address.');
-            $table->boolean('active')->comment('Account status.');
+            $table->string('name', length: 40);
+            $table->string('email')->unique();
+            $table->boolean('active');
             $table->string('password')->nullable(false);
-            $table->string('access_token')->nullable()->comment('The customer access token used to access API resources.');
-            $table->string('street', length: 50)->nullable(false)->comment('Street name');
-            $table->string('number', length: 5)->nullable(false)->comment('Location number');
-            $table->string('address_extrainfo')->nullable()->comment('Address extra information');
-            $table->foreignIdFor(Country::class)->constrained()->nullable(false);
-            $table->string('postcode', length: 10)->nullable(false);
-            $table->string('mobile', length: 20);
-            $table->string('landline', length: 20);
+            $table->string('access_token')->nullable();
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
-            $table->softDeletes('deleted_at', precision: 0);
+            $table->foreignIdFor(Address::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Contact::class)->constrained()->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
