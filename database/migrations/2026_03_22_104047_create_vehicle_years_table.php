@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->string('year', length: 5)->nullable(false);
             $table->foreignIdFor(VehicleModel::class)->constrained()->cascadeOnDelete();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

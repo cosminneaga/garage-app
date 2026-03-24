@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('postcode', length: 10)->nullable(false);
             $table->string('extra')->nullable();
             $table->foreignIdFor(Country::class)->constrained()->nullable(false);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -24,8 +24,8 @@ return new class extends Migration
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Address::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Contact::class)->constrained()->cascadeOnDelete();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

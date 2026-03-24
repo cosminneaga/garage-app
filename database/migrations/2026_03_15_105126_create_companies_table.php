@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name', length: 255);
             $table->string('registration_no', length: 20);
             $table->integer('tax_value')->default(20);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
