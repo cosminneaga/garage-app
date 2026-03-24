@@ -10,16 +10,22 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class MockUpSeeder extends Seeder
+class DevUsersRolesAndCountries extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+
+        // permissions
         $this->call(PermissionsSeeder::class);
 
-        $country = Country::factory()->create();
+        // countries
+        $this->call(CountriesSeeder::class);
+        $country = Country::first();
+
+        // contact & address
         $contact = Contact::factory(5)->create();
         $address = Address::factory(5)->create([
             'country_id' => $country,
@@ -33,7 +39,6 @@ class MockUpSeeder extends Seeder
         ]);
         $adminUser->addresses()->attach([$address[0]->id, $address[1]->id]);
         $adminUser->contacts()->attach([$contact[0]->id, $contact[1]->id]);
-        $adminUser->assignRole('super');
 
         // editor
         $editorUser = User::factory()->create([
@@ -43,7 +48,6 @@ class MockUpSeeder extends Seeder
         ]);
         $editorUser->addresses()->attach($address[2]->id);
         $editorUser->contacts()->attach($contact[2]->id);
-        $editorUser->assignRole('editor');
 
         // viewer
         $viewerUser = User::factory()->create([
@@ -53,6 +57,10 @@ class MockUpSeeder extends Seeder
         ]);
         $viewerUser->addresses()->attach($address[3]->id);
         $viewerUser->contacts()->attach($contact[3]->id);
+
+        // roles assignation
+        $adminUser->assignRole('super');
+        $editorUser->assignRole('editor');
         $viewerUser->assignRole('viewer');
 
         // company

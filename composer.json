@@ -37,9 +37,13 @@
         }
     },
     "scripts": {
-        "seed:mock": [
+        "migrate:dev": [
             "@php artisan migrate:fresh",
-            "@php artisan db:seed --class=MockUpSeeder"
+            "@php artisan db:seed --class=DevSeeder"
+        ],
+        "migrate:prod": [
+            "@php artisan migrate",
+            "@php artisan db:seed --class=VehicleSeeder"
         ],
         "refresh": [
             "@php artisan migrate:fresh",
