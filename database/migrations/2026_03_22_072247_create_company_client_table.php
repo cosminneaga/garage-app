@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Client;
+use App\Models\Company;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,8 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('repair_images', function (Blueprint $table) {
+        Schema::create('company_client', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('repair_images');
+        Schema::dropIfExists('company_client');
     }
 };

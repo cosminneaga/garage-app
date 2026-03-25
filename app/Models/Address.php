@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Address extends Model
@@ -25,12 +24,12 @@ class Address extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function companies(): HasMany
+    public function companies(): BelongsToMany
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function clients(): HasMany
+    public function clients(): BelongsToMany
     {
         return $this->belongsTo(Client::class);
     }

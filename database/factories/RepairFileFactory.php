@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\RepairImage;
+use App\Models\RepairFile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<RepairImage>
+ * @extends Factory<RepairFile>
  */
-class RepairImageFactory extends Factory
+class RepairFileFactory extends Factory
 {
     /**
      * Define the model's default state.

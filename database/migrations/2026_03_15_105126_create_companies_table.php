@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', length: 255);
             $table->string('registration_no', length: 20);
-            $table->integer('tax_value')->default(20);
+            $table->float('tax_value', precision: 2)->default(20.00);
+            $table->string('invoice_prefix')->nullable(false);
             $table->timestamps();
             $table->softDeletes();
         });

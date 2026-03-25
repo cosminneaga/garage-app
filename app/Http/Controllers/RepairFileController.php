@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRepairImageRequest;
-use App\Http\Requests\UpdateRepairImageRequest;
-use App\Models\RepairImage;
+use App\Http\Requests\StoreRepairFileRequest;
+use App\Http\Requests\UpdateRepairFileRequest;
+use App\Models\RepairFile;
 
-class RepairImageController extends Controller
+class RepairFileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class RepairImageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRepairImageRequest $request)
+    public function store(StoreRepairFileRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class RepairImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RepairImage $repairImage)
+    public function show(RepairFile $repairFile)
     {
         //
     }
@@ -43,7 +43,7 @@ class RepairImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(RepairImage $repairImage)
+    public function edit(RepairFile $repairFile)
     {
         //
     }
@@ -51,7 +51,7 @@ class RepairImageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRepairImageRequest $request, RepairImage $repairImage)
+    public function update(UpdateRepairFileRequest $request, RepairFile $repairFile)
     {
         //
     }
@@ -59,7 +59,7 @@ class RepairImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RepairImage $repairImage)
+    public function destroy(RepairFile $repairFile)
     {
         //
     }

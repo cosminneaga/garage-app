@@ -24,4 +24,9 @@ class VehicleMake extends Model
     {
         return $this->hasMany(VehicleData::class);
     }
+
+    public function repairs(): HasMany
+    {
+        return $this->hasMany(Repair::class);
+    }
 }

@@ -20,6 +20,8 @@ class CompanyFactory extends Factory
         return [
             'name' => fake()->company(),
             'registration_no' => fake()->numberBetween(10000000, 99999999),
+            'tax_value' => fake()->numberBetween(0, 45),
+            'invoice_prefix' => fake()->word(),
         ];
     }
 }

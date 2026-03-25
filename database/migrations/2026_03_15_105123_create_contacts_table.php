@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('landline', length: 20);
             $table->string('email')->unique();
             $table->string('url');
+            $table->text('info');
             $table->timestamps();
             $table->softDeletes();
         });

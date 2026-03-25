@@ -2,8 +2,7 @@
 
 use App\Models\Client;
 use App\Models\Company;
-use App\Models\VehicleData;
-use App\Models\VehicleFuelType;
+use App\Models\VehicleMake;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,6 +21,7 @@ return new class extends Migration
             $table->integer('odometer');
             $table->string('fuel')->default('other');
             $table->string('status')->default('reception');
+
             $table->text('complaint_description')->nullable();
             $table->text('initial_inspection')->nullable();
             $table->text('diagnostic')->nullable();
@@ -32,14 +32,10 @@ return new class extends Migration
             $table->text('quality_check_testing')->nullable();
             $table->text('service_record')->nullable();
 
-            // !TODO: Invoice creation & relation
-            // !TODO: photos/videos (before & after), customer approval logs, digital signatures, maintenance remainders
-            // https://chatgpt.com/c/69c2e825-1124-832e-8885-ce2acccf0406
-
-            $table->foreignIdFor(VehicleData::class)->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(VehicleFuelType::class)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(VehicleMake::class)->constrained()->cascadeOnUpdate();
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
+
             $table->timestamps();
             $table->softDeletes();
         });

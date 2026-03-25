@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Database\Factories\CompanyFactory;
+// use Database\Factories\CompanyFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,7 +21,7 @@ class Company extends Model
     ];
 
     protected $casts = [
-        'tax_value' => 'number',
+        'tax_value' => 'float',
     ];
 
     public function users(): BelongsToMany
@@ -47,5 +47,10 @@ class Company extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Repair::class);
     }
 }
