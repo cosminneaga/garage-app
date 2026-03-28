@@ -35,6 +35,7 @@ class DevUsers extends Seeder
         $adminUser = User::factory()->create([
             'name' => 'Super Admin',
             'email' => 'admin@garage.com',
+            'password' => 'password',
             'active' => true,
         ]);
         $adminUser->addresses()->attach([$address[0]->id, $address[1]->id]);

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 // use Database\Factories\RepairFileFactory;
-use App\FileStatus;
-use App\RepairStatus;
+use App\Enums\FileStatus;
+use App\Enums\RepairStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

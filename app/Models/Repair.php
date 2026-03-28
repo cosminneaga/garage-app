@@ -3,8 +3,8 @@
 namespace App\Models;
 
 // use Database\Factories\RepairFactory;
-use App\FuelType;
-use App\RepairStatus;
+use App\Enums\FuelType;
+use App\Enums\RepairStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

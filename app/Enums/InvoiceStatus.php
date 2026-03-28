@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Enums;
 
 enum InvoiceStatus: string
 {
@@ -37,6 +37,6 @@ enum InvoiceStatus: string
 
     public static function values(): array
     {
-        return array_map(fn (RepairStatus $status) => $status->value, self::cases());
+        return array_map(fn (InvoiceStatus $status) => $status->value, self::cases());
     }
 }

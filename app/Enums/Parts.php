@@ -2,12 +2,8 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasLabel;
-
 enum Parts: string
 {
-    use HasLabel;
-
     case OIL_CHANGE = 'oil_change';
     case FILTER_REPLACEMENT = 'filter_replacement';
     case FLUID_TOP_UP = 'fluid_top_up';
