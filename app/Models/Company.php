@@ -21,7 +21,7 @@ class Company extends Model
     ];
 
     protected $casts = [
-        'tax_value' => 'float',
+        'tax_value' => 'decimal',
     ];
 
     public function users(): BelongsToMany

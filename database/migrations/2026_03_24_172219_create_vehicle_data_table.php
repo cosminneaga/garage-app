@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('cylinders');
-            $table->float('displacement', precision: 1);
+            $table->decimal('displacement', 2, 1);
             $table->string('drive');
             $table->string('transmission');
             $table->foreignIdFor(VehicleMake::class)->constrained()->cascadeOnDelete();

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('number', length: 15)->nullable(false);
             $table->string('street', length: 50)->nullable(false);
             $table->string('postcode', length: 10)->nullable(false);
+            $table->geography('coordinates', subtype: 'point', srid: 4326)->nullable();
             $table->string('extra')->nullable();
             $table->foreignIdFor(Country::class)->constrained()->nullable(false);
             $table->timestamps();

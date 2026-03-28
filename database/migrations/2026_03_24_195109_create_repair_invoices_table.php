@@ -15,11 +15,11 @@ return new class extends Migration
         Schema::create('repair_invoices', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_number')->nullable(false);
-            $table->float('work_time', precision: 2)->nullable(false);
-            $table->float('hourly_charge', precision: 2)->nullable(false);
+            $table->decimal('work_time', 8, 2)->default(0.00);
+            $table->decimal('hourly_charge', 8, 2)->default(0.00);
             $table->string('status')->default('draft');
-            $table->float('discount_applied', precision: 2)->default(0.00);
-            $table->float('paid_amount', precision: 2)->default(0.00);
+            $table->decimal('discount_applied', 4, 2)->default(0.00);
+            $table->decimal('paid_amount', 4, 2)->default(0.00);
             $table->text('description')->nullable();
 
             $table->foreignIdFor(Repair::class)->constrained()->cascadeOnUpdate();

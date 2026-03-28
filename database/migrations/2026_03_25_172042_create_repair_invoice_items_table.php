@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable(false);
             $table->integer('quantity')->default(0);
-            $table->float('item_price', precision: 2)->default(0.00);
-            $table->float('labour_price', precision: 2)->default(0.00);
+            $table->decimal('item_price', 8, 2)->default(0.00);
+            $table->decimal('labour_price', 8, 2)->default(0.00);
 
             $table->foreignIdFor(RepairInvoice::class)->constrained()->cascadeOnDelete();
 
