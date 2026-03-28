@@ -3,12 +3,15 @@
 namespace App\Models;
 
 // use Database\Factories\CompanyFactory;
+use App\Policies\CompanyPolicy;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[UsePolicy(CompanyPolicy::class)]
 class Company extends Model
 {
     /** @use HasFactory<CompanyFactory> */
@@ -21,7 +24,7 @@ class Company extends Model
     ];
 
     protected $casts = [
-        'tax_value' => 'decimal',
+        'tax_value' => 'float',
     ];
 
     public function users(): BelongsToMany

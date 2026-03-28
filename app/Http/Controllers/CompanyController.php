@@ -5,15 +5,39 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showAll()
     {
-        //
+        $this->authorize('viewAny');
+
+        return view('pages.company.index', [
+            'companies' => Company::all(),
+        ]);
+    }
+
+    public function showOwn(Request $request)
+    {
+        $user = Auth::user();
+
+        return view('pages.company.index', [
+            'companies' => $user->companies,
+        ]);
+    }
+
+    public function show(Company $company)
+    {
+        $this->authorize('view', $company);
+
+        return view('pages.company.single', [
+            'company' => $company,
+        ]);
     }
 
     /**
@@ -35,10 +59,6 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Company $company)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

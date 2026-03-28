@@ -7,8 +7,11 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "inputtype",
         "Spatie",
-        "srid"
+        "srid",
+        "varname",
+        "vite"
     ],
     "ignoreWords": [],
     "import": []

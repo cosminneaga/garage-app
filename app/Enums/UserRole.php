@@ -5,15 +5,15 @@ namespace App\Enums;
 enum UserRole: string
 {
     case ADMIN_SUPER = 'admin_super';
-    case USER_MANAGER = 'user_admin';
+    case USER_ADMIN = 'user_admin';
     case USER_EDITOR = 'user_editor';
-    case USER_VIEWER - 'user_viewer';
+    case USER_VIEWER = 'user_viewer';
 
     public function label(): string
     {
         return match ($this) {
             self::ADMIN_SUPER => 'App Administrator',
-            self::USER_MANAGER => 'User Administrator over it\'s own companies, users, vehicles, clients, invoices',
+            self::USER_ADMIN => 'User Administrator over it\'s own companies, users, vehicles, clients, invoices',
             self::USER_EDITOR => 'User Editor over it\'s own companies, users, vehicles, clients, invoices',
             self::USER_VIEWER => 'User Viewer over it\'s own companies, users, vehicles, clients, invoices'
         };

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
@@ -26,8 +27,8 @@ class DevUsers extends Seeder
         $country = Country::first();
 
         // contact & address
-        $contact = Contact::factory(5)->create();
-        $address = Address::factory(5)->create([
+        $contact = Contact::factory(10)->create();
+        $address = Address::factory(10)->create([
             'country_id' => $country,
         ]);
 
@@ -40,17 +41,36 @@ class DevUsers extends Seeder
         ]);
         $adminUser->addresses()->attach([$address[0]->id, $address[1]->id]);
         $adminUser->contacts()->attach([$contact[0]->id, $contact[1]->id]);
-
-        // roles assignation
-        $adminUser->assignRole('super');
-
-        // company
+        $adminUser->assignRole(UserRole::ADMIN_SUPER->value);
         $company = Company::factory()->create();
         $company->addresses()->attach($address[4]->id);
         $company->contacts()->attach($contact[4]->id);
         $adminUser->companies()->attach($company->id);
+        $products = Product::factory(10)->create([
+            'company_id' => $company,
+        ]);
 
-        // products
+        // user admin
+        $userAdmin = User::factory()->create([
+            'name' => 'User Manager',
+            'email' => 'manager@garage.com',
+            'password' => 'password',
+            'active' => true,
+        ]);
+        $userAdmin->addresses()->attach($address[2]->id);
+        $userAdmin->contacts()->attach($contact[2]->id);
+        $userAdmin->assignRole(UserRole::USER_ADMIN->value);
+        $company = Company::factory()->create();
+        $company->addresses()->attach($address[5]->id);
+        $company->contacts()->attach($contact[5]->id);
+        $userAdmin->companies()->attach($company->id);
+        $products = Product::factory(10)->create([
+            'company_id' => $company,
+        ]);
+        $company = Company::factory()->create();
+        $company->addresses()->attach($address[5]->id);
+        $company->contacts()->attach($contact[5]->id);
+        $userAdmin->companies()->attach($company->id);
         $products = Product::factory(10)->create([
             'company_id' => $company,
         ]);

@@ -2,17 +2,23 @@
 
 namespace App\Policies;
 
+use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
+        $user = Auth::user();
+        if ($user->hasRole(UserRole::ADMIN_SUPER->value)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -21,7 +27,11 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        return false;
+        if (! $company->users()->find($user->id)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

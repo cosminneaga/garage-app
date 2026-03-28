@@ -57,6 +57,13 @@
             "@php artisan db:seed --class=PermissionsSeeder",
             "@php artisan db:seed"
         ],
+        "clear": [
+            "@php artisan view:clear",
+            "@php artisan event:clear",
+            "@php artisan route:clear",
+            "@php artisan config:clear",
+            "composer dump-autoload"
+        ],
         "setup": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",

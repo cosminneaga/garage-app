@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -21,11 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::before(function ($user, $ability) {
-            return user->hasRole('super') ? true : null;
-        });
-
+        // Model::unguard();
         Model::shouldBeStrict();
         Model::automaticallyEagerLoadRelationships();
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole(UserRole::ADMIN_SUPER->value) ? true : null;
+        });
+
     }
 }
