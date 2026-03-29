@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
 
@@ -26,6 +27,7 @@ class AddressFactory extends Factory
             'postcode' => fake()->postcode(),
             'coordinates' => DB::raw("ST_PointFromText('POINT($longitude $latitude)')"),
             'extra' => fake()->secondaryAddress(),
+            'country_id' => Country::factory(),
         ];
     }
 }

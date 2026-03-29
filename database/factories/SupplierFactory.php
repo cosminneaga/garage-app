@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Company;
+use App\Enums\SupplierType;
+use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Company>
+ * @extends Factory<Supplier>
  */
-class CompanyFactory extends Factory
+class SupplierFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,8 +22,8 @@ class CompanyFactory extends Factory
             'name' => fake()->company(),
             'tax_id' => fake()->numberBetween(10000000, 99999999),
             'registration_number' => fake()->numberBetween(10000000, 99999999),
-            'tax_value' => fake()->numberBetween(0.0, 45.0),
-            'invoice_prefix' => fake()->ean8(),
+            'code' => 'NIMACODE43',
+            'type' => fake()->randomElement(SupplierType::class),
         ];
     }
 }

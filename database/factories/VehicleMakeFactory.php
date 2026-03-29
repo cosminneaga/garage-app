@@ -18,7 +18,7 @@ class VehicleMakeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->words($nb = 3, $asText = false),
+            'name' => fake()->randomElement(['Mazda', 'Nissan', 'Peugeot']),
         ];
     }
 }

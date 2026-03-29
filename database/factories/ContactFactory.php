@@ -22,7 +22,7 @@ class ContactFactory extends Factory
             'landline' => fake()->phoneNumber(),
             'email' => fake()->safeEmail(),
             'url' => fake()->url(),
-            'info' => fake()->sentence(),
+            'info' => fake()->text(10),
         ];
     }
 }

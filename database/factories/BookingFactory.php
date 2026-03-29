@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\VehicleModel;
-use App\Models\VehicleYear;
+use App\Models\Booking;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 /**
- * @extends Factory<VehicleYear>
+ * @extends Factory<Booking>
  */
-class VehicleYearFactory extends Factory
+class BookingFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,8 @@ class VehicleYearFactory extends Factory
     public function definition(): array
     {
         return [
-            'year' => fake()->year(),
-            'vehicle_model_id' => VehicleModel::factory(),
+            'notes' => fake()->text(),
+            'on' => Carbon::now()->addDays(fake()->randomElement([2, 10, 5])),
         ];
     }
 }

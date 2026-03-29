@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -43,6 +44,7 @@ class ProductFactory extends Factory
                 'CF',
                 'HD',
             ]),
+            'company_id' => Company::factory(),
         ];
     }
 }

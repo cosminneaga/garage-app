@@ -19,8 +19,9 @@ class VehicleModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->words($nb = 3, $asText = false),
-            'class' => fake()->words($nb = 3, $asText = false),
+            'name' => fake()->randomElement(['A3', 'Corolla', 'Tiguan', 'RAV4']),
+            'class' => fake()->randomElement(['Small/Mini', 'Medium', 'Executive', 'MPV']),
+            'vehicle_make_id' => VehicleMake::factory(),
         ];
     }
 }
