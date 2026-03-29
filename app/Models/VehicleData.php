@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Database\Factories\VehicleFactory;
@@ -23,7 +25,7 @@ class VehicleData extends Model
     ];
 
     protected $casts = [
-        'displacement' => 'float'
+        'displacement' => 'float',
     ];
 
     public function make(): BelongsTo

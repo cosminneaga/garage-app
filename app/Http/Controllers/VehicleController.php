@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVehicleRequest;
@@ -11,7 +13,7 @@ class VehicleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -19,7 +21,7 @@ class VehicleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -27,7 +29,7 @@ class VehicleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVehicleRequest $request)
+    public function store(StoreVehicleRequest $request): void
     {
         //
     }
@@ -35,7 +37,7 @@ class VehicleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vehicle $vehicle)
+    public function show(Vehicle $vehicle): void
     {
         //
     }
@@ -43,7 +45,7 @@ class VehicleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Vehicle $vehicle)
+    public function edit(Vehicle $vehicle): void
     {
         //
     }
@@ -51,7 +53,7 @@ class VehicleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
+    public function update(UpdateVehicleRequest $request, Vehicle $vehicle): void
     {
         //
     }
@@ -59,7 +61,7 @@ class VehicleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vehicle $vehicle)
+    public function destroy(Vehicle $vehicle): void
     {
         //
     }

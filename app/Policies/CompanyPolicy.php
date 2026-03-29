@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Enums\UserRole;
@@ -15,11 +17,8 @@ class CompanyPolicy
     public function viewAny(): bool
     {
         $user = Auth::user();
-        if ($user->hasRole(UserRole::ADMIN_SUPER->value)) {
-            return true;
-        }
 
-        return false;
+        return (bool) $user->hasRole(UserRole::ADMIN_SUPER->value);
     }
 
     /**
@@ -27,11 +26,7 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        if (! $company->users()->find($user->id)) {
-            return false;
-        }
-
-        return true;
+        return (bool) $company->users()->find($user->id);
     }
 
     /**

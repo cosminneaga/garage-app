@@ -31,13 +31,13 @@ class VehicleDataFactory extends Factory
             'drive' => fake()->randomElement([
                 'All-Wheel (AWD)',
                 'Four-Wheel (4WD)',
-                'Front-Wheel (FWD)'
-                ]),
+                'Front-Wheel (FWD)',
+            ]),
             'transmission' => fake()->randomElement([
                 'Manual',
                 'Automatic (AT)',
                 'Continuously Variable (CVT)',
-                'Dual-Clutch (DCT)'
+                'Dual-Clutch (DCT)',
             ]),
             'vehicle_make_id' => VehicleMake::factory(),
             'vehicle_model_id' => VehicleModel::factory(),

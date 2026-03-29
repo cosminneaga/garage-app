@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRepairFileRequest;
@@ -11,7 +13,7 @@ class RepairFileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -19,7 +21,7 @@ class RepairFileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -27,7 +29,7 @@ class RepairFileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRepairFileRequest $request)
+    public function store(StoreRepairFileRequest $request): void
     {
         //
     }
@@ -35,7 +37,7 @@ class RepairFileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RepairFile $repairFile)
+    public function show(RepairFile $repairFile): void
     {
         //
     }
@@ -43,7 +45,7 @@ class RepairFileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(RepairFile $repairFile)
+    public function edit(RepairFile $repairFile): void
     {
         //
     }
@@ -51,7 +53,7 @@ class RepairFileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRepairFileRequest $request, RepairFile $repairFile)
+    public function update(UpdateRepairFileRequest $request, RepairFile $repairFile): void
     {
         //
     }
@@ -59,7 +61,7 @@ class RepairFileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RepairFile $repairFile)
+    public function destroy(RepairFile $repairFile): void
     {
         //
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Enums\UserRole;
@@ -25,9 +27,7 @@ class AppServiceProvider extends ServiceProvider
         // Model::unguard();
         Model::shouldBeStrict();
         Model::automaticallyEagerLoadRelationships();
-        Gate::before(function ($user, $ability) {
-            return $user->hasRole(UserRole::ADMIN_SUPER->value) ? true : null;
-        });
+        Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::ADMIN_SUPER->value) ? true : null);
 
     }
 }

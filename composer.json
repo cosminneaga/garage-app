@@ -15,6 +15,7 @@
         "spatie/laravel-permission": "^7.2"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.2",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
@@ -22,7 +23,8 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^4.4",
-        "pestphp/pest-plugin-laravel": "^4.1"
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "rector/rector": "^2.3"
     },
     "autoload": {
         "psr-4": {
@@ -67,6 +69,16 @@
             "@php artisan route:clear",
             "@php artisan config:clear",
             "composer dump-autoload"
+        ],
+        "pest": [
+            "vendor/bin/pest"
+        ],
+        "pest:debug": [
+            "vendor/bin/pest --debug"
+        ],
+        "format": [
+            "vendor/bin/rector",
+            "vendor/bin/pint"
         ],
         "setup": [
             "composer install",

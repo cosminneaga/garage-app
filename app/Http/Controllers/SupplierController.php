@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSupplierRequest;
@@ -11,7 +13,7 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -19,7 +21,7 @@ class SupplierController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -27,7 +29,7 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSupplierRequest $request)
+    public function store(StoreSupplierRequest $request): void
     {
         //
     }
@@ -35,7 +37,7 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    public function show(Supplier $supplier): void
     {
         //
     }
@@ -43,7 +45,7 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supplier $supplier)
+    public function edit(Supplier $supplier): void
     {
         //
     }
@@ -51,7 +53,7 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateSupplierRequest $request, Supplier $supplier): void
     {
         //
     }
@@ -59,7 +61,7 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Supplier $supplier): void
     {
         //
     }

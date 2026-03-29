@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompanyRequest;
@@ -43,7 +45,7 @@ class CompanyController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -51,7 +53,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompanyRequest $request)
+    public function store(StoreCompanyRequest $request): void
     {
         //
     }
@@ -63,7 +65,7 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Company $company)
+    public function edit(Company $company): void
     {
         //
     }
@@ -71,7 +73,7 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompanyRequest $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company): void
     {
         //
     }
@@ -79,7 +81,7 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy(Company $company): void
     {
         //
     }

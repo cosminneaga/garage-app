@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Database\Factories\VehicleMakeFactory;
@@ -14,7 +16,7 @@ class VehicleMake extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     public function models(): HasMany
