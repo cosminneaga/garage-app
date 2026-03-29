@@ -2,14 +2,19 @@
     "version": "0.2",
     "ignorePaths": [
         "./app/MimeType.php",
+        "./database/seeders/CountriesSeeder.php",
         "composer.json"
     ],
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "GCEK",
         "inputtype",
+        "lndian",
+        "NIMACODE",
         "Spatie",
         "srid",
+        "Tiguan",
         "varname",
         "vite"
     ],
