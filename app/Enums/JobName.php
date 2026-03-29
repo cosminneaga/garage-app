@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum Parts: string
+enum JobName: string
 {
     case OIL_CHANGE = 'oil_change';
     case FILTER_REPLACEMENT = 'filter_replacement';
@@ -43,6 +43,6 @@ enum Parts: string
 
     public static function values(): array
     {
-        return array_map(fn (Parts $status) => $status->value, self::cases());
+        return array_map(fn (JobName $status) => $status->value, self::cases());
     }
 }

@@ -6,12 +6,14 @@ enum FileStatus: string
 {
     case BEFORE = 'before';
     case AFTER = 'after';
+    case SHOWCASE = 'showcase';
 
     public function label(): string
     {
         return match ($this) {
             self::BEFORE => 'Before Repair',
             self::AFTER => 'After Repair',
+            self::SHOWCASE => 'Showcase File',
         };
     }
 
