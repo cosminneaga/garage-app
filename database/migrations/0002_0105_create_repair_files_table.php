@@ -14,12 +14,13 @@ return new class extends Migration
     {
         Schema::create('repair_files', function (Blueprint $table) {
             $table->id();
-            $table->text('description')->nullable();
             $table->string('name')->nullable(false);
+            $table->string('extension')->nullable(false);
             $table->string('path')->nullable(false);
             $table->string('type')->nullable(false);
-            $table->string('status')->default('before');
+            $table->string('status')->default('showcase');
             $table->string('repair_status')->default('reception');
+            $table->text('description')->nullable();
 
             $table->foreignIdFor(Repair::class)->constrained()->cascadeOnDelete();
 

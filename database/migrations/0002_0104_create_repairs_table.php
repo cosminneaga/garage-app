@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Company;
-use App\Models\VehicleMake;
+use App\Models\VehicleData;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,7 +25,7 @@ return new class extends Migration
 
             $table->text('complaint_description')->nullable();
             $table->text('initial_inspection')->nullable();
-            $table->text('diagnostic')->nullable();
+            $table->text('diagnosis_notes')->nullable();
             $table->text('work_order')->nullable();
             $table->text('parts_required')->nullable();
             $table->text('execution_data')->nullable();
@@ -32,7 +33,8 @@ return new class extends Migration
             $table->text('quality_check_testing')->nullable();
             $table->text('service_record')->nullable();
 
-            $table->foreignIdFor(VehicleMake::class)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Booking::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(VehicleData::class)->constrained()->cascadeOnUpdate();
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
 

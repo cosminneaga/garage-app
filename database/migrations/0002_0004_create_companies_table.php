@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Client;
-use App\Models\Contact;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contact_client', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Contact::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->string('tax_id');
+            $table->string('registration_number');
+            $table->decimal('tax_value', 4, 2)->default(20.00);
+            $table->string('invoice_prefix')->nullable(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contact_client');
+        Schema::dropIfExists('companies');
     }
 };

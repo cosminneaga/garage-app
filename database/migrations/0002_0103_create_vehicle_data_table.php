@@ -18,12 +18,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('cylinders');
-            $table->decimal('displacement', 2, 1);
+            $table->decimal('displacement', 3, 1);
             $table->string('drive');
             $table->string('transmission');
+
             $table->foreignIdFor(VehicleMake::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(VehicleModel::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(VehicleYear::class)->constrained()->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
