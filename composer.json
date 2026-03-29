@@ -44,13 +44,17 @@
         ],
         "migrate:dev": [
             "@php artisan migrate:fresh",
-            "@php artisan db:seed --class=DevUsers"
+            "@php artisan db:seed --class=LocalEnv"
         ],
         "migrate:prod": [
             "@php artisan migrate",
             "@php artisan db:seed --class=PermissionsSeeder",
             "@php artisan db:seed --class=CountriesSeeder",
             "@php artisan db:seed --class=VehicleSeeder"
+        ],
+        "migrate:test": [
+            "@php artisan migrate:fresh",
+            "@php artisan db:seed --class=TestSeeder"
         ],
         "refresh": [
             "@php artisan migrate:fresh",
