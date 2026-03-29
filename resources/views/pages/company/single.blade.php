@@ -1,7 +1,7 @@
 <x-layout>
     <h2 class="text-2xl">{{ $company->name }}</h2>
 
-    <p>Registration: {{ $company->registration_no }}</p>
+    <p>Registration: {{ $company->registration_number }}</p>
     <p>Tax value: {{ $company->tax_value }}</p>
     <p>Invoice prefix: {{ $company->invoice_prefix }}</p>
 
