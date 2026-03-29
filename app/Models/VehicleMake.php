@@ -13,7 +13,9 @@ class VehicleMake extends Model
     /** @use HasFactory<VehicleMakeFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'name'
+    ];
 
     public function models(): HasMany
     {
@@ -23,10 +25,5 @@ class VehicleMake extends Model
     public function data(): HasMany
     {
         return $this->hasMany(VehicleData::class);
-    }
-
-    public function repairs(): HasMany
-    {
-        return $this->hasMany(Repair::class);
     }
 }

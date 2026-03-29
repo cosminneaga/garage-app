@@ -19,7 +19,7 @@ class Company extends Model
 
     protected $fillable = [
         'name',
-        'registration_no',
+        'registration_number',
         'tax_value',
     ];
 
@@ -52,8 +52,13 @@ class Company extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function invoices(): HasMany
+    public function repairs(): HasMany
     {
         return $this->hasMany(Repair::class);
+    }
+
+    public function suppliers(): BelongsToMany
+    {
+        return $this->belongsToMany(Supplier::class);
     }
 }

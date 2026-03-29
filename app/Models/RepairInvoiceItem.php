@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Parts;
+use App\Enums\JobName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,14 +14,14 @@ class RepairInvoiceItem extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'job_name',
         'quantity',
         'item_price',
         'labour_price',
     ];
 
     protected $casts = [
-        'name' => Parts::class,
+        'job_name' => JobName::class,
     ];
 
     protected $attributes = [
@@ -33,5 +33,15 @@ class RepairInvoiceItem extends Model
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(RepairInvoice::class);
+    }
+
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 }

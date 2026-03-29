@@ -16,12 +16,13 @@ class RepairFile extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'description',
         'name',
+        'extension',
         'path',
         'type',
-        'repair_status',
         'status',
+        'repair_status',
+        'description',
     ];
 
     protected $casts = [

@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VehicleData extends Model
@@ -21,6 +22,10 @@ class VehicleData extends Model
         'transmission',
     ];
 
+    protected $casts = [
+        'displacement' => 'float'
+    ];
+
     public function make(): BelongsTo
     {
         return $this->belongsTo(VehicleMake::class);
@@ -34,5 +39,10 @@ class VehicleData extends Model
     public function year(): BelongsTo
     {
         return $this->belongsTo(VehicleYear::class);
+    }
+
+    public function repairs(): HasMany
+    {
+        return $this->hasMany(Repair::class);
     }
 }

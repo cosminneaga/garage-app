@@ -38,9 +38,9 @@ class Repair extends Model
         return $this->hasMany(RepairInvoice::class);
     }
 
-    public function vehicleMake(): BelongsTo
+    public function data(): BelongsTo
     {
-        return $this->belongsTo(VehicleMake::class);
+        return $this->belongsTo(VehicleData::class);
     }
 
     public function company(): BelongsTo
@@ -51,5 +51,10 @@ class Repair extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function booking(): BelongsTo
+    {
+        return $this->belongsTo(Booking::class);
     }
 }
