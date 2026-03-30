@@ -28,6 +28,5 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
         Model::automaticallyEagerLoadRelationships();
         Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::ADMIN_SUPER->value) ? true : null);
-
     }
 }

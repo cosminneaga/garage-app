@@ -17,7 +17,7 @@ class CompanyController extends Controller
      */
     public function showAll()
     {
-        $this->authorize('viewAny');
+        $this->authorize('viewAll');
 
         return view('pages.company.index', [
             'companies' => Company::all(),

@@ -18,10 +18,8 @@ class PermissionsSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $permissions = UserPermission::values();
-
-        foreach ($permissions as $permission) {
-            Permission::make(['name' => $permission])->saveOrFail();
+        foreach (UserPermission::list() as $permission) {
+            Permission::create(['name' => $permission]);
         }
 
         $adminSuper = app(Role::class)->findOrCreate(UserRole::ADMIN_SUPER->value, 'web');
@@ -30,7 +28,7 @@ class PermissionsSeeder extends Seeder
         $userViewer = app(Role::class)->findOrCreate(UserRole::USER_VIEWER->value, 'web');
 
         // user admin
-        $userAdmin->givePermissionTo(UserPermission::PRODUCT_SHOW->value);
-        $userAdmin->givePermissionTo(UserPermission::COMPANY_SHOW->value);
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'show'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
     }
 }
