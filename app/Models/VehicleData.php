@@ -15,7 +15,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 class VehicleData extends Model
 {
     /** @use HasFactory<VehicleFactory> */
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'name',

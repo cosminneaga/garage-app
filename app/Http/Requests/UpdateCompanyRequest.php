@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCompanyRequest extends FormRequest
@@ -14,7 +13,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()->can('company-update');
     }
 
     /**
@@ -25,7 +24,11 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'tax_id' => ['required', 'string', 'max:255'],
+            'registration_number' => ['required', 'string', 'max:255'],
+            'tax_value' => ['required', 'string', 'max:255'],
+            'invoice_prefix' => ['required', 'string', 'max:255'],
         ];
     }
 }

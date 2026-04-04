@@ -55,32 +55,63 @@
         </div>
 
         <div class="flex flex-col gap-2">
-            @auth
-                Hello, {{ Auth::user()->name }}
-            @endauth
-
             <div class="flex gap-x-5 items-center">
                 @auth
-                    <form
-                        action="/logout"
-                        method="POST"
-                    >
-                        @csrf
-                        <button
-                            class="btn btn-outlined"
-                            data-test="logout"
-                            type="submit"
-                        >Logout</button>
-                    </form>
-                @endauth
+                    <x-bladewind::dropmenu>
+                        <x-slot:trigger>
+                            <div class="flex items-center">
+                                <div class="grow">
+                                    <x-bladewind::avatar
+                                        size="regular"
+                                        show_ring="false"
+                                        class="rounded-none"
+                                        image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    />
+                                </div>
+                                <div class="border border-white p-1 rounded-full">
+                                    <x-bladewind::icon name="bars-3" type="outline" />
+                                </div>
+                            </div>
+                        </x-slot:trigger>
 
-                @guest
-                    <a href="/login">Login</a>
-                    <a
-                        class="btn"
-                        href="/register"
-                    >Register</a>
-                @endguest
+                        <x-bladewind::dropmenu.item>
+                            <div class="grow">
+                                <div><strong>{{ Auth::user()->name }}</strong></div>
+                                <div class="text-sm">{{ Auth::user()->email }}</div>
+                            </div>
+                        </x-bladewind::dropmenu.item>
+
+                        <x-bladewind::dropmenu.item divider />
+
+                        <x-bladewind::dropmenu.item hover="false">
+                            <form
+                                action="/logout"
+                                method="POST"
+                            >
+                                @csrf
+                                <x-bladewind::button
+                                    class="w-full"
+                                    color="red"
+                                    radius="small"
+                                    size="small"
+                                    can_submit
+                                >
+                                    Logout
+                                </x-bladewind::button>
+
+
+                            </form>
+                        </x-bladewind::dropmenu.item>
+                        </x-bladewind::dropmenu.item>
+                    @endauth
+
+                    @guest
+                        <a href="/login">Login</a>
+                        <a
+                            class="btn"
+                            href="/register"
+                        >Register</a>
+                    @endguest
             </div>
         </div>
     </div>

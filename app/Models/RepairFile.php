@@ -16,7 +16,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 class RepairFile extends Model
 {
     /** @use HasFactory<RepairFileFactory> */
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'name',

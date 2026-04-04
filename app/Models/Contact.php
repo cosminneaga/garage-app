@@ -14,7 +14,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 class Contact extends Model
 {
     /** @use HasFactory<ContactFactory> */
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'mobile',

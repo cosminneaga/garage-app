@@ -15,7 +15,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 class VehicleYear extends Model
 {
     /** @use HasFactory<VehicleYearFactory> */
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [];
 

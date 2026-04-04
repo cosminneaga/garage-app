@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('mobile', length: 20);
-            $table->string('landline', length: 20);
+            $table->string('landline', length: 20)->nullable();
             $table->string('email')->unique();
-            $table->string('url');
-            $table->text('info');
+            $table->string('url')->nullable();
+            $table->text('info')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

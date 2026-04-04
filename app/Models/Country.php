@@ -12,7 +12,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 class Country extends Model
 {
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [];
 

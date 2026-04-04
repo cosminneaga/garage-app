@@ -27,3 +27,17 @@
     --color-input: oklch(0.24 0 0);
     --color-muted-foreground: oklch(0.6 0 0);
 }
+
+input, textarea {
+    background-color: transparent!important;
+    color: whitesmoke!important;
+}
+
+label {
+    background-color: oklch(0.12 0 0)!important;
+    color: whitesmoke!important;
+}
+
+.bw-select {
+    color: black!important;
+}

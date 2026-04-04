@@ -16,13 +16,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 class Address extends Model
 {
     /** @use HasFactory<PersonalInfoFactory> */
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'number',
         'street',
         'postcode',
         'extra',
+        'country_id',
     ];
 
     public function setCoordinates(): Attribute

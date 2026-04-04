@@ -26,6 +26,10 @@ label {
         0 0 0 calc(var(--spacing) * 1) var(--color-primary);
 }
 
+input {
+    padding: 20px;
+}
+
 @media (min-width: var(--breakpoint-md)) {
     .input {
         font-size: var(--text-sm);

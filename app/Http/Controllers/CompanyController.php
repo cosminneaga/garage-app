@@ -7,6 +7,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\Country;
+use App\Services\CompanyService;
+use App\Services\UserService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,15 +17,13 @@ use Illuminate\Support\Facades\Auth;
 class CompanyController extends Controller
 {
     use AuthorizesRequests;
-    // public static function middleware(): array
-    // {
-    //     return [
-    //         function (Request $request, Closure $next) {
-    //             dump('company controller middleware');
-    //             return $next($request);
-    //         }
-    //     ];
-    // }
+
+    public function __construct(
+        protected CompanyService $companyService,
+        protected UserService $userService
+    ) {
+        //
+    }
 
     /**
      * Display a listing of the resource.
@@ -38,18 +39,14 @@ class CompanyController extends Controller
 
     public function index(Request $request)
     {
-        $user = Auth::user();
-
         return view('pages.company.index', [
-            'companies' => $user->companies,
+            'companies' => Auth::user()->companies,
         ]);
     }
 
     public function show(Company $company)
     {
         $this->authorize('view', $company);
-        // dd('reached');
-        // $this->authorize('view', Company::class);
 
         return view('pages.company.single', [
             'company' => $company,
@@ -61,7 +58,10 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('pages.company.create');
+        return view('pages.company.create', [
+            'addresses' => $this->userService->getRelatedAddresses(Auth::user()),
+            'countries' => Country::all(),
+        ]);
     }
 
     /**
@@ -69,7 +69,11 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        Company::create($request->safe()->all());
+        $this->companyService->createOne(
+            $request->safe()->all(),
+            Auth::user()->id,
+        );
+
         return back()->with('success', 'Resource created');
     }
 
@@ -80,17 +84,24 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Company $company): void
+    public function edit(Company $company)
     {
-        //
+        return view('pages.company.update', [
+            'company' => $company,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompanyRequest $request, Company $company): void
+    public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        Company::updateOrCreate(
+            ['id' => $company->id],
+            $request->safe()->all()
+        );
+
+        return back()->with('success', 'Resource updated');
     }
 
     /**

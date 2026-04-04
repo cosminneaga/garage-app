@@ -1,5 +1,6 @@
 <x-layout>
     <x-form.form-wrapper
+        class="max-w-md mx-auto"
         title="Login"
         description="Login into your account"
     >
@@ -10,20 +11,24 @@
         >
             @csrf
 
-            <x-form.field
+            <x-bladewind::input
                 name="email"
                 type="text"
                 value="admin@garage.com"
                 label="Email"
             />
-            <x-form.field
+            <x-bladewind::input
                 name="password"
                 type="password"
                 value="password"
                 label="Password"
             />
 
-            <button type="submit" class="btn mt-2 h-10 w-full">Login</button>
+            <x-bladewind::button
+                class="btn mt-2 h-10 w-full"
+                type="primary"
+                can_submit
+            >Login</x-bladewind::button>
         </form>
     </x-form.form-wrapper>
 </x-layout>

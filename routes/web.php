@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => view('welcome'))->name('home');
@@ -12,11 +11,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [UserController::class, 'show'])->name('login.show');
+    Route::get('/login', [UserController::class, 'show'])->name('login');
     Route::post('/login', [UserController::class, 'authenticate'])->name('login.authenticate');
 });
 
-Route::group(['middleware' => ['role:admin_super|user_admin']], function () {
+Route::group(['middleware' => ['auth', 'role:admin_super|user_admin']], function () {
     Route::get('/companies/all', [CompanyController::class, 'all'])->name('companies.all');
     Route::resource('companies', CompanyController::class);
 });

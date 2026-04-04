@@ -1,4 +1,6 @@
 <x-layout>
+    <a href="/companies/{{$company->id}}/edit" class="btn">Update this company</a>
+
     <h2 class="text-2xl">{{ $company->name }}</h2>
 
     <p>Registration: {{ $company->registration_number }}</p>

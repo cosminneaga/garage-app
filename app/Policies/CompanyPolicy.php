@@ -22,23 +22,17 @@ class CompanyPolicy
         return $user->can('company-show');
     }
 
-    public function update(User $user, Company $company): bool
-    {
-        return true;
-    }
-
     public function delete(User $user, Company $company): bool
     {
-        return true;
+        $company->users()->findOrFail(Auth::user()->id);
+
+        return $user->can('company-delete');
     }
 
     public function restore(User $user, Company $company): bool
     {
-        return true;
-    }
+        $company->users()->findOrFail(Auth::user()->id);
 
-    public function forceDelete(User $user, Company $company): bool
-    {
-        return true;
+        return $user->can('company-restore');
     }
 }
