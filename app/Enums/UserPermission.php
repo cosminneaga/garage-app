@@ -79,7 +79,7 @@ enum UserPermission: string
 
             foreach (self::references() as $reference) {
                 foreach (self::actions() as $action) {
-                    $result[] = "$reference.$action";
+                    $result[] = "$reference-$action";
                 }
             }
 
@@ -95,6 +95,6 @@ enum UserPermission: string
             throw new Exception("Action: $action_name does not exists in: ".implode(',', self::actions()));
         }
 
-        return $reference->value.'.'.self::actions()[$action_name];
+        return $reference->value.'-'.self::actions()[$action_name];
     }
 }

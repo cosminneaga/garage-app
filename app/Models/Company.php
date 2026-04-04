@@ -21,8 +21,10 @@ class Company extends Model
 
     protected $fillable = [
         'name',
-        'registration_number',
+        'tax_id',
         'tax_value',
+        'invoice_prefix',
+        'registration_number',
     ];
 
     protected $casts = [

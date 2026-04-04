@@ -14,7 +14,7 @@ class StoreCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()->can('company-store');
     }
 
     /**
@@ -25,7 +25,11 @@ class StoreCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'tax_id' => ['required', 'string', 'max:255'],
+            'registration_number' => ['required', 'string', 'max:255'],
+            'tax_value' => ['required', 'string', 'max:255'],
+            'invoice_prefix' => ['required', 'string', 'max:255'],
         ];
     }
 }

@@ -29,6 +29,10 @@ class PermissionsSeeder extends Seeder
 
         // user admin
         $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'show'));
+
         $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'store'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
     }
 }

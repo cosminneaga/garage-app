@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // dd($this->app);
     }
 
     /**
@@ -24,9 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Model::unguard();
+        Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::ADMIN_SUPER->value) ? true : null);
+        // Gate::before(function ($user, $ability) {
+        //     // dump($ability);
+        //     return $user->hasPermissionTo($ability) ? true : null;
+        // });
         Model::shouldBeStrict();
         Model::automaticallyEagerLoadRelationships();
-        Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::ADMIN_SUPER->value) ? true : null);
     }
 }

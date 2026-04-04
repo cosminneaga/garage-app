@@ -7,15 +7,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+    use AuthorizesRequests;
+    // public static function middleware(): array
+    // {
+    //     return [
+    //         function (Request $request, Closure $next) {
+    //             dump('company controller middleware');
+    //             return $next($request);
+    //         }
+    //     ];
+    // }
+
     /**
      * Display a listing of the resource.
      */
-    public function showAll()
+    public function all()
     {
         $this->authorize('viewAll');
 
@@ -24,7 +36,7 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function showOwn(Request $request)
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -36,6 +48,8 @@ class CompanyController extends Controller
     public function show(Company $company)
     {
         $this->authorize('view', $company);
+        // dd('reached');
+        // $this->authorize('view', Company::class);
 
         return view('pages.company.single', [
             'company' => $company,
@@ -45,17 +59,18 @@ class CompanyController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): void
+    public function create()
     {
-        //
+        return view('pages.company.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompanyRequest $request): void
+    public function store(StoreCompanyRequest $request)
     {
-        //
+        Company::create($request->safe()->all());
+        return back()->with('success', 'Resource created');
     }
 
     /**

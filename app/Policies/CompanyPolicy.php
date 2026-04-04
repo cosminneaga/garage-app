@@ -6,36 +6,39 @@ namespace App\Policies;
 
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyPolicy
 {
-    public function view(User $user, Company $company): bool
+    public function viewAll(): bool
     {
-        return (bool) $company->users()->find($user->id);
+        return Auth::user()->can('company-show_all');
     }
 
-    public function create(User $user): bool
+    public function view(User $user, Company $company): bool
     {
-        return false;
+        $company->users()->findOrFail(Auth::user()->id);
+
+        return $user->can('company-show');
     }
 
     public function update(User $user, Company $company): bool
     {
-        return false;
+        return true;
     }
 
     public function delete(User $user, Company $company): bool
     {
-        return false;
+        return true;
     }
 
     public function restore(User $user, Company $company): bool
     {
-        return false;
+        return true;
     }
 
     public function forceDelete(User $user, Company $company): bool
     {
-        return false;
+        return true;
     }
 }
