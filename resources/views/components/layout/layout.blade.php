@@ -50,7 +50,6 @@
         @session('message')
             <x-bladewind.alert
                 :type="$value->type"
-                shade="dark"
                 x-data="{ show: true }"
                 x-show="show"
                 x-init="setTimeout(() => show = false, 3000)"
@@ -64,7 +63,6 @@
             @foreach ($errors->all() as $error)
                 <x-bladewind.alert
                     type="error"
-                    shade="dark"
                     x-data="{ show: true }"
                     x-show="show"
                     x-init="setTimeout(() => show = false, 3000)"
