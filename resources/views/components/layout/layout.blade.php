@@ -72,6 +72,7 @@
                 </x-bladewind.alert>
             @endforeach
         @endif
+        <!-- ALERT AREA -->
     </div>
 </body>
 

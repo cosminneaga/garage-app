@@ -28,19 +28,18 @@ class PermissionsSeeder extends Seeder
         $userViewer = app(Role::class)->findOrCreate(UserRole::USER_VIEWER->value, 'web');
 
         // user admin
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'store'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'update'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
+        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete', 'restore']) as $permission) {
+            $userAdmin->givePermissionTo($permission);
+        }
 
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'show'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'store'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'update'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'delete'));
+        // user editor
+        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete', 'restore', 'delete']) as $permission) {
+            $userEditor->givePermissionTo($permission);
+        }
 
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'store'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
-        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
+        // user viewer
+        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete', 'restore', 'store', 'update', 'delete']) as $permission) {
+            $userViewer->givePermissionTo($permission);
+        }
     }
 }

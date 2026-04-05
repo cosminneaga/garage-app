@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utils;
 
 enum Types: string
@@ -24,12 +26,9 @@ class ResponseMessage
 {
     public string $type;
 
-    public string $text;
-
-    public function __construct(string $type, string $text)
+    public function __construct(string $type, public string $text)
     {
         $this->type = Types::from($type)->value;
-        $this->text = $text;
     }
 
     public static function get(string $type, ?string $text = null): self
