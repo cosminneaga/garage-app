@@ -47,42 +47,16 @@
 
     <!-- ALERT AREA -->
     <div class="fixed top-5 right-5 z-50 max-w-md space-y-2">
-        @session('success')
+        @session('message')
             <x-bladewind.alert
-                type="success"
+                :type="$value->type"
                 shade="dark"
                 x-data="{ show: true }"
                 x-show="show"
                 x-init="setTimeout(() => show = false, 3000)"
                 x.transition.opacity.duration.500ms
             >
-                {{ $value }}
-            </x-bladewind.alert>
-        @endsession
-
-        @session('error')
-            <x-bladewind.alert
-                type="error"
-                shade="dark"
-                x-data="{ show: true }"
-                x-show="show"
-                x-init="setTimeout(() => show = false, 3000)"
-                x.transition.opacity.duration.500ms
-            >
-                {{ $value }}
-            </x-bladewind.alert>
-        @endsession
-
-        @session('warn')
-            <x-bladewind.alert
-                type="warning"
-                shade="dark"
-                x-data="{ show: true }"
-                x-show="show"
-                x-init="setTimeout(() => show = false, 3000)"
-                x.transition.opacity.duration.500ms
-            >
-                {{ $value }}
+                {{ $value->text }}
             </x-bladewind.alert>
         @endsession
 

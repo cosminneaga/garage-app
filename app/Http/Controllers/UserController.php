@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Utils\ResponseMessage;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -41,7 +42,7 @@ class UserController extends Controller
     {
         dd($request->safe()->all());
 
-        return back()->with('success', 'User created');
+        return back()->with('message', ResponseMessage::get('success', 'User updated'));
     }
 
     public function edit(User $user)
@@ -49,7 +50,7 @@ class UserController extends Controller
         $this->authorize('edit', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('error', 'Please update your own details from profile section');
+            return back()->with('message', ResponseMessage::get('error', 'Please update your own details from profile section'));
         }
 
         return view('pages.user.update', [
@@ -64,7 +65,7 @@ class UserController extends Controller
         $this->authorize('edit', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('error', 'Please update your own details from profile section');
+            return back()->with('message', ResponseMessage::get('error', 'Please update your own details from profile section'));
         }
 
         User::updateOrCreate(
@@ -76,7 +77,7 @@ class UserController extends Controller
             ]
         );
 
-        return back()->with('success', 'User updated');
+        return back()->with('message', ResponseMessage::get('success', 'User updated'));
     }
 
     public function destroy(User $user)
@@ -84,12 +85,14 @@ class UserController extends Controller
         $this->authorize('delete', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('error', 'You cannot delete your own account');
+            return back()->with('message', ResponseMessage::get('error', 'You cannot delete your own account'));
         }
 
         $user = User::findOrFail($user->id);
         $user->delete();
 
-        return redirect()->intended(route('users.index'))->with('warn', 'User removed');
+        return redirect()
+            ->intended(route('users.index'))
+            ->with('message', ResponseMessage::get('warning', 'User removed'));
     }
 }
