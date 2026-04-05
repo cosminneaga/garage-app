@@ -51,9 +51,9 @@ class LocalEnv extends Seeder
         ]);
         $superAdmin->addresses()->attach($address[0]);
         $superAdmin->contacts()->attach($contact[0]);
-        $manager->addresses()->attach($address[1]);
-        $manager->contacts()->attach($contact[1]);
         $superAdmin->assignRole(UserRole::ADMIN_SUPER->value);
+        $manager->addresses()->attach($address[1]);
+        $manager->contacts()->attach([$contact[1], $contact[2], $contact[3], $contact[4], $contact[5], $contact[6]]);
         $manager->assignRole(UserRole::USER_ADMIN->value);
 
         // ! avoid seeding vehicle data due to large sets of data being inserted into DB

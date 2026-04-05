@@ -93,6 +93,6 @@ class UserController extends Controller
             return back()->with('error', 'You cannot delete your own account');
         }
 
-        return back()->with('success', 'User removed');
+        return back()->with('warn', 'User removed');
     }
 }

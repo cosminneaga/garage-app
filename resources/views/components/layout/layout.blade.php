@@ -65,6 +65,15 @@
             </x-bladewind.alert>
         @endsession
 
+        @session('warn')
+            <x-bladewind.alert
+                type="warning"
+                shade="dark"
+            >
+                {{ $value }}
+            </x-bladewind.alert>
+        @endsession
+
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 <x-bladewind.alert

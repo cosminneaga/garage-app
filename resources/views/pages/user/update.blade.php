@@ -4,19 +4,17 @@
         title="update user details"
         description="Update user details, address & contact"
     >
-        <form
-            class="flex flex-col space-y-4 text-start"
-            action="{{ route('users.update', $user) }}"
-            method="POST"
-        >
-            @csrf
-            @method('PUT')
+        <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
+            <div class="border border-white px-3 py-6">
+                <form
+                    class="flex flex-col gap-4"
+                    action="{{ route('users.update', $user) }}"
+                    method="POST"
+                >
+                    @csrf
+                    @method('PUT')
 
-            <div class="w-full flex gap-2">
-                <div
-                    class="border border-white px-3 py-6 flex-1 flex flex-col gap-3">
                     <h3 class="text-2xl font-bold underline">Details</h3>
-                    <br>
                     <x-bladewind.input
                         name="name"
                         type="text"
@@ -38,81 +36,93 @@
                         />
                     </div>
 
-                    <x-bladewind.button
-                        class="w-fit"
-                        can_submit
-                    >Update Details</x-bladewind.button>
-                </div>
-
-                <div
-                    class="border border-white px-3 py-6">
-                    <h3 class="text-2xl font-bold underline">Contacts</h3>
-                    <br>
-
-                    <div class="overflow-y-hidden overflow-x-scroll max-w-150 w-auto">
-                        <div class="w-225">
-                            <x-bladewind.table
-                                celled
-                                divider="thin"
-                                has_border
-                                has_hover="false"
-                            >
-                                <x-slot name="header">
-                                    <th>ID</th>
-                                    <th>Mobile</th>
-                                    <th>Landline</th>
-                                    <th>Email</th>
-                                    <th>URL</th>
-                                    <th>Info</th>
-                                    <th>Actions</th>
-                                </x-slot>
-
-                                @foreach ($contacts as $contact)
-                                    <tr>
-                                        <td>{{ $contact->id }}</td>
-                                        <td>{{ $contact->mobile }}</td>
-                                        <td>{{ $contact->landline }}</td>
-                                        <td>{{ $contact->email }}</td>
-                                        <td>{{ $contact->url }}</td>
-                                        <td>{{ $contact->info }}</td>
-
-                                        <td class="flex gap-1">
-                                            <x-bladewind.button.circle
-                                                icon="pencil-square"
-                                                color="primary"
-                                                size="tiny"
-                                                outline
-                                            />
-                                            <form
-                                                action="#"
-                                                method="POST"
-                                            >
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <x-bladewind.button.circle
-                                                    icon="trash"
-                                                    color="red"
-                                                    size="tiny"
-                                                    outline
-                                                    can_submit
-                                                />
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </x-bladewind.table>
-                        </div>
+                    <div class="flex gap-1">
+                        <x-bladewind.button
+                            class="w-fit"
+                            can_submit
+                            size="small"
+                        >Update Details</x-bladewind.button>
+                        <x-bladewind.button
+                            class="w-fit"
+                            color="red"
+                            size="small"
+                        >Delete User</x-bladewind.button>
                     </div>
-                </div>
+
+                </form>
             </div>
 
-            <div class="w-full flex gap-2">
-                <div
-                    class="border border-white px-3 py-6 flex-1 flex flex-col gap-3 scroll-y-auto">
-                    <h3 class="text-2xl font-bold underline">Addresses</h3>
-                    <br>
-                    <div class="w-full">
+            <div
+                class="border border-white px-3 py-6 col-span-2 overflow-hidden">
+                <h3 class="text-2xl font-bold underline">Contacts</h3>
+                <br>
+
+                <div class="max-h-60 overflow-auto">
+                    <x-bladewind.table
+                        celled
+                        divider="thin"
+                        has_border
+                        has_hover="false"
+                        compact
+                    >
+                        <x-slot name="header">
+                            <th>ID</th>
+                            <th>Mobile</th>
+                            <th>Landline</th>
+                            <th>Email</th>
+                            <th>URL</th>
+                            <th>Info</th>
+                            <th>Actions</th>
+                        </x-slot>
+
+                        @foreach ($contacts as $contact)
+                            <tr>
+                                <td>{{ $contact->id }}</td>
+                                <td>{{ $contact->mobile }}</td>
+                                <td>{{ $contact->landline }}</td>
+                                <td>{{ $contact->email }}</td>
+                                <td>{{ $contact->url }}</td>
+                                <td>{{ $contact->info }}</td>
+
+                                <td>
+                                    <div class="flex gap-1">
+                                        <x-bladewind.button.circle
+                                            icon="pencil-square"
+                                            color="primary"
+                                            size="tiny"
+                                            outline
+                                        />
+                                        <form
+                                            action="#"
+                                            method="POST"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <x-bladewind.button.circle
+                                                icon="trash"
+                                                color="red"
+                                                size="tiny"
+                                                outline
+                                                can_submit
+                                            />
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </x-bladewind.table>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-rows-1 md:grid-cols-3 gap-2">
+            <div
+                class="col-span-3 border border-white px-3 py-6 flex-1 flex flex-col gap-3 overflow-hidden">
+                <h3 class="text-2xl font-bold underline">Addresses</h3>
+                <br>
+                <div class="overflow-hidden overflow-x-scroll">
+                    <div class="min-w-230">
                         <x-bladewind.table
                             celled
                             divider="thin"
@@ -142,28 +152,30 @@
                                         {{ $address->coordinates['latitude'] }}
                                     </td>
                                     <td>{{ $address->extra }}</td>
-                                    <td class="flex gap-1">
-                                        <x-bladewind.button.circle
-                                            icon="pencil-square"
-                                            color="primary"
-                                            size="tiny"
-                                            outline
-                                        />
-                                        <form
-                                            action="#"
-                                            method="POST"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-
+                                    <td>
+                                        <div class="flex gap-1">
                                             <x-bladewind.button.circle
-                                                icon="trash"
-                                                color="red"
+                                                icon="pencil-square"
+                                                color="primary"
                                                 size="tiny"
                                                 outline
-                                                can_submit
                                             />
-                                        </form>
+                                            <form
+                                                action="#"
+                                                method="POST"
+                                            >
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <x-bladewind.button.circle
+                                                    icon="trash"
+                                                    color="red"
+                                                    size="tiny"
+                                                    outline
+                                                    can_submit
+                                                />
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -171,6 +183,6 @@
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </x-form.form-wrapper>
 </x-layout>
