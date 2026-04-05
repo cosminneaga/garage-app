@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto h-24 flex items-center justify-between">
         <div>
 
-            <el-dropdown class="inline-block">
+            {{-- <el-dropdown class="inline-block">
                 @auth
                     <button
                         class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring-1 inset-ring-white/5 hover:bg-white/20"
@@ -50,8 +50,86 @@
                         >Add Company</a>
                     @endcan
                 </el-menu>
-            </el-dropdown>
+            </el-dropdown> --}}
 
+            <div class="flex gap-2 items-center">
+                @auth
+                    <a href="/">
+                        <x-bladewind.button.circle
+                            type="secondary"
+                            size="tiny"
+                            outline
+                            icon="home"
+                            color="fucshie"
+                        />
+                    </a>
+
+                    @role('admin_super')
+                        <x-bladewind.dropmenu position="left">
+                            <x-slot:trigger>
+
+                                <x-bladewind.button
+                                    type="secondary"
+                                    size="tiny"
+                                    outline
+                                >
+                                    Users
+                                </x-bladewind.button>
+                            </x-slot:trigger>
+
+                            <x-bladewind.dropmenu.item icon="users">
+                                <a href="/users" class="w-full">List</a>
+                            </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item icon="folder-plus">
+                                <a href="/users/create" class="w-full">Create</a>
+                            </x-bladewind.dropmenu.item>
+                        </x-bladewind.dropmenu>
+                    @endrole
+
+                    <x-bladewind.dropmenu position="left">
+                        <x-slot:trigger>
+                            <x-bladewind.button
+                                type="secondary"
+                                size="tiny"
+                                outline
+                            >
+                                Companies
+                            </x-bladewind.button>
+                        </x-slot:trigger>
+
+
+                        @can('company-show')
+                            <x-bladewind.dropmenu.item icon="building-office">
+                                <a
+                                    class="w-full"
+                                    href="/companies"
+                                >List</a>
+                            </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item icon="folder-plus">
+                                <a
+                                    class="w-full"
+                                    href="/companies/create"
+                                >Create</a>
+                            </x-bladewind.dropmenu.item>
+
+                            <x-bladewind.dropmenu.item divider />
+
+                            @role('admin_super')
+                                <x-bladewind.dropmenu.item header="true">
+                                    <h3 class="font-bold">Application Administration</h3>
+                                </x-bladewind.dropmenu.item>
+
+                                <x-bladewind.dropmenu.item icon="building-office">
+                                    <a
+                                        class="w-full"
+                                        href="/companies/all"
+                                    >Companies</a>
+                                </x-bladewind.dropmenu.item>
+                            @endrole
+                        @endcan
+                    </x-bladewind.dropmenu>
+                @endauth
+            </div>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -62,14 +140,17 @@
                             <div class="flex items-center">
                                 <div class="grow">
                                     <x-bladewind::avatar
+                                        class="rounded-none"
                                         size="regular"
                                         show_ring="false"
-                                        class="rounded-none"
                                         image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                     />
                                 </div>
                                 <div class="border border-white p-1 rounded-full">
-                                    <x-bladewind::icon name="bars-3" type="outline" />
+                                    <x-bladewind::icon
+                                        name="bars-3"
+                                        type="outline"
+                                    />
                                 </div>
                             </div>
                         </x-slot:trigger>
@@ -102,16 +183,16 @@
 
                             </form>
                         </x-bladewind::dropmenu.item>
-                        </x-bladewind::dropmenu.item>
-                    @endauth
+                    </x-bladewind::dropmenu>
+                @endauth
 
-                    @guest
-                        <a href="/login">Login</a>
-                        <a
-                            class="btn"
-                            href="/register"
-                        >Register</a>
-                    @endguest
+                @guest
+                    <a href="/login">Login</a>
+                    <a
+                        class="btn"
+                        href="/register"
+                    >Register</a>
+                @endguest
             </div>
         </div>
     </div>

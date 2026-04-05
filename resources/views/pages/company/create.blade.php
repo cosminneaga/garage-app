@@ -5,7 +5,6 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
 
 <x-layout>
     <x-form.form-wrapper
-        class="border-2 border-white"
         title="Create a new company"
         description="Create a company, address & contact"
     >

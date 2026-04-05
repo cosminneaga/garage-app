@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,25 +27,32 @@ class Address extends Model
         'country_id',
     ];
 
-    public function setCoordinates(): Attribute
+    /**
+     * $address = Address::query()->create([
+     *  'coordinates' => [
+     *  'longitude' => 4.895168,
+     *  'latitude' => 52.370216,
+     * ]
+     * ]);
+     *
+     * $address->coordinates;
+     */
+    public function coordinates(): Attribute
     {
+
         return Attribute::make(
-            set: fn ($longitude, $latitude) => DB::raw("ST_PointFromText('POINT($longitude $latitude)')")
+            get: fn () => [
+                'latitude' => $this->query()->whereKey($this)->selectRaw('ST_Y(`coordinates`) as latitude')->toBase()->soleValue('latitude'),
+                'longitude' => $this->query()->whereKey($this)->selectRaw('ST_X(`coordinates`) as longitude')->toBase()->soleValue('longitude'),
+            ],
+            set: fn ($value) => DB::raw("ST_GeomFromText('POINT({$value['longitude']} {$value['latitude']})', 4326)")
         );
     }
 
-    public function coordinatesAsText(): Attribute
+    #[Scope]
+    protected function withCoordinatesText($query)
     {
-        return Attribute::make(
-            get: fn () => DB::raw("ST_AsText($this->coordinates)")
-        );
-    }
-
-    public function coordinatesAsBinary(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => DB::raw("ST_AsBinary($this->coordinates)")
-        );
+        return $query->selectRaw('*, ST_AsText(coordinates) as coordinates_text');
     }
 
     public function users(): BelongsToMany
