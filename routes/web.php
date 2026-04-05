@@ -16,11 +16,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
 
-Route::group(['middleware' => ['auth', 'role:admin_super|user_admin']], function () {
+Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/companies/all', [CompanyController::class, 'all'])->name('companies.all');
-    Route::resource('companies', CompanyController::class);
+    Route::get('/users/all', [UserController::class, 'all'])->name('users.all');
 });
 
-Route::group(['middleware' => 'auth', 'role:admin_super'], function () {
-    Route::resource('/users', UserController::class);
+Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
+    Route::resource('companies', CompanyController::class);
+    Route::resource('users', UserController::class)->except(['show']);
 });

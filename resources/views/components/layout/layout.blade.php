@@ -15,7 +15,7 @@
         http-equiv="X-UA-Compatible"
         content="ie=edge"
     >
-    <title>{{ $title }}</title>
+    <title>{{ $title }} | Garage Application</title>
 
     <link
         href="{{ asset('vendor/bladewind/css/animate.min.css') }}"
@@ -45,7 +45,7 @@
         {{ $slot }}
     </main>
 
-    <!-- MESSAGING AREA -->
+    <!-- ALERT AREA -->
     <div class="fixed top-5 right-5 z-50 max-w-md space-y-2">
         @session('success')
             <x-bladewind.alert

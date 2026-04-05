@@ -4,54 +4,50 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function all()
     {
-        $this->authorize('viewAll');
+        $this->authorize('viewAny');
 
         return view('pages.user.index', [
             'users' => User::all(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): void
+    public function index()
     {
-        //
+        $user = Auth::user();
+        $this->authorize('view', $user);
+
+        return view('pages.user.index', [
+            'users' => $user->team()->get(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): void
+    public function create()
     {
-        //
+        $this->authorize('create', Auth::user());
+
+        return view('pages.user.create');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user): void
+    public function store(StoreUserRequest $request)
     {
-        //
+        dd($request->safe()->all());
+
+        return back()->with('success', 'User created');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
+        $this->authorize('edit', $user);
+
         if ($user->id === Auth::user()->id) {
             return back()->with('error', 'Please update your own details from profile section');
         }
@@ -63,11 +59,10 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('edit', $user);
+
         if ($user->id === Auth::user()->id) {
             return back()->with('error', 'Please update your own details from profile section');
         }
@@ -84,15 +79,17 @@ class UserController extends Controller
         return back()->with('success', 'User updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
+
         if ($user->id === Auth::user()->id) {
             return back()->with('error', 'You cannot delete your own account');
         }
 
-        return back()->with('warn', 'User removed');
+        $user = User::findOrFail($user->id);
+        $user->delete();
+
+        return redirect()->intended(route('users.index'))->with('warn', 'User removed');
     }
 }

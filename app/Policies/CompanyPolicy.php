@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyPolicy
 {
-    public function viewAll(): bool
-    {
-        return Auth::user()->can('company-show_all');
-    }
-
     public function view(User $user, Company $company): bool
     {
         $company->users()->findOrFail(Auth::user()->id);

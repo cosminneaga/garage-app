@@ -1,6 +1,5 @@
 <x-layout title="Update | {{ $user->name }}">
     <x-form.form-wrapper
-        class=""
         title="update user details"
         description="Update user details, address & contact"
     >
@@ -8,6 +7,7 @@
             <div class="border border-white px-3 py-6">
                 <form
                     class="flex flex-col gap-4"
+                    id="form-users-update"
                     action="{{ route('users.update', $user) }}"
                     method="POST"
                 >
@@ -39,13 +39,17 @@
                     <div class="flex gap-1">
                         <x-bladewind.button
                             class="w-fit"
+                            form="form-users-update"
                             can_submit
                             size="small"
                         >Update Details</x-bladewind.button>
+
                         <x-bladewind.button
                             class="w-fit"
+                            form="form-user-delete"
                             color="red"
                             size="small"
+                            can_submit
                         >Delete User</x-bladewind.button>
                     </div>
 
@@ -185,4 +189,14 @@
             </div>
         </div>
     </x-form.form-wrapper>
+
+    <!-- USER DELETE FORM -->
+    <form
+        id="form-user-delete"
+        action="{{ route('users.destroy', $user) }}"
+        method="POST"
+    >
+        @csrf
+        @method('DELETE')
+    </form>
 </x-layout>

@@ -30,7 +30,7 @@ class CompanyController extends Controller
      */
     public function all()
     {
-        $this->authorize('viewAll');
+        $this->authorize('viewAny');
 
         return view('pages.company.index', [
             'companies' => Company::all(),

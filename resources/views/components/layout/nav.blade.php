@@ -13,27 +13,32 @@
                         />
                     </a>
 
-                    @role('admin_super')
-                        <x-bladewind.dropmenu position="left">
-                            <x-slot:trigger>
 
-                                <x-bladewind.button
-                                    type="secondary"
-                                    size="tiny"
-                                    outline
-                                >
-                                    Users
-                                </x-bladewind.button>
-                            </x-slot:trigger>
+                    <x-bladewind.dropmenu position="left">
+                        <x-slot:trigger>
 
-                            <x-bladewind.dropmenu.item icon="users">
-                                <a href="/users" class="w-full">List</a>
-                            </x-bladewind.dropmenu.item>
-                            <x-bladewind.dropmenu.item icon="folder-plus">
-                                <a href="/users/create" class="w-full">Create</a>
-                            </x-bladewind.dropmenu.item>
-                        </x-bladewind.dropmenu>
-                    @endrole
+                            <x-bladewind.button
+                                type="secondary"
+                                size="tiny"
+                                outline
+                            >
+                                Users
+                            </x-bladewind.button>
+                        </x-slot:trigger>
+
+                        <x-bladewind.dropmenu.item icon="users">
+                            <a
+                                class="w-full"
+                                href="/users"
+                            >Team</a>
+                        </x-bladewind.dropmenu.item>
+                        <x-bladewind.dropmenu.item icon="folder-plus">
+                            <a
+                                class="w-full"
+                                href="/users/create"
+                            >Create</a>
+                        </x-bladewind.dropmenu.item>
+                    </x-bladewind.dropmenu>
 
                     <x-bladewind.dropmenu position="left">
                         <x-slot:trigger>
@@ -61,19 +66,7 @@
                                 >Create</a>
                             </x-bladewind.dropmenu.item>
 
-                            <x-bladewind.dropmenu.item divider />
-
-                            @role('admin_super')
-                                <x-bladewind.dropmenu.item header="true">
-                                    <h3 class="font-bold">Application Administration</h3>
-                                </x-bladewind.dropmenu.item>
-
-                                <x-bladewind.dropmenu.item icon="building-office">
-                                    <a
-                                        class="w-full"
-                                        href="/companies/all"
-                                    >Companies</a>
-                                </x-bladewind.dropmenu.item>
+                            @role('super')
                             @endrole
                         @endcan
                     </x-bladewind.dropmenu>
@@ -84,37 +77,54 @@
         <div class="flex flex-col gap-2">
             <div class="flex gap-x-5 items-center">
                 @auth
-                    <x-bladewind::dropmenu>
+                    <x-bladewind.dropmenu>
                         <x-slot:trigger>
                             <div class="flex items-center">
                                 <div class="grow">
-                                    <x-bladewind::avatar
-                                        class="rounded-round"
+                                    <x-bladewind.avatar
+                                        class="rounded-full"
                                         size="regular"
                                         show_ring="false"
                                         image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                     />
                                 </div>
-                                <div class="border-2 border-white p-1 rounded-full">
-                                    <x-bladewind::icon
+                                <div class="border-2 border-white p-1">
+                                    <x-bladewind.icon
+                                        class="text-amber-400 h-8 w-8"
                                         name="bars-3"
                                         type="solid"
-                                        class="text-amber-400 h-8 w-8"
                                     />
                                 </div>
                             </div>
                         </x-slot:trigger>
 
-                        <x-bladewind::dropmenu.item>
+                        <x-bladewind.dropmenu.item>
                             <div class="grow">
                                 <div><strong>{{ Auth::user()->name }}</strong></div>
                                 <div class="text-sm">{{ Auth::user()->email }}</div>
                             </div>
-                        </x-bladewind::dropmenu.item>
+                        </x-bladewind.dropmenu.item>
 
-                        <x-bladewind::dropmenu.item divider />
+                        @role('super')
+                            <x-bladewind.dropmenu.item header="true">
+                                <p class="font-bold">Administrative</p>
+                            </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item icon="building-office">
+                                <a
+                                    class="w-full"
+                                    href="/users/all"
+                                >Users</a>
+                            </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item icon="building-office">
+                                <a
+                                    class="w-full"
+                                    href="/companies/all"
+                                >Companies</a>
+                            </x-bladewind.dropmenu.item>
+                        @endrole
 
-                        <x-bladewind::dropmenu.item hover="false">
+
+                        <x-bladewind.dropmenu.item hover="false">
                             <form
                                 action="/logout"
                                 method="POST"
@@ -132,8 +142,8 @@
 
 
                             </form>
-                        </x-bladewind::dropmenu.item>
-                    </x-bladewind::dropmenu>
+                        </x-bladewind.dropmenu.item>
+                    </x-bladewind.dropmenu>
                 @endauth
 
                 @guest

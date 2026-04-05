@@ -22,13 +22,21 @@ class PermissionsSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
-        $adminSuper = app(Role::class)->findOrCreate(UserRole::ADMIN_SUPER->value, 'web');
+        $adminSuper = app(Role::class)->findOrCreate(UserRole::SUPER->value, 'web');
         $userAdmin = app(Role::class)->findOrCreate(UserRole::USER_ADMIN->value, 'web');
         $userEditor = app(Role::class)->findOrCreate(UserRole::USER_EDITOR->value, 'web');
         $userViewer = app(Role::class)->findOrCreate(UserRole::USER_VIEWER->value, 'web');
 
         // user admin
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'store'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'update'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
+
         $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'show'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'store'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'update'));
+        $userAdmin->givePermissionTo(UserPermission::name(UserPermission::PRODUCT, 'delete'));
 
         $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
         $userAdmin->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'store'));

@@ -24,9 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::ADMIN_SUPER->value) ? true : null);
+        Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::SUPER->value) ? true : null);
         // Gate::before(function ($user, $ability) {
-        //     // dump($ability);
         //     return $user->hasPermissionTo($ability) ? true : null;
         // });
         Model::shouldBeStrict();

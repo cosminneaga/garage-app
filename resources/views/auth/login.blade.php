@@ -14,7 +14,7 @@
             <x-bladewind::input
                 name="email"
                 type="text"
-                value="admin@garage.com"
+                value="manager@garage.com"
                 label="Email"
             />
             <x-bladewind::input

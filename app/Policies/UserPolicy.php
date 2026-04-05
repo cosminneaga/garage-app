@@ -5,19 +5,12 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Models\User;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UserPolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return $user->hasPermissionTo('user-show');
-    }
-
-    /**
-     * Determine whether the user can view the model.
+     * Has access to user listing page
      */
     public function view(User $user, User $model): bool
     {
@@ -25,7 +18,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Has access to store page
      */
     public function create(User $user): bool
     {
@@ -33,23 +26,31 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Has access to 'update page'/'updating user' if the $model is a member of its own team
      */
-    public function update(User $user, User $model): bool
+    public function edit(User $user, User $model): bool
     {
+        if (! $user->isTeamMember($model)) {
+            throw new UnauthorizedException(404);
+        }
+
         return $user->hasPermissionTo('user-update');
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Has access to 'delete' request if the $model is a member of its own team
      */
     public function delete(User $user, User $model): bool
     {
+        if (! $user->isTeamMember($model)) {
+            throw new UnauthorizedException(403);
+        }
+
         return $user->hasPermissionTo('user-delete');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Enabled only for 'super' role
      */
     public function restore(User $user, User $model): bool
     {
@@ -57,7 +58,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Enabled only for 'super' role
      */
     public function forceDelete(User $user, User $model): bool
     {
