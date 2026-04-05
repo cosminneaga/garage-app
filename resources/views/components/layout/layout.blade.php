@@ -51,6 +51,10 @@
             <x-bladewind.alert
                 type="success"
                 shade="dark"
+                x-data="{ show: true }"
+                x-show="show"
+                x-init="setTimeout(() => show = false, 3000)"
+                x.transition.opacity.duration.500ms
             >
                 {{ $value }}
             </x-bladewind.alert>
@@ -60,6 +64,10 @@
             <x-bladewind.alert
                 type="error"
                 shade="dark"
+                x-data="{ show: true }"
+                x-show="show"
+                x-init="setTimeout(() => show = false, 3000)"
+                x.transition.opacity.duration.500ms
             >
                 {{ $value }}
             </x-bladewind.alert>
@@ -69,6 +77,10 @@
             <x-bladewind.alert
                 type="warning"
                 shade="dark"
+                x-data="{ show: true }"
+                x-show="show"
+                x-init="setTimeout(() => show = false, 3000)"
+                x.transition.opacity.duration.500ms
             >
                 {{ $value }}
             </x-bladewind.alert>
@@ -79,6 +91,10 @@
                 <x-bladewind.alert
                     type="error"
                     shade="dark"
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-init="setTimeout(() => show = false, 3000)"
+                    x.transition.opacity.duration.500ms
                 >
                     {{ $error }}
                 </x-bladewind.alert>
