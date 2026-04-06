@@ -92,22 +92,24 @@ class LocalEnv extends Seeder
         $company->suppliers()->attach($suppliers[0]);
         $company->users()->attach($superAdmin);
 
-        $company_nd = Company::factory()->create();
-        $company_nd->addresses()->attach($address[5]);
-        $company_nd->contacts()->attach($contact[5]);
-        $company_nd->suppliers()->attach(collect($suppliers)->slice(1));
-        $company_nd->users()->attach($manager);
+        $company_nd = Company::factory(135)->create();
+        $company_nd[0]->addresses()->attach($address[5]);
+        $company_nd[0]->contacts()->attach($contact[5]);
+        $company_nd[0]->suppliers()->attach(collect($suppliers)->slice(1));
+        foreach ($company_nd as $cp) {
+            $cp->users()->attach($manager);
+        }
 
         // 8. create client, attach addresses & contacts
         $client = Client::factory()->create();
-        $client->companies()->attach($company_nd);
+        $client->companies()->attach($company_nd[0]);
         $client->addresses()->attach($address[6]);
         $client->contacts()->attach($contact[6]);
 
         // 9. create repair with assignation on 'company_id' -- this will also create
         // clients, bookings, vehicle data
         $repair = Repair::factory()->create([
-            'company_id' => $company_nd,
+            'company_id' => $company_nd[0],
             'client_id' => $client,
         ]);
 

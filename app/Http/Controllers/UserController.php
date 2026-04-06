@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Utils\ResponseMessage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -21,13 +22,13 @@ class UserController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $this->authorize('view', $user);
 
         return view('pages.user.index', [
-            'users' => $user->team()->get(),
+            'users' => $user->team()->paginate($request->query('limit') ?? 10),
         ]);
     }
 
