@@ -77,7 +77,7 @@ enum UserPermission: string
         // TODO: create $includeActions which cancels $excludeActions
         // TODO: if $singleDimension = false the $excludeActions won't apply, please fix
 
-        if (! ($excludeActions === []) && ! collect($excludeActions)->values()->every(fn ($value) => in_array($value, self::actions()))) {
+        if ($excludeActions !== [] && ! collect($excludeActions)->values()->every(fn ($value) => in_array($value, self::actions()))) {
             throw new Exception('Actions: '.implode(',', $excludeActions).' does not exists in: '.implode(',', self::actions()));
         }
 

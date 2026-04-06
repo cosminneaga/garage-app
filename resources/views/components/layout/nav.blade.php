@@ -147,11 +147,14 @@
                 @endauth
 
                 @guest
-                    <a href="/login">Login</a>
-                    <a
-                        class="btn"
-                        href="/register"
-                    >Register</a>
+                    <div
+                        class="px-2 border-b-0! border-primary-500 transition-all ease-in-out delay-150 duration-100 hover:border-b-4! hover:border-t-4!">
+                        <a href="/login">Login</a>
+                        {{-- <div class="border-b border-4 transition-all ease-in-out delay-150 duration-200 w-1 hover:w-full"></div> --}}
+                    </div>
+                    <div class="px-2 border-b-0! border-primary-500 transition-all ease-in-out delay-150 duration-100 hover:border-b-4! hover:border-t-4!">
+                        <a href="/register">Register</a>
+                    </div>
                 @endguest
             </div>
         </div>
