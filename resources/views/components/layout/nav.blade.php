@@ -29,7 +29,7 @@
                         <x-bladewind.dropmenu.item icon="users">
                             <a
                                 class="w-full"
-                                href="/users?limit=5"
+                                href="/users?limit=10"
                             >Team</a>
                         </x-bladewind.dropmenu.item>
                         <x-bladewind.dropmenu.item icon="folder-plus">
@@ -56,7 +56,7 @@
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a
                                     class="w-full"
-                                    href="/companies?limit=5"
+                                    href="/companies?limit=10"
                                 >List</a>
                             </x-bladewind.dropmenu.item>
                             <x-bladewind.dropmenu.item icon="folder-plus">
@@ -112,13 +112,13 @@
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a
                                     class="w-full"
-                                    href="/users/all"
+                                    href="/users/all?limit=10"
                                 >Users</a>
                             </x-bladewind.dropmenu.item>
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a
                                     class="w-full"
-                                    href="/companies/all"
+                                    href="/companies/all?limit=10"
                                 >Companies</a>
                             </x-bladewind.dropmenu.item>
                             <x-bladewind.dropmenu.item icon="building-office">

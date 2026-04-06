@@ -28,12 +28,12 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function all()
+    public function all(Request $request)
     {
         $this->authorize('viewAny');
 
         return view('pages.company.index', [
-            'companies' => Company::all(),
+            'companies' => Company::paginate($request->query('limit') ?? 10),
         ]);
     }
 

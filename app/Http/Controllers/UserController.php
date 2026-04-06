@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function all()
+    public function all(Request $request)
     {
         $this->authorize('viewAny');
 
         return view('pages.user.index', [
-            'users' => User::all(),
+            'users' => User::paginate($request->query('limit') ?? 10),
         ]);
     }
 

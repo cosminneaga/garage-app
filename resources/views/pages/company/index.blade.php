@@ -1,4 +1,7 @@
-<x-layout>
+<x-layout title="Company">
+    <h1 class="text-2xl font-bold underline">COMPANIES</h1>
+    <br><br>
+
     <x-table :data="$companies">
         <x-slot:header>
             <th>ID</th>
