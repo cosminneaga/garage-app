@@ -121,6 +121,20 @@
                                     href="/companies/all"
                                 >Companies</a>
                             </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item icon="building-office">
+                                <a
+                                    class="w-full"
+                                    href="/pulse"
+                                    target="__blank"
+                                >Pulse</a>
+                            </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item icon="building-office">
+                                <a
+                                    class="w-full"
+                                    href="/telescope"
+                                    target="__blank"
+                                >Telescope</a>
+                            </x-bladewind.dropmenu.item>
                         @endrole
 
 
