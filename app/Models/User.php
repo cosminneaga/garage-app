@@ -20,7 +20,6 @@ use Spatie\Permission\Traits\HasRoles;
 #[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, HasRoles, LogsActivity, Notifiable, SoftDeletes;
 
     /**

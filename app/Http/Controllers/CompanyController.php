@@ -7,16 +7,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
-use App\Models\Country;
 use App\Services\CompanyService;
 use App\Services\UserService;
+use App\Traits\ResponseMessage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    use AuthorizesRequests;
+    use AuthorizesRequests, ResponseMessage;
 
     public function __construct(
         protected CompanyService $companyService,
@@ -33,7 +33,7 @@ class CompanyController extends Controller
         $this->authorize('viewAny');
 
         return view('pages.company.index', [
-            'companies' => Company::paginate($request->query('limit') ?? 10),
+            'companies' => Company::paginate($request->query('limit') ?? 10, ['*'], 'company', 0, 0),
         ]);
     }
 
@@ -60,7 +60,6 @@ class CompanyController extends Controller
     {
         return view('pages.company.create', [
             'addresses' => $this->userService->getRelatedAddresses(Auth::user()),
-            'countries' => Country::all(),
         ]);
     }
 
@@ -74,7 +73,7 @@ class CompanyController extends Controller
             Auth::user()->id,
         );
 
-        return back()->with('success', 'Resource created');
+        return back()->with('message', self::responseMessage('success', 'Resource created'));
     }
 
     /**
@@ -101,7 +100,7 @@ class CompanyController extends Controller
             $request->safe()->all()
         );
 
-        return back()->with('success', 'Resource updated');
+        return back()->with('message', self::responseMessage('success', 'Resource updated'));
     }
 
     /**

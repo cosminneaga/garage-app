@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => view('welcome'))->name('home');
+// Route::get('/', fn () => redirect()->route('login'));
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
@@ -21,7 +22,7 @@ Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/users/all', [UserController::class, 'all'])->name('users.all');
 });
 
-Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
+Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
     Route::resource('companies', CompanyController::class);
     Route::resource('users', UserController::class)->except(['show']);
 });

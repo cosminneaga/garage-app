@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Illuminate\Support\Collection;
+
 enum UserRole: string
 {
     case SUPER = 'super';
@@ -24,5 +26,27 @@ enum UserRole: string
     public static function values(): array
     {
         return array_map(fn (UserRole $status) => $status->value, self::cases());
+    }
+
+    public static function asArray(): array
+    {
+        return array_map(function (UserRole $role) {
+            return [
+                'name' => $role->value,
+                'label' => $role->label(),
+            ];
+        }, self::cases());
+    }
+
+    public static function ui(): array
+    {
+        return new Collection(self::cases())
+            ->reject(fn ($role) => $role->value === 'super')
+            ->map(function ($role) {
+                return [
+                    'name' => $role->value,
+                    'label' => $role->label(),
+                ];
+            })->toArray();
     }
 }

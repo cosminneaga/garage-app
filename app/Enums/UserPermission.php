@@ -10,7 +10,7 @@ enum UserPermission: string
 {
     // Table <-> Permission references
     case ADDRESS = 'address';
-    case BOOKINGS = 'booking';
+    case BOOKING = 'booking';
     case CLIENT = 'client';
     case COMPANY = 'company';
     case COUNTRY = 'country';

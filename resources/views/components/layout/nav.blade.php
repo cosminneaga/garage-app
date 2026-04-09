@@ -6,10 +6,10 @@
                     <a href="/">
                         <x-bladewind.button.circle
                             type="secondary"
-                            size="tiny"
+                            size="small"
                             outline
                             icon="home"
-                            color="fucshie"
+                            color="primary"
                         />
                     </a>
 
@@ -19,32 +19,38 @@
 
                             <x-bladewind.button
                                 type="secondary"
-                                size="tiny"
+                                size="small"
                                 outline
                             >
                                 Users
                             </x-bladewind.button>
                         </x-slot:trigger>
 
-                        <x-bladewind.dropmenu.item icon="users">
-                            <a
-                                class="w-full"
-                                href="/users?limit=10"
-                            >Team</a>
-                        </x-bladewind.dropmenu.item>
-                        <x-bladewind.dropmenu.item icon="folder-plus">
-                            <a
-                                class="w-full"
-                                href="/users/create"
-                            >Create</a>
-                        </x-bladewind.dropmenu.item>
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                            'show'))
+                            <x-bladewind.dropmenu.item icon="users">
+                                <a
+                                    class="w-full"
+                                    href="/users?limit=10"
+                                >Team</a>
+                            </x-bladewind.dropmenu.item>
+                        @endcan
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                            'store'))
+                            <x-bladewind.dropmenu.item icon="folder-plus">
+                                <a
+                                    class="w-full"
+                                    href="/users/create"
+                                >Create</a>
+                            </x-bladewind.dropmenu.item>
+                        @endcan
                     </x-bladewind.dropmenu>
 
                     <x-bladewind.dropmenu position="left">
                         <x-slot:trigger>
                             <x-bladewind.button
                                 type="secondary"
-                                size="tiny"
+                                size="small"
                                 outline
                             >
                                 Companies
@@ -52,23 +58,26 @@
                         </x-slot:trigger>
 
 
-                        @can('company-show')
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                            'show'))
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a
                                     class="w-full"
                                     href="/companies?limit=10"
                                 >List</a>
                             </x-bladewind.dropmenu.item>
+                        @endcan
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                            'store'))
                             <x-bladewind.dropmenu.item icon="folder-plus">
                                 <a
                                     class="w-full"
                                     href="/companies/create"
                                 >Create</a>
                             </x-bladewind.dropmenu.item>
-
-                            @role('super')
-                            @endrole
                         @endcan
+                        @role('super')
+                        @endrole
                     </x-bladewind.dropmenu>
                 @endauth
             </div>
@@ -166,7 +175,8 @@
                         <a href="/login">Login</a>
                         {{-- <div class="border-b border-4 transition-all ease-in-out delay-150 duration-200 w-1 hover:w-full"></div> --}}
                     </div>
-                    <div class="px-2 border-b-0! border-primary-500 transition-all ease-in-out delay-150 duration-100 hover:border-b-4! hover:border-t-4!">
+                    <div
+                        class="px-2 border-b-0! border-primary-500 transition-all ease-in-out delay-150 duration-100 hover:border-b-4! hover:border-t-4!">
                         <a href="/register">Register</a>
                     </div>
                 @endguest

@@ -7,12 +7,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
-use App\Utils\ResponseMessage;
+use App\Services\UserService;
+use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    use ResponseMessage;
+
+    public function __construct(protected UserService $userService)
+    {
+        //
+    }
+
     public function all(Request $request)
     {
         $this->authorize('viewAny');
@@ -41,9 +49,11 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        dd($request->safe()->all());
+        $attributes = $request->safe()->all();
+        $attributes['active'] = $request->boolean('active');
+        $this->userService->createOne($attributes, Auth::user());
 
-        return back()->with('message', ResponseMessage::get('success', 'User updated'));
+        return back()->with('message', self::responseMessage('success', 'User created'));
     }
 
     public function edit(User $user)
@@ -51,7 +61,7 @@ class UserController extends Controller
         $this->authorize('edit', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('message', ResponseMessage::get('error', 'Please update your own details from profile section'));
+            return back()->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
         }
 
         return view('pages.user.update', [
@@ -66,7 +76,7 @@ class UserController extends Controller
         $this->authorize('edit', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('message', ResponseMessage::get('error', 'Please update your own details from profile section'));
+            return back()->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
         }
 
         User::updateOrCreate(
@@ -78,7 +88,7 @@ class UserController extends Controller
             ]
         );
 
-        return back()->with('message', ResponseMessage::get('success', 'User updated'));
+        return back()->with('message', self::responseMessage('success', 'User updated'));
     }
 
     public function destroy(User $user)
@@ -86,7 +96,7 @@ class UserController extends Controller
         $this->authorize('delete', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('message', ResponseMessage::get('error', 'You cannot delete your own account'));
+            return back()->with('message', self::responseMessage('error', 'You cannot delete your own account'));
         }
 
         $user = User::findOrFail($user->id);
@@ -94,6 +104,6 @@ class UserController extends Controller
 
         return redirect()
             ->intended(route('users.index'))
-            ->with('message', ResponseMessage::get('warning', 'User removed'));
+            ->with('message', self::responseMessage('warning', 'User removed'));
     }
 }

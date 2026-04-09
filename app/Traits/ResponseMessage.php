@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Utils;
+namespace App\Traits;
 
 enum Types: string
 {
@@ -22,19 +20,13 @@ enum Types: string
     }
 }
 
-class ResponseMessage
+trait ResponseMessage
 {
-    public string $type;
-
-    public function __construct(string $type, public string $text)
+    public static function responseMessage(string $type, ?string $text = null)
     {
-        $this->type = Types::from($type)->value;
-    }
-
-    public static function get(string $type, ?string $text = null): self
-    {
-        return new self($type, $text ?? Types::from($type)->label());
+        return (object) [
+            'type' => Types::from($type)->value,
+            'text' => $text ?? Types::from($type)->label(),
+        ];
     }
 }
-
-// ResponseMessage::get('error', 'message');

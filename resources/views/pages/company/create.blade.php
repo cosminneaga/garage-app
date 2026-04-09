@@ -12,6 +12,26 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
             class="text-start flex flex-col gap-2"
             action="/companies"
             method="POST"
+            x-data="{
+                name: 'Wurst TTD',
+                tax_id: '432423423',
+                registration_number: '432423423',
+                tax_value: 43.00,
+                invoice_prefix: 'INV',
+                address: {
+                    number: 2566,
+                    street: 'Subway Street',
+                    postcode: 'B546BFN',
+                    country_id: 1,
+                },
+                contact: {
+                    mobile: '974837483',
+                    landline: '974837483',
+                    email: 'company@net.com',
+                    url: '',
+                    info: ''
+                }
+            }"
         >
             @csrf
 
@@ -24,32 +44,32 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
                     <x-bladewind.input
                         name="name"
                         type="text"
-                        value="Wurst TTD"
                         label="Name"
+                        x-model="name"
                     />
                     <x-bladewind.input
                         name="tax_id"
                         type="text"
-                        value="432423423"
                         label="Tax ID"
+                        x-model="tax_id"
                     />
                     <x-bladewind.input
                         name="registration_number"
                         type="text"
-                        value="432423423"
                         label="Registration Number"
+                        x-model="registration_number"
                     />
                     <x-bladewind.input
                         name="tax_value"
                         type="text"
-                        value="34.00"
                         label="Tax Value"
+                        x-model="tax_value"
                     />
                     <x-bladewind.input
                         name="invoice_prefix"
                         type="text"
-                        value="INV"
                         label="Invoice Prefix"
+                        x-model="invoice_prefix"
                     />
                 </div>
 
@@ -83,22 +103,22 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
                         id="address_number"
                         name="address[number]"
                         type="number"
-                        value="254"
                         label="Number"
+                        x-model="address.number"
                     />
                     <x-bladewind.input
                         id="address_street"
                         name="address[street]"
                         type="text"
-                        value="The Flowers Street"
                         label="Number"
+                        x-model="address.street"
                     />
                     <x-bladewind.input
                         id="address_postcode"
                         name="address[postcode]"
                         type="text"
-                        value="T342234"
                         label="Postcode"
+                        x-model="address.postcode"
                     />
                     <x-bladewind.select
                         id="address_country_id"
@@ -107,7 +127,8 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
                         label="Select a country"
                         label_key="name"
                         flag_key="code"
-                        :data="$countries"
+                        :data="\App\Models\Country::all()"
+                        selected_value="1"
                     />
                 </div>
             </div>
@@ -121,43 +142,45 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
                     <x-bladewind.input
                         id="contact_mobile"
                         name="contact[mobile]"
-                        value="974837483"
                         label="Mobile Phone"
+                        x-model="contact.mobile"
                     />
 
                     <x-bladewind.input
                         id="contact_landline"
                         name="contact[landline]"
-                        value="974837483"
                         label="Landline Phone"
+                        x-model="contact.landline"
                     />
 
                     <x-bladewind.input
                         id="contact_email"
                         name="contact[email]"
                         type="email"
-                        value="company@net.com"
                         label="Email"
+                        x-model="contact.email"
                     />
 
                     <x-bladewind.input
                         id="contact_url"
                         name="contact[url]"
                         label="URL"
+                        x-model="contact.url"
                     />
 
                     <x-bladewind.textarea
                         id="contact_info"
                         name="contact[info]"
                         label="More Information"
+                        x-model="contact.info"
                     />
                 </div>
             </div>
 
             <x-bladewind.button
+                class="w-fit"
                 type="primary"
                 can_submit
-                class="w-fit"
             >Submit</x-bladewind.button>
         </form>
     </x-form.form-wrapper>
