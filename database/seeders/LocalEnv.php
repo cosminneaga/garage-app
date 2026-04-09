@@ -28,7 +28,7 @@ class LocalEnv extends Seeder
 
         // 2. seed countries
         $this->call(CountriesSeeder::class);
-        $country = Country::first();
+        $country = Country::first(['*']);
 
         // 3. addresses & contact, 10
         $contact = Contact::factory(10)->create();
@@ -36,86 +36,97 @@ class LocalEnv extends Seeder
             'country_id' => $country,
         ]);
 
-        // 4. seed users & attach contacts & addresses + role assignation
+        // 4. seed super admin & attach contacts & addresses, role assignation + team members
         $superAdmin = User::factory()->create([
             'name' => 'Super Admin',
             'email' => 'admin@garage.com',
             'password' => 'password',
             'active' => true,
         ]);
-        $manager = User::factory()->create([
-            'name' => 'User Manager',
-            'email' => 'manager@garage.com',
-            'password' => 'password',
-            'active' => true,
-        ]);
+        $superAdmin->assignRole(UserRole::SUPER);
         $superAdmin->addresses()->attach($address[0]);
         $superAdmin->contacts()->attach($contact[0]);
-        $superAdmin->assignRole(UserRole::SUPER);
-
-        // 5. creating & adding super team member
         $superTeamMember = User::factory()->create([
             'name' => 'Super Team member',
             'active' => true,
         ]);
         $superAdmin->team()->attach($superTeamMember);
 
-        // 5. adding user manager
+        // 4.1 adding testing admin company
+        $adminCompany = Company::factory()->create();
+        $adminCompany->addresses()->attach($address[4]);
+        $adminCompany->contacts()->attach($contact[4]);
+        $adminCompany->users()->attach($superAdmin);
+
+
+        // 5. adding user manager, attach contact & address, role assignation
+        $manager = User::factory()->create([
+            'name' => 'Manager User',
+            'email' => 'manager@garage.com',
+            'password' => 'password',
+            'active' => true,
+        ]);
+        $manager->assignRole(UserRole::USER_ADMIN);
         $manager->addresses()->attach($address[1]);
         $manager->contacts()->attach($contact[1]);
-        $manager->assignRole(UserRole::USER_ADMIN);
 
-        // 5. adding team members
-        $teamMembers = User::factory(20)->create();
-        $groups = $teamMembers->splitIn(2);
-        $groups[0]->each(function ($item) use ($contact, $address) {
-            $item->assignRole(UserRole::USER_EDITOR);
-            $item->contacts()->attach($contact);
-            $item->addresses()->attach($address);
-        });
-        $groups[1]->each(fn ($item) => $item->assignRole(UserRole::USER_VIEWER));
-        $manager->team()->attach($teamMembers);
+        // 6. adding editor team member, attach contact & address, role assignation
+        $editorUser = User::factory()->create([
+            'name' => 'Editor User',
+            'email' => 'editor@garage.com',
+            'password' => 'password',
+            'active' => true,
+        ]);
+        $editorUser->assignRole(UserRole::USER_EDITOR);
+        $editorUser->addresses()->attach($address[2]);
+        $editorUser->contacts()->attach($contact[2]);
+        $manager->team()->attach($editorUser);
 
-        // ! avoid seeding vehicle data due to large sets of data being inserted into DB
+        // 7. adding viewer team member
+        $viewerUser = User::factory()->create([
+            'name' => 'Viewer User',
+            'email' => 'viewer@garage.com',
+            'password' => 'password',
+            'active' => true,
+        ]);
+        $viewerUser->assignRole(UserRole::USER_VIEWER);
+        $viewerUser->addresses()->attach($address[3]);
+        $viewerUser->contacts()->attach($contact[3]);
+        $manager->team()->attach($viewerUser);
 
-        // 6. create suppliers, 30
-        $suppliers = Supplier::factory(30)->create();
-        $suppliers[0]->addresses()->attach($address[2]);
-        $suppliers[0]->addresses()->attach($address[3]);
-        $suppliers[0]->contacts()->attach($contact[2]);
-        $suppliers[0]->contacts()->attach($contact[3]);
+        // 8. adding related company for all team members
+        $teamCompany = Company::factory()->create([
+            'name' => 'Seeded Company Name LTD'
+        ]);
+        $teamCompany->addresses()->attach($address[4]);
+        $teamCompany->contacts()->attach($contact[4]);
+        $teamCompany->users()->attach($manager);
 
-        // 7. create company -- attach 'address' & 'contact' & 'supplier'
-        $company = Company::factory()->create();
-        $company->addresses()->attach($address[4]);
-        $company->contacts()->attach($contact[4]);
-        $company->suppliers()->attach($suppliers[0]);
-        $company->users()->attach($superAdmin);
-
-        $company_nd = Company::factory(135)->create();
-        $company_nd[0]->addresses()->attach($address[5]);
-        $company_nd[0]->contacts()->attach($contact[5]);
-        $company_nd[0]->suppliers()->attach(collect($suppliers)->slice(1));
-        foreach ($company_nd as $cp) {
-            $cp->users()->attach($manager);
-        }
+        // 9. adding related supplier for given company
+        $supplier = Supplier::factory()->create([
+            'name' => 'Seeded Supplier Name LTD'
+        ]);
+        $supplier->addresses()->attach($address[5]);
+        $supplier->contacts()->attach($contact[5]);
+        $supplier->companies()->attach($teamCompany);
 
         // 8. create client, attach addresses & contacts
         $client = Client::factory()->create();
-        $client->companies()->attach($company_nd[0]);
+        $client->companies()->attach($teamCompany);
         $client->addresses()->attach($address[6]);
         $client->contacts()->attach($contact[6]);
 
         // 9. create repair with assignation on 'company_id' -- this will also create
         // clients, bookings, vehicle data
         $repair = Repair::factory()->create([
-            'company_id' => $company_nd[0],
+            'company_id' => $teamCompany,
             'client_id' => $client,
         ]);
 
         // 10. create repair file, 20
-        $repairFile = RepairFile::factory(20)->create([
+        RepairFile::factory(20)->create([
             'repair_id' => $repair,
+            'type' => 'image/png'
         ]);
 
         // 11. create repair invoice, 5
@@ -126,7 +137,7 @@ class LocalEnv extends Seeder
         // 12. create repair items, 30
         RepairInvoiceItem::factory(30)->create([
             'repair_invoice_id' => $repairInvoice[0],
-            'supplier_id' => $suppliers[1],
+            'supplier_id' => $supplier,
         ]);
     }
 }

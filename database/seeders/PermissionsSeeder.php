@@ -22,7 +22,7 @@ class PermissionsSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
-        $adminSuper = app(Role::class)->findOrCreate(UserRole::SUPER->value, 'web');
+        app(Role::class)->findOrCreate(UserRole::SUPER->value, 'web');
         $userAdmin = app(Role::class)->findOrCreate(UserRole::USER_ADMIN->value, 'web');
         $userEditor = app(Role::class)->findOrCreate(UserRole::USER_EDITOR->value, 'web');
         $userViewer = app(Role::class)->findOrCreate(UserRole::USER_VIEWER->value, 'web');
@@ -33,12 +33,25 @@ class PermissionsSeeder extends Seeder
         }
 
         // user editor
-        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete', 'restore', 'delete']) as $permission) {
+        $userEditor->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+        $userEditor->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        $userEditor->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
+        foreach (
+            UserPermission::list(
+                excludeReferences: ['user', 'company'],
+                excludeActions: ['show_all', 'force_delete', 'restore', 'delete']
+            ) as $permission
+        ) {
             $userEditor->givePermissionTo($permission);
         }
 
         // user viewer
-        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete', 'restore', 'store', 'update', 'delete']) as $permission) {
+        foreach (
+            UserPermission::list(
+                excludeReferences: ['user'],
+                excludeActions: ['show_all', 'force_delete', 'restore', 'store', 'update', 'delete']
+            ) as $permission
+        ) {
             $userViewer->givePermissionTo($permission);
         }
     }

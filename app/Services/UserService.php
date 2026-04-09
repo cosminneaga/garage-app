@@ -8,9 +8,7 @@ use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Contact;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
@@ -74,10 +72,5 @@ class UserService
         }
 
         return $user->members();
-    }
-
-    public function getMyCompanies(User $user): BelongsToMany
-    {
-        // !TODO: create a functionality to retrieve all companies that the user is attached to
     }
 }

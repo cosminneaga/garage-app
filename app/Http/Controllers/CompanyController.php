@@ -40,7 +40,7 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         return view('pages.company.index', [
-            'companies' => Auth::user()->companies()->paginate($request->query('limit') ?? 10),
+            'companies' => $this->companyService->getMyCompanies(Auth::user())->paginate($request->query('limit') ?? 10),
         ]);
     }
 

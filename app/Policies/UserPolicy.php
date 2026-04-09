@@ -31,7 +31,7 @@ class UserPolicy
     public function edit(User $user, User $model): bool
     {
         if (! $user->isTeamMember($model)) {
-            throw new UnauthorizedException(404);
+            throw new UnauthorizedException(403);
         }
 
         return $user->hasPermissionTo('user-update');

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Traits\Collect;
 use Exception;
 
 enum UserPermission: string
 {
-    // Table <-> Permission references
+    use Collect;
+
+        // Table <-> Permission references
     case ADDRESS = 'address';
     case BOOKING = 'booking';
     case CLIENT = 'client';
@@ -67,44 +70,76 @@ enum UserPermission: string
         ];
     }
 
+    /**
+     * Retrieve an array of available references
+     *
+     * @return array ['vehicle_data', 'vehicle_make', 'vehicle_model', 'vehicle_year']
+     */
     public static function references(): array
     {
-        return array_map(fn (UserPermission $userPermission) => $userPermission->value, self::cases());
+        return array_map(fn(UserPermission $userPermission) => $userPermission->value, self::cases());
     }
 
-    public static function list(bool $singleDimension = true, array $excludeActions = []): array
-    {
-        // TODO: create $includeActions which cancels $excludeActions
-        // TODO: if $singleDimension = false the $excludeActions won't apply, please fix
-
-        if ($excludeActions !== [] && ! collect($excludeActions)->values()->every(fn ($value) => in_array($value, self::actions()))) {
-            throw new Exception('Actions: '.implode(',', $excludeActions).' does not exists in: '.implode(',', self::actions()));
-        }
-
-        if ($singleDimension) {
-            $result = [];
-
-            foreach (self::references() as $reference) {
-                foreach (self::actions() as $action) {
-                    if (collect($excludeActions)->contains($action)) {
-                        continue;
-                    }
-                    $result[] = "$reference-$action";
-                }
-            }
-
-            return $result;
-        }
-
-        return array_map(fn ($reference) => array_map(fn (string $action) => "$reference.$action", self::actions()), self::references());
-    }
-
+    /**
+     * Retrieve the name of reference with action combined as standardized form
+     *
+     * @param UserPermission $reference UserPermission reference this must exists in enum's cases
+     * @param string $action_name Action must also exists in self::actions()
+     *
+     * @return string 'user-show'
+     */
     public static function name(UserPermission $reference, string $action_name): string
     {
         if (! array_key_exists($action_name, self::actions())) {
-            throw new Exception("Action: $action_name does not exists in: ".implode(',', self::actions()));
+            throw new Exception("Action: $action_name does not exists in: " . implode(',', self::actions()));
         }
 
-        return $reference->value.'-'.self::actions()[$action_name];
+        return $reference->value . '-' . self::actions()[$action_name];
+    }
+
+    /**
+     * Retrieve a list of a single dimension array of references(table names) and their actions
+     *
+     * This method would return an array of a single dimension
+     * having the references(tables) combined with their action names.
+     *
+     * Useful when we want to create permission names, or use these to list them
+     * somewhere in UI or in a controller/service functionality.
+     *
+     * Example: 'user-show', 'vehicle_data-delete'
+     *
+     * @param array $excludeReferences Optional excluding references
+     * @param array $excludeActions Optional excluding actions
+     */
+    public static function list(
+        array $excludeReferences = [],
+        array $excludeActions = [],
+        array $onlyReferences = [],
+        array $onlyActions = []
+    ): array {
+        $result = [];
+
+        foreach (self::references() as $reference) {
+            if (collect($excludeReferences)->contains($reference)) {
+                continue;
+            }
+
+            if (!empty($onlyReferences) && !collect($onlyReferences)->contains($reference)) {
+                continue;
+            }
+
+            foreach (self::actions() as $action) {
+                if (collect($excludeActions)->contains($action)) {
+                    continue;
+                }
+
+                if (!empty($onlyActions) && !collect($onlyActions)->contains($action)) {
+                    continue;
+                }
+                $result[] = "$reference-$action";
+            }
+        }
+
+        return $result;
     }
 }

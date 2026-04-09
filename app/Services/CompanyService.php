@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 
 class CompanyService
@@ -45,5 +48,17 @@ class CompanyService
                 $contact
             ));
         });
+    }
+
+    public function getMyCompanies(User $user): BelongsToMany
+    {
+        // !TODO: create a functionality to retrieve all companies that the user is attached to
+        if ($user->hasRole(UserRole::USER_EDITOR) || $user->hasRole(UserRole::USER_VIEWER)) {
+            // !TODO: this is not quite right as user which is not manager should only retrieve the companies is attached to not all of them
+            $manager = $user->managers()->first();
+            return $manager->companies();
+        }
+
+        return $user->companies();
     }
 }

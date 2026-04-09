@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-// use Database\Factories\CompanyFactory;
 use App\Policies\CompanyPolicy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +16,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 #[UsePolicy(CompanyPolicy::class)]
 class Company extends Model
 {
-    /** @use HasFactory<CompanyFactory> */
     use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [

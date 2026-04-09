@@ -13,38 +13,38 @@
                         />
                     </a>
 
+                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                        'show'))
+                        <x-bladewind.dropmenu position="left">
+                            <x-slot:trigger>
 
-                    <x-bladewind.dropmenu position="left">
-                        <x-slot:trigger>
+                                <x-bladewind.button
+                                    type="secondary"
+                                    size="small"
+                                    outline
+                                >
+                                    Users
+                                </x-bladewind.button>
+                            </x-slot:trigger>
 
-                            <x-bladewind.button
-                                type="secondary"
-                                size="small"
-                                outline
-                            >
-                                Users
-                            </x-bladewind.button>
-                        </x-slot:trigger>
 
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                            'show'))
                             <x-bladewind.dropmenu.item icon="users">
                                 <a
                                     class="w-full"
                                     href="/users?limit=10"
                                 >Team</a>
                             </x-bladewind.dropmenu.item>
-                        @endcan
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                            'store'))
-                            <x-bladewind.dropmenu.item icon="folder-plus">
-                                <a
-                                    class="w-full"
-                                    href="/users/create"
-                                >Create</a>
-                            </x-bladewind.dropmenu.item>
-                        @endcan
-                    </x-bladewind.dropmenu>
+                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                                'store'))
+                                <x-bladewind.dropmenu.item icon="folder-plus">
+                                    <a
+                                        class="w-full"
+                                        href="/users/create"
+                                    >Create</a>
+                                </x-bladewind.dropmenu.item>
+                            @endcan
+                        </x-bladewind.dropmenu>
+                    @endcan
 
                     <x-bladewind.dropmenu position="left">
                         <x-slot:trigger>

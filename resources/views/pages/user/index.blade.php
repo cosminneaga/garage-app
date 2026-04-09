@@ -30,28 +30,34 @@ $actions = ["icon:chat-bubble-bottom-center-text | tip:send message | color:gree
                         outline
                         onclick="sendMessage('{{ $user->name }}')"
                     />
-                    <x-bladewind.button.circle
-                        icon="pencil-square"
-                        color="primary"
-                        size="tiny"
-                        outline
-                        onclick="location.href='/users/{{ $user->id }}/edit'"
-                    />
-                    <form
-                        action="{{ route('users.destroy', $user) }}"
-                        method="POST"
-                    >
-                        @csrf
-                        @method('DELETE')
-
+                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                        'store'))
                         <x-bladewind.button.circle
-                            icon="trash"
-                            color="red"
+                            icon="pencil-square"
+                            color="primary"
                             size="tiny"
                             outline
-                            can_submit
+                            onclick="location.href='/users/{{ $user->id }}/edit'"
                         />
-                    </form>
+                    @endcan
+                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                        'delete'))
+                        <form
+                            action="{{ route('users.destroy', $user) }}"
+                            method="POST"
+                        >
+                            @csrf
+                            @method('DELETE')
+
+                            <x-bladewind.button.circle
+                                icon="trash"
+                                color="red"
+                                size="tiny"
+                                outline
+                                can_submit
+                            />
+                        </form>
+                    @endcan
                 </td>
             </tr>
         @endforeach
