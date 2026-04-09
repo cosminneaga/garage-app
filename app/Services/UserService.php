@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\UserRole;
 use App\Models\Address;
-use App\Models\User;
 use App\Models\Contact;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UserService
 {
@@ -57,5 +62,22 @@ class UserService
                 $contact
             ));
         });
+    }
+
+    public function getMyTeamMembers(User $user): UnauthorizedException|BelongsToMany
+    {
+        if ($user->hasRole(UserRole::USER_VIEWER)) throw new UnauthorizedException(403);
+
+        if ($user->hasRole(UserRole::USER_EDITOR)) {
+            $manager = $user->managers()->first();
+            return $manager->members();
+        }
+
+        return $user->members();
+    }
+
+    public function getMyCompanies(User $user): BelongsToMany
+    {
+        // !TODO: create a functionality to retrieve all companies that the user is attached to
     }
 }

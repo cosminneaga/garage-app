@@ -36,7 +36,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return view('pages.user.index', [
-            'users' => $user->team()->paginate($request->query('limit') ?? 10),
+            'users' => $this->userService->getMyTeamMembers($user)->paginate($request->query('limit') ?? 10),
         ]);
     }
 

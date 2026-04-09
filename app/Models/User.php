@@ -7,12 +7,15 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Traits\HasRoles;
@@ -51,7 +54,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        // 'active' => 'boolean',
+        'active' => 'boolean',
     ];
 
     public function addresses(): BelongsToMany
@@ -82,24 +85,36 @@ class User extends Authenticatable
 
         return $this->belongsToMany(
             User::class,
-            'teams',
+            Team::class,
             'manager_id',
             'user_id'
-        );
-    }
-
-    private function members(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            'teams',
-            'manager_id',
-            'user_id'
-        );
+        )->withTimestamps();
     }
 
     public function isTeamMember(User $user): bool
     {
         return (bool) $this->members()->find($user);
+    }
+
+    #[Scope]
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            Team::class,
+            'manager_id',
+            'user_id'
+        );
+    }
+
+    #[Scope]
+    public function managers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            Team::class,
+            'user_id',
+            'manager_id'
+        );
     }
 }

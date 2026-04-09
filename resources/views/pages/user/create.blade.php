@@ -10,7 +10,7 @@
             method="POST"
             x-data="{
                 name: 'User',
-                email: 'user@garage.com',
+                email: 'editor@garage.com',
                 password: 'password',
                 active: true,
                 address: {
