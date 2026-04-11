@@ -58,7 +58,6 @@ class LocalEnv extends Seeder
         $adminCompany->contacts()->attach($contact[4]);
         $adminCompany->users()->attach($superAdmin);
 
-
         // 5. adding user manager, attach contact & address, role assignation
         $manager = User::factory()->create([
             'name' => 'Manager User',
@@ -96,7 +95,7 @@ class LocalEnv extends Seeder
 
         // 8. adding related company for all team members
         $teamCompany = Company::factory()->create([
-            'name' => 'Seeded Company Name LTD'
+            'name' => 'Seeded Company Name LTD',
         ]);
         $teamCompany->addresses()->attach($address[4]);
         $teamCompany->contacts()->attach($contact[4]);
@@ -104,7 +103,7 @@ class LocalEnv extends Seeder
 
         // 9. adding related supplier for given company
         $supplier = Supplier::factory()->create([
-            'name' => 'Seeded Supplier Name LTD'
+            'name' => 'Seeded Supplier Name LTD',
         ]);
         $supplier->addresses()->attach($address[5]);
         $supplier->contacts()->attach($contact[5]);
@@ -126,7 +125,7 @@ class LocalEnv extends Seeder
         // 10. create repair file, 20
         RepairFile::factory(20)->create([
             'repair_id' => $repair,
-            'type' => 'image/png'
+            'type' => 'image/png',
         ]);
 
         // 11. create repair invoice, 5

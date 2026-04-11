@@ -34,6 +34,7 @@ class CompanyPolicy
     public function edit(User $user, Company $model): bool
     {
         $model->isCompanyImPartOf($user);
+
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
     }
 

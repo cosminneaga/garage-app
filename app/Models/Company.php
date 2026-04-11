@@ -35,6 +35,7 @@ class Company extends Model
     {
         if ($user->hasRole(UserRole::USER_EDITOR)) {
             $manager = $user->managers()->first();
+
             return (bool) $this->users()->findOrFail($manager->id);
         }
 

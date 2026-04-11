@@ -54,6 +54,7 @@ class CompanyService
     {
         if ($user->hasRole(UserRole::USER_EDITOR)) {
             $manager = $user->managers()->first();
+
             return $manager->companies();
         }
 

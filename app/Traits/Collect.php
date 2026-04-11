@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use Illuminate\Support\Collection;
@@ -10,6 +12,6 @@ trait Collect
     {
         return (bool) new Collection($givenList)
             ->values()
-            ->every(fn($value) => in_array($value, $compareList));
+            ->every(fn ($value) => in_array($value, $compareList));
     }
 }

@@ -18,16 +18,7 @@ class CompanyController extends Controller
 {
     use AuthorizesRequests, ResponseMessage;
 
-    protected CompanyService $companyService;
-    protected UserService $userService;
-
-    public function __construct(
-        CompanyService $companyService,
-        UserService $userService
-    ) {
-        $this->companyService = $companyService;
-        $this->userService = $userService;
-    }
+    public function __construct(protected CompanyService $companyService, protected UserService $userService) {}
 
     /**
      * Display a listing of the resource.

@@ -11,7 +11,7 @@ enum UserPermission: string
 {
     use Collect;
 
-        // Table <-> Permission references
+    // Table <-> Permission references
     case ADDRESS = 'address';
     case BOOKING = 'booking';
     case CLIENT = 'client';
@@ -77,24 +77,23 @@ enum UserPermission: string
      */
     public static function references(): array
     {
-        return array_map(fn(UserPermission $userPermission) => $userPermission->value, self::cases());
+        return array_map(fn (UserPermission $userPermission) => $userPermission->value, self::cases());
     }
 
     /**
      * Retrieve the name of reference with action combined as standardized form
      *
-     * @param UserPermission $reference UserPermission reference this must exists in enum's cases
-     * @param string $action_name Action must also exists in self::actions()
-     *
+     * @param  UserPermission  $reference  UserPermission reference this must exists in enum's cases
+     * @param  string  $action_name  Action must also exists in self::actions()
      * @return string 'user-show'
      */
     public static function name(UserPermission $reference, string $action_name): string
     {
         if (! array_key_exists($action_name, self::actions())) {
-            throw new Exception("Action: $action_name does not exists in: " . implode(',', self::actions()));
+            throw new Exception("Action: $action_name does not exists in: ".implode(',', self::actions()));
         }
 
-        return $reference->value . '-' . self::actions()[$action_name];
+        return $reference->value.'-'.self::actions()[$action_name];
     }
 
     /**
@@ -108,8 +107,8 @@ enum UserPermission: string
      *
      * Example: 'user-show', 'vehicle_data-delete'
      *
-     * @param array $excludeReferences Optional excluding references
-     * @param array $excludeActions Optional excluding actions
+     * @param  array  $excludeReferences  Optional excluding references
+     * @param  array  $excludeActions  Optional excluding actions
      */
     public static function list(
         array $excludeReferences = [],
@@ -124,7 +123,7 @@ enum UserPermission: string
                 continue;
             }
 
-            if (!empty($onlyReferences) && !collect($onlyReferences)->contains($reference)) {
+            if ($onlyReferences !== [] && ! collect($onlyReferences)->contains($reference)) {
                 continue;
             }
 
@@ -133,7 +132,7 @@ enum UserPermission: string
                     continue;
                 }
 
-                if (!empty($onlyActions) && !collect($onlyActions)->contains($action)) {
+                if ($onlyActions !== [] && ! collect($onlyActions)->contains($action)) {
                     continue;
                 }
                 $result[] = "$reference-$action";

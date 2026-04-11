@@ -30,23 +30,19 @@ enum UserRole: string
 
     public static function asArray(): array
     {
-        return array_map(function (UserRole $role) {
-            return [
-                'name' => $role->value,
-                'label' => $role->label(),
-            ];
-        }, self::cases());
+        return array_map(fn (UserRole $role) => [
+            'name' => $role->value,
+            'label' => $role->label(),
+        ], self::cases());
     }
 
     public static function ui(): array
     {
         return new Collection(self::cases())
             ->reject(fn ($role) => $role->value === 'super')
-            ->map(function ($role) {
-                return [
-                    'name' => $role->value,
-                    'label' => $role->label(),
-                ];
-            })->toArray();
+            ->map(fn ($role) => [
+                'name' => $role->value,
+                'label' => $role->label(),
+            ])->toArray();
     }
 }

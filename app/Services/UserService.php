@@ -42,7 +42,7 @@ class UserService
             ->only([
                 'name',
                 'email',
-                'password'
+                'password',
             ])
             ->toArray();
         $role = $attributes['role'];
@@ -64,10 +64,13 @@ class UserService
 
     public function getMyTeamMembers(User $user): UnauthorizedException|BelongsToMany
     {
-        if ($user->hasRole(UserRole::USER_VIEWER)) throw new UnauthorizedException(403);
+        if ($user->hasRole(UserRole::USER_VIEWER)) {
+            throw new UnauthorizedException(403);
+        }
 
         if ($user->hasRole(UserRole::USER_EDITOR)) {
             $manager = $user->managers()->first();
+
             return $manager->members();
         }
 
