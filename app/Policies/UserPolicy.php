@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Enums\UserPermission;
 use App\Models\User;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
@@ -14,7 +15,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->hasPermissionTo('user-show');
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
     }
 
     /**
@@ -22,7 +23,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('user-store');
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'store'));
     }
 
     /**
@@ -34,7 +35,7 @@ class UserPolicy
             throw new UnauthorizedException(403);
         }
 
-        return $user->hasPermissionTo('user-update');
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'update'));
     }
 
     /**
@@ -46,7 +47,7 @@ class UserPolicy
             throw new UnauthorizedException(403);
         }
 
-        return $user->hasPermissionTo('user-delete');
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
     }
 
     /**

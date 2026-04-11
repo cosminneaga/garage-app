@@ -100,7 +100,7 @@ class LocalEnv extends Seeder
         ]);
         $teamCompany->addresses()->attach($address[4]);
         $teamCompany->contacts()->attach($contact[4]);
-        $teamCompany->users()->attach($manager);
+        $teamCompany->users()->attach([$manager, $editorUser, $viewerUser]);
 
         // 9. adding related supplier for given company
         $supplier = Supplier::factory()->create([
@@ -139,5 +139,12 @@ class LocalEnv extends Seeder
             'repair_invoice_id' => $repairInvoice[0],
             'supplier_id' => $supplier,
         ]);
+
+        // 13. adding some more companies to given manager
+        $managerCompanies = Company::factory(9)->create();
+        $manager->companies()->attach($managerCompanies);
+
+        // 14. adding companies that are not attached to created users
+        Company::factory(10)->create();
     }
 }

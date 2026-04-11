@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use App\Policies\CompanyPolicy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +30,16 @@ class Company extends Model
     protected $casts = [
         'tax_value' => 'float',
     ];
+
+    public function isCompanyImPartOf(User $user): bool
+    {
+        if ($user->hasRole(UserRole::USER_EDITOR)) {
+            $manager = $user->managers()->first();
+            return (bool) $this->users()->findOrFail($manager->id);
+        }
+
+        return (bool) $this->users()->findOrFail($user->id);
+    }
 
     public function users(): BelongsToMany
     {

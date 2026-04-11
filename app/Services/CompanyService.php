@@ -52,9 +52,7 @@ class CompanyService
 
     public function getMyCompanies(User $user): BelongsToMany
     {
-        // !TODO: create a functionality to retrieve all companies that the user is attached to
-        if ($user->hasRole(UserRole::USER_EDITOR) || $user->hasRole(UserRole::USER_VIEWER)) {
-            // !TODO: this is not quite right as user which is not manager should only retrieve the companies is attached to not all of them
+        if ($user->hasRole(UserRole::USER_EDITOR)) {
             $manager = $user->managers()->first();
             return $manager->companies();
         }

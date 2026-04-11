@@ -18,11 +18,15 @@ class CompanyController extends Controller
 {
     use AuthorizesRequests, ResponseMessage;
 
+    protected CompanyService $companyService;
+    protected UserService $userService;
+
     public function __construct(
-        protected CompanyService $companyService,
-        protected UserService $userService
+        CompanyService $companyService,
+        UserService $userService
     ) {
-        //
+        $this->companyService = $companyService;
+        $this->userService = $userService;
     }
 
     /**
@@ -58,6 +62,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Auth::user());
+
         return view('pages.company.create', [
             'addresses' => $this->userService->getRelatedAddresses(Auth::user()),
         ]);
@@ -85,6 +91,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
+        $this->authorize('edit', $company);
+
         return view('pages.company.update', [
             'company' => $company,
         ]);
@@ -106,8 +114,15 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company): void
+    public function destroy(Company $company)
     {
-        //
+        $this->authorize('delete', $company);
+
+        $company = Company::findOrFail($company->id);
+        $company->delete();
+
+        return redirect()
+            ->intended(route('companies.index'))
+            ->with('message', self::responseMessage('warning', 'Company removed'));
     }
 }

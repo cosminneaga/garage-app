@@ -16,35 +16,45 @@
         @foreach ($companies as $company)
             <tr>
                 <td>{{ $company->id }}</td>
-                <td>{{ $company->name }}</td>
+                <td><a
+                        class="underline"
+                        href="{{ route('companies.show', $company) }}"
+                    >{{ $company->name }}</a>
+                </td>
                 <td>{{ $company->tax_id }}</td>
                 <td>{{ $company->registration_number }}</td>
                 <td>{{ $company->tax_value }}</td>
                 <td>{{ $company->invoice_prefix }}</td>
-                {{-- <td class="flex gap-1">
-                    <x-bladewind.button.circle
-                        icon="pencil-square"
-                        color="primary"
-                        size="tiny"
-                        outline
-                        onclick="location.href='/users/{{ $user->id }}/edit'"
-                    />
-                    <form
-                        action="{{ route('users.destroy', $user) }}"
-                        method="POST"
-                    >
-                        @csrf
-                        @method('DELETE')
-
+                <td class="flex gap-1">
+                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                        'update'))
                         <x-bladewind.button.circle
-                            icon="trash"
-                            color="red"
+                            icon="pencil-square"
+                            color="primary"
                             size="tiny"
                             outline
-                            can_submit
+                            onclick="location.href='/companies/{{ $company->id }}/edit'"
                         />
-                    </form>
-                </td> --}}
+                    @endcan
+                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                        'delete'))
+                        <form
+                            action="{{ route('companies.destroy', $company) }}"
+                            method="POST"
+                        >
+                            @csrf
+                            @method('DELETE')
+
+                            <x-bladewind.button.circle
+                                icon="trash"
+                                color="red"
+                                size="tiny"
+                                outline
+                                can_submit
+                            />
+                        </form>
+                    @endcan
+                </td>
             </tr>
         @endforeach
     </x-table>

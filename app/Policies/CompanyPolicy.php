@@ -4,30 +4,62 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Enums\UserPermission;
 use App\Models\Company;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class CompanyPolicy
 {
-    public function view(User $user, Company $company): bool
+    /**
+     * Has access to resource listing page
+     */
+    public function view(User $user, Company $model): bool
     {
-        $company->users()->findOrFail(Auth::user()->id);
+        $model->isCompanyImPartOf($user);
 
-        return $user->can('company-show');
+        return $user->can(UserPermission::name(UserPermission::COMPANY, 'show'));
     }
 
-    public function delete(User $user, Company $company): bool
+    /**
+     * Has access to store page
+     */
+    public function create(User $user): bool
     {
-        $company->users()->findOrFail(Auth::user()->id);
-
-        return $user->can('company-delete');
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'store'));
     }
 
-    public function restore(User $user, Company $company): bool
+    /**
+     * Has access to update page
+     */
+    public function edit(User $user, Company $model): bool
     {
-        $company->users()->findOrFail(Auth::user()->id);
+        $model->isCompanyImPartOf($user);
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
+    }
 
-        return $user->can('company-restore');
+    /**
+     * Has access to delete the item
+     */
+    public function delete(User $user, Company $model): bool
+    {
+        $model->isCompanyImPartOf($user);
+
+        return $user->can(UserPermission::name(UserPermission::COMPANY, 'delete'));
+    }
+
+    /**
+     * Enabled only for 'super' role
+     */
+    public function restore(User $user, User $model): bool
+    {
+        return false;
+    }
+
+    /**
+     * Enabled only for 'super' role
+     */
+    public function forceDelete(User $user, User $model): bool
+    {
+        return false;
     }
 }

@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\UserPermission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreCompanyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->user()->can('company-store');
+        return Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'store'));
     }
 
     public function rules(): array

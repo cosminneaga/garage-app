@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\UserPermission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateCompanyRequest extends FormRequest
 {
@@ -13,13 +15,11 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can('company-update');
+        return Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'));
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
