@@ -22,6 +22,11 @@ Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/users/all', [UserController::class, 'all'])->name('users.all');
 });
 
+Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
+    Route::post('/companies/{id}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
+    Route::get('/companies/restore', [CompanyController::class, 'removed'])->name('companies.removed');
+});
+
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
     Route::resource('companies', CompanyController::class);
     Route::resource('users', UserController::class)->except(['show']);

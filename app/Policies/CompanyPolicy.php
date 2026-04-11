@@ -13,11 +13,11 @@ class CompanyPolicy
     /**
      * Has access to resource listing page
      */
-    public function view(User $user, Company $model): bool
+    public function view(User $user, Company $company): bool
     {
-        $model->isCompanyImPartOf($user);
+        $company->isCompanyImPartOf($user);
 
-        return $user->can(UserPermission::name(UserPermission::COMPANY, 'show'));
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
     }
 
     /**
@@ -31,9 +31,9 @@ class CompanyPolicy
     /**
      * Has access to update page
      */
-    public function edit(User $user, Company $model): bool
+    public function edit(User $user, Company $company): bool
     {
-        $model->isCompanyImPartOf($user);
+        $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
     }
@@ -41,25 +41,34 @@ class CompanyPolicy
     /**
      * Has access to delete the item
      */
-    public function delete(User $user, Company $model): bool
+    public function delete(User $user, Company $company): bool
     {
-        $model->isCompanyImPartOf($user);
+        $company->isCompanyImPartOf($user);
 
-        return $user->can(UserPermission::name(UserPermission::COMPANY, 'delete'));
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
+    }
+
+    /**
+     * Has access to view the deleted resources
+     */
+    public function viewTrashed(User $user): bool
+    {
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
+    }
+
+    /**
+     * Has access to restore a deleted resource
+     */
+    public function restore(User $user, Company $company): bool
+    {
+        $company->isCompanyImPartOf($user);
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
     }
 
     /**
      * Enabled only for 'super' role
      */
-    public function restore(User $user, User $model): bool
-    {
-        return false;
-    }
-
-    /**
-     * Enabled only for 'super' role
-     */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $user, Company $company): bool
     {
         return false;
     }

@@ -28,7 +28,7 @@ class PermissionsSeeder extends Seeder
         $userViewer = app(Role::class)->findOrCreate(UserRole::USER_VIEWER->value, 'web');
 
         // user admin
-        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete', 'restore']) as $permission) {
+        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete']) as $permission) {
             $userAdmin->givePermissionTo($permission);
         }
 

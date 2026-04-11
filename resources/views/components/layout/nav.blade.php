@@ -76,6 +76,20 @@
                                 >Create</a>
                             </x-bladewind.dropmenu.item>
                         @endcan
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                            'restore'))
+                            <x-bladewind.dropmenu.item header>
+                                <p class="font-bold">Administrative</p>
+                            </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item>
+                                <a
+                                    class="w-full"
+                                    href="/companies/restore?limit=10"
+                                >
+                                    Removed
+                                </a>
+                            </x-bladewind.dropmenu.item>
+                        @endcan
                         @role('super')
                         @endrole
                     </x-bladewind.dropmenu>
