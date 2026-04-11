@@ -59,6 +59,7 @@ class User extends Authenticatable
     {
         if ($this->hasRole(UserRole::USER_EDITOR)) {
             $manager = $this->managers()->first();
+
             return (bool) $manager->members()->findOrFail($user->id);
         }
 

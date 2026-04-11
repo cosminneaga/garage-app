@@ -54,7 +54,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         return view('pages.user.show', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -137,7 +137,7 @@ class UserController extends Controller
             'users' => $this->userService
                 ->getMyTeamMembers(Auth::user())
                 ->onlyTrashed()
-                ->paginate($request->query('limit') ?? 10)
+                ->paginate($request->query('limit') ?? 10),
         ]);
     }
 

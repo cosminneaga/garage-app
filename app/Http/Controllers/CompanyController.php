@@ -36,6 +36,7 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', Company::class);
+
         return view('pages.company.index', [
             'companies' => $this->companyService
                 ->getMyCompanies(Auth::user())
