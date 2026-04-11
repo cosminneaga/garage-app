@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserPermission;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Services\CompanyService;
 use App\Services\UserService;
-use App\Traits\PermissionValidator;
 use App\Traits\ResponseMessage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -125,8 +123,9 @@ class CompanyController extends Controller
     public function removed(Request $request)
     {
         $this->authorize('viewTrashed', Company::class);
+
         return view('pages.company.removed', [
-            'companies' => Auth::user()->companies()->onlyTrashed()->paginate($request->query('limit') ?? 10)
+            'companies' => Auth::user()->companies()->onlyTrashed()->paginate($request->query('limit') ?? 10),
         ]);
     }
 

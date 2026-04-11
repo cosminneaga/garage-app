@@ -62,6 +62,7 @@ class CompanyPolicy
     public function restore(User $user, Company $company): bool
     {
         $company->isCompanyImPartOf($user);
+
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
     }
 

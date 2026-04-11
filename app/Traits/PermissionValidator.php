@@ -11,18 +11,18 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 
 trait PermissionValidator
 {
-    public static function checkPermission(UserPermission $userPermission, string $action, User $user)
+    public static function checkPermission(UserPermission $userPermission, string $action, User $user): bool
     {
-        if (!$user->hasPermissionTo(UserPermission::name($userPermission, $action))) {
+        if (! $user->hasPermissionTo(UserPermission::name($userPermission, $action))) {
             throw new UnauthorizedException(403);
         }
 
         return true;
     }
 
-    public static function checkRole(UserRole $userRole, User $user)
+    public static function checkRole(UserRole $userRole, User $user): bool
     {
-        if (!$user->hasRole($userRole)) {
+        if (! $user->hasRole($userRole)) {
             throw new UnauthorizedException(403);
         }
 
