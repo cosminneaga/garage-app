@@ -1,6 +1,5 @@
-<x-layout title="Team">
-    {{-- @json($users) --}}
-    <h1 class="text-2xl font-bold underline">TEAM</h1>
+<x-layout title="Removed">
+    <h1 class="text-2xl font-bold underline">REMOVED TEAM MEMBERS</h1>
     <br><br>
 
     <x-table :data="$users">
@@ -24,35 +23,17 @@
                 </td>
                 <td>{{ $user->active }}</td>
                 <td class="flex gap-1">
-                    <x-bladewind.button.circle
-                        icon="chat-bubble-bottom-center-text"
-                        color="green"
-                        size="tiny"
-                        outline
-                        onclick="sendMessage('{{ $user->name }}')"
-                    />
                     @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                        'store'))
-                        <x-bladewind.button.circle
-                            icon="pencil-square"
-                            color="primary"
-                            size="tiny"
-                            outline
-                            onclick="location.href='/users/{{ $user->id }}/edit'"
-                        />
-                    @endcan
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                        'delete'))
+                        'restore'))
                         <form
-                            action="{{ route('users.destroy', $user) }}"
+                            action="{{ route('users.restore', $user) }}"
                             method="POST"
                         >
                             @csrf
-                            @method('DELETE')
 
                             <x-bladewind.button.circle
-                                icon="trash"
-                                color="red"
+                                icon="arrow-left-start-on-rectangle"
+                                color="green"
                                 size="tiny"
                                 outline
                                 can_submit

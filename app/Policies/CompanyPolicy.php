@@ -11,6 +11,14 @@ use App\Models\User;
 class CompanyPolicy
 {
     /**
+     * Has access to all resources page
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+    }
+
+    /**
      * Has access to resource listing page
      */
     public function view(User $user, Company $company): bool
@@ -39,7 +47,7 @@ class CompanyPolicy
     }
 
     /**
-     * Has access to delete the item
+     * Has access to delete the resource
      */
     public function delete(User $user, Company $company): bool
     {

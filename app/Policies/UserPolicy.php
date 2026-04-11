@@ -6,15 +6,21 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Models\User;
-use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UserPolicy
 {
+    public function viewAny(User $user): bool
+    {
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+    }
+
     /**
      * Has access to user listing page
      */
     public function view(User $user, User $model): bool
     {
+        $user->isTeamMember($model);
+
         return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
     }
 
@@ -27,35 +33,41 @@ class UserPolicy
     }
 
     /**
-     * Has access to 'update page'/'updating user' if the $model is a member of its own team
+     * Has access to update page
      */
     public function edit(User $user, User $model): bool
     {
-        if (! $user->isTeamMember($model)) {
-            throw new UnauthorizedException(403);
-        }
+        $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'update'));
     }
 
     /**
-     * Has access to 'delete' request if the $model is a member of its own team
+     * Has access to delete the resource
      */
     public function delete(User $user, User $model): bool
     {
-        if (! $user->isTeamMember($model)) {
-            throw new UnauthorizedException(403);
-        }
+        $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
     }
 
     /**
-     * Enabled only for 'super' role
+     * Has access to view the deleted resources
+     */
+    public function viewTrashed(User $user): bool
+    {
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
+    }
+
+    /**
+     * Has access to restore a deleted resource
      */
     public function restore(User $user, User $model): bool
     {
-        return false;
+        $user->isTeamMember($model);
+
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
     }
 
     /**

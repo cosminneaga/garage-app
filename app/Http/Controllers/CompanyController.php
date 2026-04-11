@@ -21,29 +21,36 @@ class CompanyController extends Controller
     public function __construct(protected CompanyService $companyService, protected UserService $userService) {}
 
     /**
-     * Display a listing of the resource.
+     * Display the admin listing of all resources in DB
      */
     public function all(Request $request)
     {
-        $this->authorize('viewAny');
-
         return view('pages.company.index', [
-            'companies' => Company::paginate($request->query('limit') ?? 10, ['*'], 'company', 0, 0),
+            'companies' => Company::paginate($request->query('limit') ?? 10, ['*'], 'company'),
         ]);
     }
 
+    /**
+     * Display all resources related to model
+     */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Company::class);
         return view('pages.company.index', [
-            'companies' => $this->companyService->getMyCompanies(Auth::user())->paginate($request->query('limit') ?? 10),
+            'companies' => $this->companyService
+                ->getMyCompanies(Auth::user())
+                ->paginate($request->query('limit') ?? 10),
         ]);
     }
 
+    /**
+     * Display a single resource
+     */
     public function show(Company $company)
     {
         $this->authorize('view', $company);
 
-        return view('pages.company.single', [
+        return view('pages.company.show', [
             'company' => $company,
         ]);
     }
@@ -56,7 +63,8 @@ class CompanyController extends Controller
         $this->authorize('create', Auth::user());
 
         return view('pages.company.create', [
-            'addresses' => $this->userService->getRelatedAddresses(Auth::user()),
+            'addresses' => $this->userService
+                ->getRelatedAddresses(Auth::user()),
         ]);
     }
 
@@ -94,12 +102,10 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        Company::updateOrCreate(
-            ['id' => $company->id],
-            $request->safe()->all()
-        );
+        Company::updateOrCreate(['id' => $company->id], $request->safe()->all());
 
-        return back()->with('message', self::responseMessage('success', 'Resource updated'));
+        return back()
+            ->with('message', self::responseMessage('success', 'Resource updated'));
     }
 
     /**
@@ -125,7 +131,10 @@ class CompanyController extends Controller
         $this->authorize('viewTrashed', Company::class);
 
         return view('pages.company.removed', [
-            'companies' => Auth::user()->companies()->onlyTrashed()->paginate($request->query('limit') ?? 10),
+            'companies' => Auth::user()
+                ->companies()
+                ->onlyTrashed()
+                ->paginate($request->query('limit') ?? 10),
         ]);
     }
 
@@ -134,9 +143,8 @@ class CompanyController extends Controller
      */
     public function restore(string|int $companyId)
     {
-        $company = Company::withTrashed()->find($companyId);
+        $company = Company::onlyTrashed()->find($companyId);
         $this->authorize('restore', $company);
-
         $company->restore();
 
         return redirect()

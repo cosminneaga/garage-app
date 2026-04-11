@@ -55,6 +55,38 @@ class User extends Authenticatable
         'active' => 'boolean',
     ];
 
+    public function isTeamMember(User $user): bool
+    {
+        if ($this->hasRole(UserRole::USER_EDITOR)) {
+            $manager = $this->managers()->first();
+            return (bool) $manager->members()->findOrFail($user->id);
+        }
+
+        return (bool) $this->members()->withTrashed()->findOrFail($user->id);
+    }
+
+    #[Scope]
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            Team::class,
+            'manager_id',
+            'user_id'
+        );
+    }
+
+    #[Scope]
+    public function managers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            Team::class,
+            'user_id',
+            'manager_id'
+        );
+    }
+
     public function addresses(): BelongsToMany
     {
         return $this->belongsToMany(Address::class);
@@ -87,32 +119,5 @@ class User extends Authenticatable
             'manager_id',
             'user_id'
         )->withTimestamps();
-    }
-
-    public function isTeamMember(User $user): bool
-    {
-        return (bool) $this->members()->find($user);
-    }
-
-    #[Scope]
-    public function members(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            Team::class,
-            'manager_id',
-            'user_id'
-        );
-    }
-
-    #[Scope]
-    public function managers(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            Team::class,
-            'user_id',
-            'manager_id'
-        );
     }
 }

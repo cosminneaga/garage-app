@@ -21,22 +21,40 @@ class UserController extends Controller
         //
     }
 
+    /**
+     * Display the admin listing of all resources in DB
+     */
     public function all(Request $request)
     {
-        $this->authorize('viewAny');
-
         return view('pages.user.index', [
-            'users' => User::paginate($request->query('limit') ?? 10),
+            'users' => User::paginate($request->query('limit') ?? 10, ['*'], 'users'),
         ]);
     }
 
+    /**
+     * Display all resources related to model
+     */
     public function index(Request $request)
     {
         $user = Auth::user();
-        $this->authorize('view', $user);
+        $this->authorize('viewAny', User::class);
 
         return view('pages.user.index', [
-            'users' => $this->userService->getMyTeamMembers($user)->paginate($request->query('limit') ?? 10),
+            'users' => $this->userService
+                ->getMyTeamMembers($user)
+                ->paginate($request->query('limit') ?? 10),
+        ]);
+    }
+
+    /**
+     * Display a single resource
+     */
+    public function show(User $user)
+    {
+        $this->authorize('view', $user);
+
+        return view('pages.user.show', [
+            'user' => $user
         ]);
     }
 
@@ -51,9 +69,11 @@ class UserController extends Controller
     {
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
-        $this->userService->createOne($attributes, Auth::user());
+        $this->userService
+            ->createOne($attributes, Auth::user());
 
-        return back()->with('message', self::responseMessage('success', 'User created'));
+        return back()
+            ->with('message', self::responseMessage('success', 'User created'));
     }
 
     public function edit(User $user)
@@ -61,7 +81,8 @@ class UserController extends Controller
         $this->authorize('edit', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
+            return back()
+                ->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
         }
 
         return view('pages.user.update', [
@@ -73,10 +94,9 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->authorize('edit', $user);
-
         if ($user->id === Auth::user()->id) {
-            return back()->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
+            return back()
+                ->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
         }
 
         User::updateOrCreate(
@@ -88,7 +108,8 @@ class UserController extends Controller
             ]
         );
 
-        return back()->with('message', self::responseMessage('success', 'User updated'));
+        return back()
+            ->with('message', self::responseMessage('success', 'User updated'));
     }
 
     public function destroy(User $user)
@@ -96,7 +117,8 @@ class UserController extends Controller
         $this->authorize('delete', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()->with('message', self::responseMessage('error', 'You cannot delete your own account'));
+            return back()
+                ->with('message', self::responseMessage('error', 'You cannot delete your own account'));
         }
 
         $user = User::findOrFail($user->id);
@@ -105,5 +127,28 @@ class UserController extends Controller
         return redirect()
             ->intended(route('users.index'))
             ->with('message', self::responseMessage('warning', 'User removed'));
+    }
+
+    public function removed(Request $request)
+    {
+        $this->authorize('viewTrashed', User::class);
+
+        return view('pages.user.removed', [
+            'users' => $this->userService
+                ->getMyTeamMembers(Auth::user())
+                ->onlyTrashed()
+                ->paginate($request->query('limit') ?? 10)
+        ]);
+    }
+
+    public function restore(string|int $userId)
+    {
+        $user = User::onlyTrashed()->find($userId);
+        $this->authorize('restore', $user);
+        $user->restore();
+
+        return redirect()
+            ->intended(route('users.removed'))
+            ->with('message', self::responseMessage('success', 'User restored'));
     }
 }
