@@ -46,9 +46,9 @@ enum UserRole: string
             ])->toArray();
     }
 
-    public static function findByName(string $name): UserRole|null
+    public static function findByName(string $name): ?UserRole
     {
         return new Collection(self::cases())
-            ->first(fn($item) => $item->value === $name);
+            ->first(fn ($item) => $item->value === $name);
     }
 }

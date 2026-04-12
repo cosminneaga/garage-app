@@ -67,7 +67,7 @@ class User extends Authenticatable
         return (bool) $this->members()->withTrashed()->findOrFail($user->id);
     }
 
-    public function chart()
+    public function chart(): array
     {
         $data = $this->select('created_at as date', DB::raw('count(*) as count'))
             ->groupBy('date')
