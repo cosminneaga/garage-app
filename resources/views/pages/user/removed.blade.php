@@ -21,7 +21,7 @@
                         href="{{ route('users.show', $user) }}"
                     >{{ $user->email }}</a>
                 </td>
-                <td>{{ $user->active }}</td>
+                <td><x-active-tag :active="$user->active" /></td>
                 <td class="flex gap-1">
                     @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
                         'restore'))

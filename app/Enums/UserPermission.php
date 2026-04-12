@@ -60,12 +60,10 @@ enum UserPermission: string
     public static function actions(): array
     {
         return [
-            'show_all' => 'show_all',
             'show' => 'show',
             'store' => 'store',
             'update' => 'update',
             'delete' => 'delete',
-            'force_delete' => 'force_delete',
             'restore' => 'restore',
         ];
     }

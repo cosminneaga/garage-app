@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -55,6 +54,11 @@ class User extends Authenticatable
         'password' => 'hashed',
         'active' => 'boolean',
     ];
+
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
 
     public function isTeamMember(User $user): bool
     {

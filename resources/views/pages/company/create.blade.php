@@ -1,15 +1,10 @@
-<?php
-$c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value' => 'bf'], ['label' => 'Ghana', 'value' => 'gh'], ['label' => 'Nigeria', 'value' => 'ng'], ['label' => 'Kenya', 'value' => 'ke']];
-?>
-
-
-<x-layout>
-    <x-form.form-wrapper
+<x-layout title="Add company">
+    <x-form.wrapper
         title="Create a new company"
         description="Create a company, address & contact"
     >
         <form
-            class="text-start flex flex-col gap-2"
+            class="text-start flex flex-col gap-4"
             action="/companies"
             method="POST"
             x-data="{
@@ -35,12 +30,9 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
         >
             @csrf
 
-            <div class="w-full flex gap-2">
-                <div
-                    class="border border-white px-3 py-6 flex-1 flex flex-col gap-3">
-                    <h3 class="text-2xl font-bold underline">Details</h3>
-                    <br>
+            <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
 
+                <x-bladewind.card title="details">
                     <x-bladewind.input
                         name="name"
                         type="text"
@@ -71,34 +63,9 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
                         label="Invoice Prefix"
                         x-model="invoice_prefix"
                     />
-                </div>
+                </x-bladewind.card>
 
-                <div
-                    class="border border-white px-3 py-6 flex-1 flex flex-col gap-3">
-                    <h3 class="text-2xl font-bold underline">Address</h3>
-                    <br>
-                    {{-- <x-t-select
-                            name="address"
-                            label="Existing addresses"
-                        >
-                            @foreach ($addresses['user'] as $userAddress)
-                                <option value="">
-                                    {{ $userAddress['street'] }}
-                                </option>
-                            @endforeach
-                            @foreach ($addresses['companies'] as $company)
-                                <div>
-                                    <option>
-                                        <p style="font-weight: 800;">{{ $company['name'] }}</p>
-
-                                        @foreach ($company['addresses'] as $companyAddresses)
-                                            <option style="padding-left: 10px!important;">{{ $companyAddresses['street'] }}</option>
-                                        @endforeach
-                                    </option>
-                                </div>
-                            @endforeach
-                        </x-t-select> --}}
-
+                <x-bladewind.card title="address">
                     <x-bladewind.input
                         id="address_number"
                         name="address[number]"
@@ -130,15 +97,9 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
                         :data="\App\Models\Country::all()"
                         selected_value="1"
                     />
-                </div>
-            </div>
+                </x-bladewind.card>
 
-            <div class="w-full flex">
-                <div
-                    class="border border-white px-3 py-6 flex-1 flex flex-col gap-3">
-                    <h3 class="text-2xl font-bold underline">Contact</h3>
-                    <br>
-
+                <x-bladewind.card title="contact">
                     <x-bladewind.input
                         id="contact_mobile"
                         name="contact[mobile]"
@@ -174,14 +135,17 @@ $c = [['label' => 'Benin', 'value' => 'bj'], ['label' => 'Burkina Faso', 'value'
                         label="More Information"
                         x-model="contact.info"
                     />
-                </div>
+                </x-bladewind.card>
+
             </div>
 
-            <x-bladewind.button
-                class="w-fit"
-                type="primary"
-                can_submit
-            >Submit</x-bladewind.button>
+            <div class="flex gap-1">
+                <x-bladewind.button
+                    class="w-fit"
+                    type="primary"
+                    can_submit
+                >Submit details</x-bladewind.button>
+            </div>
         </form>
-    </x-form.form-wrapper>
+    </x-form.wrapper>
 </x-layout>

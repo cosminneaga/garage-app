@@ -1,10 +1,10 @@
 <x-layout title="Add User">
-    <x-form.form-wrapper
+    <x-form.wrapper
         title="create team user"
         description="Create a new user details, address & contact"
     >
         <form
-            class="flex flex-col gap-4"
+            class="text-start flex flex-col gap-4"
             id="form-users-create"
             action="{{ route('users.store') }}"
             method="POST"
@@ -32,8 +32,7 @@
 
             <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
 
-                <div class="border border-white px-3 py-6">
-                    <h3 class="text-2xl font-bold underline">Details</h3>
+                <x-bladewind.card title="details">
                     <x-bladewind.input
                         name="name"
                         type="text"
@@ -76,34 +75,9 @@
                         label="Active"
                         :checked="true"
                     />
-                </div>
+                </x-bladewind.card>
 
-                <div
-                    class="border border-white px-3 py-6 flex-1 flex flex-col gap-3">
-                    <h3 class="text-2xl font-bold underline">Address</h3>
-                    <br>
-                    {{-- <x-t-select
-                            name="address"
-                            label="Existing addresses"
-                        >
-                            @foreach ($addresses['user'] as $userAddress)
-                                <option value="">
-                                    {{ $userAddress['street'] }}
-                                </option>
-                            @endforeach
-                            @foreach ($addresses['companies'] as $company)
-                                <div>
-                                    <option>
-                                        <p style="font-weight: 800;">{{ $company['name'] }}</p>
-
-                                        @foreach ($company['addresses'] as $companyAddresses)
-                                            <option style="padding-left: 10px!important;">{{ $companyAddresses['street'] }}</option>
-                                        @endforeach
-                                    </option>
-                                </div>
-                            @endforeach
-                        </x-t-select> --}}
-
+                <x-bladewind.card title="address">
                     <x-bladewind.input
                         id="address_number"
                         name="address[number]"
@@ -135,51 +109,45 @@
                         :data="\App\Models\Country::all()"
                         selected_value="1"
                     />
-                </div>
+                </x-bladewind.card>
 
-                <div class="w-full flex">
-                    <div
-                        class="border border-white px-3 py-6 flex-1 flex flex-col gap-3">
-                        <h3 class="text-2xl font-bold underline">Contact</h3>
-                        <br>
+                <x-bladewind.card title="contact">
+                    <x-bladewind.input
+                        id="contact_mobile"
+                        name="contact[mobile]"
+                        label="Mobile Phone"
+                        x-model="contact.mobile"
+                    />
 
-                        <x-bladewind.input
-                            id="contact_mobile"
-                            name="contact[mobile]"
-                            label="Mobile Phone"
-                            x-model="contact.mobile"
-                        />
+                    <x-bladewind.input
+                        id="contact_landline"
+                        name="contact[landline]"
+                        label="Landline Phone"
+                        x-model="contact.landline"
+                    />
 
-                        <x-bladewind.input
-                            id="contact_landline"
-                            name="contact[landline]"
-                            label="Landline Phone"
-                            x-model="contact.landline"
-                        />
+                    <x-bladewind.input
+                        id="contact_email"
+                        name="contact[email]"
+                        type="email"
+                        label="Email"
+                        x-model="contact.email"
+                    />
 
-                        <x-bladewind.input
-                            id="contact_email"
-                            name="contact[email]"
-                            type="email"
-                            label="Email"
-                            x-model="contact.email"
-                        />
+                    <x-bladewind.input
+                        id="contact_url"
+                        name="contact[url]"
+                        label="URL"
+                        x-model="contact.url"
+                    />
 
-                        <x-bladewind.input
-                            id="contact_url"
-                            name="contact[url]"
-                            label="URL"
-                            x-model="contact.url"
-                        />
-
-                        <x-bladewind.textarea
-                            id="contact_info"
-                            name="contact[info]"
-                            label="More Information"
-                            x-model="contact.info"
-                        />
-                    </div>
-                </div>
+                    <x-bladewind.textarea
+                        id="contact_info"
+                        name="contact[info]"
+                        label="More Information"
+                        x-model="contact.info"
+                    />
+                </x-bladewind.card>
             </div>
 
             <div class="flex gap-1">
@@ -191,5 +159,5 @@
                 >Submit Details</x-bladewind.button>
             </div>
         </form>
-    </x-form.form-wrapper>
+    </x-form.wrapper>
 </x-layout>

@@ -2,17 +2,17 @@
     <div class="max-w-7xl mx-auto h-24 flex items-center justify-between">
         <div>
             <div class="flex gap-2 items-center">
-                @auth
-                    <a href="/">
-                        <x-bladewind.button.circle
-                            type="secondary"
-                            size="small"
-                            outline
-                            icon="home"
-                            color="primary"
-                        />
-                    </a>
 
+                <a href="/">
+                    <img
+                        class="w-20 h-auto rounded-sm"
+                        src="{{ asset('logo-4x3.webp') }}"
+                        title="GarageApp Logo"
+                        alt="GarageApp Logo"
+                    />
+                </a>
+
+                @auth
                     @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
                         'show'))
                         <x-bladewind.dropmenu position="left">
@@ -22,41 +22,41 @@
                                     type="secondary"
                                     size="small"
                                     outline
-                                >
-                                    Users
-                                </x-bladewind.button>
+                                >Users</x-bladewind.button>
                             </x-slot:trigger>
 
 
-                            <x-bladewind.dropmenu.item icon="users">
-                                <a
-                                    class="w-full"
-                                    href="/users?limit=10"
-                                >Team</a>
-                            </x-bladewind.dropmenu.item>
+                            <a
+                                class="w-full"
+                                href="/users?limit=10"
+                            >
+                                <x-bladewind.dropmenu.item
+                                    icon="users">Team</x-bladewind.dropmenu.item>
+                            </a>
+
                             @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
                                 'store'))
-                                <x-bladewind.dropmenu.item icon="folder-plus">
-                                    <a
-                                        class="w-full"
-                                        href="/users/create"
-                                    >Create</a>
-                                </x-bladewind.dropmenu.item>
+                                <a
+                                    class="w-full"
+                                    href="/users/create"
+                                >
+                                    <x-bladewind.dropmenu.item
+                                        icon="folder-plus">Create</x-bladewind.dropmenu.item>
+                                </a>
                             @endcan
-                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                            'restore'))
-                            <x-bladewind.dropmenu.item header>
-                                <p class="font-bold">Administrative</p>
-                            </x-bladewind.dropmenu.item>
-                            <x-bladewind.dropmenu.item>
+                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                                'restore'))
+                                <x-bladewind.dropmenu.item header>
+                                    <p class="font-bold">Administrative</p>
+                                </x-bladewind.dropmenu.item>
                                 <a
                                     class="w-full"
                                     href="/users/restore?limit=10"
                                 >
-                                    Removed
+                                    <x-bladewind.dropmenu.item
+                                        icon="archive-box-x-mark">Removed</x-bladewind.dropmenu.item>
                                 </a>
-                            </x-bladewind.dropmenu.item>
-                        @endcan
+                            @endcan
                         </x-bladewind.dropmenu>
                     @endcan
 
@@ -66,43 +66,42 @@
                                 type="secondary"
                                 size="small"
                                 outline
-                            >
-                                Companies
-                            </x-bladewind.button>
+                            >Companies</x-bladewind.button>
                         </x-slot:trigger>
 
 
                         @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
                             'show'))
-                            <x-bladewind.dropmenu.item icon="building-office">
-                                <a
-                                    class="w-full"
-                                    href="/companies?limit=10"
-                                >List</a>
-                            </x-bladewind.dropmenu.item>
+                            <a
+                                class="w-full"
+                                href="/companies?limit=10"
+                            >
+                                <x-bladewind.dropmenu.item
+                                    icon="table-cells">List</x-bladewind.dropmenu.item>
+                            </a>
                         @endcan
                         @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
                             'store'))
-                            <x-bladewind.dropmenu.item icon="folder-plus">
-                                <a
-                                    class="w-full"
-                                    href="/companies/create"
-                                >Create</a>
-                            </x-bladewind.dropmenu.item>
+                            <a
+                                class="w-full"
+                                href="/companies/create"
+                            >
+                                <x-bladewind.dropmenu.item
+                                    icon="folder-plus">Create</x-bladewind.dropmenu.item>
+                            </a>
                         @endcan
                         @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
                             'restore'))
                             <x-bladewind.dropmenu.item header>
                                 <p class="font-bold">Administrative</p>
                             </x-bladewind.dropmenu.item>
-                            <x-bladewind.dropmenu.item>
-                                <a
-                                    class="w-full"
-                                    href="/companies/restore?limit=10"
-                                >
-                                    Removed
-                                </a>
-                            </x-bladewind.dropmenu.item>
+                            <a
+                                class="w-full"
+                                href="/companies/restore?limit=10"
+                            >
+                                <x-bladewind.dropmenu.item
+                                    icon="archive-box-x-mark">Removed</x-bladewind.dropmenu.item>
+                            </a>
                         @endcan
                     </x-bladewind.dropmenu>
                 @endauth
@@ -117,10 +116,10 @@
                             <div class="flex items-center">
                                 <div class="grow">
                                     <x-bladewind.avatar
-                                        class="rounded-full"
+                                        class="rounded-sm!"
                                         size="regular"
                                         show_ring="false"
-                                        image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                        :image="Auth::user()->image_path"
                                     />
                                 </div>
                                 <div class="border-2 border-white p-1">

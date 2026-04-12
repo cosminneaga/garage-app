@@ -1,20 +1,25 @@
 <x-layout title="Update | {{ $user->name }}">
-    <x-form.form-wrapper
+    <x-form.wrapper
         title="update user details"
         description="Update user details, address & contact"
     >
-        <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
-            <div class="border border-white px-3 py-6">
-                <form
-                    class="flex flex-col gap-4"
-                    id="form-users-update"
-                    action="{{ route('users.update', $user) }}"
-                    method="POST"
-                >
-                    @csrf
-                    @method('PUT')
 
-                    <h3 class="text-2xl font-bold underline">Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <form
+                id="form-users-update"
+                action="{{ route('users.update', $user) }}"
+                method="POST"
+            >
+                @csrf
+                @method('PUT')
+
+                <x-bladewind.card title="details">
+                    <x-bladewind.avatar
+                        class="mb-3"
+                        size="big"
+                        :image="$user->image_path"
+                    />
+
                     <x-bladewind.input
                         name="name"
                         type="text"
@@ -36,12 +41,12 @@
                         />
                     </div>
 
-                    <div class="flex gap-1">
+                    <div class="flex gap-1 mt-5">
                         <x-bladewind.button
                             class="w-fit"
                             form="form-users-update"
-                            can_submit
                             size="small"
+                            can_submit
                         >Update Details</x-bladewind.button>
 
                         <x-bladewind.button
@@ -52,16 +57,15 @@
                             can_submit
                         >Delete User</x-bladewind.button>
                     </div>
+                </x-bladewind.card>
 
-                </form>
-            </div>
+            </form>
 
-            <div
-                class="border border-white px-3 py-6 col-span-2 overflow-hidden">
-                <h3 class="text-2xl font-bold underline">Contacts</h3>
-                <br>
-
-                <div class="max-h-60 overflow-auto">
+            <x-bladewind.card
+                class="col-span-2"
+                title="contacts"
+            >
+                <div class="overflow-auto">
                     <x-bladewind.table
                         celled
                         divider="thin"
@@ -117,78 +121,74 @@
                         @endforeach
                     </x-bladewind.table>
                 </div>
-            </div>
+            </x-bladewind.card>
         </div>
 
-        <div class="grid grid-rows-1 md:grid-cols-3 gap-2">
-            <div
-                class="col-span-3 border border-white px-3 py-6 flex-1 flex flex-col gap-3 overflow-hidden">
-                <h3 class="text-2xl font-bold underline">Addresses</h3>
-                <br>
-                <div class="overflow-hidden overflow-x-scroll">
-                    <div class="min-w-230">
-                        <x-bladewind.table
-                            celled
-                            divider="thin"
-                            has_border
-                            has_hover="false"
-                        >
-                            <x-slot name="header">
-                                <th>ID</th>
-                                <th>Number</th>
-                                <th>Street</th>
-                                <th>Postcode</th>
-                                <th>Country</th>
-                                <th>Longitude, Latitude</th>
-                                <th>Extra</th>
-                                <th>Actions</th>
-                            </x-slot>
+        <div class="grid grid-cols-1 mt-2">
+            <x-bladewind.card title="addresses">
+                <div class="overflow-auto">
+                    <x-bladewind.table
+                        celled
+                        divider="thin"
+                        has_border
+                        has_hover="false"
+                    >
+                        <x-slot name="header">
+                            <th>ID</th>
+                            <th>Number</th>
+                            <th>Street</th>
+                            <th>Postcode</th>
+                            <th>Country</th>
+                            <th>Longitude, Latitude</th>
+                            <th>Extra</th>
+                            <th>Actions</th>
+                        </x-slot>
 
-                            @foreach ($addresses as $address)
-                                <tr>
-                                    <td>{{ $address->id }}</td>
-                                    <td>{{ $address->number }}</td>
-                                    <td>{{ $address->street }}</td>
-                                    <td>{{ $address->postcode }}</td>
-                                    <td>{{ $address->country->name }}</td>
-                                    <td>
-                                        {{ $address->coordinates['longitude'] }},
-                                        {{ $address->coordinates['latitude'] }}
-                                    </td>
-                                    <td>{{ $address->extra }}</td>
-                                    <td>
-                                        <div class="flex gap-1">
+                        @foreach ($addresses as $address)
+                            <tr>
+                                <td>{{ $address->id }}</td>
+                                <td>{{ $address->number }}</td>
+                                <td>{{ $address->street }}</td>
+                                <td>{{ $address->postcode }}</td>
+                                <td>{{ $address->country->name }}</td>
+                                <td>
+                                    {{ $address->coordinates['longitude'] }},
+                                    {{ $address->coordinates['latitude'] }}
+                                </td>
+                                <td>{{ $address->extra }}</td>
+                                <td>
+                                    <div class="flex gap-1">
+                                        <x-bladewind.button.circle
+                                            icon="pencil-square"
+                                            color="primary"
+                                            size="tiny"
+                                            outline
+                                        />
+                                        <form
+                                            action="#"
+                                            method="POST"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+
                                             <x-bladewind.button.circle
-                                                icon="pencil-square"
-                                                color="primary"
+                                                icon="trash"
+                                                color="red"
                                                 size="tiny"
                                                 outline
+                                                can_submit
                                             />
-                                            <form
-                                                action="#"
-                                                method="POST"
-                                            >
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <x-bladewind.button.circle
-                                                    icon="trash"
-                                                    color="red"
-                                                    size="tiny"
-                                                    outline
-                                                    can_submit
-                                                />
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </x-bladewind.table>
-                    </div>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </x-bladewind.table>
                 </div>
-            </div>
+            </x-bladewind.card>
         </div>
-    </x-form.form-wrapper>
+
+    </x-form.wrapper>
 
     <!-- USER DELETE FORM -->
     <form

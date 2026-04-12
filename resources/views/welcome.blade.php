@@ -1,7 +1,4 @@
 <?php
-$labels = [\Carbon\Carbon::now()->subDays(10)->format('d-m-Y'), \Carbon\Carbon::now()->format('d-m-Y')];
-$data = [];
-
 $options = [
     'responsive' => true,
     'scales' => [
@@ -15,11 +12,11 @@ $options = [
 ?>
 
 <x-layout>
-    Hello, {{ Auth::user() ? Auth::user()->name : 'Guest' }}!
-
+    <h2 class="text-2xl font-bold">Hello, {{ Auth::user() ? Auth::user()->name : 'Guest' }}!</h2>
+    <br><br>
     @auth
         <div class="grid grid-cols-1 md:grid-cols-3">
-            <x-bladewind.card title="users" class="p-3! col-span-2">
+            <x-bladewind.card title="registered users" class="p-3! col-span-2">
                 <x-bladewind.chart
                     type="line"
                     :labels="$users['date']"
@@ -30,4 +27,7 @@ $options = [
             </x-bladewind.card>
         </div>
     @endauth
+
+    @json(Auth::user()->getRoleNames())
+    <pre><code>@json(Auth::user()->getAllPermissions(), JSON_PRETTY_PRINT)</code></pre>
 </x-layout>

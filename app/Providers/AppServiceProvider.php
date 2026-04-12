@@ -25,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::before(function ($user) {
+            if (! $user->active) {
+                return false;
+            }
+        });
         Gate::define('viewPulse', function (User $user): bool {
             if (app()->environment('local')) {
                 return true;

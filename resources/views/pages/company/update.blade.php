@@ -1,5 +1,5 @@
 <x-layout>
-    <x-form.form-wrapper
+    <x-form.wrapper
         title="update company details"
         description=""
     >
@@ -46,5 +46,5 @@
 
             <button type="submit" class="btn mt-2 h-10 w-full">Submit</button>
         </form>
-    </x-form.form-wrapper>
+    </x-form.wrapper>
 </x-layout>

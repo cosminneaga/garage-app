@@ -28,7 +28,7 @@ class PermissionsSeeder extends Seeder
         $userViewer = app(Role::class)->findOrCreate(UserRole::USER_VIEWER->value, 'web');
 
         // user admin
-        foreach (UserPermission::list(excludeActions: ['show_all', 'force_delete']) as $permission) {
+        foreach (UserPermission::list() as $permission) {
             $userAdmin->givePermissionTo($permission);
         }
 
@@ -39,7 +39,7 @@ class PermissionsSeeder extends Seeder
         foreach (
             UserPermission::list(
                 excludeReferences: ['user', 'company'],
-                excludeActions: ['show_all', 'force_delete', 'restore', 'delete']
+                excludeActions: ['restore', 'delete']
             ) as $permission
         ) {
             $userEditor->givePermissionTo($permission);
@@ -49,7 +49,7 @@ class PermissionsSeeder extends Seeder
         foreach (
             UserPermission::list(
                 excludeReferences: ['user'],
-                excludeActions: ['show_all', 'force_delete', 'restore', 'store', 'update', 'delete']
+                excludeActions: ['restore', 'store', 'update', 'delete']
             ) as $permission
         ) {
             $userViewer->givePermissionTo($permission);

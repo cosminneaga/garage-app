@@ -43,6 +43,7 @@ class UserService
                 'name',
                 'email',
                 'password',
+                'active',
             ])
             ->toArray();
         $role = $attributes['role'];
