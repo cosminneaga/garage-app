@@ -1,7 +1,10 @@
 <x-layout title="User">
-    <div class="flex items-end justify-between gap-5">
-        <h1 class="text-2xl font-bold underline">{{ strtoupper($user->name) }}
+    <div class="flex items-end justify-between">
+
+        <h1 class="text-2xl font-bold underline">
+            {{ strtoupper($user->name) }}
         </h1>
+
         @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
             'update'))
             <a href="{{ route('users.edit', $user) }}">

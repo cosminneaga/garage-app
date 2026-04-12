@@ -35,7 +35,6 @@ class PermissionsSeeder extends Seeder
         // user editor
         $userEditor->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
         $userEditor->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
-        $userEditor->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
         foreach (
             UserPermission::list(
                 excludeReferences: ['user', 'company'],

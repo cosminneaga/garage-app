@@ -27,7 +27,4 @@ $options = [
             </x-bladewind.card>
         </div>
     @endauth
-
-    @json(Auth::user()->getRoleNames())
-    <pre><code>@json(Auth::user()->getAllPermissions(), JSON_PRETTY_PRINT)</code></pre>
 </x-layout>
