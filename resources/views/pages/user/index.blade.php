@@ -22,7 +22,9 @@
                         href="{{ route('users.show', $user) }}"
                     >{{ $user->email }}</a>
                 </td>
-                <td>{{ $user->active }}</td>
+                <td>
+                    <x-active-tag :active="$user->active" />
+                </td>
                 <td class="flex gap-1">
                     <x-bladewind.button.circle
                         icon="chat-bubble-bottom-center-text"

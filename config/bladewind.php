@@ -95,7 +95,7 @@ return [
         'has_shadow' => true,
         'has_border' => true,
         'has_hover' => false,
-        'radius' => 'none',
+        'radius' => 'none'
     ],
 
     /*

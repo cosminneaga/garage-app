@@ -45,4 +45,10 @@ enum UserRole: string
                 'label' => $role->label(),
             ])->toArray();
     }
+
+    public static function findByName(string $name): UserRole|null
+    {
+        return new Collection(self::cases())
+            ->first(fn($item) => $item->value === $name);
+    }
 }

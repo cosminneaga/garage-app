@@ -44,6 +44,10 @@ label[for] {
     color: black !important;
 }
 
+.bw-contact-card {
+    color: black!important;
+}
+
 /* fix toggle */
 .peer:checked ~ .peer-checked\:after\:translate-x-full:after {
     --tw-translate-x: 50%;

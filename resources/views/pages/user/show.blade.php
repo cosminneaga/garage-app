@@ -1,3 +1,91 @@
 <x-layout title="User">
-    @json($user)
+    <div class="flex items-end gap-5">
+        <h1 class="text-2xl font-bold underline">{{ strtoupper($user->name) }}
+        </h1>
+        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+            'update'))
+            <a href="{{ route('users.edit', $user) }}">
+                <x-bladewind.button>
+                    Edit {{ $user->name }}
+                </x-bladewind.button>
+            </a>
+        @endcan
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 my-5 gap-2">
+        <x-bladewind.contact-card
+            class="col-span-1"
+            :name="$user->name"
+            :email="$user->email"
+            image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            position="{{ \App\Enums\UserRole::findByName($user->getRoleNames()[0])->name }}"
+        >
+            <div>
+                <x-active-tag :active="$user->active" />
+            </div>
+            <div>
+                <x-bladewind.listview>
+                    <h3>Roles</h3>
+                    @foreach ($user->getRoleNames() as $role)
+                        <x-bladewind.listview.item>
+                            ~
+                            {{ \App\Enums\UserRole::findByName($role)->label() }}
+                            ~
+                        </x-bladewind.listview.item>
+                    @endforeach
+                </x-bladewind.listview>
+            </div>
+        </x-bladewind.contact-card>
+
+        <x-bladewind.card
+            class="overflow-auto"
+            title="Contacts"
+        >
+            <x-bladewind.table>
+                <x-slot name="header">
+                    <th>Mobile</th>
+                    <th>Landline</th>
+                    <th>Email</th>
+                    <th>URL</th>
+                    <th>Info</th>
+                </x-slot>
+
+                @foreach ($user->contacts()->get() as $contact)
+                    <tr>
+                        <td>{{ $contact->mobile }}</td>
+                        <td>{{ $contact->landline }}</td>
+                        <td>{{ $contact->email }}</td>
+                        <td>{{ $contact->url }}</td>
+                        <td>{{ $contact->info }}</td>
+                    </tr>
+                @endforeach
+            </x-bladewind.table>
+        </x-bladewind.card>
+    </div>
+    <div>
+        <x-bladewind.card
+            class="overflow-auto"
+            title="Addresses"
+        >
+            <x-bladewind.table>
+                <x-slot name="header">
+                    <th>Mobile</th>
+                    <th>Landline</th>
+                    <th>Email</th>
+                    <th>URL</th>
+                    <th>Info</th>
+                </x-slot>
+
+                @foreach ($user->contacts()->get() as $contact)
+                    <tr>
+                        <td>{{ $contact->mobile }}</td>
+                        <td>{{ $contact->landline }}</td>
+                        <td>{{ $contact->email }}</td>
+                        <td>{{ $contact->url }}</td>
+                        <td>{{ $contact->info }}</td>
+                    </tr>
+                @endforeach
+            </x-bladewind.table>
+        </x-bladewind.card>
+    </div>
 </x-layout>
