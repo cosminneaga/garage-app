@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Traits\HasRoles;
@@ -64,6 +65,19 @@ class User extends Authenticatable
         }
 
         return (bool) $this->members()->withTrashed()->findOrFail($user->id);
+    }
+
+    public function chart()
+    {
+        $data = $this->select('created_at as date', DB::raw('count(*) as count'))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        return [
+            'date' => collect($data)->pluck('date')->toArray(),
+            'count' => collect($data)->pluck('count')->toArray(),
+        ];
     }
 
     #[Scope]

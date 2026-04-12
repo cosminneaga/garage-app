@@ -17,6 +17,7 @@
     >
     <title>{{ $title }} | Garage Application</title>
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link
         href="{{ asset('vendor/bladewind/css/animate.min.css') }}"
         rel="stylesheet"
@@ -30,7 +31,6 @@
         rel="stylesheet"
     />
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <script
         src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"

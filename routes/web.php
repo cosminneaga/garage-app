@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => view('welcome'))->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get('/', fn () => redirect()->route('login'));
 
 Route::middleware('auth')->group(function () {
@@ -33,4 +34,6 @@ Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
     Route::resource('companies', CompanyController::class);
     Route::resource('users', UserController::class);
+
+    Route::get('/chart/users', [UserController::class, 'chart'])->name('chart.users');
 });

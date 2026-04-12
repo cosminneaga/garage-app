@@ -42,7 +42,7 @@ class UserController extends Controller
         return view('pages.user.index', [
             'users' => $this->userService
                 ->getMyTeamMembers($user)
-                ->paginate($request->query('limit') ?? 10),
+                ->paginate($request->query('limit') ?? 10)
         ]);
     }
 
@@ -58,6 +58,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $this->authorize('create', Auth::user());
@@ -65,6 +68,9 @@ class UserController extends Controller
         return view('pages.user.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(StoreUserRequest $request)
     {
         $attributes = $request->safe()->all();
@@ -76,6 +82,9 @@ class UserController extends Controller
             ->with('message', self::responseMessage('success', 'User created'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(User $user)
     {
         $this->authorize('edit', $user);
@@ -92,6 +101,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(UpdateUserRequest $request, User $user)
     {
         if ($user->id === Auth::user()->id) {
@@ -112,6 +124,9 @@ class UserController extends Controller
             ->with('message', self::responseMessage('success', 'User updated'));
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(User $user)
     {
         $this->authorize('delete', $user);
@@ -129,6 +144,9 @@ class UserController extends Controller
             ->with('message', self::responseMessage('warning', 'User removed'));
     }
 
+    /**
+     * Show the page with previously removed item
+     */
     public function removed(Request $request)
     {
         $this->authorize('viewTrashed', User::class);
@@ -141,6 +159,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Restore a given item
+     */
     public function restore(string|int $userId)
     {
         $user = User::onlyTrashed()->find($userId);
