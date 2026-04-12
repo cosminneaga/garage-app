@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\UserStoreAction;
+use App\Actions\UserUpdateAction;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -71,14 +73,14 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request, UserStoreAction $action)
     {
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
-        $this->userService
-            ->createOne($attributes, Auth::user());
 
-        return back()
+        $action->handle($attributes);
+
+        return redirect(route('users.index'))
             ->with('message', self::responseMessage('success', 'User created'));
     }
 
@@ -104,21 +106,17 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user, UserUpdateAction $action)
     {
         if ($user->id === Auth::user()->id) {
             return back()
                 ->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
         }
 
-        User::updateOrCreate(
-            ['id' => $user->id],
-            [
-                'name' => $request->name,
-                'email' => $request->email,
-                'active' => $request->boolean('active'),
-            ]
-        );
+        $attributes = $request->safe()->all();
+        $attributes['active'] = $request->boolean('active');
+
+        $action->handle($attributes, $user);
 
         return back()
             ->with('message', self::responseMessage('success', 'User updated'));

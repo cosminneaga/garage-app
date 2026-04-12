@@ -1,6 +1,6 @@
 <x-layout title="Add User">
     <x-form.wrapper
-        title="create team user"
+        title="create team member"
         description="Create a new user details, address & contact"
     >
         <form
@@ -8,6 +8,7 @@
             id="form-users-create"
             action="{{ route('users.store') }}"
             method="POST"
+            enctype="multipart/form-data"
             x-data="{
                 name: 'User',
                 email: 'editor@garage.com',
@@ -45,6 +46,10 @@
                         label="Email"
                         x-model="email"
                     />
+                    <x-bladewind.filepicker
+                        name="image"
+                        accepted_file_types="image/*"
+                    />
                     <x-bladewind.input
                         name="password"
                         type="password"
@@ -52,7 +57,6 @@
                         viewable
                         x-model="password"
                     />
-
                     <x-bladewind.input
                         name="password_confirmed"
                         type="password"

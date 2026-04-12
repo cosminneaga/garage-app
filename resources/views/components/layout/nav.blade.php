@@ -1,3 +1,7 @@
+<?php
+$user = Auth::user();
+?>
+
 <nav class="border-b border-border px-6">
     <div class="max-w-7xl mx-auto h-24 flex items-center justify-between">
         <div>
@@ -119,7 +123,13 @@
                                         class="rounded-sm!"
                                         size="regular"
                                         show_ring="false"
-                                        :image="Auth::user()->image_path"
+                                        :image="!Str::isUrl(
+                                            $user->image_path,
+                                        )
+                                            ? asset(
+                                                'storage/' . $user->image_path,
+                                            )
+                                            : $user->image_path"
                                     />
                                 </div>
                                 <div class="border-2 border-white p-1">

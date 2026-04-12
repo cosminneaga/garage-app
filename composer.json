@@ -77,6 +77,9 @@
             "@php artisan activitylog:clean",
             "composer dump-autoload"
         ],
+        "storage": [
+            "@php artisan storage:link"
+        ],
         "pest": [
             "vendor/bin/pest"
         ],
@@ -92,7 +95,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate",
             "@php artisan migrate --force",
-            "npm install",
+            "bun install",
             "npm run build"
         ],
         "dev": [

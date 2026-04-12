@@ -9,6 +9,7 @@
                 id="form-users-update"
                 action="{{ route('users.update', $user) }}"
                 method="POST"
+                enctype="multipart/form-data"
             >
                 @csrf
                 @method('PUT')
@@ -17,7 +18,7 @@
                     <x-bladewind.avatar
                         class="mb-3"
                         size="big"
-                        :image="$user->image_path"
+                        :image="$user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path"
                     />
 
                     <x-bladewind.input
@@ -31,6 +32,10 @@
                         type="email"
                         label="Email"
                         :value="$user->email"
+                    />
+                    <x-bladewind.filepicker
+                        name="image"
+                        accepted_file_types="image/*"
                     />
                     <div>
                         <x-bladewind.toggle

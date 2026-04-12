@@ -15,7 +15,18 @@
         @foreach ($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
+                <td>
+                    <div class="flex items-end gap-1">
+                        <x-bladewind.avatar
+                            size="regular"
+                            :image="$user->image_path &&
+                            !Str::isUrl($user->image_path)
+                                ? asset('storage/' . $user->image_path)
+                                : $user->image_path"
+                        />
+                        <p><strong>{{ $user->name }}</strong></p>
+                    </div>
+                </td>
                 <td>
                     <a
                         class="underline"
