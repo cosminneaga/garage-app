@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class UserStoreAction
@@ -33,7 +34,7 @@ class UserStoreAction
             ->toArray();
         $data['role'] = $attributes['role'];
 
-        if (array_key_exists('image', $attributes)) {
+        if (Arr::has($attributes, 'image')) {
             $data['user']['image_path'] = $attributes['image']->store('users', 'public');
         }
 

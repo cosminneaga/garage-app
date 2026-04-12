@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,20 +31,20 @@ class UserUpdateAction
             $data['role'] = $attributes['role'];
         }
 
-        if (array_key_exists('image', $attributes)) {
+        if (Arr::has($attributes, 'image')) {
             $data['user']['image_path'] = $attributes['image']->store('users', 'public');
         }
 
         DB::transaction(function () use ($user, $data) {
             // replace old image with new one
-            if (array_key_exists('image_path', $data['user'])) {
+            if (Arr::has($data, 'user.image_path')) {
                 if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
                     Storage::disk('public')->delete($user->image_path);
                 }
             }
             $user->update($data['user']);
 
-            if (array_key_exists('role', $data)) {
+            if (Arr::has($data, 'role')) {
                 $user->assignRole($data['role']);
             }
         });
