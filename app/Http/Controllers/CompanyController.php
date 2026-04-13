@@ -26,7 +26,7 @@ class CompanyController extends Controller
     public function all(Request $request)
     {
         return view('pages.company.index', [
-            'companies' => Company::paginate($request->query('limit') ?? 10, ['*'], 'company'),
+            'companies' => Company::paginate($request->query('limit') ?? 10, ['*'], 'companies'),
         ]);
     }
 
@@ -40,7 +40,11 @@ class CompanyController extends Controller
         return view('pages.company.index', [
             'companies' => $this->companyService
                 ->getMyCompanies(Auth::user())
-                ->paginate($request->query('limit') ?? 10),
+                ->paginate(
+                    $request->query('limit') ?? 10,
+                    ['companies.id', 'name', 'tax_id', 'registration_number', 'tax_value', 'invoice_prefix'],
+                    'companies'
+                ),
         ]);
     }
 

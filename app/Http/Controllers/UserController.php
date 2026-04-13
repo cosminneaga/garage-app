@@ -44,7 +44,11 @@ class UserController extends Controller
         return view('pages.user.index', [
             'users' => $this->userService
                 ->getMyTeamMembers($user)
-                ->paginate($request->query('limit') ?? 10),
+                ->paginate(
+                    $request->query('limit') ?? 10,
+                    ['users.id', 'name', 'email', 'active', 'image_path'],
+                    'users'
+                ),
         ]);
     }
 
@@ -177,7 +181,11 @@ class UserController extends Controller
             'users' => $this->userService
                 ->getMyTeamMembers(Auth::user())
                 ->onlyTrashed()
-                ->paginate($request->query('limit') ?? 10),
+                ->paginate(
+                    $request->query('limit') ?? 10,
+                    ['users.id', 'name', 'email', 'active', 'image_path'],
+                    'users'
+                ),
         ]);
     }
 

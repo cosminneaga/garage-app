@@ -8,7 +8,6 @@
 
 <x-table :data="$users" {{ $attributes }}>
     <x-slot:header>
-        <th>ID</th>
         <th>Name</th>
         <th>Email</th>
         <th>Active</th>
@@ -17,7 +16,6 @@
 
     @foreach ($users as $user)
         <tr>
-            <td>{{ $user->id }}</td>
             <td>
                 <div class="flex items-end gap-1">
                     <x-bladewind.avatar

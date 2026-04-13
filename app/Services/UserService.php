@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UserService
 {
@@ -27,16 +26,10 @@ class UserService
         ];
     }
 
-    public function getMyTeamMembers(User $user): UnauthorizedException|BelongsToMany
+    public function getMyTeamMembers(User $user): BelongsToMany
     {
-        if ($user->hasRole(UserRole::USER_VIEWER)) {
-            throw new UnauthorizedException(403);
-        }
-
         if ($user->hasRole(UserRole::USER_EDITOR)) {
-            $manager = $user->managers()->first();
-
-            return $manager->members();
+            $user = $user->managers()->first();
         }
 
         return $user->members();

@@ -1,5 +1,4 @@
 <x-layout title="Team">
-    {{-- @json($users) --}}
     <h1 class="text-2xl font-bold underline">TEAM</h1>
     <br><br>
 
