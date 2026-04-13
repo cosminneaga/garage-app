@@ -37,7 +37,7 @@
             <td>
                 <x-active-tag :active="$user->active" />
             </td>
-            <td class="flex gap-1">
+            <td class="">
                 @if ($message_action)
                     <x-bladewind.button.circle
                         icon="chat-bubble-bottom-center-text"

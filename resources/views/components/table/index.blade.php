@@ -14,7 +14,7 @@
             <!-- PAGINATION -->
             <div class="flex flex-row justify-between mt-5">
                 <div class="flex gap-4">
-                    {{-- {{ $data->appends(['limit' => request('limit')])->links() }} --}}
+                    {{ $data->appends(['limit' => request('limit')])->links() }}
 
                     <x-bladewind.select
                         onselect="setLimit"
