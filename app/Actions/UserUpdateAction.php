@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions;
 
 use App\Models\User;
@@ -37,10 +39,8 @@ class UserUpdateAction
 
         DB::transaction(function () use ($user, $data) {
             // replace old image with new one
-            if (Arr::has($data, 'user.image_path')) {
-                if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
-                    Storage::disk('public')->delete($user->image_path);
-                }
+            if (Arr::has($data, 'user.image_path') && ($user->image_path && Storage::disk('public')->exists($user->image_path))) {
+                Storage::disk('public')->delete($user->image_path);
             }
             $user->update($data['user']);
 

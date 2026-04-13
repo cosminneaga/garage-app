@@ -33,7 +33,7 @@ class User extends Authenticatable
         'email',
         'password',
         'active',
-        'image_path'
+        'image_path',
     ];
 
     /**
