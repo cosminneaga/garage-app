@@ -2,12 +2,10 @@
 
 namespace App\Actions;
 
-use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\User;
-use Exception;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -19,12 +17,8 @@ class CompanyStoreAction
         //
     }
 
-    public function handle(array $attributes)
+    public function handle(array $attributes): void
     {
-        if (!$this->user->hasRole(UserRole::USER_ADMIN)) {
-            throw new Exception('Only managers should be able to store companies');
-        }
-
         $data = [];
 
         $data['contact'] = $attributes['contact'];

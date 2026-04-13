@@ -16,7 +16,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->can('user-store');
+        return Auth::user()->can(UserPermission::name(UserPermission::USER, 'store'));
     }
 
     public function rules(): array

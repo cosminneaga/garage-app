@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\CompanyStoreAction;
+use App\Actions\CompanyUpdateAction;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
@@ -104,9 +105,9 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompanyRequest $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company, CompanyUpdateAction $action)
     {
-        Company::updateOrCreate(['id' => $company->id], $request->safe()->all());
+        $action->handle($request->safe()->all(), $company);
 
         return back()
             ->with('message', self::responseMessage(

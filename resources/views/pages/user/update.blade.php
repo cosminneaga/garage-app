@@ -56,7 +56,7 @@
 
                         <x-bladewind.button
                             class="w-fit"
-                            form="form-user-delete"
+                            form="form-users-delete"
                             color="red"
                             size="small"
                             can_submit
@@ -197,7 +197,7 @@
 
     <!-- USER DELETE FORM -->
     <form
-        id="form-user-delete"
+        id="form-users-delete"
         action="{{ route('users.destroy', $user) }}"
         method="POST"
     >

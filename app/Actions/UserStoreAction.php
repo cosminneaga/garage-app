@@ -47,7 +47,11 @@ class UserStoreAction
             $this->user->team()->attach($user);
 
             $user->addresses()->attach(Address::updateOrCreate(
-                ['number' => $data['address']['number'], 'street' => $data['address']['street'], 'postcode' => $data['address']['postcode']],
+                [
+                    'number' => Arr::get($data, 'address.number'),
+                    'street' => Arr::get($data, 'address.street'),
+                    'postcode' => Arr::get($data, 'address.postcode'),
+                ],
                 $data['address']
             ));
 
