@@ -25,6 +25,7 @@ class Company extends Model
         'tax_value',
         'invoice_prefix',
         'registration_number',
+        'image_path'
     ];
 
     protected $casts = [

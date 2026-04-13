@@ -29,6 +29,7 @@ class UpdateCompanyRequest extends FormRequest
             'registration_number' => ['required', 'string', 'max:255'],
             'tax_value' => ['required', 'string', 'max:255'],
             'invoice_prefix' => ['required', 'string', 'max:255'],
+            'image' => ['mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }
 }

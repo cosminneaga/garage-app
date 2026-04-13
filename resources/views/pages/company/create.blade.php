@@ -7,6 +7,7 @@
             class="text-start flex flex-col gap-4"
             action="/companies"
             method="POST"
+            enctype="multipart/form-data"
             x-data="{
                 name: 'Wurst TTD',
                 tax_id: '432423423',
@@ -33,6 +34,10 @@
             <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
 
                 <x-bladewind.card title="details">
+                    <x-bladewind.filepicker
+                        name="image"
+                        accepted_file_types="image/*"
+                    />
                     <x-bladewind.input
                         name="name"
                         type="text"

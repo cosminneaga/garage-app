@@ -32,6 +32,7 @@ class StoreCompanyRequest extends FormRequest
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],
             'address_country_id' => ['required', 'integer'],
+            'image' => ['mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }
 }

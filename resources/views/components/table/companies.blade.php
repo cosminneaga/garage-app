@@ -17,10 +17,20 @@
 
     @foreach ($companies as $company)
         <tr>
-            <td><a
+            <td>
+                <div class="flex items-end gap-1">
+                    <x-bladewind.avatar
+                        size="regular"
+                        :image="$company->image_path &&
+                        !Str::isUrl($company->image_path)
+                            ? asset('storage/' . $company->image_path)
+                            : $company->image_path"
+                    />
+                    <a
                     class="underline"
                     href="{{ route('companies.show', $company) }}"
-                >{{ $company->name }}</a>
+                ><strong>{{ $company->name }}</strong></a>
+                </div>
             </td>
             <td>{{ $company->tax_id }}</td>
             <td>{{ $company->registration_number }}</td>

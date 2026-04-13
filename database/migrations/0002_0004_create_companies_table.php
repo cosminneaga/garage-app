@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('registration_number');
             $table->decimal('tax_value', 4, 2)->default(20.00);
             $table->string('invoice_prefix')->nullable(false);
+            $table->string('image_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

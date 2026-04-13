@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\CompanyStoreAction;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
@@ -42,7 +43,7 @@ class CompanyController extends Controller
                 ->getMyCompanies(Auth::user())
                 ->paginate(
                     $request->query('limit') ?? 10,
-                    ['companies.id', 'name', 'tax_id', 'registration_number', 'tax_value', 'invoice_prefix'],
+                ['companies.id', 'name', 'tax_id', 'registration_number', 'tax_value', 'invoice_prefix', 'image_path'],
                     'companies'
                 ),
         ]);
@@ -76,18 +77,16 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompanyRequest $request)
+    public function store(StoreCompanyRequest $request, CompanyStoreAction $action)
     {
-        $this->companyService->createOne(
-            $request->safe()->all(),
-            Auth::user()->id,
-        );
+        $action->handle($request->safe()->all());
 
-        return back()->with('message', self::responseMessage(
-            'success',
-            'Company created',
-            'The company has been successfully created and is now available in your account.'
-        ));
+        return redirect(route('companies.index'))
+            ->with('message', self::responseMessage(
+                'success',
+                'Company created',
+                'The company has been successfully created and is now available in your account.'
+            ));
     }
 
     /**
