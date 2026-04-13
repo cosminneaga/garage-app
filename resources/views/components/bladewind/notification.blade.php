@@ -4,6 +4,7 @@
     // available options are top-right, top-center, top-left, bottom-right, bottom-center, bottom-left
     'position' => config('bladewind.notification.position', 'top-right'),
     'nonce' => config('bladewind.script.nonce', null),
+    'setup' => null
 ])
 @php
     // [type] is replaced with the type of notification in notification.js
@@ -31,3 +32,10 @@
 <x-bladewind::script :nonce="$nonce">
     @php include_once(public_path('vendor/bladewind/js/notification.js')); @endphp
 </x-bladewind::script>
+
+<script>
+    const setup = @json($setup);
+    if (setup) {
+        showNotification(setup);
+    }
+</script>

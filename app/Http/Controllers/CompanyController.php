@@ -79,7 +79,11 @@ class CompanyController extends Controller
             Auth::user()->id,
         );
 
-        return back()->with('message', self::responseMessage('success', 'Resource created'));
+        return back()->with('message', self::responseMessage(
+            'success',
+            'Company created',
+            'The company has been successfully created and is now available in your account.'
+        ));
     }
 
     /**
@@ -102,7 +106,11 @@ class CompanyController extends Controller
         Company::updateOrCreate(['id' => $company->id], $request->safe()->all());
 
         return back()
-            ->with('message', self::responseMessage('success', 'Resource updated'));
+            ->with('message', self::responseMessage(
+                'success',
+                'Company updated',
+                'The company details have been successfully updated.'
+            ));
     }
 
     /**
@@ -117,7 +125,11 @@ class CompanyController extends Controller
 
         return redirect()
             ->intended(route('companies.index'))
-            ->with('message', self::responseMessage('warning', 'Company removed'));
+            ->with('message', self::responseMessage(
+                'info',
+                'Company removed',
+                'The company has been successfully removed from your account.'
+            ));
     }
 
     /**
@@ -146,6 +158,10 @@ class CompanyController extends Controller
 
         return redirect()
             ->intended(route('companies.removed'))
-            ->with('message', self::responseMessage('success', 'Company restored'));
+            ->with('message', self::responseMessage(
+                'success',
+                'Company restored',
+                'The company has been successfully restored and is now available in your account.'
+            ));
     }
 }

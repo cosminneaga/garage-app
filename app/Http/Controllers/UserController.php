@@ -81,7 +81,11 @@ class UserController extends Controller
         $action->handle($attributes);
 
         return redirect(route('users.index'))
-            ->with('message', self::responseMessage('success', 'User created'));
+            ->with('message', self::responseMessage(
+                'success',
+                'User created',
+                'The user has been successfully created and added to the team.'
+            ));
     }
 
     /**
@@ -93,7 +97,11 @@ class UserController extends Controller
 
         if ($user->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
+                ->with('message', self::responseMessage(
+                    'error',
+                    'User update error',
+                    'Please update your own details from profile section.'
+                ));
         }
 
         return view('pages.user.update', [
@@ -110,7 +118,11 @@ class UserController extends Controller
     {
         if ($user->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage('error', 'Please update your own details from profile section'));
+                ->with('message', self::responseMessage(
+                    'error',
+                    'User update error',
+                    'Please update your own details from profile section'
+                ));
         }
 
         $attributes = $request->safe()->all();
@@ -119,7 +131,11 @@ class UserController extends Controller
         $action->handle($attributes, $user);
 
         return back()
-            ->with('message', self::responseMessage('success', 'User updated'));
+            ->with('message', self::responseMessage(
+                'success',
+                'User updated',
+                'The user details have been successfully updated.'
+            ));
     }
 
     /**
@@ -131,7 +147,11 @@ class UserController extends Controller
 
         if ($user->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage('error', 'You cannot delete your own account'));
+                ->with('message', self::responseMessage(
+                    'error',
+                    'User delete error',
+                    'You cannot delete your own account'
+                ));
         }
 
         $user = User::findOrFail($user->id);
@@ -139,7 +159,11 @@ class UserController extends Controller
 
         return redirect()
             ->intended(route('users.index'))
-            ->with('message', self::responseMessage('warning', 'User removed'));
+            ->with('message', self::responseMessage(
+                'info',
+                'User removed',
+                'The user has been successfully removed from the team.'
+            ));
     }
 
     /**
@@ -168,6 +192,10 @@ class UserController extends Controller
 
         return redirect()
             ->intended(route('users.removed'))
-            ->with('message', self::responseMessage('success', 'User restored'));
+            ->with('message', self::responseMessage(
+                'success',
+                'User restored',
+                'The user has been successfully restored and is now active again.'
+            ));
     }
 }

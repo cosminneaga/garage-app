@@ -24,11 +24,12 @@ enum Types: string
 
 trait ResponseMessage
 {
-    public static function responseMessage(string $type, ?string $text = null)
+    public static function responseMessage(string $type, ?string $title = null, ?string $message = null)
     {
         return (object) [
             'type' => Types::from($type)->value,
-            'text' => $text ?? Types::from($type)->label(),
+            'title' => $title ?? Types::from($type)->label(),
+            'message' => $message ?? '',
         ];
     }
 }

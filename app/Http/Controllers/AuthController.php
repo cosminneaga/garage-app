@@ -26,13 +26,21 @@ class AuthController extends Controller
         if (! $user->active) {
             return redirect()
                 ->back()
-                ->with('message', self::responseMessage('error', 'Your account has been suspended'));
+                ->with('message', self::responseMessage(
+                    'error',
+                    'Your account has been suspended',
+                    'Please contact administration to resolve the issue and restore access.'
+                ));
         }
 
         if (! Auth::attempt($request->safe()->all())) {
             return redirect()
                 ->back()
-                ->with('message', self::responseMessage('error', 'We were unable to authenticate using the provided credentials'))
+                ->with('message', self::responseMessage(
+                    'error',
+                    'Authentication failed',
+                    'We were unable to authenticate using the provided credentials. Please verify your login details and try again.'
+                ))
                 ->withInput();
         }
 
@@ -40,7 +48,11 @@ class AuthController extends Controller
 
         return redirect()
             ->intended(route('home'))
-            ->with('message', self::responseMessage('success', 'You are logged in'));
+            ->with('message', self::responseMessage(
+                'success',
+                'Login successful',
+                'You are logged in and can now access your account.'
+            ));
     }
 
     public function logout(Request $request)

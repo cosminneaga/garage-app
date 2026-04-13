@@ -40,6 +40,8 @@
         src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"
         type="module"
     ></script> --}}
+
+    @stack('scripts')
 </head>
 
 <body class="bg-background text-foreground">
@@ -50,20 +52,20 @@
     </main>
 
     <!-- ALERT AREA -->
+    @session('message')
+        <x-bladewind.notification
+            :setup="[
+                'title' => $value->title,
+                'message' => $value->message,
+                'type' => $value->type,
+                'dismiss_in' => 2,
+                'size' => 'small',
+                'name' => 'central_notification_component',
+            ]"
+            position="top-right"
+        />
+    @endsession
     <div class="fixed top-5 right-5 z-50 max-w-md space-y-2">
-        @session('message')
-            <div
-                x-data="{ show: true }"
-                x-show="show"
-                x-init="setTimeout(() => show = false, 3000)"
-                x.transition.opacity.duration.500ms
-            >
-                <x-bladewind.alert :type="$value->type">
-                    {{ $value->text }}
-                </x-bladewind.alert>
-            </div>
-        @endsession
-
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 <div
