@@ -24,8 +24,20 @@ Route::group(['middleware' => 'auth', 'role:super'], function () {
 });
 
 Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
-    Route::post('/companies/{id}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
-    Route::get('/companies/restore', [CompanyController::class, 'removed'])->name('companies.removed');
+    Route::post('/companies/{company}/restore', [CompanyController::class, 'restore'])
+        ->name('companies.restore');
+    Route::get('/companies/restore', [CompanyController::class, 'removed'])
+        ->name('companies.removed');
+
+    Route::post('/companies/{company}/address', [CompanyController::class, 'addAddress'])
+        ->name('companies.address.store');
+    Route::delete('/companies/{company}/address/{address}', [CompanyController::class, 'removeAddress'])
+        ->name('companies.address.destroy');
+
+    Route::post('/companies/{company}/contact', [CompanyController::class, 'addContact'])
+        ->name('companies.contact.store');
+    Route::delete('/companies/{company}/contact/{contact}', [CompanyController::class, 'removeContact'])
+        ->name('companies.contact.destroy');
 
     Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::get('/users/restore', [UserController::class, 'removed'])->name('users.removed');

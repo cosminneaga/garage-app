@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\CompanyAddressStoreAction;
+use App\Actions\CompanyContactStoreAction;
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
+use App\Http\Requests\StoreCompanyAddressRequest;
+use App\Http\Requests\StoreCompanyContactRequest;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Models\Address;
 use App\Models\Company;
+use App\Models\Contact;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use App\Traits\ResponseMessage;
@@ -154,9 +160,9 @@ class CompanyController extends Controller
     /**
      * Restore a given item
      */
-    public function restore(string|int $companyId)
+    public function restore(Company $company)
     {
-        $company = Company::onlyTrashed()->find($companyId);
+        $company = Company::onlyTrashed()->find($company->id);
         $this->authorize('restore', $company);
         $company->restore();
 
@@ -166,6 +172,56 @@ class CompanyController extends Controller
                 'success',
                 'Company restored',
                 'The company has been successfully restored and is now available in your account.'
+            ));
+    }
+
+    public function addAddress(StoreCompanyAddressRequest $request, Company $company, CompanyAddressStoreAction $action)
+    {
+        $action->handle($request->safe()->all(), $company);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Address created',
+                'Company address has been created and attached'
+            ));
+    }
+
+    public function removeAddress(Company $company, Address $address)
+    {
+        $this->authorize('removeAddress', $company);
+        $company->addresses()->detach($address);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'info',
+                'Address removed',
+                'Company address has been removed'
+            ));
+    }
+
+    public function addContact(StoreCompanyContactRequest $request, Company $company, CompanyContactStoreAction $action)
+    {
+        $action->handle($request->safe()->all(), $company);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Contact created',
+                'Contact information has been created and attached'
+            ));
+    }
+
+    public function removeContact(Company $company, Contact $contact)
+    {
+        $this->authorize('removeContact', $company);
+        $company->contacts()->detach($contact);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'info',
+                'Contact removed',
+                'Contact information has been removed'
             ));
     }
 }

@@ -16,12 +16,15 @@
     </div>
     <br><br>
 
-    <div class="grid grid-rows-2 gap-2">
+    <div class="grid gap-2">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <x-bladewind.contact-card
                 class="col-span-1"
                 :name="$company->name"
-                :image="$company->image_path && !Str::isUrl($company->image_path) ? asset('storage/' . $company->image_path) : $company->image_path"
+                :image="$company->image_path &&
+                !Str::isUrl($company->image_path)
+                    ? asset('storage/' . $company->image_path)
+                    : $company->image_path"
             >
                 <div class="mt-8">
                     <h3 class="font-bold">Details</h3>
@@ -52,56 +55,10 @@
             </x-bladewind.card>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-            <x-bladewind.card
-                class="overflow-auto"
-                title="Contacts"
-            >
-                <x-bladewind.table>
-                    <x-slot name="header">
-                        <th>Mobile</th>
-                        <th>Landline</th>
-                        <th>Email</th>
-                        <th>URL</th>
-                        <th>Info</th>
-                    </x-slot>
-
-                    @foreach ($company->contacts()->get() as $contact)
-                        <tr>
-                            <td>{{ $contact->mobile }}</td>
-                            <td>{{ $contact->landline }}</td>
-                            <td>{{ $contact->email }}</td>
-                            <td>{{ $contact->url }}</td>
-                            <td>{{ $contact->info }}</td>
-                        </tr>
-                    @endforeach
-                </x-bladewind.table>
-            </x-bladewind.card>
-            <x-bladewind.card
-                class="overflow-auto"
-                title="Addresses"
-            >
-                <x-bladewind.table>
-                    <x-slot name="header">
-                        <th>Number</th>
-                        <th>Street</th>
-                        <th>Postcode</th>
-                        <th>Country</th>
-                        <th>Coordinates</th>
-                        <th>Extra</th>
-                    </x-slot>
-
-                    @foreach ($company->addresses()->get() as $contact)
-                        <tr>
-                            <td>{{ $contact->number }}</td>
-                            <td>{{ $contact->street }}</td>
-                            <td>{{ $contact->postcode }}</td>
-                            <td>{{ $contact->country->name }}</td>
-                            <td>{{ implode(',', $contact->coordinates) }}</td>
-                            <td>{{ $contact->extra }}</td>
-                        </tr>
-                    @endforeach
-                </x-bladewind.table>
-            </x-bladewind.card>
+            <x-table.related.contacts :resource="$company" />
+            <x-table.related.addresses :resource="$company" />
         </div>
     </div>
+
+
 </x-layout>

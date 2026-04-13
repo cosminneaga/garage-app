@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions;
 
 use App\Models\Address;
@@ -22,6 +24,7 @@ class CompanyStoreAction
         $data = [];
 
         $data['contact'] = $attributes['contact'];
+        $data['contact']['info'] = $attributes['contact_info'];
         $data['address'] = collect($attributes['address'])
             ->merge(['country_id' => $attributes['address_country_id']])
             ->toArray();
@@ -48,7 +51,7 @@ class CompanyStoreAction
                 [
                     'number' => Arr::get($data, 'address.number'),
                     'street' => Arr::get($data, 'address.street'),
-                    'postcode' => Arr::get($data, 'address.postcode')
+                    'postcode' => Arr::get($data, 'address.postcode'),
                 ],
                 $data['address']
             ));

@@ -24,8 +24,8 @@
                     mobile: '974837483',
                     landline: '974837483',
                     email: 'company@net.com',
-                    url: '',
-                    info: ''
+                    url: 'https://cosminneaga.dev',
+                    info: '<h1>Hello World</h1><br><p>How are you today?</p>'
                 }
             }"
         >
@@ -136,9 +136,10 @@
 
                     <x-bladewind.textarea
                         id="contact_info"
-                        name="contact[info]"
+                        name="contact_info"
                         label="More Information"
-                        x-model="contact.info"
+                        toolbar
+                        rows="10"
                     />
                 </x-bladewind.card>
 

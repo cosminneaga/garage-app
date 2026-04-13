@@ -27,67 +27,69 @@
                             : $company->image_path"
                     />
                     <a
-                    class="underline"
-                    href="{{ route('companies.show', $company) }}"
-                ><strong>{{ $company->name }}</strong></a>
+                        class="underline"
+                        href="{{ route('companies.show', $company) }}"
+                    ><strong>{{ $company->name }}</strong></a>
                 </div>
             </td>
             <td>{{ $company->tax_id }}</td>
             <td>{{ $company->registration_number }}</td>
             <td>{{ $company->tax_value }}</td>
             <td>{{ $company->invoice_prefix }}</td>
-            <td class="flex gap-1">
-                @if ($edit_action)
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                        'update'))
-                        <x-bladewind.button.circle
-                            icon="pencil-square"
-                            color="primary"
-                            size="tiny"
-                            outline
-                            onclick="location.href='/companies/{{ $company->id }}/edit'"
-                        />
-                    @endcan
-                @endif
-                @if ($delete_action)
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                        'delete'))
-                        <form
-                            action="{{ route('companies.destroy', $company) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-
+            <td>
+                <div class="flex gap-1">
+                    @if ($edit_action)
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                            'update'))
                             <x-bladewind.button.circle
-                                icon="trash"
-                                color="red"
+                                icon="pencil-square"
+                                color="primary"
                                 size="tiny"
                                 outline
-                                can_submit
+                                onclick="location.href='/companies/{{ $company->id }}/edit'"
                             />
-                        </form>
-                    @endcan
-                @endif
-                @if ($restore_action)
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                        'restore'))
-                        <form
-                            action="{{ route('companies.restore', $company) }}"
-                            method="POST"
-                        >
-                            @csrf
+                        @endcan
+                    @endif
+                    @if ($delete_action)
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                            'delete'))
+                            <form
+                                action="{{ route('companies.destroy', $company) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
 
-                            <x-bladewind.button.circle
-                                icon="arrow-left-start-on-rectangle"
-                                color="green"
-                                size="tiny"
-                                outline
-                                can_submit
-                            />
-                        </form>
-                    @endcan
-                @endif
+                                <x-bladewind.button.circle
+                                    icon="trash"
+                                    color="red"
+                                    size="tiny"
+                                    outline
+                                    can_submit
+                                />
+                            </form>
+                        @endcan
+                    @endif
+                    @if ($restore_action)
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
+                            'restore'))
+                            <form
+                                action="{{ route('companies.restore', $company) }}"
+                                method="POST"
+                            >
+                                @csrf
+
+                                <x-bladewind.button.circle
+                                    icon="arrow-left-start-on-rectangle"
+                                    color="green"
+                                    size="tiny"
+                                    outline
+                                    can_submit
+                                />
+                            </form>
+                        @endcan
+                    @endif
+                </div>
             </td>
         </tr>
     @endforeach

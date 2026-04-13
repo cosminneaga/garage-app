@@ -47,7 +47,7 @@
 <body class="bg-background text-foreground">
     <x-layout.nav />
 
-    <main class="max-w-7xl mx-auto py-6">
+    <main class="max-w-400 mx-auto py-6">
         {{ $slot }}
     </main>
 
@@ -82,6 +82,10 @@
         @endif
         <!-- ALERT AREA -->
     </div>
+
+    <!-- MODALS AREA -->
+
+    <!-- MODALS AREA -->
 </body>
 
 </html>

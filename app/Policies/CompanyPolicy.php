@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Models\Company;
+use App\Models\Contact;
 use App\Models\User;
 
 class CompanyPolicy
@@ -80,5 +81,19 @@ class CompanyPolicy
     public function forceDelete(User $user, Company $company): bool
     {
         return false;
+    }
+
+    public function removeAddress(User $user, Company $company): bool
+    {
+        $company->isCompanyImPartOf($user);
+
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
+    }
+
+    public function removeContact(User $user, Company $company): bool
+    {
+        $company->isCompanyImPartOf($user);
+
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
 }

@@ -27,7 +27,7 @@ class StoreCompanyRequest extends FormRequest
             'contact.landline' => ['nullable', 'string', 'min:6', 'max:40'],
             'contact.email' => ['required', 'email', 'max:255'],
             'contact.url' => ['nullable', 'url', 'max:255'],
-            'contact.info' => ['nullable', 'string', 'max:255'],
+            'contact_info' => ['nullable', 'string', 'max:255'],
             'address.number' => ['required', 'string', 'max:10'],
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],

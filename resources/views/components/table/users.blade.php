@@ -6,7 +6,10 @@
     'restore_action' => false,
 ])
 
-<x-table :data="$users" {{ $attributes }}>
+<x-table
+    :data="$users"
+    {{ $attributes }}
+>
     <x-slot:header>
         <th>Name</th>
         <th>Email</th>
@@ -37,68 +40,70 @@
             <td>
                 <x-active-tag :active="$user->active" />
             </td>
-            <td class="">
-                @if ($message_action)
-                    <x-bladewind.button.circle
-                        icon="chat-bubble-bottom-center-text"
-                        color="green"
-                        size="tiny"
-                        outline
-                        onclick="sendMessage('{{ $user->name }}')"
-                    />
-                @endif
-                @if ($edit_action)
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                        'store'))
+            <td>
+                <div class="flex gap-1">
+                    @if ($message_action)
                         <x-bladewind.button.circle
-                            icon="pencil-square"
-                            color="primary"
+                            icon="chat-bubble-bottom-center-text"
+                            color="green"
                             size="tiny"
                             outline
-                            onclick="location.href='/users/{{ $user->id }}/edit'"
+                            onclick="sendMessage('{{ $user->name }}')"
                         />
-                    @endcan
-                @endif
-                @if ($delete_action)
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                        'delete'))
-                        <form
-                            action="{{ route('users.destroy', $user) }}"
-                            method="POST"
-                            id="form-delete-user"
-                        >
-                            @csrf
-                            @method('DELETE')
-
+                    @endif
+                    @if ($edit_action)
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                            'store'))
                             <x-bladewind.button.circle
-                                icon="trash"
-                                color="red"
+                                icon="pencil-square"
+                                color="primary"
                                 size="tiny"
                                 outline
-                                can_submit
+                                onclick="location.href='/users/{{ $user->id }}/edit'"
                             />
-                        </form>
-                    @endcan
-                @endif
-                @if ($restore_action)
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                        'restore'))
-                        <form
-                            action="{{ route('users.restore', $user) }}"
-                            method="POST"
-                        >
-                            @csrf
+                        @endcan
+                    @endif
+                    @if ($delete_action)
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                            'delete'))
+                            <form
+                                id="form-delete-user"
+                                action="{{ route('users.destroy', $user) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
 
-                            <x-bladewind.button.circle
-                                icon="arrow-left-start-on-rectangle"
-                                color="green"
-                                size="tiny"
-                                outline
-                                can_submit
-                            />
-                        </form>
-                    @endcan
-                @endif
+                                <x-bladewind.button.circle
+                                    icon="trash"
+                                    color="red"
+                                    size="tiny"
+                                    outline
+                                    can_submit
+                                />
+                            </form>
+                        @endcan
+                    @endif
+                    @if ($restore_action)
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
+                            'restore'))
+                            <form
+                                action="{{ route('users.restore', $user) }}"
+                                method="POST"
+                            >
+                                @csrf
+
+                                <x-bladewind.button.circle
+                                    icon="arrow-left-start-on-rectangle"
+                                    color="green"
+                                    size="tiny"
+                                    outline
+                                    can_submit
+                                />
+                            </form>
+                        @endcan
+                    @endif
+                </div>
             </td>
         </tr>
     @endforeach

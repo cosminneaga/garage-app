@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 class Address extends Model
 {
-    /** @use HasFactory<PersonalInfoFactory> */
     use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
@@ -25,6 +25,7 @@ class Address extends Model
         'postcode',
         'extra',
         'country_id',
+        'coordinates',
     ];
 
     /**
@@ -50,7 +51,7 @@ class Address extends Model
     }
 
     #[Scope]
-    protected function withCoordinatesText($query)
+    protected function withCoordinatesText(Builder $query)
     {
         return $query->selectRaw('*, ST_AsText(coordinates) as coordinates_text');
     }
