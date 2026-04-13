@@ -74,20 +74,22 @@
             >
                 <x-bladewind.table>
                     <x-slot name="header">
-                        <th>Mobile</th>
-                        <th>Landline</th>
-                        <th>Email</th>
-                        <th>URL</th>
-                        <th>Info</th>
+                        <th>Number</th>
+                        <th>Street</th>
+                        <th>Postcode</th>
+                        <th>Country</th>
+                        <th>Coordinates</th>
+                        <th>Extra</th>
                     </x-slot>
 
-                    @foreach ($user->contacts()->get() as $contact)
+                    @foreach ($user->addresses()->get() as $contact)
                         <tr>
-                            <td>{{ $contact->mobile }}</td>
-                            <td>{{ $contact->landline }}</td>
-                            <td>{{ $contact->email }}</td>
-                            <td>{{ $contact->url }}</td>
-                            <td>{{ $contact->info }}</td>
+                            <td>{{ $contact->number }}</td>
+                            <td>{{ $contact->street }}</td>
+                            <td>{{ $contact->postcode }}</td>
+                            <td>{{ $contact->country->name }}</td>
+                            <td>{{ implode(',', $contact->coordinates) }}</td>
+                            <td>{{ $contact->extra }}</td>
                         </tr>
                     @endforeach
                 </x-bladewind.table>
