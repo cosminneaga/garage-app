@@ -40,10 +40,8 @@ textarea {
     color: whitesmoke !important;
 } */
 
-.bw-select {
-    color: black !important;
-}
-
+.bw-select,
+.bw-modal,
 .bw-contact-card,
 .bw-card {
     color: black !important;

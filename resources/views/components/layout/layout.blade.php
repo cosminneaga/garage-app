@@ -58,8 +58,8 @@
                 'title' => $value->title,
                 'message' => $value->message,
                 'type' => $value->type,
-                'dismiss_in' => 2,
-                'size' => 'small',
+                'dismiss_in' => 3,
+                'size' => 'regular',
                 'name' => 'central_notification_component',
             ]"
             position="top-right"

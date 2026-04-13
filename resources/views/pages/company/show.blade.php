@@ -23,7 +23,7 @@
                 :name="$company->name"
                 {{-- :image="$company->image_path && !Str::isUrl($company->image_path) ? asset('storage/' . $company->image_path) : $company->image_path" --}}
             >
-                <div>
+                <div class="mt-8">
                     <h3 class="font-bold">Details</h3>
                     <x-bladewind.listview>
                         <x-bladewind.listview.item>
@@ -41,85 +41,14 @@
                     </x-bladewind.listview>
                 </div>
             </x-bladewind.contact-card>
-            <x-bladewind.card
-                class="overflow-auto"
-                title="members"
-            >
-                <x-bladewind.table>
-                    <x-slot name="header">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Active</th>
-                        <th>Actions</th>
-                    </x-slot>
-
-                    @foreach ($company->users()->get() as $user)
-                        <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>
-                                <div class="flex items-end gap-1">
-                                    <x-bladewind.avatar
-                                        size="regular"
-                                        :image="$user->image_path &&
-                                        !Str::isUrl($user->image_path)
-                                            ? asset(
-                                                'storage/' . $user->image_path,
-                                            )
-                                            : $user->image_path"
-                                    />
-                                    <p><strong>{{ $user->name }}</strong></p>
-                                </div>
-                            </td>
-                            <td>
-                                <a
-                                    class="underline"
-                                    href="{{ route('users.show', $user) }}"
-                                >{{ $user->email }}</a>
-                            </td>
-                            <td>
-                                <x-active-tag :active="$user->active" />
-                            </td>
-                            <td class="flex gap-1">
-                                <x-bladewind.button.circle
-                                    icon="chat-bubble-bottom-center-text"
-                                    color="green"
-                                    size="tiny"
-                                    outline
-                                    onclick="sendMessage('{{ $user->name }}')"
-                                />
-                                @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                                    'store'))
-                                    <x-bladewind.button.circle
-                                        icon="pencil-square"
-                                        color="primary"
-                                        size="tiny"
-                                        outline
-                                        onclick="location.href='/users/{{ $user->id }}/edit'"
-                                    />
-                                @endcan
-                                @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                                    'delete'))
-                                    <form
-                                        action="{{ route('users.destroy', $user) }}"
-                                        method="POST"
-                                    >
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <x-bladewind.button.circle
-                                            icon="trash"
-                                            color="red"
-                                            size="tiny"
-                                            outline
-                                            can_submit
-                                        />
-                                    </form>
-                                @endcan
-                            </td>
-                        </tr>
-                    @endforeach
-                </x-bladewind.table>
+            <x-bladewind.card title="members">
+                <x-table.users
+                    divider="thin"
+                    striped="true"
+                    :users="$company->users()->get()"
+                    message_action
+                    edit_action
+                />
             </x-bladewind.card>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">

@@ -23,7 +23,7 @@ class AuthController extends Controller
     {
         $user = User::where(['email' => $request->safe()->email])->first();
 
-        if (! $user->active) {
+        if ($user && ! $user->active) {
             return redirect()
                 ->back()
                 ->with('message', self::responseMessage(
