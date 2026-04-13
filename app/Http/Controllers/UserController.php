@@ -206,4 +206,9 @@ class UserController extends Controller
                 'The user has been successfully restored and is now active again.'
             ));
     }
+
+    public function addAddress() {}
+    public function removeAddress() {}
+    public function addContact() {}
+    public function removeContact() {}
 }

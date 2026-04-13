@@ -61,10 +61,8 @@ if ($resource instanceof \App\Models\Company) {
         @endforeach
     </x-bladewind.table>
 
-    @if ($resource instanceof \App\Models\Company)
-        <x-modal.company.address.create
-            name="modal-address-create"
-            :company="$resource"
-        />
-    @endif
+    <x-modal.address.create
+        name="modal-address-create"
+        :resource="$resource"
+    />
 </x-bladewind.card>

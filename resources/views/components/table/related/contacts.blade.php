@@ -21,7 +21,11 @@ if ($resource instanceof \App\Models\Company) {
         </div>
     </x-slot:header>
 
-    <x-bladewind.table celled compact layout="custom">
+    <x-bladewind.table
+        celled
+        compact
+        layout="custom"
+    >
         <x-slot name="header">
             <th>Mobile</th>
             <th>Landline</th>
@@ -38,7 +42,7 @@ if ($resource instanceof \App\Models\Company) {
                 <td>{{ $contact->email }}</td>
                 <td>{{ $contact->url }}</td>
                 <td>
-                    <div class="w-100">
+                    <div class="w-75">
                         {!! $contact->info !!}
                     </div>
                 </td>
@@ -66,10 +70,8 @@ if ($resource instanceof \App\Models\Company) {
         @endforeach
     </x-bladewind.table>
 
-    @if ($resource instanceof \App\Models\Company)
-        <x-modal.company.contact.create
-            name="modal-contact-create"
-            :company="$resource"
-        />
-    @endif
+    <x-modal.contact.create
+        name="modal-contact-create"
+        :resource="$resource"
+    />
 </x-bladewind.card>

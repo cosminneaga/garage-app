@@ -1,13 +1,21 @@
-@props(['name', 'company'])
+@props(['name', 'resource'])
+
+<?php
+if ($resource instanceof \App\Models\Company) {
+    $routeName = 'companies';
+} elseif ($resource instanceof \App\Models\User) {
+    $routeName = 'users';
+}
+?>
 
 <x-bladewind.modal
-    title="Create new contact for {{ $company->name }}"
+    title="Create new contact for {{ $resource->name }}"
     :name="$name"
     showActionButtons="false"
 >
     <form
         id="{{ $name }}"
-        action="{{ route('companies.contact.store', $company) }}"
+        action="{{ route($routeName . '.contact.store', $resource) }}"
         method="POST"
     >
         @csrf

@@ -41,6 +41,16 @@ Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
 
     Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::get('/users/restore', [UserController::class, 'removed'])->name('users.removed');
+
+    Route::post('/users/{user}/address', [UserController::class, 'addAddress'])
+        ->name('users.address.store');
+    Route::delete('/users/{user}/address/{address}', [UserController::class, 'removeAddress'])
+        ->name('users.address.destroy');
+
+    Route::post('/users/{user}/contact', [UserController::class, 'addContact'])
+        ->name('users.contact.store');
+    Route::delete('/users/{user}/contact/{contact}', [UserController::class, 'removeContact'])
+        ->name('users.contact.destroy');
 });
 
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
