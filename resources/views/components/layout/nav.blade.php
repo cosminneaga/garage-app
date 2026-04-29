@@ -17,8 +17,7 @@ $user = Auth::user();
                 </a>
 
                 @auth
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                        'show'))
+                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'show'))
                         <x-bladewind.dropmenu position="left">
                             <x-slot:trigger>
 
@@ -38,8 +37,7 @@ $user = Auth::user();
                                     icon="users">Team</x-bladewind.dropmenu.item>
                             </a>
 
-                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                                'store'))
+                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'store'))
                                 <a
                                     class="w-full"
                                     href="/users/create"
@@ -48,8 +46,7 @@ $user = Auth::user();
                                         icon="folder-plus">Create</x-bladewind.dropmenu.item>
                                 </a>
                             @endcan
-                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                                'restore'))
+                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'restore'))
                                 <x-bladewind.dropmenu.item header>
                                     <p class="font-bold">Administrative</p>
                                 </x-bladewind.dropmenu.item>
@@ -74,8 +71,7 @@ $user = Auth::user();
                         </x-slot:trigger>
 
 
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                            'show'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'show'))
                             <a
                                 class="w-full"
                                 href="/companies?limit=10"
@@ -84,8 +80,7 @@ $user = Auth::user();
                                     icon="table-cells">List</x-bladewind.dropmenu.item>
                             </a>
                         @endcan
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                            'store'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'store'))
                             <a
                                 class="w-full"
                                 href="/companies/create"
@@ -94,8 +89,7 @@ $user = Auth::user();
                                     icon="folder-plus">Create</x-bladewind.dropmenu.item>
                             </a>
                         @endcan
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                            'restore'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'restore'))
                             <x-bladewind.dropmenu.item header>
                                 <p class="font-bold">Administrative</p>
                             </x-bladewind.dropmenu.item>
@@ -105,6 +99,26 @@ $user = Auth::user();
                             >
                                 <x-bladewind.dropmenu.item
                                     icon="archive-box-x-mark">Removed</x-bladewind.dropmenu.item>
+                            </a>
+                        @endcan
+                    </x-bladewind.dropmenu>
+
+                    <x-bladewind.dropmenu position="left">
+                        <x-slot:trigger>
+                            <x-bladewind.button
+                                type="secondary"
+                                size="small"
+                                outline
+                            >Suppliers</x-bladewind.button>
+                        </x-slot:trigger>
+
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'show'))
+                            <a
+                                class="w-full"
+                                href="/suppliers?limit=10"
+                            >
+                                <x-bladewind.dropmenu.item
+                                    icon="table-cells">List</x-bladewind.dropmenu.item>
                             </a>
                         @endcan
                     </x-bladewind.dropmenu>
@@ -164,6 +178,12 @@ $user = Auth::user();
                                     class="w-full"
                                     href="/companies/all?limit=10"
                                 >Companies</a>
+                            </x-bladewind.dropmenu.item>
+                            <x-bladewind.dropmenu.item icon="building-office">
+                                <a
+                                    class="w-full"
+                                    href="/suppliers/all?limit=10"
+                                >Suppliers</a>
                             </x-bladewind.dropmenu.item>
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a

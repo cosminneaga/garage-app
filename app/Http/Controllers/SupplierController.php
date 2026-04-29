@@ -7,9 +7,29 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Supplier;
+use App\Traits\ResponseMessage;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
+    use ResponseMessage;
+
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Display the admin listing of all resources in DB
+     */
+    public function all(Request $request): View
+    {
+        return view('pages.supplier.index', [
+            'suppliers' => Supplier::paginate($request->query('limit') ?? 10, ['*'], 'suppliers'),
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
