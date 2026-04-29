@@ -18,7 +18,9 @@ use App\Models\Contact;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use App\Traits\ResponseMessage;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,12 +28,15 @@ class CompanyController extends Controller
 {
     use AuthorizesRequests, ResponseMessage;
 
-    public function __construct(protected CompanyService $companyService, protected UserService $userService) {}
+    public function __construct(protected CompanyService $companyService, protected UserService $userService)
+    {
+        //
+    }
 
     /**
      * Display the admin listing of all resources in DB
      */
-    public function all(Request $request)
+    public function all(Request $request): View
     {
         return view('pages.company.index', [
             'companies' => Company::paginate($request->query('limit') ?? 10, ['*'], 'companies'),
@@ -41,7 +46,7 @@ class CompanyController extends Controller
     /**
      * Display all resources related to model
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->authorize('viewAny', Company::class);
 
@@ -59,7 +64,7 @@ class CompanyController extends Controller
     /**
      * Display a single resource
      */
-    public function show(Company $company)
+    public function show(Company $company): View
     {
         $this->authorize('view', $company);
 
@@ -71,7 +76,7 @@ class CompanyController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $this->authorize('create', Auth::user());
 
@@ -84,7 +89,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompanyRequest $request, CompanyStoreAction $action)
+    public function store(StoreCompanyRequest $request, CompanyStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all());
 
@@ -99,7 +104,7 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Company $company)
+    public function edit(Company $company): View
     {
         $this->authorize('edit', $company);
 
@@ -111,7 +116,7 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCompanyRequest $request, Company $company, CompanyUpdateAction $action)
+    public function update(UpdateCompanyRequest $request, Company $company, CompanyUpdateAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
 
@@ -126,7 +131,7 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy(Company $company): RedirectResponse
     {
         $this->authorize('delete', $company);
 
@@ -145,7 +150,7 @@ class CompanyController extends Controller
     /**
      * Show the page with previously removed item
      */
-    public function removed(Request $request)
+    public function removed(Request $request): View
     {
         $this->authorize('viewTrashed', Company::class);
 
@@ -160,7 +165,7 @@ class CompanyController extends Controller
     /**
      * Restore a given item
      */
-    public function restore(Company $company)
+    public function restore(Company $company): RedirectResponse
     {
         $company = Company::onlyTrashed()->find($company->id);
         $this->authorize('restore', $company);
@@ -175,7 +180,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function addAddress(StoreCompanyAddressRequest $request, Company $company, CompanyAddressStoreAction $action)
+    public function addAddress(StoreCompanyAddressRequest $request, Company $company, CompanyAddressStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
 
@@ -187,7 +192,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function removeAddress(Company $company, Address $address)
+    public function removeAddress(Company $company, Address $address): RedirectResponse
     {
         $this->authorize('removeAddress', $company);
         $company->addresses()->detach($address);
@@ -200,7 +205,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function addContact(StoreCompanyContactRequest $request, Company $company, CompanyContactStoreAction $action)
+    public function addContact(StoreCompanyContactRequest $request, Company $company, CompanyContactStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
 
@@ -212,7 +217,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function removeContact(Company $company, Contact $contact)
+    public function removeContact(Company $company, Contact $contact): RedirectResponse
     {
         $this->authorize('removeContact', $company);
         $company->contacts()->detach($contact);

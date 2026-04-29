@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\UserAddressStoreAction;
+use App\Actions\UserContactStoreAction;
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
+use App\Http\Requests\StoreUserAddressRequest;
+use App\Http\Requests\StoreUserContactRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Address;
+use App\Models\Contact;
 use App\Models\User;
 use App\Services\UserService;
 use App\Traits\ResponseMessage;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +34,7 @@ class UserController extends Controller
     /**
      * Display the admin listing of all resources in DB
      */
-    public function all(Request $request)
+    public function all(Request $request): View
     {
         return view('pages.user.index', [
             'users' => User::paginate($request->query('limit') ?? 10, ['*'], 'users'),
@@ -36,7 +44,7 @@ class UserController extends Controller
     /**
      * Display all resources related to model
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $user = Auth::user();
         $this->authorize('viewAny', User::class);
@@ -55,7 +63,7 @@ class UserController extends Controller
     /**
      * Display a single resource
      */
-    public function show(User $user)
+    public function show(User $user): View
     {
         $this->authorize('view', $user);
 
@@ -67,7 +75,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $this->authorize('create', Auth::user());
 
@@ -77,7 +85,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request, UserStoreAction $action)
+    public function store(StoreUserRequest $request, UserStoreAction $action): RedirectResponse
     {
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
@@ -95,7 +103,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $user): RedirectResponse|View
     {
         $this->authorize('edit', $user);
 
@@ -118,7 +126,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user, UserUpdateAction $action)
+    public function update(UpdateUserRequest $request, User $user, UserUpdateAction $action): RedirectResponse
     {
         if ($user->id === Auth::user()->id) {
             return back()
@@ -145,7 +153,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $this->authorize('delete', $user);
 
@@ -173,7 +181,7 @@ class UserController extends Controller
     /**
      * Show the page with previously removed item
      */
-    public function removed(Request $request)
+    public function removed(Request $request): View
     {
         $this->authorize('viewTrashed', User::class);
 
@@ -192,7 +200,7 @@ class UserController extends Controller
     /**
      * Restore a given item
      */
-    public function restore(string|int $userId)
+    public function restore(string|int $userId): RedirectResponse
     {
         $user = User::onlyTrashed()->find($userId);
         $this->authorize('restore', $user);
@@ -207,8 +215,53 @@ class UserController extends Controller
             ));
     }
 
-    public function addAddress() {}
-    public function removeAddress() {}
-    public function addContact() {}
-    public function removeContact() {}
+    public function addAddress(StoreUserAddressRequest $request, User $user, UserAddressStoreAction $action): RedirectResponse
+    {
+        $action->handle($request->safe()->all(), $user);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Address added',
+                'User\'s address has been created and attached'
+            ));
+    }
+
+    public function removeAddress(User $user, Address $address): RedirectResponse
+    {
+        $this->authorize('removeAddress', $user);
+        $user->addresses()->detach($address);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'info',
+                'Address removed',
+                'User\'s address has been removed'
+            ));
+    }
+
+    public function addContact(StoreUserContactRequest $request, User $user, UserContactStoreAction $action): RedirectResponse
+    {
+        $action->handle($request->safe()->all(), $user);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Contact created',
+                'Contact information has been created and attached'
+            ));
+    }
+
+    public function removeContact(User $user, Contact $contact): RedirectResponse
+    {
+        $this->authorize('removeContact', $user);
+        $user->contacts()->detach($contact);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'info',
+                'Contact removed',
+                'Contact information has been removed'
+            ));
+    }
 }

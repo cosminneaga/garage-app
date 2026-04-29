@@ -77,4 +77,18 @@ class UserPolicy
     {
         return false;
     }
+
+    public function removeAddress(User $user, User $model): bool
+    {
+        $user->isTeamMember($model);
+
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
+    }
+
+    public function removeContact(User $user, User $model): bool
+    {
+        $user->isTeamMember($model);
+
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
+    }
 }
