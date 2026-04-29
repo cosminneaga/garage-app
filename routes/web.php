@@ -19,12 +19,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
 
-Route::group(['middleware' => 'auth', 'role:super'], function () {
-    Route::get('/companies/all', [CompanyController::class, 'all'])->name('companies.all');
-    Route::get('/users/all', [UserController::class, 'all'])->name('users.all');
-    Route::get('/suppliers/all', [SupplierController::class, 'all'])->name('suppliers.all');
-});
-
+# USER_ADMIN
 Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
     # COMPANIES
     Route::post('/companies/{company}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
@@ -51,10 +46,20 @@ Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
     Route::get('/suppliers/restore', [SupplierController::class, 'removed'])->name('suppliers.removed');
 });
 
+
+# ALL USERS
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
     Route::resource('companies', CompanyController::class);
     Route::resource('users', UserController::class);
     Route::resource('suppliers', SupplierController::class);
 
     Route::get('/chart/users', [UserController::class, 'chart'])->name('chart.users');
+});
+
+# ADMINISTRATION
+// !TODO: check why manager is able to view this resources!!!
+Route::group(['middleware' => 'auth', 'role:super'], function () {
+    Route::get('/administration/company/all', [CompanyController::class, 'all'])->name('companies.all');
+    Route::get('/administration/user/all', [UserController::class, 'all'])->name('users.all');
+    Route::get('/administration/supplier/all', [SupplierController::class, 'all'])->name('suppliers.all');
 });

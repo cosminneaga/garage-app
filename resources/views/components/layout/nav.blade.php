@@ -170,19 +170,19 @@ $user = Auth::user();
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a
                                     class="w-full"
-                                    href="/users/all?limit=10"
+                                    href="/administration/user/all?limit=10"
                                 >Users</a>
                             </x-bladewind.dropmenu.item>
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a
                                     class="w-full"
-                                    href="/companies/all?limit=10"
+                                    href="/administration/company/all?limit=10"
                                 >Companies</a>
                             </x-bladewind.dropmenu.item>
                             <x-bladewind.dropmenu.item icon="building-office">
                                 <a
                                     class="w-full"
-                                    href="/suppliers/all?limit=10"
+                                    href="/administration/supplier/all?limit=10"
                                 >Suppliers</a>
                             </x-bladewind.dropmenu.item>
                             <x-bladewind.dropmenu.item icon="building-office">
