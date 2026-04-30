@@ -5,8 +5,7 @@
             {{ strtoupper($company->name) }}
         </h1>
 
-        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-            'update'))
+        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'update'))
             <a href="{{ route('companies.edit', $company) }}">
                 <x-bladewind.button>
                     Edit {{ $company->name }}
@@ -57,6 +56,10 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <x-table.related.contacts :resource="$company" />
             <x-table.related.addresses :resource="$company" />
+        </div>
+
+        <div>
+            <x-table.related.suppliers :company="$company" />
         </div>
     </div>
 

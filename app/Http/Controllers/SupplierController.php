@@ -35,7 +35,7 @@ class SupplierController extends Controller
      */
     public function index(): void
     {
-        //
+        // $this->authorize('viewAny', Supplier::class);
     }
 
     /**

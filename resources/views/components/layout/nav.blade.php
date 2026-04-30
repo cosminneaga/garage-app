@@ -103,7 +103,7 @@ $user = Auth::user();
                         @endcan
                     </x-bladewind.dropmenu>
 
-                    <x-bladewind.dropmenu position="left">
+                    {{-- <x-bladewind.dropmenu position="left">
                         <x-slot:trigger>
                             <x-bladewind.button
                                 type="secondary"
@@ -121,7 +121,7 @@ $user = Auth::user();
                                     icon="table-cells">List</x-bladewind.dropmenu.item>
                             </a>
                         @endcan
-                    </x-bladewind.dropmenu>
+                    </x-bladewind.dropmenu> --}}
                 @endauth
             </div>
         </div>

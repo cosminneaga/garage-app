@@ -31,6 +31,9 @@ Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
     Route::post('/companies/{company}/contact', [CompanyController::class, 'addContact'])->name('companies.contact.store');
     Route::delete('/companies/{company}/contact/{contact}', [CompanyController::class, 'removeContact'])->name('companies.contact.destroy');
 
+    Route::post('/companies/{company}/supplier', [CompanyController::class, 'addSupplier'])->name('companies.supplier.store');
+    Route::delete('/companies/{company}/supplier/{supplier}', [CompanyController::class, 'removeSupplier'])->name('companies.supplier.destroy');
+
     # USERS
     Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::get('/users/restore', [UserController::class, 'removed'])->name('users.removed');
@@ -57,7 +60,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_v
 });
 
 # ADMINISTRATION
-// !TODO: check why manager is able to view this resources!!!
+// !NOTE: seems like after another build this functionality came along and point the unauthorized users to 404, keep an eye on it...
 Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/administration/company/all', [CompanyController::class, 'all'])->name('companies.all');
     Route::get('/administration/user/all', [UserController::class, 'all'])->name('users.all');

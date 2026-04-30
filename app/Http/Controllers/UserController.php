@@ -8,8 +8,8 @@ use App\Actions\UserAddressStoreAction;
 use App\Actions\UserContactStoreAction;
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
-use App\Http\Requests\StoreUserAddressRequest;
-use App\Http\Requests\StoreUserContactRequest;
+use App\Http\Requests\StoreAddressRequest;
+use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Address;
@@ -215,7 +215,7 @@ class UserController extends Controller
             ));
     }
 
-    public function addAddress(StoreUserAddressRequest $request, User $user, UserAddressStoreAction $action): RedirectResponse
+    public function addAddress(StoreAddressRequest $request, User $user, UserAddressStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $user);
 
@@ -240,7 +240,7 @@ class UserController extends Controller
             ));
     }
 
-    public function addContact(StoreUserContactRequest $request, User $user, UserContactStoreAction $action): RedirectResponse
+    public function addContact(StoreContactRequest $request, User $user, UserContactStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $user);
 

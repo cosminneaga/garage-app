@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\UserPermission;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserAddressRequest extends FormRequest
+class StoreAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

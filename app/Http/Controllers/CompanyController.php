@@ -8,13 +8,14 @@ use App\Actions\CompanyAddressStoreAction;
 use App\Actions\CompanyContactStoreAction;
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
-use App\Http\Requests\StoreCompanyAddressRequest;
-use App\Http\Requests\StoreCompanyContactRequest;
+use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
+use App\Models\Supplier;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use App\Traits\ResponseMessage;
@@ -55,7 +56,15 @@ class CompanyController extends Controller
                 ->getMyCompanies(Auth::user())
                 ->paginate(
                     $request->query('limit') ?? 10,
-                ['companies.id', 'name', 'tax_id', 'registration_number', 'tax_value', 'invoice_prefix', 'image_path'],
+                [
+                    'companies.id',
+                    'name',
+                    'tax_id',
+                    'registration_number',
+                    'tax_value',
+                    'invoice_prefix',
+                    'image_path'
+                ],
                     'companies'
                 ),
         ]);
@@ -180,7 +189,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function addAddress(StoreCompanyAddressRequest $request, Company $company, CompanyAddressStoreAction $action): RedirectResponse
+    public function addAddress(StoreAddressRequest $request, Company $company, CompanyAddressStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
 
@@ -205,7 +214,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function addContact(StoreCompanyContactRequest $request, Company $company, CompanyContactStoreAction $action): RedirectResponse
+    public function addContact(StoreContactRequest $request, Company $company, CompanyContactStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
 
@@ -227,6 +236,25 @@ class CompanyController extends Controller
                 'info',
                 'Contact removed',
                 'Contact information has been removed'
+            ));
+    }
+
+    public function addSupplier(Company $company, Supplier $supplier)
+    {
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Supplier created',
+                'Supplier information has been created and attached to respective company'
+            ));
+    }
+    public function removeSupplier(Company $company, Supplier $supplier)
+    {
+        return back()
+            ->with('message', self::responseMessage(
+                'info',
+                'Supplier removed',
+                'Supplier information has been successfully removed from respective company'
             ));
     }
 }
