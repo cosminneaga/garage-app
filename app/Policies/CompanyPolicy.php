@@ -6,7 +6,6 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Models\Company;
-use App\Models\Contact;
 use App\Models\User;
 
 class CompanyPolicy
@@ -95,5 +94,12 @@ class CompanyPolicy
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
+    }
+
+    public function removeSupplier(User $user, Company $company): bool
+    {
+        $company->isCompanyImPartOf($user);
+
+        return $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
     }
 }

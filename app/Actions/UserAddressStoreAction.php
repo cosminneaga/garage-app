@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions;
 
 use App\Models\Address;
@@ -21,7 +23,7 @@ class UserAddressStoreAction
                 $attributes
             );
 
-            if (!$user->addresses()->find($address->id)) {
+            if (! $user->addresses()->find($address->id)) {
                 $user->addresses()->attach($address);
             }
         });

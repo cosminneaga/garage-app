@@ -28,7 +28,10 @@
                     />
                     <a
                         class="underline"
-                        href="{{ route('companies.show', $company) }}"
+                        href="{{ route('companies.show', [
+                            'company' => $company,
+                            'tab' => 'details'
+                        ]) }}"
                     ><strong>{{ $company->name }}</strong></a>
                 </div>
             </td>
@@ -39,8 +42,7 @@
             <td>
                 <div class="flex gap-1">
                     @if ($edit_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                            'update'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'update'))
                             <x-bladewind.button.circle
                                 icon="pencil-square"
                                 color="primary"
@@ -51,8 +53,7 @@
                         @endcan
                     @endif
                     @if ($delete_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                            'delete'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'delete'))
                             <form
                                 action="{{ route('companies.destroy', $company) }}"
                                 method="POST"
@@ -71,8 +72,7 @@
                         @endcan
                     @endif
                     @if ($restore_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY,
-                            'restore'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'restore'))
                             <form
                                 action="{{ route('companies.restore', $company) }}"
                                 method="POST"

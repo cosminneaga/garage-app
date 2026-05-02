@@ -43,6 +43,11 @@ class Company extends Model
         return (bool) $this->users()->findOrFail($user->id);
     }
 
+    public function findSupplierByName(string $name): ?Supplier
+    {
+        return $this->suppliers()->where('name', $name)->first();
+    }
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

@@ -31,7 +31,7 @@ enum SupplierType: string
     public static function ui(): array
     {
         return new Collection(self::cases())
-            ->map(fn($case) => [
+            ->map(fn ($case) => [
                 'value' => $case->value,
                 'label' => $case->label(),
             ])->toArray();
@@ -40,6 +40,6 @@ enum SupplierType: string
     public static function getLabel(SupplierType $name): string
     {
         return new Collection(self::cases())
-            ->first(fn($item) => $item->value === $name->value)->label();
+            ->first(fn ($item) => $item->value === $name->value)->label();
     }
 }

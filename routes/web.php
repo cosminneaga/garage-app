@@ -31,8 +31,10 @@ Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
     Route::post('/companies/{company}/contact', [CompanyController::class, 'addContact'])->name('companies.contact.store');
     Route::delete('/companies/{company}/contact/{contact}', [CompanyController::class, 'removeContact'])->name('companies.contact.destroy');
 
+    Route::get('/companies/{company}/suppliers/{supplier}', [CompanyController::class, 'showSupplier'])->name('companies.supplier.show');
     Route::post('/companies/{company}/supplier', [CompanyController::class, 'addSupplier'])->name('companies.supplier.store');
     Route::delete('/companies/{company}/supplier/{supplier}', [CompanyController::class, 'removeSupplier'])->name('companies.supplier.destroy');
+
 
     # USERS
     Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
@@ -44,6 +46,7 @@ Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
     Route::post('/users/{user}/contact', [UserController::class, 'addContact'])->name('users.contact.store');
     Route::delete('/users/{user}/contact/{contact}', [UserController::class, 'removeContact'])->name('users.contact.destroy');
 
+
     # SUPPLIERS
     Route::post('/suppliers/{supplier}/restore', [SupplierController::class, 'restore'])->name('suppliers.restore');
     Route::get('/suppliers/restore', [SupplierController::class, 'removed'])->name('suppliers.removed');
@@ -54,7 +57,7 @@ Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
     Route::resource('companies', CompanyController::class);
     Route::resource('users', UserController::class);
-    Route::resource('suppliers', SupplierController::class);
+    // Route::resource('suppliers', SupplierController::class);
 
     Route::get('/chart/users', [UserController::class, 'chart'])->name('chart.users');
 });

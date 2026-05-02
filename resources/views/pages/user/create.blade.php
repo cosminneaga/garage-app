@@ -147,9 +147,11 @@
 
                     <x-bladewind.textarea
                         id="contact_info"
-                        name="contact[info]"
+                        name="contact_info"
                         label="More Information"
                         x-model="contact.info"
+                        toolbar
+                        rows="10"
                     />
                 </x-bladewind.card>
             </div>

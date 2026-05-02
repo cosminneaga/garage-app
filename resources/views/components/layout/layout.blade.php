@@ -58,7 +58,7 @@
                 'title' => $value->title,
                 'message' => $value->message,
                 'type' => $value->type,
-                'dismiss_in' => 3,
+                'dismiss_in' => 5,
                 'size' => 'regular',
                 'name' => 'central_notification_component',
             ]"

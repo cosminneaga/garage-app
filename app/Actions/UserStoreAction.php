@@ -23,6 +23,7 @@ class UserStoreAction
         $data = [];
 
         $data['contact'] = $attributes['contact'];
+        $data['contact']['info'] = $attributes['contact_info'];
         $data['address'] = collect($attributes['address'])
             ->merge(['country_id' => $attributes['address_country_id']])
             ->toArray();

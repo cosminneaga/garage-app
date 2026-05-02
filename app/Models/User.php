@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->active;
     }
 
+    public function isManager(): bool
+    {
+        return $this->hasRole(UserRole::USER_ADMIN);
+    }
+
     public function isTeamMember(User $user): bool
     {
         if ($this->hasRole(UserRole::USER_EDITOR)) {

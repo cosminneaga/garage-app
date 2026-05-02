@@ -8,9 +8,11 @@ use App\Actions\CompanyAddressStoreAction;
 use App\Actions\CompanyContactStoreAction;
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
+use App\Actions\SupplierStoreAction;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Address;
 use App\Models\Company;
@@ -56,15 +58,15 @@ class CompanyController extends Controller
                 ->getMyCompanies(Auth::user())
                 ->paginate(
                     $request->query('limit') ?? 10,
-                [
-                    'companies.id',
-                    'name',
-                    'tax_id',
-                    'registration_number',
-                    'tax_value',
-                    'invoice_prefix',
-                    'image_path'
-                ],
+                    [
+                        'companies.id',
+                        'name',
+                        'tax_id',
+                        'registration_number',
+                        'tax_value',
+                        'invoice_prefix',
+                        'image_path',
+                    ],
                     'companies'
                 ),
         ]);
@@ -239,8 +241,18 @@ class CompanyController extends Controller
             ));
     }
 
-    public function addSupplier(Company $company, Supplier $supplier)
+    public function showSupplier(Company $company, Supplier $supplier): View
     {
+        return view('pages.supplier.show', [
+            'company' => $company,
+            'supplier' => $supplier,
+        ]);
+    }
+
+    public function addSupplier(StoreSupplierRequest $request, Company $company, SupplierStoreAction $action): RedirectResponse
+    {
+        $action->handle($request->safe()->all(), $company);
+
         return back()
             ->with('message', self::responseMessage(
                 'success',
@@ -248,8 +260,12 @@ class CompanyController extends Controller
                 'Supplier information has been created and attached to respective company'
             ));
     }
-    public function removeSupplier(Company $company, Supplier $supplier)
+
+    public function removeSupplier(Company $company, Supplier $supplier): RedirectResponse
     {
+        $this->authorize('removeSupplier', $company);
+        $company->suppliers()->detach($supplier);
+
         return back()
             ->with('message', self::responseMessage(
                 'info',

@@ -57,9 +57,13 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier): void
+    public function show(Supplier $supplier): View
     {
-        //
+        $this->authorize('view', $supplier);
+
+        return view('pages.supplier.show', [
+            'supplier' => $supplier,
+        ]);
     }
 
     /**

@@ -7,57 +7,54 @@ namespace App\Actions;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
-use App\Models\User;
-use Illuminate\Container\Attributes\CurrentUser;
+use App\Models\Supplier;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class CompanyStoreAction
+class SupplierStoreAction
 {
-    public function __construct(#[CurrentUser] protected User $user)
-    {
-        //
-    }
-
-    public function handle(array $attributes): void
+    public function handle(array $attributes, Company $company): void
     {
         $data['contact'] = $attributes['contact'];
         $data['contact']['info'] = $attributes['contact_info'];
+
         $data['address'] = collect($attributes['address'])
             ->merge(['country_id' => $attributes['address_country_id']])
             ->toArray();
 
-        $data['company'] = collect($attributes)
+        $data['supplier'] = collect($attributes)
             ->only([
                 'name',
+                'type',
+                'code',
                 'tax_id',
                 'registration_number',
-                'tax_value',
-                'invoice_prefix',
             ])
             ->toArray();
 
-        if (Arr::has($attributes, 'image')) {
-            $data['company']['image_path'] = $attributes['image']->store('companies', 'public');
+        if ($company->findSupplierByName($data['supplier']['name']) instanceof Supplier) {
+            return;
         }
 
-        DB::transaction(function () use ($data) {
-            $company = Company::create($data['company']);
-            $company->users()->attach($this->user);
+        DB::transaction(function () use ($data, $company) {
 
-            $company->addresses()->attach(Address::updateOrCreate(
+            $contact = Contact::updateOrCreate(
+                ['email' => Arr::get($data, 'contact.email')],
+                $data['contact']
+            );
+            $address = Address::updateOrCreate(
                 [
                     'number' => Arr::get($data, 'address.number'),
                     'street' => Arr::get($data, 'address.street'),
                     'postcode' => Arr::get($data, 'address.postcode'),
                 ],
                 $data['address']
-            ));
+            );
 
-            $company->contacts()->attach(Contact::updateOrCreate(
-                ['email' => Arr::get($data, 'contact.email')],
-                $data['contact']
-            ));
+            $supplier = Supplier::create($data['supplier']);
+            $supplier->contacts()->attach($contact);
+            $supplier->addresses()->attach($address);
+            $company->suppliers()->attach($supplier);
         });
     }
 }

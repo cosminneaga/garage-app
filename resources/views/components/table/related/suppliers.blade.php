@@ -28,23 +28,34 @@
                 <td>{{ $supplier->tax_id }}</td>
                 <td>{{ $supplier->registration_number }}</td>
                 <td>
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'delete'))
-                        <form
-                            action="{{ route('companies.supplier.destroy', [$company, $supplier]) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-
+                    <div class="flex gap-1">
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'show'))
                             <x-bladewind.button.circle
-                                can_submit
-                                icon="trash"
-                                color="red"
+                                icon="eye"
+                                color="primary"
                                 size="tiny"
                                 outline
+                                onclick="location.href='/companies/{{ $company->id }}/suppliers/{{ $supplier->id }}'"
                             />
-                        </form>
-                    @endcan
+                        @endcan
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'delete'))
+                            <form
+                                action="{{ route('companies.supplier.destroy', [$company, $supplier]) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
+
+                                <x-bladewind.button.circle
+                                    can_submit
+                                    icon="trash"
+                                    color="red"
+                                    size="tiny"
+                                    outline
+                                />
+                            </form>
+                        @endcan
+                    </div>
                 </td>
             </tr>
         @endforeach

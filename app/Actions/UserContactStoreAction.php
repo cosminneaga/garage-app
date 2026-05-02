@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions;
 
 use App\Models\Contact;
@@ -16,7 +18,7 @@ class UserContactStoreAction
                 $attributes
             );
 
-            if (!$user->contacts()->find($contact->id)) {
+            if (! $user->contacts()->find($contact->id)) {
                 $user->contacts()->attach($contact);
             }
         });
