@@ -20,14 +20,16 @@ Route::middleware('guest')->group(function () {
 });
 
 # USER_ADMIN
-Route::group(['middleware' => ['auth', 'role:user_admin']], function () {
+Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
     # COMPANIES
     Route::post('/companies/{company}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
     Route::get('/companies/restore', [CompanyController::class, 'removed'])->name('companies.removed');
 
+    Route::get('/companies/{company}/address/{address}', [CompanyController::class, 'showAddress'])->name('companies.address.show');
     Route::post('/companies/{company}/address', [CompanyController::class, 'addAddress'])->name('companies.address.store');
     Route::delete('/companies/{company}/address/{address}', [CompanyController::class, 'removeAddress'])->name('companies.address.destroy');
 
+    Route::get('/companies/{company}/contact/{contact}', [CompanyController::class, 'showContact'])->name('companies.contact.show');
     Route::post('/companies/{company}/contact', [CompanyController::class, 'addContact'])->name('companies.contact.store');
     Route::delete('/companies/{company}/contact/{contact}', [CompanyController::class, 'removeContact'])->name('companies.contact.destroy');
 

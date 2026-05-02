@@ -1,9 +1,9 @@
-@props(['resource'])
+@props(['data', 'model'])
 
 <?php
-if ($resource instanceof \App\Models\Company) {
+if ($model instanceof \App\Models\Company) {
     $routeName = 'companies';
-} elseif ($resource instanceof \App\Models\User) {
+} elseif ($model instanceof \App\Models\User) {
     $routeName = 'users';
 }
 ?>
@@ -23,39 +23,45 @@ if ($resource instanceof \App\Models\Company) {
             <th>Number</th>
             <th>Street</th>
             <th>Postcode</th>
-            <th>Country</th>
-            <th>Coordinates</th>
             <th>Extra</th>
             <th>Actions</th>
         </x-slot>
 
-        @foreach ($resource->addresses()->get() as $address)
+        @foreach ($data as $address)
             <tr>
                 <td>{{ $address->number }}</td>
                 <td>{{ $address->street }}</td>
                 <td>{{ $address->postcode }}</td>
-                <td>{{ $address->country->name }}</td>
-                <td>{{ implode(',', $address->coordinates) }}</td>
                 <td>{{ $address->extra }}</td>
                 <td>
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::ADDRESS,
-                        'delete'))
-                        <form
-                            action="{{ route($routeName . '.address.destroy', [$resource, $address]) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-
+                    <div class="flex gap-1">
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::ADDRESS, 'show'))
                             <x-bladewind.button.circle
-                                can_submit
-                                icon="trash"
-                                color="red"
+                                icon="eye"
+                                color="primary"
                                 size="tiny"
                                 outline
+                                onclick="location.href='/{{ $routeName }}/{{ $model->id }}/address/{{ $address->id }}'"
                             />
-                        </form>
-                    @endcan
+                        @endcan
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::ADDRESS, 'delete'))
+                            <form
+                                action="{{ route($routeName . '.address.destroy', [$model, $address]) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
+
+                                <x-bladewind.button.circle
+                                    can_submit
+                                    icon="trash"
+                                    color="red"
+                                    size="tiny"
+                                    outline
+                                />
+                            </form>
+                        @endcan
+                    </div>
                 </td>
             </tr>
         @endforeach
@@ -63,6 +69,6 @@ if ($resource instanceof \App\Models\Company) {
 
     <x-modal.address.create
         name="modal-address-create"
-        :resource="$resource"
+        :resource="$model"
     />
 </x-bladewind.card>

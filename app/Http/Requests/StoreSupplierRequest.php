@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Enums\SupplierType;
 use App\Enums\UserPermission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 
 class StoreSupplierRequest extends FormRequest
@@ -16,7 +17,7 @@ class StoreSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'store'));
+        return Auth::user()->can(UserPermission::name(UserPermission::SUPPLIER, 'store'));
     }
 
     /**

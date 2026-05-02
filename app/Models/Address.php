@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Policies\AddressPolicy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
+#[UsePolicy(AddressPolicy::class)]
 class Address extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;
@@ -37,17 +40,24 @@ class Address extends Model
      * ]);
      *
      * $address->coordinates;
+     *
+     * Address::withCoordinates()->get();
      */
     public function coordinates(): Attribute
     {
-
         return Attribute::make(
-            get: fn () => [
-                'latitude' => $this->query()->whereKey($this)->selectRaw('ST_Y(`coordinates`) as latitude')->toBase()->soleValue('latitude'),
-                'longitude' => $this->query()->whereKey($this)->selectRaw('ST_X(`coordinates`) as longitude')->toBase()->soleValue('longitude'),
-            ],
+            get: fn() => $this->whereKey($this)->selectRaw('ST_Y(coordinates) as latitude, ST_X(coordinates) as longitude')->first(),
             set: fn ($value) => DB::raw("ST_GeomFromText('POINT({$value['longitude']} {$value['latitude']})', 4326)")
         );
+    }
+
+    #[Scope]
+    protected function withCoordinates(Builder $query)
+    {
+        return $query->addSelect([
+            'latitude' => DB::raw('ST_Y(coordinates)'),
+            'longitude' => DB::raw('ST_X(coordinates)'),
+        ]);
     }
 
     #[Scope]

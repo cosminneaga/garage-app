@@ -6,6 +6,7 @@ namespace App\Http\Requests;
 
 use App\Enums\UserPermission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreAddressRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class StoreAddressRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'store'));
+        return Auth::user()->can(UserPermission::name(UserPermission::ADDRESS, 'store'));
     }
 
     /**

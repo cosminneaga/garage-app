@@ -1,4 +1,9 @@
+@php
+    $tab = request()->query('tab');
+@endphp
+
 <x-layout :title="$company->name">
+    {{-- @dd($company) --}}
     <div class="flex items-end justify-between">
 
         <h1 class="text-2xl font-bold underline">
@@ -19,14 +24,14 @@
         <x-slot:headings>
             <x-bladewind.tab.heading name="details" label="Details" url="/companies/{{ $company->id }}?tab=details" active="{{ request()->query('tab') == 'details' }}" />
             <x-bladewind.tab.heading name="statistics" label="Statistics" url="/companies/{{ $company->id }}?tab=statistics" active="{{ request()->query('tab') == 'statistics' }}" />
-            <x-bladewind.tab.heading name="members" label="Members" url="/companies/{{ $company->id }}?tab=members" active="{{ request()->query('tab') == 'members' }}" />
+            <x-bladewind.tab.heading name="users" label="Members" url="/companies/{{ $company->id }}?tab=users" active="{{ request()->query('tab') == 'users' }}" />
             <x-bladewind.tab.heading name="contacts" label="Contacts" url="/companies/{{ $company->id }}?tab=contacts" active="{{ request()->query('tab') == 'contacts' }}" />
             <x-bladewind.tab.heading name="addresses" label="Addresses" url="/companies/{{ $company->id }}?tab=addresses" active="{{ request()->query('tab') == 'addresses' }}" />
             <x-bladewind.tab.heading name="suppliers" label="Suppliers" url="/companies/{{ $company->id }}?tab=suppliers" active="{{ request()->query('tab') == 'suppliers' }}" />
         </x-slot:headings>
 
         <x-bladewind.tab.body>
-            <x-bladewind.tab.content name="details" active="{{ request()->query('tab') == 'details' }}">
+            <x-bladewind.tab.content name="details" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::DETAILS->value }}">
                 <x-bladewind.contact-card
                     class="col-span-1"
                     :name="$company->name"
@@ -55,33 +60,41 @@
                 </x-bladewind.contact-card>
             </x-bladewind.tab.content>
 
-            <x-bladewind.tab.content name="statistics" active="{{ request()->query('tab') == 'statistics' }}">
+            <x-bladewind.tab.content name="statistics" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::STATISTICS->value }}">
                 Graphs goes here
             </x-bladewind.tab.content>
 
-            <x-bladewind.tab.content name="members" active="{{ request()->query('tab') == 'members' }}">
-                <x-bladewind.card title="members">
-                    <x-table.users
-                        divider="thin"
-                        striped="true"
-                        :users="$company->users()->get()"
-                        message_action
-                        edit_action
-                    />
-                </x-bladewind.card>
-            </x-bladewind.tab.content>
+            @if ($tab === \App\Enums\Tabs\CompanyTabs::USERS->value)
+                <x-bladewind.tab.content name="users" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::USERS->value }}">
+                    <x-bladewind.card title="members">
+                        <x-table.users
+                            divider="thin"
+                            striped="true"
+                            :users="$company->users"
+                            message_action
+                            edit_action
+                        />
+                    </x-bladewind.card>
+                </x-bladewind.tab.content>
+            @endif
 
-            <x-bladewind.tab.content name="contacts" active="{{ request()->query('tab') == 'contacts' }}">
-                <x-table.related.contacts :resource="$company" />
-            </x-bladewind.tab.content>
+            @if ($tab === \App\Enums\Tabs\CompanyTabs::CONTACTS->value)
+                <x-bladewind.tab.content name="contacts" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::CONTACTS->value }}">
+                    <x-table.related.contacts :data="$company->contacts" :model="$company" />
+                </x-bladewind.tab.content>
+            @endif
 
-            <x-bladewind.tab.content name="addresses" active="{{ request()->query('tab') == 'addresses' }}">
-                <x-table.related.addresses :resource="$company" />
-            </x-bladewind.tab.content>
+            @if ($tab === \App\Enums\Tabs\CompanyTabs::ADDRESSES->value)
+                <x-bladewind.tab.content name="addresses" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::ADDRESSES->value }}">
+                    <x-table.related.addresses :data="$company->addresses" :model="$company" />
+                </x-bladewind.tab.content>
+            @endif
 
-            <x-bladewind.tab.content name="suppliers" active="{{ request()->query('tab') == 'suppliers' }}">
-                <x-table.related.suppliers :company="$company" />
-            </x-bladewind.tab.content>
+            @if ($tab === \App\Enums\Tabs\CompanyTabs::SUPPLIERS->value)
+                <x-bladewind.tab.content name="suppliers" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::SUPPLIERS->value }}">
+                    <x-table.related.suppliers :data="$company->suppliers" :model="$company" />
+                </x-bladewind.tab.content>
+            @endif
         </x-bladewind.tab.body>
     </x-bladewind.tab>
 </x-layout>

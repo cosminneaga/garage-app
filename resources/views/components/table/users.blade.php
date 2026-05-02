@@ -52,8 +52,7 @@
                         />
                     @endif
                     @if ($edit_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                            'store'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'store'))
                             <x-bladewind.button.circle
                                 icon="pencil-square"
                                 color="primary"
@@ -64,8 +63,7 @@
                         @endcan
                     @endif
                     @if ($delete_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                            'delete'))
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'delete'))
                             <form
                                 id="form-delete-user"
                                 action="{{ route('users.destroy', $user) }}"

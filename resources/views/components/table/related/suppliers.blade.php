@@ -1,4 +1,4 @@
-@props(['company'])
+@props(['data', 'model'])
 
 <x-bladewind.card class="overflow-auto">
     <x-slot:header>
@@ -20,7 +20,7 @@
             <th>Actions</th>
         </x-slot>
 
-        @foreach ($company->suppliers()->get() as $supplier)
+        @foreach ($data as $supplier)
             <tr>
                 <td>{{ $supplier->name }}</td>
                 <td>{{ $supplier->code }}</td>
@@ -35,12 +35,12 @@
                                 color="primary"
                                 size="tiny"
                                 outline
-                                onclick="location.href='/companies/{{ $company->id }}/suppliers/{{ $supplier->id }}'"
+                                onclick="location.href='/companies/{{ $model->id }}/suppliers/{{ $supplier->id }}'"
                             />
                         @endcan
                         @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'delete'))
                             <form
-                                action="{{ route('companies.supplier.destroy', [$company, $supplier]) }}"
+                                action="{{ route('companies.supplier.destroy', [$model, $supplier]) }}"
                                 method="POST"
                             >
                                 @csrf
@@ -63,6 +63,6 @@
 
     <x-modal.supplier.create
         name="modal-supplier-create"
-        :company="$company"
+        :company="$model"
     />
 </x-bladewind.card>

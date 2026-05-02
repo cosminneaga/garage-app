@@ -20,6 +20,7 @@ use App\Models\Contact;
 use App\Models\Supplier;
 use App\Services\CompanyService;
 use App\Services\UserService;
+use App\Traits\RequestTabHandler;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    use AuthorizesRequests, ResponseMessage;
+    use AuthorizesRequests, ResponseMessage, RequestTabHandler;
 
     public function __construct(protected CompanyService $companyService, protected UserService $userService)
     {
@@ -75,12 +76,13 @@ class CompanyController extends Controller
     /**
      * Display a single resource
      */
-    public function show(Company $company): View
+    public function show(Request $request, string|int $id): View
     {
+        $company = Company::with(self::company($request))->find($id);
         $this->authorize('view', $company);
 
         return view('pages.company.show', [
-            'company' => $company,
+            'company' => $company
         ]);
     }
 
@@ -191,6 +193,15 @@ class CompanyController extends Controller
             ));
     }
 
+    public function showAddress(Company $company, string|int $addressid): View
+    {
+        $this->authorize('view', $company);
+
+        return view('pages.address.show', [
+            'address' => $company->addresses()->findOrFail($addressid),
+        ]);
+    }
+
     public function addAddress(StoreAddressRequest $request, Company $company, ModelAddressStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
@@ -214,6 +225,15 @@ class CompanyController extends Controller
                 'Address removed',
                 'Company address has been removed'
             ));
+    }
+
+    public function showContact(Company $company, string|int $contactid): View
+    {
+        $this->authorize('view', $company);
+
+        return view('pages.contact.show', [
+            'contact' => $company->contacts()->findOrFail($contactid),
+        ]);
     }
 
     public function addContact(StoreContactRequest $request, Company $company, ModelContactStoreAction $action): RedirectResponse

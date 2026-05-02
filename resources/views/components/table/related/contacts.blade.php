@@ -1,9 +1,9 @@
-@props(['resource'])
+@props(['data', 'model'])
 
 <?php
-if ($resource instanceof \App\Models\Company) {
+if ($model instanceof \App\Models\Company) {
     $routeName = 'companies';
-} elseif ($resource instanceof \App\Models\User) {
+} elseif ($model instanceof \App\Models\User) {
     $routeName = 'users';
 }
 ?>
@@ -35,7 +35,7 @@ if ($resource instanceof \App\Models\Company) {
             <th>Actions</th>
         </x-slot>
 
-        @foreach ($resource->contacts()->get() as $contact)
+        @foreach ($data as $contact)
             <tr>
                 <td>{{ $contact->mobile }}</td>
                 <td>{{ $contact->landline }}</td>
@@ -47,31 +47,41 @@ if ($resource instanceof \App\Models\Company) {
                     </div>
                 </td>
                 <td>
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::ADDRESS,
-                        'delete'))
-                        <form
-                            action="{{ route($routeName . '.contact.destroy', [$resource, $contact]) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-
+                    <div class="flex gap-1">
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::CONTACT, 'show'))
                             <x-bladewind.button.circle
-                                can_submit
-                                icon="trash"
-                                color="red"
+                                icon="eye"
+                                color="primary"
                                 size="tiny"
                                 outline
+                                onclick="location.href='/{{ $routeName }}/{{ $model->id }}/contact/{{ $contact->id }}'"
                             />
-                        </form>
-                    @endcan
+                        @endcan
+                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::CONTACT, 'delete'))
+                            <form
+                                action="{{ route($routeName . '.contact.destroy', [$model, $contact]) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
+
+                                <x-bladewind.button.circle
+                                    can_submit
+                                    icon="trash"
+                                    color="red"
+                                    size="tiny"
+                                    outline
+                                />
+                            </form>
+                        @endcan
+                    </div>
                 </td>
             </tr>
         @endforeach
     </x-bladewind.table>
 
-    <x-modal.contact.create
+    {{-- <x-modal.contact.create
         name="modal-contact-create"
         :resource="$resource"
-    />
+    /> --}}
 </x-bladewind.card>
