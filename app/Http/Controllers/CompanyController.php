@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\CompanyAddressStoreAction;
-use App\Actions\CompanyContactStoreAction;
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
+use App\Actions\ModelAddressStoreAction;
+use App\Actions\ModelContactStoreAction;
 use App\Actions\SupplierStoreAction;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\StoreCompanyRequest;
@@ -191,7 +191,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function addAddress(StoreAddressRequest $request, Company $company, CompanyAddressStoreAction $action): RedirectResponse
+    public function addAddress(StoreAddressRequest $request, Company $company, ModelAddressStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
 
@@ -216,7 +216,7 @@ class CompanyController extends Controller
             ));
     }
 
-    public function addContact(StoreContactRequest $request, Company $company, CompanyContactStoreAction $action): RedirectResponse
+    public function addContact(StoreContactRequest $request, Company $company, ModelContactStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all(), $company);
 

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Models\Address;
-use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class UserAddressStoreAction
+class ModelAddressStoreAction
 {
-    public function handle(array $attributes, User $user): void
+    public function handle(array $attributes, Model $model): void
     {
-        DB::transaction(function () use ($attributes, $user) {
+        DB::transaction(function () use ($attributes, $model) {
             $address = Address::updateOrCreate(
                 [
                     'number' => $attributes['number'],
@@ -23,8 +23,8 @@ class UserAddressStoreAction
                 $attributes
             );
 
-            if (! $user->addresses()->find($address->id)) {
-                $user->addresses()->attach($address);
+            if (! $model->addresses()->find($address->id)) {
+                $model->addresses()->attach($address);
             }
         });
     }
