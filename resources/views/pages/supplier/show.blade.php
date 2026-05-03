@@ -1,8 +1,8 @@
 @php
-use \App\Enums\UserPermission;
-use \App\Enums\Tabs\SupplierTabs;
+    use App\Enums\UserPermission;
+    use App\Enums\Tabs\SupplierTabs;
 
-$tab = request()->query('tab')
+    $tab = request()->query('tab');
 @endphp
 
 <x-layout :title="$supplier->name">
@@ -35,8 +35,7 @@ $tab = request()->query('tab')
         </x-slot:headings>
 
         <x-bladewind.tab.body>
-            @if($tab === SupplierTabs::DETAILS->value || !$tab)
-
+            @if ($tab === SupplierTabs::DETAILS->value || !$tab)
                 <x-bladewind.tab.content
                     :name="SupplierTabs::DETAILS->value"
                     active
@@ -51,33 +50,33 @@ $tab = request()->query('tab')
 
                     </x-bladewind.contact-card>
                 </x-bladewind.tab.content>
-
             @elseif ($tab === SupplierTabs::STATISTICS->value)
-
                 <x-bladewind.tab.content
                     :name="SupplierTabs::STATISTICS->value"
                     active
                 >
                     Graphs goes here
                 </x-bladewind.tab.content>
-
             @elseif ($tab === SupplierTabs::CONTACTS->value)
-
                 <x-bladewind.tab.content
                     :name="SupplierTabs::CONTACTS->value"
                     active
                 >
-                    <x-table.related.contacts :data="$supplier->contacts" :model="$supplier" />
+                    <x-table.related.contacts
+                        :data="$supplier->contacts"
+                        :model="$supplier"
+                    />
                 </x-bladewind.tab.content>
-
             @elseif ($tab === SupplierTabs::ADDRESSES->value)
                 <x-bladewind.tab.content
                     :name="SupplierTabs::ADDRESSES->value"
                     active
                 >
-                    <x-table.related.addresses :data="$supplier->addresses" :model="$supplier" />
+                    <x-table.related.addresses
+                        :data="$supplier->addresses"
+                        :model="$supplier"
+                    />
                 </x-bladewind.tab.content>
-
             @endif
         </x-bladewind.tab.body>
     </x-bladewind.tab>

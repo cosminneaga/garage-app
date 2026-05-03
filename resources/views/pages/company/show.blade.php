@@ -1,8 +1,8 @@
 @php
-use \App\Enums\UserPermission;
-use \App\Enums\Tabs\CompanyTabs;
+    use App\Enums\UserPermission;
+    use App\Enums\Tabs\CompanyTabs;
 
-$tab = request()->query('tab');
+    $tab = request()->query('tab');
 @endphp
 
 <x-layout :title="$company->name">
@@ -36,7 +36,6 @@ $tab = request()->query('tab');
 
         <x-bladewind.tab.body>
             @if ($tab === CompanyTabs::DETAILS->value || !$tab)
-
                 <x-bladewind.tab.content
                     :name="CompanyTabs::DETAILS->value"
                     active
@@ -68,18 +67,14 @@ $tab = request()->query('tab');
                         </div>
                     </x-bladewind.contact-card>
                 </x-bladewind.tab.content>
-
             @elseif ($tab === CompanyTabs::STATISTICS->value)
-
                 <x-bladewind.tab.content
                     :name="CompanyTabs::STATISTICS->value"
                     active
                 >
                     Graphs goes here
                 </x-bladewind.tab.content>
-
             @elseif ($tab === CompanyTabs::USERS->value)
-
                 <x-bladewind.tab.content
                     :name="CompanyTabs::USERS->value"
                     active
@@ -94,34 +89,36 @@ $tab = request()->query('tab');
                         />
                     </x-bladewind.card>
                 </x-bladewind.tab.content>
-
             @elseif ($tab === CompanyTabs::CONTACTS->value)
-
                 <x-bladewind.tab.content
                     :name="CompanyTabs::CONTACTS->value"
                     active
                 >
-                    <x-table.related.contacts :data="$company->contacts" :model="$company" />
+                    <x-table.related.contacts
+                        :data="$company->contacts"
+                        :model="$company"
+                    />
                 </x-bladewind.tab.content>
-
             @elseif ($tab === CompanyTabs::ADDRESSES->value)
-
                 <x-bladewind.tab.content
                     :name="CompanyTabs::ADDRESSES->value"
                     active
                 >
-                    <x-table.related.addresses :data="$company->addresses" :model="$company" />
+                    <x-table.related.addresses
+                        :data="$company->addresses"
+                        :model="$company"
+                    />
                 </x-bladewind.tab.content>
-
             @elseif ($tab === CompanyTabs::SUPPLIERS->value)
-
                 <x-bladewind.tab.content
                     :name="CompanyTabs::SUPPLIERS->value"
                     active
                 >
-                    <x-table.related.suppliers :data="$company->suppliers" :model="$company" />
+                    <x-table.related.suppliers
+                        :data="$company->suppliers"
+                        :model="$company"
+                    />
                 </x-bladewind.tab.content>
-
             @endif
         </x-bladewind.tab.body>
     </x-bladewind.tab>

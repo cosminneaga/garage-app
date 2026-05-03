@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::before(fn($user, $ability) => $user->hasRole(UserRole::SUPER->value) ? true : null);
+        Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::SUPER->value) ? true : null);
         Gate::before(function ($user) {
             if (! $user->active) {
                 return false;

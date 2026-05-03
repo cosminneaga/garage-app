@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use App\Enums\Tabs\CompanyTabs;
@@ -12,7 +14,7 @@ trait RequestTabHandler
         $tabname = $request->query('tab');
 
         if (
-            !CompanyTabs::tryFrom($tabname) ||
+            ! CompanyTabs::tryFrom($tabname) ||
             $tabname === CompanyTabs::DETAILS->value ||
             $tabname === CompanyTabs::STATISTICS->value
         ) {

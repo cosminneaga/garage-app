@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    use AuthorizesRequests, ResponseMessage, RequestTabHandler;
+    use AuthorizesRequests, RequestTabHandler, ResponseMessage;
 
     public function __construct(protected CompanyService $companyService, protected UserService $userService)
     {
@@ -82,7 +82,7 @@ class CompanyController extends Controller
         $this->authorize('view', $company);
 
         return view('pages.company.show', [
-            'company' => $company
+            'company' => $company,
         ]);
     }
 

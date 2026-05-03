@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\Tabs;
 
 use Illuminate\Support\Collection;
@@ -40,14 +42,14 @@ enum CompanyTabs: string
     public static function ui(): array
     {
         return new Collection(self::cases())
-            ->map(fn($case) => [
+            ->map(fn ($case) => [
                 'value' => $case->value,
                 'label' => $case->label(),
                 'slug' => $case->slug(),
             ])->toArray();
     }
 
-    public static function findByValue(string|null $value): false|string
+    public static function findByValue(?string $value): false|string
     {
         if (self::tryFrom($value)) {
             return self::from($value)->value;
