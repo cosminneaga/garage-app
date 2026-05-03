@@ -33,6 +33,7 @@ class Supplier extends Model
         'type' => SupplierType::DISTRIBUTOR->value,
     ];
 
+    // !NOTE: this check is not quite right, rething architecture
     public function isMySupplier(User $user): bool
     {
         $company = $this->companies()->first();

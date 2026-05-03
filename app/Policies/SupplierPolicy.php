@@ -24,11 +24,9 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function view(User $user, Supplier $supplier): bool
     {
-        if ($user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'))) {
-            return true;
-        }
+        $supplier->isMySupplier($user);
 
-        return $supplier->isMySupplier($user);
+        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'));
     }
 
     /**
@@ -78,6 +76,8 @@ class SupplierPolicy implements SupplierPolicyInterface
 
     public function removeContact(User $user, Supplier $supplier): bool
     {
-        return false;
+        $supplier->isMySupplier($user);
+
+        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
     }
 }
