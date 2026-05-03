@@ -5,6 +5,8 @@ if ($model instanceof \App\Models\Company) {
     $routeName = 'companies';
 } elseif ($model instanceof \App\Models\User) {
     $routeName = 'users';
+} elseif ($model instanceof \App\Models\Supplier) {
+    $routeName = 'suppliers';
 }
 ?>
 
@@ -13,7 +15,7 @@ if ($model instanceof \App\Models\Company) {
     title="Contacts"
 >
     <x-slot:header>
-        <div class="p-4 flex justify-between items-center">
+        <div class="flex items-center justify-between p-4">
             <h4>CONTACTS</h4>
             <x-bladewind.button onclick="showModal('modal-contact-create')">
                 Add contact
@@ -80,8 +82,8 @@ if ($model instanceof \App\Models\Company) {
         @endforeach
     </x-bladewind.table>
 
-    {{-- <x-modal.contact.create
+    <x-modal.contact.create
         name="modal-contact-create"
-        :resource="$resource"
-    /> --}}
+        :resource="$model"
+    />
 </x-bladewind.card>

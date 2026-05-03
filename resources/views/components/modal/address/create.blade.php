@@ -5,6 +5,8 @@ if ($resource instanceof \App\Models\Company) {
     $routeName = 'companies';
 } elseif ($resource instanceof \App\Models\User) {
     $routeName = 'users';
+} elseif ($resource instanceof \App\Models\Supplier) {
+    $routeName = 'suppliers';
 }
 ?>
 
@@ -67,8 +69,6 @@ if ($resource instanceof \App\Models\Company) {
             label="Longitude"
         />
 
-        <x-bladewind.button
-            can_submit
-        >create</x-bladewind.button>
+        <x-bladewind.button can_submit>create</x-bladewind.button>
     </form>
 </x-bladewind.modal>

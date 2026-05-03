@@ -67,4 +67,9 @@ class SupplierPolicy
     {
         return false;
     }
+
+    public function removeAddress(User $user, Supplier $supplier): bool
+    {
+        return false;
+    }
 }

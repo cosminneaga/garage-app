@@ -75,6 +75,7 @@
                     <x-table.related.addresses
                         :data="$supplier->addresses"
                         :model="$supplier"
+                        :actions="false"
                     />
                 </x-bladewind.tab.content>
             @endif

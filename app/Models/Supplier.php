@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\SupplierType;
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -31,6 +32,19 @@ class Supplier extends Model
     protected $attributes = [
         'type' => SupplierType::DISTRIBUTOR->value,
     ];
+
+    public function isMySupplier(User $user): bool
+    {
+        $company = $this->companies()->first();
+
+        if ($user->hasRole(UserRole::USER_EDITOR)) {
+            $manager = $user->managers()->first();
+
+            return (bool) $company->users()->findOrFail($manager->id);
+        }
+
+        return (bool) $company->users()->findOrFail($user->id);
+    }
 
     public function addresses(): BelongsToMany
     {

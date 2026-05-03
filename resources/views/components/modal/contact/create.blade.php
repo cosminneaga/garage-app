@@ -5,7 +5,9 @@ if ($resource instanceof \App\Models\Company) {
     $routeName = 'companies';
 } elseif ($resource instanceof \App\Models\User) {
     $routeName = 'users';
-}
+} elseif ($resource instanceof \App\Models\Supplier) {
+      $routeName = 'suppliers';
+  }
 ?>
 
 <x-bladewind.modal
