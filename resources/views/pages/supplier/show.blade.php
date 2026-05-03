@@ -35,11 +35,11 @@ $tab = request()->query('tab')
         </x-slot:headings>
 
         <x-bladewind.tab.body>
-            @if($tab === SupplierTabs::DETAILS->value)
+            @if($tab === SupplierTabs::DETAILS->value || !$tab)
 
                 <x-bladewind.tab.content
                     :name="SupplierTabs::DETAILS->value"
-                    :active="$tab === SupplierTabs::DETAILS->value"
+                    active
                 >
                     <x-bladewind.contact-card
                         :name="$supplier->name"
@@ -56,7 +56,7 @@ $tab = request()->query('tab')
 
                 <x-bladewind.tab.content
                     :name="SupplierTabs::STATISTICS->value"
-                    :active="$tab === SupplierTabs::STATISTICS->value"
+                    active
                 >
                     Graphs goes here
                 </x-bladewind.tab.content>
@@ -65,7 +65,7 @@ $tab = request()->query('tab')
 
                 <x-bladewind.tab.content
                     :name="SupplierTabs::CONTACTS->value"
-                    :active="$tab === SupplierTabs::CONTACTS->value"
+                    active
                 >
                     <x-table.related.contacts :data="$supplier->contacts" :model="$supplier" />
                 </x-bladewind.tab.content>
@@ -73,7 +73,7 @@ $tab = request()->query('tab')
             @elseif ($tab === SupplierTabs::ADDRESSES->value)
                 <x-bladewind.tab.content
                     :name="SupplierTabs::ADDRESSES->value"
-                    :active="$tab === SupplierTabs::ADDRESSES->value"
+                    active
                 >
                     <x-table.related.addresses :data="$supplier->addresses" :model="$supplier" />
                 </x-bladewind.tab.content>

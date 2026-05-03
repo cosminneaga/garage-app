@@ -25,12 +25,25 @@ enum CompanyTabs: string
         };
     }
 
+    public function slug(): string
+    {
+        return match ($this) {
+            self::DETAILS => 'details',
+            self::STATISTICS => 'statistics',
+            self::USERS => 'users',
+            self::CONTACTS => 'contacts',
+            self::ADDRESSES => 'addresses',
+            self::SUPPLIERS => 'suppliers',
+        };
+    }
+
     public static function ui(): array
     {
         return new Collection(self::cases())
-            ->map(fn($role) => [
-                'value' => $role->value,
-                'label' => $role->label(),
+            ->map(fn($case) => [
+                'value' => $case->value,
+                'label' => $case->label(),
+                'slug' => $case->slug(),
             ])->toArray();
     }
 

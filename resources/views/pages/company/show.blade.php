@@ -6,9 +6,8 @@ $tab = request()->query('tab');
 @endphp
 
 <x-layout :title="$company->name">
-    {{-- @dd($company) --}}
-    <div class="flex items-end justify-between">
 
+    <div class="flex items-end justify-between">
         <h1 class="text-2xl font-bold underline">
             {{ strtoupper($company->name) }}
         </h1>
@@ -25,50 +24,66 @@ $tab = request()->query('tab');
 
     <x-bladewind.tab name="company">
         <x-slot:headings>
-            <x-bladewind.tab.heading name="details" label="Details" url="/companies/{{ $company->id }}?tab=details" active="{{ request()->query('tab') == 'details' }}" />
-            <x-bladewind.tab.heading name="statistics" label="Statistics" url="/companies/{{ $company->id }}?tab=statistics" active="{{ request()->query('tab') == 'statistics' }}" />
-            <x-bladewind.tab.heading name="users" label="Members" url="/companies/{{ $company->id }}?tab=users" active="{{ request()->query('tab') == 'users' }}" />
-            <x-bladewind.tab.heading name="contacts" label="Contacts" url="/companies/{{ $company->id }}?tab=contacts" active="{{ request()->query('tab') == 'contacts' }}" />
-            <x-bladewind.tab.heading name="addresses" label="Addresses" url="/companies/{{ $company->id }}?tab=addresses" active="{{ request()->query('tab') == 'addresses' }}" />
-            <x-bladewind.tab.heading name="suppliers" label="Suppliers" url="/companies/{{ $company->id }}?tab=suppliers" active="{{ request()->query('tab') == 'suppliers' }}" />
+            @foreach (CompanyTabs::ui() as $heading)
+                <x-bladewind.tab.heading
+                    :name="$heading['value']"
+                    :label="$heading['label']"
+                    :active="$tab === $heading['value']"
+                    url="/companies/{{ $company->id }}?tab={{ $heading['value'] }}"
+                />
+            @endforeach
         </x-slot:headings>
 
         <x-bladewind.tab.body>
-            <x-bladewind.tab.content name="details" active="{{ $tab === CompanyTabs::DETAILS->value }}">
-                <x-bladewind.contact-card
-                    class="col-span-1"
-                    :name="$company->name"
-                    :image="$company->image_path &&
-                    !Str::isUrl($company->image_path)
-                        ? asset('storage/' . $company->image_path)
-                        : $company->image_path"
+            @if ($tab === CompanyTabs::DETAILS->value || !$tab)
+
+                <x-bladewind.tab.content
+                    :name="CompanyTabs::DETAILS->value"
+                    active
                 >
-                    <div class="mt-8">
-                        <h3 class="font-bold">Details</h3>
-                        <x-bladewind.listview>
-                            <x-bladewind.listview.item>
-                                Registration number:
-                                {{ $company->registration_number }}
-                            </x-bladewind.listview.item>
-                            <x-bladewind.listview.item>
-                                Tax value:
-                                {{ $company->tax_value }}
-                            </x-bladewind.listview.item>
-                            <x-bladewind.listview.item>
-                                Invoice prefix:
-                                {{ $company->invoice_prefix }}
-                            </x-bladewind.listview.item>
-                        </x-bladewind.listview>
-                    </div>
-                </x-bladewind.contact-card>
-            </x-bladewind.tab.content>
+                    <x-bladewind.contact-card
+                        class="col-span-1"
+                        :name="$company->name"
+                        :image="$company->image_path &&
+                        !Str::isUrl($company->image_path)
+                            ? asset('storage/' . $company->image_path)
+                            : $company->image_path"
+                    >
+                        <div class="mt-8">
+                            <h3 class="font-bold">Details</h3>
+                            <x-bladewind.listview>
+                                <x-bladewind.listview.item>
+                                    Registration number:
+                                    {{ $company->registration_number }}
+                                </x-bladewind.listview.item>
+                                <x-bladewind.listview.item>
+                                    Tax value:
+                                    {{ $company->tax_value }}
+                                </x-bladewind.listview.item>
+                                <x-bladewind.listview.item>
+                                    Invoice prefix:
+                                    {{ $company->invoice_prefix }}
+                                </x-bladewind.listview.item>
+                            </x-bladewind.listview>
+                        </div>
+                    </x-bladewind.contact-card>
+                </x-bladewind.tab.content>
 
-            <x-bladewind.tab.content name="statistics" active="{{ $tab === CompanyTabs::STATISTICS->value }}">
-                Graphs goes here
-            </x-bladewind.tab.content>
+            @elseif ($tab === CompanyTabs::STATISTICS->value)
 
-            @if ($tab === CompanyTabs::USERS->value)
-                <x-bladewind.tab.content name="users" active="{{ $tab === CompanyTabs::USERS->value }}">
+                <x-bladewind.tab.content
+                    :name="CompanyTabs::STATISTICS->value"
+                    active
+                >
+                    Graphs goes here
+                </x-bladewind.tab.content>
+
+            @elseif ($tab === CompanyTabs::USERS->value)
+
+                <x-bladewind.tab.content
+                    :name="CompanyTabs::USERS->value"
+                    active
+                >
                     <x-bladewind.card title="members">
                         <x-table.users
                             divider="thin"
@@ -79,24 +94,34 @@ $tab = request()->query('tab');
                         />
                     </x-bladewind.card>
                 </x-bladewind.tab.content>
-            @endif
 
-            @if ($tab === CompanyTabs::CONTACTS->value)
-                <x-bladewind.tab.content name="contacts" active="{{ $tab === CompanyTabs::CONTACTS->value }}">
+            @elseif ($tab === CompanyTabs::CONTACTS->value)
+
+                <x-bladewind.tab.content
+                    :name="CompanyTabs::CONTACTS->value"
+                    active
+                >
                     <x-table.related.contacts :data="$company->contacts" :model="$company" />
                 </x-bladewind.tab.content>
-            @endif
 
-            @if ($tab === CompanyTabs::ADDRESSES->value)
-                <x-bladewind.tab.content name="addresses" active="{{ $tab === CompanyTabs::ADDRESSES->value }}">
+            @elseif ($tab === CompanyTabs::ADDRESSES->value)
+
+                <x-bladewind.tab.content
+                    :name="CompanyTabs::ADDRESSES->value"
+                    active
+                >
                     <x-table.related.addresses :data="$company->addresses" :model="$company" />
                 </x-bladewind.tab.content>
-            @endif
 
-            @if ($tab === CompanyTabs::SUPPLIERS->value)
-                <x-bladewind.tab.content name="suppliers" active="{{ $tab === CompanyTabs::SUPPLIERS->value }}">
+            @elseif ($tab === CompanyTabs::SUPPLIERS->value)
+
+                <x-bladewind.tab.content
+                    :name="CompanyTabs::SUPPLIERS->value"
+                    active
+                >
                     <x-table.related.suppliers :data="$company->suppliers" :model="$company" />
                 </x-bladewind.tab.content>
+
             @endif
         </x-bladewind.tab.body>
     </x-bladewind.tab>
