@@ -47,7 +47,7 @@
 <body class="bg-background text-foreground">
     <x-layout.nav />
 
-    <main class="max-w-400 mx-auto py-6">
+    <main class="max-w-400 mx-auto py-6 px-4">
         {{ $slot }}
     </main>
 

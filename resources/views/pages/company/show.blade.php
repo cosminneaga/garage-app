@@ -1,5 +1,8 @@
 @php
-    $tab = request()->query('tab');
+use \App\Enums\UserPermission;
+use \App\Enums\Tabs\CompanyTabs;
+
+$tab = request()->query('tab');
 @endphp
 
 <x-layout :title="$company->name">
@@ -10,7 +13,7 @@
             {{ strtoupper($company->name) }}
         </h1>
 
-        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'update'))
+        @can(UserPermission::name(UserPermission::COMPANY, 'update'))
             <a href="{{ route('companies.edit', $company) }}">
                 <x-bladewind.button>
                     Edit {{ $company->name }}
@@ -31,7 +34,7 @@
         </x-slot:headings>
 
         <x-bladewind.tab.body>
-            <x-bladewind.tab.content name="details" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::DETAILS->value }}">
+            <x-bladewind.tab.content name="details" active="{{ $tab === CompanyTabs::DETAILS->value }}">
                 <x-bladewind.contact-card
                     class="col-span-1"
                     :name="$company->name"
@@ -60,12 +63,12 @@
                 </x-bladewind.contact-card>
             </x-bladewind.tab.content>
 
-            <x-bladewind.tab.content name="statistics" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::STATISTICS->value }}">
+            <x-bladewind.tab.content name="statistics" active="{{ $tab === CompanyTabs::STATISTICS->value }}">
                 Graphs goes here
             </x-bladewind.tab.content>
 
-            @if ($tab === \App\Enums\Tabs\CompanyTabs::USERS->value)
-                <x-bladewind.tab.content name="users" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::USERS->value }}">
+            @if ($tab === CompanyTabs::USERS->value)
+                <x-bladewind.tab.content name="users" active="{{ $tab === CompanyTabs::USERS->value }}">
                     <x-bladewind.card title="members">
                         <x-table.users
                             divider="thin"
@@ -78,20 +81,20 @@
                 </x-bladewind.tab.content>
             @endif
 
-            @if ($tab === \App\Enums\Tabs\CompanyTabs::CONTACTS->value)
-                <x-bladewind.tab.content name="contacts" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::CONTACTS->value }}">
+            @if ($tab === CompanyTabs::CONTACTS->value)
+                <x-bladewind.tab.content name="contacts" active="{{ $tab === CompanyTabs::CONTACTS->value }}">
                     <x-table.related.contacts :data="$company->contacts" :model="$company" />
                 </x-bladewind.tab.content>
             @endif
 
-            @if ($tab === \App\Enums\Tabs\CompanyTabs::ADDRESSES->value)
-                <x-bladewind.tab.content name="addresses" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::ADDRESSES->value }}">
+            @if ($tab === CompanyTabs::ADDRESSES->value)
+                <x-bladewind.tab.content name="addresses" active="{{ $tab === CompanyTabs::ADDRESSES->value }}">
                     <x-table.related.addresses :data="$company->addresses" :model="$company" />
                 </x-bladewind.tab.content>
             @endif
 
-            @if ($tab === \App\Enums\Tabs\CompanyTabs::SUPPLIERS->value)
-                <x-bladewind.tab.content name="suppliers" active="{{ $tab === \App\Enums\Tabs\CompanyTabs::SUPPLIERS->value }}">
+            @if ($tab === CompanyTabs::SUPPLIERS->value)
+                <x-bladewind.tab.content name="suppliers" active="{{ $tab === CompanyTabs::SUPPLIERS->value }}">
                     <x-table.related.suppliers :data="$company->suppliers" :model="$company" />
                 </x-bladewind.tab.content>
             @endif

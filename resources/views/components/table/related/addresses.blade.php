@@ -5,6 +5,8 @@ if ($model instanceof \App\Models\Company) {
     $routeName = 'companies';
 } elseif ($model instanceof \App\Models\User) {
     $routeName = 'users';
+} elseif ($model instanceof \App\Models\Supplier) {
+    $routeName = 'suppliers';
 }
 ?>
 
