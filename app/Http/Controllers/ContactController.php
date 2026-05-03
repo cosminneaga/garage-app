@@ -1,16 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Actions\ModelContactStoreAction;
+use App\Enums\RelatedModel;
 use App\Http\Requests\StoreContactRequest;
-use App\Models\Company;
 use App\Models\Contact;
-use App\Models\Supplier;
-use App\Models\User;
-use App\Policies\CompanyPolicy;
-use App\Policies\SupplierPolicy;
-use App\Policies\UserPolicy;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +21,7 @@ class ContactController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -32,7 +29,7 @@ class ContactController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -43,12 +40,7 @@ class ContactController extends Controller
     public function store(StoreContactRequest $request, string|int $id, ModelContactStoreAction $action): RedirectResponse
     {
         $type = array_keys($request->route()->parameters())[0];
-
-        $entity = match ($type) {
-            'user' => User::findOrFail($id),
-            'company' => Company::findOrFail($id),
-            'supplier' => Supplier::findOrFail($id),
-        };
+        $entity = RelatedModel::from($type)->entity($id);
 
         $action->handle($request->safe()->all(), $entity);
 
@@ -66,19 +58,12 @@ class ContactController extends Controller
     public function show(Request $request, string|int $id, string|int $contactId): View
     {
         $type = array_keys($request->route()->parameters())[0];
+        $entity = RelatedModel::from($type)->entity($id);
+        $policy = RelatedModel::from($type)->policy();
 
-        $entity = match ($type) {
-            'user' => User::findOrFail($id),
-            'company' => Company::findOrFail($id),
-            'supplier' => Supplier::findOrFail($id),
-        };
-
-        if ($entity instanceof User) {
-            app(UserPolicy::class)->view(Auth::user(), $entity);
-        } else if ($entity instanceof Company) {
-            app(CompanyPolicy::class)->view(Auth::user(), $entity);
-        } elseif ($entity instanceof Supplier) {
-            app(SupplierPolicy::class)->view(Auth::user(), $entity);
+        $guard = app($policy)->view(Auth::user(), $entity);
+        if (! $guard) {
+            abort(401);
         }
 
         return view('pages.contact.show', [
@@ -89,7 +74,7 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contact $contact)
+    public function edit(Contact $contact): void
     {
         //
     }
@@ -97,7 +82,7 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, Contact $contact): void
     {
         //
     }
@@ -108,19 +93,12 @@ class ContactController extends Controller
     public function destroy(Request $request, string|int $id, string|int $contactId): RedirectResponse
     {
         $type = array_keys($request->route()->parameters())[0];
+        $entity = RelatedModel::from($type)->entity($id);
+        $policy = RelatedModel::from($type)->policy();
 
-        $entity = match ($type) {
-            'user' => User::findOrFail($id),
-            'company' => Company::findOrFail($id),
-            'supplier' => Supplier::findOrFail($id),
-        };
-
-        if ($entity instanceof User) {
-            app(UserPolicy::class)->removeAddress(Auth::user(), $entity);
-        } else if ($entity instanceof Company) {
-            app(CompanyPolicy::class)->removeAddress(Auth::user(), $entity);
-        } elseif ($entity instanceof Supplier) {
-            app(SupplierPolicy::class)->removeAddress(Auth::user(), $entity);
+        $guard = app($policy)->removeContact(Auth::user(), $entity);
+        if (! $guard) {
+            abort(401);
         }
 
         $entity->contacts()->detach($contactId);

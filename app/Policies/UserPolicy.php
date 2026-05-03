@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
+use App\Interfaces\UserPolicyInterface;
 use App\Models\User;
 
-class UserPolicy
+class UserPolicy implements UserPolicyInterface
 {
     public function viewAny(User $user): bool
     {

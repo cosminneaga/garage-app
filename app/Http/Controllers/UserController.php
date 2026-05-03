@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\ModelAddressStoreAction;
-use App\Actions\ModelContactStoreAction;
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
-use App\Http\Requests\StoreAddressRequest;
-use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Address;
-use App\Models\Contact;
 use App\Models\User;
 use App\Services\UserService;
 use App\Traits\ResponseMessage;

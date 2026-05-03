@@ -6,17 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
-use App\Actions\ModelAddressStoreAction;
-use App\Actions\ModelContactStoreAction;
 use App\Actions\SupplierStoreAction;
-use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateCompanyRequest;
-use App\Models\Address;
 use App\Models\Company;
-use App\Models\Contact;
 use App\Models\Supplier;
 use App\Services\CompanyService;
 use App\Services\UserService;

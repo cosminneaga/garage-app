@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
+use App\Interfaces\SupplierPolicyInterface;
 use App\Models\Supplier;
 use App\Models\User;
 
-class SupplierPolicy
+class SupplierPolicy implements SupplierPolicyInterface
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'show'));
+        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'));
     }
 
     /**
@@ -23,9 +24,11 @@ class SupplierPolicy
      */
     public function view(User $user, Supplier $supplier): bool
     {
-        $supplier->isMySupplier($user);
+        if ($user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'))) {
+            return true;
+        }
 
-        return false;
+        return $supplier->isMySupplier($user);
     }
 
     /**
@@ -69,6 +72,11 @@ class SupplierPolicy
     }
 
     public function removeAddress(User $user, Supplier $supplier): bool
+    {
+        return false;
+    }
+
+    public function removeContact(User $user, Supplier $supplier): bool
     {
         return false;
     }

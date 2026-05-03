@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
+use App\Interfaces\CompanyPolicyInterface;
 use App\Models\Company;
 use App\Models\User;
 
-class CompanyPolicy
+class CompanyPolicy implements CompanyPolicyInterface
 {
     /**
      * Has access to all resources page
