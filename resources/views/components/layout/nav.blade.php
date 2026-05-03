@@ -1,15 +1,17 @@
-<?php
-$user = Auth::user();
-?>
+@php
+use App\Enums\UserPermission;
 
-<nav class="border-b border-border px-6">
-    <div class="max-w-7xl mx-auto h-24 flex items-center justify-between">
+$user = Auth::user();
+@endphp
+
+<nav class="border-border border-b px-6">
+    <div class="mx-auto flex h-24 max-w-7xl items-center justify-between">
         <div>
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
 
                 <a href="/">
                     <img
-                        class="w-20 h-auto rounded-sm"
+                        class="h-auto w-20 rounded-sm"
                         src="{{ asset('logo-4x3.webp') }}"
                         title="GarageApp Logo"
                         alt="GarageApp Logo"
@@ -17,7 +19,7 @@ $user = Auth::user();
                 </a>
 
                 @auth
-                    @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'show'))
+                    @can(UserPermission::name(UserPermission::USER, 'show'))
                         <x-bladewind.dropmenu position="left">
                             <x-slot:trigger>
 
@@ -33,20 +35,18 @@ $user = Auth::user();
                                 class="w-full"
                                 href="/users?limit=10"
                             >
-                                <x-bladewind.dropmenu.item
-                                    icon="users">Team</x-bladewind.dropmenu.item>
+                                <x-bladewind.dropmenu.item icon="users">Team</x-bladewind.dropmenu.item>
                             </a>
 
-                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'store'))
+                            @can(UserPermission::name(UserPermission::USER, 'store'))
                                 <a
                                     class="w-full"
                                     href="/users/create"
                                 >
-                                    <x-bladewind.dropmenu.item
-                                        icon="folder-plus">Create</x-bladewind.dropmenu.item>
+                                    <x-bladewind.dropmenu.item icon="folder-plus">Create</x-bladewind.dropmenu.item>
                                 </a>
                             @endcan
-                            @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'restore'))
+                            @can(UserPermission::name(UserPermission::USER, 'restore'))
                                 <x-bladewind.dropmenu.item header>
                                     <p class="font-bold">Administrative</p>
                                 </x-bladewind.dropmenu.item>
@@ -54,8 +54,7 @@ $user = Auth::user();
                                     class="w-full"
                                     href="/users/restore?limit=10"
                                 >
-                                    <x-bladewind.dropmenu.item
-                                        icon="archive-box-x-mark">Removed</x-bladewind.dropmenu.item>
+                                    <x-bladewind.dropmenu.item icon="archive-box-x-mark">Removed</x-bladewind.dropmenu.item>
                                 </a>
                             @endcan
                         </x-bladewind.dropmenu>
@@ -71,25 +70,23 @@ $user = Auth::user();
                         </x-slot:trigger>
 
 
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'show'))
+                        @can(UserPermission::name(UserPermission::COMPANY, 'show'))
                             <a
                                 class="w-full"
                                 href="/companies?limit=10"
                             >
-                                <x-bladewind.dropmenu.item
-                                    icon="table-cells">List</x-bladewind.dropmenu.item>
+                                <x-bladewind.dropmenu.item icon="table-cells">List</x-bladewind.dropmenu.item>
                             </a>
                         @endcan
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'store'))
+                        @can(UserPermission::name(UserPermission::COMPANY, 'store'))
                             <a
                                 class="w-full"
                                 href="/companies/create"
                             >
-                                <x-bladewind.dropmenu.item
-                                    icon="folder-plus">Create</x-bladewind.dropmenu.item>
+                                <x-bladewind.dropmenu.item icon="folder-plus">Create</x-bladewind.dropmenu.item>
                             </a>
                         @endcan
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'restore'))
+                        @can(UserPermission::name(UserPermission::COMPANY, 'restore'))
                             <x-bladewind.dropmenu.item header>
                                 <p class="font-bold">Administrative</p>
                             </x-bladewind.dropmenu.item>
@@ -97,8 +94,7 @@ $user = Auth::user();
                                 class="w-full"
                                 href="/companies/restore?limit=10"
                             >
-                                <x-bladewind.dropmenu.item
-                                    icon="archive-box-x-mark">Removed</x-bladewind.dropmenu.item>
+                                <x-bladewind.dropmenu.item icon="archive-box-x-mark">Removed</x-bladewind.dropmenu.item>
                             </a>
                         @endcan
                     </x-bladewind.dropmenu>
@@ -112,7 +108,7 @@ $user = Auth::user();
                             >Suppliers</x-bladewind.button>
                         </x-slot:trigger>
 
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'show'))
+                        @can(UserPermission::name(UserPermission::SUPPLIER, 'show'))
                             <a
                                 class="w-full"
                                 href="/suppliers?limit=10"
@@ -127,7 +123,7 @@ $user = Auth::user();
         </div>
 
         <div class="flex flex-col gap-2">
-            <div class="flex gap-x-5 items-center">
+            <div class="flex items-center gap-x-5">
                 @auth
                     <x-bladewind.dropmenu>
                         <x-slot:trigger>
@@ -137,16 +133,12 @@ $user = Auth::user();
                                         class="rounded-sm!"
                                         size="regular"
                                         show_ring="false"
-                                        :image="!Str::isUrl(
-                                            $user->image_path,
-                                        )
-                                            ? asset(
-                                                'storage/' . $user->image_path,
-                                            )
+                                        :image="!Str::isUrl($user->image_path)
+                                            ? asset('storage/' . $user->image_path)
                                             : $user->image_path"
                                     />
                                 </div>
-                                <div class="border-2 border-white p-1">
+                                <div class="border-white border-2 p-1">
                                     <x-bladewind.icon
                                         class="text-amber-400 h-8 w-8"
                                         name="bars-3"
@@ -226,12 +218,11 @@ $user = Auth::user();
 
                 @guest
                     <div
-                        class="px-2 border-b-0! border-primary-500 transition-all ease-in-out delay-150 duration-100 hover:border-b-4! hover:border-t-4!">
+                        class="border-b-0! hover:border-b-4! hover:border-t-4! border-primary-500 px-2 transition-all delay-150 duration-100 ease-in-out">
                         <a href="/login">Login</a>
-                        {{-- <div class="border-b border-4 transition-all ease-in-out delay-150 duration-200 w-1 hover:w-full"></div> --}}
                     </div>
                     <div
-                        class="px-2 border-b-0! border-primary-500 transition-all ease-in-out delay-150 duration-100 hover:border-b-4! hover:border-t-4!">
+                        class="border-b-0! hover:border-b-4! hover:border-t-4! border-primary-500 px-2 transition-all delay-150 duration-100 ease-in-out">
                         <a href="/register">Register</a>
                     </div>
                 @endguest

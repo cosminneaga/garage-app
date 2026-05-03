@@ -1,6 +1,8 @@
 @props(['name', 'resource'])
 
-<?php
+@php
+use App\Models\Country;
+
 if ($resource instanceof \App\Models\Company) {
     $routeName = 'companies';
 } elseif ($resource instanceof \App\Models\User) {
@@ -8,7 +10,7 @@ if ($resource instanceof \App\Models\Company) {
 } elseif ($resource instanceof \App\Models\Supplier) {
     $routeName = 'suppliers';
 }
-?>
+@endphp
 
 <x-bladewind.modal
     title="Create new address for {{ $resource->name }}"
@@ -51,7 +53,7 @@ if ($resource instanceof \App\Models\Company) {
             label="Select a country"
             label_key="name"
             flag_key="code"
-            :data="\App\Models\Country::all()"
+            :data="Country::all()"
             selected_value="1"
         />
         <h3>Location</h3>

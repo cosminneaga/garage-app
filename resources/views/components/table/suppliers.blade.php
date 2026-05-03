@@ -5,6 +5,10 @@
     'restore_action' => false,
 ])
 
+@php
+use \App\Enums\UserPermission;
+@endphp
+
 <x-table :data="$suppliers">
     <x-slot:header>
         <th>Name</th>
@@ -32,7 +36,7 @@
             <td>
                 <div class="flex gap-1">
                     @if ($edit_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'update'))
+                        @can(UserPermission::name(UserPermission::SUPPLIER, 'update'))
                             <x-bladewind.button.circle
                                 icon="pencil-square"
                                 color="primary"
@@ -43,7 +47,7 @@
                         @endcan
                     @endif
                     @if ($delete_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'delete'))
+                        @can(UserPermission::name(UserPermission::SUPPLIER, 'delete'))
                             <form
                                 action="{{ route('suppliers.destroy', $supplier) }}"
                                 method="POST"
@@ -62,7 +66,7 @@
                         @endcan
                     @endif
                     @if ($restore_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'restore'))
+                        @can(UserPermission::name(UserPermission::SUPPLIER, 'restore'))
                             <form
                                 action="{{ route('suppliers.restore', $supplier) }}"
                                 method="POST"

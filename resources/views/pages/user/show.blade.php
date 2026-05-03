@@ -1,3 +1,8 @@
+@php
+    use App\Enums\UserPermission;
+    use App\Enums\UserRole;
+@endphp
+
 <x-layout title="User">
     <div class="flex items-end justify-between">
 
@@ -5,8 +10,7 @@
             {{ strtoupper($user->name) }}
         </h1>
 
-        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-            'update'))
+        @can(UserPermission::name(UserPermission::USER, 'update'))
             <a href="{{ route('users.edit', $user) }}">
                 <x-bladewind.button>
                     Edit {{ $user->name }}
@@ -17,13 +21,13 @@
     <br><br>
 
     <div class="grid grid-rows-2 gap-2">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
             <x-bladewind.contact-card
                 class="col-span-1"
                 :name="$user->name"
                 :email="$user->email"
                 :image="$user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path"
-                position="{{ \App\Enums\UserRole::findByName($user->getRoleNames()[0])->name }}"
+                position="{{ UserRole::findByName($user->getRoleNames()[0])->name }}"
             >
                 <div>
                     <x-active-tag :active="$user->active" />
@@ -34,7 +38,7 @@
                         @foreach ($user->getRoleNames() as $role)
                             <x-bladewind.listview.item>
                                 ~
-                                {{ \App\Enums\UserRole::findByName($role)->label() }}
+                                {{ UserRole::findByName($role)->label() }}
                                 ~
                             </x-bladewind.listview.item>
                         @endforeach
@@ -77,8 +81,6 @@
                         <th>Number</th>
                         <th>Street</th>
                         <th>Postcode</th>
-                        <th>Country</th>
-                        <th>Coordinates</th>
                         <th>Extra</th>
                     </x-slot>
 
@@ -87,8 +89,6 @@
                             <td>{{ $contact->number }}</td>
                             <td>{{ $contact->street }}</td>
                             <td>{{ $contact->postcode }}</td>
-                            <td>{{ $contact->country->name }}</td>
-                            <td>{{ implode(',', $contact->coordinates) }}</td>
                             <td>{{ $contact->extra }}</td>
                         </tr>
                     @endforeach

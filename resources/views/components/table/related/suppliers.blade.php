@@ -1,8 +1,13 @@
 @props(['data', 'model'])
 
+@php
+    use App\Enums\SupplierType;
+    use App\Enums\UserPermission;
+@endphp
+
 <x-bladewind.card class="overflow-auto">
     <x-slot:header>
-        <div class="p-4 flex justify-between items-center">
+        <div class="flex items-center justify-between p-4">
             <h4>SUPPLIERS</h4>
             <x-bladewind.button onclick="showModal('modal-supplier-create')">
                 Add supplier
@@ -24,12 +29,12 @@
             <tr>
                 <td>{{ $supplier->name }}</td>
                 <td>{{ $supplier->code }}</td>
-                <td>{{ \App\Enums\SupplierType::getLabel($supplier->type) }}</td>
+                <td>{{ SupplierType::getLabel($supplier->type) }}</td>
                 <td>{{ $supplier->tax_id }}</td>
                 <td>{{ $supplier->registration_number }}</td>
                 <td>
                     <div class="flex gap-1">
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'show'))
+                        @can(UserPermission::name(UserPermission::SUPPLIER, 'show'))
                             <x-bladewind.button.circle
                                 icon="eye"
                                 color="primary"
@@ -38,7 +43,7 @@
                                 onclick="location.href='/companies/{{ $model->id }}/suppliers/{{ $supplier->id }}'"
                             />
                         @endcan
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::SUPPLIER, 'delete'))
+                        @can(UserPermission::name(UserPermission::SUPPLIER, 'delete'))
                             <form
                                 action="{{ route('companies.supplier.destroy', [$model, $supplier]) }}"
                                 method="POST"

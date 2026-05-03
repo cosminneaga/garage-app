@@ -23,6 +23,7 @@ Route::middleware('guest')->group(function () {
 
 # USER_ADMIN
 Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
+
     # COMPANIES
     Route::post('/companies/{company}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
     Route::get('/companies/restore', [CompanyController::class, 'removed'])->name('companies.removed');
@@ -55,6 +56,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
 
 # USER_ADMIN|USER_EDITOR
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], function () {
+
     # COMPANIES
     Route::get('/companies/{company}/address/{address}', [AddressController::class, 'show'])->name('companies.address.show');
     Route::post('/companies/{company}/address', [AddressController::class, 'store'])->name('companies.address.store');

@@ -35,19 +35,13 @@
         rel="stylesheet"
     />
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
-
-    {{-- <script
-        src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"
-        type="module"
-    ></script> --}}
-
     @stack('scripts')
 </head>
 
 <body class="bg-background text-foreground">
     <x-layout.nav />
 
-    <main class="max-w-400 mx-auto py-6 px-4">
+    <main class="max-w-400 mx-auto px-4 py-6">
         {{ $slot }}
     </main>
 
@@ -65,7 +59,9 @@
             position="top-right"
         />
     @endsession
-    <div class="fixed top-5 right-5 z-50 max-w-md space-y-2">
+
+
+    <div class="fixed right-5 top-5 z-50 max-w-md space-y-2">
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 <div
@@ -80,12 +76,8 @@
                 </div>
             @endforeach
         @endif
-        <!-- ALERT AREA -->
     </div>
-
-    <!-- MODALS AREA -->
-
-    <!-- MODALS AREA -->
+    <!-- ALERT AREA -->
 </body>
 
 </html>

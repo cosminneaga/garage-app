@@ -1,8 +1,8 @@
 @php
-    use App\Enums\UserPermission;
-    use App\Enums\Tabs\CompanyTabs;
+use App\Enums\UserPermission;
+use App\Enums\Tabs\CompanyTabs;
 
-    $tab = request()->query('tab');
+$tab = request()->query('tab');
 @endphp
 
 <x-layout :title="$company->name">
@@ -43,8 +43,7 @@
                     <x-bladewind.contact-card
                         class="col-span-1"
                         :name="$company->name"
-                        :image="$company->image_path &&
-                        !Str::isUrl($company->image_path)
+                        :image="$company->image_path && !Str::isUrl($company->image_path)
                             ? asset('storage/' . $company->image_path)
                             : $company->image_path"
                     >

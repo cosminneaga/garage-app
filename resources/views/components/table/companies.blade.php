@@ -5,6 +5,10 @@
     'restore_action' => false,
 ])
 
+@php
+    use App\Enums\UserPermission;
+@endphp
+
 <x-table :data="$companies">
     <x-slot:header>
         <th>Name</th>
@@ -21,8 +25,7 @@
                 <div class="flex items-end gap-1">
                     <x-bladewind.avatar
                         size="regular"
-                        :image="$company->image_path &&
-                        !Str::isUrl($company->image_path)
+                        :image="$company->image_path && !Str::isUrl($company->image_path)
                             ? asset('storage/' . $company->image_path)
                             : $company->image_path"
                     />
@@ -30,7 +33,7 @@
                         class="underline"
                         href="{{ route('companies.show', [
                             'company' => $company,
-                            'tab' => 'details'
+                            'tab' => 'details',
                         ]) }}"
                     ><strong>{{ $company->name }}</strong></a>
                 </div>
@@ -42,7 +45,7 @@
             <td>
                 <div class="flex gap-1">
                     @if ($edit_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'update'))
+                        @can(UserPermission::name(UserPermission::COMPANY, 'update'))
                             <x-bladewind.button.circle
                                 icon="pencil-square"
                                 color="primary"
@@ -53,7 +56,7 @@
                         @endcan
                     @endif
                     @if ($delete_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'delete'))
+                        @can(UserPermission::name(UserPermission::COMPANY, 'delete'))
                             <form
                                 action="{{ route('companies.destroy', $company) }}"
                                 method="POST"
@@ -72,7 +75,7 @@
                         @endcan
                     @endif
                     @if ($restore_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::COMPANY, 'restore'))
+                        @can(UserPermission::name(UserPermission::COMPANY, 'restore'))
                             <form
                                 action="{{ route('companies.restore', $company) }}"
                                 method="POST"

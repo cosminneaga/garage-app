@@ -1,3 +1,7 @@
+@php
+use \App\Models\Country;
+@endphp
+
 <x-layout title="Add company">
     <x-form.wrapper
         title="Create a new company"
@@ -99,7 +103,7 @@
                         label="Select a country"
                         label_key="name"
                         flag_key="code"
-                        :data="\App\Models\Country::all()"
+                        :data="Country::all()"
                         selected_value="1"
                     />
                 </x-bladewind.card>

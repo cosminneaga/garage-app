@@ -6,6 +6,10 @@
     'restore_action' => false,
 ])
 
+@php
+    use App\Enums\UserPermission;
+@endphp
+
 <x-table
     :data="$users"
     {{ $attributes }}
@@ -23,8 +27,7 @@
                 <div class="flex items-end gap-1">
                     <x-bladewind.avatar
                         size="regular"
-                        :image="$user->image_path &&
-                        !Str::isUrl($user->image_path)
+                        :image="$user->image_path && !Str::isUrl($user->image_path)
                             ? asset('storage/' . $user->image_path)
                             : $user->image_path"
                     />
@@ -52,7 +55,7 @@
                         />
                     @endif
                     @if ($edit_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'store'))
+                        @can(UserPermission::name(UserPermission::USER, 'store'))
                             <x-bladewind.button.circle
                                 icon="pencil-square"
                                 color="primary"
@@ -63,7 +66,7 @@
                         @endcan
                     @endif
                     @if ($delete_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER, 'delete'))
+                        @can(UserPermission::name(UserPermission::USER, 'delete'))
                             <form
                                 id="form-delete-user"
                                 action="{{ route('users.destroy', $user) }}"
@@ -83,8 +86,7 @@
                         @endcan
                     @endif
                     @if ($restore_action)
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::USER,
-                            'restore'))
+                        @can(UserPermission::name(UserPermission::USER, 'restore'))
                             <form
                                 action="{{ route('users.restore', $user) }}"
                                 method="POST"

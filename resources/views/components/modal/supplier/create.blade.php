@@ -1,5 +1,10 @@
 @props(['name', 'company'])
 
+@php
+use \App\Enums\SupplierType;
+use \App\Models\Country;
+@endphp
+
 <x-bladewind.modal
     title="Create new supplier for {{ $company->name }}"
     :name="$name"
@@ -55,8 +60,8 @@
                     label="Type"
                     label_key="label"
                     value_key="value"
-                    :data="\App\Enums\SupplierType::ui()"
-                    selected_value="{{ \App\Enums\SupplierType::DISTRIBUTOR->value }}"
+                    :data="SupplierType::ui()"
+                    selected_value="{{ SupplierType::DISTRIBUTOR->value }}"
                 />
                 <x-bladewind.input
                     name="tax_id"
@@ -101,7 +106,7 @@
                     label="Select a country"
                     label_key="name"
                     flag_key="code"
-                    :data="\App\Models\Country::all()"
+                    :data="Country::all()"
                     selected_value="1"
                 />
             </x-bladewind.card>

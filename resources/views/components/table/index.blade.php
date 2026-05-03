@@ -3,6 +3,10 @@
     'limit' => 10,
 ])
 
+@php
+use \Illuminate\Pagination\LengthAwarePaginator;
+@endphp
+
 <x-bladewind.card class="text-black overflow-auto">
     <x-bladewind.table {{ $attributes }}>
         <x-slot:header>
@@ -10,7 +14,7 @@
         </x-slot:header>
         {{ $slot }}
 
-        @if ($data instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        @if ($data instanceof LengthAwarePaginator)
             <!-- PAGINATION -->
             <div class="flex flex-row justify-between mt-5">
                 <div class="flex gap-4">

@@ -1,3 +1,8 @@
+@php
+use App\Models\Country;
+use App\Enums\UserRole;
+@endphp
+
 <x-layout title="Add User">
     <x-form.wrapper
         title="create team member"
@@ -70,7 +75,7 @@
                         value_key="name"
                         label="Select a role"
                         label_key="label"
-                        :data="\App\Enums\UserRole::ui()"
+                        :data="UserRole::ui()"
                         selected_value="user_editor"
                     />
                     <x-bladewind.toggle
@@ -110,7 +115,7 @@
                         label="Select a country"
                         label_key="name"
                         flag_key="code"
-                        :data="\App\Models\Country::all()"
+                        :data="Country::all()"
                         selected_value="1"
                     />
                 </x-bladewind.card>

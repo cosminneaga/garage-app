@@ -1,6 +1,6 @@
 @props(['name', 'resource'])
 
-<?php
+@php
 if ($resource instanceof \App\Models\Company) {
     $routeName = 'companies';
 } elseif ($resource instanceof \App\Models\User) {
@@ -8,7 +8,7 @@ if ($resource instanceof \App\Models\Company) {
 } elseif ($resource instanceof \App\Models\Supplier) {
       $routeName = 'suppliers';
   }
-?>
+@endphp
 
 <x-bladewind.modal
     title="Create new contact for {{ $resource->name }}"

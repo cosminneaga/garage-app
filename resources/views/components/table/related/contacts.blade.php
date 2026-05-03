@@ -1,6 +1,8 @@
 @props(['data', 'model'])
 
-<?php
+@php
+use \App\Enums\UserPermission;
+
 if ($model instanceof \App\Models\Company) {
     $routeName = 'companies';
 } elseif ($model instanceof \App\Models\User) {
@@ -8,7 +10,7 @@ if ($model instanceof \App\Models\Company) {
 } elseif ($model instanceof \App\Models\Supplier) {
     $routeName = 'suppliers';
 }
-?>
+@endphp
 
 <x-bladewind.card
     class="overflow-auto"
@@ -50,7 +52,7 @@ if ($model instanceof \App\Models\Company) {
                 </td>
                 <td>
                     <div class="flex gap-1">
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::CONTACT, 'show'))
+                        @can(UserPermission::name(UserPermission::CONTACT, 'show'))
                             <x-bladewind.button.circle
                                 icon="eye"
                                 color="primary"
@@ -59,7 +61,7 @@ if ($model instanceof \App\Models\Company) {
                                 onclick="location.href='/{{ $routeName }}/{{ $model->id }}/contact/{{ $contact->id }}'"
                             />
                         @endcan
-                        @can(\App\Enums\UserPermission::name(\App\Enums\UserPermission::CONTACT, 'delete'))
+                        @can(UserPermission::name(UserPermission::CONTACT, 'delete'))
                             <form
                                 action="{{ route($routeName . '.contact.destroy', [$model, $contact]) }}"
                                 method="POST"

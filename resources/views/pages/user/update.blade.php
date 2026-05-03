@@ -4,7 +4,7 @@
         description="Update user details, address & contact"
     >
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
             <form
                 id="form-users-update"
                 action="{{ route('users.update', $user) }}"
@@ -18,7 +18,9 @@
                     <x-bladewind.avatar
                         class="mb-3"
                         size="big"
-                        :image="$user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path"
+                        :image="$user->image_path && !Str::isUrl($user->image_path)
+                            ? asset('storage/' . $user->image_path)
+                            : $user->image_path"
                     />
 
                     <x-bladewind.input
@@ -46,7 +48,7 @@
                         />
                     </div>
 
-                    <div class="flex gap-1 mt-5">
+                    <div class="mt-5 flex gap-1">
                         <x-bladewind.button
                             class="w-fit"
                             form="form-users-update"
