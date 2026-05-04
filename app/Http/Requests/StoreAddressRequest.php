@@ -31,8 +31,8 @@ class StoreAddressRequest extends FormRequest
             'postcode' => ['required', 'string', 'max:20'],
             'extra' => ['string', 'max:255'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
-            'coordinates.latitude' => ['nullable', 'string', 'max:20'],
-            'coordinates.longitude' => ['nullable', 'string', 'max:20'],
+            'coordinates.latitude' => ['required', 'string', 'max:20'],
+            'coordinates.longitude' => ['required', 'string', 'max:20'],
         ];
     }
 }

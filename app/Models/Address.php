@@ -29,6 +29,8 @@ class Address extends Model
         'extra',
         'country_id',
         'coordinates',
+        'coordinates->latitude',
+        'coordinates->longitude',
     ];
 
     /**
@@ -89,5 +91,21 @@ class Address extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public static function updateOrCreateByCoordinates(int|string $latitude, int|string $longitude, array $attributes): Address
+    {
+        $instance = self::query()
+            ->whereRaw('ST_Y(coordinates) = ?', [$latitude])
+            ->whereRaw('ST_X(coordinates) = ?', [$longitude])
+            ->first();
+
+        if ($instance) {
+            $instance->update($attributes);
+        } else {
+            $instance = self::create($attributes);
+        }
+
+        return $instance;
     }
 }

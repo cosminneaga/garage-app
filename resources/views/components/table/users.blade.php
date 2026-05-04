@@ -34,12 +34,7 @@
                     <p><strong>{{ $user->name }}</strong></p>
                 </div>
             </td>
-            <td>
-                <a
-                    class="underline"
-                    href="{{ route('users.show', $user) }}"
-                >{{ $user->email }}</a>
-            </td>
+            <td>{{ $user->email }}</td>
             <td>
                 <x-active-tag :active="$user->active" />
             </td>

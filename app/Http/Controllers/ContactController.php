@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\ModelContactStoreAction;
-use App\Enums\RelatedModel;
+use App\Enums\Related\RelatedAddressContact;
 use App\Http\Requests\StoreContactRequest;
-use App\Models\Contact;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,28 +18,12 @@ class ContactController extends Controller
     use ResponseMessage;
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index(): void
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): void
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreContactRequest $request, string|int $id, ModelContactStoreAction $action): RedirectResponse
     {
         $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedModel::from($type)->entity($id);
+        $entity = RelatedAddressContact::from($type)->entity($id);
 
         $action->handle($request->safe()->all(), $entity);
 
@@ -55,36 +38,20 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, string|int $id, string|int $contactId): View
+    public function edit(Request $request, string|int $id, string|int $contactId): View
     {
         $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedModel::from($type)->entity($id);
-        $policy = RelatedModel::from($type)->policy();
+        $entity = RelatedAddressContact::from($type)->entity($id);
+        $policy = RelatedAddressContact::from($type)->policy();
 
         $guard = app($policy)->view(Auth::user(), $entity);
         if (! $guard) {
             abort(401);
         }
 
-        return view('pages.contact.show', [
+        return view('pages.contact.edit', [
             'contact' => $entity->contacts()->findOrFail($contactId),
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Contact $contact): void
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Contact $contact): void
-    {
-        //
     }
 
     /**
@@ -93,8 +60,8 @@ class ContactController extends Controller
     public function destroy(Request $request, string|int $id, string|int $contactId): RedirectResponse
     {
         $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedModel::from($type)->entity($id);
-        $policy = RelatedModel::from($type)->policy();
+        $entity = RelatedAddressContact::from($type)->entity($id);
+        $policy = RelatedAddressContact::from($type)->policy();
 
         $guard = app($policy)->removeContact(Auth::user(), $entity);
         if (! $guard) {

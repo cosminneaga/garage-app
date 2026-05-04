@@ -34,14 +34,15 @@
                 <td>{{ $supplier->registration_number }}</td>
                 <td>
                     <div class="flex gap-1">
-                        @can(UserPermission::name(UserPermission::SUPPLIER, 'show'))
-                            <x-bladewind.button.circle
-                                icon="eye"
-                                color="primary"
-                                size="tiny"
-                                outline
-                                onclick="location.href='/companies/{{ $model->id }}/suppliers/{{ $supplier->id }}'"
-                            />
+                        @can(UserPermission::name(UserPermission::SUPPLIER, 'update'))
+                            <a href="{{route('companies.supplier.edit', [$model, $supplier])}}">
+                                <x-bladewind.button.circle
+                                    icon="pencil"
+                                    color="green"
+                                    size="tiny"
+                                    outline
+                                />
+                            </a>
                         @endcan
                         @can(UserPermission::name(UserPermission::SUPPLIER, 'delete'))
                             <form

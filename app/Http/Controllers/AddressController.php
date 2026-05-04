@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\ModelAddressStoreAction;
-use App\Enums\RelatedModel;
+use App\Enums\Related\RelatedAddressContact;
 use App\Http\Requests\StoreAddressRequest;
-use App\Models\Address;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -19,28 +18,18 @@ class AddressController extends Controller
     use ResponseMessage;
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index(): void
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): void
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreAddressRequest $request, string|int $id, ModelAddressStoreAction $action): RedirectResponse
     {
         $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedModel::from($type)->entity($id);
+        $entity = RelatedAddressContact::from($type)->entity($id);
+        $policy = RelatedAddressContact::from($type)->policy();
+
+        $guard = app($policy)->view(Auth::user(), $entity);
+        if (! $guard) {
+            abort(401);
+        }
 
         $action->handle($request->safe()->all(), $entity);
 
@@ -55,36 +44,20 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, string|int $id, string|int $addressId): View
+    public function edit(Request $request, string|int $id, string|int $addressId): View
     {
         $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedModel::from($type)->entity($id);
-        $policy = RelatedModel::from($type)->policy();
+        $entity = RelatedAddressContact::from($type)->entity($id);
+        $policy = RelatedAddressContact::from($type)->policy();
 
         $guard = app($policy)->view(Auth::user(), $entity);
         if (! $guard) {
             abort(401);
         }
 
-        return view('pages.address.show', [
+        return view('pages.address.edit', [
             'address' => $entity->addresses()->findOrFail($addressId),
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Address $address): void
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Address $address): void
-    {
-        //
     }
 
     /**
@@ -93,8 +66,8 @@ class AddressController extends Controller
     public function destroy(Request $request, string|int $id, string|int $addressId): RedirectResponse
     {
         $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedModel::from($type)->entity($id);
-        $policy = RelatedModel::from($type)->policy();
+        $entity = RelatedAddressContact::from($type)->entity($id);
+        $policy = RelatedAddressContact::from($type)->policy();
 
         $guard = app($policy)->removeAddress(Auth::user(), $entity);
         if (! $guard) {

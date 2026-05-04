@@ -1,15 +1,15 @@
 @props(['data', 'model'])
 
 @php
-use \App\Enums\UserPermission;
+    use App\Enums\UserPermission;
 
-if ($model instanceof \App\Models\Company) {
-    $routeName = 'companies';
-} elseif ($model instanceof \App\Models\User) {
-    $routeName = 'users';
-} elseif ($model instanceof \App\Models\Supplier) {
-    $routeName = 'suppliers';
-}
+    if ($model instanceof \App\Models\Company) {
+        $routeName = 'companies';
+    } elseif ($model instanceof \App\Models\User) {
+        $routeName = 'users';
+    } elseif ($model instanceof \App\Models\Supplier) {
+        $routeName = 'suppliers';
+    }
 @endphp
 
 <x-bladewind.card
@@ -28,7 +28,6 @@ if ($model instanceof \App\Models\Company) {
     <x-bladewind.table
         celled
         compact
-        layout="custom"
     >
         <x-slot name="header">
             <th>Mobile</th>
@@ -52,14 +51,15 @@ if ($model instanceof \App\Models\Company) {
                 </td>
                 <td>
                     <div class="flex gap-1">
-                        @can(UserPermission::name(UserPermission::CONTACT, 'show'))
-                            <x-bladewind.button.circle
-                                icon="eye"
-                                color="primary"
-                                size="tiny"
-                                outline
-                                onclick="location.href='/{{ $routeName }}/{{ $model->id }}/contact/{{ $contact->id }}'"
-                            />
+                        @can(UserPermission::name(UserPermission::CONTACT, 'update'))
+                            <a href="{{ route($routeName . '.contact.edit', [$model, $contact]) }}">
+                                <x-bladewind.button.circle
+                                    icon="pencil"
+                                    color="green"
+                                    size="tiny"
+                                    outline
+                                />
+                            </a>
                         @endcan
                         @can(UserPermission::name(UserPermission::CONTACT, 'delete'))
                             <form

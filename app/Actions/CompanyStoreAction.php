@@ -45,12 +45,9 @@ class CompanyStoreAction
             $company = Company::create($data['company']);
             $company->users()->attach($this->user);
 
-            $company->addresses()->attach(Address::updateOrCreate(
-                [
-                    'number' => Arr::get($data, 'address.number'),
-                    'street' => Arr::get($data, 'address.street'),
-                    'postcode' => Arr::get($data, 'address.postcode'),
-                ],
+            $company->addresses()->attach(Address::updateOrCreateByCoordinates(
+                Arr::get($data, 'address.coordinates.latitude'),
+                Arr::get($data, 'address.coordinates.longitude'),
                 $data['address']
             ));
 

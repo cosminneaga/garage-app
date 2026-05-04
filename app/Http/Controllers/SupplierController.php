@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\SupplierStoreAction;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Company;
 use App\Models\Supplier;
+use App\Policies\CompanyPolicy;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
 {
     use ResponseMessage;
-
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Display the admin listing of all resources in DB
@@ -31,62 +31,76 @@ class SupplierController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index(): void
-    {
-        // $this->authorize('viewAny', Supplier::class);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): void
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSupplierRequest $request): void
+    public function store(StoreSupplierRequest $request, Company $company, SupplierStoreAction $action): RedirectResponse
     {
-        //
-    }
+        $this->authorize('create', Supplier::class);
+        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
+        if (!$guard) {
+            abort(401);
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Supplier $supplier): View
-    {
-        $this->authorize('view', $supplier);
+        $action->handle($request->safe()->all(), $company);
 
-        return view('pages.supplier.show', [
-            'supplier' => $supplier,
-        ]);
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Supplier created',
+                'Supplier information has been created and attached to respective company'
+            ));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supplier $supplier): void
+    public function edit(Company $company, Supplier $supplier): View
     {
-        //
+        return view('pages.supplier.edit', [
+            'company' => $company,
+            'supplier' => $supplier,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier): void
+    public function update(UpdateSupplierRequest $request, Company $company, Supplier $supplier): RedirectResponse
     {
-        //
+        $this->authorize('update', $supplier);
+        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
+        if (!$guard) {
+            abort(401);
+        }
+
+        $supplier->update($request->safe()->all());
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Supplier updated',
+                'Supplier information has been successfully updated from respective company'
+            ));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier): void
+    public function destroy(Request $request, Company $company, Supplier $supplier): RedirectResponse
     {
-        //
+        $this->authorize('delete', $supplier);
+        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
+        if (!$guard) {
+            abort(401);
+        }
+
+        $company->suppliers()->detach($supplier);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'info',
+                'Supplier removed',
+                'Supplier information has been successfully removed from respective company'
+            ));
     }
 }

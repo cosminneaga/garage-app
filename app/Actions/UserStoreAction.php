@@ -20,8 +20,6 @@ class UserStoreAction
 
     public function handle(array $attributes): void
     {
-        $data = [];
-
         $data['contact'] = $attributes['contact'];
         $data['contact']['info'] = $attributes['contact_info'];
         $data['address'] = collect($attributes['address'])
@@ -47,12 +45,9 @@ class UserStoreAction
 
             $this->user->team()->attach($user);
 
-            $user->addresses()->attach(Address::updateOrCreate(
-                [
-                    'number' => Arr::get($data, 'address.number'),
-                    'street' => Arr::get($data, 'address.street'),
-                    'postcode' => Arr::get($data, 'address.postcode'),
-                ],
+            $user->addresses()->attach(Address::updateOrCreateByCoordinates(
+                Arr::get($data, 'address.coordinates.latitude'),
+                Arr::get($data, 'address.coordinates.longitude'),
                 $data['address']
             ));
 

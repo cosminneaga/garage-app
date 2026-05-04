@@ -29,13 +29,7 @@
                             ? asset('storage/' . $company->image_path)
                             : $company->image_path"
                     />
-                    <a
-                        class="underline"
-                        href="{{ route('companies.show', [
-                            'company' => $company,
-                            'tab' => 'details',
-                        ]) }}"
-                    ><strong>{{ $company->name }}</strong></a>
+                    <strong>{{ $company->name }}</strong>
                 </div>
             </td>
             <td>{{ $company->tax_id }}</td>

@@ -13,13 +13,9 @@ class ModelAddressStoreAction
     public function handle(array $attributes, Model $model): void
     {
         DB::transaction(function () use ($attributes, $model) {
-            $address = Address::updateOrCreate(
-                [
-                    'number' => $attributes['number'],
-                    'street' => $attributes['street'],
-                    'postcode' => $attributes['postcode'],
-                    'country_id' => $attributes['country_id'],
-                ],
+            $address = Address::updateOrCreateByCoordinates(
+                $attributes['coordinates']['latitude'],
+                $attributes['coordinates']['longitude'],
                 $attributes
             );
 

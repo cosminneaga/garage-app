@@ -6,12 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
-use App\Actions\SupplierStoreAction;
 use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
-use App\Models\Supplier;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use App\Traits\RequestTabHandler;
@@ -68,19 +65,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display a single resource
-     */
-    public function show(Request $request, string|int $id): View
-    {
-        $company = Company::with(self::company($request))->find($id);
-        $this->authorize('view', $company);
-
-        return view('pages.company.show', [
-            'company' => $company,
-        ]);
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(): View
@@ -115,7 +99,7 @@ class CompanyController extends Controller
     {
         $this->authorize('edit', $company);
 
-        return view('pages.company.update', [
+        return view('pages.company.edit', [
             'company' => $company,
         ]);
     }
@@ -184,39 +168,6 @@ class CompanyController extends Controller
                 'success',
                 'Company restored',
                 'The company has been successfully restored and is now available in your account.'
-            ));
-    }
-
-    public function showSupplier(Company $company, Supplier $supplier): View
-    {
-        return view('pages.supplier.show', [
-            'company' => $company,
-            'supplier' => $supplier,
-        ]);
-    }
-
-    public function addSupplier(StoreSupplierRequest $request, Company $company, SupplierStoreAction $action): RedirectResponse
-    {
-        $action->handle($request->safe()->all(), $company);
-
-        return back()
-            ->with('message', self::responseMessage(
-                'success',
-                'Supplier created',
-                'Supplier information has been created and attached to respective company'
-            ));
-    }
-
-    public function removeSupplier(Company $company, Supplier $supplier): RedirectResponse
-    {
-        $this->authorize('removeSupplier', $company);
-        $company->suppliers()->detach($supplier);
-
-        return back()
-            ->with('message', self::responseMessage(
-                'info',
-                'Supplier removed',
-                'Supplier information has been successfully removed from respective company'
             ));
     }
 }

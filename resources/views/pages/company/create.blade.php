@@ -1,5 +1,5 @@
 @php
-use \App\Models\Country;
+    use App\Models\Country;
 @endphp
 
 <x-layout title="Add company">
@@ -8,7 +8,7 @@ use \App\Models\Country;
         description="Create a company, address & contact"
     >
         <form
-            class="text-start flex flex-col gap-4"
+            class="flex flex-col gap-4 text-start"
             action="/companies"
             method="POST"
             enctype="multipart/form-data"
@@ -35,7 +35,7 @@ use \App\Models\Country;
         >
             @csrf
 
-            <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
+            <div class="grid grid-rows-1 gap-1 md:grid-cols-3">
 
                 <x-bladewind.card title="details">
                     <x-bladewind.filepicker
@@ -105,6 +105,20 @@ use \App\Models\Country;
                         flag_key="code"
                         :data="Country::all()"
                         selected_value="1"
+                    />
+                    <h3>Location</h3>
+                    <br>
+                    <x-bladewind.input
+                        name="address[coordinates][latitude]"
+                        type="text"
+                        value="8.327832"
+                        label="Latitude"
+                    />
+                    <x-bladewind.input
+                        name="address[coordinates][longitude]"
+                        type="text"
+                        value="94.676743"
+                        label="Longitude"
                     />
                 </x-bladewind.card>
 

@@ -1,10 +1,18 @@
-<x-layout title="Update | {{ $user->name }}">
-    <x-form.wrapper
-        title="update user details"
-        description="Update user details, address & contact"
-    >
+@php
+    use App\Enums\Tabs\UserTabs;
+    use App\Enums\UserPermissions;
 
-        <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
+    $tab = request()->query('tab');
+@endphp
+
+<x-layout title="{{ $user->name }}">
+
+    <x-wrapper.tab-resource
+        title="view & update user"
+        subtitle="Update user details, address & contact"
+        :tabs="UserTabs::ui()"
+    >
+        @if ($tab === UserTabs::DETAILS->value || !$tab)
             <form
                 id="form-users-update"
                 action="{{ route('users.update', $user) }}"
@@ -67,15 +75,20 @@
                 </x-bladewind.card>
 
             </form>
-
-            <div class="col-span-2">
-                <x-table.related.contacts :resource="$user" />
-                <br>
-                <x-table.related.addresses :resource="$user" />
-            </div>
-        </div>
-
-    </x-form.wrapper>
+        @elseif ($tab === UserTabs::STATISTICS->value)
+            Data goes here
+        @elseif ($tab === UserTabs::CONTACTS->value)
+            <x-table.related.contacts
+                :data="$user->contacts"
+                :model="$user"
+            />
+        @elseif ($tab === UserTabs::ADDRESSES->value)
+            <x-table.related.addresses
+                :data="$user->addresses"
+                :model="$user"
+            />
+        @endif
+    </x-wrapper.tab-resource>
 
     <!-- USER DELETE FORM -->
     <form

@@ -55,18 +55,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display a single resource
-     */
-    public function show(User $user): View
-    {
-        $this->authorize('view', $user);
-
-        return view('pages.user.show', [
-            'user' => $user,
-        ]);
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(): View
@@ -110,7 +98,7 @@ class UserController extends Controller
                 ));
         }
 
-        return view('pages.user.update', [
+        return view('pages.user.edit', [
             'user' => $user,
             'addresses' => $user->addresses()->get(),
             'contacts' => $user->contacts()->get(),

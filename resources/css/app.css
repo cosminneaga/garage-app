@@ -51,3 +51,7 @@ textarea {
 .peer:checked ~ .peer-checked\:after\:translate-x-full:after {
     --tw-translate-x: 50% !important;
 }
+
+td {
+    text-align: start;
+}

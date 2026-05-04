@@ -22,7 +22,10 @@
         </div>
     </x-slot:header>
 
-    <x-bladewind.table>
+    <x-bladewind.table
+        celled
+        compact
+    >
         <x-slot name="header">
             <th>Number</th>
             <th>Street</th>
@@ -42,14 +45,15 @@
                 @if ($actions)
                     <td>
                         <div class="flex gap-1">
-                            @can(UserPermission::name(UserPermission::ADDRESS, 'show'))
-                                <x-bladewind.button.circle
-                                    icon="eye"
-                                    color="primary"
-                                    size="tiny"
-                                    outline
-                                    onclick="location.href='/{{ $routeName }}/{{ $model->id }}/address/{{ $address->id }}'"
-                                />
+                            @can(UserPermission::name(UserPermission::ADDRESS, 'update'))
+                                <a href="{{ route($routeName . '.address.edit', [$model, $address]) }}">
+                                    <x-bladewind.button.circle
+                                        icon="pencil"
+                                        color="green"
+                                        size="tiny"
+                                        outline
+                                    />
+                                </a>
                             @endcan
                             @can(UserPermission::name(UserPermission::ADDRESS, 'delete'))
                                 <form

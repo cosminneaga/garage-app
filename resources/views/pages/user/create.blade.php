@@ -29,8 +29,8 @@ use App\Enums\UserRole;
                     mobile: '974837483',
                     landline: '974837483',
                     email: 'company@net.com',
-                    url: '',
-                    info: ''
+                    url: 'https://cosminneaga.dev',
+                    info: '<h1>Hello</h1><p>How are you?</p>'
                 }
             }"
         >
@@ -117,6 +117,20 @@ use App\Enums\UserRole;
                         flag_key="code"
                         :data="Country::all()"
                         selected_value="1"
+                    />
+                    <h3>Location</h3>
+                    <br>
+                    <x-bladewind.input
+                        name="address[coordinates][latitude]"
+                        type="text"
+                        value="8.327832"
+                        label="Latitude"
+                    />
+                    <x-bladewind.input
+                        name="address[coordinates][longitude]"
+                        type="text"
+                        value="94.676743"
+                        label="Longitude"
                     />
                 </x-bladewind.card>
 

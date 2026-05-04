@@ -34,7 +34,7 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'store'));
     }
 
     /**
@@ -42,7 +42,7 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function update(User $user, Supplier $supplier): bool
     {
-        return false;
+        return $supplier->isMySupplier($user);
     }
 
     /**
@@ -50,7 +50,9 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function delete(User $user, Supplier $supplier): bool
     {
-        return false;
+        $supplier->isMySupplier($user);
+
+        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
     }
 
     /**
@@ -71,13 +73,15 @@ class SupplierPolicy implements SupplierPolicyInterface
 
     public function removeAddress(User $user, Supplier $supplier): bool
     {
-        return false;
+        $supplier->isMySupplier($user);
+
+        return $user->can(UserPermission::name(UserPermission::ADDRESS, 'delete'));
     }
 
     public function removeContact(User $user, Supplier $supplier): bool
     {
         $supplier->isMySupplier($user);
 
-        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
+        return $user->can(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
 }

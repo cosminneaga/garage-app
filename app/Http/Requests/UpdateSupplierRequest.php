@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Enums\SupplierType;
+use App\Enums\UserPermission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateSupplierRequest extends FormRequest
 {
@@ -14,18 +17,22 @@ class UpdateSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::user()->can(UserPermission::name(UserPermission::SUPPLIER, 'update'));
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'min:3', 'max:255'],
+            'code' => ['required', 'string', 'min:3', 'max:255'],
+            'type' => ['required', new Enum(SupplierType::class)],
+            'tax_id' => ['required', 'string', 'min:5', 'max:255'],
+            'registration_number' => ['required', 'string', 'max:255'],
         ];
     }
 }

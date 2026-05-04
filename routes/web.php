@@ -30,19 +30,19 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
 
     Route::delete('/companies/{company}/address/{address}', [AddressController::class, 'destroy'])->name('companies.address.destroy');
     Route::delete('/companies/{company}/contact/{contact}', [ContactController::class, 'destroy'])->name('companies.contact.destroy');
-    Route::delete('/companies/{company}/supplier/{supplier}', [CompanyController::class, 'removeSupplier'])->name('companies.supplier.destroy');
+    Route::delete('/companies/{company}/supplier/{supplier}', [SupplierController::class, 'destroy'])->name('companies.supplier.destroy');
 
 
     # USERS
     Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::get('/users/restore', [UserController::class, 'removed'])->name('users.removed');
 
-    Route::get('/users/{user}/address/{address}', [AddressController::class, 'show'])->name('users.address.show');
     Route::post('/users/{user}/address', [AddressController::class, 'store'])->name('users.address.store');
+    Route::get('/users/{user}/address/{address}', [AddressController::class, 'edit'])->name('users.address.edit');
     Route::delete('/users/{user}/address/{address}', [AddressController::class, 'destroy'])->name('users.address.destroy');
 
-    Route::get('/users/{user}/contact/{contact}', [ContactController::class, 'show'])->name('users.contact.show');
     Route::post('/users/{user}/contact', [ContactController::class, 'store'])->name('users.contact.store');
+    Route::get('/users/{user}/contact/{contact}', [ContactController::class, 'edit'])->name('users.contact.edit');
     Route::delete('/users/{user}/contact/{contact}', [ContactController::class, 'destroy'])->name('users.contact.destroy');
 
 
@@ -58,14 +58,15 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], function () {
 
     # COMPANIES
-    Route::get('/companies/{company}/address/{address}', [AddressController::class, 'show'])->name('companies.address.show');
+    Route::get('/companies/{company}/address/{address}', [AddressController::class, 'edit'])->name('companies.address.edit');
     Route::post('/companies/{company}/address', [AddressController::class, 'store'])->name('companies.address.store');
 
-    Route::get('/companies/{company}/contact/{contact}', [ContactController::class, 'show'])->name('companies.contact.show');
+    Route::get('/companies/{company}/contact/{contact}', [ContactController::class, 'edit'])->name('companies.contact.edit');
     Route::post('/companies/{company}/contact', [ContactController::class, 'store'])->name('companies.contact.store');
 
-    Route::get('/companies/{company}/suppliers/{supplier}', [CompanyController::class, 'showSupplier'])->name('companies.supplier.show');
-    Route::post('/companies/{company}/supplier', [CompanyController::class, 'addSupplier'])->name('companies.supplier.store');
+    Route::post('/companies/{company}/suppliers', [SupplierController::class, 'store'])->name('companies.supplier.store');
+    Route::get('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'edit'])->name('companies.supplier.edit');
+    Route::put('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'update'])->name('companies.supplier.update');
 
 
     # SUPPLIERS
@@ -79,8 +80,8 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], fu
 
 # ALL USERS
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
-    Route::resource('companies', CompanyController::class);
-    Route::resource('users', UserController::class);
+    Route::resource('companies', CompanyController::class)->except('show');
+    Route::resource('users', UserController::class)->except('show');
 
     Route::get('/chart/users', [UserController::class, 'chart'])->name('chart.users');
 });
