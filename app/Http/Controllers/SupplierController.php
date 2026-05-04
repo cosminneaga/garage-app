@@ -37,7 +37,7 @@ class SupplierController extends Controller
     {
         $this->authorize('create', Supplier::class);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
-        if (!$guard) {
+        if (! $guard) {
             abort(401);
         }
 
@@ -69,7 +69,7 @@ class SupplierController extends Controller
     {
         $this->authorize('update', $supplier);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
-        if (!$guard) {
+        if (! $guard) {
             abort(401);
         }
 
@@ -90,7 +90,7 @@ class SupplierController extends Controller
     {
         $this->authorize('delete', $supplier);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
-        if (!$guard) {
+        if (! $guard) {
             abort(401);
         }
 

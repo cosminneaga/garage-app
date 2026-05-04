@@ -36,7 +36,7 @@ enum UserTabs: string
     public static function ui(): array
     {
         return new Collection(self::cases())
-            ->map(fn($case) => [
+            ->map(fn ($case) => [
                 'value' => $case->value,
                 'label' => $case->label(),
                 'slug' => $case->slug(),
