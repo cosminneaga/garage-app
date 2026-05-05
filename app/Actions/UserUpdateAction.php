@@ -19,8 +19,6 @@ class UserUpdateAction
 
     public function handle(array $attributes, User $user): void
     {
-        $data = [];
-
         $data['user'] = collect($attributes)
             ->only([
                 'name',

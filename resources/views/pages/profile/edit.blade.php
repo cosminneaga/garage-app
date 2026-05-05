@@ -5,17 +5,20 @@
     $tab = request()->query('tab');
 @endphp
 
-<x-layout title="{{ $user->name }}">
-
+<x-layout title="Profile | {{ $user->name }}">
     <x-wrapper.tab-resource
-        title="view & update user"
-        subtitle="Update user details, address & contact"
-        :tabs="UserTabs::ui()"
+        title="view & update profile"
+        subtitle="Update your own details, address & contact"
+        :tabs="[...UserTabs::ui(), [
+            'value' => 'settings',
+            'label' => 'Settings',
+            'slug' => 'settings'
+        ]]"
     >
         @if ($tab === UserTabs::DETAILS->value || !$tab)
             <form
                 id="form-users-update"
-                action="{{ route('users.update', $user) }}"
+                action="{{ route('users.profile.update', $user) }}"
                 method="POST"
                 enctype="multipart/form-data"
             >
@@ -47,14 +50,6 @@
                         name="image"
                         accepted_file_types="image/*"
                     />
-                    <div>
-                        <x-bladewind.toggle
-                            name="active"
-                            color="orange"
-                            label="Active"
-                            :checked="$user->active"
-                        />
-                    </div>
 
                     <div class="mt-5 flex gap-1">
                         <x-bladewind.button
@@ -63,16 +58,6 @@
                             size="small"
                             can_submit
                         >Update Details</x-bladewind.button>
-
-                        @can(UserPermission::name(UserPermission::USER, 'delete'))
-                            <x-bladewind.button
-                                class="w-fit"
-                                form="form-users-delete"
-                                color="red"
-                                size="small"
-                                can_submit
-                            >Delete User</x-bladewind.button>
-                        @endcan
                     </div>
                 </x-bladewind.card>
 
@@ -89,16 +74,8 @@
                 :data="$user->addresses"
                 :model="$user"
             />
+        @elseif ($tab === 'settings')
+            Application settings
         @endif
     </x-wrapper.tab-resource>
-
-    <!-- USER DELETE FORM -->
-    <form
-        id="form-users-delete"
-        action="{{ route('users.destroy', $user) }}"
-        method="POST"
-    >
-        @csrf
-        @method('DELETE')
-    </form>
 </x-layout>

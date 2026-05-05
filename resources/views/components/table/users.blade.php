@@ -35,19 +35,19 @@
                 </div>
             </td>
             <td>{{ $user->email }}</td>
-            <td>
-                <x-active-tag :active="$user->active" />
-            </td>
+            <td><x-tag.active :active="$user->active" /></td>
             <td>
                 <div class="flex gap-1">
                     @if ($message_action)
-                        <x-bladewind.button.circle
-                            icon="chat-bubble-bottom-center-text"
-                            color="green"
-                            size="tiny"
-                            outline
-                            onclick="sendMessage('{{ $user->name }}')"
-                        />
+                        @if (Auth::user()->id !== $user->id)
+                            <x-bladewind.button.circle
+                                icon="chat-bubble-bottom-center-text"
+                                color="green"
+                                size="tiny"
+                                outline
+                                onclick="sendMessage('{{ $user->name }}')"
+                            />
+                        @endif
                     @endif
                     @if ($edit_action)
                         @can(UserPermission::name(UserPermission::USER, 'store'))
@@ -60,7 +60,7 @@
                             />
                         @endcan
                     @endif
-                    @if ($delete_action)
+                    @if ($delete_action && Auth::user()->id !== $user->id)
                         @can(UserPermission::name(UserPermission::USER, 'delete'))
                             <form
                                 id="form-delete-user"
@@ -76,6 +76,7 @@
                                     size="tiny"
                                     outline
                                     can_submit
+                                    onclick="return confirm('Are you sure?')"
                                 />
                             </form>
                         @endcan
@@ -122,7 +123,6 @@
 <script>
     sendMessage = (name) => {
         showModal('send-message');
-        domEl('.bw-send-message .modal-title').innerText =
-            `Send Message to ${name}`;
+        domEl('.bw-send-message .modal-title').innerText = `Send Message to ${name}`;
     }
 </script>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Interfaces\UserPolicyInterface;
 use App\Models\User;
 
@@ -20,6 +21,10 @@ class UserPolicy implements UserPolicyInterface
      */
     public function view(User $user, User $model): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
@@ -38,6 +43,10 @@ class UserPolicy implements UserPolicyInterface
      */
     public function edit(User $user, User $model): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'update'));
@@ -48,6 +57,10 @@ class UserPolicy implements UserPolicyInterface
      */
     public function delete(User $user, User $model): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
@@ -66,21 +79,21 @@ class UserPolicy implements UserPolicyInterface
      */
     public function restore(User $user, User $model): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
     }
 
-    /**
-     * Enabled only for 'super' role
-     */
-    public function forceDelete(User $user, User $model): bool
-    {
-        return false;
-    }
-
     public function removeAddress(User $user, User $model): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
@@ -88,6 +101,10 @@ class UserPolicy implements UserPolicyInterface
 
     public function removeContact(User $user, User $model): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $user->isTeamMember($model);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));

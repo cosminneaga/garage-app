@@ -30,8 +30,14 @@ class UserController extends Controller
      */
     public function all(Request $request): View
     {
-        return view('pages.user.index', [
-            'users' => User::paginate($request->query('limit') ?? 10, ['*'], 'users'),
+        return view('pages.user.admin', [
+            'users' => User::withTrashed()->paginate(
+                perPage: $request->query('limit') ?? 10,
+                columns: ['*'],
+                pageName: 'users',
+                page: null,
+                total: null
+            ),
         ]);
     }
 
@@ -90,12 +96,7 @@ class UserController extends Controller
         $this->authorize('edit', $user);
 
         if ($user->id === Auth::user()->id) {
-            return back()
-                ->with('message', self::responseMessage(
-                    'error',
-                    'User update error',
-                    'Please update your own details from profile section.'
-                ));
+            return redirect()->route('users.profile.edit', $user);
         }
 
         return view('pages.user.edit', [
@@ -151,8 +152,7 @@ class UserController extends Controller
         $user = User::findOrFail($user->id);
         $user->delete();
 
-        return redirect()
-            ->intended(route('users.index'))
+        return back()
             ->with('message', self::responseMessage(
                 'info',
                 'User removed',
@@ -188,8 +188,7 @@ class UserController extends Controller
         $this->authorize('restore', $user);
         $user->restore();
 
-        return redirect()
-            ->intended(route('users.removed'))
+        return back()
             ->with('message', self::responseMessage(
                 'success',
                 'User restored',

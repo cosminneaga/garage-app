@@ -71,10 +71,10 @@ class User extends Authenticatable
         if ($this->hasRole(UserRole::USER_EDITOR)) {
             $manager = $this->managers()->first();
 
-            return (bool) $manager->members()->findOrFail($user->id);
+            return (bool) $manager->members()->find($user->id);
         }
 
-        return (bool) $this->members()->withTrashed()->findOrFail($user->id);
+        return (bool) $this->members()->withTrashed()->find($user->id);
     }
 
     public function chart(): array
