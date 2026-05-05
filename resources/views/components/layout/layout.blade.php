@@ -35,6 +35,7 @@
         rel="stylesheet"
     />
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
+
     @stack('scripts')
 </head>
 
@@ -45,19 +46,16 @@
         {{ $slot }}
     </main>
 
+
     <!-- ALERT AREA -->
     @session('message')
-        <x-bladewind.notification
-            :setup="[
-                'title' => $value->title,
-                'message' => $value->message,
-                'type' => $value->type,
-                'dismiss_in' => 5,
-                'size' => 'regular',
-                'name' => 'central_notification_component',
-            ]"
-            position="top-right"
-        />
+        <x-bladewind.notification position="top-right" />
+
+        <script>
+            const value = @json($value);
+
+            showNotification(value.title, value.message, value.type, 5, 'regular', 'central_notification_component');
+        </script>
     @endsession
 
 

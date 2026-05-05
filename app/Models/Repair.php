@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-// use Database\Factories\RepairFactory;
 use App\Enums\FuelType;
 use App\Enums\RepairStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +15,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 class Repair extends Model
 {
-    /** @use HasFactory<RepairFactory> */
     use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [];

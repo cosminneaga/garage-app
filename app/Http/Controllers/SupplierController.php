@@ -26,7 +26,13 @@ class SupplierController extends Controller
     public function all(Request $request): View
     {
         return view('pages.supplier.index', [
-            'suppliers' => Supplier::paginate($request->query('limit') ?? 10, ['*'], 'suppliers'),
+            'suppliers' => Supplier::paginate(
+                perPage: $request->query('limit') ?? 10,
+                columns: ['*'],
+                pageName: 'suppliers',
+                page: null,
+                total: null,
+            ),
         ]);
     }
 

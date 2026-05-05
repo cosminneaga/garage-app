@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Policies\AddressPolicy;
 use Illuminate\Database\Eloquent\Attributes\Scope;
-use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
-#[UsePolicy(AddressPolicy::class)]
 class Address extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;

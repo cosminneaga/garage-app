@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-// use Database\Factories\RepairFileFactory;
 use App\Enums\FileStatus;
 use App\Enums\RepairStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +14,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 class RepairFile extends Model
 {
-    /** @use HasFactory<RepairFileFactory> */
     use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [

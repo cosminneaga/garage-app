@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-// use Database\Factories\VehicleYearFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +13,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 class VehicleYear extends Model
 {
-    /** @use HasFactory<VehicleYearFactory> */
     use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [];

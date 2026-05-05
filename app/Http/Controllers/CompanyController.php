@@ -34,7 +34,13 @@ class CompanyController extends Controller
     public function all(Request $request): View
     {
         return view('pages.company.index', [
-            'companies' => Company::paginate($request->query('limit') ?? 10, ['*'], 'companies'),
+            'companies' => Company::paginate(
+                perPage: $request->query('limit') ?? 10,
+                columns: ['*'],
+                pageName: 'companies',
+                page: null,
+                total: null
+            ),
         ]);
     }
 
