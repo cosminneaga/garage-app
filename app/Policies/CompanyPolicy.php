@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Interfaces\CompanyPolicyInterface;
 use App\Models\Company;
 use App\Models\User;
@@ -24,6 +25,10 @@ class CompanyPolicy implements CompanyPolicyInterface
      */
     public function view(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
@@ -42,6 +47,10 @@ class CompanyPolicy implements CompanyPolicyInterface
      */
     public function edit(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
@@ -52,6 +61,10 @@ class CompanyPolicy implements CompanyPolicyInterface
      */
     public function delete(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
@@ -70,6 +83,10 @@ class CompanyPolicy implements CompanyPolicyInterface
      */
     public function restore(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
@@ -85,6 +102,10 @@ class CompanyPolicy implements CompanyPolicyInterface
 
     public function removeAddress(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
@@ -92,6 +113,10 @@ class CompanyPolicy implements CompanyPolicyInterface
 
     public function removeContact(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
@@ -99,6 +124,10 @@ class CompanyPolicy implements CompanyPolicyInterface
 
     public function removeSupplier(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $company->isCompanyImPartOf($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'delete'));

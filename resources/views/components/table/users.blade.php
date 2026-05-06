@@ -6,10 +6,6 @@
     'restore_action' => false,
 ])
 
-@php
-    use App\Enums\UserPermission;
-@endphp
-
 <x-table
     :data="$users"
     {{ $attributes }}
@@ -38,91 +34,68 @@
             <td><x-tag.active :active="$user->active" /></td>
             <td>
                 <div class="flex gap-1">
-                    @if ($message_action)
-                        @if (Auth::user()->id !== $user->id)
+                    @if ($message_action && Auth::user()->id !== $user->id)
+                        <x-bladewind.button.circle
+                            icon="chat-bubble-bottom-center-text"
+                            color="green"
+                            size="tiny"
+                            outline
+                            onclick="openSendMessageModal('{{ $user->name }}')"
+                        />
+                    @endif
+                    @if ($edit_action)
+                        <x-bladewind.button.circle
+                            icon="pencil-square"
+                            color="primary"
+                            size="tiny"
+                            outline
+                            onclick="location.href='{{ route('users.edit', $user) }}'"
+                        />
+                    @endif
+                    @if ($delete_action && Auth::user()->id !== $user->id)
+                        <x-bladewind.button.circle
+                            icon="trash"
+                            color="red"
+                            size="tiny"
+                            outline
+                            onclick="showModal('ucdm-{{ $user->id }}')"
+                        />
+
+                        <form
+                            id="ucdf-{{ $user->id }}"
+                            action="{{ route('users.destroy', $user) }}"
+                            method="POST"
+                        >
+                            @csrf
+                            @method('DELETE')
+                        </form>
+
+                        <x-bladewind.modal
+                            name="ucdm-{{ $user->id }}"
+                            type="warning"
+                            ok_button_action="submitResourceDeleteForm('ucdf-{{ $user->id }}')"
+                        >
+                            Are you sure you want to delete this user?
+                        </x-bladewind.modal>
+                    @endif
+                    @if ($restore_action)
+                        <form
+                            action="{{ route('users.restore', $user) }}"
+                            method="POST"
+                        >
+                            @csrf
+
                             <x-bladewind.button.circle
-                                icon="chat-bubble-bottom-center-text"
+                                icon="arrow-left-start-on-rectangle"
                                 color="green"
                                 size="tiny"
                                 outline
-                                onclick="sendMessage('{{ $user->name }}')"
+                                can_submit
                             />
-                        @endif
-                    @endif
-                    @if ($edit_action)
-                        @can(UserPermission::name(UserPermission::USER, 'store'))
-                            <x-bladewind.button.circle
-                                icon="pencil-square"
-                                color="primary"
-                                size="tiny"
-                                outline
-                                onclick="location.href='/users/{{ $user->id }}/edit'"
-                            />
-                        @endcan
-                    @endif
-                    @if ($delete_action && Auth::user()->id !== $user->id)
-                        @can(UserPermission::name(UserPermission::USER, 'delete'))
-                            <form
-                                id="form-delete-user"
-                                action="{{ route('users.destroy', $user) }}"
-                                method="POST"
-                            >
-                                @csrf
-                                @method('DELETE')
-
-                                <x-bladewind.button.circle
-                                    icon="trash"
-                                    color="red"
-                                    size="tiny"
-                                    outline
-                                    can_submit
-                                    onclick="return confirm('Are you sure?')"
-                                />
-                            </form>
-                        @endcan
-                    @endif
-                    @if ($restore_action)
-                        @can(UserPermission::name(UserPermission::USER, 'restore'))
-                            <form
-                                action="{{ route('users.restore', $user) }}"
-                                method="POST"
-                            >
-                                @csrf
-
-                                <x-bladewind.button.circle
-                                    icon="arrow-left-start-on-rectangle"
-                                    color="green"
-                                    size="tiny"
-                                    outline
-                                    can_submit
-                                />
-                            </form>
-                        @endcan
+                        </form>
                     @endif
                 </div>
             </td>
         </tr>
     @endforeach
 </x-table>
-
-<!-- MODAL AREA -->
-<x-bladewind.modal
-    name="send-message"
-    title=""
->
-    <div class="mb-6">
-        The message will be delivered to their company
-        inbox if they are not currently online
-    </div>
-    <x-bladewind.textarea
-        placeholder="Type message here..."
-        rows="5"
-    />
-</x-bladewind.modal>
-
-<script>
-    sendMessage = (name) => {
-        showModal('send-message');
-        domEl('.bw-send-message .modal-title').innerText = `Send Message to ${name}`;
-    }
-</script>

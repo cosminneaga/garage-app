@@ -87,7 +87,7 @@
             >
                 <x-table.related.contacts
                     :data="$supplier->contacts"
-                    :model="$supplier"
+                    :resource="$supplier"
                 />
             </x-bladewind.tab.content>
         @elseif ($tab === SupplierTabs::ADDRESSES->value)
@@ -97,7 +97,7 @@
             >
                 <x-table.related.addresses
                     :data="$supplier->addresses"
-                    :model="$supplier"
+                    :resource="$supplier"
                     :actions="false"
                 />
             </x-bladewind.tab.content>

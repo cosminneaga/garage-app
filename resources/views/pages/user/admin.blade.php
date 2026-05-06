@@ -39,7 +39,7 @@
                                 color="green"
                                 size="tiny"
                                 outline
-                                onclick="sendMessage('{{ $user->name }}')"
+                                onclick="openSendMessageModal('{{ $user->name }}')"
                             />
                         @endif
                         @can(UserPermission::name(UserPermission::USER, 'store'))
@@ -48,11 +48,11 @@
                                 color="primary"
                                 size="tiny"
                                 outline
-                                onclick="location.href='/users/{{ $user->id }}/edit'"
+                                onclick="location.href='{{ route('users.edit', $user) }}'"
                             />
                         @endcan
-                        @if (!$user->trashed() && Auth::user()->id !== $user->id)
-                            @can(UserPermission::name(UserPermission::USER, 'delete'))
+                        @can(UserPermission::name(UserPermission::USER, 'delete'))
+                            @if (!$user->trashed() && Auth::user()->id !== $user->id)
                                 <form
                                     id="form-delete-user"
                                     action="{{ route('users.destroy', $user) }}"
@@ -70,10 +70,10 @@
                                         onclick="return confirm('Are you sure?')"
                                     />
                                 </form>
-                            @endcan
-                        @endif
-                        @if ($user->trashed())
-                            @can(UserPermission::name(UserPermission::USER, 'restore'))
+                            @endif
+                        @endcan
+                        @can(UserPermission::name(UserPermission::USER, 'restore'))
+                            @if ($user->trashed())
                                 <form
                                     action="{{ route('users.restore', $user) }}"
                                     method="POST"
@@ -88,35 +88,11 @@
                                         can_submit
                                     />
                                 </form>
-                            @endcan
-                        @endif
+                            @endif
+                        @endcan
                     </div>
                 </td>
             </tr>
         @endforeach
     </x-table>
-
-    <!-- MODAL AREA -->
-    <x-bladewind.modal
-        name="send-message"
-        title=""
-    >
-        <div class="mb-6">
-            The message will be delivered to their company
-            inbox if they are not currently online
-        </div>
-        <x-bladewind.textarea
-            placeholder="Type message here..."
-            rows="5"
-        />
-    </x-bladewind.modal>
-
-
 </x-layout>
-
-<script>
-    sendMessage = (name) => {
-        showModal('send-message');
-        domEl('.bw-send-message .modal-title').innerText = `Send Message to ${name}`;
-    }
-</script>

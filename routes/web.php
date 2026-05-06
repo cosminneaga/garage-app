@@ -71,10 +71,10 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], fu
 
 
     # SUPPLIERS
-    Route::get('/suppliers/{supplier}/address/{address}', [AddressController::class, 'show'])->name('suppliers.address.show');
+    Route::get('/suppliers/{supplier}/address/{address}', [AddressController::class, 'edit'])->name('suppliers.address.edit');
     Route::post('/suppliers/{supplier}/address', [AddressController::class, 'store'])->name('suppliers.address.store');
 
-    Route::get('/suppliers/{supplier}/contact/{contact}', [ContactController::class, 'show'])->name('suppliers.contact.show');
+    Route::get('/suppliers/{supplier}/contact/{contact}', [ContactController::class, 'edit'])->name('suppliers.contact.edit');
     Route::post('/suppliers/{supplier}/contact', [ContactController::class, 'store'])->name('suppliers.contact.store');
 });
 
@@ -96,4 +96,6 @@ Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/administration/company/all', [CompanyController::class, 'all'])->name('companies.all');
     Route::get('/administration/user/all', [UserController::class, 'all'])->name('users.all');
     Route::get('/administration/supplier/all', [SupplierController::class, 'all'])->name('suppliers.all');
+
+    Route::delete('/administration/supplier/{supplier}', [SupplierController::class, 'destroyUnrelated'])->name('suppliers.destroy');
 });

@@ -1,4 +1,4 @@
-@props(['data', 'model'])
+@props(['data', 'resource'])
 
 @php
     use App\Enums\SupplierType;
@@ -35,7 +35,7 @@
                 <td>
                     <div class="flex gap-1">
                         @can(UserPermission::name(UserPermission::SUPPLIER, 'update'))
-                            <a href="{{route('companies.supplier.edit', [$model, $supplier])}}">
+                            <a href="{{route('companies.supplier.edit', [$resource, $supplier])}}">
                                 <x-bladewind.button.circle
                                     icon="pencil"
                                     color="green"
@@ -45,21 +45,30 @@
                             </a>
                         @endcan
                         @can(UserPermission::name(UserPermission::SUPPLIER, 'delete'))
+                            <x-bladewind.button.circle
+                                icon="trash"
+                                color="red"
+                                size="tiny"
+                                outline
+                                onclick="showModal('scdm-{{ $supplier->id }}')"
+                            />
+
                             <form
-                                action="{{ route('companies.supplier.destroy', [$model, $supplier]) }}"
+                                id="scdf-{{ $supplier->id }}"
+                                action="{{ route('companies.supplier.destroy', [$resource, $supplier]) }}"
                                 method="POST"
                             >
                                 @csrf
                                 @method('DELETE')
-
-                                <x-bladewind.button.circle
-                                    can_submit
-                                    icon="trash"
-                                    color="red"
-                                    size="tiny"
-                                    outline
-                                />
                             </form>
+
+                            <x-bladewind.modal
+                                name="scdm-{{ $supplier->id }}"
+                                type="warning"
+                                ok_button_action="submitResourceDeleteForm('scdf-{{ $supplier->id }}')"
+                            >
+                                Are you sure you want to delete this supplier?
+                            </x-bladewind.modal>
                         @endcan
                     </div>
                 </td>
@@ -69,6 +78,6 @@
 
     <x-modal.supplier.create
         name="modal-supplier-create"
-        :company="$model"
+        :company="$resource"
     />
 </x-bladewind.card>

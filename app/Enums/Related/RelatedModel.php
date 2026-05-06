@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Enums;
+namespace App\Enums\Related;
 
+use App\Models\Address;
 use App\Models\Company;
 use App\Models\Supplier;
 use App\Models\User;
@@ -14,9 +15,10 @@ use Illuminate\Database\Eloquent\Model;
 
 enum RelatedModel: string
 {
-    case COMPANY = 'company';
-    case SUPPLIER = 'supplier';
-    case USER = 'user';
+    case COMPANY = 'companies';
+    case SUPPLIER = 'suppliers';
+    case USER = 'users';
+    case ADDRESS = 'addresses';
 
     public function entity(string|int $id): Model
     {
@@ -24,6 +26,7 @@ enum RelatedModel: string
             self::COMPANY => Company::findOrFail($id),
             self::SUPPLIER => Supplier::findOrFail($id),
             self::USER => User::findOrFail($id),
+            self::ADDRESS => Address::findOrFail($id),
         };
     }
 
@@ -33,6 +36,7 @@ enum RelatedModel: string
             self::COMPANY => Company::class,
             self::SUPPLIER => Supplier::class,
             self::USER => User::class,
+            self::ADDRESS => Address::class,
         };
     }
 
@@ -42,6 +46,7 @@ enum RelatedModel: string
             self::COMPANY => CompanyPolicy::class,
             self::SUPPLIER => SupplierPolicy::class,
             self::USER => UserPolicy::class,
+            self::ADDRESS => null,
         };
     }
 }

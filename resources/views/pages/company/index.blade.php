@@ -1,12 +1,11 @@
-<x-layout title="Company">
+@php
+    use App\Enums\UserPermission;
+@endphp
 
-    <h1 class="text-2xl font-bold underline">COMPANIES</h1>
-    <br><br>
-
+<x-layout title="Companies">
     <x-table.companies
         :companies="$companies"
-        edit_action
-        delete_action
+        :edit_action="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
+        :delete_action="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
     />
-    
 </x-layout>

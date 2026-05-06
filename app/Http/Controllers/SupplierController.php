@@ -21,22 +21,6 @@ class SupplierController extends Controller
     use ResponseMessage;
 
     /**
-     * Display the admin listing of all resources in DB
-     */
-    public function all(Request $request): View
-    {
-        return view('pages.supplier.index', [
-            'suppliers' => Supplier::paginate(
-                perPage: $request->query('limit') ?? 10,
-                columns: ['*'],
-                pageName: 'suppliers',
-                page: null,
-                total: null,
-            ),
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreSupplierRequest $request, Company $company, SupplierStoreAction $action): RedirectResponse
@@ -107,6 +91,32 @@ class SupplierController extends Controller
                 'info',
                 'Supplier removed',
                 'Supplier information has been successfully removed from respective company'
+            ));
+    }
+
+    # ADMIN
+    public function all(Request $request): View
+    {
+        return view('pages.supplier.admin', [
+            'suppliers' => Supplier::withTrashed()->paginate(
+                perPage: $request->query('limit') ?? 10,
+                columns: ['*'],
+                pageName: 'suppliers',
+                page: null,
+                total: null,
+            ),
+        ]);
+    }
+
+    public function destroyUnrelated(Supplier $supplier)
+    {
+        $supplier->delete($supplier->id);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'info',
+                'Supplier removed',
+                'Supplier has been successfully removed'
             ));
     }
 }

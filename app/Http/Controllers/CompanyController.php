@@ -29,22 +29,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display the admin listing of all resources in DB
-     */
-    public function all(Request $request): View
-    {
-        return view('pages.company.index', [
-            'companies' => Company::paginate(
-                perPage: $request->query('limit') ?? 10,
-                columns: ['*'],
-                pageName: 'companies',
-                page: null,
-                total: null
-            ),
-        ]);
-    }
-
-    /**
      * Display all resources related to model
      */
     public function index(Request $request): View
@@ -90,7 +74,7 @@ class CompanyController extends Controller
     {
         $action->handle($request->safe()->all());
 
-        return redirect(route('companies.index'))
+        return back()
             ->with('message', self::responseMessage(
                 'success',
                 'Company created',
@@ -135,8 +119,7 @@ class CompanyController extends Controller
         $company = Company::findOrFail($company->id);
         $company->delete();
 
-        return redirect()
-            ->intended(route('companies.index'))
+        return back()
             ->with('message', self::responseMessage(
                 'info',
                 'Company removed',
@@ -162,18 +145,31 @@ class CompanyController extends Controller
     /**
      * Restore a given item
      */
-    public function restore(Company $company): RedirectResponse
+    public function restore(string|int $id): RedirectResponse
     {
-        $company = Company::onlyTrashed()->find($company->id);
+        $company = Company::onlyTrashed()->find($id);
         $this->authorize('restore', $company);
         $company->restore();
 
-        return redirect()
-            ->intended(route('companies.removed'))
+        return back()
             ->with('message', self::responseMessage(
                 'success',
                 'Company restored',
                 'The company has been successfully restored and is now available in your account.'
             ));
+    }
+
+    # ADMIN
+    public function all(Request $request): View
+    {
+        return view('pages.company.admin', [
+            'companies' => Company::withTrashed()->paginate(
+                perPage: $request->query('limit') ?? 10,
+                columns: ['*'],
+                pageName: 'companies',
+                page: null,
+                total: null
+            ),
+        ]);
     }
 }

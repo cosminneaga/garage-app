@@ -1,8 +1,8 @@
 @php
-use App\Enums\UserPermission;
-use App\Enums\Tabs\CompanyTabs;
+    use App\Enums\UserPermission;
+    use App\Enums\Tabs\CompanyTabs;
 
-$tab = request()->query('tab');
+    $tab = request()->query('tab');
 @endphp
 
 <x-layout :title="$company->name">
@@ -79,13 +79,15 @@ $tab = request()->query('tab');
                                 can_submit
                             >Update Details</x-bladewind.button>
 
-                            <x-bladewind.button
-                                class="w-fit"
-                                form="form-companies-delete"
-                                color="red"
-                                size="small"
-                                can_submit
-                            >Delete Company</x-bladewind.button>
+                            @can(UserPermission::name(UserPermission::COMPANY, 'delete'))
+                                <x-bladewind.button
+                                    class="w-fit"
+                                    form="form-companies-delete"
+                                    color="red"
+                                    size="small"
+                                    can_submit
+                                >Delete Company</x-bladewind.button>
+                            @endcan
                         </div>
                     </x-bladewind.card>
                 </form>
@@ -119,7 +121,7 @@ $tab = request()->query('tab');
             >
                 <x-table.related.contacts
                     :data="$company->contacts"
-                    :model="$company"
+                    :resource="$company"
                 />
             </x-bladewind.tab.content>
         @elseif ($tab === CompanyTabs::ADDRESSES->value)
@@ -129,7 +131,7 @@ $tab = request()->query('tab');
             >
                 <x-table.related.addresses
                     :data="$company->addresses"
-                    :model="$company"
+                    :resource="$company"
                 />
             </x-bladewind.tab.content>
         @elseif ($tab === CompanyTabs::SUPPLIERS->value)
@@ -139,7 +141,7 @@ $tab = request()->query('tab');
             >
                 <x-table.related.suppliers
                     :data="$company->suppliers"
-                    :model="$company"
+                    :resource="$company"
                 />
             </x-bladewind.tab.content>
         @endif

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Interfaces\SupplierPolicyInterface;
 use App\Models\Supplier;
 use App\Models\User;
@@ -24,6 +25,10 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function view(User $user, Supplier $supplier): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $supplier->isMySupplier($user);
 
         return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'));
@@ -42,6 +47,10 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function update(User $user, Supplier $supplier): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         return $supplier->isMySupplier($user);
     }
 
@@ -50,6 +59,10 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function delete(User $user, Supplier $supplier): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $supplier->isMySupplier($user);
 
         return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
@@ -73,6 +86,10 @@ class SupplierPolicy implements SupplierPolicyInterface
 
     public function removeAddress(User $user, Supplier $supplier): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $supplier->isMySupplier($user);
 
         return $user->can(UserPermission::name(UserPermission::ADDRESS, 'delete'));
@@ -80,6 +97,10 @@ class SupplierPolicy implements SupplierPolicyInterface
 
     public function removeContact(User $user, Supplier $supplier): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         $supplier->isMySupplier($user);
 
         return $user->can(UserPermission::name(UserPermission::CONTACT, 'delete'));

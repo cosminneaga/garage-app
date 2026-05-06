@@ -82,12 +82,12 @@
         @elseif ($tab === UserTabs::CONTACTS->value)
             <x-table.related.contacts
                 :data="$user->contacts"
-                :model="$user"
+                :resource="$user"
             />
         @elseif ($tab === UserTabs::ADDRESSES->value)
             <x-table.related.addresses
                 :data="$user->addresses"
-                :model="$user"
+                :resource="$user"
             />
         @endif
     </x-wrapper.tab-resource>

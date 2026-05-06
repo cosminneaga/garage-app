@@ -1,13 +1,13 @@
+@php
+    use App\Enums\UserPermission;
+@endphp
+
 @props([
     'companies' => [],
     'edit_action' => false,
     'delete_action' => false,
     'restore_action' => false,
 ])
-
-@php
-    use App\Enums\UserPermission;
-@endphp
 
 <x-table :data="$companies">
     <x-slot:header>
@@ -39,52 +39,55 @@
             <td>
                 <div class="flex gap-1">
                     @if ($edit_action)
-                        @can(UserPermission::name(UserPermission::COMPANY, 'update'))
-                            <x-bladewind.button.circle
-                                icon="pencil-square"
-                                color="primary"
-                                size="tiny"
-                                outline
-                                onclick="location.href='/companies/{{ $company->id }}/edit'"
-                            />
-                        @endcan
+                        <x-bladewind.button.circle
+                            icon="pencil-square"
+                            color="primary"
+                            size="tiny"
+                            outline
+                            onclick="location.href='{{ route('companies.edit', $company) }}'"
+                        />
                     @endif
                     @if ($delete_action)
-                        @can(UserPermission::name(UserPermission::COMPANY, 'delete'))
-                            <form
-                                action="{{ route('companies.destroy', $company) }}"
-                                method="POST"
-                            >
-                                @csrf
-                                @method('DELETE')
+                        <x-bladewind.button.circle
+                            icon="trash"
+                            color="red"
+                            size="tiny"
+                            outline
+                            onclick="showModal('ccdm-{{ $company->id }}')"
+                        />
 
-                                <x-bladewind.button.circle
-                                    icon="trash"
-                                    color="red"
-                                    size="tiny"
-                                    outline
-                                    can_submit
-                                />
-                            </form>
-                        @endcan
+                        <form
+                            id="ccdf-{{ $company->id }}"
+                            action="{{ route('companies.destroy', $company) }}"
+                            method="POST"
+                        >
+                            @csrf
+                            @method('DELETE')
+                        </form>
+
+                        <x-bladewind.modal
+                            name="ccdm-{{ $company->id }}"
+                            type="warning"
+                            ok_button_action="submitResourceDeleteForm('ccdf-{{ $company->id }}')"
+                        >
+                            Are you sure you want to delete this company?
+                        </x-bladewind.modal>
                     @endif
                     @if ($restore_action)
-                        @can(UserPermission::name(UserPermission::COMPANY, 'restore'))
-                            <form
-                                action="{{ route('companies.restore', $company) }}"
-                                method="POST"
-                            >
-                                @csrf
+                        <form
+                            action="{{ route('companies.restore', $company) }}"
+                            method="POST"
+                        >
+                            @csrf
 
-                                <x-bladewind.button.circle
-                                    icon="arrow-left-start-on-rectangle"
-                                    color="green"
-                                    size="tiny"
-                                    outline
-                                    can_submit
-                                />
-                            </form>
-                        @endcan
+                            <x-bladewind.button.circle
+                                icon="arrow-left-start-on-rectangle"
+                                color="green"
+                                size="tiny"
+                                outline
+                                can_submit
+                            />
+                        </form>
                     @endif
                 </div>
             </td>

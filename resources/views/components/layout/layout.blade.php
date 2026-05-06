@@ -76,6 +76,22 @@
         @endif
     </div>
     <!-- ALERT AREA -->
+
+    <!-- MODAL AREA -->
+    <x-bladewind.modal
+        name="send-message"
+        title=""
+    >
+        <div class="mb-6">
+            The message will be delivered to their company
+            inbox if they are not currently online
+        </div>
+        <x-bladewind.textarea
+            placeholder="Type message here..."
+            rows="5"
+        />
+    </x-bladewind.modal>
+    <!-- MODAL AREA -->
 </body>
 
 </html>

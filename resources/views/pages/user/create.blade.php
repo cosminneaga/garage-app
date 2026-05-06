@@ -1,6 +1,6 @@
 @php
-use App\Models\Country;
-use App\Enums\UserRole;
+    use App\Models\Country;
+    use App\Enums\UserRole;
 @endphp
 
 <x-layout title="Add User">
@@ -9,7 +9,7 @@ use App\Enums\UserRole;
         description="Create a new user details, address & contact"
     >
         <form
-            class="text-start flex flex-col gap-4"
+            class="flex flex-col gap-4 text-start"
             id="form-users-create"
             action="{{ route('users.store') }}"
             method="POST"
@@ -36,7 +36,7 @@ use App\Enums\UserRole;
         >
             @csrf
 
-            <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
+            <div class="grid grid-rows-1 gap-1 md:grid-cols-3">
 
                 <x-bladewind.card title="details">
                     <x-bladewind.input

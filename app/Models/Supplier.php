@@ -33,7 +33,10 @@ class Supplier extends Model
         'type' => SupplierType::DISTRIBUTOR->value,
     ];
 
-    // !NOTE: this check is not quite right, rething architecture
+    // !NOTE: this check is not quite right, rethink architecture
+    // Also need to take in consideration admin actions over policy that implements this logic as guard
+    // And, companies shouldn't be selected as first
+    // Need to figure out a way to check if specific supplier belongs to given user
     public function isMySupplier(User $user): bool
     {
         $company = $this->companies()->first();

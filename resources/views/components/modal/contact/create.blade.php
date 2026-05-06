@@ -1,13 +1,7 @@
 @props(['name', 'resource'])
 
 @php
-if ($resource instanceof \App\Models\Company) {
-    $routeName = 'companies';
-} elseif ($resource instanceof \App\Models\User) {
-    $routeName = 'users';
-} elseif ($resource instanceof \App\Models\Supplier) {
-      $routeName = 'suppliers';
-  }
+    $routeName = $resource->getTable();
 @endphp
 
 <x-bladewind.modal
@@ -54,8 +48,6 @@ if ($resource instanceof \App\Models\Company) {
             selected_value="<h1>Hello World</h1><br><p>How are you today?</p>"
         />
 
-        <x-bladewind.button
-            can_submit
-        >create</x-bladewind.button>
+        <x-bladewind.button can_submit>create</x-bladewind.button>
     </form>
 </x-bladewind.modal>

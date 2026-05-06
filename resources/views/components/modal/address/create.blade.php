@@ -1,15 +1,9 @@
 @props(['name', 'resource'])
 
 @php
-use App\Models\Country;
+    use App\Models\Country;
 
-if ($resource instanceof \App\Models\Company) {
-    $routeName = 'companies';
-} elseif ($resource instanceof \App\Models\User) {
-    $routeName = 'users';
-} elseif ($resource instanceof \App\Models\Supplier) {
-    $routeName = 'suppliers';
-}
+    $routeName = $resource->getTable();
 @endphp
 
 <x-bladewind.modal

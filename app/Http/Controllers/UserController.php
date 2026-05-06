@@ -26,22 +26,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the admin listing of all resources in DB
-     */
-    public function all(Request $request): View
-    {
-        return view('pages.user.admin', [
-            'users' => User::withTrashed()->paginate(
-                perPage: $request->query('limit') ?? 10,
-                columns: ['*'],
-                pageName: 'users',
-                page: null,
-                total: null
-            ),
-        ]);
-    }
-
-    /**
      * Display all resources related to model
      */
     public function index(Request $request): View
@@ -194,5 +178,19 @@ class UserController extends Controller
                 'User restored',
                 'The user has been successfully restored and is now active again.'
             ));
+    }
+
+    # ADMIN
+    public function all(Request $request): View
+    {
+        return view('pages.user.admin', [
+            'users' => User::withTrashed()->paginate(
+                perPage: $request->query('limit') ?? 10,
+                columns: ['*'],
+                pageName: 'users',
+                page: null,
+                total: null
+            ),
+        ]);
     }
 }

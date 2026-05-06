@@ -1,15 +1,9 @@
-@props(['data', 'model'])
+@props(['data', 'resource'])
 
 @php
     use App\Enums\UserPermission;
 
-    if ($model instanceof \App\Models\Company) {
-        $routeName = 'companies';
-    } elseif ($model instanceof \App\Models\User) {
-        $routeName = 'users';
-    } elseif ($model instanceof \App\Models\Supplier) {
-        $routeName = 'suppliers';
-    }
+    $routeName = $resource->getTable();
 @endphp
 
 <x-bladewind.card
@@ -52,7 +46,7 @@
                 <td>
                     <div class="flex gap-1">
                         @can(UserPermission::name(UserPermission::CONTACT, 'update'))
-                            <a href="{{ route($routeName . '.contact.edit', [$model, $contact]) }}">
+                            <a href="{{ route($routeName . '.contact.edit', [$resource, $contact]) }}">
                                 <x-bladewind.button.circle
                                     icon="pencil"
                                     color="green"
@@ -62,21 +56,30 @@
                             </a>
                         @endcan
                         @can(UserPermission::name(UserPermission::CONTACT, 'delete'))
+                            <x-bladewind.button.circle
+                                icon="trash"
+                                color="red"
+                                size="tiny"
+                                outline
+                                onclick="showModal('cocdm-{{ $contact->id }}')"
+                            />
+
                             <form
-                                action="{{ route($routeName . '.contact.destroy', [$model, $contact]) }}"
+                                id="cocdf-{{ $contact->id }}"
+                                action="{{ route($routeName . '.contact.destroy', [$resource, $contact]) }}"
                                 method="POST"
                             >
                                 @csrf
                                 @method('DELETE')
-
-                                <x-bladewind.button.circle
-                                    can_submit
-                                    icon="trash"
-                                    color="red"
-                                    size="tiny"
-                                    outline
-                                />
                             </form>
+
+                            <x-bladewind.modal
+                                name="cocdm-{{ $contact->id }}"
+                                type="warning"
+                                ok_button_action="submitResourceDeleteForm('cocdf-{{ $contact->id }}')"
+                            >
+                                Are you sure you want to delete this contact?
+                            </x-bladewind.modal>
                         @endcan
                     </div>
                 </td>
@@ -86,6 +89,6 @@
 
     <x-modal.contact.create
         name="modal-contact-create"
-        :resource="$model"
+        :resource="$resource"
     />
 </x-bladewind.card>

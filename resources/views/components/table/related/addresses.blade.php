@@ -1,15 +1,9 @@
-@props(['data', 'model', 'actions' => true])
+@props(['data', 'resource'])
 
 @php
     use App\Enums\UserPermission;
 
-    if ($model instanceof \App\Models\Company) {
-        $routeName = 'companies';
-    } elseif ($model instanceof \App\Models\User) {
-        $routeName = 'users';
-    } elseif ($model instanceof \App\Models\Supplier) {
-        $routeName = 'suppliers';
-    }
+    $routeName = $resource->getTable();
 @endphp
 
 <x-bladewind.card class="overflow-auto">
@@ -31,9 +25,7 @@
             <th>Street</th>
             <th>Postcode</th>
             <th>Extra</th>
-            @if ($actions)
-                <th>Actions</th>
-            @endif
+            <th>Actions</th>
         </x-slot>
 
         @foreach ($data as $address)
@@ -42,45 +34,52 @@
                 <td>{{ $address->street }}</td>
                 <td>{{ $address->postcode }}</td>
                 <td>{{ $address->extra }}</td>
-                @if ($actions)
-                    <td>
-                        <div class="flex gap-1">
-                            @can(UserPermission::name(UserPermission::ADDRESS, 'update'))
-                                <a href="{{ route($routeName . '.address.edit', [$model, $address]) }}">
-                                    <x-bladewind.button.circle
-                                        icon="pencil"
-                                        color="green"
-                                        size="tiny"
-                                        outline
-                                    />
-                                </a>
-                            @endcan
-                            @can(UserPermission::name(UserPermission::ADDRESS, 'delete'))
-                                <form
-                                    action="{{ route($routeName . '.address.destroy', [$model, $address]) }}"
-                                    method="POST"
-                                >
-                                    @csrf
-                                    @method('DELETE')
+                <td>
+                    <div class="flex gap-1">
+                        @can(UserPermission::name(UserPermission::ADDRESS, 'update'))
+                            <a href="{{ route($routeName . '.address.edit', [$resource, $address]) }}">
+                                <x-bladewind.button.circle
+                                    icon="pencil"
+                                    color="green"
+                                    size="tiny"
+                                    outline
+                                />
+                            </a>
+                        @endcan
+                        @can(UserPermission::name(UserPermission::ADDRESS, 'delete'))
+                            <x-bladewind.button.circle
+                                icon="trash"
+                                color="red"
+                                size="tiny"
+                                outline
+                                onclick="showModal('acdm-{{ $address->id }}')"
+                            />
 
-                                    <x-bladewind.button.circle
-                                        can_submit
-                                        icon="trash"
-                                        color="red"
-                                        size="tiny"
-                                        outline
-                                    />
-                                </form>
-                            @endcan
-                        </div>
-                    </td>
-                @endif
+                            <form
+                                id="acdf-{{ $address->id }}"
+                                action="{{ route($routeName . '.address.destroy', [$resource, $address]) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
+                            </form>
+
+                            <x-bladewind.modal
+                                name="acdm-{{ $address->id }}"
+                                type="warning"
+                                ok_button_action="submitResourceDeleteForm('acdf-{{ $address->id }}')"
+                            >
+                                Are you sure you want to delete this address?
+                            </x-bladewind.modal>
+                        @endcan
+                    </div>
+                </td>
             </tr>
         @endforeach
     </x-bladewind.table>
 
     <x-modal.address.create
         name="modal-address-create"
-        :resource="$model"
+        :resource="$resource"
     />
 </x-bladewind.card>
