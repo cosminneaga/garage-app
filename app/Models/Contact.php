@@ -10,6 +10,44 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
+/**
+ * @property int $id
+ * @property string $mobile
+ * @property string|null $landline
+ * @property string $email
+ * @property string|null $url
+ * @property string|null $info
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $clients
+ * @property-read int|null $clients_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $companies
+ * @property-read int|null $companies_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read int|null $suppliers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Database\Factories\ContactFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereLandline($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Contact extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;

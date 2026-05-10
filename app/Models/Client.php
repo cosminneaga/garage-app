@@ -13,6 +13,58 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property bool $active
+ * @property string $password
+ * @property string|null $access_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
+ * @property-read int|null $addresses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
+ * @property-read int|null $companies_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
+ * @property-read int|null $contacts_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Repair> $repairs
+ * @property-read int|null $repairs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
+ * @property-read int|null $teams_count
+ * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client permission($permissions, bool $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client role($roles, ?string $guard = null, bool $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client team($teams, bool $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereAccessToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutRole($roles, ?string $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTeam($teams)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Client extends Model
 {
     use HasFactory, HasRoles, LogsActivity, Notifiable, SoftDeletes;

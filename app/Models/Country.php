@@ -10,6 +10,32 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
+/**
+ * @property int $id
+ * @property string $code
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $address
+ * @property-read int|null $address_count
+ * @method static \Database\Factories\CountryFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Country extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;

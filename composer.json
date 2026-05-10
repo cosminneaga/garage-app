@@ -81,11 +81,11 @@
         "storage": [
             "@php artisan storage:link"
         ],
-        "pest": [
-            "vendor/bin/pest"
-        ],
         "pest:debug": [
-            "vendor/bin/pest --debug"
+            "vendor/bin/pest --stop-on-failure --debug"
+        ],
+        "pest": [
+            "vendor/bin/pest --stop-on-failure"
         ],
         "format": [
             "vendor/bin/rector",

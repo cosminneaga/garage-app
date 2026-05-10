@@ -11,6 +11,45 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
+/**
+ * @property int $id
+ * @property JobName $job_name
+ * @property string $sku
+ * @property int $quantity
+ * @property numeric $item_price
+ * @property numeric $labour_price
+ * @property int $repair_invoice_id
+ * @property int $supplier_id
+ * @property int $product_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\RepairInvoice|null $invoice
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\Supplier|null $supplier
+ * @method static \Database\Factories\RepairInvoiceItemFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereItemPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereJobName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereLabourPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereRepairInvoiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereSku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereSupplierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withoutTrashed()
+ * @mixin \Eloquent
+ */
 class RepairInvoiceItem extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;

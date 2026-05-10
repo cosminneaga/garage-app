@@ -15,6 +15,49 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
+/**
+ * @property int $id
+ * @property string $number
+ * @property string $street
+ * @property string $postcode
+ * @property string|null $coordinates
+ * @property string|null $extra
+ * @property int $country_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Client> $clients
+ * @property-read int|null $clients_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
+ * @property-read int|null $companies_count
+ * @property-read \App\Models\Country|null $country
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read int|null $suppliers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Address newModelQuery()
+ * @method static Builder<static>|Address newQuery()
+ * @method static Builder<static>|Address onlyTrashed()
+ * @method static Builder<static>|Address query()
+ * @method static Builder<static>|Address whereCoordinates($value)
+ * @method static Builder<static>|Address whereCountryId($value)
+ * @method static Builder<static>|Address whereCreatedAt($value)
+ * @method static Builder<static>|Address whereDeletedAt($value)
+ * @method static Builder<static>|Address whereExtra($value)
+ * @method static Builder<static>|Address whereId($value)
+ * @method static Builder<static>|Address whereNumber($value)
+ * @method static Builder<static>|Address wherePostcode($value)
+ * @method static Builder<static>|Address whereStreet($value)
+ * @method static Builder<static>|Address whereUpdatedAt($value)
+ * @method static Builder<static>|Address withCoordinates()
+ * @method static Builder<static>|Address withCoordinatesText()
+ * @method static Builder<static>|Address withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Address withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Address extends Model
 {
     use HasFactory, LogsActivity, SoftDeletes;

@@ -1,8 +1,8 @@
 @props(['name', 'company'])
 
 @php
-use \App\Enums\SupplierType;
-use \App\Models\Country;
+    use App\Enums\SupplierType;
+    use App\Models\Country;
 @endphp
 
 <x-bladewind.modal
@@ -12,10 +12,10 @@ use \App\Models\Country;
     size="xl"
 >
     <form
-        class="text-start flex flex-col gap-4"
+        class="flex flex-col gap-4 text-start"
+        id="{{ $name }}"
         action="{{ route('companies.supplier.store', $company) }}"
         method="POST"
-        id="{{ $name }}"
         x-data="{
             name: 'Supplier of AutoParts',
             code: 'NEMACODE486',
@@ -39,7 +39,7 @@ use \App\Models\Country;
     >
         @csrf
 
-        <div class="grid grid-rows-1 md:grid-cols-3 gap-1">
+        <div class="grid grid-rows-1 gap-1 md:grid-cols-3">
 
             <x-bladewind.card title="details">
                 <x-bladewind.input
@@ -57,9 +57,9 @@ use \App\Models\Country;
                 <x-bladewind.select
                     name="type"
                     type="text"
+                    value_key="value"
                     label="Type"
                     label_key="label"
-                    value_key="value"
                     :data="SupplierType::ui()"
                     selected_value="{{ SupplierType::DISTRIBUTOR->value }}"
                 />
@@ -108,6 +108,20 @@ use \App\Models\Country;
                     flag_key="code"
                     :data="Country::all()"
                     selected_value="1"
+                />
+                <h3>Location</h3>
+                <br>
+                <x-bladewind.input
+                    name="coordinates[latitude]"
+                    type="text"
+                    value="8.327832"
+                    label="Latitude"
+                />
+                <x-bladewind.input
+                    name="coordinates[longitude]"
+                    type="text"
+                    value="94.676743"
+                    label="Longitude"
                 />
             </x-bladewind.card>
 
