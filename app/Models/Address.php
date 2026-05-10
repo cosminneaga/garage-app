@@ -20,7 +20,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string $number
  * @property string $street
  * @property string $postcode
- * @property string|null $coordinates
+ * @property array|object $coordinates
  * @property string|null $extra
  * @property int $country_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -76,14 +76,13 @@ class Address extends Model
     /**
      * $address = Address::query()->create([
      *  'coordinates' => [
-     *  'longitude' => 4.895168,
-     *  'latitude' => 52.370216,
+     *      'longitude' => 4.895168,
+     *      'latitude' => 52.370216,
      * ]
      * ]);
      *
-     * $address->coordinates;
-     *
-     * Address::withCoordinates()->get();
+     * $address->coordinates->longitude;
+     * $address->coordinates->latitude;
      */
     public function coordinates(): Attribute
     {
@@ -96,16 +95,10 @@ class Address extends Model
     #[Scope]
     protected function withCoordinates(Builder $query)
     {
-        return $query->addSelect([
-            'latitude' => DB::raw('ST_Y(coordinates)'),
-            'longitude' => DB::raw('ST_X(coordinates)'),
+        return $query->select('*')->addSelect([
+            'latitude' => DB::raw('ST_Y(coordinates) as latitude'),
+            'longitude' => DB::raw('ST_X(coordinates) as longitude'),
         ]);
-    }
-
-    #[Scope]
-    protected function withCoordinatesText(Builder $query)
-    {
-        return $query->selectRaw('*, ST_AsText(coordinates) as coordinates_text');
     }
 
     public function users(): BelongsToMany
@@ -133,17 +126,23 @@ class Address extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public static function updateOrCreateByCoordinates(int|string $latitude, int|string $longitude, array $attributes): Address
+    public static function updateOrCreateByCoordinates(string $latitude, string $longitude, array $attributes): Address
     {
         $instance = self::query()
-            ->whereRaw('ST_Y(coordinates) = ?', [$latitude])
-            ->whereRaw('ST_X(coordinates) = ?', [$longitude])
+            ->whereRaw('ST_Y(coordinates) = ?', [$latitude], 'and')
+            ->whereRaw('ST_X(coordinates) = ?', [$longitude], 'and')
             ->first();
 
         if ($instance) {
-            $instance->update($attributes);
+            $instance->fill($attributes);
         } else {
-            $instance = self::create($attributes);
+            $instance = self::create([
+                ...$attributes,
+                'coordinates' => [
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
+                ],
+            ]);
         }
 
         return $instance;

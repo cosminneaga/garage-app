@@ -81,6 +81,9 @@
         "storage": [
             "@php artisan storage:link"
         ],
+        "pest:filter": [
+            "vendor/bin/pest --filter="
+        ],
         "pest:debug": [
             "vendor/bin/pest --stop-on-failure --debug"
         ],
