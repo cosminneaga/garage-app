@@ -56,6 +56,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Address withCoordinatesText()
  * @method static Builder<static>|Address withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Address withoutTrashed()
+ * @method static Builder<static>|Address update(array $attributes)
  * @mixin \Eloquent
  */
 class Address extends Model
@@ -134,7 +135,7 @@ class Address extends Model
             ->first();
 
         if ($instance) {
-            $instance->fill($attributes);
+            $instance->update($attributes);
         } else {
             $instance = self::create([
                 ...$attributes,

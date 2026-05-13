@@ -21,6 +21,17 @@ class AuthController extends Controller
 
     public function authenticate(LoginRequest $request)
     {
+        if (! Auth::attempt($request->safe()->all())) {
+            return redirect()
+                ->back()
+                ->with('message', self::responseMessage(
+                    'error',
+                    'Authentication failed',
+                    'We were unable to authenticate using the provided credentials. Please verify your login details and try again.'
+                ))
+                ->withInput();
+        }
+
         $user = User::where(['email' => $request->safe()->email])->first();
 
         if ($user && ! $user->active) {
@@ -31,17 +42,6 @@ class AuthController extends Controller
                     'Your account has been suspended',
                     'Please contact administration to resolve the issue and restore access.'
                 ));
-        }
-
-        if (! Auth::attempt($request->safe()->all())) {
-            return redirect()
-                ->back()
-                ->with('message', self::responseMessage(
-                    'error',
-                    'Authentication failed',
-                    'We were unable to authenticate using the provided credentials. Please verify your login details and try again.'
-                ))
-                ->withInput();
         }
 
         $request->session()->regenerate();

@@ -14,25 +14,6 @@
             action="{{ route('users.store') }}"
             method="POST"
             enctype="multipart/form-data"
-            x-data="{
-                name: 'User',
-                email: 'editor@garage.com',
-                password: 'password',
-                active: true,
-                address: {
-                    number: 2566,
-                    street: 'Subway Street',
-                    postcode: 'B546BFN',
-                    country_id: 1,
-                },
-                contact: {
-                    mobile: '974837483',
-                    landline: '974837483',
-                    email: 'company@net.com',
-                    url: 'https://cosminneaga.dev',
-                    info: '<h1>Hello</h1><p>How are you?</p>'
-                }
-            }"
         >
             @csrf
 
@@ -40,46 +21,53 @@
 
                 <x-bladewind.card title="details">
                     <x-bladewind.input
+                        id="name"
                         name="name"
+                        data-test="name"
                         type="text"
                         label="Name"
-                        x-model="name"
                     />
                     <x-bladewind.input
+                        id="email"
                         name="email"
+                        data-test="email"
                         type="email"
                         label="Email"
-                        x-model="email"
                     />
                     <x-bladewind.filepicker
                         name="image"
+                        data-test="image"
                         accepted_file_types="image/*"
                     />
                     <x-bladewind.input
+                        id="password"
                         name="password"
+                        data-test="password"
                         type="password"
                         label="Password"
                         viewable
-                        x-model="password"
                     />
                     <x-bladewind.input
+                        id="password_confirmed"
                         name="password_confirmed"
+                        data-test="password_confirmed"
                         type="password"
                         label="Password Confirmation"
                         viewable
-                        x-model="password"
                     />
                     <x-bladewind.select
                         id="role"
                         name="role"
+                        data-test="role"
                         value_key="name"
                         label="Select a role"
                         label_key="label"
                         :data="UserRole::ui()"
-                        selected_value="user_editor"
                     />
                     <x-bladewind.toggle
+                        id="active"
                         name="active"
+                        data-test="active"
                         color="orange"
                         label="Active"
                         :checked="true"
@@ -90,46 +78,46 @@
                     <x-bladewind.input
                         id="address_number"
                         name="address[number]"
+                        data-test="address_number"
                         type="number"
                         label="Number"
-                        x-model="address.number"
                     />
                     <x-bladewind.input
                         id="address_street"
                         name="address[street]"
+                        data-test="address_street"
                         type="text"
                         label="Number"
-                        x-model="address.street"
                     />
                     <x-bladewind.input
                         id="address_postcode"
                         name="address[postcode]"
+                        data-test="address_postcode"
                         type="text"
                         label="Postcode"
-                        x-model="address.postcode"
                     />
                     <x-bladewind.select
                         id="address_country_id"
                         name="address_country_id"
+                        data-test="address_country_id"
                         value_key="id"
                         label="Select a country"
                         label_key="name"
                         flag_key="code"
                         :data="Country::all()"
-                        selected_value="1"
                     />
                     <h3>Location</h3>
                     <br>
                     <x-bladewind.input
                         name="address[coordinates][latitude]"
+                        data-test="address_coordinates_latitude"
                         type="text"
-                        value="8.327832"
                         label="Latitude"
                     />
                     <x-bladewind.input
                         name="address[coordinates][longitude]"
+                        data-test="address_coordinates_longitude"
                         type="text"
-                        value="94.676743"
                         label="Longitude"
                     />
                 </x-bladewind.card>
@@ -138,37 +126,37 @@
                     <x-bladewind.input
                         id="contact_mobile"
                         name="contact[mobile]"
+                        data-test="contact_mobile"
                         label="Mobile Phone"
-                        x-model="contact.mobile"
                     />
 
                     <x-bladewind.input
                         id="contact_landline"
                         name="contact[landline]"
+                        data-test="contact_landline"
                         label="Landline Phone"
-                        x-model="contact.landline"
                     />
 
                     <x-bladewind.input
                         id="contact_email"
                         name="contact[email]"
+                        data-test="contact_email"
                         type="email"
                         label="Email"
-                        x-model="contact.email"
                     />
 
                     <x-bladewind.input
                         id="contact_url"
                         name="contact[url]"
+                        data-test="contact_url"
                         label="URL"
-                        x-model="contact.url"
                     />
 
                     <x-bladewind.textarea
                         id="contact_info"
                         name="contact_info"
+                        data-test="contact_info"
                         label="More Information"
-                        x-model="contact.info"
                         toolbar
                         rows="10"
                     />
@@ -179,9 +167,10 @@
                 <x-bladewind.button
                     class="w-fit"
                     form="form-users-create"
+                    data-test="user-create-btn"
                     can_submit
                     size="small"
-                >Submit Details</x-bladewind.button>
+                >Submit</x-bladewind.button>
             </div>
         </form>
     </x-form.wrapper>

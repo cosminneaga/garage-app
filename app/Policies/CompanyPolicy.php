@@ -29,7 +29,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isCompanyImPartOf($user);
+        $company->isMyCompany($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
     }
@@ -51,7 +51,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isCompanyImPartOf($user);
+        $company->isMyCompany($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
     }
@@ -65,7 +65,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isCompanyImPartOf($user);
+        $company->isMyCompany($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
     }
@@ -87,7 +87,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isCompanyImPartOf($user);
+        $company->isMyCompany($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
     }
@@ -106,7 +106,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isCompanyImPartOf($user);
+        $company->isMyCompany($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
     }
@@ -117,7 +117,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isCompanyImPartOf($user);
+        $company->isMyCompany($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
@@ -128,7 +128,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isCompanyImPartOf($user);
+        $company->isMyCompany($user);
 
         return $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
     }

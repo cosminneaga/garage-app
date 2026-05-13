@@ -28,6 +28,7 @@
                 <x-bladewind::button
                     class="btn mt-2 h-10 w-full"
                     type="primary"
+                    id="login-btn"
                     can_submit
                 >Login</x-bladewind::button>
             </form>

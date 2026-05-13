@@ -71,21 +71,24 @@ class Supplier extends Model
         'type' => SupplierType::DISTRIBUTOR->value,
     ];
 
-    // !NOTE: this check is not quite right, rethink architecture
-    // Also need to take in consideration admin actions over policy that implements this logic as guard
-    // And, companies shouldn't be selected as first
-    // Need to figure out a way to check if specific supplier belongs to given user
     public function isMySupplier(User $user): bool
     {
-        $company = $this->companies()->first();
-
-        if ($user->hasRole(UserRole::USER_EDITOR)) {
-            $manager = $user->managers()->first();
-
-            return (bool) $company->users()->findOrFail($manager->id);
+        if (!$user->roles()->exists()) {
+            return false;
         }
 
-        return (bool) $company->users()->findOrFail($user->id);
+        $company = $this->companies()->first();
+
+        if ($user->hasRole(UserRole::USER_ADMIN)) {
+            return (bool) $company->users()->find($user->id);
+        }
+
+        $manager = $user->managers()->first();
+        if (!$manager) {
+            return false;
+        }
+
+        return (bool) $company->users()->find($user->id);
     }
 
     public function addresses(): BelongsToMany

@@ -78,15 +78,22 @@ class Company extends Model
         'tax_value' => 'float',
     ];
 
-    public function isCompanyImPartOf(User $user): bool
+    public function isMyCompany(User $user): bool
     {
-        if ($user->hasRole(UserRole::USER_EDITOR)) {
-            $manager = $user->managers()->first();
-
-            return (bool) $this->users()->findOrFail($manager->id);
+        if (!$user->roles()->exists()) {
+            return false;
         }
 
-        return (bool) $this->users()->findOrFail($user->id);
+        if ($user->hasRole(UserRole::USER_ADMIN)) {
+            return (bool) $this->users()->find($user->id);
+        }
+
+        $manager = $user->managers()->first();
+        if (!$manager) {
+            return false;
+        }
+
+        return (bool) $this->users()->find($user->id);
     }
 
     public function findSupplierByName(string $name): ?Supplier
