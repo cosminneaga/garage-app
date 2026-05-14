@@ -25,7 +25,7 @@
     @stack('scripts')
 </head>
 
-<body class="bg-gray-800 text-white">
+<body class="bg-gray-900 text-white">
 
     {{-- <body> --}}
     <x-layout.nav />
@@ -65,7 +65,7 @@
                 {{ $value->type }}
             </div>
             <button
-                class="bg-danger-soft text-fg-danger-strong focus:ring-danger-medium hover:bg-danger-medium -mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 shrink-0 shrink-0 items-center justify-center rounded p-1.5 focus:ring-2"
+                class="bg-danger-soft text-fg-danger-strong focus:ring-danger-medium hover:bg-danger-medium -mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 shrink-0 items-center justify-center rounded p-1.5 focus:ring-2"
                 data-dismiss-target="#alert-2"
                 type="button"
                 aria-label="Close"
