@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.10.1",
         "mkocansey/bladewind": "^3.3",
         "spatie/laravel-activitylog": "^5.0",
-        "spatie/laravel-permission": "^7.2"
+        "spatie/laravel-permission": "^7.2",
+        "themesberg/flowbite-blade-icons": "^1.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.7",
