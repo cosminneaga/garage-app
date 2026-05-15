@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +26,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Blade::anonymousComponentPath(
+            resource_path('views/layout'),
+            'layout'
+        );
+
+        Blade::directive('datetime', function (string $expression) {
+            return "<?php echo ($expression)->format('d/m/Y H:i'); ?>";
+        });
+
         Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::SUPER->value) ? true : null);
         Gate::before(function ($user) {
             if (! $user->active) {
@@ -39,9 +49,6 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasRole(UserRole::SUPER->value);
         });
 
-        // Gate::before(function ($user, $ability) {
-        //     return $user->hasPermissionTo($ability) ? true : null;
-        // });
         Model::shouldBeStrict();
         Model::automaticallyEagerLoadRelationships();
     }

@@ -11,7 +11,7 @@ $options = [
 ];
 ?>
 
-<x-layout>
+<x-layout::index>
     <h2 class="text-2xl font-bold">Hello, {{ Auth::user() ? Auth::user()->name : 'Guest' }}!</h2>
     <br><br>
     @auth
@@ -27,4 +27,4 @@ $options = [
             </x-bladewind.card>
         </div>
     @endauth
-</x-layout>
+</x-layout::index>

@@ -3,7 +3,7 @@
     use App\Enums\UserRole;
 @endphp
 
-<x-layout title="Add User">
+<x-layout::index title="Add User">
     <x-form.wrapper
         title="create team member"
         description="Create a new user details, address & contact"
@@ -19,18 +19,14 @@
 
             <div class="grid grid-rows-1 gap-1 md:grid-cols-3">
 
-                <x-bladewind.card title="details">
-                    <x-bladewind.input
-                        id="name"
+                <x-card>
+                    <x-form.field
                         name="name"
-                        data-test="name"
                         type="text"
                         label="Name"
                     />
-                    <x-bladewind.input
-                        id="email"
+                    <x-form.field
                         name="email"
-                        data-test="email"
                         type="email"
                         label="Email"
                     />
@@ -39,139 +35,107 @@
                         data-test="image"
                         accepted_file_types="image/*"
                     />
-                    <x-bladewind.input
-                        id="password"
+                    <x-form.field
                         name="password"
-                        data-test="password"
                         type="password"
                         label="Password"
-                        viewable
                     />
-                    <x-bladewind.input
-                        id="password_confirmed"
+                    <x-form.field
                         name="password_confirmed"
-                        data-test="password_confirmed"
                         type="password"
                         label="Password Confirmation"
-                        viewable
                     />
-                    <x-bladewind.select
-                        id="role"
+                    <x-form.field
                         name="role"
-                        data-test="role"
-                        value_key="name"
+                        type="select"
                         label="Select a role"
-                        label_key="label"
-                        :data="UserRole::ui()"
+                        :options="UserRole::ui()"
                     />
-                    <x-bladewind.toggle
-                        id="active"
+                    <x-form.field
                         name="active"
-                        data-test="active"
-                        color="orange"
-                        label="Active"
-                        :checked="true"
-                    />
-                </x-bladewind.card>
+                        type="toggle"
+                        checked="true"
+                    >
+                        <x-slot name="before">Inactive</x-slot>
+                        <x-slot name="after">Active</x-slot>
+                    </x-form.field>
+                </x-card>
 
-                <x-bladewind.card title="address">
-                    <x-bladewind.input
-                        id="address_number"
+                <x-card title="address">
+
+                    <x-form.field
                         name="address[number]"
-                        data-test="address_number"
-                        type="number"
-                        label="Number"
-                    />
-                    <x-bladewind.input
-                        id="address_street"
-                        name="address[street]"
-                        data-test="address_street"
                         type="text"
                         label="Number"
                     />
-                    <x-bladewind.input
-                        id="address_postcode"
+                    <x-form.field
+                        name="address[street]"
+                        type="text"
+                        label="Street"
+                    />
+                    <x-form.field
                         name="address[postcode]"
-                        data-test="address_postcode"
                         type="text"
                         label="Postcode"
                     />
-                    <x-bladewind.select
-                        id="address_country_id"
+                    <x-form.field
                         name="address_country_id"
-                        data-test="address_country_id"
-                        value_key="id"
+                        type="select"
                         label="Select a country"
-                        label_key="name"
-                        flag_key="code"
-                        :data="Country::all()"
+                        select_map_label="name"
+                        select_map_value="id"
+                        :options="Country::all()"
                     />
-                    <h3>Location</h3>
-                    <br>
-                    <x-bladewind.input
+                    <h3 class="text-lg font-bold">Location</h3>
+                    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
+                    <x-form.field
                         name="address[coordinates][latitude]"
-                        data-test="address_coordinates_latitude"
                         type="text"
                         label="Latitude"
                     />
-                    <x-bladewind.input
+                    <x-form.field
                         name="address[coordinates][longitude]"
-                        data-test="address_coordinates_longitude"
                         type="text"
                         label="Longitude"
                     />
-                </x-bladewind.card>
+                </x-card>
 
-                <x-bladewind.card title="contact">
-                    <x-bladewind.input
-                        id="contact_mobile"
+                <x-card>
+                    <x-form.field
                         name="contact[mobile]"
-                        data-test="contact_mobile"
+                        type="text"
                         label="Mobile Phone"
                     />
-
-                    <x-bladewind.input
-                        id="contact_landline"
+                    <x-form.field
                         name="contact[landline]"
-                        data-test="contact_landline"
+                        type="text"
                         label="Landline Phone"
                     />
-
-                    <x-bladewind.input
-                        id="contact_email"
+                    <x-form.field
                         name="contact[email]"
-                        data-test="contact_email"
                         type="email"
                         label="Email"
                     />
-
-                    <x-bladewind.input
-                        id="contact_url"
+                    <x-form.field
                         name="contact[url]"
-                        data-test="contact_url"
+                        type="email"
                         label="URL"
                     />
-
-                    <x-bladewind.textarea
-                        id="contact_info"
-                        name="contact_info"
-                        data-test="contact_info"
+                    <x-form.field
+                        name="contact[email]"
+                        type="textarea"
                         label="More Information"
-                        toolbar
                         rows="10"
                     />
-                </x-bladewind.card>
+                </x-card>
             </div>
 
             <div class="flex gap-1">
-                <x-bladewind.button
-                    class="w-fit"
+                <x-button
+                    id="form-users-create-submit"
                     form="form-users-create"
-                    data-test="user-create-btn"
-                    can_submit
-                    size="small"
-                >Submit</x-bladewind.button>
+                >Submit</x-button>
             </div>
         </form>
     </x-form.wrapper>
-</x-layout>
+</x-layout::index>

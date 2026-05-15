@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout::index>
     <x-form.wrapper
         class="mx-auto max-w-md"
         title="Login"
@@ -49,4 +49,4 @@
             </form>
         </x-bladewind.card>
     </x-form.wrapper>
-</x-layout>
+</x-layout::index>
