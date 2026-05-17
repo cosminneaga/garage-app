@@ -4,7 +4,7 @@
         title="Login"
         description="Login into your account"
     >
-        <x-bladewind.card>
+        <div>
             <form
                 class="mt-10 space-y-4 text-start"
                 action="/login"
@@ -47,6 +47,6 @@
                     type="submit"
                 >Login</button>
             </form>
-        </x-bladewind.card>
+        </div>
     </x-form.wrapper>
 </x-layout::index>

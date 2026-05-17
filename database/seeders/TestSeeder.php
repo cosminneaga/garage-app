@@ -36,21 +36,8 @@ class TestSeeder extends Seeder
         */
 
         // ATTACHING users TO team
-        $admin = User::factory()->create([
-            'name' => 'ADMIN',
-        ]);
-        $admin->assignRole(UserRole::USER_EDITOR);
-
-        $users = User::factory()->createMany([
-            ['name' => 'User one'],
-            ['name' => 'User two'],
-            ['name' => 'User three'],
-        ]);
-
+        $admin = User::where('email', 'admin@garage.com')->first();
+        $users = User::factory(250)->create();
         $admin->team()->attach($users);
-
-        foreach ($admin->team()->get() as $member) {
-            dump($member->name);
-        }
     }
 }

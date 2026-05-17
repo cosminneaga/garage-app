@@ -3,7 +3,7 @@
 ])
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -25,12 +25,9 @@
     @stack('scripts')
 </head>
 
-<body class="bg-gray-900 text-white">
-
-    @datetime(now())
-
+<body class="dark:bg-gray-800 dark:text-white">
     {{-- <body> --}}
-    <x-nav />
+    <x-navigation::index />
 
     <main class="max-w-400 mx-auto px-4 py-6">
         {{ $slot }}
@@ -52,14 +49,14 @@
             <x-alert
                 type="error"
                 :message_list="$errors->all()"
-                :timeout="5000"
+                :timeout="8000"
             />
         @endif
     </div>
     <!-- ALERT AREA -->
 
     <!-- MODAL AREA -->
-    <x-bladewind.modal
+    {{-- <x-bladewind.modal
         name="send-message"
         title=""
     >
@@ -71,7 +68,7 @@
             placeholder="Type message here..."
             rows="5"
         />
-    </x-bladewind.modal>
+    </x-bladewind.modal> --}}
     <!-- MODAL AREA -->
 
 </body>

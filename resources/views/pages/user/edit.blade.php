@@ -5,7 +5,7 @@
     $tab = request()->query('tab');
 @endphp
 
-<x-layout title="{{ $user->name }}">
+<x-layout::index title="{{ $user->name }}">
 
     <x-wrapper.tab-resource
         title="view & update user"
@@ -101,4 +101,4 @@
         @csrf
         @method('DELETE')
     </form>
-</x-layout>
+</x-layout::index>

@@ -35,7 +35,7 @@
     x-transition.opacity.duration.300ms
 >
     <div
-        class="{{ $class }} rounded-base grid auto-cols-max grid-flow-col mb-4 border p-4 text-sm text-gray-600 items-center"
+        class="{{ $class }} rounded-base mb-4 grid auto-cols-max grid-flow-col items-center border p-4 text-sm relative"
         id="{{ $id }}"
         role="alert"
     >
@@ -48,7 +48,7 @@
             <div>
                 <p class="text-lg">{{ $title }}</p>
                 @if (count($message_list))
-                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                    <ul class="mt-2 list-outside list-disc space-y-1 ps-2.5">
                         @foreach ($message_list as $msg)
                             <li>{{ $msg }}</li>
                         @endforeach
@@ -59,16 +59,14 @@
             </div>
         </div>
 
-        <div>
-            <button
-                class="bg-danger-soft text-fg-danger-strong focus:ring-danger-medium hover:bg-danger-medium absolute right-2 top-2 h-6 w-6 rounded p-1.5"
-                data-dismiss-target="#{{ $id }}"
-                type="button"
-                aria-label="Close"
-            >
-                <span class="sr-only">Close</span>
-                <x-fwb-o-close />
-            </button>
-        </div>
+        <button
+            class="text-white bg-danger-medium focus:ring-danger-soft hover:bg-danger-soft absolute right-2 top-2 h-6 w-6 rounded p-1.5"
+            data-dismiss-target="#{{ $id }}"
+            type="button"
+            aria-label="Close"
+        >
+            <span class="sr-only">Close</span>
+            <x-fwb-o-close />
+        </button>
     </div>
 </div>

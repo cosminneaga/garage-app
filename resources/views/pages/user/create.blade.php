@@ -17,7 +17,7 @@
         >
             @csrf
 
-            <div class="grid grid-rows-1 gap-1 md:grid-cols-3">
+            <div class="grid grid-rows-1 gap-1 md:grid-cols-2 lg:grid-cols-3">
 
                 <x-card>
                     <x-form.field
@@ -30,10 +30,10 @@
                         type="email"
                         label="Email"
                     />
-                    <x-bladewind.filepicker
+                    <x-form.field
                         name="image"
-                        data-test="image"
-                        accepted_file_types="image/*"
+                        type="image"
+                        accept="image/*"
                     />
                     <x-form.field
                         name="password"
@@ -79,7 +79,7 @@
                         label="Postcode"
                     />
                     <x-form.field
-                        name="address_country_id"
+                        name="address[country_id]"
                         type="select"
                         label="Select a country"
                         select_map_label="name"
@@ -122,7 +122,7 @@
                         label="URL"
                     />
                     <x-form.field
-                        name="contact[email]"
+                        name="contact[info]"
                         type="textarea"
                         label="More Information"
                         rows="10"
@@ -132,7 +132,7 @@
 
             <div class="flex gap-1">
                 <x-button
-                    id="form-users-create-submit"
+                    data-test="form-users-create-submit"
                     form="form-users-create"
                 >Submit</x-button>
             </div>

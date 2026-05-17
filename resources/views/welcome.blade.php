@@ -16,7 +16,7 @@ $options = [
     <br><br>
     @auth
         <div class="grid grid-cols-1 md:grid-cols-3">
-            <x-bladewind.card title="registered users" class="p-3! col-span-2">
+            {{-- <x-bladewind.card title="registered users" class="p-3! col-span-2">
                 <x-bladewind.chart
                     type="line"
                     :labels="$users['date']"
@@ -24,7 +24,7 @@ $options = [
                     :options="$options"
                     show_legends="true"
                 />
-            </x-bladewind.card>
+            </x-bladewind.card> --}}
         </div>
     @endauth
 </x-layout::index>

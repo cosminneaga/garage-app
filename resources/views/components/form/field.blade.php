@@ -11,6 +11,11 @@
     'checked' => true,
 ])
 
+@php
+    $testName = Str::replace(['[', ']'], ['_', ''], $name);
+    $errorName = Str::replace(['[', ']'], ['.', ''], $name);
+@endphp
+
 <div class="space-y-2 text-start">
 
     @if ($label)
@@ -27,9 +32,13 @@
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border p-3.5 text-sm"
                     id="{{ $name }}"
                     name="{{ $name }}"
-                    data-test="{{ $name }}"
+                    data-test="{{ $testName }}"
                     {{ $attributes }}
                 >{{ old($name, $value) }}</textarea>
+            @break
+
+            @case('image')
+                <x-form.file.image :name="$name" :test="$testName" />
             @break
 
             @case('select')
@@ -37,7 +46,8 @@
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
                     id="{{ $name }}"
                     name="{{ $name }}"
-                    data-test="{{ $name }}"
+                    data-test="{{ $testName }}"
+                    value={{ old($errorName) }}
                     {{ $attributes }}
                 >
                     @foreach ($options as $option)
@@ -55,13 +65,14 @@
                         class="peer sr-only"
                         id="{{ $name }}"
                         name="{{ $name }}"
-                        data-test="{{ $name }}"
+                        data-test="{{ $testName }}"
                         type="checkbox"
                         value="{{ $checked }}"
                         {{ $checked == 'true' ? 'checked' : '' }}
+                        {{ $attributes }}
                     >
                     <div
-                        class="bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand peer relative mx-3 h-5 w-9 rounded-full after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full">
+                        class="bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand after:inset-s-0.5 peer relative mx-3 h-5 w-9 rounded-full after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full">
                     </div>
                     @isset($after)
                         {{ $after }}
@@ -74,15 +85,15 @@
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
                     id="{{ $name }}"
                     name="{{ $name }}"
-                    data-test="{{ $name }}"
+                    data-test="{{ $testName }}"
                     type="{{ $type }}"
-                    value="{{ old($name, $value) }}"
+                    value="{{ old($errorName) }}"
                     {{ $attributes }}
                 />
             @break
 
         @endswitch
-        @error($name)
+        @error($errorName)
             <p class="text-xs text-red-600">{{ $message }}</p>
         @enderror
     </div>

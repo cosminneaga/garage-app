@@ -2,7 +2,7 @@
     use App\Enums\UserPermission;
 @endphp
 
-<x-layout title="Team">
+<x-layout::index title="Team">
     <h1 class="text-2xl font-bold underline">USERS</h1>
     <br><br>
 
@@ -95,4 +95,4 @@
             </tr>
         @endforeach
     </x-table>
-</x-layout>
+</x-layout::index>

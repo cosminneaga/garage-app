@@ -1,4 +1,4 @@
-<x-layout title="Removed">
+<x-layout::index title="Removed">
     <h1 class="text-2xl font-bold underline">REMOVED TEAM MEMBERS</h1>
     <br><br>
 
@@ -6,4 +6,4 @@
         :users="$users"
         restore_action
     />
-</x-layout>
+</x-layout::index>

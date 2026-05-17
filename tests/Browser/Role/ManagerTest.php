@@ -41,7 +41,7 @@ beforeEach(function () {
 
 it('should create a user using create form', function () {
     $this->actingAs($this->manager);
-    // $country = Country::factory()->create();
+    $country = Country::factory()->create();
 
     sleep(5);
 
@@ -56,7 +56,7 @@ it('should create a user using create form', function () {
         ->fill('@address_number', '564')
         ->fill('@address_street', 'SunFlower Street')
         ->fill('@address_postcode', '893829')
-        // ->select('@address_country_id', $country->id)
+        ->select('@address_country_id', $country->id)
         ->fill('@address_coordinates_latitude', '8.327832')
         ->fill('@address_coordinates_longitude', '94.676743')
 
@@ -66,7 +66,7 @@ it('should create a user using create form', function () {
         ->fill('@contact_url', 'https://garage.com')
         // ->fill('@contact_info', 'Extra information about how to contact me')
 
-        ->press('Submit')
+        ->press('@form-users-create-submit')
 
         ->debug();
 });
