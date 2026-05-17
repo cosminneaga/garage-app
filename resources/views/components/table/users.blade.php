@@ -1,101 +1,80 @@
 @props([
-    'users' => [],
-    'message_action' => false,
-    'edit_action' => false,
-    'delete_action' => false,
-    'restore_action' => false,
+    'data' => null,
+    'limit' => 10,
+    'edit' => false,
+    'delete' => false,
+    'chat' => false,
 ])
 
-<x-table
-    :data="$users"
-    {{ $attributes }}
->
-    <x-slot:header>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Active</th>
-        <th>Actions</th>
-    </x-slot:header>
+@php
+    $columns = collect($data[0])
+        ->except(['pivot', 'image_path'])
+        ->keys();
 
-    @foreach ($users as $user)
-        <tr>
-            <td>
-                <div class="flex items-end gap-1">
-                    <x-bladewind.avatar
-                        size="regular"
-                        :image="$user->image_path && !Str::isUrl($user->image_path)
-                            ? asset('storage/' . $user->image_path)
-                            : $user->image_path"
-                    />
-                    <p><strong>{{ $user->name }}</strong></p>
-                </div>
-            </td>
-            <td>{{ $user->email }}</td>
-            <td><x-tag.active :active="$user->active" /></td>
-            <td>
-                <div class="flex gap-1">
-                    @if ($message_action && Auth::user()->id !== $user->id)
-                        <x-bladewind.button.circle
-                            icon="chat-bubble-bottom-center-text"
-                            color="green"
-                            size="tiny"
-                            outline
-                            onclick="openSendMessageModal('{{ $user->name }}')"
-                        />
-                    @endif
-                    @if ($edit_action)
-                        <x-bladewind.button.circle
-                            icon="pencil-square"
-                            color="primary"
-                            size="tiny"
-                            outline
-                            onclick="location.href='{{ route('users.edit', $user) }}'"
-                        />
-                    @endif
-                    @if ($delete_action && Auth::user()->id !== $user->id)
-                        <x-bladewind.button.circle
-                            icon="trash"
-                            color="red"
-                            size="tiny"
-                            outline
-                            onclick="showModal('ucdm-{{ $user->id }}')"
-                        />
+    if ($edit || $delete || $chat) {
+        $columns->push('actions');
+    }
+@endphp
 
-                        <form
-                            id="ucdf-{{ $user->id }}"
-                            action="{{ route('users.destroy', $user) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-                        </form>
+<x-table.wrapper :data="$data">
+    <x-slot name="thead">
+        @foreach ($columns as $column)
+            <th
+                class="px-6 py-3"
+                scope="col"
+            >
+                {{ Str::ucwords(Str::replace(['_'], [' '], $column)) }}
+            </th>
+        @endforeach
+    </x-slot>
 
-                        <x-bladewind.modal
-                            name="ucdm-{{ $user->id }}"
-                            type="warning"
-                            ok_button_action="submitResourceDeleteForm('ucdf-{{ $user->id }}')"
-                        >
-                            Are you sure you want to delete this user?
-                        </x-bladewind.modal>
-                    @endif
-                    @if ($restore_action)
-                        <form
-                            action="{{ route('users.restore', $user) }}"
-                            method="POST"
-                        >
-                            @csrf
+    <x-slot name="tbody">
+        @foreach ($data as $row)
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+                    {{ $row->id }}
+                </th>
+                <td class="px-6 py-4">
+                    {{ $row->name }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->email }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->active }}
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex gap-3">
+                        @if ($chat && Auth::user()->id !== $row->id)
+                            <button
+                                class="text-green-500"
+                                onclick="alert('openMessageModal')"
+                            >Message</button>
+                        @endif
+                        @if ($edit)
+                            <a
+                                class="text-brand"
+                                href="{{ route('users.edit', $row) }}"
+                            >Edit</a>
+                        @endif
+                        @if ($delete && Auth::user()->id !== $row->id)
+                            <form
+                                id="ucdf-{{ $row->id }}"
+                                action="{{ route('users.destroy', $row) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('DELETE')
 
-                            <x-bladewind.button.circle
-                                icon="arrow-left-start-on-rectangle"
-                                color="green"
-                                size="tiny"
-                                outline
-                                can_submit
-                            />
-                        </form>
-                    @endif
-                </div>
-            </td>
-        </tr>
-    @endforeach
-</x-table>
+                                <button
+                                    class="text-danger"
+                                    type="submit"
+                                >Delete</button>
+                            </form>
+                        @endif
+                    </div>
+                </td>
+            </tr>
+        @endforeach
+    </x-slot>
+</x-table.wrapper>

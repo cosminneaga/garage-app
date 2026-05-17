@@ -6,7 +6,7 @@
     <h1 class="text-2xl font-bold underline">USERS</h1>
     <br><br>
 
-    <x-table
+    <x-table.users
         :data="$users"
         chat
         :edit="Auth::user()->can(UserPermission::name(UserPermission::USER, 'update'))"

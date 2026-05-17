@@ -35,7 +35,7 @@
                 <span class="text-body mb-4 block w-full text-sm font-normal md:mb-0 md:inline md:w-auto">
                     Showing
                     <span class="text-heading font-semibold">{{ $data->count() }}</span>
-                    of
+                    items out of
                     <span class="text-heading font-semibold">{{ $data->total() }}</span>
                 </span>
             </div>
@@ -63,11 +63,11 @@
 
         <script type="module">
             const currentPage = @json($data->currentPage());
+            const total = @json($data->total());
             const pageUrls = @json($data->getUrlRange(1, $data->lastPage()));
-            const numberContainer = document.getElementById('table-paginator-numbers');
 
-            const pagination = new Pagination(currentPage, numberContainer);
-            console.log(pagination.construct(pageUrls));
+            const pagination = new Pagination(currentPage, pageUrls);
+            pagination.construct(document.getElementById('table-paginator-numbers'));
         </script>
     @endif
 </div>

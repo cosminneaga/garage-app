@@ -1,62 +1,94 @@
 class Pagination {
-    constructor(page, element) {
-        this.page = page;
-        this.element = element;
+    constructor(current, urlsObj) {
+        this.current = current;
+        this.urls = Object.entries(urlsObj);
+        this.total = this.urls.length;
     }
 
-    construct(urlObj) {
-        for (const [key, url] of Object.entries(urlObj)) {
+    construct(nodeParentEl) {
+        const pages = this.generate();
+        for (const page of pages) {
             const li = document.createElement("li");
-            li.appendChild(this.generateNumberButton(url, key, this.page == key ? true : false));
-            this.element.appendChild(li);
+            const a = document.createElement("a");
+            a.href = page.url;
+            a.innerText = page.text;
+            a.className =
+                "border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading box-border flex h-9 w-9 items-center justify-center border text-sm font-medium focus:outline-none";
+
+            if (page.active) {
+                a.className += " text-gray-100 bg-brand-softer box-border";
+            } else {
+                a.className += " text-body bg-neutral-secondary-medium";
+            }
+
+            li.appendChild(a);
+            nodeParentEl.appendChild(li);
         }
     }
 
-    generateNumberButton(url, number, active = false) {
-        const a = document.createElement("a");
-        a.href = url;
-        a.className = "border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading box-border flex h-9 w-9 items-center justify-center border text-sm font-medium focus:outline-none";
-        a.innerText = number;
-
-        if (active) {
-            a.className += 'text-gray-100 bg-brand-softer box-border';
-        } else {
-            a.className += 'text-body bg-neutral-secondary-medium';
+    generate() {
+        if (this.total <= 6) {
+            return this.urls.map(([number, url]) => ({
+                text: number,
+                url: url,
+                active: parseInt(number) === this.current ? true : false,
+            }));
         }
 
-        return a;
-    }
+        let once = 0;
+        const result = [];
+        for (const [number, url] of this.urls) {
+            const num = parseInt(number);
+            if ([1, 2, this.total - 1, this.total].includes(num)) {
+                result.push({
+                    text: num,
+                    url: url,
+                    active: num === this.current ? true : false,
+                });
+            }
 
-    generateIntermediaryButton() {
-        const a = document.createElement("a");
-        a.href = "#";
-        a.innerText = "...";
-        a.className = "border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading box-border flex h-9 w-9 items-center justify-center border text-sm font-medium focus:outline-none text-body bg-neutral-secondary-medium text-body bg-neutral-secondary-medium";
+            if (once <= 0 && this.current === num && ![1, 2, this.total - 1, this.total].includes(num)) {
+                result.push({
+                    text: num,
+                    url: url,
+                    active: num === this.current ? true : false,
+                });
+                continue;
+            }
 
-        return a;
+            if (this.current === 3 && num === 3) {
+                result.push({
+                    text: num,
+                    url: url,
+                    active: num === this.current ? true : false,
+                });
+                result.push({
+                    text: "...",
+                    url: "#",
+                    active: false,
+                });
+            }
+
+            if (this.current === this.total - 2 && num === this.total - 2) {
+                result.push({
+                    text: "...",
+                    url: "#",
+                    active: false,
+                });
+                result.push({
+                    text: num,
+                    url: url,
+                    active: num === this.current ? true : false,
+                });
+            }
+        }
+
+        if (result.length === 4) {
+            result.splice(2, 0, { text: "...", url: "#", active: false });
+        }
+
+        return result;
     }
 }
 
 window.Pagination = Pagination;
-
-
-/**
- * 1 2 ... 35 36
- * 1 2 ... 7 ... 35 36
- */
-
-/**
- * if (pageKeys.length >= 6 && !['1', '2', pageKeys[pageKeys.length - 2], pageKeys[pageKeys.length - 1]].includes(key)) {
-                    if (key == 3) {
-                        const li = document.createElement("li");
-                        const a = document.createElement("a");
-                        a.className = "border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading box-border flex h-9 w-9 items-center justify-center border text-sm font-medium focus:outline-none "
-                        a.href = "#";
-                        a.innerText = "...";
-                        li.appendChild(a);
-                        numberContainer.appendChild(li);
-                    }
-
-                    continue;
-                }
- */

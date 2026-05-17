@@ -36,7 +36,12 @@ class TestSeeder extends Seeder
 
         // ATTACHING users TO team
         $admin = User::where('email', 'admin@garage.com')->first();
-        $users = User::factory(250)->create();
+        $users = User::factory(450)->create();
         $admin->team()->attach($users);
+
+        // $users = $admin->team()->get();
+        // foreach ($users as $user) {
+        //     $user->forceDelete();
+        // }
     }
 }
