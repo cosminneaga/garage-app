@@ -7,11 +7,14 @@ namespace App\Models;
 use App\Enums\UserRole;
 use App\Policies\CompanyPolicy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -22,25 +25,26 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property float $tax_value
  * @property string $invoice_prefix
  * @property string|null $image_path
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Client> $clients
+ * @property-read Collection<int, Client> $clients
  * @property-read int|null $clients_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
+ * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read Collection<int, Product> $products
  * @property-read int|null $products_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Repair> $repairs
+ * @property-read Collection<int, Repair> $repairs
  * @property-read int|null $repairs_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
+ *
  * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newQuery()
@@ -58,6 +62,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 #[UsePolicy(CompanyPolicy::class)]
@@ -80,7 +85,7 @@ class Company extends Model
 
     public function isMyCompany(User $user): bool
     {
-        if (!$user->roles()->exists()) {
+        if (! $user->roles()->exists()) {
             return false;
         }
 
@@ -89,7 +94,7 @@ class Company extends Model
         }
 
         $manager = $user->managers()->first();
-        if (!$manager) {
+        if (! $manager) {
             return false;
         }
 

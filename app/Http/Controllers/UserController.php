@@ -180,7 +180,7 @@ class UserController extends Controller
             ));
     }
 
-    # ADMIN
+    // ADMIN
     public function all(Request $request): View
     {
         return view('pages.user.admin', [

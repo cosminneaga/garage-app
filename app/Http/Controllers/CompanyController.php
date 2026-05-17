@@ -159,7 +159,7 @@ class CompanyController extends Controller
             ));
     }
 
-    # ADMIN
+    // ADMIN
     public function all(Request $request): View
     {
         return view('pages.company.admin', [

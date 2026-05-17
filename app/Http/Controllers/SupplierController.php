@@ -94,7 +94,7 @@ class SupplierController extends Controller
             ));
     }
 
-    # ADMIN
+    // ADMIN
     public function all(Request $request): View
     {
         return view('pages.supplier.admin', [
@@ -110,7 +110,7 @@ class SupplierController extends Controller
 
     public function destroyUnrelated(Supplier $supplier)
     {
-        $supplier->delete($supplier->id);
+        $supplier->delete();
 
         return back()
             ->with('message', self::responseMessage(

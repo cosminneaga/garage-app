@@ -36,9 +36,7 @@ class AppServiceProvider extends ServiceProvider
             'navigation'
         );
 
-        Blade::directive('datetime', function (string $expression) {
-            return "<?php echo ($expression)->format('d/m/Y H:i'); ?>";
-        });
+        Blade::directive('datetime', fn (string $expression) => "<?php echo ($expression)->format('d/m/Y H:i'); ?>");
 
         Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::SUPER->value) ? true : null);
         Gate::before(function ($user) {

@@ -6,11 +6,14 @@ namespace App\Models;
 
 use App\Enums\SupplierType;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -20,19 +23,20 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property SupplierType $type
  * @property string $tax_id
  * @property string $registration_number
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
+ * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairInvoiceItem> $repairInvoiceItems
+ * @property-read Collection<int, RepairInvoiceItem> $repairInvoiceItems
  * @property-read int|null $repair_invoice_items_count
+ *
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newQuery()
@@ -49,6 +53,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Supplier extends Model
@@ -73,7 +78,7 @@ class Supplier extends Model
 
     public function isMySupplier(User $user): bool
     {
-        if (!$user->roles()->exists()) {
+        if (! $user->roles()->exists()) {
             return false;
         }
 
@@ -84,7 +89,7 @@ class Supplier extends Model
         }
 
         $manager = $user->managers()->first();
-        if (!$manager) {
+        if (! $manager) {
             return false;
         }
 

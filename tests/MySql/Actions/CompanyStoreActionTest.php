@@ -46,16 +46,15 @@ test('company should be created along with address & contact', function () {
 
     $company = Company::with([
         'addresses',
-        'contacts'
+        'contacts',
     ])->whereName('Company LTD')->first();
 
     expect($company)->toMatchArray([
-        'name' => 'Company LTD'
+        'name' => 'Company LTD',
     ]);
     expect($company->addresses)->toHaveCount(1);
     expect($company->contacts)->toHaveCount(1);
 });
-
 
 test('company address/contact should be updated and linked to a new company, if has same coordinates/email', function () {
     $user = User::factory()->create([
@@ -119,11 +118,11 @@ test('company address/contact should be updated and linked to a new company, if 
 
     $company2 = Company::with([
         'addresses',
-        'contacts'
+        'contacts',
     ])->whereName('Distributor LTD')->first();
 
     expect($company2)->toMatchArray([
-        'name' => 'Distributor LTD'
+        'name' => 'Distributor LTD',
     ]);
     expect($company2->addresses)->toHaveCount(1);
     expect($company2->contacts)->toHaveCount(1);
@@ -197,22 +196,22 @@ test('company address/contact should be created and linked to each company', fun
 
     $company = Company::with([
         'addresses',
-        'contacts'
+        'contacts',
     ])->whereName('Company LTD')->first();
 
     expect($company)->toMatchArray([
-        'name' => 'Company LTD'
+        'name' => 'Company LTD',
     ]);
     expect($company->addresses)->toHaveCount(1);
     expect($company->contacts)->toHaveCount(1);
 
     $company2 = Company::with([
         'addresses',
-        'contacts'
+        'contacts',
     ])->whereName('Distributor LTD')->first();
 
     expect($company2)->toMatchArray([
-        'name' => 'Distributor LTD'
+        'name' => 'Distributor LTD',
     ]);
     expect($company2->addresses)->toHaveCount(1);
     expect($company2->contacts)->toHaveCount(1);

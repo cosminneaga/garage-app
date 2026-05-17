@@ -5,7 +5,6 @@ use App\Models\Company;
 use App\Models\Supplier;
 use App\Models\User;
 
-
 test('should pass if supplier belongs to admin', function () {
     $user = User::factory()->create();
     $user->assignRole(UserRole::USER_ADMIN->value);

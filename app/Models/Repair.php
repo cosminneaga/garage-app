@@ -6,11 +6,14 @@ namespace App\Models;
 
 use App\Enums\FuelType;
 use App\Enums\RepairStatus;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -33,19 +36,20 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property int $vehicle_data_id
  * @property int $company_id
  * @property int $client_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Booking|null $booking
- * @property-read \App\Models\Client|null $client
- * @property-read \App\Models\Company|null $company
- * @property-read \App\Models\VehicleData|null $data
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairFile> $files
+ * @property-read Booking|null $booking
+ * @property-read Client|null $client
+ * @property-read Company|null $company
+ * @property-read VehicleData|null $data
+ * @property-read Collection<int, RepairFile> $files
  * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairInvoice> $invoices
+ * @property-read Collection<int, RepairInvoice> $invoices
  * @property-read int|null $invoices_count
+ *
  * @method static \Database\Factories\RepairFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair newQuery()
@@ -75,6 +79,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereWorkOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Repair extends Model
