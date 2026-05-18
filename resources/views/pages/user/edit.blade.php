@@ -5,7 +5,9 @@
     $tab = request()->query('tab');
 @endphp
 
+
 <x-layout::index title="{{ $user->name }}">
+    <x-tabs />
 
     <x-wrapper.tab-resource
         title="view & update user"
@@ -22,59 +24,59 @@
                 @csrf
                 @method('PUT')
 
-                <x-bladewind.card title="details">
-                    <x-bladewind.avatar
-                        class="mb-3"
-                        size="big"
-                        :image="$user->image_path && !Str::isUrl($user->image_path)
-                            ? asset('storage/' . $user->image_path)
-                            : $user->image_path"
-                    />
+                <x-card title="details">
 
-                    <x-bladewind.input
+                    <img
+                        class="h-24 w-24 rounded-full border-4 border-white object-cover"
+                        src="{{ $user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
+                        alt="alt"
+                    >
+                    <br>
+                    <x-form.field
                         name="name"
                         type="text"
                         label="Name"
                         :value="$user->name"
                     />
-                    <x-bladewind.input
+                    <x-form.field
                         name="email"
                         type="email"
                         label="Email"
                         :value="$user->email"
                     />
-                    <x-bladewind.filepicker
+                    <x-form.field
                         name="image"
-                        accepted_file_types="image/*"
+                        type="image"
+                        accept="image/*"
                     />
-                    <div>
-                        <x-bladewind.toggle
-                            name="active"
-                            color="orange"
-                            label="Active"
-                            :checked="$user->active"
-                        />
-                    </div>
+                    <x-form.field
+                        name="active"
+                        type="toggle"
+                        checked="true"
+                    >
+                        <x-slot name="before">Inactive</x-slot>
+                        <x-slot name="after">Active</x-slot>
+                    </x-form.field>
 
                     <div class="mt-5 flex gap-1">
-                        <x-bladewind.button
+                        <x-button
                             class="w-fit"
                             form="form-users-update"
                             size="small"
                             can_submit
-                        >Update Details</x-bladewind.button>
+                        >Update Details</x-button>
 
                         @can(UserPermission::name(UserPermission::USER, 'delete'))
-                            <x-bladewind.button
+                            <x-button
                                 class="w-fit"
                                 form="form-users-delete"
                                 color="red"
                                 size="small"
                                 can_submit
-                            >Delete User</x-bladewind.button>
+                            >Delete User</x-button>
                         @endcan
                     </div>
-                </x-bladewind.card>
+                </x-card>
 
             </form>
         @elseif ($tab === UserTabs::STATISTICS->value)

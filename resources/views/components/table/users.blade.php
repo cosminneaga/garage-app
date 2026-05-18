@@ -58,19 +58,19 @@
                             >Edit</a>
                         @endif
                         @if ($delete && Auth::user()->id !== $row->id)
-                            <form
-                                id="ucdf-{{ $row->id }}"
-                                action="{{ route('users.destroy', $row) }}"
-                                method="POST"
-                            >
-                                @csrf
-                                @method('DELETE')
+                            <x-modal.confirm.delete
+                                id="user-delete-{{ $row->id }}"
+                                routeName="users.destroy"
+                                resourceId="{{ $row->id }}"
+                                message="Are you sure you want to remove {{ $row->name }} from your team?"
+                            />
 
-                                <button
-                                    class="text-danger"
-                                    type="submit"
-                                >Delete</button>
-                            </form>
+                            <button
+                                class="text-danger hover:cursor-pointer"
+                                data-modal-target="user-delete-{{ $row->id }}"
+                                data-modal-toggle="user-delete-{{ $row->id }}"
+                                type="button"
+                            >Delete</button>
                         @endif
                     </div>
                 </td>

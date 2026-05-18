@@ -47,7 +47,7 @@
                     id="{{ $name }}"
                     name="{{ $name }}"
                     data-test="{{ $testName }}"
-                    value={{ old($errorName) }}
+                    value={{ old($errorName, $value) }}
                     {{ $attributes }}
                 >
                     @foreach ($options as $option)
@@ -87,7 +87,7 @@
                     name="{{ $name }}"
                     data-test="{{ $testName }}"
                     type="{{ $type }}"
-                    value="{{ old($errorName) }}"
+                    value="{{ old($errorName, $value) }}"
                     {{ $attributes }}
                 />
             @break

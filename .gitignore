@@ -24,3 +24,7 @@ Homestead.yaml
 Thumbs.db
 .phpstorm.meta.php
 tests/Browser/Screenshots
+
+**/caddy
+frankenphp
+frankenphp-worker.php
