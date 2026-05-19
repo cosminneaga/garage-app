@@ -136,11 +136,11 @@ class UserController extends Controller
         $user = User::findOrFail($user->id);
         $user->delete();
 
-        return back()
+        return redirect(route('users.index'))
             ->with('message', self::responseMessage(
                 'info',
                 'User removed',
-                'The user has been successfully removed from the team.'
+                'The user '.$user->name.' has been successfully removed from the team.'
             ));
     }
 

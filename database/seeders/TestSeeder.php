@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Contact;
 use App\Models\Country;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -19,14 +20,14 @@ class TestSeeder extends Seeder
         // ADD address WITH coordinates
         $address = Address::factory()->create([
             'number' => 777,
-            'street' => 'Cosmin Street',
+            'street' => 'SunFlower Street',
             'coordinates' => [
                 'latitude' => 4.895168,
                 'longitude' => 52.370216,
             ],
             'country_id' => Country::factory()->create([
-                'name' => 'Cosmin',
-                'code' => 'CCS',
+                'name' => 'Argentina',
+                'code' => 'AG',
             ]),
         ]);
 
@@ -36,7 +37,19 @@ class TestSeeder extends Seeder
 
         // ATTACHING users TO team
         $admin = User::where('email', 'admin@garage.com')->first();
-        $users = User::factory(450)->create();
+        $users = User::factory(50)->create();
+
+        foreach ($users as $user) {
+
+            $contact = Contact::factory()->create();
+            $address = Address::factory()->create([
+                'country_id' => 1,
+            ]);
+
+            $user->contacts()->attach($contact);
+            $user->addresses()->attach($address);
+        }
+
         $admin->team()->attach($users);
 
         // $users = $admin->team()->get();

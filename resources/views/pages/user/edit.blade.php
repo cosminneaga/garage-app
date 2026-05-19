@@ -5,26 +5,18 @@
     $tab = request()->query('tab');
 @endphp
 
-
 <x-layout::index title="{{ $user->name }}">
-    <x-tabs />
-
-    <x-wrapper.tab-resource
-        title="view & update user"
-        subtitle="Update user details, address & contact"
-        :tabs="UserTabs::ui()"
-    >
-        @if ($tab === UserTabs::DETAILS->value || !$tab)
-            <form
-                id="form-users-update"
-                action="{{ route('users.update', $user) }}"
-                method="POST"
-                enctype="multipart/form-data"
-            >
-                @csrf
-                @method('PUT')
-
-                <x-card title="details">
+    <x-tabs :tabs="UserTabs::ui()">
+        <tab>
+            <x-card>
+                <form
+                    id="form-users-update"
+                    action="{{ route('users.update', $user) }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+                    @csrf
+                    @method('PUT')
 
                     <img
                         class="h-24 w-24 rounded-full border-4 border-white object-cover"
@@ -61,46 +53,54 @@
                     <div class="mt-5 flex gap-1">
                         <x-button
                             class="w-fit"
+                            id="form-user-update-btn"
                             form="form-users-update"
-                            size="small"
-                            can_submit
+                            type="submit"
+                            variant="default"
                         >Update Details</x-button>
 
                         @can(UserPermission::name(UserPermission::USER, 'delete'))
                             <x-button
                                 class="w-fit"
-                                form="form-users-delete"
-                                color="red"
-                                size="small"
-                                can_submit
+                                id="form-user-delete-btn"
+                                data-modal-target="user-delete-confirm"
+                                data-modal-toggle="user-delete-confirm"
+                                type="button"
+                                variant="danger"
                             >Delete User</x-button>
                         @endcan
                     </div>
-                </x-card>
+                </form>
+            </x-card>
+        </tab>
+        <tab>
+            <x-card>
+                Data goes here
+            </x-card>
+        </tab>
+        <tab>
+            <x-card>
+                <x-table.related.contacts
+                    :data="$user->contacts"
+                    :resource="$user"
+                />
+            </x-card>
+        </tab>
+        <tab>
+            <x-card>
+                <x-table.related.addresses
+                    :data="$user->addresses"
+                    :resource="$user"
+                />
+            </x-card>
+        </tab>
+    </x-tabs>
 
-            </form>
-        @elseif ($tab === UserTabs::STATISTICS->value)
-            Data goes here
-        @elseif ($tab === UserTabs::CONTACTS->value)
-            <x-table.related.contacts
-                :data="$user->contacts"
-                :resource="$user"
-            />
-        @elseif ($tab === UserTabs::ADDRESSES->value)
-            <x-table.related.addresses
-                :data="$user->addresses"
-                :resource="$user"
-            />
-        @endif
-    </x-wrapper.tab-resource>
-
-    <!-- USER DELETE FORM -->
-    <form
-        id="form-users-delete"
-        action="{{ route('users.destroy', $user) }}"
-        method="POST"
-    >
-        @csrf
-        @method('DELETE')
-    </form>
+    <!-- USER DELETE -->
+    <x-modal.confirm.delete
+        id="user-delete-confirm"
+        routeName="users.destroy"
+        resourceId="{{ $user->id }}"
+        message="Are you sure you want to remove {{ $user->name }} from your team?"
+    />
 </x-layout::index>
