@@ -1,3 +1,17 @@
 <div
-    class="w-full bg-neutral-primary-soft p-6 border border-default rounded-base shadow-xs text-gray-600"
->{{ $slot }}</div>
+    {{ $attributes->merge([
+        'class' => 'border-2 border-white w-full px-4 py-6 bg-neutral-primary-soft rounded-base shadow-xs text-gray-600"',
+    ]) }}>
+    @isset($title)
+        <h1 class="text-3xl font-bold tracking-tight">
+            {{ $title }}
+        </h1>
+    @endisset
+    <p class="text-muted-foreground mt-1">
+        {{ $description }}
+    </p>
+    <br>
+    <div>
+        {{ $slot }}
+    </div>
+</div>

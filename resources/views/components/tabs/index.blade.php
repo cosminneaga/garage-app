@@ -31,7 +31,10 @@
 <div id="tab-content">
     @php
         $dom = new DOMDocument();
+
+        libxml_use_internal_errors(true);
         $dom->loadHTML(mb_convert_encoding($slot, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
         $divs = $dom->getElementsByTagName('tab');
 
         foreach ($divs as $index => $div) {

@@ -1,4 +1,4 @@
-@props(['name', 'resource'])
+@props(['id', 'resource', 'trigger' => false, 'triggerId' => ''])
 
 @php
     use App\Models\Country;
@@ -6,65 +6,75 @@
     $routeName = $resource->getTable();
 @endphp
 
-<x-bladewind.modal
-    title="Create new address for {{ $resource->name }}"
-    :name="$name"
-    showActionButtons="false"
->
+@if ($trigger)
+    <x-button
+        class="w-fit"
+        data-modal-target="{{ $id }}"
+        data-modal-toggle="{{ $id }}"
+        type="button"
+        :id="$triggerId"
+        variant="default"
+    >Add Address</x-button>
+@endif
+
+<x-modal.wrapper :id="$id">
     <form
-        id="{{ $name }}"
         action="{{ route($routeName . '.address.store', $resource) }}"
         method="POST"
     >
         @csrf
 
-        <x-bladewind.input
+        <x-form.field
             name="number"
             type="text"
-            value="777"
             label="Number"
+            value="234B"
         />
-        <x-bladewind.input
+        <x-form.field
             name="street"
             type="text"
-            value="God's Street"
             label="Street"
+            value="SunFlower Street"
         />
-        <x-bladewind.input
+        <x-form.field
             name="postcode"
             type="text"
-            value="777777"
             label="Postcode"
+            value="227364"
         />
-        <x-bladewind.textarea
-            name="extra"
-            selected_value="Suite 75488, to the left of the building"
-            label="Extra information"
-        />
-        <x-bladewind.select
+        <x-form.field
             name="country_id"
-            value_key="id"
+            type="select"
             label="Select a country"
-            label_key="name"
-            flag_key="code"
-            :data="Country::all()"
+            select_map_label="name"
+            select_map_value="id"
+            :options="Country::all()"
             selected_value="1"
         />
-        <h3>Location</h3>
-        <br>
-        <x-bladewind.input
+        <h3 class="text-lg font-bold">Location</h3>
+        <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
+        <x-form.field
             name="coordinates[latitude]"
             type="text"
-            value="8.327832"
             label="Latitude"
+            value="8.327832"
         />
-        <x-bladewind.input
+        <x-form.field
             name="coordinates[longitude]"
             type="text"
-            value="94.676743"
             label="Longitude"
+            value="94.676743"
         />
 
-        <x-bladewind.button can_submit>create</x-bladewind.button>
+        <x-form.field
+            name="extra"
+            type="textarea"
+            label="Extra Information"
+            value="Suite 75488, to the left of the building"
+        />
+
+        <div class="flex gap-1">
+            <x-button data-test="form-address-create-submit">Submit</x-button>
+        </div>
     </form>
-</x-bladewind.modal>
+</x-modal.wrapper>

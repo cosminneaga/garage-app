@@ -98,6 +98,7 @@
                         type="text"
                         label="Longitude"
                     />
+
                 </x-card>
 
                 <x-card>

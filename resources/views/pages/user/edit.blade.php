@@ -8,7 +8,10 @@
 <x-layout::index title="{{ $user->name }}">
     <x-tabs :tabs="UserTabs::ui()">
         <tab>
-            <x-card>
+            <x-card
+                :title="$user->name"
+                description="Visualise & Edit {{ $user->name }}'s details"
+            >
                 <form
                     id="form-users-update"
                     action="{{ route('users.update', $user) }}"
@@ -61,8 +64,6 @@
 
                         @can(UserPermission::name(UserPermission::USER, 'delete'))
                             <x-button
-                                class="w-fit"
-                                id="form-user-delete-btn"
                                 data-modal-target="user-delete-confirm"
                                 data-modal-toggle="user-delete-confirm"
                                 type="button"
@@ -71,36 +72,37 @@
                         @endcan
                     </div>
                 </form>
-            </x-card>
-        </tab>
-        <tab>
-            <x-card>
-                Data goes here
-            </x-card>
-        </tab>
-        <tab>
-            <x-card>
-                <x-table.related.contacts
-                    :data="$user->contacts"
-                    :resource="$user"
+
+                <x-modal.confirm.delete
+                    id="user-delete-confirm"
+                    routeName="users.destroy"
+                    resourceId="{{ $user->id }}"
+                    message="Are you sure you want to remove {{ $user->name }} from your team?"
                 />
             </x-card>
         </tab>
         <tab>
-            <x-card>
+            Stats goes here
+        </tab>
+        <tab>
+            <x-card description="Visualise & Edit {{ $user->name }}'s contact details">
+                <x-table.related.contacts
+                    :data="$user->contacts"
+                    :resource="$user"
+                    :edit="Auth::user()->can(UserPermission::name(UserPermission::USER, 'update'))"
+                    :delete="Auth::user()->can(UserPermission::name(UserPermission::USER, 'delete'))"
+                />
+            </x-card>
+        </tab>
+        <tab>
+            <x-card description="Visualise & Edit {{ $user->name }}'s location details">
                 <x-table.related.addresses
                     :data="$user->addresses"
                     :resource="$user"
+                    :edit="Auth::user()->can(UserPermission::name(UserPermission::USER, 'update'))"
+                    :delete="Auth::user()->can(UserPermission::name(UserPermission::USER, 'delete'))"
                 />
             </x-card>
         </tab>
     </x-tabs>
-
-    <!-- USER DELETE -->
-    <x-modal.confirm.delete
-        id="user-delete-confirm"
-        routeName="users.destroy"
-        resourceId="{{ $user->id }}"
-        message="Are you sure you want to remove {{ $user->name }} from your team?"
-    />
 </x-layout::index>

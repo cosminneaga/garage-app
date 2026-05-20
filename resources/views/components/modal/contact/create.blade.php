@@ -1,53 +1,61 @@
-@props(['name', 'resource'])
+@props(['id', 'resource', 'trigger' => false, 'triggerId' => ''])
 
 @php
     $routeName = $resource->getTable();
 @endphp
 
-<x-bladewind.modal
-    title="Create new contact for {{ $resource->name }}"
-    :name="$name"
-    showActionButtons="false"
->
+@if ($trigger)
+    <x-button
+        class="w-fit"
+        :id="$triggerId"
+        data-modal-target="{{ $id }}"
+        data-modal-toggle="{{ $id }}"
+        type="button"
+        variant="default"
+    >Add Contact</x-button>
+@endif
+
+<x-modal.wrapper :id="$id">
     <form
-        id="{{ $name }}"
         action="{{ route($routeName . '.contact.store', $resource) }}"
         method="POST"
     >
         @csrf
 
-        <x-bladewind.input
+        <x-form.field
             name="mobile"
             type="text"
-            value="7777777777"
-            label="Mobile"
+            label="Mobile Phone"
+            value="1112222333"
         />
-        <x-bladewind.input
+        <x-form.field
             name="landline"
             type="text"
-            value="8888888888"
-            label="Landline"
+            label="Landline Phone"
+            value="3331112222"
         />
-        <x-bladewind.input
+        <x-form.field
             name="email"
             type="email"
-            value="contact@email.com"
             label="Email"
+            value="test@email.com"
         />
-        <x-bladewind.input
+        <x-form.field
             name="url"
             type="text"
-            value="https://cosminneaga.dev"
             label="URL"
+            value="http://example.com"
         />
-        <x-bladewind.textarea
+        <x-form.field
             name="info"
-            label="Extra information"
-            toolbar
+            type="textarea"
+            label="More Information"
             rows="10"
-            selected_value="<h1>Hello World</h1><br><p>How are you today?</p>"
+            value="Just around the corner"
         />
 
-        <x-bladewind.button can_submit>create</x-bladewind.button>
+        <div class="flex gap-1">
+            <x-button data-test="form-contact-create-submit">Submit</x-button>
+        </div>
     </form>
-</x-bladewind.modal>
+</x-modal.wrapper>

@@ -1,3 +1,3 @@
-<x-layout :title="$contact->id">
+<x-layout::index :title="$contact->id">
     @json($contact)
-</x-layout>
+</x-layout::index>
