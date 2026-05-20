@@ -67,8 +67,7 @@
                         name="{{ $name }}"
                         data-test="{{ $testName }}"
                         type="checkbox"
-                        value="{{ $checked }}"
-                        {{ $checked == 'true' ? 'checked' : '' }}
+                        {{ $checked ? 'checked' : '' }}
                         {{ $attributes }}
                     >
                     <div
