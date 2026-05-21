@@ -4,7 +4,7 @@
 @endphp
 
 <x-layout::index title="Add User">
-    <x-form.wrapper
+    <x-card
         title="create team member"
         description="Create a new user details, address & contact"
     >
@@ -19,7 +19,7 @@
 
             <div class="grid grid-rows-1 gap-1 md:grid-cols-2 lg:grid-cols-3">
 
-                <x-card>
+                <div class="p-2">
                     <x-form.field
                         name="name"
                         type="text"
@@ -59,9 +59,9 @@
                         <x-slot name="before">Inactive</x-slot>
                         <x-slot name="after">Active</x-slot>
                     </x-form.field>
-                </x-card>
+                </div>
 
-                <x-card title="address">
+                <div class="p-2">
 
                     <x-form.field
                         name="address[number]"
@@ -99,9 +99,9 @@
                         label="Longitude"
                     />
 
-                </x-card>
+                </div>
 
-                <x-card>
+                <div class="p-2">
                     <x-form.field
                         name="contact[mobile]"
                         type="text"
@@ -128,7 +128,7 @@
                         label="More Information"
                         rows="10"
                     />
-                </x-card>
+                </div>
             </div>
 
             <div class="flex gap-1">
@@ -138,5 +138,5 @@
                 >Submit</x-button>
             </div>
         </form>
-    </x-form.wrapper>
+    </x-card>
 </x-layout::index>

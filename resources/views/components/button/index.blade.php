@@ -45,7 +45,7 @@
 @endphp
 
 <button
-    class="{{ $class }} shadow-xs rounded-base box-border border border-transparent px-4 py-2.5 text-sm font-medium leading-5 focus:outline-none focus:ring-4""
+    class="{{ $class }} shadow-xs rounded-base box-border border border-transparent px-4 py-2.5 text-sm font-medium leading-5 focus:outline-none focus:ring-4 hover:cursor-pointer"
     data-test="{{ $id }}"
     id="{{ $id }}"
     {{ $attributes }}

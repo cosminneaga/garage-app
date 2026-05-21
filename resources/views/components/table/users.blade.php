@@ -4,12 +4,13 @@
     'edit' => false,
     'delete' => false,
     'chat' => false,
+    'restore' => false,
 ])
 
 @php
-    $columns = collect($data[0])
-        ->except(['pivot', 'image_path'])
-        ->keys();
+    $columns = collect(Schema::getColumnListing('users'))
+        ->diff(['pivot', 'image_path', 'password', 'remember_token', 'deleted_at', 'updated_at', 'created_at', 'email_verified_at'])
+        ->values();
 
     if ($edit || $delete || $chat) {
         $columns->push('actions');
@@ -58,10 +59,10 @@
                             >Edit</a>
                         @endif
                         @if ($delete && Auth::user()->id !== $row->id)
-                            <x-modal.confirm.delete
+                            <x-modal.confirm
+                                type="delete"
                                 id="user-delete-{{ $row->id }}"
-                                routeName="users.destroy"
-                                resourceId="{{ $row->id }}"
+                                action="{{ route('users.destroy', $row->id) }}"
                                 message="Are you sure you want to remove {{ $row->name }} from your team?"
                             />
 
@@ -71,6 +72,21 @@
                                 data-modal-toggle="user-delete-{{ $row->id }}"
                                 type="button"
                             >Delete</button>
+                        @endif
+                        @if($restore)
+                            <x-modal.confirm
+                                type="restore"
+                                id="user-restore-{{ $row->id }}"
+                                action="{{ route('users.restore', $row->id) }}"
+                                message="Are you sure you want to restore {{ $row->name }}?"
+                            />
+
+                            <button
+                                class="text-success hover:cursor-pointer"
+                                data-modal-target="user-restore-{{ $row->id }}"
+                                data-modal-toggle="user-restore-{{ $row->id }}"
+                                type="button"
+                            >Restore</button>
                         @endif
                     </div>
                 </td>

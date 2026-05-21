@@ -9,10 +9,11 @@
 @php
     use App\Enums\UserPermission;
 
-    $routeName = $resource->getTable();
-    $columns = collect($data[0])
-        ->except(['pivot', 'created_at', 'updated_at', 'deleted_at', 'country_id', 'coordinates'])
-        ->keys();
+    $parentname = $resource->getTable();
+    $columns = Schema::getColumnListing('addresses');
+    $columns = collect($columns)
+        ->diff(['created_at', 'updated_at', 'deleted_at', 'country_id', 'coordinates'])
+        ->values();
 
     if ($edit || $delete) {
         $columns->push('actions');
@@ -39,7 +40,7 @@
     </x-slot>
 
     <x-slot name="tbody">
-        @foreach ($data as $row)
+        @forelse ($data as $row)
             <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
@@ -62,14 +63,14 @@
                             @if ($edit)
                                 <a
                                     class="text-brand"
-                                    href="{{ route( $routeName . '.address.edit', [$resource, $row]) }}"
+                                    href="{{ route($parentname . '.address.edit', [$resource, $row]) }}"
                                 >Edit</a>
                             @endif
                             @if ($delete && Auth::user()->id !== $row->id)
-                                <x-modal.confirm.delete
+                                <x-modal.confirm
                                     id="user-address-delete-{{ $row->id }}"
-                                    routeName="{{ $routeName }}.address.destroy"
-                                    :resourceId="[$resource, $row->id]"
+                                    type="delete"
+                                    action="{{ route($parentname . '.address.destroy', [$resource, $row]) }}"
                                     message="Are you sure you want to remove this address?"
                                 />
 
@@ -84,6 +85,8 @@
                     </td>
                 @endif
             </tr>
-        @endforeach
+        @empty
+            No data available
+        @endforelse
     </x-slot>
 </x-table.wrapper>

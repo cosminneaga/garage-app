@@ -73,10 +73,10 @@
                     </div>
                 </form>
 
-                <x-modal.confirm.delete
+                <x-modal.confirm
+                    type="delete"
                     id="user-delete-confirm"
-                    routeName="users.destroy"
-                    resourceId="{{ $user->id }}"
+                    action="{{ route('users.destroy', $user->id) }}"
                     message="Are you sure you want to remove {{ $user->name }} from your team?"
                 />
             </x-card>

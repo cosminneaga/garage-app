@@ -9,10 +9,11 @@
 @php
     use App\Enums\UserPermission;
 
-    $routeName = $resource->getTable();
-    $columns = collect($data[0])
-        ->except(['pivot', 'created_at', 'updated_at', 'deleted_at'])
-        ->keys();
+    $parentname = $resource->getTable();
+    $columns = Schema::getColumnListing('contacts');
+    $columns = collect($columns)
+        ->diff(['created_at', 'updated_at', 'deleted_at'])
+        ->values();
 
     if ($edit || $delete) {
         $columns->push('actions');
@@ -40,7 +41,7 @@
     </x-slot>
 
     <x-slot name="tbody">
-        @foreach ($data as $row)
+        @forelse ($data as $row)
             <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
@@ -71,14 +72,14 @@
                             @if ($edit)
                                 <a
                                     class="text-brand"
-                                    href="{{ route( $routeName . '.contact.edit', [$resource, $row]) }}"
+                                    href="{{ route( $parentname . '.contact.edit', [$resource, $row]) }}"
                                 >Edit</a>
                             @endif
                             @if ($delete && Auth::user()->id !== $row->id)
-                                <x-modal.confirm.delete
+                                <x-modal.confirm
+                                    type="delete"
                                     id="user-contact-delete-{{ $row->id }}"
-                                    routeName="{{ $routeName }}.contact.destroy"
-                                    :resourceId="[$resource, $row->id]"
+                                    action="{{ route( $parentname . '.contact.destroy', [$resource, $row->id]) }}"
                                     message="Are you sure you want to remove this contact?"
                                 />
 
@@ -92,6 +93,8 @@
                     </td>
                 @endif
             </tr>
-        @endforeach
+        @empty
+            No available data
+        @endforelse
     </x-slot>
 </x-table.wrapper>
