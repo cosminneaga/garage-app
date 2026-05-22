@@ -2,7 +2,7 @@
 use App\Enums\UserPermission;
 @endphp
 
-<x-layout title="Companies">
+<x-layout::index title="Companies">
 
     <h1 class="text-2xl font-bold underline">COMPANIES</h1>
     <br><br>
@@ -101,4 +101,4 @@ use App\Enums\UserPermission;
 
     </x-table>
 
-</x-layout>
+</x-layout::index>

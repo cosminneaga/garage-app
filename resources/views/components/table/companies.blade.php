@@ -1,96 +1,92 @@
-@php
-    use App\Enums\UserPermission;
-@endphp
-
 @props([
-    'companies' => [],
-    'edit_action' => false,
-    'delete_action' => false,
-    'restore_action' => false,
+    'data' => null,
+    'limit' => 10,
+    'edit' => false,
+    'delete' => false,
+    'restore' => false,
 ])
 
-<x-table :data="$companies">
-    <x-slot:header>
-        <th>Name</th>
-        <th>Tax ID</th>
-        <th>Registration Number</th>
-        <th>Tax Value</th>
-        <th>Invoice Prefix</th>
-        <th>Actions</th>
-    </x-slot:header>
+@php
+    $columns = collect(Schema::getColumnListing('companies'))
+        ->diff(['deleted_at', 'updated_at', 'created_at', 'image_path'])
+        ->values();
 
-    @foreach ($companies as $company)
-        <tr>
-            <td>
-                <div class="flex items-end gap-1">
-                    <x-bladewind.avatar
-                        size="regular"
-                        :image="$company->image_path && !Str::isUrl($company->image_path)
-                            ? asset('storage/' . $company->image_path)
-                            : $company->image_path"
-                    />
-                    <strong>{{ $company->name }}</strong>
-                </div>
-            </td>
-            <td>{{ $company->tax_id }}</td>
-            <td>{{ $company->registration_number }}</td>
-            <td>{{ $company->tax_value }}</td>
-            <td>{{ $company->invoice_prefix }}</td>
-            <td>
-                <div class="flex gap-1">
-                    @if ($edit_action)
-                        <x-bladewind.button.circle
-                            icon="pencil-square"
-                            color="primary"
-                            size="tiny"
-                            outline
-                            onclick="location.href='{{ route('companies.edit', $company) }}'"
+    if ($edit || $delete || $restore) {
+        $columns->push('actions');
+    }
+@endphp
+
+<x-table.wrapper :data="$data">
+    <x-slot name="thead">
+        @foreach ($columns as $column)
+            <th
+                class="px-6 py-3"
+                scope="col"
+            >
+                {{ Str::ucwords(Str::replace(['_'], [' '], $column)) }}
+            </th>
+        @endforeach
+    </x-slot>
+    <x-slot name="tbody">
+        @foreach ($data as $row)
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+                    {{ $row->id }}
+                </th>
+                <td class="px-6 py-4">
+                    {{ $row->name }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->tax_id }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->registration_number }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->tax_value }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->invoice_prefix }}
+                </td>
+                <td class="px-6 py-4">
+                    @if ($edit)
+                        <a
+                            class="text-brand"
+                            href="{{ route('companies.edit', $row) }}"
+                        >Edit</a>
+                    @endif
+                    @if ($delete)
+                        <x-modal.confirm
+                            id="company-delete-{{ $row->id }}"
+                            type="delete"
+                            action="{{ route('companies.destroy', $row->id) }}"
+                            message="Are you sure you want to remove {{ $row->name }} from your list of companies?"
                         />
+
+                        <button
+                            class="text-danger hover:cursor-pointer"
+                            data-modal-target="company-delete-{{ $row->id }}"
+                            data-modal-toggle="company-delete-{{ $row->id }}"
+                            type="button"
+                        >Delete</button>
                     @endif
-                    @if ($delete_action)
-                        <x-bladewind.button.circle
-                            icon="trash"
-                            color="red"
-                            size="tiny"
-                            outline
-                            onclick="showModal('ccdm-{{ $company->id }}')"
+                    @if ($restore)
+                        <x-modal.confirm
+                            id="company-restore-{{ $row->id }}"
+                            type="restore"
+                            action="{{ route('companies.restore', $row->id) }}"
+                            message="Are you sure you want to restore {{ $row->name }}?"
                         />
 
-                        <form
-                            id="ccdf-{{ $company->id }}"
-                            action="{{ route('companies.destroy', $company) }}"
-                            method="POST"
-                        >
-                            @csrf
-                            @method('DELETE')
-                        </form>
-
-                        <x-bladewind.modal
-                            name="ccdm-{{ $company->id }}"
-                            type="warning"
-                            ok_button_action="submitResourceDeleteForm('ccdf-{{ $company->id }}')"
-                        >
-                            Are you sure you want to delete this company?
-                        </x-bladewind.modal>
+                        <button
+                            class="text-success hover:cursor-pointer"
+                            data-modal-target="company-restore-{{ $row->id }}"
+                            data-modal-toggle="company-restore-{{ $row->id }}"
+                            type="button"
+                        >Restore</button>
                     @endif
-                    @if ($restore_action)
-                        <form
-                            action="{{ route('companies.restore', $company) }}"
-                            method="POST"
-                        >
-                            @csrf
-
-                            <x-bladewind.button.circle
-                                icon="arrow-left-start-on-rectangle"
-                                color="green"
-                                size="tiny"
-                                outline
-                                can_submit
-                            />
-                        </form>
-                    @endif
-                </div>
-            </td>
-        </tr>
-    @endforeach
-</x-table>
+                </td>
+            </tr>
+        @endforeach
+    </x-slot>
+</x-table.wrapper>

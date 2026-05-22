@@ -10,7 +10,6 @@
     >
         <form
             class="flex flex-col gap-4 text-start"
-            id="form-users-create"
             action="{{ route('users.store') }}"
             method="POST"
             enctype="multipart/form-data"
@@ -134,7 +133,7 @@
             <div class="flex gap-1">
                 <x-button
                     data-test="form-users-create-submit"
-                    form="form-users-create"
+                    type="submit"
                 >Submit</x-button>
             </div>
         </form>

@@ -119,7 +119,7 @@ class CompanyController extends Controller
         $company = Company::findOrFail($company->id);
         $company->delete();
 
-        return back()
+        return redirect(route('companies.index'))
             ->with('message', self::responseMessage(
                 'info',
                 'Company removed',

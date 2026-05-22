@@ -5,77 +5,87 @@
     $tab = request()->query('tab');
 @endphp
 
-<x-layout title="Profile | {{ $user->name }}">
-    <x-wrapper.tab-resource
-        title="view & update profile"
-        subtitle="Update your own details, address & contact"
-        :tabs="[...UserTabs::ui(), [
+<x-layout::index title="Profile | {{ $user->name }}">
+
+    <x-tabs :tabs="[
+        ...UserTabs::ui(),
+        [
             'value' => 'settings',
             'label' => 'Settings',
-            'slug' => 'settings'
-        ]]"
-    >
-        @if ($tab === UserTabs::DETAILS->value || !$tab)
-            <form
-                id="form-users-update"
-                action="{{ route('users.profile.update', $user) }}"
-                method="POST"
-                enctype="multipart/form-data"
-            >
-                @csrf
-                @method('PUT')
+            'slug' => 'settings',
+        ],
+    ]">
 
-                <x-bladewind.card title="details">
-                    <x-bladewind.avatar
-                        class="mb-3"
-                        size="big"
-                        :image="$user->image_path && !Str::isUrl($user->image_path)
-                            ? asset('storage/' . $user->image_path)
-                            : $user->image_path"
-                    />
+        <tab>
+            <x-card description="Visualise & Edit your details">
+                <form
+                    action="{{ route('users.profile.update', $user) }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+                    @csrf
+                    @method('PUT')
+                    <img
+                        class="h-24 w-24 rounded-full border-4 border-white object-cover"
+                        src="{{ $user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
+                        alt="alt"
+                    >
+                    <br>
 
-                    <x-bladewind.input
+                    <x-form.field
                         name="name"
                         type="text"
                         label="Name"
                         :value="$user->name"
                     />
-                    <x-bladewind.input
+                    <x-form.field
                         name="email"
                         type="email"
                         label="Email"
                         :value="$user->email"
                     />
-                    <x-bladewind.filepicker
+                    <x-form.field
                         name="image"
-                        accepted_file_types="image/*"
+                        type="image"
+                        accept="image/*"
                     />
 
                     <div class="mt-5 flex gap-1">
-                        <x-bladewind.button
+                        <x-button
                             class="w-fit"
-                            form="form-users-update"
-                            size="small"
-                            can_submit
-                        >Update Details</x-bladewind.button>
+                            type="submit"
+                        >Update Details</x-button>
                     </div>
-                </x-bladewind.card>
 
-            </form>
-        @elseif ($tab === UserTabs::STATISTICS->value)
+                </form>
+            </x-card>
+        </tab>
+
+        <tab>
             Data goes here
-        @elseif ($tab === UserTabs::CONTACTS->value)
+        </tab>
+
+        <tab>
             <x-table.related.contacts
                 :data="$user->contacts"
                 :resource="$user"
+                edit
+                delete
             />
-        @elseif ($tab === UserTabs::ADDRESSES->value)
+        </tab>
+
+        <tab>
             <x-table.related.addresses
                 :data="$user->addresses"
                 :resource="$user"
+                edit
+                delete
             />
-        @elseif ($tab === 'settings')
-            Application settings
-        @endif
-    </x-wrapper.tab-resource>
-</x-layout>
+        </tab>
+
+        <tab>
+            Application Settings
+        </tab>
+
+    </x-tabs>
+</x-layout::index>

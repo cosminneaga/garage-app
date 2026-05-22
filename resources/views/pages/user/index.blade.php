@@ -9,7 +9,7 @@
     <x-table.users
         :data="$users"
         chat
-        :edit="Auth::user()->can(UserPermission::name(UserPermission::USER, 'update'))"
+        :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
         :delete="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
     />
 </x-layout::index>
