@@ -42,15 +42,22 @@
                     {{ $row->email }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ $row->active }}
+                    <x-tab.active :status="$row->active" />
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex gap-3">
                         @if ($chat && Auth::user()->id !== $row->id)
                             <button
-                                class="text-green-500"
-                                onclick="alert('openMessageModal')"
+                                class="text-green-500 hover:cursor-pointer"
+                                data-modal-target="user-send-message-modal"
+                                data-modal-toggle="user-send-message-modal"
+                                type="button"
                             >Message</button>
+
+                            <x-modal.message.send
+                                id="user-send-message-modal"
+                                :resource="$row"
+                            />
                         @endif
                         @if ($edit)
                             <a
@@ -60,8 +67,8 @@
                         @endif
                         @if ($delete && Auth::user()->id !== $row->id)
                             <x-modal.confirm
-                                type="delete"
                                 id="user-delete-{{ $row->id }}"
+                                type="delete"
                                 action="{{ route('users.destroy', $row->id) }}"
                                 message="Are you sure you want to remove {{ $row->name }} from your team?"
                             />
@@ -73,10 +80,10 @@
                                 type="button"
                             >Delete</button>
                         @endif
-                        @if($restore)
+                        @if ($restore)
                             <x-modal.confirm
-                                type="restore"
                                 id="user-restore-{{ $row->id }}"
+                                type="restore"
                                 action="{{ route('users.restore', $row->id) }}"
                                 message="Are you sure you want to restore {{ $row->name }}?"
                             />
