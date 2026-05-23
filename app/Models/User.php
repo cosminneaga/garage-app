@@ -133,24 +133,6 @@ class User extends Authenticatable
         ];
     }
 
-    // !NOTE: automatic reindexing needs to be done
-    // protected static function booted()
-    // {
-    //     static::created(function ($pivot) {
-    //         $pivot->reindex();
-    //     });
-
-    //     static::deleted(function ($pivot) {
-    //         $pivot->reindex();
-    //     });
-    // }
-
-    // public function reindex()
-    // {
-    //     $this->members->searchable();
-    //     $this->team->searchable();
-    // }
-
     public function isActive(): bool
     {
         return $this->active;

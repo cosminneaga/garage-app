@@ -149,16 +149,14 @@ class UserController extends Controller
     public function removed(Request $request): View
     {
         $this->authorize('viewTrashed', User::class);
+        $querySearch = $request->string('search')->value();
 
         return view('pages.user.removed', [
             'users' => $this->userService
-                ->getMyTeamMembers(Auth::user())
-                ->onlyTrashed()
-                ->paginate(
-                    $request->query('limit') ?? 10,
-                    ['users.id', 'name', 'email', 'active', 'image_path'],
-                    'users'
-                ),
+                ->searchMyTeamPaginateOnlyTrashed($querySearch, $request->query('limit') ?? 10)
+                ->appends([
+                    'search' => $querySearch,
+                ]),
         ]);
     }
 
@@ -182,14 +180,18 @@ class UserController extends Controller
     // ADMIN
     public function all(Request $request): View
     {
+        $querySearch = $request->string('search')->value();
+
         return view('pages.user.admin', [
-            'users' => User::withTrashed()->paginate(
-                perPage: $request->query('limit') ?? 10,
-                columns: ['*'],
-                pageName: 'users',
-                page: null,
-                total: null
-            ),
+            'users' => User::search($querySearch)
+                ->withTrashed()
+                ->paginate(
+                    $request->query('limit') ?? 10,
+                    'users',
+                )
+                ->appends([
+                    'search' => $querySearch,
+                ]),
         ]);
     }
 }

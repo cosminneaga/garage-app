@@ -5,12 +5,13 @@
     'delete' => false,
     'chat' => false,
     'restore' => false,
+    'searchRoute' => route('users.index'),
 ])
 
 @php
-    $columns = collect(Schema::getColumnListing('users'))
-        ->diff(['pivot', 'image_path', 'password', 'remember_token', 'deleted_at', 'updated_at', 'created_at', 'email_verified_at'])
-        ->values();
+    use App\Enums\Columns\UserColumns;
+    $columns = collect(UserColumns::cases())
+        ->map(fn ($col) => $col->value);
 
     if ($edit || $delete || $chat) {
         $columns->push('actions');
@@ -20,9 +21,9 @@
 <x-table.wrapper :data="$data">
     <x-slot name="header">
         <form
+            class="flex items-center gap-2"
             method="GET"
-            action="{{ route('users.index') }}"
-            class="flex gap-2 items-center"
+            action="{{ $searchRoute }}"
         >
             <x-form.field
                 name="search"
@@ -55,7 +56,17 @@
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">
-                    {{ $row->name }}
+                    <div class="flex items-end gap-1">
+                        <x-avatar
+                            alt="{{ $row->id }}-user-pic"
+                            :src="$row->image_path && !Str::isUrl($row->image_path)
+                                ? asset('storage/' . $row->image_path)
+                                : $row->image_path"
+                            :title="$row->name"
+                            size="small"
+                        />
+                        {{ $row->name }}
+                    </div>
                 </td>
                 <td class="px-6 py-4">
                     {{ $row->email }}

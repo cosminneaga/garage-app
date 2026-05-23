@@ -6,11 +6,9 @@ namespace App\Services;
 
 use App\Enums\UserRole;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Cache;
 
 class UserService
 {
@@ -46,14 +44,21 @@ class UserService
             $this->user = $this->user->managers()->first();
         }
 
-        $members = Cache::remember(
-            'user:' . $this->user->id . ':members:search:' . $search,
-            Carbon::now()->addMinutes(1),
-            function () {
-                return $this->user->members()->pluck('users.id');
-            }
-        );
+        return User::search($search)
+            ->whereIn('id', $this->user->members()
+                ->select('users.id'))
+            ->paginate($limit, 'members');
+    }
 
-        return User::search($search)->whereIn('id', $members)->paginate($limit, 'page');
+    public function searchMyTeamPaginateOnlyTrashed(string $search, int $limit): LengthAwarePaginator
+    {
+        if ($this->user->hasRole(UserRole::USER_EDITOR)) {
+            $this->user = $this->user->managers()->first();
+        }
+
+        return User::search($search)
+            ->onlyTrashed()
+            ->whereIn('id', $this->user->members()->select('users.id')->onlyTrashed())
+            ->paginate($limit, 'members');
     }
 }
