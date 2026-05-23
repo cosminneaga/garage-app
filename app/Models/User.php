@@ -18,6 +18,7 @@ use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Exceptions\UnauthorizedException;
@@ -86,7 +87,7 @@ use Spatie\Permission\Traits\HasRoles;
 #[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable
 {
-    use HasFactory, HasRoles, LogsActivity, Notifiable, SoftDeletes;
+    use HasFactory, HasRoles, LogsActivity, Notifiable, Searchable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -120,6 +121,35 @@ class User extends Authenticatable
         'password' => 'hashed',
         'active' => 'boolean',
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'active' => $this->active,
+            'email_verified_at' => $this->email_verified_at,
+            'created_at' => $this->created_at,
+        ];
+    }
+
+    // !NOTE: automatic reindexing needs to be done
+    // protected static function booted()
+    // {
+    //     static::created(function ($pivot) {
+    //         $pivot->reindex();
+    //     });
+
+    //     static::deleted(function ($pivot) {
+    //         $pivot->reindex();
+    //     });
+    // }
+
+    // public function reindex()
+    // {
+    //     $this->members->searchable();
+    //     $this->team->searchable();
+    // }
 
     public function isActive(): bool
     {

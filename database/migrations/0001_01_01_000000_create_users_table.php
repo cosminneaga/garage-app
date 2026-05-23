@@ -22,6 +22,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('name', 'name_index');
+            $table->index('active', 'active_index');
+            $table->index('email_verified_at', 'email_verified_at_index');
+            $table->index('created_at', 'created_at_index');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -45,6 +50,13 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropIndex('name_index');
+            $table->dropIndex('active_index');
+            $table->dropIndex('email_verified_at_index');
+            $table->dropIndex('created_at_index');
+        });
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');

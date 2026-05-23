@@ -5,6 +5,12 @@
 @props(['data'])
 
 <div class="bg-neutral-primary-soft shadow-xs rounded-base border-default relative overflow-x-auto border">
+    @isset($header)
+        <div class="flex items-center p-4">
+            {{ $header }}
+        </div>
+    @endisset
+
     <table {{ $attributes->merge(['class' => 'w-full text-sm text-left rtl:text-right text-body']) }}>
         <thead class="text-body bg-neutral-secondary-medium border-default-medium border-b text-sm">
             <tr>

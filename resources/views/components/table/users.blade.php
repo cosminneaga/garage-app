@@ -18,6 +18,25 @@
 @endphp
 
 <x-table.wrapper :data="$data">
+    <x-slot name="header">
+        <form
+            method="GET"
+            action="{{ route('users.index') }}"
+            class="flex gap-2 items-center"
+        >
+            <x-form.field
+                name="search"
+                type="text"
+                value="{{ request('search') }}"
+                label="Search users..."
+            />
+
+            <x-button type="submit">
+                Search
+            </x-button>
+        </form>
+    </x-slot>
+
     <x-slot name="thead">
         @foreach ($columns as $column)
             <th

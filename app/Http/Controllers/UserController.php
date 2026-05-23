@@ -28,19 +28,18 @@ class UserController extends Controller
     /**
      * Display all resources related to model
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
-        $user = Auth::user();
         $this->authorize('viewAny', User::class);
+
+        $querySearch = $request->string('search')->value();
 
         return view('pages.user.index', [
             'users' => $this->userService
-                ->getMyTeamMembers($user)
-                ->paginate(
-                    $request->query('limit') ?? 10,
-                    ['users.id', 'name', 'email', 'active', 'image_path'],
-                    'users'
-                ),
+                ->searchMyTeamPaginate($querySearch, $request->query('limit') ?? 10)
+                ->appends([
+                    'search' => $querySearch,
+                ]),
         ]);
     }
 
