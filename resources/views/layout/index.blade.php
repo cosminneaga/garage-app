@@ -44,7 +44,7 @@
         </div>
     @endsession
 
-    <div class="fixed right-5 top-5 z-50 max-w-md space-y-2">
+    <div class="fixed right-5 top-5 z-50 max-w-full space-y-2">
         @if ($errors->any())
             <x-alert
                 type="error"

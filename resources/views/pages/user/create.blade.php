@@ -1,6 +1,8 @@
 @php
     use App\Models\Country;
     use App\Enums\UserRole;
+
+    $enctype = config('app.env') === 'testing' ? 'application/x-www-form-urlencoded' : 'multipart/form-data';
 @endphp
 
 <x-layout::index title="Add User">
@@ -12,7 +14,7 @@
             class="flex flex-col gap-4 text-start"
             action="{{ route('users.store') }}"
             method="POST"
-            enctype="multipart/form-data"
+            enctype="{{ $enctype }}"
         >
             @csrf
 
@@ -53,7 +55,7 @@
                     <x-form.field
                         name="active"
                         type="toggle"
-                        checked="true"
+                        value="false"
                     >
                         <x-slot name="before">Inactive</x-slot>
                         <x-slot name="after">Active</x-slot>
@@ -118,7 +120,7 @@
                     />
                     <x-form.field
                         name="contact[url]"
-                        type="email"
+                        type="text"
                         label="URL"
                     />
                     <x-form.field
@@ -132,7 +134,7 @@
 
             <div class="flex gap-1">
                 <x-button
-                    data-test="form-users-create-submit"
+                    id="form-users-create-submit"
                     type="submit"
                 >Submit</x-button>
             </div>

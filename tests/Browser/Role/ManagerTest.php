@@ -3,6 +3,8 @@
 use App\Enums\UserRole;
 use App\Models\Country;
 use App\Models\User;
+use function Pest\Laravel\{actingAs};
+
 
 beforeEach(function () {
     $this->password = 'P@ssword';
@@ -11,7 +13,7 @@ beforeEach(function () {
         'email' => 'manager@garage.com',
         'password' => $this->password,
     ]);
-    $this->manager->assignRole(UserRole::USER_ADMIN->value);
+    $this->manager->assignRole(UserRole::SUPER->value);
 
     $this->user = User::factory()->create([
         'name' => 'Created User',
@@ -40,18 +42,16 @@ beforeEach(function () {
 // });
 
 it('should create a user using create form', function () {
-    $this->actingAs($this->manager);
     $country = Country::factory()->create();
-
-    sleep(5);
+    actingAs($this->manager);
 
     visit('/users/create')
         ->fill('@name', 'Editor User')
         ->fill('@email', 'editor@garage.com')
         ->fill('@password', 'P@ssword')
         ->fill('@password_confirmed', 'P@ssword')
-        // ->select('@role', 'user_editor')
-        // ->uncheck('@active')
+        ->select('@role', 'user_viewer')
+        // ->check('@active')
 
         ->fill('@address_number', '564')
         ->fill('@address_street', 'SunFlower Street')
@@ -64,17 +64,7 @@ it('should create a user using create form', function () {
         ->fill('@contact_landline', '0112664773')
         ->fill('@contact_email', 'contact@garage.com')
         ->fill('@contact_url', 'https://garage.com')
-        // ->fill('@contact_info', 'Extra information about how to contact me')
+        ->fill('@contact_info', 'Extra information about how to contact me')
 
-        ->press('@form-users-create-submit')
-
-        ->debug();
+        ->click('@form-users-create-submit');
 });
-
-// !NOTE: I think I will move UI lib to a much better approach, as some of components won't interact
-// ! as supposed with PEST Browser testing
-// ! and some candidates are:
-// - https://laraveldaily.com/post/laravel-blade-ui-component-libraries
-// - flowbite: https://flowbite.com/docs/getting-started/introduction/
-// - daisyui: https://daisyui.com/docs/install/laravel/
-// - preline: https://preline.co/

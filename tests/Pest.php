@@ -3,7 +3,7 @@
 use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-
+use function Pest\Laravel\{seed};
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -18,7 +18,7 @@ use Tests\TestCase;
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
     ->beforeEach(function () {
-        $this->seed(PermissionsSeeder::class);
+        seed(PermissionsSeeder::class);
     })
     ->in('Browser', 'Unit', 'MySql');
 

@@ -8,7 +8,7 @@
     'options' => [],
     'select_map_value' => 'name',
     'select_map_label' => 'label',
-    'checked' => true,
+    'checked' => false,
 ])
 
 @php
@@ -30,25 +30,31 @@
             @case('textarea')
                 <textarea
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border p-3.5 text-sm"
-                    id="{{ $name }}"
-                    name="{{ $name }}"
-                    data-test="{{ $testName }}"
-                    {{ $attributes }}
+                    {{ $attributes->merge([
+                        'name' => $name,
+                        'id' => $name,
+                        'data-test' => $testName,
+                    ]) }}
                 >{{ old($name, $value) }}</textarea>
             @break
 
             @case('image')
-                <x-form.file.image :name="$name" :test="$testName" />
+                <x-form.file.image
+                    :name="$name"
+                    :test="$testName"
+                />
             @break
 
             @case('select')
                 <select
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
-                    id="{{ $name }}"
-                    name="{{ $name }}"
-                    data-test="{{ $testName }}"
-                    value={{ old($errorName, $value) }}
-                    {{ $attributes }}
+                    {{ $attributes->merge([
+                        'value' => old($errorName, $value),
+                        'type' => $type,
+                        'name' => $name,
+                        'id' => $name,
+                        'data-test' => $testName,
+                    ]) }}
                 >
                     @foreach ($options as $option)
                         <option value="{{ $option[$select_map_value] }}">{{ $option[$select_map_label] }}</option>
@@ -63,12 +69,14 @@
                     @endisset
                     <input
                         class="peer sr-only"
-                        id="{{ $name }}"
-                        name="{{ $name }}"
-                        data-test="{{ $testName }}"
-                        type="checkbox"
-                        {{ $checked ? 'checked' : '' }}
-                        {{ $attributes }}
+                        {{ $attributes->merge([
+                            'type' => 'checkbox',
+                            'name' => $name,
+                            'id' => $name,
+                            'data-test' => $testName,
+                            'checked' => $value === 'true' ? true : false,
+                            'value' => old($errorName, $value),
+                        ]) }}
                     >
                     <div
                         class="bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand after:inset-s-0.5 peer relative mx-3 h-5 w-9 rounded-full after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full">
@@ -82,12 +90,13 @@
             @default
                 <input
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
-                    id="{{ $name }}"
-                    name="{{ $name }}"
-                    data-test="{{ $testName }}"
-                    type="{{ $type }}"
-                    value="{{ old($errorName, $value) }}"
-                    {{ $attributes }}
+                    {{ $attributes->merge([
+                        'value' => old($errorName, $value),
+                        'type' => $type,
+                        'name' => $name,
+                        'id' => $name,
+                        'data-test' => $testName,
+                    ]) }}
                 />
             @break
 
