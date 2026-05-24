@@ -82,7 +82,9 @@
             </x-card>
         </tab>
         <tab>
-            Stats goes here
+            <x-card description="{{ $user->name }} statistics">
+                Stats goes here
+            </x-card>
         </tab>
         <tab>
             <x-card description="Visualise & Edit {{ $user->name }}'s contact details">
