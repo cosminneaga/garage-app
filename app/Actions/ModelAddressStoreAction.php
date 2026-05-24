@@ -16,7 +16,7 @@ class ModelAddressStoreAction
             $address = Address::updateOrCreateByCoordinates(
                 $attributes['coordinates']['latitude'],
                 $attributes['coordinates']['longitude'],
-                $attributes
+                $attributes,
             );
 
             if (! $model->addresses()->find($address->id)) {

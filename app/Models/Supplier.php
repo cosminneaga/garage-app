@@ -58,7 +58,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 class Supplier extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasFactory;
+    use LogsActivity;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

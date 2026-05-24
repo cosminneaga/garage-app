@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
+use App\Enums\Resource\ResourceFilter;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -31,15 +32,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', User::class);
-
         $querySearch = $request->string('search')->value();
 
         return view('pages.user.index', [
             'users' => $this->userService
-                ->searchMyTeamPaginate($querySearch, $request->query('limit') ?? 10)
-                ->appends([
-                    'search' => $querySearch,
-                ]),
+                ->search($querySearch)
+                ->filterOwn(ResourceFilter::DEFAULT)
+                ->paginate($request->integer('limit') ?? 10),
         ]);
     }
 
@@ -67,7 +66,7 @@ class UserController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'User created',
-                'The user has been successfully created and added to the team.'
+                'The user has been successfully created and added to the team.',
             ));
     }
 
@@ -99,7 +98,7 @@ class UserController extends Controller
                 ->with('message', self::responseMessage(
                     'error',
                     'User update error',
-                    'Please update your own details from profile section'
+                    'Please update your own details from profile section',
                 ));
         }
 
@@ -112,7 +111,7 @@ class UserController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'User updated',
-                'The user details have been successfully updated.'
+                'The user details have been successfully updated.',
             ));
     }
 
@@ -128,7 +127,7 @@ class UserController extends Controller
                 ->with('message', self::responseMessage(
                     'error',
                     'User delete error',
-                    'You cannot delete your own account'
+                    'You cannot delete your own account',
                 ));
         }
 
@@ -139,7 +138,7 @@ class UserController extends Controller
             ->with('message', self::responseMessage(
                 'info',
                 'User removed',
-                'The user '.$user->name.' has been successfully removed from the team.'
+                'The user ' . $user->name . ' has been successfully removed from the team.',
             ));
     }
 
@@ -153,10 +152,9 @@ class UserController extends Controller
 
         return view('pages.user.removed', [
             'users' => $this->userService
-                ->searchMyTeamPaginateOnlyTrashed($querySearch, $request->query('limit') ?? 10)
-                ->appends([
-                    'search' => $querySearch,
-                ]),
+                ->search($querySearch)
+                ->filterOwn(ResourceFilter::ONLY_TRASHED)
+                ->paginate($request->integer('limit') ?? 10),
         ]);
     }
 
@@ -173,7 +171,7 @@ class UserController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'User restored',
-                'The user has been successfully restored and is now active again.'
+                'The user has been successfully restored and is now active again.',
             ));
     }
 
@@ -183,15 +181,10 @@ class UserController extends Controller
         $querySearch = $request->string('search')->value();
 
         return view('pages.user.admin', [
-            'users' => User::search($querySearch)
-                ->withTrashed()
-                ->paginate(
-                    $request->query('limit') ?? 10,
-                    'users',
-                )
-                ->appends([
-                    'search' => $querySearch,
-                ]),
+            'users' => $this->userService
+                ->search($querySearch)
+                ->filterAll(ResourceFilter::WITH_TRASHED)
+                ->paginate($request->integer('limit') ?? 10),
         ]);
     }
 }

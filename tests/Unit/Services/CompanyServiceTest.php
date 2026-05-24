@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Services;
 
 use App\Enums\Resource\ResourceFilter;
@@ -14,7 +16,7 @@ test('testing', function () {
 
     $resources = Company::factory(10)->create();
     collect($resources)->map(function ($comp, $index) use ($user) {
-        $comp->name = 'DEFAULT '.$index;
+        $comp->name = 'DEFAULT ' . $index;
         $comp->update();
         $comp->users()->attach($user);
     });

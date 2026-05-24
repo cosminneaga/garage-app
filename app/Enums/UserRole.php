@@ -19,7 +19,7 @@ enum UserRole: string
             self::SUPER => 'Application Administrator',
             self::USER_ADMIN => 'User Administrator over it\'s own companies, users, vehicles, clients, invoices',
             self::USER_EDITOR => 'User Editor over manager\'s companies, users, vehicles, clients, invoices',
-            self::USER_VIEWER => 'User Viewer over manager\'s companies, vehicles, clients, invoices'
+            self::USER_VIEWER => 'User Viewer over manager\'s companies, vehicles, clients, invoices',
         };
     }
 

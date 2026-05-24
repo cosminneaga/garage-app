@@ -46,12 +46,12 @@ class CompanyStoreAction
             $company->addresses()->attach(Address::updateOrCreateByCoordinates(
                 Arr::get($data, 'address.coordinates.latitude'),
                 Arr::get($data, 'address.coordinates.longitude'),
-                $data['address']
+                $data['address'],
             ));
 
             $company->contacts()->attach(Contact::updateOrCreate(
                 ['email' => Arr::get($data, 'contact.email')],
-                $data['contact']
+                $data['contact'],
             ));
         });
     }

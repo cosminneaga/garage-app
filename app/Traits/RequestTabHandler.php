@@ -14,9 +14,9 @@ trait RequestTabHandler
         $tabname = $request->query('tab');
 
         if (
-            ! CompanyTabs::tryFrom($tabname) ||
-            $tabname === CompanyTabs::DETAILS->value ||
-            $tabname === CompanyTabs::STATISTICS->value
+            ! CompanyTabs::tryFrom($tabname)
+            || $tabname === CompanyTabs::DETAILS->value
+            || $tabname === CompanyTabs::STATISTICS->value
         ) {
             return [];
         }

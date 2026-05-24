@@ -31,7 +31,7 @@ class ContactController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Resource created',
-                'Contact has been created and attached to given resource'
+                'Contact has been created and attached to given resource',
             ));
     }
 
@@ -74,7 +74,7 @@ class ContactController extends Controller
             ->with('message', self::responseMessage(
                 'info',
                 'Resource removed',
-                'Contact has been removed from given resource'
+                'Contact has been removed from given resource',
             ));
     }
 }

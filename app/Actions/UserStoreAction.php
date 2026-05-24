@@ -45,12 +45,12 @@ class UserStoreAction
             $user->addresses()->attach(Address::updateOrCreateByCoordinates(
                 Arr::get($data, 'address.coordinates.latitude'),
                 Arr::get($data, 'address.coordinates.longitude'),
-                $data['address']
+                $data['address'],
             ));
 
             $user->contacts()->attach(Contact::updateOrCreate(
                 ['email' => $data['contact']['email']],
-                $data['contact']
+                $data['contact'],
             ));
         });
     }

@@ -28,12 +28,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::anonymousComponentPath(
             resource_path('views/layout'),
-            'layout'
+            'layout',
         );
 
         Blade::anonymousComponentPath(
             resource_path('views/navigation'),
-            'navigation'
+            'navigation',
         );
 
         Blade::directive('datetime', fn (string $expression) => "<?php echo ($expression)->format('d/m/Y H:i'); ?>");

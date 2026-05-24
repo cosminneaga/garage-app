@@ -39,7 +39,7 @@ class PermissionsSeeder extends Seeder
         foreach (
             UserPermission::list(
                 excludeReferences: ['user', 'company'],
-                excludeActions: ['restore', 'delete']
+                excludeActions: ['restore', 'delete'],
             ) as $permission
         ) {
             $userEditor->givePermissionTo($permission);
@@ -49,7 +49,7 @@ class PermissionsSeeder extends Seeder
         foreach (
             UserPermission::list(
                 excludeReferences: ['user'],
-                excludeActions: ['restore', 'store', 'update', 'delete']
+                excludeActions: ['restore', 'store', 'update', 'delete'],
             ) as $permission
         ) {
             $userViewer->givePermissionTo($permission);

@@ -1,0 +1,13 @@
+{
+    "preset": "psr12",
+    "exclude": [
+        "vendor",
+        "storage",
+        "bootstrap/cache",
+        "json"
+    ],
+    "rules": {
+        "array_indentation": true,
+        "align_multiline_comment": true
+    }
+}

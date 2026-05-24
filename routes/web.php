@@ -24,10 +24,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
 
-# USER_ADMIN
+// USER_ADMIN
 Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
 
-    # COMPANIES
+    // COMPANIES
     Route::post('/companies/{company}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
     Route::get('/companies/restore', [CompanyController::class, 'removed'])->name('companies.removed');
 
@@ -35,8 +35,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
     Route::delete('/companies/{company}/contact/{contact}', [ContactController::class, 'destroy'])->name('companies.contact.destroy');
     Route::delete('/companies/{company}/supplier/{supplier}', [SupplierController::class, 'destroy'])->name('companies.supplier.destroy');
 
-
-    # USERS
+    // USERS
     Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::get('/users/restore', [UserController::class, 'removed'])->name('users.removed');
 
@@ -48,8 +47,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
     Route::get('/users/{user}/contact/{contact}', [ContactController::class, 'edit'])->name('users.contact.edit');
     Route::delete('/users/{user}/contact/{contact}', [ContactController::class, 'destroy'])->name('users.contact.destroy');
 
-
-    # SUPPLIERS
+    // SUPPLIERS
     Route::post('/suppliers/{supplier}/restore', [SupplierController::class, 'restore'])->name('suppliers.restore');
     Route::get('/suppliers/restore', [SupplierController::class, 'removed'])->name('suppliers.removed');
 
@@ -57,10 +55,10 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
     Route::delete('/suppliers/{supplier}/contact/{contact}', [ContactController::class, 'destroy'])->name('suppliers.contact.destroy');
 });
 
-# USER_ADMIN|USER_EDITOR
+// USER_ADMIN|USER_EDITOR
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], function () {
 
-    # COMPANIES
+    // COMPANIES
     Route::get('/companies/{company}/address/{address}', [AddressController::class, 'edit'])->name('companies.address.edit');
     Route::post('/companies/{company}/address', [AddressController::class, 'store'])->name('companies.address.store');
 
@@ -71,8 +69,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], fu
     Route::get('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'edit'])->name('companies.supplier.edit');
     Route::put('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'update'])->name('companies.supplier.update');
 
-
-    # SUPPLIERS
+    // SUPPLIERS
     Route::get('/suppliers/{supplier}/address/{address}', [AddressController::class, 'edit'])->name('suppliers.address.edit');
     Route::post('/suppliers/{supplier}/address', [AddressController::class, 'store'])->name('suppliers.address.store');
 
@@ -80,8 +77,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], fu
     Route::post('/suppliers/{supplier}/contact', [ContactController::class, 'store'])->name('suppliers.contact.store');
 });
 
-
-# ALL USERS
+// ALL USERS
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
     Route::resource('companies', CompanyController::class)->except('show');
     Route::resource('users', UserController::class)->except('show');
@@ -92,7 +88,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_v
     Route::put('/users/{user}/profile', [ProfileController::class, 'update'])->name('users.profile.update');
 });
 
-# ADMINISTRATION
+// ADMINISTRATION
 // !NOTE: seems like after another build this functionality came along and point the unauthorized users to 404, keep an eye on it...
 Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/administration/company/all', [CompanyController::class, 'all'])->name('companies.all');

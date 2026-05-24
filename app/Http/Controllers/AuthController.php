@@ -27,7 +27,7 @@ class AuthController extends Controller
                 ->with('message', self::responseMessage(
                     'error',
                     'Authentication failed',
-                    'We were unable to authenticate using the provided credentials. Please verify your login details and try again.'
+                    'We were unable to authenticate using the provided credentials. Please verify your login details and try again.',
                 ))
                 ->withInput();
         }
@@ -40,7 +40,7 @@ class AuthController extends Controller
                 ->with('message', self::responseMessage(
                     'error',
                     'Your account has been suspended',
-                    'Please contact administration to resolve the issue and restore access.'
+                    'Please contact administration to resolve the issue and restore access.',
                 ));
         }
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Login successful',
-                'You are logged in and can now access your account.'
+                'You are logged in and can now access your account.',
             ));
     }
 

@@ -14,15 +14,21 @@ use Illuminate\Support\Collection;
 
 class CompanyService
 {
-    public function __construct(#[CurrentUser] protected User $user)
-    {
-        $this->searchQuery = '';
+    public $searchQuery = '';
+
+    public $result;
+
+    public function __construct(
+        #[CurrentUser]
+        protected User $user,
+    ) {
     }
 
     public function search(string $search): CompanyService
     {
         $this->result = Company::search($search);
         $this->searchQuery = $search;
+
         return $this;
     }
 
@@ -49,7 +55,7 @@ class CompanyService
         return $this;
     }
 
-    public function all(ResourceFilter $filter): CompanyService
+    public function filterAll(ResourceFilter $filter): CompanyService
     {
         switch ($filter) {
             case ResourceFilter::ONLY_TRASHED:
@@ -61,7 +67,6 @@ class CompanyService
                 break;
 
             default:
-                $this->result;
                 break;
         }
 

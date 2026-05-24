@@ -84,7 +84,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 class Repair extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasFactory;
+    use LogsActivity;
+    use SoftDeletes;
 
     protected $fillable = [];
 

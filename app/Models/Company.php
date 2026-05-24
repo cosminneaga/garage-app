@@ -69,7 +69,10 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 #[UsePolicy(CompanyPolicy::class)]
 class Company extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes, Searchable;
+    use HasFactory;
+    use LogsActivity;
+    use Searchable;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

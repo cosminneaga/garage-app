@@ -104,7 +104,7 @@
         ],
         "format": [
             "vendor/bin/rector",
-            "vendor/bin/pint"
+            "vendor/bin/pint --parallel"
         ],
         "setup": [
             "composer install",

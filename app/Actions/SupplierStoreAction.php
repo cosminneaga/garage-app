@@ -40,7 +40,7 @@ class SupplierStoreAction
 
             $contact = Contact::updateOrCreate(
                 ['email' => Arr::get($data, 'contact.email')],
-                $data['contact']
+                $data['contact'],
             );
             $address = Address::updateOrCreate(
                 [
@@ -48,7 +48,7 @@ class SupplierStoreAction
                     'street' => Arr::get($data, 'address.street'),
                     'postcode' => Arr::get($data, 'address.postcode'),
                 ],
-                $data['address']
+                $data['address'],
             );
 
             $supplier = Supplier::create($data['supplier']);

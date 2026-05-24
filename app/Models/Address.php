@@ -66,7 +66,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 class Address extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasFactory;
+    use LogsActivity;
+    use SoftDeletes;
 
     protected $fillable = [
         'number',
@@ -94,7 +96,7 @@ class Address extends Model
     {
         return Attribute::make(
             get: fn () => $this->whereKey($this)->selectRaw('ST_Y(coordinates) as latitude, ST_X(coordinates) as longitude')->first(),
-            set: fn ($value) => DB::raw("ST_GeomFromText('POINT({$value['longitude']} {$value['latitude']})', 4326)")
+            set: fn ($value) => DB::raw("ST_GeomFromText('POINT({$value['longitude']} {$value['latitude']})', 4326)"),
         );
     }
 

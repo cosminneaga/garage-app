@@ -15,7 +15,7 @@ class ModelContactStoreAction
         DB::transaction(function () use ($attributes, $model) {
             $contact = Contact::updateOrCreate(
                 ['email' => $attributes['email']],
-                $attributes
+                $attributes,
             );
 
             if (! $model->contacts()->find($contact->id)) {

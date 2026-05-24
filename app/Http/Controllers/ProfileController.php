@@ -37,7 +37,7 @@ class ProfileController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Profile updated',
-                'Your profile has been updated successfully'
+                'Your profile has been updated successfully',
             ));
     }
 }

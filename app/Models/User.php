@@ -87,7 +87,12 @@ use Spatie\Permission\Traits\HasRoles;
 #[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable
 {
-    use HasFactory, HasRoles, LogsActivity, Notifiable, Searchable, SoftDeletes;
+    use HasFactory;
+    use HasRoles;
+    use LogsActivity;
+    use Notifiable;
+    use Searchable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -174,7 +179,7 @@ class User extends Authenticatable
             User::class,
             Team::class,
             'manager_id',
-            'user_id'
+            'user_id',
         );
     }
 
@@ -185,7 +190,7 @@ class User extends Authenticatable
             User::class,
             Team::class,
             'user_id',
-            'manager_id'
+            'manager_id',
         );
     }
 
@@ -207,10 +212,12 @@ class User extends Authenticatable
     public function team(): BelongsToMany
     {
         if (! $this->getRoleNames()
-            ->contains(fn ($item) => in_array($item, [
-                UserRole::SUPER->value,
-                UserRole::USER_ADMIN->value,
-            ]
+            ->contains(fn ($item) => in_array(
+                $item,
+                [
+                    UserRole::SUPER->value,
+                    UserRole::USER_ADMIN->value,
+                ],
             ))) {
             throw new UnauthorizedException(403)->forRoles([UserRole::SUPER->value, UserRole::USER_ADMIN->value]);
         }
@@ -219,7 +226,7 @@ class User extends Authenticatable
             User::class,
             Team::class,
             'manager_id',
-            'user_id'
+            'user_id',
         )->withTimestamps();
     }
 }

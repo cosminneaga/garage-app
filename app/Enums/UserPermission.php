@@ -90,10 +90,10 @@ enum UserPermission: string
     public static function name(UserPermission $reference, string $action_name): string
     {
         if (! array_key_exists($action_name, self::actions())) {
-            throw new Exception("Action: $action_name does not exists in: ".implode(',', self::actions()));
+            throw new Exception("Action: $action_name does not exists in: " . implode(',', self::actions()));
         }
 
-        return $reference->value.'-'.self::actions()[$action_name];
+        return $reference->value . '-' . self::actions()[$action_name];
     }
 
     /**
@@ -114,7 +114,7 @@ enum UserPermission: string
         array $excludeReferences = [],
         array $excludeActions = [],
         array $onlyReferences = [],
-        array $onlyActions = []
+        array $onlyActions = [],
     ): array {
         $result = [];
 

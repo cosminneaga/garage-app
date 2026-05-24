@@ -37,7 +37,7 @@ class SupplierController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Supplier created',
-                'Supplier information has been created and attached to respective company'
+                'Supplier information has been created and attached to respective company',
             ));
     }
 
@@ -69,7 +69,7 @@ class SupplierController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Supplier updated',
-                'Supplier information has been successfully updated from respective company'
+                'Supplier information has been successfully updated from respective company',
             ));
     }
 
@@ -90,7 +90,7 @@ class SupplierController extends Controller
             ->with('message', self::responseMessage(
                 'info',
                 'Supplier removed',
-                'Supplier information has been successfully removed from respective company'
+                'Supplier information has been successfully removed from respective company',
             ));
     }
 
@@ -116,7 +116,7 @@ class SupplierController extends Controller
             ->with('message', self::responseMessage(
                 'info',
                 'Supplier removed',
-                'Supplier has been successfully removed'
+                'Supplier has been successfully removed',
             ));
     }
 }

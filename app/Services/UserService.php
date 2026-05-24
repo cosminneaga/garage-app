@@ -4,17 +4,23 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class UserService
 {
-    public function __construct(#[CurrentUser] protected User $user)
-    {
-        //
+    public $searchQuery = '';
+
+    public $result;
+
+    public function __construct(
+        #[CurrentUser]
+        protected User $user,
+    ) {
     }
 
     public function getRelatedAddresses(User $user): array
@@ -28,37 +34,62 @@ class UserService
         ];
     }
 
-    public function getMyTeamMembers(User $user): BelongsToMany
+    public function search(string $search): UserService
     {
-        if ($user->hasRole(UserRole::USER_EDITOR)) {
-            $user = $user->managers()->first();
-        }
+        $this->result = User::search($search);
+        $this->searchQuery = $search;
 
-        return $user->members();
+        return $this;
     }
 
-    public function searchMyTeamPaginate(string $search, int $limit): LengthAwarePaginator
-    {
-
-        if ($this->user->hasRole(UserRole::USER_EDITOR)) {
-            $this->user = $this->user->managers()->first();
-        }
-
-        return User::search($search)
-            ->whereIn('id', $this->user->members()
-                ->select('users.id'))
-            ->paginate($limit, 'members');
-    }
-
-    public function searchMyTeamPaginateOnlyTrashed(string $search, int $limit): LengthAwarePaginator
+    public function filterOwn(ResourceFilter $filter): UserService
     {
         if ($this->user->hasRole(UserRole::USER_EDITOR)) {
             $this->user = $this->user->managers()->first();
         }
 
-        return User::search($search)
-            ->onlyTrashed()
-            ->whereIn('id', $this->user->members()->select('users.id')->onlyTrashed())
-            ->paginate($limit, 'members');
+        switch ($filter) {
+            case ResourceFilter::ONLY_TRASHED:
+                $this->result->onlyTrashed()->whereIn('id', $this->user->members()->onlyTrashed()->select('users.id'));
+                break;
+
+            case ResourceFilter::WITH_TRASHED:
+                $this->result->withTrashed()->whereIn('id', $this->user->members()->withTrashed()->select('users.id'));
+                break;
+
+            default:
+                $this->result->whereIn('id', $this->user->members()->select('users.id'));
+                break;
+        }
+
+        return $this;
+    }
+
+    public function filterAll(ResourceFilter $filter): UserService
+    {
+        switch ($filter) {
+            case ResourceFilter::ONLY_TRASHED:
+                $this->result->onlyTrashed();
+                break;
+
+            case ResourceFilter::WITH_TRASHED:
+                $this->result->withTrashed();
+                break;
+
+            default:
+                break;
+        }
+
+        return $this;
+    }
+
+    public function get(mixed $columns = '*'): Collection
+    {
+        return $this->result->get($columns);
+    }
+
+    public function paginate(int $limit): LengthAwarePaginator
+    {
+        return $this->result->paginate($limit, 'users')->appends(['search' => $this->searchQuery, 'limit' => $limit]);
     }
 }

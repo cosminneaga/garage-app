@@ -76,7 +76,11 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class Client extends Model
 {
-    use HasFactory, HasRoles, LogsActivity, Notifiable, SoftDeletes;
+    use HasFactory;
+    use HasRoles;
+    use LogsActivity;
+    use Notifiable;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

@@ -62,7 +62,7 @@ test('create resource using the pivot logic "updateOrCreateByCoordinates"', func
             'postcode' => 212212,
             'extra' => 'Just around the corner.',
             'country_id' => $country->id,
-        ]
+        ],
     );
 
     expect($resource->coordinates->latitude)->toEqual('4.895168');
@@ -81,7 +81,7 @@ test('update resource using the pivot logic "updateOrCreateByCoordinates"', func
             'postcode' => 212212,
             'extra' => 'Just around the corner.',
             'country_id' => $country->id,
-        ]
+        ],
     );
 
     $updatedresource = Address::updateOrCreateByCoordinates(
@@ -93,7 +93,7 @@ test('update resource using the pivot logic "updateOrCreateByCoordinates"', func
             'postcode' => 555555,
             'extra' => 'Just around the corner, by the back yard.',
             'country_id' => $country->id,
-        ]
+        ],
     );
 
     expect($updatedresource->coordinates->latitude)->toEqual('4.895168');
@@ -115,7 +115,7 @@ test('create new resource using the pivot logic "updateOrCreateByCoordinates"', 
             'postcode' => 212212,
             'extra' => 'Just around the corner.',
             'country_id' => $country->id,
-        ]
+        ],
     );
 
     $newresource = Address::updateOrCreateByCoordinates(
@@ -127,7 +127,7 @@ test('create new resource using the pivot logic "updateOrCreateByCoordinates"', 
             'postcode' => 555555,
             'extra' => 'Just around the corner, by the back yard.',
             'country_id' => $country->id,
-        ]
+        ],
     );
 
     expect($resource->coordinates->latitude)->toEqual('4.895168');

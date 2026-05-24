@@ -21,13 +21,13 @@ if ($json === false) {
 $data = json_decode($json, true);
 
 if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-    exit('JSON decode error: '.json_last_error_msg());
+    exit('JSON decode error: ' . json_last_error_msg());
 }
 
 $file = fopen("./json/{$filename}.php", 'w') or exit('Unable to open file');
 fwrite($file, '<?php');
 fwrite($file, "\n\n");
-fwrite($file, '$'.$filename.' = [');
+fwrite($file, '$' . $filename . ' = [');
 
 $result = array_map(function ($item) use ($file, $map) {
     fwrite($file, "\n[");
@@ -39,7 +39,7 @@ $result = array_map(function ($item) use ($file, $map) {
             $value = "'{$value}'";
         }
 
-        fwrite($file, "\n"."'{$mapValue}'".'=>'.$value.',');
+        fwrite($file, "\n" . "'{$mapValue}'" . '=>' . $value . ',');
         $index++;
     }
 

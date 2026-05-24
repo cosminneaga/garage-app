@@ -37,7 +37,7 @@ class AddressController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Resource created',
-                'Address has been created and attached to given resource'
+                'Address has been created and attached to given resource',
             ));
     }
 
@@ -80,7 +80,7 @@ class AddressController extends Controller
             ->with('message', self::responseMessage(
                 'info',
                 'Resource removed',
-                'Address has been removed from given resource'
+                'Address has been removed from given resource',
             ));
     }
 }

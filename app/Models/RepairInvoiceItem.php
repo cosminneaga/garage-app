@@ -57,7 +57,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 class RepairInvoiceItem extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasFactory;
+    use LogsActivity;
+    use SoftDeletes;
 
     protected $fillable = [
         'job_name',

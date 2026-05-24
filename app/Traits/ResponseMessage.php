@@ -17,7 +17,7 @@ enum Types: string
             self::SUCCESS => 'Resource saved',
             self::ERROR => 'An error occured',
             self::WARNING => 'Resource modified',
-            self::INFO => 'Info message'
+            self::INFO => 'Info message',
         };
     }
 }

@@ -22,7 +22,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    use AuthorizesRequests, RequestTabHandler, ResponseMessage;
+    use AuthorizesRequests;
+    use RequestTabHandler;
+    use ResponseMessage;
 
     public function __construct(protected CompanyService $companyService, protected UserService $userService)
     {
@@ -69,7 +71,7 @@ class CompanyController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Company created',
-                'The company has been successfully created and is now available in your account.'
+                'The company has been successfully created and is now available in your account.',
             ));
     }
 
@@ -96,7 +98,7 @@ class CompanyController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Company updated',
-                'The company details have been successfully updated.'
+                'The company details have been successfully updated.',
             ));
     }
 
@@ -114,7 +116,7 @@ class CompanyController extends Controller
             ->with('message', self::responseMessage(
                 'info',
                 'Company removed',
-                'The company has been successfully removed from your account.'
+                'The company has been successfully removed from your account.',
             ));
     }
 
@@ -124,12 +126,13 @@ class CompanyController extends Controller
     public function removed(Request $request): View
     {
         $this->authorize('viewTrashed', Company::class);
+        $querySearch = $request->string('search')->value();
 
         return view('pages.company.removed', [
-            'companies' => Auth::user()
-                ->companies()
-                ->onlyTrashed()
-                ->paginate($request->query('limit') ?? 10),
+            'companies' => $this->companyService
+                ->search($querySearch)
+                ->filterOwn(ResourceFilter::ONLY_TRASHED)
+                ->paginate($request->integer('limit') ?? 10),
         ]);
     }
 
@@ -146,7 +149,7 @@ class CompanyController extends Controller
             ->with('message', self::responseMessage(
                 'success',
                 'Company restored',
-                'The company has been successfully restored and is now available in your account.'
+                'The company has been successfully restored and is now available in your account.',
             ));
     }
 
@@ -158,7 +161,7 @@ class CompanyController extends Controller
         return view('pages.company.admin', [
             'companies' => $this->companyService
                 ->search($querySearch)
-                ->all(ResourceFilter::WITH_TRASHED)
+                ->filterAll(ResourceFilter::WITH_TRASHED)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }
