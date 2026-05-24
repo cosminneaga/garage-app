@@ -80,13 +80,20 @@
             "@php artisan route:clear",
             "@php artisan config:clear",
             "@php artisan activitylog:clean",
+            "@php artisan scout::flush",
+            "@php artisan scout::import",
             "composer dump-autoload"
         ],
         "storage": [
             "@php artisan storage:link"
         ],
         "pest:filter": [
-            "vendor/bin/pest --filter="
+            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\")'"
+        ],
+        "find:test": ["find tests -type f -name"],
+        "pesting": [
+            "echo (find ./tests -type f -iname '*$1*.php')",
+            "./vendor/bin/pest $(find tests -name '*$0*.php')"
         ],
         "pest:debug": [
             "vendor/bin/pest --stop-on-failure --debug"

@@ -74,7 +74,7 @@
                                 data-modal-toggle="company-delete-confirm"
                                 type="button"
                                 variant="danger"
-                            >Delete User</x-button>
+                            >Delete Company</x-button>
                         @endcan
                     </div>
 

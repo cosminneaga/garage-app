@@ -13,7 +13,7 @@
     $columns = collect(UserColumns::cases())
         ->map(fn ($col) => $col->value);
 
-    if ($edit || $delete || $chat) {
+    if ($edit || $delete || $chat || $restore) {
         $columns->push('actions');
     }
 @endphp

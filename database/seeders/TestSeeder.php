@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Country;
 use App\Models\User;
@@ -37,21 +38,35 @@ class TestSeeder extends Seeder
 
         // ATTACHING users TO team
         $admin = User::where('email', 'admin@garage.com')->first();
-        $users = User::factory(50)->create();
 
-        foreach ($users as $user) {
-
-            $contact = Contact::factory()->create();
-            $address = Address::factory()->create([
+        // COMPANIES
+        $companies = Company::factory(50)->create();
+        collect($companies)->map(function ($company) {
+            $company->contacts()->attach(Contact::factory()->create());
+            $company->addresses()->attach(Address::factory()->create([
                 'country_id' => 1,
-            ]);
+            ]));
+        });
 
-            $user->contacts()->attach($contact);
-            $user->addresses()->attach($address);
-        }
+        $admin->companies()->attach($companies);
 
-        $admin->team()->attach($users);
+        // USERS
+        // $users = User::factory(50)->create();
 
+        // foreach ($users as $user) {
+
+        //     $contact = Contact::factory()->create();
+        //     $address = Address::factory()->create([
+        //         'country_id' => 1,
+        //     ]);
+
+        //     $user->contacts()->attach($contact);
+        //     $user->addresses()->attach($address);
+        // }
+
+        // $admin->team()->attach($users);
+
+        // USERS DELETE
         // $users = $admin->team()->get();
         // foreach ($users as $user) {
         //     $user->forceDelete();

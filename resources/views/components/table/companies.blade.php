@@ -4,12 +4,13 @@
     'edit' => false,
     'delete' => false,
     'restore' => false,
+    'searchRoute' => route('companies.index'),
 ])
 
 @php
-    $columns = collect(Schema::getColumnListing('companies'))
-        ->diff(['deleted_at', 'updated_at', 'created_at', 'image_path'])
-        ->values();
+    use App\Enums\Columns\CompanyColumns;
+    $columns = collect(CompanyColumns::cases())
+        ->map(fn ($col) => $col->value);
 
     if ($edit || $delete || $restore) {
         $columns->push('actions');
@@ -17,6 +18,25 @@
 @endphp
 
 <x-table.wrapper :data="$data">
+    <x-slot name="header">
+        <form
+            class="flex items-center gap-2"
+            method="GET"
+            action="{{ $searchRoute }}"
+        >
+            <x-form.field
+                name="search"
+                type="text"
+                value="{{ request('search') }}"
+                label="Search companies..."
+            />
+
+            <x-button type="submit">
+                Search
+            </x-button>
+        </form>
+    </x-slot>
+
     <x-slot name="thead">
         @foreach ($columns as $column)
             <th
@@ -34,7 +54,17 @@
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">
-                    {{ $row->name }}
+                    <div class="flex items-end gap-1">
+                        <x-avatar
+                            alt="{{ $row->id }}-company-pic"
+                            :src="$row->image_path && !Str::isUrl($row->image_path)
+                                ? asset('storage/' . $row->image_path)
+                                : $row->image_path"
+                            :title="$row->name"
+                            size="small"
+                        />
+                        {{ $row->name }}
+                    </div>
                 </td>
                 <td class="px-6 py-4">
                     {{ $row->tax_id }}
@@ -70,7 +100,7 @@
                             type="button"
                         >Delete</button>
                     @endif
-                    @if ($restore)
+                    @if ($restore && $row->trashed())
                         <x-modal.confirm
                             id="company-restore-{{ $row->id }}"
                             type="restore"

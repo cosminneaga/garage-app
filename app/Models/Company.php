@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -68,7 +69,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 #[UsePolicy(CompanyPolicy::class)]
 class Company extends Model
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes, Searchable;
 
     protected $fillable = [
         'name',
@@ -82,6 +83,16 @@ class Company extends Model
     protected $casts = [
         'tax_value' => 'float',
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'tax_id' => $this->tax_id,
+            'tax_value' => $this->tax_value,
+            'registration_number' => $this->registration_number,
+        ];
+    }
 
     public function isMyCompany(User $user): bool
     {

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
+use App\Enums\Resource\ResourceFilter;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
@@ -34,23 +35,13 @@ class CompanyController extends Controller
     public function index(Request $request): View
     {
         $this->authorize('viewAny', Company::class);
+        $querySearch = $request->string('search')->value();
 
         return view('pages.company.index', [
             'companies' => $this->companyService
-                ->getMyCompanies(Auth::user())
-                ->paginate(
-                    $request->query('limit') ?? 10,
-                    [
-                        'companies.id',
-                        'name',
-                        'tax_id',
-                        'registration_number',
-                        'tax_value',
-                        'invoice_prefix',
-                        'image_path',
-                    ],
-                    'companies'
-                ),
+                ->search($querySearch)
+                ->filterOwn(ResourceFilter::DEFAULT)
+                ->paginate($request->integer('limit') ?? 10),
         ]);
     }
 
@@ -162,14 +153,13 @@ class CompanyController extends Controller
     // ADMIN
     public function all(Request $request): View
     {
+        $querySearch = $request->string('search')->value();
+
         return view('pages.company.admin', [
-            'companies' => Company::withTrashed()->paginate(
-                perPage: $request->query('limit') ?? 10,
-                columns: ['*'],
-                pageName: 'companies',
-                page: null,
-                total: null
-            ),
+            'companies' => $this->companyService
+                ->search($querySearch)
+                ->all(ResourceFilter::WITH_TRASHED)
+                ->paginate($request->integer('limit') ?? 10),
         ]);
     }
 }
