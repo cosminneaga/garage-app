@@ -90,16 +90,10 @@
         "pest:filter": [
             "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\")'"
         ],
-        "find:test": ["find tests -type f -name"],
-        "pesting": [
-            "echo (find ./tests -type f -iname '*$1*.php')",
-            "./vendor/bin/pest $(find tests -name '*$0*.php')"
-        ],
         "pest:debug": [
             "vendor/bin/pest --stop-on-failure --debug"
         ],
         "pest": [
-            "vendor/bin/pest --stop-on-failure",
             "vendor/bin/pest --configuration ./phpunit-mysql.xml --stop-on-failure"
         ],
         "format": [

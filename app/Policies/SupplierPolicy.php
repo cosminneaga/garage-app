@@ -29,9 +29,7 @@ class SupplierPolicy implements SupplierPolicyInterface
             return true;
         }
 
-        $supplier->isMySupplier($user);
-
-        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'));
+        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'));
     }
 
     /**
@@ -45,13 +43,13 @@ class SupplierPolicy implements SupplierPolicyInterface
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Supplier $supplier): bool
+    public function edit(User $user, Supplier $supplier): bool
     {
         if ($user->hasRole(UserRole::SUPER)) {
             return true;
         }
 
-        return $supplier->isMySupplier($user);
+        return $supplier->isMySupplier($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'update'));
     }
 
     /**
@@ -63,9 +61,7 @@ class SupplierPolicy implements SupplierPolicyInterface
             return true;
         }
 
-        $supplier->isMySupplier($user);
-
-        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
+        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
     }
 
     /**
@@ -90,9 +86,7 @@ class SupplierPolicy implements SupplierPolicyInterface
             return true;
         }
 
-        $supplier->isMySupplier($user);
-
-        return $user->can(UserPermission::name(UserPermission::ADDRESS, 'delete'));
+        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::ADDRESS, 'delete'));
     }
 
     public function removeContact(User $user, Supplier $supplier): bool
@@ -101,8 +95,6 @@ class SupplierPolicy implements SupplierPolicyInterface
             return true;
         }
 
-        $supplier->isMySupplier($user);
-
-        return $user->can(UserPermission::name(UserPermission::CONTACT, 'delete'));
+        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
 }

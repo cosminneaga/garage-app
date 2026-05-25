@@ -43,7 +43,7 @@
                 class="px-6 py-3"
                 scope="col"
             >
-                {{ Str::ucwords(Str::replace(['_'], [' '], $column)) }}
+                {{ $column }}
             </th>
         @endforeach
     </x-slot>

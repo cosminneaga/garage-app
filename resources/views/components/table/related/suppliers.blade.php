@@ -1,83 +1,89 @@
-@props(['data', 'resource'])
+@props([
+    'data' => null,
+    'limit' => 10,
+    'edit' => false,
+    'delete' => false,
+    'resource',
+])
 
 @php
     use App\Enums\SupplierType;
-    use App\Enums\UserPermission;
+    use App\Enums\Columns\SupplierColumns;
+
+    $columns = collect(SupplierColumns::cases())->map(fn($col) => $col->value);
+
+    if ($edit || $delete) {
+        $columns->push('actions');
+    }
 @endphp
 
-<x-bladewind.card class="overflow-auto">
-    <x-slot:header>
-        <div class="flex items-center justify-between p-4">
-            <h4>SUPPLIERS</h4>
-            <x-bladewind.button onclick="showModal('modal-supplier-create')">
-                Add supplier
-            </x-bladewind.button>
-        </div>
-    </x-slot:header>
+{{-- <x-modal.supplier.create
+    name="modal-supplier-create"
+    :company="$resource"
+/> --}}
 
-    <x-bladewind.table>
-        <x-slot name="header">
-            <th>Name</th>
-            <th>Code</th>
-            <th>Type</th>
-            <th>Tax ID</th>
-            <th>Registration Number</th>
-            <th>Actions</th>
-        </x-slot>
-
-        @foreach ($data as $supplier)
-            <tr>
-                <td>{{ $supplier->name }}</td>
-                <td>{{ $supplier->code }}</td>
-                <td>{{ SupplierType::getLabel($supplier->type) }}</td>
-                <td>{{ $supplier->tax_id }}</td>
-                <td>{{ $supplier->registration_number }}</td>
-                <td>
-                    <div class="flex gap-1">
-                        @can(UserPermission::name(UserPermission::SUPPLIER, 'update'))
-                            <a href="{{route('companies.supplier.edit', [$resource, $supplier])}}">
-                                <x-bladewind.button.circle
-                                    icon="pencil"
-                                    color="green"
-                                    size="tiny"
-                                    outline
-                                />
-                            </a>
-                        @endcan
-                        @can(UserPermission::name(UserPermission::SUPPLIER, 'delete'))
-                            <x-bladewind.button.circle
-                                icon="trash"
-                                color="red"
-                                size="tiny"
-                                outline
-                                onclick="showModal('scdm-{{ $supplier->id }}')"
-                            />
-
-                            <form
-                                id="scdf-{{ $supplier->id }}"
-                                action="{{ route('companies.supplier.destroy', [$resource, $supplier]) }}"
-                                method="POST"
-                            >
-                                @csrf
-                                @method('DELETE')
-                            </form>
-
-                            <x-bladewind.modal
-                                name="scdm-{{ $supplier->id }}"
-                                type="warning"
-                                ok_button_action="submitResourceDeleteForm('scdf-{{ $supplier->id }}')"
-                            >
-                                Are you sure you want to delete this supplier?
-                            </x-bladewind.modal>
-                        @endcan
-                    </div>
-                </td>
-            </tr>
+<x-table.wrapper :data="$data">
+    <x-slot name="thead">
+        @foreach ($columns as $column)
+            <th
+                class="px-6 py-3"
+                scope="col"
+            >
+                {{ $column }}
+            </th>
         @endforeach
-    </x-bladewind.table>
+    </x-slot>
 
-    <x-modal.supplier.create
-        name="modal-supplier-create"
-        :company="$resource"
-    />
-</x-bladewind.card>
+    <x-slot name="tbody">
+        @forelse ($data as $row)
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+                    {{ $row->id }}
+                </th>
+                <td class="px-6 py-4">
+                    {{ $row->name }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->code }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ SupplierType::getLabel($row->type) }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->tax_id }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->registration_number }}
+                </td>
+                @if ($edit || $delete)
+                    <td class="px-6 py-4">
+                        <div class="flex gap-3">
+                            @if ($edit)
+                                <a
+                                    class="text-brand"
+                                    href="{{ route('companies.supplier.edit', [$resource, $row]) }}"
+                                >Edit</a>
+                            @endif
+                            @if ($delete && Auth::user()->id !== $row->id)
+                                <x-modal.confirm
+                                    id="supplier-delete-{{ $row->id }}"
+                                    type="delete"
+                                    action="{{ route('suppliers.destroy', $row->id) }}"
+                                    message="Are you sure you want to remove this {{ $row->name }}?"
+                                />
+
+                                <button
+                                    class="text-danger hover:cursor-pointer"
+                                    data-modal-target="supplier-delete-{{ $row->id }}"
+                                    data-modal-toggle="supplier-delete-{{ $row->id }}"
+                                >Delete</button>
+                            @endif
+                        </div>
+                    </td>
+                @endif
+            </tr>
+        @empty
+            No available data
+        @endforelse
+    </x-slot>
+</x-table.wrapper>

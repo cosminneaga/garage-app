@@ -25,9 +25,7 @@ class UserPolicy implements UserPolicyInterface
             return true;
         }
 
-        $user->isTeamMember($model);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
     }
 
     /**
@@ -47,9 +45,7 @@ class UserPolicy implements UserPolicyInterface
             return true;
         }
 
-        $user->isTeamMember($model);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'update'));
+        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'update'));
     }
 
     /**
@@ -61,9 +57,7 @@ class UserPolicy implements UserPolicyInterface
             return true;
         }
 
-        $user->isTeamMember($model);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
+        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
     }
 
     /**
@@ -83,9 +77,7 @@ class UserPolicy implements UserPolicyInterface
             return true;
         }
 
-        $user->isTeamMember($model);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
+        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
     }
 
     public function removeAddress(User $user, User $model): bool
@@ -94,9 +86,7 @@ class UserPolicy implements UserPolicyInterface
             return true;
         }
 
-        $user->isTeamMember($model);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
+        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
     }
 
     public function removeContact(User $user, User $model): bool
@@ -105,8 +95,6 @@ class UserPolicy implements UserPolicyInterface
             return true;
         }
 
-        $user->isTeamMember($model);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
+        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
 }

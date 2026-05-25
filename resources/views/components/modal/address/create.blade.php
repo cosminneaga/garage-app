@@ -1,8 +1,6 @@
-@props(['id', 'resource', 'trigger' => false, 'triggerId' => ''])
+@props(['id', 'resource', 'countries', 'trigger' => false, 'triggerId' => ''])
 
 @php
-    use App\Models\Country;
-
     $routeName = $resource->getTable();
 @endphp
 
@@ -48,7 +46,7 @@
             label="Select a country"
             select_map_label="name"
             select_map_value="id"
-            :options="Country::all()"
+            :options="$countries"
             selected_value="1"
         />
         <h3 class="text-lg font-bold">Location</h3>
@@ -74,7 +72,7 @@
         />
 
         <div class="flex gap-1">
-            <x-button data-test="form-address-create-submit">Submit</x-button>
+            <x-button data-test="form-address-create-submit" type="submit">Submit</x-button>
         </div>
     </form>
 </x-modal.wrapper>

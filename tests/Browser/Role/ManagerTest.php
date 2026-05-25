@@ -66,5 +66,5 @@ it('should create a user using create form', function () {
         ->fill('@contact_url', 'https://garage.com')
         ->fill('@contact_info', 'Extra information about how to contact me')
 
-        ->click('@form-users-create-submit');
+        ->click('@form-users-create-submit')->debug();
 });

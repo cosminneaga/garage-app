@@ -125,7 +125,14 @@
         </tab>
 
         <tab>
-            Suppliers table coming soon...
+            <x-card description="Visualise $ Edit {{ $company->name }}'s suppliers">
+                <x-table.related.suppliers
+                    :data="$company->suppliers"
+                    :resource="$company"
+                    :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
+                    :delete="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
+                />
+            </x-card>
         </tab>
     </x-tabs>
 </x-layout::index>

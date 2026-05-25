@@ -7,23 +7,24 @@
 ])
 
 @php
-    use App\Enums\UserPermission;
+    use App\Enums\Columns\AddressColumns;
+    use App\Models\Country;
 
     $parentname = $resource->getTable();
-    $columns = Schema::getColumnListing('addresses');
-    $columns = collect($columns)
-        ->diff(['created_at', 'updated_at', 'deleted_at', 'country_id', 'coordinates'])
-        ->values();
+    $columns = collect(AddressColumns::cases())->map(fn($col) => $col->value);
 
     if ($edit || $delete) {
         $columns->push('actions');
     }
+
+    $countries = Country::all();
 @endphp
 
 <x-modal.address.create
     id="user-address-create-modal"
     triggerId="user-contact-create-modal-trigger"
     :resource="$resource"
+    :countries="$countries"
     trigger
 />
 
@@ -34,7 +35,7 @@
                 class="px-6 py-3"
                 scope="col"
             >
-                {{ Str::ucwords(Str::replace(['_'], [' '], $column)) }}
+                {{ $column }}
             </th>
         @endforeach
     </x-slot>

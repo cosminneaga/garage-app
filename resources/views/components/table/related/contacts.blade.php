@@ -7,13 +7,10 @@
 ])
 
 @php
-    use App\Enums\UserPermission;
+    use App\Enums\Columns\ContactColumns;
 
     $parentname = $resource->getTable();
-    $columns = Schema::getColumnListing('contacts');
-    $columns = collect($columns)
-        ->diff(['created_at', 'updated_at', 'deleted_at'])
-        ->values();
+    $columns = collect(ContactColumns::cases())->map(fn($col) => $col->value);
 
     if ($edit || $delete) {
         $columns->push('actions');
@@ -35,7 +32,7 @@
                 class="px-6 py-3"
                 scope="col"
             >
-                {{ Str::ucwords(Str::replace(['_'], [' '], $column)) }}
+                {{ $column }}
             </th>
         @endforeach
     </x-slot>
@@ -72,14 +69,14 @@
                             @if ($edit)
                                 <a
                                     class="text-brand"
-                                    href="{{ route( $parentname . '.contact.edit', [$resource, $row]) }}"
+                                    href="{{ route($parentname . '.contact.edit', [$resource, $row]) }}"
                                 >Edit</a>
                             @endif
                             @if ($delete && Auth::user()->id !== $row->id)
                                 <x-modal.confirm
-                                    type="delete"
                                     id="user-contact-delete-{{ $row->id }}"
-                                    action="{{ route( $parentname . '.contact.destroy', [$resource, $row->id]) }}"
+                                    type="delete"
+                                    action="{{ route($parentname . '.contact.destroy', [$resource, $row->id]) }}"
                                     message="Are you sure you want to remove this contact?"
                                 />
 

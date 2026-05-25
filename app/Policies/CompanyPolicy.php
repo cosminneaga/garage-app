@@ -29,9 +29,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isMyCompany($user);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
     }
 
     /**
@@ -51,9 +49,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isMyCompany($user);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
+        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
     }
 
     /**
@@ -65,9 +61,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isMyCompany($user);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
+        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
     }
 
     /**
@@ -87,9 +81,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isMyCompany($user);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
+        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
     }
 
     /**
@@ -106,9 +98,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isMyCompany($user);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
+        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
     }
 
     public function removeContact(User $user, Company $company): bool
@@ -117,9 +107,7 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isMyCompany($user);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
+        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
 
     public function removeSupplier(User $user, Company $company): bool
@@ -128,8 +116,6 @@ class CompanyPolicy implements CompanyPolicyInterface
             return true;
         }
 
-        $company->isMyCompany($user);
-
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
+        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
     }
 }

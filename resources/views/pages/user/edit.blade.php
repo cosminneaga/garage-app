@@ -3,6 +3,7 @@
     use App\Enums\UserPermission;
 
     $tab = request()->query('tab');
+    $enctype = config('app.env') === 'testing' ? 'application/x-www-form-urlencoded' : 'multipart/form-data';
 @endphp
 
 <x-layout::index title="{{ $user->name }}">
@@ -16,7 +17,7 @@
                     id="form-users-update"
                     action="{{ route('users.update', $user) }}"
                     method="POST"
-                    enctype="multipart/form-data"
+                    enctype="{{ $enctype }}"
                 >
                     @csrf
                     @method('PUT')
