@@ -16,8 +16,8 @@
             >
 
                 <form
-                    id="company-supplier-store"
-                    action="{{ route('companies.supplier.store', $company) }}"
+                    id="company-supplier-update"
+                    action="{{ route('companies.supplier.update', [$company, $supplier]) }}"
                     method="POST"
                 >
                     @csrf

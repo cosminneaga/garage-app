@@ -57,7 +57,7 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, Company $company, Supplier $supplier): RedirectResponse
     {
-        $this->authorize('update', $supplier);
+        $this->authorize('edit', $supplier);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
         if (! $guard) {
             abort(401);
