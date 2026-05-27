@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use Database\Seeders\PermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+
 use function Pest\Laravel\{seed};
+
 /*
 |--------------------------------------------------------------------------
 | Test Case

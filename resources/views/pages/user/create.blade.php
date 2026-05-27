@@ -54,7 +54,7 @@
                     />
                     <x-form.field
                         name="active"
-                        type="toggle"
+                        type="checkbox"
                     >
                         <x-slot name="before">Inactive</x-slot>
                         <x-slot name="after">Active</x-slot>

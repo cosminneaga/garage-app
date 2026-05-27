@@ -97,7 +97,7 @@
                         @endif
                         @if ($delete && Auth::user()->id !== $row->id)
                             <x-modal.confirm
-                                id="user-delete-{{ $row->id }}"
+                                id="user-delete-confirm-modal-{{ $row->id }}"
                                 type="delete"
                                 action="{{ route('users.destroy', $row->id) }}"
                                 message="Are you sure you want to remove {{ $row->name }} from your team?"
@@ -105,14 +105,15 @@
 
                             <button
                                 class="text-danger hover:cursor-pointer"
-                                data-modal-target="user-delete-{{ $row->id }}"
-                                data-modal-toggle="user-delete-{{ $row->id }}"
+                                data-modal-target="user-delete-confirm-modal-{{ $row->id }}"
+                                data-modal-toggle="user-delete-confirm-modal-{{ $row->id }}"
+                                data-test="user-delete-button-{{ $row->id }}"
                                 type="button"
                             >Delete</button>
                         @endif
                         @if ($restore)
                             <x-modal.confirm
-                                id="user-restore-{{ $row->id }}"
+                                id="user-restore-confirm-modal-{{ $row->id }}"
                                 type="restore"
                                 action="{{ route('users.restore', $row->id) }}"
                                 message="Are you sure you want to restore {{ $row->name }}?"
@@ -120,8 +121,9 @@
 
                             <button
                                 class="text-success hover:cursor-pointer"
-                                data-modal-target="user-restore-{{ $row->id }}"
-                                data-modal-toggle="user-restore-{{ $row->id }}"
+                                data-modal-target="user-restore-confirm-modal-{{ $row->id }}"
+                                data-modal-toggle="user-restore-confirm-modal-{{ $row->id }}"
+                                data-test="user-restore-button-{{ $row->id }}"
                                 type="button"
                             >Restore</button>
                         @endif

@@ -71,6 +71,7 @@
             <button
                 class="{{ $class['confirm'] }} shadow-xs rounded-base box-border border border-transparent px-4 py-2.5 text-sm font-medium leading-5 text-white focus:outline-none focus:ring-4"
                 data-modal-hide="{{ $id }}"
+                data-test="{{ $id }}"
                 type="submit"
             >{{ $label['confirm'] }}</button>
 

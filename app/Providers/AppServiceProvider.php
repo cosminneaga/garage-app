@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Blade::directive('datetime', fn (string $expression) => "<?php echo ($expression)->format('d/m/Y H:i'); ?>");
+        Blade::if('testing', fn () => config('app.env') === 'testing');
+        Blade::if('notTesting', fn () => config('app.env') !== 'testing');
 
         Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::SUPER->value) ? true : null);
         Gate::before(function ($user) {

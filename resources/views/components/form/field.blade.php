@@ -25,7 +25,7 @@
         >{{ $label }}</label>
     @endif
 
-    <div class="mb-5">
+    <div class="relative mb-5">
         @switch($type)
             @case('textarea')
                 <textarea
@@ -62,29 +62,36 @@
                 </select>
             @break
 
+            @case('checkbox')
             @case('toggle')
-                <label class="inline-flex cursor-pointer items-center">
+            @case('switch')
+                <div class="flex gap-2">
                     @isset($before)
                         {{ $before }}
                     @endisset
-                    <input
-                        class="peer sr-only"
-                        {{ $attributes->merge([
-                            'type' => 'checkbox',
-                            'name' => $name,
-                            'id' => $name,
-                            'data-test' => $testName,
-                            'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
-                            'value' => old($errorName, $value),
-                        ]) }}
-                    >
-                    <div
-                        class="bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand after:inset-s-0.5 peer relative mx-3 h-5 w-9 rounded-full after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full">
+                    <div class="relative w-11 cursor-pointer">
+                        <input
+                            class="peer absolute-center @testing z-1 @endtesting"
+                            type="checkbox"
+                            {{ $attributes->merge([
+                                'name' => $name,
+                                'id' => $name,
+                                'data-test' => $testName,
+                                'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
+                                'value' => old($errorName, $value),
+                            ]) }}
+                        >
+
+                        <label
+                            class="absolute-center bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand after:inset-s-0.5 peer h-5 w-9 rounded-full after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full"
+                            for={{ $name }}
+                        >
+                        </label>
                     </div>
                     @isset($after)
                         {{ $after }}
                     @endisset
-                </label>
+                </div>
             @break
 
             @default
