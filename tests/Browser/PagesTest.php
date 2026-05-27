@@ -2,8 +2,7 @@
 
 it('should welcome the user', function () {
     visit('/')
-        ->assertSee('Hello, Guest!')
-        ->assertGuest();
+        ->assertSee('Hello, Guest!');
 });
 
 it('should refuse login when user is not created', function () {

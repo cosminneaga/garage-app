@@ -10,7 +10,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Services\CompanyService;
 
-test('testing', function () {
+test('company should be properly filtered using resource filter enum', function () {
     $user = User::factory()->create();
     $user->assignRole(UserRole::USER_ADMIN->value);
 
@@ -32,5 +32,7 @@ test('testing', function () {
     $user->team()->attach($editor);
     $service = new CompanyService($editor);
 
-    dump($service->search('')->filterOwn(ResourceFilter::DEFAULT)->get()->pluck('name'));
+    expect($service->search('')->filterOwn(ResourceFilter::DEFAULT)->get())->toHaveCount(10);
+    expect($service->search('')->filterOwn(ResourceFilter::ONLY_TRASHED)->get())->toHaveCount(5);
+    expect($service->search('')->filterOwn(ResourceFilter::WITH_TRASHED)->get())->toHaveCount(15);
 });

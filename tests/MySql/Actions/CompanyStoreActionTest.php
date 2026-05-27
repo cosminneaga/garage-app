@@ -8,13 +8,15 @@ use App\Models\Country;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
-test('company should be created along with address & contact', function () {
-    $user = User::factory()->create([
-        'name' => 'Manager User',
+beforeEach(function () {
+    $this->user = User::factory()->create([
+        'name' => 'User',
     ]);
-    $country = Country::factory()->create();
+    $this->country = Country::factory()->create();
+    $this->file = UploadedFile::fake()->image('avatar.jpg');
+});
 
-    $file = UploadedFile::fake()->image('avatar.jpg');
+test('company should be created along with address & contact', function () {
     $dataset = [
         'contact' => [
             'mobile' => '0278122992',
@@ -31,17 +33,17 @@ test('company should be created along with address & contact', function () {
                 'latitude' => '46.95195',
                 'longitude' => '-23.17107',
             ],
+            'country_id' => $this->country->id,
         ],
-        'address_country_id' => $country->id,
         'name' => 'Company LTD',
         'tax_id' => 378273823,
         'registration_number' => 7382378732,
         'tax_value' => 20,
         'invoice_prefix' => 'INV',
-        'image' => $file,
+        'image' => $this->file,
     ];
 
-    $action = new CompanyStoreAction($user);
+    $action = new CompanyStoreAction($this->user);
     $action->handle($dataset);
 
     $company = Company::with([
@@ -57,11 +59,6 @@ test('company should be created along with address & contact', function () {
 });
 
 test('company address/contact should be updated and linked to a new company, if has same coordinates/email', function () {
-    $user = User::factory()->create([
-        'name' => 'Manager User',
-    ]);
-    $country = Country::factory()->create();
-
     $dataset = [
         'contact' => [
             'mobile' => '0278122992',
@@ -78,8 +75,8 @@ test('company address/contact should be updated and linked to a new company, if 
                 'latitude' => '46.95195',
                 'longitude' => '-23.17107',
             ],
+            'country_id' => $this->country->id,
         ],
-        'address_country_id' => $country->id,
         'name' => 'Company LTD',
         'tax_id' => 378273823,
         'registration_number' => 7382378732,
@@ -103,8 +100,8 @@ test('company address/contact should be updated and linked to a new company, if 
                 'latitude' => '46.95195',
                 'longitude' => '-23.17107',
             ],
+            'country_id' => $this->country->id,
         ],
-        'address_country_id' => $country->id,
         'name' => 'Distributor LTD',
         'tax_id' => 378273824,
         'registration_number' => 7382378735,
@@ -112,7 +109,7 @@ test('company address/contact should be updated and linked to a new company, if 
         'invoice_prefix' => 'INVS',
     ];
 
-    $action = new CompanyStoreAction($user);
+    $action = new CompanyStoreAction($this->user);
     $action->handle($dataset);
     $action->handle($dataset2);
 
@@ -135,11 +132,6 @@ test('company address/contact should be updated and linked to a new company, if 
 });
 
 test('company address/contact should be created and linked to each company', function () {
-    $user = User::factory()->create([
-        'name' => 'Manager User',
-    ]);
-    $country = Country::factory()->create();
-
     $dataset = [
         'contact' => [
             'mobile' => '0278122992',
@@ -156,8 +148,8 @@ test('company address/contact should be created and linked to each company', fun
                 'latitude' => '46.95195',
                 'longitude' => '-23.17107',
             ],
+            'country_id' => $this->country->id,
         ],
-        'address_country_id' => $country->id,
         'name' => 'Company LTD',
         'tax_id' => 378273823,
         'registration_number' => 7382378732,
@@ -181,8 +173,8 @@ test('company address/contact should be created and linked to each company', fun
                 'latitude' => '46.95196',
                 'longitude' => '-23.17108',
             ],
+            'country_id' => $this->country->id,
         ],
-        'address_country_id' => $country->id,
         'name' => 'Distributor LTD',
         'tax_id' => 378273824,
         'registration_number' => 7382378735,
@@ -190,7 +182,7 @@ test('company address/contact should be created and linked to each company', fun
         'invoice_prefix' => 'INVS',
     ];
 
-    $action = new CompanyStoreAction($user);
+    $action = new CompanyStoreAction($this->user);
     $action->handle($dataset);
     $action->handle($dataset2);
 

@@ -97,7 +97,9 @@
             "vendor/bin/pest --stop-on-failure --debug"
         ],
         "pest:all": [
+            "# <info>Sqlite TESTS Running</info>",
             "vendor/bin/pest --stop-on-failure",
+            "# <info>MySql TESTS Running</info>",
             "vendor/bin/pest --configuration ./phpunit-mysql.xml --stop-on-failure"
         ],
         "format": [
