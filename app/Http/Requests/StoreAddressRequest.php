@@ -29,10 +29,11 @@ class StoreAddressRequest extends FormRequest
             'number' => ['required', 'string', 'max:10'],
             'street' => ['required', 'string', 'max:60'],
             'postcode' => ['required', 'string', 'max:20'],
-            'extra' => ['string', 'max:255'],
+            'extra' => ['nullable', 'string', 'max:255'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
-            'coordinates.latitude' => ['required', 'string', 'max:20'],
-            'coordinates.longitude' => ['required', 'string', 'max:20'],
+            'coordinates' => ['nullable'],
+            'coordinates.latitude' => ['string', 'max:20'],
+            'coordinates.longitude' => ['string', 'max:20'],
         ];
     }
 }

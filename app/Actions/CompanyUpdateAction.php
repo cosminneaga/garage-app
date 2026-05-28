@@ -32,7 +32,7 @@ class CompanyUpdateAction
             ])
             ->toArray();
 
-        if (Arr::has($attributes, 'image')) {
+        if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {
             $data['company']['image_path'] = $attributes['image']->store('companies', 'public');
         }
 

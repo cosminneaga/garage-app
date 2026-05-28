@@ -83,6 +83,7 @@
                         <a
                             class="text-brand"
                             href="{{ route('companies.edit', $row) }}"
+                            data-test="company-edit-link-{{ $row->id }}"
                         >Edit</a>
                     @endif
                     @if ($delete)
@@ -95,8 +96,9 @@
 
                         <button
                             class="text-danger hover:cursor-pointer"
-                            data-modal-target="company-delete-{{ $row->id }}"
-                            data-modal-toggle="company-delete-{{ $row->id }}"
+                            data-modal-target="company-delete-{{ $row->id }}-modal"
+                            data-modal-toggle="company-delete-{{ $row->id }}-modal"
+                            data-test="company-delete-{{ $row->id }}-modal-trigger"
                             type="button"
                         >Delete</button>
                     @endif
@@ -110,8 +112,9 @@
 
                         <button
                             class="text-success hover:cursor-pointer"
-                            data-modal-target="company-restore-{{ $row->id }}"
-                            data-modal-toggle="company-restore-{{ $row->id }}"
+                            data-modal-target="company-restore-{{ $row->id }}-modal"
+                            data-modal-toggle="company-restore-{{ $row->id }}-modal"
+                            data-test="company-restore-{{ $row->id }}-modal-trigger"
                             type="button"
                         >Restore</button>
                     @endif

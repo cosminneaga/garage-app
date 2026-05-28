@@ -11,10 +11,10 @@
         <tab>
             <x-card description="Visualise & Edit {{ $company->name }} details">
                 <form
-                    id="form-companies-update"
+                    id="form-company-update"
                     action="{{ route('companies.update', $company) }}"
                     method="POST"
-                    enctype="multipart/form-data"
+                    enctype="@enctype"
                 >
                     @csrf
                     @method('PUT')
@@ -64,7 +64,8 @@
                     <div class="mt-5 flex gap-1">
                         <x-button
                             class="w-fit"
-                            form="form-companies-update"
+                            id="form-company-update-button"
+                            form="form-company-update"
                             type="submit"
                         >Update Details</x-button>
 
@@ -78,13 +79,14 @@
                         @endcan
                     </div>
 
-                    <x-modal.confirm
-                        id="company-delete-confirm"
-                        type="delete"
-                        action="{{ route('companies.destroy', $company->id) }}"
-                        message="Are you sure you want to remove {{ $company->name }} from your list of companies?"
-                    />
+
                 </form>
+                <x-modal.confirm
+                    id="company-delete-confirm"
+                    type="delete"
+                    action="{{ route('companies.destroy', $company->id) }}"
+                    message="Are you sure you want to remove {{ $company->name }} from your list of companies?"
+                />
             </x-card>
         </tab>
 

@@ -7,16 +7,22 @@
 ])
 
 @php
+    $ids = [
+        'modal' => $id . '-modal',
+        'trigger' => $id . '-modal-trigger',
+        'confirm' => $id . '-modal-confirm',
+    ];
+
     switch ($type) {
         case 'delete':
             $label = [
                 'trigger' => 'Delete',
                 'confirm' => 'Yes, I\'m sure',
-                'cancel' => 'No, cancel'
+                'cancel' => 'No, cancel',
             ];
             $class = [
                 'trigger' => 'danger',
-                'confirm' => 'bg-danger hover:bg-danger-strong focus:ring-danger-medium',
+                'confirm' => 'danger',
             ];
             break;
 
@@ -24,11 +30,11 @@
             $label = [
                 'trigger' => 'Restore',
                 'confirm' => 'Yes, I\'m sure',
-                'cancel' => 'No, cancel'
+                'cancel' => 'No, cancel',
             ];
             $class = [
                 'trigger' => 'default',
-                'confirm' => 'bg-brand hover:bg-brand-strong focus:ring-brand-medium',
+                'confirm' => 'default',
             ];
             break;
 
@@ -36,7 +42,7 @@
             $label = [
                 'trigger' => 'Action',
                 'confirm' => 'Yes, I\'m sure',
-                'cancel' => 'No, cancel'
+                'cancel' => 'No, cancel',
             ];
             $class = [
                 'trigger' => 'success',
@@ -48,14 +54,15 @@
 
 @if ($trigger)
     <x-button
-        data-modal-target="{{ $id }}"
-        data-modal-toggle="{{ $id }}"
+        id="{{ $ids['trigger'] }}"
+        data-modal-target="{{ $ids['modal'] }}"
+        data-modal-toggle="{{ $ids['modal'] }}"
         type="button"
         :variant="$class['trigger']"
     >{{ $label['trigger'] }}</x-button>
 @endif
 
-<x-modal.wrapper :id="$id">
+<x-modal.wrapper id="{{ $ids['modal'] }}">
     <x-fwb-o-info-circle class="text-fg-disabled mx-auto mb-4 h-12 w-12" />
     <h3 class="text-body mb-6">{{ $message }}</h3>
     <div class="flex items-center justify-center space-x-4">
@@ -68,17 +75,17 @@
                 @method('DELETE')
             @endif
 
-            <button
-                class="{{ $class['confirm'] }} shadow-xs rounded-base box-border border border-transparent px-4 py-2.5 text-sm font-medium leading-5 text-white focus:outline-none focus:ring-4"
-                data-modal-hide="{{ $id }}"
-                data-test="{{ $id }}"
+            <x-button
+                id="{{ $ids['confirm'] }}"
+                data-modal-hide="{{ $ids['modal'] }}"
                 type="submit"
-            >{{ $label['confirm'] }}</button>
+                :variant="$class['confirm']"
+            >{{ $label['confirm'] }}</x-button>
 
         </form>
         <button
             class="text-body bg-neutral-secondary-medium border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-neutral-tertiary shadow-xs rounded-base box-border border px-4 py-2.5 text-sm font-medium leading-5 focus:outline-none focus:ring-4"
-            data-modal-hide="{{ $id }}"
+            data-modal-hide="{{ $ids['modal'] }}"
             type="button"
         >{{ $label['cancel'] }}</button>
     </div>

@@ -1,23 +1,28 @@
-@props(['id', 'resource', 'trigger' => false, 'triggerId' => ''])
+@props(['id', 'resource', 'trigger' => false])
 
 @php
-    $routeName = $resource->getTable();
+    $parentname = $resource->getTable();
+    $ids = [
+        'modal' => $parentname . '-' . $id . '-modal',
+        'trigger' => $parentname . '-' . $id . '-modal-trigger',
+        'submit' => $parentname . '-' . $id . '-modal-submit',
+    ];
 @endphp
 
 @if ($trigger)
     <x-button
         class="w-fit"
-        :id="$triggerId"
-        data-modal-target="{{ $id }}"
-        data-modal-toggle="{{ $id }}"
+        id="{{ $ids['trigger'] }}"
+        data-modal-target="{{ $ids['modal'] }}"
+        data-modal-toggle="{{ $ids['modal'] }}"
         type="button"
         variant="default"
     >Add Contact</x-button>
 @endif
 
-<x-modal.wrapper :id="$id">
+<x-modal.wrapper id="{{ $ids['modal'] }}">
     <form
-        action="{{ route($routeName . '.contact.store', $resource) }}"
+        action="{{ route($parentname . '.contact.store', $resource) }}"
         method="POST"
     >
         @csrf
@@ -26,36 +31,31 @@
             name="mobile"
             type="text"
             label="Mobile Phone"
-            value="1112222333"
         />
         <x-form.field
             name="landline"
             type="text"
             label="Landline Phone"
-            value="3331112222"
         />
         <x-form.field
             name="email"
             type="email"
             label="Email"
-            value="test@email.com"
         />
         <x-form.field
             name="url"
             type="text"
             label="URL"
-            value="http://example.com"
         />
         <x-form.field
             name="info"
             type="textarea"
             label="More Information"
             rows="10"
-            value="Just around the corner"
         />
 
         <div class="flex gap-1">
-            <x-button data-test="form-contact-create-submit">Submit</x-button>
+            <x-button id="{{ $ids['submit'] }}" type="submit">Submit</x-button>
         </div>
     </form>
 </x-modal.wrapper>

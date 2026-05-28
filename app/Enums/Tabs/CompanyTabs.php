@@ -10,7 +10,7 @@ enum CompanyTabs: string
 {
     case DETAILS = 'details';
     case STATISTICS = 'statistics';
-    case USERS = 'users';
+    case MEMBERS = 'members';
     case CONTACTS = 'contacts';
     case ADDRESSES = 'addresses';
     case SUPPLIERS = 'suppliers';
@@ -20,7 +20,7 @@ enum CompanyTabs: string
         return match ($this) {
             self::DETAILS => 'Details',
             self::STATISTICS => 'Statistics',
-            self::USERS => 'Members',
+            self::MEMBERS => 'Members',
             self::CONTACTS => 'Contacts',
             self::ADDRESSES => 'Addresses',
             self::SUPPLIERS => 'Suppliers',
@@ -32,7 +32,7 @@ enum CompanyTabs: string
         return match ($this) {
             self::DETAILS => 'details',
             self::STATISTICS => 'statistics',
-            self::USERS => 'users',
+            self::MEMBERS => 'members',
             self::CONTACTS => 'contacts',
             self::ADDRESSES => 'addresses',
             self::SUPPLIERS => 'suppliers',

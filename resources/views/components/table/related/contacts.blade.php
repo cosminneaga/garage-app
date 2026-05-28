@@ -19,8 +19,7 @@
 
 
 <x-modal.contact.create
-    id="user-contact-create-modal"
-    triggerId="user-contact-create-modal-trigger"
+    id="contact-create"
     :resource="$resource"
     trigger
 />
@@ -72,9 +71,9 @@
                                     href="{{ route($parentname . '.contact.edit', [$resource, $row]) }}"
                                 >Edit</a>
                             @endif
-                            @if ($delete && Auth::user()->id !== $row->id)
+                            @if ($delete)
                                 <x-modal.confirm
-                                    id="user-contact-delete-{{ $row->id }}"
+                                    id="{{ $parentname }}-contact-delete-{{ $row->id }}"
                                     type="delete"
                                     action="{{ route($parentname . '.contact.destroy', [$resource, $row->id]) }}"
                                     message="Are you sure you want to remove this contact?"
@@ -82,8 +81,9 @@
 
                                 <button
                                     class="text-danger hover:cursor-pointer"
-                                    data-modal-target="user-contact-delete-{{ $row->id }}"
-                                    data-modal-toggle="user-contact-delete-{{ $row->id }}"
+                                    data-modal-target="{{ $parentname }}-contact-delete-{{ $row->id }}-modal"
+                                    data-modal-toggle="{{ $parentname }}-contact-delete-{{ $row->id }}-modal"
+                                    data-test="{{ $parentname }}-contact-delete-{{ $row->id }}-modal-trigger"
                                 >Delete</button>
                             @endif
                         </div>

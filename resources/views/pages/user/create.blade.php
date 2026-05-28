@@ -1,8 +1,6 @@
 @php
     use App\Models\Country;
     use App\Enums\UserRole;
-
-    $enctype = config('app.env') === 'testing' ? 'application/x-www-form-urlencoded' : 'multipart/form-data';
 @endphp
 
 <x-layout::index title="Add User">
@@ -14,7 +12,7 @@
             class="flex flex-col gap-4 text-start"
             action="{{ route('users.store') }}"
             method="POST"
-            enctype="{{ $enctype }}"
+            enctype="@enctype"
         >
             @csrf
 

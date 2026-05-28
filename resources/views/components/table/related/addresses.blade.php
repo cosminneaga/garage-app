@@ -21,8 +21,7 @@
 @endphp
 
 <x-modal.address.create
-    id="user-address-create-modal"
-    triggerId="user-contact-create-modal-trigger"
+    id="address-create"
     :resource="$resource"
     :countries="$countries"
     trigger
@@ -67,9 +66,9 @@
                                     href="{{ route($parentname . '.address.edit', [$resource, $row]) }}"
                                 >Edit</a>
                             @endif
-                            @if ($delete && Auth::user()->id !== $row->id)
+                            @if ($delete)
                                 <x-modal.confirm
-                                    id="user-address-delete-{{ $row->id }}"
+                                    id="{{ $parentname }}-address-delete-{{ $row->id }}"
                                     type="delete"
                                     action="{{ route($parentname . '.address.destroy', [$resource, $row]) }}"
                                     message="Are you sure you want to remove this address?"
@@ -77,8 +76,9 @@
 
                                 <button
                                     class="text-danger hover:cursor-pointer"
-                                    data-modal-target="user-address-delete-{{ $row->id }}"
-                                    data-modal-toggle="user-address-delete-{{ $row->id }}"
+                                    data-modal-target="{{ $parentname }}-address-delete-{{ $row->id }}-modal"
+                                    data-modal-toggle="{{ $parentname }}-address-delete-{{ $row->id }}-modal"
+                                    data-test="{{ $parentname }}-address-delete-{{ $row->id }}-modal-trigger"
                                     type="button"
                                 >Delete</button>
                             @endif

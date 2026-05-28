@@ -1,23 +1,28 @@
-@props(['id', 'resource', 'countries', 'trigger' => false, 'triggerId' => ''])
+@props(['id', 'resource', 'countries', 'trigger' => false])
 
 @php
-    $routeName = $resource->getTable();
+    $parentname = $resource->getTable();
+    $ids = [
+        'modal' => $parentname . '-' . $id . '-modal',
+        'trigger' => $parentname . '-' . $id . '-modal-trigger',
+        'submit' => $parentname . '-' . $id . '-modal-submit',
+    ];
 @endphp
 
 @if ($trigger)
     <x-button
         class="w-fit"
-        data-modal-target="{{ $id }}"
-        data-modal-toggle="{{ $id }}"
+        id="{{ $ids['trigger'] }}"
+        data-modal-target="{{ $ids['modal'] }}"
+        data-modal-toggle="{{ $ids['modal'] }}"
         type="button"
-        :id="$triggerId"
         variant="default"
     >Add Address</x-button>
 @endif
 
-<x-modal.wrapper :id="$id">
+<x-modal.wrapper id="{{ $ids['modal'] }}">
     <form
-        action="{{ route($routeName . '.address.store', $resource) }}"
+        action="{{ route($parentname . '.address.store', $resource) }}"
         method="POST"
     >
         @csrf
@@ -26,19 +31,16 @@
             name="number"
             type="text"
             label="Number"
-            value="234B"
         />
         <x-form.field
             name="street"
             type="text"
             label="Street"
-            value="SunFlower Street"
         />
         <x-form.field
             name="postcode"
             type="text"
             label="Postcode"
-            value="227364"
         />
         <x-form.field
             name="country_id"
@@ -55,24 +57,21 @@
             name="coordinates[latitude]"
             type="text"
             label="Latitude"
-            value="8.327832"
         />
         <x-form.field
             name="coordinates[longitude]"
             type="text"
             label="Longitude"
-            value="94.676743"
         />
 
         <x-form.field
             name="extra"
             type="textarea"
             label="Extra Information"
-            value="Suite 75488, to the left of the building"
         />
 
         <div class="flex gap-1">
-            <x-button data-test="form-address-create-submit" type="submit">Submit</x-button>
+            <x-button id="{{ $ids['submit'] }}" type="submit">Submit</x-button>
         </div>
     </form>
 </x-modal.wrapper>

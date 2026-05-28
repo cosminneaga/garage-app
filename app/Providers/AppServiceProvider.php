@@ -37,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Blade::directive('datetime', fn (string $expression) => "<?php echo ($expression)->format('d/m/Y H:i'); ?>");
+        Blade::directive('enctype', fn () => config('app.env') === 'testing' ? 'application/x-www-form-urlencoded' : 'multipart/form-data');
         Blade::if('testing', fn () => config('app.env') === 'testing');
         Blade::if('notTesting', fn () => config('app.env') !== 'testing');
 

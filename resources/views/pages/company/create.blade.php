@@ -11,7 +11,7 @@
             class="flex flex-col gap-4 text-start"
             action="/companies"
             method="POST"
-            enctype="multipart/form-data"
+            enctype="@enctype"
             x-data="{
                 name: 'Wurst TTD',
                 tax_id: '432423423',

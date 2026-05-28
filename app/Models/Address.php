@@ -96,7 +96,7 @@ class Address extends Model
     {
         return Attribute::make(
             get: fn () => $this->whereKey($this)->selectRaw('ST_Y(coordinates) as latitude, ST_X(coordinates) as longitude')->first(),
-            set: fn ($value) => DB::raw("ST_GeomFromText('POINT({$value['longitude']} {$value['latitude']})', 4326)"),
+            set: fn ($value) => $value ? DB::raw("ST_GeomFromText('POINT({$value['longitude']} {$value['latitude']})', 4326)") : null,
         );
     }
 
