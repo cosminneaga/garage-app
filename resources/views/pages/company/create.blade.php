@@ -150,11 +150,9 @@
                     />
 
                     <x-form.field
-                        name="contact_info"
+                        name="contact[info]"
                         type="textarea"
                         label="More Information"
-                        toolbar
-                        rows="10"
                     />
                 </div>
 

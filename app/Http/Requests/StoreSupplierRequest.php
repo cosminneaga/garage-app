@@ -41,7 +41,7 @@ class StoreSupplierRequest extends FormRequest
             'address.number' => ['required', 'string', 'max:10'],
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],
-            'address_country_id' => ['required', 'integer'],
+            'address.country_id' => ['required', 'integer', 'exists:countries,id'],
         ];
     }
 }

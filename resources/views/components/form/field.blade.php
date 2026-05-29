@@ -9,10 +9,11 @@
     'select_map_value' => 'name',
     'select_map_label' => 'label',
     'checked' => false,
+    'test_identifier' => '',
 ])
 
 @php
-    $testName = Str::replace(['[', ']'], ['_', ''], $name);
+    $testName = $test_identifier . '_' . Str::replace(['[', ']'], ['_', ''], $name);
     $errorName = Str::replace(['[', ']'], ['.', ''], $name);
 @endphp
 

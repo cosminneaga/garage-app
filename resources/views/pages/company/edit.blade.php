@@ -30,35 +30,41 @@
                         type="text"
                         label="Name"
                         :value="$company->name"
+                        test_identifier="company"
                     />
                     <x-form.field
                         name="image"
                         type="image"
                         accept="image/*"
+                        test_identifier="company"
                     />
                     <x-form.field
                         name="tax_id"
                         type="text"
                         label="Tax ID"
                         :value="$company->tax_id"
+                        test_identifier="company"
                     />
                     <x-form.field
                         name="registration_number"
                         type="text"
                         label="Registration Number"
                         :value="$company->registration_number"
+                        test_identifier="company"
                     />
                     <x-form.field
                         name="tax_value"
                         type="text"
                         label="Tax Value"
                         :value="$company->tax_value"
+                        test_identifier="company"
                     />
                     <x-form.field
                         name="invoice_prefix"
                         type="text"
                         label="Invoice Prefix"
                         :value="$company->invoice_prefix"
+                        test_identifier="company"
                     />
 
                     <div class="mt-5 flex gap-1">

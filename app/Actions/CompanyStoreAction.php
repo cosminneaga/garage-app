@@ -22,7 +22,6 @@ class CompanyStoreAction
     public function handle(array $attributes): void
     {
         $data['contact'] = $attributes['contact'];
-        $data['contact']['info'] = $attributes['contact_info'];
         $data['address'] = $attributes['address'];
 
         $data['company'] = collect($attributes)

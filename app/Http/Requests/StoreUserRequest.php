@@ -37,7 +37,7 @@ class StoreUserRequest extends FormRequest
             'address.number' => ['required', 'string', 'max:10'],
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],
-            'address.country_id' => ['required'],
+            'address.country_id' => ['required', 'integer', 'exists:countries,id'],
             'address.coordinates.latitude' => ['required', 'string', 'max:20'],
             'address.coordinates.longitude' => ['required', 'string', 'max:20'],
             'image' => ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],

@@ -16,14 +16,12 @@
     if ($edit || $delete) {
         $columns->push('actions');
     }
-
-    $countries = Country::all();
 @endphp
 
 <x-modal.address.create
     id="address-create"
     :resource="$resource"
-    :countries="$countries"
+    :countries="Country::all()"
     trigger
 />
 

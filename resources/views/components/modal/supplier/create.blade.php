@@ -1,173 +1,153 @@
-@props(['name', 'company'])
+@props(['id', 'resource', 'countries' => [], 'trigger' => false])
 
 @php
     use App\Enums\SupplierType;
-    use App\Models\Country;
+    $parentname = $resource->getTable();
+    $ids = [
+        'modal' => $parentname . '-' . $id . '-modal',
+        'trigger' => $parentname . '-' . $id . '-modal-trigger',
+        'submit' => $parentname . '-' . $id . '-modal-submit',
+    ];
 @endphp
 
-<x-bladewind.modal
-    title="Create new supplier for {{ $company->name }}"
-    :name="$name"
-    showActionButtons="false"
-    size="xl"
->
+@if ($trigger)
+    <x-button
+        class="w-fit"
+        id="{{ $ids['trigger'] }}"
+        data-modal-target="{{ $ids['modal'] }}"
+        data-modal-toggle="{{ $ids['modal'] }}"
+        type="button"
+        variant="default"
+    >Add Supplier</x-button>
+@endif
+
+<x-modal.wrapper id="{{ $ids['modal'] }}" size="6xl">
     <form
-        class="flex flex-col gap-4 text-start"
-        id="{{ $name }}"
-        action="{{ route('companies.supplier.store', $company) }}"
+        action="{{ route($parentname . '.supplier.store', $resource) }}"
         method="POST"
-        x-data="{
-            name: 'Supplier of AutoParts',
-            code: 'NEMACODE486',
-            type: 'distributor',
-            tax_id: '3644758439',
-            registration_number: '3644758439',
-            address: {
-                number: 2566,
-                street: 'Subway Street',
-                postcode: 'B546BFN',
-                country_id: 1,
-            },
-            contact: {
-                mobile: '974837483',
-                landline: '974837483',
-                email: 'supplier@net.com',
-                url: 'https://supplierautoparts.com',
-                info: '<h1>Hello World</h1><br><p>How are you today?</p>'
-            }
-        }"
     >
         @csrf
 
-        <div class="grid grid-rows-1 gap-1 md:grid-cols-3">
-
-            <x-bladewind.card title="details">
-                <x-bladewind.input
+        <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
+            <div>
+                <x-form.field
                     name="name"
                     type="text"
                     label="Name"
-                    x-model="name"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
+                <x-form.field
                     name="code"
                     type="text"
                     label="Code"
-                    x-model="code"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.select
+                <x-form.field
                     name="type"
-                    type="text"
-                    value_key="value"
+                    type="select"
                     label="Type"
-                    label_key="label"
-                    :data="SupplierType::ui()"
-                    selected_value="{{ SupplierType::DISTRIBUTOR->value }}"
+                    select_map_label="label"
+                    select_map_value="value"
+                    :options="SupplierType::ui()"
+                    :selected_value="SupplierType::DISTRIBUTOR->value"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
+                <x-form.field
                     name="tax_id"
                     type="text"
                     label="Tax ID"
-                    x-model="tax_id"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
+                <x-form.field
                     name="registration_number"
                     type="text"
                     label="Registration Number"
-                    x-model="registration_number"
+                    test_identifier="supplier"
                 />
-            </x-bladewind.card>
+            </div>
 
-            <x-bladewind.card title="address">
-                <x-bladewind.input
-                    id="address_number"
+            <div>
+                <x-form.field
                     name="address[number]"
                     type="number"
                     label="Number"
-                    x-model="address.number"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
-                    id="address_street"
+                <x-form.field
                     name="address[street]"
                     type="text"
                     label="Number"
-                    x-model="address.street"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
-                    id="address_postcode"
+                <x-form.field
                     name="address[postcode]"
                     type="text"
                     label="Postcode"
-                    x-model="address.postcode"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.select
-                    id="address_country_id"
-                    name="address_country_id"
-                    value_key="id"
+                <x-form.field
+                    name="address[country_id]"
+                    type="select"
                     label="Select a country"
-                    label_key="name"
-                    flag_key="code"
-                    :data="Country::all()"
+                    select_map_label="name"
+                    select_map_value="id"
+                    :options="$countries"
                     selected_value="1"
+                    test_identifier="supplier"
                 />
                 <h3>Location</h3>
                 <br>
-                <x-bladewind.input
+                <x-form.field
                     name="coordinates[latitude]"
                     type="text"
-                    value="8.327832"
                     label="Latitude"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
+                <x-form.field
                     name="coordinates[longitude]"
                     type="text"
-                    value="94.676743"
                     label="Longitude"
+                    test_identifier="supplier"
                 />
-            </x-bladewind.card>
+            </div>
 
-            <x-bladewind.card title="contact">
-                <x-bladewind.input
-                    id="contact_mobile"
+            <div>
+                <x-form.field
                     name="contact[mobile]"
+                    type="text"
                     label="Mobile Phone"
-                    x-model="contact.mobile"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
-                    id="contact_landline"
+                <x-form.field
                     name="contact[landline]"
+                    type="text"
                     label="Landline Phone"
-                    x-model="contact.landline"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
-                    id="contact_email"
+                <x-form.field
                     name="contact[email]"
                     type="email"
                     label="Email"
-                    x-model="contact.email"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.input
-                    id="contact_url"
+                <x-form.field
                     name="contact[url]"
+                    type="text"
                     label="URL"
-                    x-model="contact.url"
+                    test_identifier="supplier"
                 />
-                <x-bladewind.textarea
-                    id="contact_info"
-                    name="contact_info"
+                <x-form.field
+                    name="contact[info]"
+                    type="textarea"
                     label="More Information"
-                    toolbar
-                    rows="10"
-                    selected_value="contact.info"
+                    test_identifier="supplier"
                 />
-            </x-bladewind.card>
+            </div>
         </div>
 
-        <div class="flex gap-1">
-            <x-bladewind.button
-                class="w-fit"
-                type="primary"
-                can_submit
-            >Submit details</x-bladewind.button>
-        </div>
+        <x-button
+            type="submit"
+            id="{{ $ids['submit'] }}"
+        >Submit</x-button>
     </form>
-</x-bladewind.modal>
+</x-modal.wrapper>

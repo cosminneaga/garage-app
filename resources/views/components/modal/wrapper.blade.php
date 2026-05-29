@@ -1,4 +1,4 @@
-@props(['id', 'title' => null])
+@props(['id', 'title' => null, 'size' => 'lg'])
 
 <div
     class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
@@ -7,7 +7,7 @@
     aria-hidden="true"
     tabindex="-1"
 >
-    <div class="bg-neutral-primary-soft border-default rounded-base relative w-full max-w-lg border p-4 shadow-sm md:p-6">
+    <div class="bg-neutral-primary-soft border-default rounded-base relative w-full max-w-{{ $size }} border p-4 shadow-sm md:p-6">
         @if ($title)
             <div class="border-default grid grid-cols-[1fr_auto] border-b pb-4 md:pb-5">
                 <div>

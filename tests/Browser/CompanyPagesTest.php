@@ -86,7 +86,7 @@ it('should see company details', function () {
 
 it('should update company details', function () {
     visit(route('companies.edit', $this->companies[0]))
-        ->fill('@name', 'Updated Company Name')
+        ->fill('@company_name', 'Updated Company Name')
         ->click('@form-company-update-button')
         ->assertSee('Company updated')
         ->assertSee('The company details have been successfully updated.');
@@ -104,11 +104,11 @@ it('should add contact', function () {
     visit(route('companies.edit', $this->companies[0]))
         ->click('@contacts')
         ->click('@companies-contact-create-modal-trigger')
-        ->fill('@mobile', '0777777777')
-        ->fill('@landline', '0111111111')
-        ->fill('@email', 'companycontact@garage.com')
-        ->fill('@url', 'http://example.com')
-        ->fill('@info', 'The building is just around the corner')
+        ->fill('@contact_mobile', '0777777777')
+        ->fill('@contact_landline', '0111111111')
+        ->fill('@contact_email', 'companycontact@garage.com')
+        ->fill('@contact_url', 'http://example.com')
+        ->fill('@contact_info', 'The building is just around the corner')
         ->click('@companies-contact-create-modal-submit')
         ->assertSee('companycontact@garage.com');
 });
@@ -131,12 +131,12 @@ it('should FAIL TEMPORARELY add address', function () {
     visit(route('companies.edit', $this->companies[0]))
         ->click('@addresses')
         ->click('@companies-address-create-modal-trigger')
-        ->fill('@number', '123')
-        ->fill('@street', 'Flower Street')
-        ->fill('@postcode', '123456')
+        ->fill('@address_number', '123')
+        ->fill('@address_street', 'Flower Street')
+        ->fill('@address_postcode', '123456')
         // ->fill('@coordinates_latitude', '52.370216')
         // ->fill('@coordinates_longitude', '4.895168')
-        ->fill('@extra', 'The building is just around the corner')
+        ->fill('@address_extra', 'The building is just around the corner')
         ->click('@companies-address-create-modal-submit')
         ->assertSee('The coordinates.latitude field must be a string.')
         ->assertSee('The coordinates.longitude field must be a string.');
@@ -155,4 +155,33 @@ it('should remove address', function () {
         ->assertDontSee($this->address->street);
 });
 
-// !!!NOTE: supplier left out, until I will build the delete & create modals
+it('should add supplier', function () {
+    visit(route('companies.edit', $this->companies[0]))
+        ->click('@suppliers')
+        ->click('@companies-supplier-create-modal-trigger')
+        ->fill('@supplier_name', 'Supplier Test')
+        ->fill('@supplier_code', 'SUPTEST123')
+        // ->fill('@supplier_type', 'distributor')
+        ->fill('@supplier_tax_id', '3644758439')
+        ->fill('@supplier_registration_number', '3644758439')
+        ->fill('@supplier_address_number', '2566')
+        ->fill('@supplier_address_street', 'Subway Street')
+        ->fill('@supplier_address_postcode', 'B546FBN')
+        ->fill('@supplier_contact_mobile', '0777777777')
+        ->fill('@supplier_contact_landline', '0111111111')
+        ->fill('@supplier_contact_email', 'supplier_test@garage.com')
+        ->fill('@supplier_contact_url', 'http://example.com')
+        ->fill('@supplier_contact_info', 'Extra contact information')
+        ->click('@companies-supplier-create-modal-submit')
+        ->assertSee('Supplier Test');
+});
+
+
+it('should remove supplier', function () {
+    visit(route('companies.edit', $this->companies[0]))
+        ->click('@suppliers')
+        ->click('@supplier-delete-' . $this->supplier->id . '-modal-trigger')
+        ->click('@supplier-delete-' . $this->supplier->id . '-modal-confirm')
+        ->assertSee('Supplier removed')
+        ->assertSee('Supplier has been successfully removed');
+});

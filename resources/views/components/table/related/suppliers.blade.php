@@ -7,6 +7,7 @@
 ])
 
 @php
+    use App\Models\Country;
     use App\Enums\SupplierType;
     use App\Enums\Columns\SupplierColumns;
 
@@ -17,10 +18,12 @@
     }
 @endphp
 
-{{-- <x-modal.supplier.create
-    name="modal-supplier-create"
-    :company="$resource"
-/> --}}
+<x-modal.supplier.create
+    id="supplier-create"
+    :resource="$resource"
+    :countries="Country::all()"
+    trigger
+/>
 
 <x-table.wrapper :data="$data">
     <x-slot name="thead">
@@ -64,7 +67,7 @@
                                     href="{{ route('companies.supplier.edit', [$resource, $row]) }}"
                                 >Edit</a>
                             @endif
-                            @if ($delete && Auth::user()->id !== $row->id)
+                            @if ($delete)
                                 <x-modal.confirm
                                     id="supplier-delete-{{ $row->id }}"
                                     type="delete"
@@ -74,8 +77,9 @@
 
                                 <button
                                     class="text-danger hover:cursor-pointer"
-                                    data-modal-target="supplier-delete-{{ $row->id }}"
-                                    data-modal-toggle="supplier-delete-{{ $row->id }}"
+                                    data-modal-target="supplier-delete-{{ $row->id }}-modal"
+                                    data-modal-toggle="supplier-delete-{{ $row->id }}-modal"
+                                    data-test="supplier-delete-{{ $row->id }}-modal-trigger"
                                 >Delete</button>
                             @endif
                         </div>

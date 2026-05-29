@@ -88,19 +88,22 @@
             "@php artisan storage:link"
         ],
         "pest:filter": [
-            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\")'"
+            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --parallel'"
         ],
         "pest:filter:sql": [
-            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --configuration ./phpunit-mysql.xml --stop-on-failure'"
+            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --configuration ./phpunit-mysql.xml --stop-on-failure --parallel'"
         ],
         "pest:debug": [
-            "vendor/bin/pest --stop-on-failure --debug"
+            "# <info>Sqlite TESTS Running</info>",
+            "vendor/bin/pest --stop-on-failure --parallel --debug",
+            "# <info>MySql TESTS Running</info>",
+            "vendor/bin/pest --configuration ./phpunit-mysql.xml --stop-on-failure --parallel --debug"
         ],
         "pest:all": [
             "# <info>Sqlite TESTS Running</info>",
-            "vendor/bin/pest --stop-on-failure",
+            "vendor/bin/pest --stop-on-failure --parallel",
             "# <info>MySql TESTS Running</info>",
-            "vendor/bin/pest --configuration ./phpunit-mysql.xml --stop-on-failure"
+            "vendor/bin/pest --configuration ./phpunit-mysql.xml --stop-on-failure --parallel"
         ],
         "format": [
             "vendor/bin/rector",
