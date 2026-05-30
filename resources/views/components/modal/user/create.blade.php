@@ -24,6 +24,7 @@
     <form
         {{-- action="{{ route($parentname . '.user.store', $resource) }}" --}}
         method="POST"
+
     >
         @csrf
 
