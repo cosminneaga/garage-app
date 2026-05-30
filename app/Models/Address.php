@@ -81,6 +81,10 @@ class Address extends Model
         'coordinates->longitude',
     ];
 
+    protected $casts = [
+        'coordinates' => 'string',
+    ];
+
     /**
      * $address = Address::query()->create([
      *  'coordinates' => [
@@ -95,11 +99,17 @@ class Address extends Model
     public function coordinates(): Attribute
     {
         return Attribute::make(
-            // get: fn () => $this->whereKey($this)->selectRaw('ST_Y(coordinates) as latitude, ST_X(coordinates) as longitude')->first(),
-            get: fn () => $this->whereKey($this)->addSelect([
-                DB::raw('ST_Y(coordinates) as latitude'),
-                DB::raw('ST_X(coordinates) as longitude'),
-            ])->first(),
+            // get: fn () => $this->whereKey($this)->addSelect([
+            //     DB::raw('ST_Y(coordinates) as latitude'),
+            //     DB::raw('ST_X(coordinates) as longitude'),
+            // ])->first(),
+            get: function ($value, $attributes) {
+                if (!$attributes['coordinates']) {
+                    return null;
+                }
+
+                return $this->whereKey($this)->selectRaw('ST_Y(coordinates) as latitude, ST_X(coordinates) as longitude')->first();
+            },
             set: fn ($value) => $value ? DB::raw("ST_GeomFromText('POINT({$value['longitude']} {$value['latitude']})', 4326)") : null,
         );
     }

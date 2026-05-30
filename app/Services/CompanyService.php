@@ -124,13 +124,13 @@ class CompanyService
         return $this;
     }
 
-    public function get(mixed $columns = '*'): Collection
-    {
-        return $this->result->get($columns);
-    }
-
     public function paginate(int $limit): LengthAwarePaginator
     {
         return $this->result->paginate($limit, 'companies')->appends(['search' => $this->searchQuery, 'limit' => $limit]);
+    }
+
+    public function get(mixed $columns = '*'): Collection
+    {
+        return $this->result->get($columns);
     }
 }

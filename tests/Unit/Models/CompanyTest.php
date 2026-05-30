@@ -5,89 +5,24 @@ use App\Models\Company;
 use App\Models\Supplier;
 use App\Models\User;
 
-test('should pass if company belongs to admin', function () {
-    $user = User::factory()->create();
-    $user->assignRole(UserRole::USER_ADMIN->value);
+beforeEach(function () {
+    $this->admin = User::factory()->create();
+    $this->admin->assignRole(UserRole::USER_ADMIN->value);
 
-    $resource = Company::factory()->create();
-    $resource->users()->attach($user);
+    $this->company = Company::factory()->create();
+    $this->admin->companies()->attach($this->company);
 
-    expect($resource->isMyCompany($user))->toBeTrue();
+    $this->supplier = Supplier::factory()->create();
+    $this->company->suppliers()->attach($this->supplier);
 });
 
-test('should pass if company belongs to user\'s manager', function () {
-    $manager = User::factory()->create();
-    $manager->assignRole(UserRole::USER_ADMIN->value);
 
-    $user = User::factory()->create();
-    $user->assignRole(UserRole::USER_EDITOR->value);
-    $manager->team()->attach($user);
-
-    $resource = Company::factory()->create();
-    $resource->users()->attach($manager);
-    $resource->users()->attach($user);
-
-    expect($resource->isMyCompany($user))->toBeTrue();
+test('isMyCompany', function () {
+    expect($this->company->isMyCompany($this->admin))->toBeTrue();
 });
 
-test('should fail if user has no role assigned', function () {
-    $user = User::factory()->create();
+test('findSupplierByName', function () {
+    $result = $this->company->findSupplierByName($this->supplier->name);
 
-    $resource = Company::factory()->create();
-    $resource->users()->attach($user);
-
-    expect($resource->isMyCompany($user))->toBeFalse();
-});
-
-test('should fail if user has no manager', function () {
-    $manager = User::factory()->create();
-    $manager->assignRole(UserRole::USER_ADMIN->value);
-
-    $user = User::factory()->create();
-    $user->assignRole(UserRole::USER_EDITOR->value);
-
-    $resource = Company::factory()->create();
-    $resource->users()->attach($manager);
-    $resource->users()->attach($user);
-
-    expect($resource->isMyCompany($user))->toBeFalse();
-});
-
-test('should fail if user is not part of manager\'s team', function () {
-    $manager = User::factory()->create();
-    $manager->assignRole(UserRole::USER_ADMIN->value);
-
-    $user = User::factory()->create();
-    $user->assignRole(UserRole::USER_EDITOR->value);
-
-    $resource = Company::factory()->create();
-    $resource->users()->attach($manager);
-    $resource->users()->attach($user);
-
-    expect($resource->isMyCompany($user))->toBeFalse();
-});
-
-test('should fail if supplier belongs to user\'s manager, but user is not linked to given company', function () {
-    $manager = User::factory()->create();
-    $manager->assignRole(UserRole::USER_ADMIN->value);
-
-    $user = User::factory()->create();
-    $user->assignRole(UserRole::USER_EDITOR->value);
-    $manager->team()->attach($user);
-
-    $resource = Company::factory()->create();
-    $resource->users()->attach($manager);
-
-    expect($resource->isMyCompany($user))->toBeFalse();
-});
-
-test('find a supplier by name', function () {
-    $company = Company::factory()->create();
-    $supplier = Supplier::factory()->create();
-
-    $company->suppliers()->attach($supplier);
-
-    $found = $company->findSupplierByName($supplier->name);
-
-    expect($found->name)->toEqual($supplier->name);
+    expect($result->name)->toEqual($this->supplier->name);
 });

@@ -8,11 +8,18 @@ use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Supplier;
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class SupplierStoreAction
 {
+    public function __construct(#[CurrentUser] protected User $user)
+    {
+        //
+    }
+
     public function handle(array $attributes, Company $company): void
     {
         $data['contact'] = $attributes['contact'];
@@ -28,6 +35,7 @@ class SupplierStoreAction
             ])
             ->toArray();
 
+        // if supplier exists and is already attached to given company
         if ($company->findSupplierByName($data['supplier']['name']) instanceof Supplier) {
             return;
         }
