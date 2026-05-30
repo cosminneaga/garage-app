@@ -16,7 +16,7 @@ class CompanyService
 {
     public $searchQuery = '';
 
-    public $result;
+    public mixed $result;
 
     public function __construct(
         #[CurrentUser]
@@ -37,6 +37,34 @@ class CompanyService
         if ($this->user->hasRole(UserRole::USER_EDITOR)) {
             $this->user = $this->user->managers()->first();
         }
+
+        /**User::query()
+            ->join('teams', 'users.id', '=', 'teams.user_id')
+            ->where('teams.manager_id', 1)
+            ->whereNull('users.deleted_at')
+            ->select('users.*')
+            ->distinct()
+            ->orderByDesc('users.id')
+            ->paginate(15);
+        */
+
+        // COUNT QUERY
+        /**SELECT COUNT(DISTINCT users.id)
+            FROM users
+            INNER JOIN teams ON users.id = teams.user_id
+            WHERE teams.manager_id = 1
+            AND users.deleted_at IS NULL
+        */
+
+        // MAIN QUERY
+        /**SELECT DISTINCT users.*
+            FROM users
+            INNER JOIN teams ON users.id = teams.user_id
+            WHERE teams.manager_id = 1
+            AND users.deleted_at IS NULL
+            ORDER BY users.id DESC
+            LIMIT 15 OFFSET 0
+        */
 
         switch ($filter) {
             case ResourceFilter::ONLY_TRASHED:

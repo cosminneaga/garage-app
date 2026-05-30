@@ -77,8 +77,9 @@
 
                         @can(UserPermission::name(UserPermission::COMPANY, 'delete'))
                             <x-button
-                                data-modal-target="company-delete-confirm"
-                                data-modal-toggle="company-delete-confirm"
+                                data-modal-target="company-delete-modal"
+                                data-modal-toggle="company-delete-modal"
+                                id="company-delete-modal-trigger"
                                 type="button"
                                 variant="danger"
                             >Delete Company</x-button>
@@ -88,7 +89,7 @@
 
                 </form>
                 <x-modal.confirm
-                    id="company-delete-confirm"
+                    id="company-delete"
                     type="delete"
                     action="{{ route('companies.destroy', $company->id) }}"
                     message="Are you sure you want to remove {{ $company->name }} from your list of companies?"
@@ -128,6 +129,7 @@
                     :resource="$company"
                     :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
                     :delete="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
+                    :countries="$countries"
                 />
             </x-card>
         </tab>
@@ -139,6 +141,7 @@
                     :resource="$company"
                     :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
                     :delete="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
+                    :countries="$countries"
                 />
             </x-card>
         </tab>

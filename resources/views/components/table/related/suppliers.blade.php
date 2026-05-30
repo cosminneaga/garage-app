@@ -4,10 +4,10 @@
     'edit' => false,
     'delete' => false,
     'resource',
+    'countries',
 ])
 
 @php
-    use App\Models\Country;
     use App\Enums\SupplierType;
     use App\Enums\Columns\SupplierColumns;
 
@@ -21,7 +21,7 @@
 <x-modal.supplier.create
     id="supplier-create"
     :resource="$resource"
-    :countries="Country::all()"
+    :countries="$countries"
     trigger
 />
 

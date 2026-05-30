@@ -92,6 +92,14 @@ it('should update company details', function () {
         ->assertSee('The company details have been successfully updated.');
 });
 
+it('should remove company', function () {
+    visit(route('companies.edit', $this->companies[0]))
+        ->click('@company-delete-modal-trigger')
+        ->click('@company-delete-modal-confirm')
+        ->assertDontSee($this->companies[0]->name)
+        ->assertRoute('companies.index');
+});
+
 it('should add & remove member', function () {
     // !NOTE: We should add a button to add/create members and attach it to current company
 

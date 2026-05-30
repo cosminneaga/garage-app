@@ -10,6 +10,7 @@ use App\Enums\Resource\ResourceFilter;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\Country;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use App\Traits\RequestTabHandler;
@@ -84,6 +85,7 @@ class CompanyController extends Controller
 
         return view('pages.company.edit', [
             'company' => $company,
+            'countries' => Country::all(),
         ]);
     }
 

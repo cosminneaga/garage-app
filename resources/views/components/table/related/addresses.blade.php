@@ -4,11 +4,11 @@
     'edit' => false,
     'delete' => false,
     'resource',
+    'countries',
 ])
 
 @php
     use App\Enums\Columns\AddressColumns;
-    use App\Models\Country;
 
     $parentname = $resource->getTable();
     $columns = collect(AddressColumns::cases())->map(fn($col) => $col->value);
@@ -21,7 +21,7 @@
 <x-modal.address.create
     id="address-create"
     :resource="$resource"
-    :countries="Country::all()"
+    :countries="$countries"
     trigger
 />
 
