@@ -14,7 +14,7 @@
     $columns = collect(SupplierColumns::cases())->map(fn($col) => $col->value);
 
     if ($edit || $delete) {
-        $columns->push('actions');
+        $columns->push('Actions');
     }
 @endphp
 

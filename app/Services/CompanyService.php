@@ -9,14 +9,16 @@ use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Laravel\Scout\Builder;
 
 class CompanyService
 {
     public $searchQuery = '';
 
-    public mixed $result;
+    public Builder|Company|EloquentBuilder $result;
 
     public function __construct(
         #[CurrentUser]
@@ -24,7 +26,28 @@ class CompanyService
     ) {
     }
 
-    public function search(string $search): CompanyService
+    public function model(): CompanyService
+    {
+        $this->result = Company::query();
+
+        return $this;
+    }
+
+    public function with(string|array $relations): CompanyService
+    {
+        $this->result = $this->result->with($relations);
+
+        return $this;
+    }
+
+    public function select(string|array $relations): CompanyService
+    {
+        $this->result = $this->result->select($relations);
+
+        return $this;
+    }
+
+    public function search(string $search = ''): CompanyService
     {
         $this->result = Company::search($search);
         $this->searchQuery = $search;

@@ -8,14 +8,15 @@ use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Laravel\Scout\Builder;
 
 class UserService
 {
     public $searchQuery = '';
-
-    public $result;
+    public Builder|User|EloquentBuilder $result;
 
     public function __construct(
         #[CurrentUser]
@@ -23,18 +24,21 @@ class UserService
     ) {
     }
 
-    public function getRelatedAddresses(User $user): array
+    public function model(): UserService
     {
-        return [
-            'user' => $user->addresses()->get(),
-            'companies' => $user->companies()->get()->map(fn ($company) => [
-                'name' => $company->name,
-                'addresses' => $company->addresses()->get(),
-            ]),
-        ];
+        $this->result = User::query();
+
+        return $this;
     }
 
-    public function search(string $search): UserService
+    public function with(string|array $relations): UserService
+    {
+        $this->result = $this->result->with($relations);
+
+        return $this;
+    }
+
+    public function search(string $search = ''): UserService
     {
         $this->result = User::search($search);
         $this->searchQuery = $search;
@@ -85,7 +89,7 @@ class UserService
 
     public function get(mixed $columns = '*'): Collection
     {
-        return $this->result->get($columns);
+        return $this->result->get();
     }
 
     public function paginate(int $limit): LengthAwarePaginator

@@ -9,6 +9,7 @@ use App\Actions\CompanyUpdateAction;
 use App\Enums\Resource\ResourceFilter;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Models\Address;
 use App\Models\Company;
 use App\Models\Country;
 use App\Services\CompanyService;
@@ -56,8 +57,7 @@ class CompanyController extends Controller
         $this->authorize('create', Auth::user());
 
         return view('pages.company.create', [
-            'addresses' => $this->userService
-                ->getRelatedAddresses(Auth::user()),
+            'countries' => Country::all(),
         ]);
     }
 
