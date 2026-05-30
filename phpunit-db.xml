@@ -6,7 +6,7 @@
 >
     <testsuites>
         <testsuite name="Unit">
-            <directory>tests/SQL</directory>
+            <directory>tests/Database</directory>
         </testsuite>
     </testsuites>
     <source>

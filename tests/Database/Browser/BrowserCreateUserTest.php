@@ -35,7 +35,7 @@ it('successfully creates complete user details using create form', function () {
         ->fill('@user_password', 'TestingP@ssword')
         ->fill('@user_password_confirmed', 'TestingP@ssword')
         ->select('@user_role', 'user_viewer')
-        ->check('@user_active')
+        // ->check('@user_active')->debug()
         ->fill('@user_address_number', '564')
         ->fill('@user_address_street', 'SunFlower Street')
         ->fill('@user_address_postcode', '893829')

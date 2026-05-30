@@ -24,7 +24,7 @@ pest()->extend(TestCase::class)
     ->beforeEach(function () {
         seed(PermissionsSeeder::class);
     })
-    ->in('Browser', 'Unit', 'MySql');
+    ->in('Browser', 'Unit', 'Database');
 
 /*
 |--------------------------------------------------------------------------

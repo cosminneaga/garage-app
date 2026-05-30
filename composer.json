@@ -91,20 +91,26 @@
         "pest:filter": [
             "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --bail'"
         ],
-        "pest:filter:sql": [
-            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --configuration ./phpunit-sql.xml --bail'"
+        "pest:filter:db": [
+            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --configuration ./phpunit-db.xml --bail'"
         ],
         "pest:debug": [
             "# <info>Sqlite TESTS Running</info>",
-            "vendor/bin/pest --stop-on-failure --debug",
+            "vendor/bin/pest --bail --debug",
             "# <info>MySql TESTS Running</info>",
-            "vendor/bin/pest --configuration ./phpunit-sql.xml --stop-on-failure --debug"
+            "vendor/bin/pest --configuration ./phpunit-db.xml --bail --debug"
         ],
         "pest:all": [
             "# <info>Sqlite TESTS Running</info>",
-            "vendor/bin/pest --configuration ./phpunit.xml --stop-on-failure --parallel",
+            "vendor/bin/pest --configuration ./phpunit.xml --bail --parallel",
             "# <info>MySql TESTS Running</info>",
-            "vendor/bin/pest --configuration ./phpunit-sql.xml --stop-on-failure --parallel"
+            "vendor/bin/pest --configuration ./phpunit-db.xml --bail --parallel"
+        ],
+        "pest": [
+           "vendor/bin/pest --configuration ./phpunit.xml --bail --parallel"
+        ],
+        "pest:db": [
+            "vendor/bin/pest --configuration ./phpunit-db.xml --bail --parallel"
         ],
         "format": [
             "vendor/bin/rector",
