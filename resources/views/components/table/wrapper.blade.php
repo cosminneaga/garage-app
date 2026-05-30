@@ -6,7 +6,7 @@
 
 <div class="bg-neutral-primary-soft shadow-xs rounded-base border-default relative overflow-x-auto border">
     @isset($header)
-        <div class="flex items-center p-4">
+        <div class="flex items-center gap-3 p-4">
             {{ $header }}
         </div>
     @endisset

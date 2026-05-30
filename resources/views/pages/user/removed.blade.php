@@ -5,6 +5,6 @@
 <x-layout::index title="Removed Team Members">
     <x-table.users
         :data="$users"
-        :restore="Auth::user()->can(UserPermission::name(UserPermission::USER, 'restore'))"
+        :restore="Permission::can(UserPermission::USER, 'restore')"
     />
 </x-layout::index>

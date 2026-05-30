@@ -78,6 +78,7 @@
             <x-table.related.addresses
                 :data="$user->addresses"
                 :resource="$user"
+                :countries="$countries"
                 edit
                 delete
             />

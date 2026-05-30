@@ -4,19 +4,20 @@
     'edit' => false,
     'delete' => false,
     'chat' => false,
-    'restore' => false,
-    'searchRoute' => route('users.index'),
+    'resource',
+    'searchRoute' => route('users.index'), // #NOTE: must go into: companies.user.search or something
 ])
 
 @php
     use App\Enums\Columns\UserColumns;
-    $columns = collect(UserColumns::cases())
-        ->map(fn ($col) => $col->value);
+    $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
 
     if ($edit || $delete || $chat || $restore) {
         $columns->push('Actions');
     }
 @endphp
+
+
 
 <x-table.wrapper :data="$data">
     <x-slot name="header">
@@ -36,6 +37,12 @@
                 Search
             </x-button>
         </form>
+
+        <x-modal.user.create
+            id="user-create"
+            :resource="$resource"
+            trigger
+        />
     </x-slot>
 
     <x-slot name="thead">
@@ -107,40 +114,26 @@
                         @if ($delete)
                             @isNotCurrentUser($row->id)
                                 <x-modal.confirm
-                                    id="user-delete-{{ $row->id }}"
+                                    id="user-company-delete-{{ $row->id }}"
                                     type="delete"
                                     action="{{ route('users.destroy', $row->id) }}"
-                                    message="Are you sure you want to remove {{ $row->name }} from your team?"
+                                    {{-- companies.user.destroy --}}
+                                    message="Are you sure you want to remove {{ $row->name }} from {{ $resource->name }}?"
                                 />
 
                                 <button
                                     class="text-danger hover:cursor-pointer"
-                                    data-modal-target="user-delete-{{ $row->id }}-modal"
-                                    data-modal-toggle="user-delete-{{ $row->id }}-modal"
-                                    data-test="user-delete-{{ $row->id }}-modal-trigger"
+                                    data-modal-target="user-company-delete-{{ $row->id }}-modal"
+                                    data-modal-toggle="user-company-delete-{{ $row->id }}-modal"
+                                    data-test="user-company-delete-{{ $row->id }}-modal-trigger"
                                     type="button"
                                 >Delete</button>
                             @endisNotCurrentUser
-                        @endif
-                        @if ($restore)
-                            <x-modal.confirm
-                                id="user-restore-{{ $row->id }}"
-                                type="restore"
-                                action="{{ route('users.restore', $row->id) }}"
-                                message="Are you sure you want to restore {{ $row->name }}?"
-                            />
-
-                            <button
-                                class="text-success hover:cursor-pointer"
-                                data-modal-target="user-restore-{{ $row->id }}-modal"
-                                data-modal-toggle="user-restore-{{ $row->id }}-modal"
-                                data-test="user-restore-{{ $row->id }}-modal-trigger"
-                                type="button"
-                            >Restore</button>
                         @endif
                     </div>
                 </td>
             </tr>
         @endforeach
     </x-slot>
+
 </x-table.wrapper>

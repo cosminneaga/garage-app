@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\UserUpdateAction;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Country;
 use App\Models\User;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
@@ -16,19 +17,14 @@ class ProfileController extends Controller
 {
     use ResponseMessage;
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(): View
     {
         return view('pages.profile.edit', [
             'user' => Auth::user(),
+            'countries' => Country::all(),
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateProfileRequest $request, User $user, UserUpdateAction $action): RedirectResponse
     {
         $action->handle($request->validated(), $user);

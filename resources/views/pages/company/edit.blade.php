@@ -75,7 +75,7 @@
                             type="submit"
                         >Update Details</x-button>
 
-                        @can(UserPermission::name(UserPermission::COMPANY, 'delete'))
+                        @permitted(UserPermission::COMPANY, 'delete')
                             <x-button
                                 data-modal-target="company-delete-modal"
                                 data-modal-toggle="company-delete-modal"
@@ -83,7 +83,7 @@
                                 type="button"
                                 variant="danger"
                             >Delete Company</x-button>
-                        @endcan
+                        @endpermitted
                     </div>
 
 
@@ -103,11 +103,14 @@
 
         <tab>
             <x-card description="Visualise & Edit {{ $company->name }}'s registered members">
-                <x-table.users
+                <x-table.related.users
+                    chat
                     :data="$company->users"
                     :resource="$company"
-                    :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
+                    :edit="Permission::can(UserPermission::USER, 'update')"
+                    :delete="Permission::can(UserPermission::COMPANY, 'update')"
                 />
+
             </x-card>
         </tab>
 
@@ -116,8 +119,8 @@
                 <x-table.related.contacts
                     :data="$company->contacts"
                     :resource="$company"
-                    :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
-                    :delete="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
+                    :edit="Permission::can(UserPermission::CONTACT, 'update')"
+                    :delete="Permission::can(UserPermission::COMPANY, 'update')"
                 />
             </x-card>
         </tab>
@@ -127,9 +130,9 @@
                 <x-table.related.addresses
                     :data="$company->addresses"
                     :resource="$company"
-                    :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
-                    :delete="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
                     :countries="$countries"
+                    :edit="Permission::can(UserPermission::ADDRESS, 'update')"
+                    :delete="Permission::can(UserPermission::COMPANY, 'update')"
                 />
             </x-card>
         </tab>
@@ -139,9 +142,9 @@
                 <x-table.related.suppliers
                     :data="$company->suppliers"
                     :resource="$company"
-                    :edit="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'update'))"
-                    :delete="Auth::user()->can(UserPermission::name(UserPermission::COMPANY, 'delete'))"
                     :countries="$countries"
+                    :edit="Permission::can(UserPermission::SUPPLIER, 'update')"
+                    :delete="Permission::can(UserPermission::COMPANY, 'update')"
                 />
             </x-card>
         </tab>
