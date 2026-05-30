@@ -22,8 +22,8 @@ class AddressFactory extends Factory
             'street' => fake()->streetName(),
             'postcode' => fake()->postcode(),
             'coordinates' => [
-                'latitude' => fake()->latitude(),
-                'longitude' => fake()->longitude(),
+                'latitude' => floatval(fake()->latitude()),
+                'longitude' => floatval(fake()->longitude()),
             ],
             'extra' => fake()->secondaryAddress(),
             'country_id' => Country::factory(),

@@ -22,10 +22,10 @@ return new class () extends Migration {
             $table->softDeletes();
             $table->timestamps();
 
-            $table->index('name', 'name_index');
-            $table->index('active', 'active_index');
-            $table->index('email_verified_at', 'email_verified_at_index');
-            $table->index('created_at', 'created_at_index');
+            $table->index('name', 'usr_name_idx');
+            $table->index('active', 'usr_active_idx');
+            $table->index('email_verified_at', 'usr_emailverifiedat_idx');
+            $table->index('created_at', 'usr_createdat_idx');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -50,10 +50,10 @@ return new class () extends Migration {
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropIndex('name_index');
-            $table->dropIndex('active_index');
-            $table->dropIndex('email_verified_at_index');
-            $table->dropIndex('created_at_index');
+            $table->dropIndex('usr_name_idx');
+            $table->dropIndex('usr_active_idx');
+            $table->dropIndex('usr_emailverifiedat_idx');
+            $table->dropIndex('usr_createdat_idx');
         });
 
         Schema::dropIfExists('users');

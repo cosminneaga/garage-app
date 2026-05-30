@@ -53,4 +53,3 @@ test('should fail if user is not part of admin team, even if is linked to respec
 
     expect($this->company->isMyCompany($this->editor))->toBeFalse();
 });
-

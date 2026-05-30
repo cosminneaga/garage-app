@@ -81,8 +81,8 @@ class Address extends Model
         'coordinates->longitude',
     ];
 
-    protected $casts = [
-        'coordinates' => 'string',
+    protected $attributes = [
+        'coordinates' => null,
     ];
 
     /**
@@ -103,7 +103,7 @@ class Address extends Model
             //     DB::raw('ST_Y(coordinates) as latitude'),
             //     DB::raw('ST_X(coordinates) as longitude'),
             // ])->first(),
-            get: function ($value, $attributes) {
+            get: function ($value, array $attributes) {
                 if (!$attributes['coordinates']) {
                     return null;
                 }
@@ -148,7 +148,7 @@ class Address extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public static function updateOrCreateByCoordinates(string $latitude, string $longitude, array $attributes): Address
+    public static function updateOrCreateByCoordinates(string|float $latitude, string|float $longitude, array $attributes): Address
     {
         $instance = self::query()
             ->whereRaw('ST_Y(coordinates) = ?', [$latitude], 'and')

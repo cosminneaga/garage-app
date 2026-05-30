@@ -20,6 +20,11 @@ return new class () extends Migration {
             $table->string('image_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('name', 'cmp_name_idx');
+            $table->index('tax_id', 'cmp_taxid_idx');
+            $table->index('tax_value', 'cmp_taxvalue_idx');
+            $table->index('registration_number', 'cmp_registrationnumber_idx');
         });
     }
 
@@ -28,6 +33,13 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropIndex('cmp_name_idx');
+            $table->dropIndex('cmp_taxid_idx');
+            $table->dropIndex('cmp_taxvalue_idx');
+            $table->dropIndex('cmp_registrationnumber_idx');
+        });
+
         Schema::dropIfExists('companies');
     }
 };
