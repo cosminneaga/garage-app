@@ -13,7 +13,7 @@
                 description="Visualise & Edit {{ $user->name }}'s details"
             >
                 <form
-                    id="form-users-update"
+                    id="form-user-update"
                     action="{{ route('users.update', $user) }}"
                     method="POST"
                     enctype="@enctype"
@@ -32,22 +32,26 @@
                         type="text"
                         label="Name"
                         :value="$user->name"
+                        test_identifier="user_update"
                     />
                     <x-form.field
                         name="email"
                         type="email"
                         label="Email"
                         :value="$user->email"
+                        test_identifier="user_update"
                     />
                     <x-form.field
                         name="image"
                         type="image"
                         accept="image/*"
+                        test_identifier="user_update"
                     />
                     <x-form.field
                         name="active"
                         type="toggle"
                         checked="{{ $user->active }}"
+                        test_identifier="user_update"
                     >
                         <x-slot name="before">Inactive</x-slot>
                         <x-slot name="after">Active</x-slot>
@@ -56,16 +60,17 @@
                     <div class="mt-5 flex gap-1">
                         <x-button
                             class="w-fit"
-                            id="form-user-update-btn"
-                            form="form-users-update"
+                            id="form-user-update-submit"
+                            form="form-user-update"
                             type="submit"
                             variant="default"
                         >Update Details</x-button>
 
                         @can(UserPermission::name(UserPermission::USER, 'delete'))
                             <x-button
-                                data-modal-target="user-delete-confirm"
-                                data-modal-toggle="user-delete-confirm"
+                                data-modal-target="user-delete-modal"
+                                data-modal-toggle="user-delete-modal"
+                                id="user-delete-modal-trigger"
                                 type="button"
                                 variant="danger"
                             >Delete User</x-button>
@@ -75,7 +80,7 @@
 
                 <x-modal.confirm
                     type="delete"
-                    id="user-delete-confirm"
+                    id="user-delete"
                     action="{{ route('users.destroy', $user->id) }}"
                     message="Are you sure you want to remove {{ $user->name }} from your team?"
                 />
@@ -103,6 +108,7 @@
                     :resource="$user"
                     :edit="Auth::user()->can(UserPermission::name(UserPermission::USER, 'update'))"
                     :delete="Auth::user()->can(UserPermission::name(UserPermission::USER, 'delete'))"
+                    :countries="$countries"
                 />
             </x-card>
         </tab>

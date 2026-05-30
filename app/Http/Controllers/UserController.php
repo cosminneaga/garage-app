@@ -9,6 +9,7 @@ use App\Actions\UserUpdateAction;
 use App\Enums\Resource\ResourceFilter;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Country;
 use App\Models\User;
 use App\Services\UserService;
 use App\Traits\ResponseMessage;
@@ -83,8 +84,9 @@ class UserController extends Controller
 
         return view('pages.user.edit', [
             'user' => $user,
-            'addresses' => $user->addresses()->get(),
-            'contacts' => $user->contacts()->get(),
+            'addresses' => $user->addresses,
+            'contacts' => $user->contacts,
+            'countries' => Country::all(),
         ]);
     }
 

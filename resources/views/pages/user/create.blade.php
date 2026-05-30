@@ -23,36 +23,43 @@
                         name="name"
                         type="text"
                         label="Name"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="email"
                         type="email"
                         label="Email"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="image"
                         type="image"
                         accept="image/*"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="password"
                         type="password"
                         label="Password"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="password_confirmed"
                         type="password"
                         label="Password Confirmation"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="role"
                         type="select"
                         label="Select a role"
                         :options="UserRole::ui()"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="active"
                         type="checkbox"
+                        test_identifier="user"
                     >
                         <x-slot name="before">Inactive</x-slot>
                         <x-slot name="after">Active</x-slot>
@@ -65,16 +72,19 @@
                         name="address[number]"
                         type="text"
                         label="Number"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="address[street]"
                         type="text"
                         label="Street"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="address[postcode]"
                         type="text"
                         label="Postcode"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="address[country_id]"
@@ -83,6 +93,7 @@
                         select_map_label="name"
                         select_map_value="id"
                         :options="Country::all()"
+                        test_identifier="user"
                     />
                     <h3 class="text-lg font-bold">Location</h3>
                     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
@@ -90,11 +101,13 @@
                         name="address[coordinates][latitude]"
                         type="text"
                         label="Latitude"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="address[coordinates][longitude]"
                         type="text"
                         label="Longitude"
+                        test_identifier="user"
                     />
 
                 </div>
@@ -104,27 +117,32 @@
                         name="contact[mobile]"
                         type="text"
                         label="Mobile Phone"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="contact[landline]"
                         type="text"
                         label="Landline Phone"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="contact[email]"
                         type="email"
                         label="Email"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="contact[url]"
                         type="text"
                         label="URL"
+                        test_identifier="user"
                     />
                     <x-form.field
                         name="contact[info]"
                         type="textarea"
                         label="More Information"
                         rows="10"
+                        test_identifier="user"
                     />
                 </div>
             </div>

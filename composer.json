@@ -102,7 +102,7 @@
         ],
         "pest:all": [
             "# <info>Sqlite TESTS Running</info>",
-            "vendor/bin/pest --stop-on-failure --parallel",
+            "vendor/bin/pest --configuration ./phpunit.xml --stop-on-failure --parallel",
             "# <info>MySql TESTS Running</info>",
             "vendor/bin/pest --configuration ./phpunit-mysql.xml --stop-on-failure --parallel"
         ],

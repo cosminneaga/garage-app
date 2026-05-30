@@ -151,8 +151,6 @@ it('should FAIL TEMPORARELY add address', function () {
 });
 
 it('should remove address', function () {
-    actingAs($this->super);
-
     visit(route('companies.edit', $this->companies[0]))
         ->click('@addresses')
         ->assertSee($this->address->street)

@@ -31,7 +31,7 @@ class UserUpdateAction
             $data['role'] = $attributes['role'];
         }
 
-        if (Arr::has($attributes, 'image')) {
+        if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {
             $data['user']['image_path'] = $attributes['image']->store('users', 'public');
         }
 
