@@ -19,10 +19,20 @@ class ProfileController extends Controller
 
     public function edit(): View
     {
-        return view('pages.profile.edit', [
-            'user' => Auth::user(),
-            'countries' => Country::all(),
-        ]);
+        // return view('pages.profile.edit', [
+        //     'user' => Auth::user(),
+        //     'countries' => Country::all(),
+        // ]);
+        return match(request()->query('tab')) {
+            'statistics' => view('pages.profile.edit.statistics', ['user' => Auth::user()]),
+            'contacts' => view('pages.profile.edit.contacts', ['user' => Auth::user()]),
+            'addresses' => view('pages.profile.edit.addresses', [
+                'user' => Auth::user(),
+                'countries' => Country::all(),
+            ]),
+            'settings' => view('pages.profile.edit.settings', ['user' => Auth::user()]),
+            default => view('pages.profile.edit.index', ['user' => Auth::user()]),
+        };
     }
 
     public function update(UpdateProfileRequest $request, User $user, UserUpdateAction $action): RedirectResponse

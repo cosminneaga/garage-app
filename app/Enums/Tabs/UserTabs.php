@@ -12,6 +12,7 @@ enum UserTabs: string
     case STATISTICS = 'statistics';
     case CONTACTS = 'contacts';
     case ADDRESSES = 'addresses';
+    case SETTINGS = 'settings';
 
     public function label(): string
     {
@@ -20,6 +21,7 @@ enum UserTabs: string
             self::STATISTICS => 'Statistics',
             self::CONTACTS => 'Contacts',
             self::ADDRESSES => 'Addresses',
+            self::SETTINGS => 'Settings',
         };
     }
 
@@ -30,6 +32,7 @@ enum UserTabs: string
             self::STATISTICS => 'statistics',
             self::CONTACTS => 'contacts',
             self::ADDRESSES => 'addresses',
+            self::SETTINGS => 'settings',
         };
     }
 
