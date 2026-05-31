@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +20,6 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
-use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -40,24 +38,25 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
+ * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
+ * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read Collection<int, User> $managers
+ * @property-read int|null $managers_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
+ * @property-read Collection<int, User> $team
+ * @property-read int|null $team_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
- *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User managers()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User members()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User onlyTrashed()
@@ -81,7 +80,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, ?string $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTeam($teams)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
- *
  * @mixin \Eloquent
  */
 #[UsePolicy(UserPolicy::class)]
@@ -153,10 +151,10 @@ class User extends Authenticatable
         if ($this->hasRole(UserRole::USER_EDITOR)) {
             $manager = $this->managers()->first();
 
-            return (bool) $manager->members()->find($user->id);
+            return (bool) $manager->team()->find($user->id);
         }
 
-        return (bool) $this->members()->withTrashed()->find($user->id);
+        return (bool) $this->team()->withTrashed()->find($user->id);
     }
 
     public function chart(): array
@@ -170,28 +168,6 @@ class User extends Authenticatable
             'date' => collect($data)->pluck('date')->toArray(),
             'count' => collect($data)->pluck('count')->toArray(),
         ];
-    }
-
-    #[Scope]
-    public function members(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            Team::class,
-            'manager_id',
-            'user_id',
-        );
-    }
-
-    #[Scope]
-    public function managers(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            Team::class,
-            'user_id',
-            'manager_id',
-        );
     }
 
     public function addresses(): BelongsToMany
@@ -217,5 +193,15 @@ class User extends Authenticatable
             'manager_id',
             'user_id',
         )->withTimestamps();
+    }
+
+    public function managers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            Team::class,
+            'user_id',
+            'manager_id',
+        );
     }
 }

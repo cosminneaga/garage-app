@@ -6,13 +6,14 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
+use App\Helpers\Permission;
 use App\Models\User;
 
 class UserPolicy
 {
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+        return Permission::can(UserPermission::USER, 'show');
     }
 
     /**
@@ -24,15 +25,15 @@ class UserPolicy
             return true;
         }
 
-        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'show');
     }
 
     /**
      * Has access to store page
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'store'));
+        return Permission::can(UserPermission::USER, 'store');
     }
 
     /**
@@ -44,7 +45,7 @@ class UserPolicy
             return true;
         }
 
-        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'update'));
+        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'update');
     }
 
     /**
@@ -56,15 +57,15 @@ class UserPolicy
             return true;
         }
 
-        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'delete'));
+        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'delete');
     }
 
     /**
      * Has access to view the deleted resources
      */
-    public function viewTrashed(User $user): bool
+    public function viewTrashed(): bool
     {
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
+        return Permission::can(UserPermission::USER, 'restore');
     }
 
     /**
@@ -76,6 +77,6 @@ class UserPolicy
             return true;
         }
 
-        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
+        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'restore');
     }
 }

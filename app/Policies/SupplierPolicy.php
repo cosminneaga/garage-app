@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
+use App\Helpers\Permission;
 use App\Models\Supplier;
 use App\Models\User;
 
@@ -16,7 +17,7 @@ class SupplierPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'));
+        return Permission::can(UserPermission::SUPPLIER, 'show');
     }
 
     /**
@@ -28,15 +29,15 @@ class SupplierPolicy
             return true;
         }
 
-        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::SUPPLIER, 'show'));
+        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'show');
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
-        return $user->can(UserPermission::name(UserPermission::SUPPLIER, 'store'));
+        return Permission::can(UserPermission::SUPPLIER, 'store');
     }
 
     /**
@@ -48,7 +49,7 @@ class SupplierPolicy
             return true;
         }
 
-        return $supplier->isMySupplier($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'update'));
+        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'update');
     }
 
     /**
@@ -60,7 +61,7 @@ class SupplierPolicy
             return true;
         }
 
-        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
+        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'delete');
     }
 
     /**
@@ -68,18 +69,18 @@ class SupplierPolicy
      */
     public function restore(User $user, Supplier $supplier): bool
     {
-        return false;
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
+        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'restore');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Supplier $supplier): bool
+    public function forceDelete(User $user): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return false;
+        return $user->hasRole(UserRole::SUPER);
     }
 }

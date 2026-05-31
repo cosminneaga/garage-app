@@ -18,6 +18,7 @@ use App\Enums\UserRole;
 use App\Helpers\Permission;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
@@ -30,7 +31,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // dd($this->app);
+        $loader = AliasLoader::getInstance();
+
+        $loader->alias('Permission', Permission::class);
+        $loader->alias('UserPermission', UserPermission::class);
+        $loader->alias('UserRole', UserRole::class);
+        $loader->alias('SupplierType', SupplierType::class);
+        $loader->alias('UserTabs', UserTabs::class);
+        $loader->alias('CompanyTabs', CompanyTabs::class);
+        $loader->alias('SupplierTabs', SupplierTabs::class);
+        $loader->alias('CompanyColumns', CompanyColumns::class);
+        $loader->alias('SupplierColumns', SupplierColumns::class);
+        $loader->alias('UserColumns', UserColumns::class);
+        $loader->alias('AddressColumns', AddressColumns::class);
+        $loader->alias('ContactColumns', ContactColumns::class);
     }
 
     /**
@@ -38,19 +52,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        class_alias(Permission::class, 'Permission');
-        class_alias(UserPermission::class, 'UserPermission');
-        class_alias(UserRole::class, 'UserRole');
-        class_alias(SupplierType::class, 'SupplierType');
-        class_alias(UserTabs::class, 'UserTabs');
-        class_alias(CompanyTabs::class, 'CompanyTabs');
-        class_alias(SupplierTabs::class, 'SupplierTabs');
-        class_alias(CompanyColumns::class, 'CompanyColumns');
-        class_alias(SupplierColumns::class, 'SupplierColumns');
-        class_alias(UserColumns::class, 'UserColumns');
-        class_alias(AddressColumns::class, 'AddressColumns');
-        class_alias(ContactColumns::class, 'ContactColumns');
-
         Blade::anonymousComponentPath(
             resource_path('views/layout'),
             'layout',
@@ -67,7 +68,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('notTesting', fn () => config('app.env') !== 'testing');
         Blade::if('isCurrentUser', fn ($id) => Auth::user()->id === $id);
         Blade::if('isNotCurrentUser', fn ($id) => Auth::check() && Auth::user()->id !== $id);
-        Blade::if('permitted', fn (UserPermission $permission, string $action) => Auth::user()->can(UserPermission::name($permission, $action)));
+        Blade::if('permitted', fn (UserPermission $permission, string $action) => Auth::check() && Auth::user()->can(UserPermission::name($permission, $action)));
 
         Blade::if('super', fn () => Auth::check() && Auth::user()->hasRole(UserRole::SUPER->value));
         Blade::if('admin', fn () => Auth::check() && Auth::user()->hasRole(UserRole::USER_ADMIN->value));

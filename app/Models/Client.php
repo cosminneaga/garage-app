@@ -32,23 +32,22 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
+ * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
+ * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read Collection<int, Repair> $repairs
+ * @property-read Collection<int, \App\Models\Repair> $repairs
  * @property-read int|null $repairs_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
- *
  * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newQuery()
@@ -71,7 +70,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutRole($roles, ?string $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTeam($teams)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Client extends Model

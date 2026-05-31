@@ -62,15 +62,15 @@ class UserService
 
         switch ($filter) {
             case ResourceFilter::ONLY_TRASHED:
-                $this->result->onlyTrashed()->whereIn('id', $this->user->members()->onlyTrashed()->select('users.id'));
+                $this->result->onlyTrashed()->whereIn('id', $this->user->team()->onlyTrashed()->select('users.id'));
                 break;
 
             case ResourceFilter::WITH_TRASHED:
-                $this->result->withTrashed()->whereIn('id', $this->user->members()->withTrashed()->select('users.id'));
+                $this->result->withTrashed()->whereIn('id', $this->user->team()->withTrashed()->select('users.id'));
                 break;
 
             default:
-                $this->result->whereIn('id', $this->user->members()->select('users.id'));
+                $this->result->whereIn('id', $this->user->team()->select('users.id'));
                 break;
         }
 

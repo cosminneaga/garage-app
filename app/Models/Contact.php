@@ -25,15 +25,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, User> $clients
+ * @property-read Collection<int, \App\Models\User> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, User> $companies
+ * @property-read Collection<int, \App\Models\User> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Supplier> $suppliers
+ * @property-read Collection<int, \App\Models\Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read Collection<int, User> $users
+ * @property-read Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
- *
  * @method static \Database\Factories\ContactFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact newQuery()
@@ -50,7 +49,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Contact extends Model

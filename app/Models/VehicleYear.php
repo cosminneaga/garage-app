@@ -22,10 +22,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, VehicleData> $data
+ * @property-read Collection<int, \App\Models\VehicleData> $data
  * @property-read int|null $data_count
- * @property-read VehicleModel|null $model
- *
+ * @property-read \App\Models\VehicleModel|null $model
  * @method static \Database\Factories\VehicleYearFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear newQuery()
@@ -38,7 +37,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereYear($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class VehicleYear extends Model

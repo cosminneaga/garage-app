@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
+use App\Helpers\Permission;
 use App\Models\Company;
 use App\Models\User;
 
@@ -14,9 +15,9 @@ class CompanyPolicy
     /**
      * Has access to all resources page
      */
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        return Permission::can(UserPermission::COMPANY, 'show');
     }
 
     /**
@@ -28,15 +29,15 @@ class CompanyPolicy
             return true;
         }
 
-        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'show');
     }
 
     /**
      * Has access to store page
      */
-    public function create(User $user): bool
+    public function create(): bool
     {
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'store'));
+        return Permission::can(UserPermission::COMPANY, 'store');
     }
 
     /**
@@ -48,7 +49,7 @@ class CompanyPolicy
             return true;
         }
 
-        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
+        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'update');
     }
 
     /**
@@ -60,15 +61,15 @@ class CompanyPolicy
             return true;
         }
 
-        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'delete'));
+        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'delete');
     }
 
     /**
      * Has access to view the deleted resources
      */
-    public function viewTrashed(User $user): bool
+    public function viewTrashed(): bool
     {
-        return $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
+        return Permission::can(UserPermission::COMPANY, 'restore');
     }
 
     /**
@@ -80,18 +81,14 @@ class CompanyPolicy
             return true;
         }
 
-        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::COMPANY, 'restore'));
+        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'restore');
     }
 
     /**
      * Enabled only for 'super' role
      */
-    public function forceDelete(User $user, Company $company): bool
+    public function forceDelete(User $user): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return false;
+        return $user->hasRole(UserRole::SUPER);
     }
 }

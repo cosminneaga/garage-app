@@ -20,11 +20,10 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, VehicleData> $data
+ * @property-read Collection<int, \App\Models\VehicleData> $data
  * @property-read int|null $data_count
- * @property-read Collection<int, VehicleModel> $models
+ * @property-read Collection<int, \App\Models\VehicleModel> $models
  * @property-read int|null $models_count
- *
  * @method static \Database\Factories\VehicleMakeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake newQuery()
@@ -36,7 +35,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class VehicleMake extends Model

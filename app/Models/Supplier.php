@@ -28,15 +28,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
+ * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
+ * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read Collection<int, RepairInvoiceItem> $repairInvoiceItems
+ * @property-read Collection<int, \App\Models\RepairInvoiceItem> $repairInvoiceItems
  * @property-read int|null $repair_invoice_items_count
- *
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newQuery()
@@ -53,7 +52,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Supplier extends Model

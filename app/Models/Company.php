@@ -31,21 +31,20 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
+ * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, Client> $clients
+ * @property-read Collection<int, \App\Models\Client> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, Contact> $contacts
+ * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read Collection<int, Product> $products
+ * @property-read Collection<int, \App\Models\Product> $products
  * @property-read int|null $products_count
- * @property-read Collection<int, Repair> $repairs
+ * @property-read Collection<int, \App\Models\Repair> $repairs
  * @property-read int|null $repairs_count
- * @property-read Collection<int, Supplier> $suppliers
+ * @property-read Collection<int, \App\Models\Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read Collection<int, User> $users
+ * @property-read Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
- *
  * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newQuery()
@@ -63,7 +62,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withoutTrashed()
- *
  * @mixin \Eloquent
  */
 #[UsePolicy(CompanyPolicy::class)]

@@ -24,73 +24,71 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
 
-// SUPER|USER_ADMIN
-Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
+Route::controller(CompanyController::class)
+    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->group(function () {
+        Route::resource('companies', CompanyController::class)->except('show');
+        Route::get('/companies/restore', 'removed')->name('companies.removed');
+        Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');
+        Route::post('/companies/{company}/user', 'userStore')->name('companies.user.store');
+        Route::put('/companies/{company}/user', 'userAttach')->name('companies.user.attach');
+        Route::delete('/companies/{company}/user/{user}', 'userDestroy')->name('companies.user.destroy');
+    });
 
-    // COMPANIES
-    Route::post('/companies/{company}/restore', [CompanyController::class, 'restore'])->name('companies.restore');
-    Route::get('/companies/restore', [CompanyController::class, 'removed'])->name('companies.removed');
+Route::controller(UserController::class)
+    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->group(function () {
+        Route::resource('users', UserController::class)->except('show');
+        Route::get('/users/restore', 'removed')->name('users.removed');
+        Route::get('/chart/users', 'chart')->name('chart.users');
+        Route::post('/users/{id}/restore', 'restore')->name('users.restore');
+    });
 
-    Route::delete('/companies/{company}/address/{address}', [AddressController::class, 'destroy'])->name('companies.address.destroy');
-    Route::delete('/companies/{company}/contact/{contact}', [ContactController::class, 'destroy'])->name('companies.contact.destroy');
-    Route::delete('/companies/{company}/supplier/{supplier}', [SupplierController::class, 'destroy'])->name('companies.supplier.destroy');
+Route::controller(ProfileController::class)
+    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->group(function () {
+        Route::get('/users/profile', 'edit')->name('users.profile.edit');
+        Route::put('/users/{user}/profile', 'update')->name('users.profile.update');
+    });
 
-    // USERS
-    Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
-    Route::get('/users/restore', [UserController::class, 'removed'])->name('users.removed');
+Route::controller(SupplierController::class)
+    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->group(function () {
+        Route::get('/suppliers/restore', 'removed')->name('suppliers.removed');
+        Route::get('/companies/{company}/suppliers/{supplier}', 'edit')->name('companies.supplier.edit');
+        Route::post('/suppliers/{supplier}/restore', 'restore')->name('suppliers.restore');
+        Route::post('/companies/{company}/suppliers', 'store')->name('companies.supplier.store');
+        Route::put('/companies/{company}/suppliers/{supplier}', 'update')->name('companies.supplier.update');
+        Route::delete('/companies/{company}/supplier/{supplier}', 'destroy')->name('companies.supplier.destroy');
+    });
 
-    Route::post('/users/{user}/address', [AddressController::class, 'store'])->name('users.address.store');
-    Route::get('/users/{user}/address/{address}', [AddressController::class, 'edit'])->name('users.address.edit');
-    Route::delete('/users/{user}/address/{address}', [AddressController::class, 'destroy'])->name('users.address.destroy');
+Route::controller(AddressController::class)
+    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->group(function () {
+        Route::get('/users/{user}/address/{address}', 'edit')->name('users.address.edit');
+        Route::get('/companies/{company}/address/{address}', 'edit')->name('companies.address.edit');
+        Route::get('/suppliers/{supplier}/address/{address}', 'edit')->name('suppliers.address.edit');
+        Route::post('/users/{user}/address', 'store')->name('users.address.store');
+        Route::post('/companies/{company}/address', 'store')->name('companies.address.store');
+        Route::post('/suppliers/{supplier}/address', 'store')->name('suppliers.address.store');
+        Route::delete('/users/{user}/address/{address}', 'destroy')->name('users.address.destroy');
+        Route::delete('/companies/{company}/address/{address}', 'destroy')->name('companies.address.destroy');
+        Route::delete('/suppliers/{supplier}/address/{address}', 'destroy')->name('suppliers.address.destroy');
+    });
 
-    Route::post('/users/{user}/contact', [ContactController::class, 'store'])->name('users.contact.store');
-    Route::get('/users/{user}/contact/{contact}', [ContactController::class, 'edit'])->name('users.contact.edit');
-    Route::delete('/users/{user}/contact/{contact}', [ContactController::class, 'destroy'])->name('users.contact.destroy');
-
-    // SUPPLIERS
-    Route::post('/suppliers/{supplier}/restore', [SupplierController::class, 'restore'])->name('suppliers.restore');
-    Route::get('/suppliers/restore', [SupplierController::class, 'removed'])->name('suppliers.removed');
-
-    Route::delete('/suppliers/{supplier}/address/{address}', [AddressController::class, 'destroy'])->name('suppliers.address.destroy');
-    Route::delete('/suppliers/{supplier}/contact/{contact}', [ContactController::class, 'destroy'])->name('suppliers.contact.destroy');
-});
-
-// SUPER|USER_ADMIN|USER_EDITOR
-Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], function () {
-
-    // COMPANIES
-    Route::get('/companies/{company}/address/{address}', [AddressController::class, 'edit'])->name('companies.address.edit');
-    Route::post('/companies/{company}/address', [AddressController::class, 'store'])->name('companies.address.store');
-
-    Route::get('/companies/{company}/contact/{contact}', [ContactController::class, 'edit'])->name('companies.contact.edit');
-    Route::post('/companies/{company}/contact', [ContactController::class, 'store'])->name('companies.contact.store');
-
-    Route::post('/companies/{company}/suppliers', [SupplierController::class, 'store'])->name('companies.supplier.store');
-    Route::get('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'edit'])->name('companies.supplier.edit');
-    Route::put('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'update'])->name('companies.supplier.update');
-
-    Route::put('/companies/{company}/user', [CompanyController::class, 'userAttach'])->name('companies.user.attach');
-    Route::post('/companies/{company}/user', [CompanyController::class, 'userStore'])->name('companies.user.store');
-    Route::delete('/companies/{company}/user/{user}', [CompanyController::class, 'userDestroy'])->name('companies.user.destroy');
-
-    // SUPPLIERS
-    Route::get('/suppliers/{supplier}/address/{address}', [AddressController::class, 'edit'])->name('suppliers.address.edit');
-    Route::post('/suppliers/{supplier}/address', [AddressController::class, 'store'])->name('suppliers.address.store');
-
-    Route::get('/suppliers/{supplier}/contact/{contact}', [ContactController::class, 'edit'])->name('suppliers.contact.edit');
-    Route::post('/suppliers/{supplier}/contact', [ContactController::class, 'store'])->name('suppliers.contact.store');
-});
-
-// SUPER|USER_ADMIN|USER_EDITOR|USER_VIEWER
-Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
-    Route::resource('companies', CompanyController::class)->except('show');
-
-    Route::resource('users', UserController::class)->except('show');
-    Route::get('/users/profile', [ProfileController::class, 'edit'])->name('users.profile.edit');
-    Route::put('/users/{user}/profile', [ProfileController::class, 'update'])->name('users.profile.update');
-
-    Route::get('/chart/users', [UserController::class, 'chart'])->name('chart.users');
-});
+Route::controller(ContactController::class)
+    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->group(function () {
+        Route::get('/users/{user}/contact/{contact}', 'edit')->name('users.contact.edit');
+        Route::get('/companies/{company}/contact/{contact}', 'edit')->name('companies.contact.edit');
+        Route::get('/suppliers/{supplier}/contact/{contact}', 'edit')->name('suppliers.contact.edit');
+        Route::post('/users/{user}/contact', 'store')->name('users.contact.store');
+        Route::post('/companies/{company}/contact', 'store')->name('companies.contact.store');
+        Route::post('/suppliers/{supplier}/contact', 'store')->name('suppliers.contact.store');
+        Route::delete('/users/{user}/contact/{contact}', 'destroy')->name('users.contact.destroy');
+        Route::delete('/companies/{company}/contact/{contact}', 'destroy')->name('companies.contact.destroy');
+        Route::delete('/suppliers/{supplier}/contact/{contact}', 'destroy')->name('suppliers.contact.destroy');
+    });
 
 // ADMINISTRATION
 // !NOTE: seems like after another build this functionality came along and point the unauthorized users to 404, keep an eye on it...

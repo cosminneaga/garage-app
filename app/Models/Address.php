@@ -23,7 +23,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string $number
  * @property string $street
  * @property string $postcode
- * @property array|object $coordinates
+ * @property string|null $coordinates
  * @property string|null $extra
  * @property int $country_id
  * @property Carbon|null $created_at
@@ -31,16 +31,15 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Client> $clients
+ * @property-read Collection<int, \App\Models\Client> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Country|null $country
- * @property-read Collection<int, Supplier> $suppliers
+ * @property-read \App\Models\Country|null $country
+ * @property-read Collection<int, \App\Models\Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read Collection<int, User> $users
+ * @property-read Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
- *
  * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
  * @method static Builder<static>|Address newModelQuery()
  * @method static Builder<static>|Address newQuery()
@@ -57,11 +56,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Address whereStreet($value)
  * @method static Builder<static>|Address whereUpdatedAt($value)
  * @method static Builder<static>|Address withCoordinates()
- * @method static Builder<static>|Address withCoordinatesText()
  * @method static Builder<static>|Address withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Address withoutTrashed()
- * @method static Builder<static>|Address update(array $attributes)
- *
  * @mixin \Eloquent
  */
 class Address extends Model

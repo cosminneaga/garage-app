@@ -29,10 +29,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read RepairInvoice|null $invoice
- * @property-read Product|null $product
- * @property-read Supplier|null $supplier
- *
+ * @property-read \App\Models\RepairInvoice|null $invoice
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\Supplier|null $supplier
  * @method static \Database\Factories\RepairInvoiceItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newQuery()
@@ -52,7 +51,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class RepairInvoiceItem extends Model

@@ -28,12 +28,11 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read VehicleMake|null $make
- * @property-read VehicleModel|null $model
- * @property-read Collection<int, Repair> $repairs
+ * @property-read \App\Models\VehicleMake|null $make
+ * @property-read \App\Models\VehicleModel|null $model
+ * @property-read Collection<int, \App\Models\Repair> $repairs
  * @property-read int|null $repairs_count
- * @property-read VehicleYear|null $year
- *
+ * @property-read \App\Models\VehicleYear|null $year
  * @method static \Database\Factories\VehicleDataFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newQuery()
@@ -52,7 +51,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleYearId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class VehicleData extends Model

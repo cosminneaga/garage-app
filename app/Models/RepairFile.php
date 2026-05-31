@@ -30,8 +30,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Repair|null $repair
- *
+ * @property-read \App\Models\Repair|null $repair
  * @method static \Database\Factories\RepairFileFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile newQuery()
@@ -51,7 +50,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class RepairFile extends Model

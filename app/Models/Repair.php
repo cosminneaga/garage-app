@@ -41,15 +41,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Booking|null $booking
- * @property-read Client|null $client
- * @property-read Company|null $company
- * @property-read VehicleData|null $data
- * @property-read Collection<int, RepairFile> $files
+ * @property-read \App\Models\Booking|null $booking
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\VehicleData|null $data
+ * @property-read Collection<int, \App\Models\RepairFile> $files
  * @property-read int|null $files_count
- * @property-read Collection<int, RepairInvoice> $invoices
+ * @property-read Collection<int, \App\Models\RepairInvoice> $invoices
  * @property-read int|null $invoices_count
- *
  * @method static \Database\Factories\RepairFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair newQuery()
@@ -79,7 +78,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereWorkOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Repair extends Model
