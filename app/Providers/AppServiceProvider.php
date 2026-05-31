@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\Columns\AddressColumns;
+use App\Enums\Columns\CompanyColumns;
+use App\Enums\Columns\ContactColumns;
+use App\Enums\Columns\SupplierColumns;
+use App\Enums\Columns\UserColumns;
+use App\Enums\SupplierType;
+use App\Enums\Tabs\CompanyTabs;
+use App\Enums\Tabs\SupplierTabs;
+use App\Enums\Tabs\UserTabs;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Helpers\Permission;
@@ -30,6 +39,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         class_alias(Permission::class, 'Permission');
+        class_alias(UserPermission::class, 'UserPermission');
+        class_alias(UserRole::class, 'UserRole');
+        class_alias(SupplierType::class, 'SupplierType');
+        class_alias(UserTabs::class, 'UserTabs');
+        class_alias(CompanyTabs::class, 'CompanyTabs');
+        class_alias(SupplierTabs::class, 'SupplierTabs');
+        class_alias(CompanyColumns::class, 'CompanyColumns');
+        class_alias(SupplierColumns::class, 'SupplierColumns');
+        class_alias(UserColumns::class, 'UserColumns');
+        class_alias(AddressColumns::class, 'AddressColumns');
+        class_alias(ContactColumns::class, 'ContactColumns');
 
         Blade::anonymousComponentPath(
             resource_path('views/layout'),

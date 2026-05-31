@@ -1,8 +1,6 @@
 @props(['id', 'resource', 'trigger' => false, 'countries', 'team'])
 
 @php
-    use App\Enums\UserRole;
-
     $parentname = $resource->getTable();
     $ids = [
         'modal' => $parentname . '-' . $id . '-modal',

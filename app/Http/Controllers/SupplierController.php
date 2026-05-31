@@ -77,7 +77,7 @@ class SupplierController extends Controller
             ));
     }
 
-    public function destroy(Request $request, Company $company, Supplier $supplier): RedirectResponse
+    public function destroy(Company $company, Supplier $supplier): RedirectResponse
     {
         $this->authorize('delete', $supplier);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
@@ -106,11 +106,45 @@ class SupplierController extends Controller
                 page: null,
                 total: null,
             ),
+            'countries' => Country::all(),
         ]);
     }
 
-    public function destroyUnrelated(Supplier $supplier)
+    public function editSingle(Supplier $supplier): View
     {
+        return match (request()->query('tab')) {
+            'statistics' => view('pages.supplier.edit.statistics', [
+                'supplier' => $supplier,
+            ]),
+            'contacts' => view('pages.supplier.edit.contacts', [
+                'supplier' => $supplier,
+            ]),
+            'addresses' => view('pages.supplier.edit.addresses', [
+                'supplier' => $supplier,
+                'countries' => Country::all(),
+            ]),
+            default => view('pages.supplier.edit.index', [
+                'supplier' => $supplier,
+            ]),
+        };
+    }
+
+    public function updateSingle(UpdateSupplierRequest $request, Supplier $supplier): RedirectResponse
+    {
+        $this->authorize('edit', $supplier);
+        $supplier->update($request->safe()->all());
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Supplier updated',
+                'Supplier information has been successfully updated from respective company',
+            ));
+    }
+
+    public function destroySingle(Supplier $supplier)
+    {
+        $this->authorize('delete', $supplier);
         $supplier->delete();
 
         return back()

@@ -3,7 +3,6 @@
     'limit' => 10,
     'edit' => false,
     'delete' => false,
-    'resource',
     'countries',
 ])
 
@@ -14,13 +13,6 @@
         $columns->push('Actions');
     }
 @endphp
-
-<x-modal.supplier.create
-    id="supplier-create"
-    :resource="$resource"
-    :countries="$countries"
-    trigger
-/>
 
 <x-table.wrapper :data="$data">
     <x-slot name="thead">
@@ -61,7 +53,7 @@
                             @if ($edit)
                                 <a
                                     class="text-brand"
-                                    href="{{ route('companies.supplier.edit', [$resource, $row]) }}"
+                                    href="{{ route('suppliers.edit', $row) }}"
                                 >Edit</a>
                             @endif
                             @if ($delete)

@@ -7,8 +7,6 @@
 ])
 
 @php
-    use App\Enums\Columns\ContactColumns;
-
     $parentname = $resource->getTable();
     $columns = collect(ContactColumns::cases())->map(fn($col) => $col->value);
 

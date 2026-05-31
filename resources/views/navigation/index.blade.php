@@ -1,6 +1,4 @@
 @php
-    use App\Enums\UserPermission;
-
     $user = Auth::user();
 @endphp
 

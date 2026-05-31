@@ -8,7 +8,6 @@
 ])
 
 @php
-    use App\Enums\Columns\CompanyColumns;
     $columns = collect(CompanyColumns::cases())
         ->map(fn ($col) => $col->value);
 

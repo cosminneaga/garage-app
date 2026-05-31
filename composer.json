@@ -17,7 +17,6 @@
         "laravel/scout": "^11.2",
         "laravel/telescope": "^5.19",
         "laravel/tinker": "^2.10.1",
-        "mkocansey/bladewind": "^3.3",
         "spatie/laravel-activitylog": "^5.0",
         "spatie/laravel-permission": "^7.2",
         "themesberg/flowbite-blade-icons": "^1.4"
@@ -138,8 +137,6 @@
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan vendor:publish --tag=bladewind-public --force",
-            "@php artisan vendor:publish --tag=bladewind-components --force",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [

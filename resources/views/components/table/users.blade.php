@@ -9,7 +9,6 @@
 ])
 
 @php
-    use App\Enums\Columns\UserColumns;
     $columns = collect(UserColumns::cases())
         ->map(fn ($col) => $col->value);
 

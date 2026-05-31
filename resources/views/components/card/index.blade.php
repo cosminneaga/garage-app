@@ -7,9 +7,11 @@
             {{ $title }}
         </h1>
     @endisset
-    <p class="text-muted-foreground mt-1">
-        {{ $description }}
-    </p>
+    @isset($description)
+        <p class="text-muted-foreground mt-1">
+            {{ $description }}
+        </p>
+    @endisset
     <br>
     <div>
         {{ $slot }}

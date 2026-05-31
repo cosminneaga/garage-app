@@ -1,9 +1,3 @@
-@php
-    use App\Enums\UserPermission;
-    use App\Enums\Tabs\SupplierTabs;
-    use App\Enums\SupplierType;
-@endphp
-
 <x-layout::index title="{{ $supplier->name }} | Details">
     <x-tabs :tabs="SupplierTabs::ui()">
         <x-card
@@ -12,7 +6,11 @@
         >
             <form
                 id="company-supplier-update"
-                action="{{ route('companies.supplier.update', [$company, $supplier]) }}"
+                @isset($company)
+                    :action="route('companies.supplier.update', [$company, $supplier])"
+                @else
+                    :action="route('supplier.update', $supplier)"
+                @endisset
                 method="POST"
             >
                 @csrf

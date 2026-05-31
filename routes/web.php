@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
 
-// USER_ADMIN
+// SUPER|USER_ADMIN
 Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
 
     // COMPANIES
@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin']], function () {
     Route::delete('/suppliers/{supplier}/contact/{contact}', [ContactController::class, 'destroy'])->name('suppliers.contact.destroy');
 });
 
-// USER_ADMIN|USER_EDITOR
+// SUPER|USER_ADMIN|USER_EDITOR
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], function () {
 
     // COMPANIES
@@ -81,15 +81,15 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], fu
     Route::post('/suppliers/{supplier}/contact', [ContactController::class, 'store'])->name('suppliers.contact.store');
 });
 
-// ALL USERS
+// SUPER|USER_ADMIN|USER_EDITOR|USER_VIEWER
 Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_viewer']], function () {
     Route::resource('companies', CompanyController::class)->except('show');
+
     Route::resource('users', UserController::class)->except('show');
-
-    Route::get('/chart/users', [UserController::class, 'chart'])->name('chart.users');
-
     Route::get('/users/profile', [ProfileController::class, 'edit'])->name('users.profile.edit');
     Route::put('/users/{user}/profile', [ProfileController::class, 'update'])->name('users.profile.update');
+
+    Route::get('/chart/users', [UserController::class, 'chart'])->name('chart.users');
 });
 
 // ADMINISTRATION
@@ -97,7 +97,9 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor|user_v
 Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/administration/company/all', [CompanyController::class, 'all'])->name('companies.all');
     Route::get('/administration/user/all', [UserController::class, 'all'])->name('users.all');
-    Route::get('/administration/supplier/all', [SupplierController::class, 'all'])->name('suppliers.all');
 
-    Route::delete('/administration/supplier/{supplier}', [SupplierController::class, 'destroyUnrelated'])->name('suppliers.destroy');
+    Route::get('/administration/supplier/all', [SupplierController::class, 'all'])->name('suppliers.all');
+    Route::get('/administration/suppliers/{supplier}/edit', [SupplierController::class, 'editSingle'])->name('suppliers.edit');
+    Route::put('/administration/suppliers/{supplier}/edit', [SupplierController::class, 'updateSingle'])->name('suppliers.update');
+    Route::delete('/administration/supplier/{supplier}', [SupplierController::class, 'destroySingle'])->name('suppliers.destroy');
 });

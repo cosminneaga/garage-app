@@ -1,8 +1,3 @@
-@php
-    use App\Models\Country;
-    use App\Enums\UserRole;
-@endphp
-
 <x-layout::index title="Add User">
     <x-card
         title="create team member"
@@ -91,7 +86,7 @@
                         label="Select a country"
                         select_map_label="name"
                         select_map_value="id"
-                        :options="Country::all()"
+                        :options="$countries"
                         identifier="user"
                     />
                     <h3 class="text-lg font-bold">Location</h3>

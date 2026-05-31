@@ -8,8 +8,6 @@
 ])
 
 @php
-    use App\Enums\Columns\AddressColumns;
-
     $parentname = $resource->getTable();
     $columns = collect(AddressColumns::cases())->map(fn($col) => $col->value);
 

@@ -1,7 +1,3 @@
-@php
-    use App\Enums\UserPermission;
-@endphp
-
 <div
     class="bg-neutral-primary-soft border-default text-heading fixed left-0 top-0 z-40 h-screen w-96 -translate-x-full overflow-y-auto border-e p-4 transition-transform"
     id="app-drawer"
@@ -24,7 +20,7 @@
         <span class="text-heading">Users</span>
     </div>
     <ul class="space-y-2 font-medium">
-        @can(UserPermission::name(UserPermission::USER, 'show'))
+        @permitted(UserPermission::USER, 'show')
             <li class="my-2">
                 <a
                     class="w-full"
@@ -33,7 +29,7 @@
                     Team
                 </a>
             </li>
-            @can(UserPermission::name(UserPermission::USER, 'store'))
+            @permitted(UserPermission::USER, 'store')
                 <li class="my-2">
                     <a
                         class="w-full"
@@ -42,8 +38,8 @@
                         Create
                     </a>
                 </li>
-            @endcan
-            @can(UserPermission::name(UserPermission::USER, 'restore'))
+            @endpermitted
+            @permitted(UserPermission::USER, 'restore')
                 <li class="my-2">
                     <a
                         class="w-full"
@@ -52,8 +48,8 @@
                         Removed
                     </a>
                 </li>
-            @endcan
-        @endcan
+            @endpermitted
+        @endpermitted
     </ul>
 
 
@@ -62,7 +58,7 @@
         <span class="text-heading">Companies</span>
     </div>
     <ul class="space-y-2 font-medium">
-        @can(UserPermission::name(UserPermission::COMPANY, 'show'))
+        @permitted(UserPermission::COMPANY, 'show')
             <li class="my-2">
                 <a
                     class="w-full"
@@ -71,7 +67,7 @@
                     List
                 </a>
             </li>
-            @can(UserPermission::name(UserPermission::COMPANY, 'store'))
+            @permitted(UserPermission::COMPANY, 'store')
                 <li class="my-2">
                     <a
                         class="w-full"
@@ -80,8 +76,8 @@
                         Create
                     </a>
                 </li>
-            @endcan
-            @can(UserPermission::name(UserPermission::COMPANY, 'restore'))
+            @endpermitted
+            @permitted(UserPermission::COMPANY, 'restore')
                 <li class="my-2">
                     <a
                         class="w-full"
@@ -90,7 +86,7 @@
                         Removed
                     </a>
                 </li>
-            @endcan
-        @endcan
+            @endpermitted
+        @endpermitted
     </ul>
 </div>

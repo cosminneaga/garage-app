@@ -11,8 +11,6 @@
 ])
 
 @php
-    use App\Enums\Columns\UserColumns;
-
     $parentname = $resource->getTable();
     $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
 

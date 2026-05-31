@@ -1,7 +1,3 @@
-@php
-use App\Enums\UserPermission;
-@endphp
-
 <x-layout::index title="Removed Companies">
     <h1 class="text-2xl font-bold underline">REMOVED COMPANIES</h1>
     <br><br>

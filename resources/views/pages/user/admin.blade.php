@@ -1,7 +1,3 @@
-@php
-    use App\Enums\UserPermission;
-@endphp
-
 <x-layout::index title="List of users">
     <x-table.users
         :data="$users"

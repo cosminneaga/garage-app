@@ -1,6 +1,5 @@
 import axios from "axios";
 import Alpine from "alpinejs";
-// import "preline";
 import "flowbite";
 
 import "./pagination";

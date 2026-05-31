@@ -1,7 +1,6 @@
 @props(['id', 'resource', 'countries' => [], 'trigger' => false])
 
 @php
-    use App\Enums\SupplierType;
     $parentname = $resource->getTable();
     $ids = [
         'modal' => $parentname . '-' . $id . '-modal',

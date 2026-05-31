@@ -50,7 +50,9 @@ class UserController extends Controller
     {
         $this->authorize('create', Auth::user());
 
-        return view('pages.user.create');
+        return view('pages.user.create', [
+            'countries' => Country::all(),
+        ]);
     }
 
     /**
