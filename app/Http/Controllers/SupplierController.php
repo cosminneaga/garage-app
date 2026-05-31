@@ -8,6 +8,7 @@ use App\Actions\SupplierStoreAction;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Company;
+use App\Models\Country;
 use App\Models\Supplier;
 use App\Policies\CompanyPolicy;
 use App\Traits\ResponseMessage;
@@ -20,9 +21,6 @@ class SupplierController extends Controller
 {
     use ResponseMessage;
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreSupplierRequest $request, Company $company, SupplierStoreAction $action): RedirectResponse
     {
         $this->authorize('create', Supplier::class);
@@ -41,20 +39,26 @@ class SupplierController extends Controller
             ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Company $company, Supplier $supplier): View
     {
-        return view('pages.supplier.edit', [
-            'company' => $company,
-            'supplier' => $supplier,
-        ]);
+        return match (request()->query('tab')) {
+            'statistics' => view('pages.supplier.edit.statistics', [
+                'supplier' => $supplier,
+            ]),
+            'contacts' => view('pages.supplier.edit.contacts', [
+                'supplier' => $supplier,
+            ]),
+            'addresses' => view('pages.supplier.edit.addresses', [
+                'supplier' => $supplier,
+                'countries' => Country::all(),
+            ]),
+            default => view('pages.supplier.edit.index', [
+                'company' => $company,
+                'supplier' => $supplier,
+            ]),
+        };
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateSupplierRequest $request, Company $company, Supplier $supplier): RedirectResponse
     {
         $this->authorize('edit', $supplier);
@@ -73,9 +77,6 @@ class SupplierController extends Controller
             ));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, Company $company, Supplier $supplier): RedirectResponse
     {
         $this->authorize('delete', $supplier);
