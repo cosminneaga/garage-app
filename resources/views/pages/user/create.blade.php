@@ -67,7 +67,6 @@
                 </div>
 
                 <div class="p-2">
-
                     <x-form.field
                         name="address[number]"
                         type="text"
@@ -109,7 +108,6 @@
                         label="Longitude"
                         test_identifier="user"
                     />
-
                 </div>
 
                 <div class="p-2">

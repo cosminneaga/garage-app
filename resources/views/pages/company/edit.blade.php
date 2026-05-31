@@ -107,6 +107,8 @@
                     chat
                     :data="$company->users"
                     :resource="$company"
+                    :countries="$countries"
+                    :team="$team"
                     :edit="Permission::can(UserPermission::USER, 'update')"
                     :delete="Permission::can(UserPermission::COMPANY, 'update')"
                 />

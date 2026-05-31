@@ -37,34 +37,34 @@ class TestSeeder extends Seeder
         */
 
         // ATTACHING users TO team
-        $admin = User::where('email', 'admin@garage.com')->first();
+        $admin = User::where('email', 'manager@garage.com')->first();
 
         // COMPANIES
-        $companies = Company::factory(50)->create();
-        collect($companies)->map(function ($company) {
-            $company->contacts()->attach(Contact::factory()->create());
-            $company->addresses()->attach(Address::factory()->create([
-                'country_id' => 1,
-            ]));
-        });
+        // $companies = Company::factory(50)->create();
+        // collect($companies)->map(function ($company) {
+        //     $company->contacts()->attach(Contact::factory()->create());
+        //     $company->addresses()->attach(Address::factory()->create([
+        //         'country_id' => 1,
+        //     ]));
+        // });
 
-        $admin->companies()->attach($companies);
+        // $admin->companies()->attach($companies);
 
         // USERS
-        // $users = User::factory(50)->create();
+        $users = User::factory(50)->create();
 
-        // foreach ($users as $user) {
+        foreach ($users as $user) {
 
-        //     $contact = Contact::factory()->create();
-        //     $address = Address::factory()->create([
-        //         'country_id' => 1,
-        //     ]);
+            $contact = Contact::factory()->create();
+            $address = Address::factory()->create([
+                'country_id' => 1,
+            ]);
 
-        //     $user->contacts()->attach($contact);
-        //     $user->addresses()->attach($address);
-        // }
+            $user->contacts()->attach($contact);
+            $user->addresses()->attach($address);
+        }
 
-        // $admin->team()->attach($users);
+        $admin->team()->attach($users);
 
         // USERS DELETE
         // $users = $admin->team()->get();

@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -34,6 +35,13 @@ class UserService
     public function with(string|array $relations): UserService
     {
         $this->result = $this->result->with($relations);
+
+        return $this;
+    }
+
+    public function select(string|array $relations): UserService
+    {
+        $this->result = $this->result->select($relations);
 
         return $this;
     }
@@ -87,9 +95,19 @@ class UserService
         return $this;
     }
 
+    public function filterOwnNotInCompany(Company $company): UserService
+    {
+        $this->result = $this->model()
+            ->filterOwn(ResourceFilter::DEFAULT)
+            ->result
+            ->whereNotIn('id', $company->users()->select('users.id'));
+
+        return $this;
+    }
+
     public function get(mixed $columns = '*'): Collection
     {
-        return $this->result->get();
+        return $this->result->get($columns);
     }
 
     public function paginate(int $limit): LengthAwarePaginator

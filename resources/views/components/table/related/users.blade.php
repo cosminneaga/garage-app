@@ -5,6 +5,8 @@
     'delete' => false,
     'chat' => false,
     'resource',
+    'countries',
+    'team',
     'searchRoute' => route('users.index'), // #NOTE: must go into: companies.user.search or something
 ])
 
@@ -41,6 +43,8 @@
         <x-modal.user.create
             id="user-create"
             :resource="$resource"
+            :countries="$countries"
+            :team="$team"
             trigger
         />
     </x-slot>

@@ -85,6 +85,7 @@ class CompanyController extends Controller
         return view('pages.company.edit', [
             'company' => $company,
             'countries' => Country::all(),
+            'team' => $this->userService->filterOwnNotInCompany($company)->get(),
         ]);
     }
 
