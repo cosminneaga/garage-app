@@ -66,14 +66,12 @@
                     identifier="user"
                     name="name"
                     type="text"
-                    value="Cosmin"
                     label="Name"
                 />
                 <x-form.field
                     identifier="user"
                     name="email"
                     type="email"
-                    value="cosmin@garage.com"
                     label="Email"
                 />
                 <x-form.field
@@ -86,14 +84,12 @@
                     identifier="user"
                     name="password"
                     type="password"
-                    value="password"
                     label="Password"
                 />
                 <x-form.field
                     identifier="user"
                     name="password_confirmed"
                     type="password"
-                    value="password"
                     label="Password Confirmation"
                 />
                 <x-form.field
@@ -118,21 +114,18 @@
                     identifier="user"
                     name="address[number]"
                     type="text"
-                    value="123"
                     label="Number"
                 />
                 <x-form.field
                     identifier="user"
                     name="address[street]"
                     type="text"
-                    value="Street"
                     label="Street"
                 />
                 <x-form.field
                     identifier="user"
                     name="address[postcode]"
                     type="text"
-                    value="postcode"
                     label="Postcode"
                 />
                 <x-form.field
@@ -150,14 +143,12 @@
                     identifier="user"
                     name="address[coordinates][latitude]"
                     type="text"
-                    value="9.3726372"
                     label="Latitude"
                 />
                 <x-form.field
                     identifier="user"
                     name="address[coordinates][longitude]"
                     type="text"
-                    value="43.3487283"
                     label="Longitude"
                 />
             </div>
@@ -174,14 +165,12 @@
                     identifier="user"
                     name="contact[landline]"
                     type="text"
-                    value="0112783787"
                     label="Landline Phone"
                 />
                 <x-form.field
                     identifier="user"
                     name="contact[email]"
                     type="email"
-                    value="cosmin.contact@email.com"
                     label="Email"
                 />
                 <x-form.field

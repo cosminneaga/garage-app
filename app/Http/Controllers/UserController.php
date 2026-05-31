@@ -82,12 +82,21 @@ class UserController extends Controller
             return redirect()->route('users.profile.edit', $user);
         }
 
-        return view('pages.user.edit', [
-            'user' => $user,
-            'addresses' => $user->addresses,
-            'contacts' => $user->contacts,
-            'countries' => Country::all(),
-        ]);
+        return match(request()->query('tab')) {
+            'statistics' => view('pages.user.edit.statistics', [
+                'user' => $user,
+            ]),
+            'contacts' => view('pages.user.edit.contacts', [
+                'user' => $user,
+            ]),
+            'addresses' => view('pages.user.edit.addresses', [
+                'user' => $user,
+                'countries' => Country::all(),
+            ]),
+            default => view('pages.user.edit.index', [
+                'user' => $user,
+            ]),
+        };
     }
 
     /**

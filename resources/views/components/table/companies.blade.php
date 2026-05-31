@@ -13,7 +13,7 @@
         ->map(fn ($col) => $col->value);
 
     if ($edit || $delete || $restore) {
-        $columns->push('actions');
+        $columns->push('Actions');
     }
 @endphp
 
