@@ -18,7 +18,7 @@ class UserStoreAction
         //
     }
 
-    public function handle(array $attributes): void
+    public function handle(array $attributes): User
     {
         $data['contact'] = $attributes['contact'];
         $data['address'] = $attributes['address'];
@@ -36,7 +36,7 @@ class UserStoreAction
             $data['user']['image_path'] = $attributes['image']->store('users', 'public');
         }
 
-        DB::transaction(function () use ($data) {
+        return DB::transaction(function () use ($data) {
             $user = User::create($data['user']);
             $user->assignRole($data['role']);
 
@@ -52,6 +52,8 @@ class UserStoreAction
                 ['email' => $data['contact']['email']],
                 $data['contact'],
             ));
+
+            return $user;
         });
     }
 }

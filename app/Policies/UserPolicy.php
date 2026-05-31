@@ -6,10 +6,9 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Interfaces\UserPolicyInterface;
 use App\Models\User;
 
-class UserPolicy implements UserPolicyInterface
+class UserPolicy
 {
     public function viewAny(User $user): bool
     {
@@ -78,23 +77,5 @@ class UserPolicy implements UserPolicyInterface
         }
 
         return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::USER, 'restore'));
-    }
-
-    public function removeAddress(User $user, User $model): bool
-    {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
-    }
-
-    public function removeContact(User $user, User $model): bool
-    {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return $user->isTeamMember($model) && $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
 }

@@ -6,11 +6,10 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Interfaces\SupplierPolicyInterface;
 use App\Models\Supplier;
 use App\Models\User;
 
-class SupplierPolicy implements SupplierPolicyInterface
+class SupplierPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -77,24 +76,10 @@ class SupplierPolicy implements SupplierPolicyInterface
      */
     public function forceDelete(User $user, Supplier $supplier): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         return false;
-    }
-
-    public function removeAddress(User $user, Supplier $supplier): bool
-    {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::ADDRESS, 'delete'));
-    }
-
-    public function removeContact(User $user, Supplier $supplier): bool
-    {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return $supplier->isMySupplier($user) && $user->can(UserPermission::name(UserPermission::CONTACT, 'delete'));
     }
 }

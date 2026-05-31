@@ -32,26 +32,26 @@
                         type="text"
                         label="Name"
                         :value="$user->name"
-                        test_identifier="user_update"
+                        identifier="user_update"
                     />
                     <x-form.field
                         name="email"
                         type="email"
                         label="Email"
                         :value="$user->email"
-                        test_identifier="user_update"
+                        identifier="user_update"
                     />
                     <x-form.field
                         name="image"
                         type="image"
                         accept="image/*"
-                        test_identifier="user_update"
+                        identifier="user_update"
                     />
                     <x-form.field
                         name="active"
                         type="toggle"
                         checked="{{ $user->active }}"
-                        test_identifier="user_update"
+                        identifier="user_update"
                     >
                         <x-slot name="before">Inactive</x-slot>
                         <x-slot name="after">Active</x-slot>

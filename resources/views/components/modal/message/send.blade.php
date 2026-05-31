@@ -10,7 +10,11 @@
     >Chat</x-button>
 @endif
 
-<x-modal.wrapper :id="$id" title="Send a quick message to {{ $resource->name }}">
+<x-modal.wrapper
+    title="Send a quick message to {{ $resource->name }}"
+    :id="$id"
+    position="center"
+>
     <form action="#">
         @csrf
 

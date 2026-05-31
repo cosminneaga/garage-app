@@ -211,17 +211,6 @@ class User extends Authenticatable
 
     public function team(): BelongsToMany
     {
-        // if (! $this->getRoleNames()
-        //     ->contains(fn ($item) => in_array(
-        //         $item,
-        //         [
-        //             UserRole::SUPER->value,
-        //             UserRole::USER_ADMIN->value,
-        //         ],
-        //     ))) {
-        //     throw new UnauthorizedException(403)->forRoles([UserRole::SUPER->value, UserRole::USER_ADMIN->value]);
-        // }
-
         return $this->belongsToMany(
             User::class,
             Team::class,

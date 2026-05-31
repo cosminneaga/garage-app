@@ -6,11 +6,10 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Interfaces\CompanyPolicyInterface;
 use App\Models\Company;
 use App\Models\User;
 
-class CompanyPolicy implements CompanyPolicyInterface
+class CompanyPolicy
 {
     /**
      * Has access to all resources page
@@ -89,33 +88,10 @@ class CompanyPolicy implements CompanyPolicyInterface
      */
     public function forceDelete(User $user, Company $company): bool
     {
+        if ($user->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
         return false;
-    }
-
-    public function removeAddress(User $user, Company $company): bool
-    {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::ADDRESS, 'delete'));
-    }
-
-    public function removeContact(User $user, Company $company): bool
-    {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::CONTACT, 'delete'));
-    }
-
-    public function removeSupplier(User $user, Company $company): bool
-    {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
-        return $company->isMyCompany($user) && $user->hasPermissionTo(UserPermission::name(UserPermission::SUPPLIER, 'delete'));
     }
 }

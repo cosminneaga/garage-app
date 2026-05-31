@@ -31,31 +31,31 @@
             name="mobile"
             type="text"
             label="Mobile Phone"
-            test_identifier="contact"
+            identifier="contact"
         />
         <x-form.field
             name="landline"
             type="text"
             label="Landline Phone"
-            test_identifier="contact"
+            identifier="contact"
         />
         <x-form.field
             name="email"
             type="email"
             label="Email"
-            test_identifier="contact"
+            identifier="contact"
         />
         <x-form.field
             name="url"
             type="text"
             label="URL"
-            test_identifier="contact"
+            identifier="contact"
         />
         <x-form.field
             name="info"
             type="textarea"
             label="More Information"
-            test_identifier="contact"
+            identifier="contact"
         />
 
         <div class="flex gap-1">

@@ -95,12 +95,16 @@ class UserService
         return $this;
     }
 
-    public function filterOwnNotInCompany(Company $company): UserService
+    public function whereNotInCompany(Company $company): UserService
     {
-        $this->result = $this->model()
-            ->filterOwn(ResourceFilter::DEFAULT)
-            ->result
-            ->whereNotIn('id', $company->users()->select('users.id'));
+        $this->filterOwn(ResourceFilter::DEFAULT)->result->whereNotIn('id', $company->users()->select('users.id'));
+
+        return $this;
+    }
+
+    public function whereInCompany(Company $company): UserService
+    {
+        $this->result->whereIn('id', $company->users()->select('users.id'));
 
         return $this;
     }
@@ -110,8 +114,8 @@ class UserService
         return $this->result->get($columns);
     }
 
-    public function paginate(int $limit): LengthAwarePaginator
+    public function paginate(int $limit, array $query = []): LengthAwarePaginator
     {
-        return $this->result->paginate($limit, 'users')->appends(['search' => $this->searchQuery, 'limit' => $limit]);
+        return $this->result->paginate($limit, 'users')->appends($query);
     }
 }

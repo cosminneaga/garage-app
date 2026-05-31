@@ -9,11 +9,11 @@
     'select_map_value' => 'name',
     'select_map_label' => 'label',
     'checked' => false,
-    'test_identifier' => '',
+    'identifier' => '',
 ])
 
 @php
-    $testName = $test_identifier . '_' . Str::replace(['[', ']'], ['_', ''], $name);
+    $testName = $identifier . '_' . Str::replace(['[', ']'], ['_', ''], $name);
     $errorName = Str::replace(['[', ']'], ['.', ''], $name);
 @endphp
 
@@ -41,8 +41,11 @@
 
             @case('image')
                 <x-form.file.image
+                    :identifier="$testName"
                     :name="$name"
-                    :test="$testName"
+                    :id="$testName"
+                    :data-test="$testName"
+                    {{ $attributes }}
                 />
             @break
 

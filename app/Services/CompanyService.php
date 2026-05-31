@@ -55,6 +55,14 @@ class CompanyService
         return $this;
     }
 
+    public function searchUser(string $search = ''): CompanyService
+    {
+        $this->result = User::search($search);
+        $this->searchQuery = $search;
+
+        return $this;
+    }
+
     public function filterOwn(ResourceFilter $filter): CompanyService
     {
         if ($this->user->hasRole(UserRole::USER_EDITOR)) {
@@ -129,8 +137,8 @@ class CompanyService
         return $this->result->get($columns);
     }
 
-    public function paginate(int $limit): LengthAwarePaginator
+    public function paginate(int $limit, array $query = []): LengthAwarePaginator
     {
-        return $this->result->paginate($limit, 'companies')->appends(['search' => $this->searchQuery, 'limit' => $limit]);
+        return $this->result->paginate($limit, 'companies')->appends($query);
     }
 }

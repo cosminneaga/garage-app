@@ -6,11 +6,15 @@ namespace App\Http\Controllers;
 
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
+use App\Actions\UserStoreAction;
 use App\Enums\Resource\ResourceFilter;
 use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateCompanyRequest;
+use App\Http\Requests\UserIdRequest;
 use App\Models\Company;
 use App\Models\Country;
+use App\Models\User;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use App\Traits\RequestTabHandler;
@@ -38,11 +42,11 @@ class CompanyController extends Controller
     public function index(Request $request): View
     {
         $this->authorize('viewAny', Company::class);
-        $querySearch = $request->string('search')->value();
+        $search = $request->string('search')->value();
 
         return view('pages.company.index', [
             'companies' => $this->companyService
-                ->search($querySearch)
+                ->search($search)
                 ->filterOwn(ResourceFilter::DEFAULT)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
@@ -81,12 +85,37 @@ class CompanyController extends Controller
     public function edit(Company $company): View
     {
         $this->authorize('edit', $company);
+        $search = request()->string('search')->value();
 
-        return view('pages.company.edit', [
-            'company' => $company,
-            'countries' => Country::all(),
-            'team' => $this->userService->filterOwnNotInCompany($company)->get(),
-        ]);
+        return match(request()->query('tab')) {
+            'statistics' => view('pages.company.edit.statistics'),
+            'members' => view('pages.company.edit.members', [
+                'company' => $company,
+                'countries' => Country::all(),
+                'team' => $this->userService
+                    ->model()
+                    ->whereNotInCompany($company)
+                    ->get(),
+                'members' => $this->userService
+                    ->search($search)
+                    ->whereInCompany($company)
+                    ->paginate(10, request()->query()),
+            ]),
+            'contacts' => view('pages.company.edit.contacts', [
+                'company' => $company,
+            ]),
+            'addresses' => view('pages.company.edit.addresses', [
+                'company' => $company,
+                'countries' => Country::all(),
+            ]),
+            'suppliers' => view('pages.company.edit.suppliers', [
+                'company' => $company,
+                'countries' => Country::all(),
+            ]),
+            default => view('pages.company.edit.index', [
+                'company' => $company,
+            ]),
+        };
     }
 
     /**
@@ -166,5 +195,46 @@ class CompanyController extends Controller
                 ->filterAll(ResourceFilter::WITH_TRASHED)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
+    }
+
+    public function userStore(StoreUserRequest $request, Company $company, UserStoreAction $action)
+    {
+        $this->authorize('edit', $company);
+        $attributes = $request->safe()->all();
+        $attributes['active'] = $request->boolean('active');
+
+        $user = $action->handle($attributes);
+        $company->users()->attach($user);
+        Auth::user()->team()->attach($user);
+
+        return back()->with('message', self::responseMessage(
+            'success',
+            'User created',
+            'User created and attached to your team & company'
+        ));
+    }
+
+    public function userAttach(UserIdRequest $request, Company $company)
+    {
+        $this->authorize('edit', $company);
+        $company->users()->attach($request->safe()->id);
+
+        return back()->with('message', self::responseMessage(
+            'info',
+            'User added',
+            'Existing user has been attached to your company'
+        ));
+    }
+
+    public function userDestroy(Company $company, User $user)
+    {
+        $this->authorize('edit', $company);
+        $company->users()->detach($user);
+
+        return back()->with('message', self::responseMessage(
+            'info',
+            'User removed',
+            'Existing user has been deattached from your company'
+        ));
     }
 }

@@ -69,6 +69,10 @@ Route::group(['middleware' => ['auth', 'role:super|user_admin|user_editor']], fu
     Route::get('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'edit'])->name('companies.supplier.edit');
     Route::put('/companies/{company}/suppliers/{supplier}', [SupplierController::class, 'update'])->name('companies.supplier.update');
 
+    Route::put('/companies/{company}/user', [CompanyController::class, 'userAttach'])->name('companies.user.attach');
+    Route::post('/companies/{company}/user', [CompanyController::class, 'userStore'])->name('companies.user.store');
+    Route::delete('/companies/{company}/user/{user}', [CompanyController::class, 'userDestroy'])->name('companies.user.destroy');
+
     // SUPPLIERS
     Route::get('/suppliers/{supplier}/address/{address}', [AddressController::class, 'edit'])->name('suppliers.address.edit');
     Route::post('/suppliers/{supplier}/address', [AddressController::class, 'store'])->name('suppliers.address.store');

@@ -12,6 +12,8 @@
 
 @php
     use App\Enums\Columns\UserColumns;
+
+    $parentname = $resource->getTable();
     $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
 
     if ($edit || $delete || $chat || $restore) {
@@ -28,6 +30,16 @@
             method="GET"
             action="{{ $searchRoute }}"
         >
+
+            @foreach(request()->except('search') as $key => $value)
+                <x-form.field
+                    name="{{ $key }}"
+                    type="text"
+                    value="{{ $value }}"
+                    hidden
+                />
+            @endforeach
+
             <x-form.field
                 name="search"
                 type="text"
@@ -120,7 +132,7 @@
                                 <x-modal.confirm
                                     id="user-company-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route('users.destroy', $row->id) }}"
+                                    action="{{ route($parentname . '.user.destroy', [$resource, $row]) }}"
                                     {{-- companies.user.destroy --}}
                                     message="Are you sure you want to remove {{ $row->name }} from {{ $resource->name }}?"
                                 />

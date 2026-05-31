@@ -63,7 +63,7 @@ class ContactController extends Controller
         $entity = RelatedAddressContact::from($type)->entity($id);
         $policy = RelatedAddressContact::from($type)->policy();
 
-        $guard = app($policy)->removeContact(Auth::user(), $entity);
+        $guard = app($policy)->edit(Auth::user(), $entity);
         if (! $guard) {
             abort(401);
         }

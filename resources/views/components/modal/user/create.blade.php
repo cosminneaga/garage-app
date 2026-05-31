@@ -28,76 +28,85 @@
     title="Create user"
     size="7xl"
 >
+    @if ($team->count())
+        <form
+            action="{{ route($parentname . '.user.attach', $resource) }}"
+            method="POST"
+        >
+            @csrf
+            @method('PUT')
+
+            <x-form.field
+                identifier="user_select"
+                name="id"
+                type="select"
+                select_map_label="name"
+                select_map_value="id"
+                :options="$team"
+            />
+
+            <x-button
+                id="{{ $ids['submit-attach'] }}"
+                type="submit"
+            >Attach User</x-button>
+        </form>
+    @endif
+
     <form
-        {{-- action="{{ route($parentname . '.user.attach', $resource) }}" --}}
+        id="company-user-create"
+        action="{{ route($parentname . '.user.store', $resource) }}"
         method="POST"
-    >
-        @csrf
-
-        <x-form.field
-            name="user"
-            type="select"
-            select_map_label="name"
-            select_map_value="id"
-            test_identifier="user_select"
-            :options="$team"
-        />
-
-        <x-button
-            type="submit"
-            id="{{ $ids['submit-attach'] }}"
-        >Attach User</x-button>
-    </form>
-
-    <form
-        {{-- action="{{ route($parentname . '.user.store', $resource) }}" --}}
-        method="POST"
+        enctype="@enctype"
     >
         @csrf
 
         <div class="grid grid-rows-1 gap-1 md:grid-cols-2 lg:grid-cols-3">
             <div class="p-2">
                 <x-form.field
+                    identifier="user"
                     name="name"
                     type="text"
+                    value="Cosmin"
                     label="Name"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="email"
                     type="email"
+                    value="cosmin@garage.com"
                     label="Email"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="image"
                     type="image"
                     accept="image/*"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="password"
                     type="password"
+                    value="password"
                     label="Password"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="password_confirmed"
                     type="password"
+                    value="password"
                     label="Password Confirmation"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="role"
                     type="select"
                     label="Select a role"
                     :options="UserRole::ui()"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="active"
                     type="checkbox"
-                    test_identifier="user"
                 >
                     <x-slot name="before">Inactive</x-slot>
                     <x-slot name="after">Active</x-slot>
@@ -106,79 +115,87 @@
 
             <div class="p-2">
                 <x-form.field
+                    identifier="user"
                     name="address[number]"
                     type="text"
+                    value="123"
                     label="Number"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="address[street]"
                     type="text"
+                    value="Street"
                     label="Street"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="address[postcode]"
                     type="text"
+                    value="postcode"
                     label="Postcode"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="address[country_id]"
                     type="select"
                     label="Select a country"
                     select_map_label="name"
                     select_map_value="id"
                     :options="$countries"
-                    test_identifier="user"
                 />
                 <h3 class="text-lg font-bold">Location</h3>
                 <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
                 <x-form.field
+                    identifier="user"
                     name="address[coordinates][latitude]"
                     type="text"
+                    value="9.3726372"
                     label="Latitude"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="address[coordinates][longitude]"
                     type="text"
+                    value="43.3487283"
                     label="Longitude"
-                    test_identifier="user"
                 />
             </div>
 
             <div class="p-2">
                 <x-form.field
+                    identifier="user"
                     name="contact[mobile]"
                     type="text"
+                    value="0774992903"
                     label="Mobile Phone"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="contact[landline]"
                     type="text"
+                    value="0112783787"
                     label="Landline Phone"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="contact[email]"
                     type="email"
+                    value="cosmin.contact@email.com"
                     label="Email"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="contact[url]"
                     type="text"
                     label="URL"
-                    test_identifier="user"
                 />
                 <x-form.field
+                    identifier="user"
                     name="contact[info]"
                     type="textarea"
                     label="More Information"
                     rows="10"
-                    test_identifier="user"
                 />
             </div>
         </div>
@@ -186,6 +203,7 @@
         <div class="flex gap-1">
             <x-button
                 id="{{ $ids['submit'] }}"
+                form="company-user-create"
                 type="submit"
             >Submit</x-button>
         </div>
