@@ -56,7 +56,7 @@ class UserService
 
     public function filterOwn(ResourceFilter $filter): UserService
     {
-        if ($this->user->hasRole(UserRole::USER_EDITOR)) {
+        if ($this->user->hasRole([UserRole::USER_EDITOR->value, UserRole::USER_VIEWER->value])) {
             $this->user = $this->user->managers()->first();
         }
 

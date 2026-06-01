@@ -6,8 +6,8 @@ namespace App\Http\Requests;
 
 use App\Enums\SupplierType;
 use App\Enums\UserPermission;
+use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 
 class UpdateSupplierRequest extends FormRequest
@@ -17,7 +17,7 @@ class UpdateSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->can(UserPermission::name(UserPermission::SUPPLIER, 'update'));
+        return Permission::can(UserPermission::SUPPLIER, 'update');
     }
 
     /**

@@ -62,7 +62,6 @@ class UserController extends Controller
     {
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
-
         $action->handle($attributes);
 
         return redirect(route('users.index'))
@@ -78,7 +77,7 @@ class UserController extends Controller
      */
     public function edit(User $user): RedirectResponse|View
     {
-        $this->authorize('edit', $user);
+        $this->authorize('view', $user);
 
         if ($user->id === Auth::user()->id) {
             return redirect()->route('users.profile.edit', $user);
@@ -117,7 +116,6 @@ class UserController extends Controller
 
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
-
         $action->handle($attributes, $user);
 
         return back()
@@ -176,7 +174,7 @@ class UserController extends Controller
      */
     public function restore(string|int $userId): RedirectResponse
     {
-        $user = User::onlyTrashed()->find($userId);
+        $user = User::onlyTrashed()->findOrFail($userId);
         $this->authorize('restore', $user);
         $user->restore();
 

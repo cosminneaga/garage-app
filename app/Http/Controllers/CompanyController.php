@@ -57,7 +57,7 @@ class CompanyController extends Controller
      */
     public function create(): View
     {
-        $this->authorize('create', Auth::user());
+        $this->authorize('create', Company::class);
 
         return view('pages.company.create', [
             'countries' => Country::all(),
@@ -184,19 +184,6 @@ class CompanyController extends Controller
             ));
     }
 
-    // ADMIN
-    public function all(Request $request): View
-    {
-        $querySearch = $request->string('search')->value();
-
-        return view('pages.company.admin', [
-            'companies' => $this->companyService
-                ->search($querySearch)
-                ->filterAll(ResourceFilter::WITH_TRASHED)
-                ->paginate($request->integer('limit') ?? 10),
-        ]);
-    }
-
     public function userStore(StoreUserRequest $request, Company $company, UserStoreAction $action)
     {
         $this->authorize('edit', $company);
@@ -236,5 +223,18 @@ class CompanyController extends Controller
             'User removed',
             'Existing user has been deattached from your company'
         ));
+    }
+
+    // ADMIN
+    public function all(Request $request): View
+    {
+        $querySearch = $request->string('search')->value();
+
+        return view('pages.company.admin', [
+            'companies' => $this->companyService
+                ->search($querySearch)
+                ->filterAll(ResourceFilter::WITH_TRASHED)
+                ->paginate($request->integer('limit') ?? 10),
+        ]);
     }
 }

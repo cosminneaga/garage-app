@@ -7,8 +7,8 @@ namespace App\Http\Requests;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
+use Permission;
 
 class StoreUserRequest extends FormRequest
 {
@@ -17,7 +17,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->can(UserPermission::name(UserPermission::USER, 'store'));
+        return Permission::can(UserPermission::USER, 'store');
     }
 
     public function rules(): array

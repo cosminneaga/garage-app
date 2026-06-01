@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\UserPermission;
+use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -15,7 +15,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->can(UserPermission::name(UserPermission::USER, 'update'));
+        return Permission::can(UserPermission::USER, 'update');
     }
 
     public function rules(): array

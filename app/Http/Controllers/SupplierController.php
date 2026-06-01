@@ -23,7 +23,6 @@ class SupplierController extends Controller
 
     public function store(StoreSupplierRequest $request, Company $company, SupplierStoreAction $action): RedirectResponse
     {
-        $this->authorize('create', Supplier::class);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
         if (! $guard) {
             abort(401);
@@ -41,6 +40,12 @@ class SupplierController extends Controller
 
     public function edit(Company $company, Supplier $supplier): View
     {
+        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
+        if (! $guard) {
+            abort(401);
+        }
+        $this->authorize('edit', $supplier);
+
         return match (request()->query('tab')) {
             'statistics' => view('pages.supplier.edit.statistics', [
                 'supplier' => $supplier,
@@ -61,7 +66,6 @@ class SupplierController extends Controller
 
     public function update(UpdateSupplierRequest $request, Company $company, Supplier $supplier): RedirectResponse
     {
-        $this->authorize('edit', $supplier);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
         if (! $guard) {
             abort(401);
@@ -79,11 +83,11 @@ class SupplierController extends Controller
 
     public function destroy(Company $company, Supplier $supplier): RedirectResponse
     {
-        $this->authorize('delete', $supplier);
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
         if (! $guard) {
             abort(401);
         }
+        $this->authorize('delete', $supplier);
 
         $company->suppliers()->detach($supplier);
 
@@ -112,6 +116,8 @@ class SupplierController extends Controller
 
     public function editSingle(Supplier $supplier): View
     {
+        $this->authorize('view', $supplier);
+
         return match (request()->query('tab')) {
             'statistics' => view('pages.supplier.edit.statistics', [
                 'supplier' => $supplier,

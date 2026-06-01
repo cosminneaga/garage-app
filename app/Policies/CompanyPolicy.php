@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Helpers\Permission;
 use App\Models\Company;
 use App\Models\User;
@@ -25,10 +24,6 @@ class CompanyPolicy
      */
     public function view(User $user, Company $company): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'show');
     }
 
@@ -45,10 +40,6 @@ class CompanyPolicy
      */
     public function edit(User $user, Company $company): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'update');
     }
 
@@ -57,10 +48,6 @@ class CompanyPolicy
      */
     public function delete(User $user, Company $company): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'delete');
     }
 
@@ -77,18 +64,6 @@ class CompanyPolicy
      */
     public function restore(User $user, Company $company): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'restore');
-    }
-
-    /**
-     * Enabled only for 'super' role
-     */
-    public function forceDelete(User $user): bool
-    {
-        return $user->hasRole(UserRole::SUPER);
     }
 }

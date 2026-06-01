@@ -69,6 +69,18 @@ class LocalEnv extends Seeder
         $manager->addresses()->attach($address[1]);
         $manager->contacts()->attach($contact[1]);
 
+        // 5.1 adding second manager attached to the first manager
+        $manager2 = User::factory()->create([
+            'name' => 'Manager2 User',
+            'email' => 'manager2@garage.com',
+            'password' => 'password',
+            'active' => true,
+        ]);
+        $manager2->assignRole(UserRole::USER_ADMIN);
+        $manager2->addresses()->attach($address[1]);
+        $manager2->contacts()->attach($contact[1]);
+        $manager->team()->attach($manager2);
+
         // 6. adding editor team member, attach contact & address, role assignation
         $editorUser = User::factory()->create([
             'name' => 'Editor User',
@@ -80,6 +92,7 @@ class LocalEnv extends Seeder
         $editorUser->addresses()->attach($address[2]);
         $editorUser->contacts()->attach($contact[2]);
         $manager->team()->attach($editorUser);
+        $manager2->team()->attach($editorUser);
 
         // 7. adding viewer team member
         $viewerUser = User::factory()->create([
@@ -92,6 +105,7 @@ class LocalEnv extends Seeder
         $viewerUser->addresses()->attach($address[3]);
         $viewerUser->contacts()->attach($contact[3]);
         $manager->team()->attach($viewerUser);
+        $manager2->team()->attach($viewerUser);
 
         // 8. adding related company for all team members
         $teamCompany = Company::factory()->create([
@@ -99,7 +113,7 @@ class LocalEnv extends Seeder
         ]);
         $teamCompany->addresses()->attach($address[4]);
         $teamCompany->contacts()->attach($contact[4]);
-        $teamCompany->users()->attach([$manager, $editorUser, $viewerUser]);
+        $teamCompany->users()->attach([$manager, $manager2, $editorUser, $viewerUser]);
 
         // 9. adding related supplier for given company
         $supplier = Supplier::factory()->create([

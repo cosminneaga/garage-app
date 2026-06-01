@@ -48,7 +48,6 @@ class PermissionsSeeder extends Seeder
         // user viewer
         foreach (
             UserPermission::list(
-                excludeReferences: ['user'],
                 excludeActions: ['restore', 'store', 'update', 'delete'],
             ) as $permission
         ) {

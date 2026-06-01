@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use App\Helpers\Permission;
 use App\Models\User;
 
@@ -21,10 +20,6 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'show');
     }
 
@@ -41,10 +36,6 @@ class UserPolicy
      */
     public function edit(User $user, User $model): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'update');
     }
 
@@ -53,10 +44,6 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'delete');
     }
 
@@ -73,10 +60,6 @@ class UserPolicy
      */
     public function restore(User $user, User $model): bool
     {
-        if ($user->hasRole(UserRole::SUPER)) {
-            return true;
-        }
-
         return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'restore');
     }
 }

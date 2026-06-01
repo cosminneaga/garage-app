@@ -170,6 +170,26 @@ class User extends Authenticatable
         ];
     }
 
+    public function team(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            Team::class,
+            'manager_id',
+            'user_id',
+        );
+    }
+
+    public function managers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            Team::class,
+            'user_id',
+            'manager_id',
+        );
+    }
+
     public function addresses(): BelongsToMany
     {
         return $this->belongsToMany(Address::class);
@@ -183,25 +203,5 @@ class User extends Authenticatable
     public function contacts(): BelongsToMany
     {
         return $this->belongsToMany(Contact::class);
-    }
-
-    public function team(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            Team::class,
-            'manager_id',
-            'user_id',
-        )->withTimestamps();
-    }
-
-    public function managers(): BelongsToMany
-    {
-        return $this->belongsToMany(
-            User::class,
-            Team::class,
-            'user_id',
-            'manager_id',
-        );
     }
 }
