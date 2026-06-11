@@ -65,7 +65,7 @@ class LocalEnv extends Seeder
             'password' => 'password',
             'active' => true,
         ]);
-        $manager->assignRole(UserRole::USER_ADMIN);
+        $manager->assignRole(UserRole::ADMINISTRATOR);
         $manager->addresses()->attach($address[1]);
         $manager->contacts()->attach($contact[1]);
 
@@ -76,7 +76,7 @@ class LocalEnv extends Seeder
             'password' => 'password',
             'active' => true,
         ]);
-        $manager2->assignRole(UserRole::USER_ADMIN);
+        $manager2->assignRole(UserRole::ADMINISTRATOR);
         $manager2->addresses()->attach($address[1]);
         $manager2->contacts()->attach($contact[1]);
         $manager->team()->attach($manager2);
@@ -88,7 +88,7 @@ class LocalEnv extends Seeder
             'password' => 'password',
             'active' => true,
         ]);
-        $editorUser->assignRole(UserRole::USER_EDITOR);
+        $editorUser->assignRole(UserRole::MANAGER);
         $editorUser->addresses()->attach($address[2]);
         $editorUser->contacts()->attach($contact[2]);
         $manager->team()->attach($editorUser);
@@ -101,7 +101,7 @@ class LocalEnv extends Seeder
             'password' => 'password',
             'active' => true,
         ]);
-        $viewerUser->assignRole(UserRole::USER_VIEWER);
+        $viewerUser->assignRole(UserRole::USER);
         $viewerUser->addresses()->attach($address[3]);
         $viewerUser->contacts()->attach($contact[3]);
         $manager->team()->attach($viewerUser);

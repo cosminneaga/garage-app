@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
+use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * @property int $id
@@ -40,6 +42,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $activities_as_subject_count
  * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
+ * @property-read Collection<int, User> $administrators
+ * @property-read int|null $administrators_count
  * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
  * @property-read Collection<int, \App\Models\Contact> $contacts
@@ -56,6 +60,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $team_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
+ * @property-read Collection<int, User> $users
+ * @property-read int|null $users_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -91,6 +97,7 @@ class User extends Authenticatable
     use Notifiable;
     use Searchable;
     use SoftDeletes;
+    use HasRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -141,14 +148,19 @@ class User extends Authenticatable
         return $this->active;
     }
 
+    public function isAdministrator(): bool
+    {
+        return $this->hasRole(UserRole::ADMINISTRATOR);
+    }
+
     public function isManager(): bool
     {
-        return $this->hasRole(UserRole::USER_ADMIN);
+        return $this->hasRole(UserRole::MANAGER);
     }
 
     public function isTeamMember(User $user): bool
     {
-        if ($this->hasRole(UserRole::USER_EDITOR)) {
+        if ($this->hasRole(UserRole::USER)) {
             $manager = $this->managers()->first();
 
             return (bool) $manager->team()->find($user->id);
@@ -170,23 +182,33 @@ class User extends Authenticatable
         ];
     }
 
-    public function team(): BelongsToMany
+    public function managers(): BelongsToMany
     {
+
+        if ($this->hasRole(UserRole::ADMINISTRATOR)) {
+            return $this->belongsToMany(
+                User::class,
+                'team_administrator_managers',
+                'administrator_id',
+                'manager_id',
+            );
+        }
+
         return $this->belongsToMany(
             User::class,
-            Team::class,
-            'manager_id',
+            'team_manager_users',
             'user_id',
+            'manager_id',
         );
     }
 
-    public function managers(): BelongsToMany
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(
             User::class,
-            Team::class,
-            'user_id',
+            'team_manager_users',
             'manager_id',
+            'user_id',
         );
     }
 

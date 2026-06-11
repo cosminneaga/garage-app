@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\Related\RelationNameUser;
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
+use Error;
+use Exception;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Laravel\Scout\Builder;
+use Laravel\Scout\Builder as ScoutBuilder;
+use Throwable;
 
 class UserService
 {
     public $searchQuery = '';
-    public Builder|User|EloquentBuilder $result;
+    public ScoutBuilder|User|EloquentBuilder $result;
 
     public function __construct(
         #[CurrentUser]
@@ -54,30 +58,7 @@ class UserService
         return $this;
     }
 
-    public function filterOwn(ResourceFilter $filter): UserService
-    {
-        if ($this->user->hasRole([UserRole::USER_EDITOR->value, UserRole::USER_VIEWER->value])) {
-            $this->user = $this->user->managers()->first();
-        }
-
-        switch ($filter) {
-            case ResourceFilter::ONLY_TRASHED:
-                $this->result->onlyTrashed()->whereIn('id', $this->user->team()->onlyTrashed()->select('users.id'));
-                break;
-
-            case ResourceFilter::WITH_TRASHED:
-                $this->result->withTrashed()->whereIn('id', $this->user->team()->withTrashed()->select('users.id'));
-                break;
-
-            default:
-                $this->result->whereIn('id', $this->user->team()->select('users.id'));
-                break;
-        }
-
-        return $this;
-    }
-
-    public function filterAll(ResourceFilter $filter): UserService
+    public function resourceFilter(ResourceFilter $filter): UserService
     {
         switch ($filter) {
             case ResourceFilter::ONLY_TRASHED:
@@ -95,19 +76,20 @@ class UserService
         return $this;
     }
 
-    public function whereNotInCompany(Company $company): UserService
-    {
-        $this->filterOwn(ResourceFilter::DEFAULT)->result->whereNotIn('id', $company->users()->select('users.id'));
+    // !!! Keeping this here to have an idea how data was manipulated, after re-work, erase
+    // public function whereNotInCompany(Company $company): UserService
+    // {
+    //     $this->filterOwn(ResourceFilter::DEFAULT)->result->whereNotIn('id', $company->users()->select('users.id'));
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function whereInCompany(Company $company): UserService
-    {
-        $this->result->whereIn('id', $company->users()->select('users.id'));
+    // public function whereInCompany(Company $company): UserService
+    // {
+    //     $this->result->whereIn('id', $company->users()->select('users.id'));
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function get(mixed $columns = '*'): Collection
     {
@@ -117,5 +99,63 @@ class UserService
     public function paginate(int $limit, array $query = []): LengthAwarePaginator
     {
         return $this->result->paginate($limit, 'users')->appends($query);
+    }
+
+    /**
+     * Returns a list of related users based on authenticated or given user
+     * able to select user account using administrator role, thus all users
+     * must have a role assigned.
+     *
+     * @param UserRole $forRole
+     * @return UserService
+     */
+    public function team(UserRole $forRole): UserService
+    {
+
+        $role = $this->user->getRoleNames();
+
+        if (!count($role)) {
+            throw new Exception('Designated user must have a role attached');
+        }
+
+        if (UserRole::from($role[0]) === $forRole) {
+            throw new Exception('A relation cannot be build on same roles');
+        }
+
+        $pointRole = UserRole::from($role[0]);
+        $relationMapped = UserRole::mapRelation($pointRole, $forRole);
+
+
+        $first = $relationMapped->first();
+        $last = $relationMapped->last();
+
+        // extract the target
+        $result = $this->user;
+        $result = $result->join($last['table_name'], $last['table_name'] . '.' . $last['columns'][0], '=', 'users.id');
+
+        // inner joins
+        if (count($relationMapped) > 2) {
+            $inner = $relationMapped->slice(1, -1);
+
+            foreach ($inner as $index => $ir) {
+                $previous = $relationMapped[$index - 1];
+                $result = $result->join($previous['table_name'], $previous['table_name'] . '.' . $previous['columns'][1], '=', $ir['table_name'] . '.' . $ir['columns'][0]);
+            }
+        }
+
+        $result = $result
+            ->where($first['table_name'] . '.' . $first['columns'][0], $this->user->id)
+            ->distinct();
+
+        switch(get_class($this->result)) {
+            case 'Laravel\Scout\Builder':
+                $this->result->whereIn('id', $result->select('users.id'));
+                break;
+            default:
+                $this->result = $result;
+                break;
+        }
+
+        return $this;
     }
 }

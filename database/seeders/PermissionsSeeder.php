@@ -23,35 +23,33 @@ class PermissionsSeeder extends Seeder
         }
 
         app(Role::class)->findOrCreate(UserRole::SUPER->value, 'web');
-        $userAdmin = app(Role::class)->findOrCreate(UserRole::USER_ADMIN->value, 'web');
-        $userEditor = app(Role::class)->findOrCreate(UserRole::USER_EDITOR->value, 'web');
-        $userViewer = app(Role::class)->findOrCreate(UserRole::USER_VIEWER->value, 'web');
+        $administrator = app(Role::class)->findOrCreate(UserRole::ADMINISTRATOR->value, 'web');
+        $manager = app(Role::class)->findOrCreate(UserRole::MANAGER->value, 'web');
+        $user = app(Role::class)->findOrCreate(UserRole::USER->value, 'web');
 
-        // user admin
+        // administrator
         foreach (UserPermission::list() as $permission) {
-            $userAdmin->givePermissionTo($permission);
+            $administrator->givePermissionTo($permission);
         }
 
-        // user editor
-        $userEditor->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
-        $userEditor->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
-        $userEditor->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
+        // manager
+        $manager->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+        $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
         foreach (
             UserPermission::list(
-                excludeReferences: ['user', 'company'],
-                excludeActions: ['restore', 'delete'],
+                excludeReferences: ['company'],
             ) as $permission
         ) {
-            $userEditor->givePermissionTo($permission);
+            $manager->givePermissionTo($permission);
         }
 
-        // user viewer
+        // user
         foreach (
             UserPermission::list(
                 excludeActions: ['restore', 'store', 'update', 'delete'],
             ) as $permission
         ) {
-            $userViewer->givePermissionTo($permission);
+            $user->givePermissionTo($permission);
         }
     }
 }
