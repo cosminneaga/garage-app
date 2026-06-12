@@ -51,29 +51,17 @@ test('isMyUser: success on administrator', function () {
     expect($administrator->isMyUser($extUser))->toEqual(false);
 });
 
-test('isMyUser: fail wrong role', function () {
+test('users: fail no role', function () {
+    $manager = User::factory()->create(['name' => 'manager']);
+
+    $user = User::factory()->create();
+    expect(fn () => $manager->users()->attach($user))->toThrow('The user must hold the manager role.');
+});
+
+test('users: fail wrong role', function () {
     $manager = User::factory()->create(['name' => 'manager']);
     $manager->assignRole(UserRole::USER);
 
     $user = User::factory()->create();
-    $manager->users()->attach($user);
-
-    $extUser = User::factory()->create();
-
-
-    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold the manager or administrator role.');
-    expect(fn () => $manager->isMyUser($extUser))->toThrow('The user must hold the manager or administrator role.');
-});
-
-test('isMyUser: fail no role', function () {
-    $manager = User::factory()->create(['name' => 'manager']);
-
-    $user = User::factory()->create();
-    $manager->users()->attach($user);
-
-    $extUser = User::factory()->create();
-
-
-    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold the manager or administrator role.');
-    expect(fn () => $manager->isMyUser($extUser))->toThrow('The user must hold the manager or administrator role.');
+    expect(fn () => $manager->users()->attach($user))->toThrow('The user must hold the manager role.');
 });

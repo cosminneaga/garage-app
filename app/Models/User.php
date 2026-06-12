@@ -231,6 +231,10 @@ class User extends Authenticatable
      */
     public function users(): BelongsToMany
     {
+        if (!$this->hasRole(UserRole::MANAGER)) {
+            throw new Exception('The user must hold the manager role.');
+        }
+
         return $this->belongsToMany(
             User::class,
             'team_manager_users',
