@@ -203,6 +203,9 @@ class User extends Authenticatable
      */
     public function managers(): BelongsToMany
     {
+        if (!$this->hasAnyRole([UserRole::USER, UserRole::ADMINISTRATOR])) {
+            throw new Exception('The user must hold the user or administrator role.');
+        }
 
         if ($this->isAdministrator()) {
             return $this->belongsToMany(

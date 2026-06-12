@@ -12,6 +12,7 @@ test('managers: from administrator to managers and user to managers', function (
     $administrator->managers()->attach($manager);
 
     $user = User::factory()->create(['name' => 'user']);
+    $user->assignRole(UserRole::USER);
     $manager->users()->attach($user);
 
     expect($administrator->managers()->get())->toHaveCount(1);
