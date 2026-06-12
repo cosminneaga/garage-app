@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Enums\Related\RelationNameUser;
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
-use App\Models\Company;
 use App\Models\User;
-use Error;
 use Exception;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Builder as ScoutBuilder;
-use Throwable;
 
 class UserService
 {
-    public $searchQuery = '';
+    public string $searchQuery = '';
     public ScoutBuilder|User|EloquentBuilder $result;
 
     public function __construct(
@@ -29,6 +25,12 @@ class UserService
     ) {
     }
 
+    /**
+     * Used when pagination is not needed.
+     * $service->model()->all()->get();
+     *
+     * @return UserService
+     */
     public function model(): UserService
     {
         $this->result = User::query();
@@ -36,6 +38,13 @@ class UserService
         return $this;
     }
 
+    /**
+     * Adds related collection to the query builder.
+     * Applies with on $this->result;
+     *
+     * @param string|array $relations - 'managers'
+     * @return UserService
+     */
     public function with(string|array $relations): UserService
     {
         $this->result = $this->result->with($relations);
@@ -43,6 +52,13 @@ class UserService
         return $this;
     }
 
+    /**
+     * Select the related columns when querying a related collection.
+     * Applies select query on $this->result;
+     *
+     * @param $relations - ['users.id', 'users.name']
+     * @return UserService
+     */
     public function select(string|array $relations): UserService
     {
         $this->result = $this->result->select($relations);
@@ -50,6 +66,13 @@ class UserService
         return $this;
     }
 
+    /**
+     * Scout search, applies search on queried collections.
+     * Applies search query builder on $this->result;
+     *
+     * @param string $search - search string
+     * @return UserService
+     */
     public function search(string $search = ''): UserService
     {
         $this->result = User::search($search);
@@ -58,7 +81,14 @@ class UserService
         return $this;
     }
 
-    public function resourceFilter(ResourceFilter $filter): UserService
+    /**
+     * Filters the resources based on given filter, such as: default, with_trashed, only_trashed.
+     * Applies filtering on $this->result;
+     *
+     * @param ResourceFilter $filter - ResourceFilter::DEFAULT
+     * @return UserService
+     */
+    public function resourceFilter(ResourceFilter $filter = ResourceFilter::DEFAULT): UserService
     {
         switch ($filter) {
             case ResourceFilter::ONLY_TRASHED:
@@ -91,20 +121,19 @@ class UserService
     //     return $this;
     // }
 
-    public function get(mixed $columns = '*'): Collection
-    {
-        return $this->result->get($columns);
-    }
-
-    public function paginate(int $limit, array $query = []): LengthAwarePaginator
-    {
-        return $this->result->paginate($limit, 'users')->appends($query);
-    }
-
     /**
      * Returns a list of related users based on authenticated or given user
      * able to select user account using administrator role, thus all users
      * must have a role assigned.
+     *
+     * Fetching the related users for manager or administrator.
+     * $service->model()->team(UserRole::USER)->get();
+     *
+     * Applying search query on related users for manager or administrator.
+     * $service->search('user')->team(UserRole::USER)->get();
+     *
+     * Applying resource filtering with pagination on related users for manager or administrator.
+     * $service->search('user')->resourceFilter(ResourceFilter::ONLY_TRASHED)->team(UserRole::USER)->paginate();
      *
      * @param UserRole $forRole
      * @return UserService
@@ -157,5 +186,28 @@ class UserService
         }
 
         return $this;
+    }
+
+    /**
+     * Returns the collection formed by the query builder
+     *
+     * @param mixed $columns
+     * @return Collection
+     */
+    public function get(mixed $columns = '*'): Collection
+    {
+        return $this->result->get($columns);
+    }
+
+    /**
+     * Returns pagination collection
+     *
+     * @param int $limit - the number of displaying resources
+     * @param array $query - the rest of url query to be appended
+     * @return LengthAwarePaginator
+     */
+    public function paginate(int $limit, array $query = []): LengthAwarePaginator
+    {
+        return $this->result->paginate($limit, 'users')->appends($query);
     }
 }

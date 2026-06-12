@@ -158,15 +158,29 @@ class User extends Authenticatable
         return $this->hasRole(UserRole::MANAGER);
     }
 
-    public function isTeamMember(User $user): bool
+    public function isUser(): bool
     {
-        if ($this->hasRole(UserRole::USER)) {
-            $manager = $this->managers()->first();
+        return $this->hasRole(UserRole::USER);
+    }
 
-            return (bool) $manager->team()->find($user->id);
+    /**
+     * Functions one-way from manager to users and one-way through from administrator to user
+     */
+    public function isMyUser(User $user): bool
+    {
+        if (!$this->hasAnyRole(UserRole::MANAGER->value, UserRole::ADMINISTRATOR->value)) {
+            throw new Exception('The user must hold the manager or administrator role.');
         }
 
-        return (bool) $this->team()->withTrashed()->find($user->id);
+        if ($this->isAdministrator()) {
+            return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
+                ->join('team_administrator_managers', 'team_administrator_managers.manager_id', '=', 'team_manager_users.manager_id')
+                ->where('team_administrator_managers.administrator_id', $this->id)
+                ->where('users.id', $user->id)
+                ->exists();
+        }
+
+        return $this->users()->where('users.id', $user->id)->exists();
     }
 
     public function chart(): array
@@ -182,10 +196,15 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Functions two-ways as from administrator to managers, and from user to managers
+     *
+     * @return BelongsToMany
+     */
     public function managers(): BelongsToMany
     {
 
-        if ($this->hasRole(UserRole::ADMINISTRATOR)) {
+        if ($this->isAdministrator()) {
             return $this->belongsToMany(
                 User::class,
                 'team_administrator_managers',
@@ -202,6 +221,11 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Functions one-way from manager to users
+     *
+     * @return BelongsToMany
+     */
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(

@@ -3,53 +3,76 @@
 use App\Enums\UserRole;
 use App\Models\User;
 
-test('roleRelatedUsers: ', function () {
-    $admin = User::factory()->create(['name' => 'administrator']);
+test('managers: from administrator to managers and user to managers', function () {
+    $administrator = User::factory()->create(['name' => 'administrator']);
+    $administrator->assignRole(UserRole::ADMINISTRATOR);
+
     $manager = User::factory()->create(['name' => 'manager']);
-    $admin->assignRole(UserRole::ADMINISTRATOR->value);
-    $manager->assignRole(UserRole::MANAGER->value);
+    $manager->assignRole(UserRole::MANAGER);
+    $administrator->managers()->attach($manager);
 
-    $users = User::factory()->createMany([
-        ['name' => 'user1'],
-        ['name' => 'user 2'],
-    ]);
+    $user = User::factory()->create(['name' => 'user']);
+    $manager->users()->attach($user);
 
-    $admin->roleRelatedUsers()->attach($manager);
-    dd($admin->managers()->get()->toArray());
+    expect($administrator->managers()->get())->toHaveCount(1);
+    expect($administrator->managers()->get()[0])->toMatchArray(['name' => 'manager']);
+    expect($user->managers()->get())->toHaveCount(1);
+    expect($user->managers()->get()[0])->toMatchArray(['name' => 'manager']);
 });
 
-test('get: administrator -> users', function () {
-
-    $admin = User::factory()->create(['name' => 'administrator']);
+test('isMyUser: success on manager', function () {
     $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::MANAGER);
 
-    $users = User::factory()->createMany([
-        ['name' => 'user1'],
-        ['name' => 'user 2'],
-    ]);
+    $user = User::factory()->create();
+    $manager->users()->attach($user);
 
-    $admin->managers()->attach($manager);
-    $manager->users()->attach($users);
+    $extUser = User::factory()->create();
 
-    // dump($admin->managers()->get()->toArray());
-    // dump($manager->users()->get()->toArray());
-
-    $data = $admin->managers()->with('users')->get()->toArray();
-    // $data = $admin->managers()->with('users')->get()->flatMap->users->unique('id')->toArray();
-    // $data = $admin->managers->pluck('users')->flatten()->toArray();
-    dump($data);
+    expect($manager->isMyUser($user))->toEqual(true);
+    expect($manager->isMyUser($extUser))->toEqual(false);
 });
 
-// test('get: user -> managers', function () {
-//     $manager = User::factory()->create(['name' => 'manager']);
+test('isMyUser: success on administrator', function () {
+    $administrator = User::factory()->create(['name' => 'administrator']);
+    $administrator->assignRole(UserRole::ADMINISTRATOR);
 
-//     $users = User::factory()->createMany([
-//         ['name' => 'user1'],
-//         ['name' => 'user 2'],
-//     ]);
+    $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::MANAGER);
+    $administrator->managers()->attach($manager);
 
-//     $manager->users()->attach($users);
+    $user = User::factory()->create();
+    $manager->users()->attach($user);
 
-//     dump($users[0]->managers()->get()->toArray());
-//     dump($users[1]->managers()->get()->toArray());
-// });
+    $extUser = User::factory()->create();
+
+    expect($administrator->isMyUser($user))->toEqual(true);
+    expect($administrator->isMyUser($extUser))->toEqual(false);
+});
+
+test('isMyUser: fail wrong role', function () {
+    $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::USER);
+
+    $user = User::factory()->create();
+    $manager->users()->attach($user);
+
+    $extUser = User::factory()->create();
+
+
+    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold the manager or administrator role.');
+    expect(fn () => $manager->isMyUser($extUser))->toThrow('The user must hold the manager or administrator role.');
+});
+
+test('isMyUser: fail no role', function () {
+    $manager = User::factory()->create(['name' => 'manager']);
+
+    $user = User::factory()->create();
+    $manager->users()->attach($user);
+
+    $extUser = User::factory()->create();
+
+
+    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold the manager or administrator role.');
+    expect(fn () => $manager->isMyUser($extUser))->toThrow('The user must hold the manager or administrator role.');
+});
