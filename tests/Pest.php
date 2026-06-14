@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-use Database\Seeders\PermissionsSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\MySqlTestCase;
+use Tests\SqliteTestCase;
 use Tests\TestCase;
-
-use function Pest\Laravel\{seed};
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +17,17 @@ use function Pest\Laravel\{seed};
 |
 */
 
-pest()->extend(TestCase::class)
-    ->use(RefreshDatabase::class)
-    ->beforeEach(function () {
-        seed(PermissionsSeeder::class);
-    })
-    ->in('Browser', 'Unit', 'Database');
+pest()
+    ->extend(TestCase::class)
+    ->in('Unit');
+
+pest()
+    ->extend(SqliteTestCase::class)
+    ->in('SQLite');
+
+pest()
+    ->extend(MySqlTestCase::class)
+    ->in('MySql');
 
 /*
 |--------------------------------------------------------------------------

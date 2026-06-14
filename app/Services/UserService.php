@@ -28,8 +28,6 @@ class UserService
     /**
      * Used when pagination is not needed.
      * $service->model()->all()->get();
-     *
-     * @return UserService
      */
     public function model(): UserService
     {
@@ -43,7 +41,6 @@ class UserService
      * Applies with on $this->result;
      *
      * @param string|array $relations - 'managers'
-     * @return UserService
      */
     public function with(string|array $relations): UserService
     {
@@ -57,7 +54,6 @@ class UserService
      * Applies select query on $this->result;
      *
      * @param $relations - ['users.id', 'users.name']
-     * @return UserService
      */
     public function select(string|array $relations): UserService
     {
@@ -71,7 +67,6 @@ class UserService
      * Applies search query builder on $this->result;
      *
      * @param string $search - search string
-     * @return UserService
      */
     public function search(string $search = ''): UserService
     {
@@ -86,7 +81,6 @@ class UserService
      * Applies filtering on $this->result;
      *
      * @param ResourceFilter $filter - ResourceFilter::DEFAULT
-     * @return UserService
      */
     public function resourceFilter(ResourceFilter $filter = ResourceFilter::DEFAULT): UserService
     {
@@ -110,17 +104,13 @@ class UserService
     // public function whereNotInCompany(Company $company): UserService
     // {
     //     $this->filterOwn(ResourceFilter::DEFAULT)->result->whereNotIn('id', $company->users()->select('users.id'));
-
     //     return $this;
     // }
-
     // public function whereInCompany(Company $company): UserService
     // {
     //     $this->result->whereIn('id', $company->users()->select('users.id'));
-
     //     return $this;
     // }
-
     /**
      * Returns a list of related users based on authenticated or given user
      * able to select user account using administrator role, thus all users
@@ -134,16 +124,13 @@ class UserService
      *
      * Applying resource filtering with pagination on related users for manager or administrator.
      * $service->search('user')->resourceFilter(ResourceFilter::ONLY_TRASHED)->team(UserRole::USER)->paginate();
-     *
-     * @param UserRole $forRole
-     * @return UserService
      */
     public function team(UserRole $forRole): UserService
     {
 
         $role = $this->user->getRoleNames();
 
-        if (!count($role)) {
+        if (count($role) === 0) {
             throw new Exception('Designated user must have a role attached');
         }
 
@@ -153,31 +140,83 @@ class UserService
 
         $pointRole = UserRole::from($role[0]);
         $relationMapped = UserRole::mapRelation($pointRole, $forRole);
-
+        dump($relationMapped);
 
         $first = $relationMapped->first();
         $last = $relationMapped->last();
 
-        // extract the target
+        /* ------------------------ TARGET & WHERE CONDITION ------------------------ */
         $result = $this->user;
-        $result = $result->join($last['table_name'], $last['table_name'] . '.' . $last['columns'][0], '=', 'users.id');
 
-        // inner joins
+        /* ------------------------------- INNER JOINS ------------------------------ */
+        /**
+         * Legend ancronyms:
+         * $jtn => joined table name
+         * $jtc => joined table column
+         * $ctn => current table name
+         * $ctc -> current table column
+         */
         if (count($relationMapped) > 2) {
-            $inner = $relationMapped->slice(1, -1);
+            $result = $result->join(
+                $last->table_name,
+                $last->table_name . '.' . collect($last->columns)->getBy('type', 'pk')->value,
+                '=',
+                'users.id'
+            );
 
+            $inner = $relationMapped->slice(1, -1);
             foreach ($inner as $index => $ir) {
                 $previous = $relationMapped[$index - 1];
-                $result = $result->join($previous['table_name'], $previous['table_name'] . '.' . $previous['columns'][1], '=', $ir['table_name'] . '.' . $ir['columns'][0]);
+                $next = $relationMapped[$index + 1];
+
+                $jtn = $previous->table_name;
+                $jtc = collect($previous->columns)->getBy('type', 'fk')->value;
+                $ctn = $ir->table_name;
+                $ctc = collect($ir->columns)->getBy('type', 'pk')->value;
+
+                if ($ir->table_name === $previous->table_name) {
+                    $ctn = $next->table_name;
+                }
+
+                $result = $result->join($jtn, $jtn . '.' . $jtc, '=', $ctn . '.' . $ctc);
             }
+        }
+        // elseif ($first->table_name !== $last->table_name) {
+        //     /**
+        //      * This condition only applies if the tables names are not identical
+        //      * In case of user -> managers & manager -> users as these relations
+        //      * are stored in the same pivot table, still needs a link between IDs
+        //      */
+        //     // $result = $result->join(
+        //     //     $first->table_name,
+        //     //     $first->table_name . '.' . $first->columns[1]->value,
+        //     //     '=',
+        //     //     $last->table_name . '.' . $last->columns[0]->value
+        //     // );
+
+        //     $result = $result->join(
+        //         $first->table_name,
+        //         $first->table_name . '.' . $first->columns[1]->value,
+        //         '=',
+        //         'users.id'
+        //     );
+        // }
+        else {
+            $result = $result->join(
+                $first->table_name,
+                $first->table_name . '.' . $first->columns[1]->value,
+                '=',
+                'users.id'
+            );
         }
 
         $result = $result
-            ->where($first['table_name'] . '.' . $first['columns'][0], $this->user->id)
-            ->distinct();
+            ->where($first->table_name . '.' . $first->columns[0]->value, $this->user->id)
+            ->select('users.*')->distinct()->orderBy('id');
 
-        switch(get_class($this->result)) {
-            case 'Laravel\Scout\Builder':
+        /* ------------------ QUERY BUILDER & SCOUT SEARCH SWITCHER ----------------- */
+        switch ($this->result::class) {
+            case \Laravel\Scout\Builder::class:
                 $this->result->whereIn('id', $result->select('users.id'));
                 break;
             default:
@@ -190,9 +229,6 @@ class UserService
 
     /**
      * Returns the collection formed by the query builder
-     *
-     * @param mixed $columns
-     * @return Collection
      */
     public function get(mixed $columns = '*'): Collection
     {
@@ -204,10 +240,17 @@ class UserService
      *
      * @param int $limit - the number of displaying resources
      * @param array $query - the rest of url query to be appended
-     * @return LengthAwarePaginator
      */
     public function paginate(int $limit, array $query = []): LengthAwarePaginator
     {
         return $this->result->paginate($limit, 'users')->appends($query);
+    }
+
+    /**
+     * Dump and Die the SQL query
+     */
+    public function dd()
+    {
+        return $this->result->dd();
     }
 }

@@ -42,26 +42,18 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property-read int|null $activities_as_subject_count
  * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, User> $administrators
- * @property-read int|null $administrators_count
  * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
  * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read Collection<int, User> $managers
- * @property-read int|null $managers_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
- * @property-read Collection<int, User> $team
- * @property-read int|null $team_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
- * @property-read Collection<int, User> $users
- * @property-read int|null $users_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -198,8 +190,6 @@ class User extends Authenticatable
 
     /**
      * Functions two-ways as from administrator to managers, and from user to managers
-     *
-     * @return BelongsToMany
      */
     public function managers(): BelongsToMany
     {
@@ -226,8 +216,6 @@ class User extends Authenticatable
 
     /**
      * Functions one-way from manager to users
-     *
-     * @return BelongsToMany
      */
     public function users(): BelongsToMany
     {

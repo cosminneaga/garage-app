@@ -92,30 +92,13 @@
         "pest:filter": [
             "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --bail'"
         ],
-        "pest:filter:db": [
-            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --configuration ./phpunit-db.xml --bail'"
-        ],
-        "pest:debug": [
-            "# <info>Sqlite TESTS Running</info>",
-            "vendor/bin/pest --bail --debug",
-            "# <info>MySql TESTS Running</info>",
-            "vendor/bin/pest --configuration ./phpunit-db.xml --bail --debug"
-        ],
-        "pest:all": [
-            "# <info>Sqlite TESTS Running</info>",
-            "vendor/bin/pest --configuration ./phpunit.xml --bail --parallel",
-            "# <info>MySql TESTS Running</info>",
-            "vendor/bin/pest --configuration ./phpunit-db.xml --bail --parallel"
-        ],
         "pest": [
-            "vendor/bin/pest --configuration ./phpunit.xml --bail --parallel"
-        ],
-        "pest:db": [
-            "vendor/bin/pest --configuration ./phpunit-db.xml --bail --parallel"
+            "vendor/bin/pest --configuration ./phpunit.xml --bail"
         ],
         "format": [
             "vendor/bin/rector",
-            "vendor/bin/pint --parallel"
+            "vendor/bin/pint --parallel",
+            "@php artisan ide-helper:models -RW"
         ],
         "setup": [
             "composer install",

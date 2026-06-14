@@ -30,6 +30,7 @@ class LocalEnv extends Seeder
         $this->call(CountriesSeeder::class);
         $country = Country::first(['*']);
 
+        /*
         // 3. addresses & contact, 10
         $contact = Contact::factory(10)->create();
         $address = Address::factory(10)->create([
@@ -159,5 +160,6 @@ class LocalEnv extends Seeder
 
         // 14. adding companies that are not attached to created users
         Company::factory(10)->create();
+        */
     }
 }

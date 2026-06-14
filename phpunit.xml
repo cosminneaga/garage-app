@@ -8,8 +8,11 @@
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="Browser">
-            <directory>tests/Browser</directory>
+        <testsuite name="SQLite">
+            <directory>tests/SQLite</directory>
+        </testsuite>
+        <testsuite name="MySql">
+            <directory>tests/MySql</directory>
         </testsuite>
     </testsuites>
     <source>

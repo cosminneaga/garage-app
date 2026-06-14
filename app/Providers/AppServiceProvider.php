@@ -19,6 +19,7 @@ use App\Helpers\Permission;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
@@ -91,5 +92,7 @@ class AppServiceProvider extends ServiceProvider
 
         Model::shouldBeStrict();
         Model::automaticallyEagerLoadRelationships();
+
+        Collection::macro('getBy', fn (string $key, mixed $value) => $this->firstWhere($key, $value));
     }
 }

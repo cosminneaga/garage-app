@@ -24,20 +24,29 @@ enum UserRole: string
         };
     }
 
-    public static function relation(UserRole $role): array
+    public static function relation(UserRole $role): \stdClass
     {
         return match($role) {
-            self::ADMINISTRATOR => [
+            self::ADMINISTRATOR => (object) [
                 'table_name' => 'team_administrator_managers',
-                'columns' => ['administrator_id', 'manager_id'],
+                'columns' => [
+                    (object) ['type' => 'pk', 'value' => 'administrator_id'],
+                    (object) ['type' => 'fk', 'value' => 'manager_id']
+                ],
             ],
-            self::MANAGER => [
+            self::MANAGER => (object) [
                 'table_name' => 'team_manager_users',
-                'columns' => ['manager_id', 'user_id'],
+                'columns' => [
+                    (object) ['type' => 'pk', 'value' => 'manager_id'],
+                    (object) ['type' => 'fk', 'value' => 'user_id']
+                ],
             ],
-            self::USER => [
+            self::USER => (object) [
                 'table_name' => 'team_manager_users',
-                'columns' => ['user_id', 'manager_id'],
+                'columns' => [
+                    (object) ['type' => 'pk', 'value' => 'user_id'],
+                    (object) ['type' => 'fk', 'value' => 'manager_id']
+                ],
             ],
         };
     }
@@ -50,20 +59,26 @@ enum UserRole: string
 
         $roles = new Collection(self::cases())
             ->reject(fn ($role) => $role === UserRole::SUPER)
-            ->map(fn ($role) => self::relation($role))
+            ->map(fn (\App\Enums\UserRole $role) => self::relation($role))
             ->values();
         $startIndex = $roles->search(self::relation($start));
         $endIndex = $roles->search(self::relation($end));
 
         if ($startIndex > $endIndex) {
-            $roles = $roles->reverse()->values();
+            $roles = $roles
+                ->reverse()
+                ->values();
             $startIndex = $roles->search(self::relation($start));
             $endIndex = $roles->search(self::relation($end));
+            $roles = $roles->slice($startIndex, $endIndex - $startIndex + 1)->values();
+
+            $roles->first()->columns = array_reverse($roles[$roles->keys()->first()]->columns);
+            $roles->last()->columns = array_reverse($roles[$roles->keys()->last()]->columns);
+
+            return $roles->reverse()->values();
         }
 
-        $roles = $roles->slice($startIndex, $endIndex - $startIndex + 1)->values();
-
-        return $roles;
+        return $roles->slice($startIndex, $endIndex - $startIndex + 1)->values();
     }
 
     public static function values(): array
@@ -78,14 +93,14 @@ enum UserRole: string
         return new Collection(self::cases())
             ->reject(fn ($role) => $role->value === 'super')
             ->map(fn ($role) => [
-                'name' => $role->value,
+                'value' => $role->value,
                 'label' => $role->label(),
-            ])->toArray();
+            ])->values()->toArray();
     }
 
-    public static function findByName(string $name): ?UserRole
+    public static function findByValue(string $value): ?UserRole
     {
         return new Collection(self::cases())
-            ->first(fn ($item) => $item->value === $name);
+            ->first(fn ($item) => $item->value === $value);
     }
 }

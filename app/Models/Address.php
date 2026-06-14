@@ -144,8 +144,11 @@ class Address extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public static function updateOrCreateByCoordinates(string|float $latitude, string|float $longitude, array $attributes): Address
-    {
+    public static function updateOrCreateByCoordinates(
+        string|float $latitude,
+        string|float $longitude,
+        array $attributes
+    ): Address {
         $instance = self::query()
             ->whereRaw('ST_Y(coordinates) = ?', [$latitude], 'and')
             ->whereRaw('ST_X(coordinates) = ?', [$longitude], 'and')
