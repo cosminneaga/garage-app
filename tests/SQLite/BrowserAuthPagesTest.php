@@ -23,7 +23,7 @@ it('should login created user', function () {
         'email' => 'testing@garage.com',
         'password' => $password,
     ]);
-    $user->assignRole(UserRole::USER_ADMIN);
+    $user->assignRole(UserRole::ADMINISTRATOR);
 
     visit('/login')
         ->fill('email', $user->email)
@@ -39,7 +39,7 @@ it('should not login wrong password', function () {
         'email' => 'testing@garage.com',
         'password' => $password,
     ]);
-    $user->assignRole(UserRole::USER_ADMIN);
+    $user->assignRole(UserRole::ADMINISTRATOR);
 
     visit('/login')
         ->fill('email', $user->email)
@@ -55,7 +55,7 @@ it('should not login wrong email', function () {
         'email' => 'testing@garage.com',
         'password' => $password,
     ]);
-    $user->assignRole(UserRole::USER_ADMIN);
+    $user->assignRole(UserRole::ADMINISTRATOR);
 
     visit('/login')
         ->fill('email', 'test@garage.com')
