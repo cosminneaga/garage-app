@@ -7,18 +7,21 @@ use App\Services\UserService;
 
 beforeEach(function () {
     $this->admin = User::factory()->create(['name' => 'admin']);
-    $this->adminNoRole = User::factory()->create(['name' => 'admin no role']);
+    $this->admin2 = User::factory()->create(['name' => 'admin 2']);
     $this->admin->assignRole(UserRole::ADMINISTRATOR);
+    $this->admin2->assignRole(UserRole::ADMINISTRATOR);
 
     $this->manager = User::factory()->create(['name' => 'manager']);
-    $this->managerNoRole = User::factory()->create(['name' => 'manager no role']);
+    $this->manager2 = User::factory()->create(['name' => 'manager 2']);
     $this->manager->assignRole(UserRole::MANAGER);
-    $this->admin->managers()->attach([$this->manager, $this->managerNoRole]);
+    $this->manager2->assignRole(UserRole::MANAGER);
+    $this->admin->managers()->attach([$this->manager, $this->manager2]);
 
     $this->user = User::factory()->create(['name' => 'user']);
-    $this->userNoRole = User::factory()->create(['name' => 'user no role']);
+    $this->user2 = User::factory()->create(['name' => 'user 2']);
     $this->user->assignRole(UserRole::USER);
-    $this->manager->users()->attach([$this->user, $this->userNoRole]);
+    $this->user2->assignRole(UserRole::USER);
+    $this->manager->users()->attach([$this->user, $this->user2]);
 
     $this->extUsers = User::factory()->createMany([
         ['name' => 'extadmin'],
@@ -46,11 +49,14 @@ test('resourceFilter: filter resources based on given filter', function () {
     expect($users)->toHaveCount(1);
 });
 
+/* ------------------------------ 3 layers ----------------------------- */
+/* ------------------------------ TOP -> BOTTOM ----------------------------- */
 test('team: administrator -> users', function () {
     $service = new UserService($this->admin);
     $users = $service
         ->model()
         ->team(UserRole::USER)
+        ->orderBy('id')
         ->get();
 
     expect($users)->toHaveCount(2);
@@ -58,31 +64,29 @@ test('team: administrator -> users', function () {
         'name' => 'user'
     ]);
 });
+/* ------------------------------ BOTTOM -> UP ------------------------------ */
+test('team: user -> administrators', function () {
+    $service = new UserService($this->user);
+    $users = $service
+        ->model()
+        ->team(UserRole::ADMINISTRATOR)
+        ->orderBy('id')
+        ->get();
 
-/**
- * !!!FIX:
- * if there is a manager attached but has no users attached to it, this will not be visible on current query
- *
- * select distinct "users".* from "users"
- * inner join "team_manager_users" on "team_manager_users"."manager_id" = "users"."id"
- * inner join "team_administrator_managers" on "team_administrator_managers"."manager_id" = "team_manager_users"."manager_id"
- * where "team_administrator_managers"."administrator_id" = ?
- * and "users"."deleted_at" is null order by "id" asc
- *
- * instead the query should be build as so:
- *
- * select distinct "users".* from "users"
- * inner join "team_administrator_managers" on "team_administrator_managers"."manager_id" = "users"."id"
- * where "team_administrator_managers"."administrator_id" = ?
- * and "users"."deleted_at" is null order by "id" asc
- *
- * when 1-1 proximity we should not go for the next table
- */
+    expect($users)->toHaveCount(1);
+    expect($users[0])->toMatchArray([
+        'name' => 'admin'
+    ]);
+});
+
+/* -------------------------------- 2 layers -------------------------------- */
+/* ------------------------------ TOP -> BOTTOM ----------------------------- */
 test('team: administrator -> managers', function () {
     $service = new UserService($this->admin);
     $users = $service
         ->model()
         ->team(UserRole::MANAGER)
+        ->orderBy('id')
         ->get();
 
     expect($users)->toHaveCount(2);
@@ -91,29 +95,12 @@ test('team: administrator -> managers', function () {
     ]);
 });
 
-test('team: manager -> administrators', function () {
-    $service = new UserService($this->manager);
-    $users = $service
-        ->model()
-        ->team(UserRole::ADMINISTRATOR)
-        ->get();
-
-    expect($users)->toHaveCount(1);
-    expect($users[0])->toMatchArray([
-        'name' => 'admin'
-    ]);
-});
-
-/**
- * select distinct "users".* from "users"
- * where "team_manager_users"."manager_id" = 3
- * and "users"."deleted_at" is null order by "id" asc
- */
 test('team: manager -> users', function () {
     $service = new UserService($this->manager);
     $users = $service
         ->model()
         ->team(UserRole::USER)
+        ->orderBy('id')
         ->get();
 
     expect($users)->toHaveCount(2);
@@ -122,109 +109,169 @@ test('team: manager -> users', function () {
     ]);
 });
 
-/**
- * select distinct "users".* from "users"
- * inner join "team_manager_users" on "team_manager_users"."user_id" = "users"."id"
- * inner join "team_administrator_managers" on "team_administrator_managers"."manager_id" = "team_manager_users"."manager_id"
- * where "team_administrator_managers"."manager_id" = ?
- * and "users"."deleted_at" is null order by "id" asc
- *
- * when going from bottom to up direction on more than 2 table points, everything goes down
- * as we don't reverse the tables anymore the pointer does not know where to point
- *
- * Illuminate\Support\Collection^ {#4323
- * //   #items: [
- * //     0 => {
- * //       +"table_name": "team_administrator_managers"
- * //       +"columns": [
- * //         0 => {
- * //           +"type": "fk"
- * //           +"value": "manager_id"
- * //         }
- * //         1 => {
- * //           +"type": "pk"
- * //           +"value": "administrator_id"
- * //         }
- * //       ]
- * //     }
- * //     1 => {
- * //       +"table_name": "team_manager_users"
- * //       +"columns": [
- * //         0 => {#6069
- * //           +"type": "pk"
- * //           +"value": "manager_id"
- * //         }
- * //         1 => {
- * //           +"type": "fk"
- * //           +"value": "user_id"
- * //         }
- * //       ]
- * //     }
- * //     2 => {
- * //       +"table_name": "team_manager_users"
- * //       +"columns": [
- * //         0 => {
- * //           +"type": "fk"
- * //           +"value": "manager_id"
- * //         }
- * //         1 => {
- * //           +"type": "pk"
- * //           +"value": "user_id"
- * //         }
- * //       ]
- * //     }
- * //   ]
- * //   #escapeWhenCastingToString: false
- * // }
- */
-test('team: user -> administrators', function (): never {
-    $service = new UserService($this->user);
+/* ------------------------------ BOTTOM -> UP ------------------------------ */
+test('team: manager -> administrators', function () {
+    $service = new UserService($this->manager);
     $users = $service
         ->model()
         ->team(UserRole::ADMINISTRATOR)
-        ->dd();
-    dd($users->toArray());
+        ->orderBy('id')
+        ->get();
+
     expect($users)->toHaveCount(1);
     expect($users[0])->toMatchArray([
         'name' => 'admin'
     ]);
 });
 
-test('search on team: administrator -> finding manager with given role', function (): never {
+test('search on team: administrator -> managers', function () {
     $service = new UserService($this->admin);
-    $result = $service->search()->team(UserRole::MANAGER)->get();
-    dd($result->toArray());
-    expect($result)->toHaveCount(1);
+    $result = $service
+        ->search()
+        ->team(UserRole::MANAGER)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(2);
     expect($result[0]->getAttributes())->toMatchArray($this->manager->getAttributes());
+    expect($result[1]->getAttributes())->toMatchArray($this->manager2->getAttributes());
 });
 
-test('search on team: administrator -> should not find manager with no role', function () {
+test('search on team: administrator -> users', function () {
     $service = new UserService($this->admin);
-    $result = $service->search('manager no role')->team(UserRole::MANAGER)->get();
+    $result = $service
+        ->search()
+        ->team(UserRole::USER)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(2);
+    expect($result[0]->getAttributes())->toMatchArray($this->user->getAttributes());
+    expect($result[1]->getAttributes())->toMatchArray($this->user2->getAttributes());
+});
+
+test('search on team: administrator -> should not find "manager" that is not part of the team', function () {
+    $service = new UserService($this->admin);
+    $result = $service
+        ->search('extmanager')
+        ->team(UserRole::MANAGER)
+        ->orderBy('users.id')
+        ->get();
 
     expect($result)->toHaveCount(0);
 });
 
-test('search on team: administrator -> should not find manager that is not part of the team', function () {
+test('search on team: administrator -> should not find "user" that is not part of the team', function () {
     $service = new UserService($this->admin);
-    $result = $service->search('extmanager')->team(UserRole::MANAGER)->get();
+    $result = $service
+        ->search('extuser')
+        ->team(UserRole::USER)
+        ->orderBy('users.id')
+        ->get();
 
     expect($result)->toHaveCount(0);
 });
 
-test('search on team: manager -> administrator', function () {
+test('search on team: manager -> administrators', function () {
     $service = new UserService($this->manager);
-    $result = $service->search('admin')->team(UserRole::ADMINISTRATOR)->get();
+    $result = $service
+        ->search()
+        ->team(UserRole::ADMINISTRATOR)
+        ->orderBy('users.id')
+        ->get();
 
     expect($result)->toHaveCount(1);
     expect($result[0]->getAttributes())->toMatchArray($this->admin->getAttributes());
 });
 
-test('search on team: manager -> user', function () {
+test('search on team: manager -> users', function () {
     $service = new UserService($this->manager);
-    $result = $service->search()->team(UserRole::USER)->get();
+    $result = $service
+        ->search()
+        ->team(UserRole::USER)
+        ->orderBy('users.id')
+        ->get();
 
-    dump($result->toArray());
-    expect($result)->toHaveCount(1);
+    expect($result)->toHaveCount(2);
     expect($result[0]->getAttributes())->toMatchArray($this->user->getAttributes());
+    expect($result[1]->getAttributes())->toMatchArray($this->user2->getAttributes());
+});
+
+test('search on team: manager -> should not find "administrator" that didn\'t attached this "manager"', function () {
+    $service = new UserService($this->manager);
+    $result = $service
+        ->search('admin no role')
+        ->team(UserRole::ADMINISTRATOR)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(0);
+});
+
+test('search on team: manager -> should not find "user" that is not part of the team', function () {
+    $service = new UserService($this->manager);
+    $result = $service
+        ->search('extuser')
+        ->team(UserRole::USER)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(0);
+});
+
+test('search on team: user -> managers', function () {
+    $service = new UserService($this->user);
+    $result = $service
+        ->search()
+        ->team(UserRole::MANAGER)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(1);
+    expect($result[0]->getAttributes())->toMatchArray($this->manager->getAttributes());
+});
+
+test('search on team: user -> administrators', function () {
+    $service = new UserService($this->user);
+    $result = $service
+        ->search()
+        ->team(UserRole::ADMINISTRATOR)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(1);
+    expect($result[0]->getAttributes())->toMatchArray($this->admin->getAttributes());
+});
+
+test('search on team: user -> should not find "manager" that didn\'t attached this "user"', function () {
+    $service = new UserService($this->user);
+    $result = $service
+        ->search('manager 2')
+        ->team(UserRole::MANAGER)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(0);
+});
+
+test('search on team: user -> should not find "manager" that is not part of the team', function () {
+    $service = new UserService($this->user);
+    $result = $service
+        ->search('manager 2')
+        ->team(UserRole::MANAGER)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(0);
+});
+
+test('search on team: user -> should not find "administrator" that doesn\'t have common "manager"', function () {
+    $service = new UserService($this->user);
+    $result = $service
+        ->search('admin 2')
+        ->team(UserRole::ADMINISTRATOR)
+        ->orderBy('users.id')
+        ->get();
+
+    expect($result)->toHaveCount(0);
 });

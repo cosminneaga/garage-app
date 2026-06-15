@@ -75,7 +75,7 @@ enum UserRole: string
             $roles->first()->columns = array_reverse($roles[$roles->keys()->first()]->columns);
             $roles->last()->columns = array_reverse($roles[$roles->keys()->last()]->columns);
 
-            return $roles->reverse()->values();
+            return count($roles) > 2 ? $roles : $roles->reverse()->values();
         }
 
         return $roles->slice($startIndex, $endIndex - $startIndex + 1)->values();

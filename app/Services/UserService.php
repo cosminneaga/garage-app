@@ -44,7 +44,7 @@ class UserService
      */
     public function with(string|array $relations): UserService
     {
-        $this->result = $this->result->with($relations);
+        $this->result->with($relations);
 
         return $this;
     }
@@ -53,11 +53,25 @@ class UserService
      * Select the related columns when querying a related collection.
      * Applies select query on $this->result;
      *
-     * @param $relations - ['users.id', 'users.name']
+     * @param string|array $relations - ['users.id', 'users.name']
      */
     public function select(string|array $relations): UserService
     {
-        $this->result = $this->result->select($relations);
+        $this->result->select($relations);
+
+        return $this;
+    }
+
+    /**
+     * Order by specific columns and direction
+     *
+     * @param string $column
+     * @param string $direction
+     * @return UserService
+     */
+    public function orderBy(string $column, string $direction = 'asc'): UserService
+    {
+        $this->result->orderBy($column, $direction);
 
         return $this;
     }
@@ -124,6 +138,9 @@ class UserService
      *
      * Applying resource filtering with pagination on related users for manager or administrator.
      * $service->search('user')->resourceFilter(ResourceFilter::ONLY_TRASHED)->team(UserRole::USER)->paginate();
+     *
+     * @param UserRole $forRole
+     * @return UserService
      */
     public function team(UserRole $forRole): UserService
     {
@@ -140,12 +157,9 @@ class UserService
 
         $pointRole = UserRole::from($role[0]);
         $relationMapped = UserRole::mapRelation($pointRole, $forRole);
-        dump($relationMapped);
 
         $first = $relationMapped->first();
         $last = $relationMapped->last();
-
-        /* ------------------------ TARGET & WHERE CONDITION ------------------------ */
         $result = $this->user;
 
         /* ------------------------------- INNER JOINS ------------------------------ */
@@ -180,39 +194,25 @@ class UserService
 
                 $result = $result->join($jtn, $jtn . '.' . $jtc, '=', $ctn . '.' . $ctc);
             }
-        }
-        // elseif ($first->table_name !== $last->table_name) {
-        //     /**
-        //      * This condition only applies if the tables names are not identical
-        //      * In case of user -> managers & manager -> users as these relations
-        //      * are stored in the same pivot table, still needs a link between IDs
-        //      */
-        //     // $result = $result->join(
-        //     //     $first->table_name,
-        //     //     $first->table_name . '.' . $first->columns[1]->value,
-        //     //     '=',
-        //     //     $last->table_name . '.' . $last->columns[0]->value
-        //     // );
 
-        //     $result = $result->join(
-        //         $first->table_name,
-        //         $first->table_name . '.' . $first->columns[1]->value,
-        //         '=',
-        //         'users.id'
-        //     );
-        // }
+            $result = $result->where(
+                $first->table_name . '.' . collect($first->columns)->getBy('type', 'pk')->value,
+                $this->user->id
+            );
+        }
         else {
             $result = $result->join(
                 $first->table_name,
                 $first->table_name . '.' . $first->columns[1]->value,
                 '=',
                 'users.id'
+            )->where(
+                $first->table_name . '.' . $first->columns[0]->value,
+                $this->user->id
             );
         }
 
-        $result = $result
-            ->where($first->table_name . '.' . $first->columns[0]->value, $this->user->id)
-            ->select('users.*')->distinct()->orderBy('id');
+        $result = $result->select('users.*')->distinct();
 
         /* ------------------ QUERY BUILDER & SCOUT SEARCH SWITCHER ----------------- */
         switch ($this->result::class) {
@@ -229,6 +229,9 @@ class UserService
 
     /**
      * Returns the collection formed by the query builder
+     *
+     * @param mixed $columns
+     * @return Collection
      */
     public function get(mixed $columns = '*'): Collection
     {
@@ -240,6 +243,7 @@ class UserService
      *
      * @param int $limit - the number of displaying resources
      * @param array $query - the rest of url query to be appended
+     * @return LengthAwarePaginator
      */
     public function paginate(int $limit, array $query = []): LengthAwarePaginator
     {
@@ -249,7 +253,7 @@ class UserService
     /**
      * Dump and Die the SQL query
      */
-    public function dd()
+    public function dd(): mixed
     {
         return $this->result->dd();
     }

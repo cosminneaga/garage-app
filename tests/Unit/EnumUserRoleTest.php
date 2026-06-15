@@ -123,15 +123,15 @@ test('mapRelation: User -> Managers', function () {
         (object) [
             'table_name' => 'team_manager_users',
             'columns' => [
-                (object) ['type' => 'fk', 'value' => 'manager_id'],
-                (object) ['type' => 'pk', 'value' => 'user_id'],
+                (object) ['type' => 'fk', 'value' => 'user_id'],
+                (object) ['type' => 'pk', 'value' => 'manager_id'],
             ],
         ],
         (object) [
             'table_name' => 'team_manager_users',
             'columns' => [
-                (object) ['type' => 'fk', 'value' => 'user_id'],
-                (object) ['type' => 'pk', 'value' => 'manager_id'],
+                (object) ['type' => 'fk', 'value' => 'manager_id'],
+                (object) ['type' => 'pk', 'value' => 'user_id'],
             ],
         ],
     ]));
@@ -163,17 +163,17 @@ test('mapRelation: Manager -> Administrators', function () {
 
     expect($result)->toEqual(collect([
         (object) [
-            'table_name' => 'team_manager_users',
-            'columns' => [
-                (object) ['type' => 'fk', 'value' => 'user_id'],
-                (object) ['type' => 'pk', 'value' => 'manager_id'],
-            ],
-        ],
-        (object) [
             'table_name' => 'team_administrator_managers',
             'columns' => [
                 (object) ['type' => 'fk', 'value' => 'manager_id'],
                 (object) ['type' => 'pk', 'value' => 'administrator_id'],
+            ],
+        ],
+        (object) [
+            'table_name' => 'team_manager_users',
+            'columns' => [
+                (object) ['type' => 'fk', 'value' => 'user_id'],
+                (object) ['type' => 'pk', 'value' => 'manager_id'],
             ],
         ],
     ]));
