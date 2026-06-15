@@ -64,10 +64,6 @@ class UserService
 
     /**
      * Order by specific columns and direction
-     *
-     * @param string $column
-     * @param string $direction
-     * @return UserService
      */
     public function orderBy(string $column, string $direction = 'asc'): UserService
     {
@@ -138,9 +134,6 @@ class UserService
      *
      * Applying resource filtering with pagination on related users for manager or administrator.
      * $service->search('user')->resourceFilter(ResourceFilter::ONLY_TRASHED)->team(UserRole::USER)->paginate();
-     *
-     * @param UserRole $forRole
-     * @return UserService
      */
     public function team(UserRole $forRole): UserService
     {
@@ -199,8 +192,7 @@ class UserService
                 $first->table_name . '.' . collect($first->columns)->getBy('type', 'pk')->value,
                 $this->user->id
             );
-        }
-        else {
+        } else {
             $result = $result->join(
                 $first->table_name,
                 $first->table_name . '.' . $first->columns[1]->value,
@@ -229,9 +221,6 @@ class UserService
 
     /**
      * Returns the collection formed by the query builder
-     *
-     * @param mixed $columns
-     * @return Collection
      */
     public function get(mixed $columns = '*'): Collection
     {
@@ -243,7 +232,6 @@ class UserService
      *
      * @param int $limit - the number of displaying resources
      * @param array $query - the rest of url query to be appended
-     * @return LengthAwarePaginator
      */
     public function paginate(int $limit, array $query = []): LengthAwarePaginator
     {
