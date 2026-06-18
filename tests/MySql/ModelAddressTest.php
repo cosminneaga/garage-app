@@ -1,9 +1,10 @@
 <?php
 
+use App\Dto\Coordinates;
 use App\Models\Address;
 use App\Models\Country;
 
-test('set/get coordinates', function () {
+test('coordinates: set/get', function () {
     $country = Country::factory()->create();
 
     $resource = Address::create([
@@ -18,12 +19,29 @@ test('set/get coordinates', function () {
         'country_id' => $country->id,
     ]);
 
-    expect($resource->coordinates)->toBeInstanceOf(Address::class);
     expect($resource->coordinates->latitude)->toEqual(4.895168);
     expect($resource->coordinates->longitude)->toEqual(52.370216);
+
 });
 
-test('get data using "withCoordinates" scope', function () {
+test('coordinates: set/get using Coordinates DTO', function () {
+    $country = Country::factory()->create();
+
+    $resource = Address::create([
+        'number' => 123,
+        'street' => 'Flowers Street',
+        'postcode' => 212212,
+        'extra' => 'Just around the corner.',
+        'coordinates' => new Coordinates(4.895168, 52.370216),
+        'country_id' => $country->id,
+    ]);
+
+    expect($resource->coordinates->latitude)->toEqual(4.895168);
+    expect($resource->coordinates->longitude)->toEqual(52.370216);
+
+});
+
+test('withCoordinates scope', function () {
     $country = Country::factory()->create();
 
     Address::create([
@@ -50,7 +68,7 @@ test('get data using "withCoordinates" scope', function () {
     ]);
 });
 
-test('create resource using the pivot logic "updateOrCreateByCoordinates"', function () {
+test('updateOrCreateByCoordinates: create resource', function () {
     $country = Country::factory()->create();
 
     $resource = Address::updateOrCreateByCoordinates(
@@ -65,11 +83,11 @@ test('create resource using the pivot logic "updateOrCreateByCoordinates"', func
         ],
     );
 
-    expect($resource->coordinates->latitude)->toEqual('4.895168');
-    expect($resource->coordinates->longitude)->toEqual('52.370216');
+    expect($resource->coordinates->latitude)->toEqual(4.895168);
+    expect($resource->coordinates->longitude)->toEqual(52.370216);
 });
 
-test('update resource using the pivot logic "updateOrCreateByCoordinates"', function () {
+test('updateOrCreateByCoordinates: update existing resource', function () {
     $country = Country::factory()->create();
 
     Address::updateOrCreateByCoordinates(
@@ -96,14 +114,14 @@ test('update resource using the pivot logic "updateOrCreateByCoordinates"', func
         ],
     );
 
-    expect($updatedresource->coordinates->latitude)->toEqual('4.895168');
-    expect($updatedresource->coordinates->longitude)->toEqual('52.370216');
+    expect($updatedresource->coordinates->latitude)->toEqual(4.895168);
+    expect($updatedresource->coordinates->longitude)->toEqual(52.370216);
 
     $addresses = Address::all();
     expect($addresses)->toHaveCount(1);
 });
 
-test('create new resource using the pivot logic "updateOrCreateByCoordinates"', function () {
+test('updateOrCreateByCoordinates: create new resource', function () {
     $country = Country::factory()->create();
 
     $resource = Address::updateOrCreateByCoordinates(
@@ -130,10 +148,10 @@ test('create new resource using the pivot logic "updateOrCreateByCoordinates"', 
         ],
     );
 
-    expect($resource->coordinates->latitude)->toEqual('4.895168');
-    expect($resource->coordinates->longitude)->toEqual('52.370216');
-    expect($newresource->coordinates->latitude)->toEqual('4.895168');
-    expect($newresource->coordinates->longitude)->toEqual('52.370217');
+    expect($resource->coordinates->latitude)->toEqual(4.895168);
+    expect($resource->coordinates->longitude)->toEqual(52.370216);
+    expect($newresource->coordinates->latitude)->toEqual(4.895168);
+    expect($newresource->coordinates->longitude)->toEqual(52.370217);
 
     $addresses = Address::all();
     expect($addresses)->toHaveCount(2);
