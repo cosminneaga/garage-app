@@ -25,6 +25,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Throwable;
 
 /**
  * @property int $id
@@ -46,6 +47,8 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property-read int|null $companies_count
  * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read Collection<int, User> $managers
+ * @property-read int|null $managers_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
@@ -54,6 +57,8 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property-read int|null $roles_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
+ * @property-read Collection<int, User> $users
+ * @property-read int|null $users_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -156,9 +161,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Functions one-way from manager to users and one-way through from administrator to user
+     * Functions one-way from manager to users & one-way through from administrator to user
      */
-    public function isMyUser(User $user): bool
+    public function isMyUser(User $user): Throwable|bool
     {
         if (!$this->hasAnyRole(UserRole::MANAGER->value, UserRole::ADMINISTRATOR->value)) {
             throw new Exception('The user must hold the manager or administrator role.');
@@ -173,6 +178,15 @@ class User extends Authenticatable
         }
 
         return $this->users()->where('users.id', $user->id)->exists();
+    }
+
+    public function isMyManager(User $user): Throwable|bool
+    {
+        if (!$this->hasRole(UserRole::ADMINISTRATOR)) {
+            throw new Exception('The user must hold the administrator role.');
+        }
+
+        return $this->managers()->where('users.id', $user->id)->exists();
     }
 
     public function chart(): array
@@ -193,10 +207,6 @@ class User extends Authenticatable
      */
     public function managers(): BelongsToMany
     {
-        if (!$this->hasAnyRole([UserRole::USER, UserRole::ADMINISTRATOR])) {
-            throw new Exception('The user must hold the user or administrator role.');
-        }
-
         if ($this->isAdministrator()) {
             return $this->belongsToMany(
                 User::class,
@@ -219,10 +229,6 @@ class User extends Authenticatable
      */
     public function users(): BelongsToMany
     {
-        if (!$this->hasRole(UserRole::MANAGER)) {
-            throw new Exception('The user must hold the manager role.');
-        }
-
         return $this->belongsToMany(
             User::class,
             'team_manager_users',

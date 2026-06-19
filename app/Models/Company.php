@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\UserRole;
 use App\Policies\CompanyPolicy;
+use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Throwable;
 
 /**
  * @property int $id
@@ -95,19 +96,10 @@ class Company extends Model
         ];
     }
 
-    public function isMyCompany(User $user): bool
+    public function isMyCompany(User $user): Throwable|bool
     {
         if (! $user->roles()->exists()) {
-            return false;
-        }
-
-        if ($user->hasRole(UserRole::USER_ADMIN)) {
-            return (bool) $this->users()->find($user->id);
-        }
-
-        $manager = $user->managers()->first();
-        if (! $manager) {
-            return false;
+            throw new Exception('The user must hold a valid role.');
         }
 
         return (bool) $this->users()->find($user->id);

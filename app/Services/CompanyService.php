@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enums\Resource\ResourceFilter;
-use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
@@ -26,6 +25,10 @@ class CompanyService
     ) {
     }
 
+    /**
+     * Used when pagination is not needed.
+     * $service->model()->all()->get();
+     */
     public function model(): CompanyService
     {
         $this->result = Company::query();
@@ -33,20 +36,48 @@ class CompanyService
         return $this;
     }
 
+    /**
+     * Adds related collection to the query builder.
+     * Applies with on $this->result;
+     *
+     * @param string|array $relations - 'users'
+     */
     public function with(string|array $relations): CompanyService
     {
-        $this->result = $this->result->with($relations);
+        $this->result->with($relations);
 
         return $this;
     }
 
+    /**
+     * Select the related columns when querying a related collection.
+     * Applies select query on $this->result;
+     *
+     * @param string|array $relations - ['users.id', 'users.name']
+     */
     public function select(string|array $relations): CompanyService
     {
-        $this->result = $this->result->select($relations);
+        $this->result->select($relations);
 
         return $this;
     }
 
+    /**
+     * Order by specific columns and direction
+     */
+    public function orderBy(string $column, string $direction = 'asc'): CompanyService
+    {
+        $this->result->orderBy($column, $direction);
+
+        return $this;
+    }
+
+    /**
+     * Scout search, applies search on queried collections.
+     * Applies search query builder on $this->result;
+     *
+     * @param string $search - search string
+     */
     public function search(string $search = ''): CompanyService
     {
         $this->result = Company::search($search);
@@ -55,66 +86,13 @@ class CompanyService
         return $this;
     }
 
-    public function searchUser(string $search = ''): CompanyService
-    {
-        $this->result = User::search($search);
-        $this->searchQuery = $search;
-
-        return $this;
-    }
-
-    public function filterOwn(ResourceFilter $filter): CompanyService
-    {
-        if ($this->user->hasRole(UserRole::USER_EDITOR)) {
-            $this->user = $this->user->managers()->first();
-        }
-
-        /**User::query()
-            ->join('teams', 'users.id', '=', 'teams.user_id')
-            ->where('teams.manager_id', 1)
-            ->whereNull('users.deleted_at')
-            ->select('users.*')
-            ->distinct()
-            ->orderByDesc('users.id')
-            ->paginate(15);
-        */
-
-        // COUNT QUERY
-        /**SELECT COUNT(DISTINCT users.id)
-            FROM users
-            INNER JOIN teams ON users.id = teams.user_id
-            WHERE teams.manager_id = 1
-            AND users.deleted_at IS NULL
-        */
-
-        // MAIN QUERY
-        /**SELECT DISTINCT users.*
-            FROM users
-            INNER JOIN teams ON users.id = teams.user_id
-            WHERE teams.manager_id = 1
-            AND users.deleted_at IS NULL
-            ORDER BY users.id DESC
-            LIMIT 15 OFFSET 0
-        */
-
-        switch ($filter) {
-            case ResourceFilter::ONLY_TRASHED:
-                $this->result->onlyTrashed()->whereIn('id', $this->user->companies()->onlyTrashed()->select('companies.id'));
-                break;
-
-            case ResourceFilter::WITH_TRASHED:
-                $this->result->withTrashed()->whereIn('id', $this->user->companies()->withTrashed()->select('companies.id'));
-                break;
-
-            default:
-                $this->result->whereIn('id', $this->user->companies()->select('companies.id'));
-                break;
-        }
-
-        return $this;
-    }
-
-    public function filterAll(ResourceFilter $filter): CompanyService
+    /**
+     * Filters the resources based on given filter, such as: default, with_trashed, only_trashed.
+     * Applies filtering on $this->result;
+     *
+     * @param ResourceFilter $filter - ResourceFilter::DEFAULT
+     */
+    public function resourceFilter(ResourceFilter $filter = ResourceFilter::DEFAULT): CompanyService
     {
         switch ($filter) {
             case ResourceFilter::ONLY_TRASHED:
@@ -132,13 +110,55 @@ class CompanyService
         return $this;
     }
 
+    /**
+     * Filters the resources based on given filter, such as: default, with_trashed, only_trashed.
+     * Applies filtering on $this->result;
+     *
+     * @param ResourceFilter $filter - ResourceFilter::DEFAULT
+     */
+    public function resourceFilterOwn(ResourceFilter $filter = ResourceFilter::DEFAULT): CompanyService
+    {
+        switch ($filter) {
+            case ResourceFilter::ONLY_TRASHED:
+                $this->result->onlyTrashed()->whereIn('id', $this->user->companies()->onlyTrashed()->select('companies.id'));
+                break;
+
+            case ResourceFilter::WITH_TRASHED:
+                $this->result->withTrashed()->whereIn('id', $this->user->companies()->withTrashed()->select('companies.id'));
+                break;
+
+            default:
+                $this->result->whereIn('id', $this->user->companies()->select('companies.id'));
+                break;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns the collection formed by the query builder
+     */
     public function get(mixed $columns = '*'): Collection
     {
         return $this->result->get($columns);
     }
 
+    /**
+     * Returns pagination collection
+     *
+     * @param int $limit - the number of displaying resources
+     * @param array $query - the rest of url query to be appended
+     */
     public function paginate(int $limit, array $query = []): LengthAwarePaginator
     {
-        return $this->result->paginate($limit, 'companies')->appends($query);
+        return $this->result->paginate($limit, 'users')->appends($query);
+    }
+
+    /**
+     * Dump and Die the SQL query
+     */
+    public function dd(): void
+    {
+        $this->result->dd();
     }
 }

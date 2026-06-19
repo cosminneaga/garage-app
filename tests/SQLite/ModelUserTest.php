@@ -3,6 +3,74 @@
 use App\Enums\UserRole;
 use App\Models\User;
 
+test('isMyUser: true', function () {
+    $administrator = User::factory()->create(['name' => 'administrator']);
+    $administrator->assignRole(UserRole::ADMINISTRATOR);
+
+    $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::MANAGER);
+    $administrator->managers()->attach($manager);
+
+    $user = User::factory()->create(['name' => 'user']);
+    $user->assignRole(UserRole::USER);
+    $manager->users()->attach($user);
+
+    expect($administrator->isMyUser($user))->toBeTrue();
+    expect($manager->isMyUser($user))->toBeTrue();
+});
+
+test('isMyUser: manager not attached, administrator -> false', function () {
+    $administrator = User::factory()->create(['name' => 'administrator']);
+    $administrator->assignRole(UserRole::ADMINISTRATOR);
+
+    $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::MANAGER);
+
+    $user = User::factory()->create(['name' => 'user']);
+    $user->assignRole(UserRole::USER);
+    $manager->users()->attach($user);
+
+    expect($administrator->isMyUser($user))->toBeFalse();
+    expect($manager->isMyUser($user))->toBeTrue();
+});
+
+test('isMyUser: user not attached, administrator & manager -> false', function () {
+    $administrator = User::factory()->create(['name' => 'administrator']);
+    $administrator->assignRole(UserRole::ADMINISTRATOR);
+
+    $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::MANAGER);
+    $administrator->managers()->attach($manager);
+
+    $user = User::factory()->create(['name' => 'user']);
+    $user->assignRole(UserRole::USER);
+
+    expect($administrator->isMyUser($user))->toBeFalse();
+    expect($manager->isMyUser($user))->toBeFalse();
+});
+
+test('isMyManager: true', function () {
+    $administrator = User::factory()->create(['name' => 'administrator']);
+    $administrator->assignRole(UserRole::ADMINISTRATOR);
+
+    $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::MANAGER);
+    $administrator->managers()->attach($manager);
+
+    expect($administrator->isMyManager($manager))->toBeTrue();
+});
+
+test('isMyManager: false', function () {
+    $administrator = User::factory()->create(['name' => 'administrator']);
+    $administrator->assignRole(UserRole::ADMINISTRATOR);
+
+    $manager = User::factory()->create(['name' => 'manager']);
+    $manager->assignRole(UserRole::MANAGER);
+
+    expect($administrator->isMyManager($manager))->toBeFalse();
+});
+
+
 test('managers: from administrator to managers and user to managers', function () {
     $administrator = User::factory()->create(['name' => 'administrator']);
     $administrator->assignRole(UserRole::ADMINISTRATOR);
@@ -64,19 +132,4 @@ test('isMyUser: fail wrong role', function () {
     $user = User::factory()->create();
 
     expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold the manager or administrator role.');
-});
-
-test('users: fail no role', function () {
-    $manager = User::factory()->create(['name' => 'manager']);
-
-    $user = User::factory()->create();
-    expect(fn () => $manager->users()->attach($user))->toThrow('The user must hold the manager role.');
-});
-
-test('users: fail wrong role', function () {
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::USER);
-
-    $user = User::factory()->create();
-    expect(fn () => $manager->users()->attach($user))->toThrow('The user must hold the manager role.');
 });

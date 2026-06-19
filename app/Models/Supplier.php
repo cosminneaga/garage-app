@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\SupplierType;
-use App\Enums\UserRole;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Throwable;
 
 /**
  * @property int $id
@@ -76,20 +77,14 @@ class Supplier extends Model
         'type' => SupplierType::DISTRIBUTOR->value,
     ];
 
-    public function isMySupplier(User $user): bool
+    public function isMySupplier(User $user): Throwable|bool
     {
         if (! $user->roles()->exists()) {
-            return false;
+            throw new Exception('The user must hold a valid role.');
         }
 
         $company = $this->companies()->first();
-
-        if ($user->hasRole(UserRole::USER_ADMIN)) {
-            return (bool) $company->users()->find($user->id);
-        }
-
-        $manager = $user->managers()->first();
-        if (! $manager) {
+        if (!$company) {
             return false;
         }
 

@@ -241,8 +241,8 @@ class UserService
     /**
      * Dump and Die the SQL query
      */
-    public function dd(): mixed
+    public function dd(): void
     {
-        return $this->result->dd();
+        $this->result->dd();
     }
 }
