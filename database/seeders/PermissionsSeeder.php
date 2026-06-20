@@ -64,7 +64,7 @@ class PermissionsSeeder extends Seeder
         $permissions = [
             UserRole::ADMINISTRATOR->value => UserPermission::list(),
             UserRole::MANAGER->value => UserPermission::list(excludeReferences: ['company']),
-            UserRole::USER->value => UserPermission::list(excludeActions: ['restore', 'store', 'update', 'delete'])
+            UserRole::USER->value => UserPermission::list(excludeActions: ['restore', 'store', 'update', 'delete']),
         ];
 
         $insertPermissions = fn ($role) => collect($permissions[$role])
@@ -85,7 +85,7 @@ class PermissionsSeeder extends Seeder
         $roleWithPermissions = [
             $administrator->id => $insertPermissions(UserRole::ADMINISTRATOR->value),
             $manager->id => $insertPermissions(UserRole::MANAGER->value),
-            $user->id => $insertPermissions(UserRole::USER->value)
+            $user->id => $insertPermissions(UserRole::USER->value),
         ];
 
         /* ------------------------- PRIVILEGED PERMISSIONS ------------------------- */
@@ -95,7 +95,7 @@ class PermissionsSeeder extends Seeder
             DB::table('role_has_permissions')
                 ->insert(collect($permissions)->map(fn ($permissionId) => [
                     'role_id' => $roleId,
-                    'permission_id' => $permissionId
+                    'permission_id' => $permissionId,
                 ])->toArray());
         }
     }

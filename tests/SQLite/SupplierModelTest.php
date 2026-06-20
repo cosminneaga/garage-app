@@ -9,7 +9,7 @@ use App\Models\User;
 
 beforeEach(function () {
     $this->administrator = User::factory()->create();
-    $this->administrator->assignRole(UserRole::ADMINISTRATOR->value);
+    $this->administrator->assignRole(UserRole::ADMINISTRATOR);
 
     $this->manager = User::factory()->create();
     $this->manager->assignRole(UserRole::MANAGER);

@@ -12,10 +12,10 @@ use App\Services\CompanyService;
 
 beforeEach(function () {
     $this->administrator = User::factory()->create();
-    $this->administrator->assignRole(UserRole::ADMINISTRATOR->value);
+    $this->administrator->assignRole(UserRole::ADMINISTRATOR);
 
     $this->manager = User::factory()->create();
-    $this->manager->assignRole(UserRole::MANAGER->value);
+    $this->manager->assignRole(UserRole::MANAGER);
     $this->administrator->managers()->attach($this->manager);
 });
 
@@ -54,7 +54,7 @@ test('search through own companies', function () {
 
     Company::factory()->createMany([
         ['name' => 'toronto ltc'],
-        ['name' => 'one company for your needs']
+        ['name' => 'one company for your needs'],
     ]);
     $companies[0]->delete();
 

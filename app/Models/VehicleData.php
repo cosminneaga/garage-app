@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Database\Factories\VehicleDataFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -28,30 +30,31 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\VehicleMake|null $make
- * @property-read \App\Models\VehicleModel|null $model
- * @property-read Collection<int, \App\Models\Repair> $repairs
+ * @property-read VehicleMake|null $make
+ * @property-read VehicleModel|null $model
+ * @property-read Collection<int, Repair> $repairs
  * @property-read int|null $repairs_count
- * @property-read \App\Models\VehicleYear|null $year
- * @method static \Database\Factories\VehicleDataFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereCylinders($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereDisplacement($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereDrive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereTransmission($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleMakeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleYearId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData withoutTrashed()
+ * @property-read VehicleYear|null $year
+ * @method static VehicleDataFactory factory($count = null, $state = [])
+ * @method static Builder<static>|VehicleData newModelQuery()
+ * @method static Builder<static>|VehicleData newQuery()
+ * @method static Builder<static>|VehicleData onlyTrashed()
+ * @method static Builder<static>|VehicleData query()
+ * @method static Builder<static>|VehicleData whereCreatedAt($value)
+ * @method static Builder<static>|VehicleData whereCylinders($value)
+ * @method static Builder<static>|VehicleData whereDisplacement($value)
+ * @method static Builder<static>|VehicleData whereDrive($value)
+ * @method static Builder<static>|VehicleData whereId($value)
+ * @method static Builder<static>|VehicleData whereName($value)
+ * @method static Builder<static>|VehicleData whereTransmission($value)
+ * @method static Builder<static>|VehicleData whereUpdatedAt($value)
+ * @method static Builder<static>|VehicleData whereVehicleMakeId($value)
+ * @method static Builder<static>|VehicleData whereVehicleModelId($value)
+ * @method static Builder<static>|VehicleData whereVehicleYearId($value)
+ * @method static Builder<static>|VehicleData withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|VehicleData withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperVehicleData
  */
 class VehicleData extends Model
 {

@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('mobile', length: 20);
             $table->string('landline', length: 20)->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->string('url')->nullable();
             $table->text('info')->nullable();
             $table->timestamps();

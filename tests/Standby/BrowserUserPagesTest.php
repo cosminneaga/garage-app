@@ -14,12 +14,12 @@ beforeEach(function () {
         'email' => 'testing_super@garage.com',
         'password' => $this->password,
     ]);
-    $this->super->assignRole(UserRole::SUPER->value);
+    $this->super->assignRole(UserRole::SUPER);
 
     $this->users = User::factory()->createMany([
         ['name' => 'User1'],
         ['name' => 'User2'],
-        ['name' => 'User3']
+        ['name' => 'User3'],
     ]);
     $this->super->team()->attach($this->users);
 

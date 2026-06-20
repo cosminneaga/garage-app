@@ -20,21 +20,21 @@ test('relation: get specific resource info', function () {
         'table_name' => 'team_administrator_managers',
         'columns' => [
             (object) ['type' => 'pk', 'value' => 'administrator_id'],
-            (object) ['type' => 'fk', 'value' => 'manager_id']
+            (object) ['type' => 'fk', 'value' => 'manager_id'],
         ],
     ]);
     expect($manager)->toMatchArray([
         'table_name' => 'team_manager_users',
         'columns' => [
             (object) ['type' => 'pk', 'value' => 'manager_id'],
-            (object) ['type' => 'fk', 'value' => 'user_id']
+            (object) ['type' => 'fk', 'value' => 'user_id'],
         ],
     ]);
     expect($user)->toMatchArray([
         'table_name' => 'team_manager_users',
         'columns' => [
             (object) ['type' => 'pk', 'value' => 'user_id'],
-            (object) ['type' => 'fk', 'value' => 'manager_id']
+            (object) ['type' => 'fk', 'value' => 'manager_id'],
         ],
     ]);
 });
@@ -47,23 +47,23 @@ test('mapRelation: Administrator -> Users', function () {
             'table_name' => 'team_administrator_managers',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'administrator_id'],
-                (object) ['type' => 'fk', 'value' => 'manager_id']
+                (object) ['type' => 'fk', 'value' => 'manager_id'],
             ],
         ],
         (object) [
             'table_name' => 'team_manager_users',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'manager_id'],
-                (object) ['type' => 'fk', 'value' => 'user_id']
+                (object) ['type' => 'fk', 'value' => 'user_id'],
             ],
         ],
         (object) [
             'table_name' => 'team_manager_users',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'user_id'],
-                (object) ['type' => 'fk', 'value' => 'manager_id']
+                (object) ['type' => 'fk', 'value' => 'manager_id'],
             ],
-        ]
+        ],
     ]));
 });
 
@@ -75,14 +75,14 @@ test('mapRelation: Administrator -> Managers', function () {
             'table_name' => 'team_administrator_managers',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'administrator_id'],
-                (object) ['type' => 'fk', 'value' => 'manager_id']
+                (object) ['type' => 'fk', 'value' => 'manager_id'],
             ],
         ],
         (object) [
             'table_name' => 'team_manager_users',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'manager_id'],
-                (object) ['type' => 'fk', 'value' => 'user_id']
+                (object) ['type' => 'fk', 'value' => 'user_id'],
             ],
         ],
     ]));
@@ -103,7 +103,7 @@ test('mapRelation: User -> Administrators', function () {
             'table_name' => 'team_manager_users',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'manager_id'],
-                (object) ['type' => 'fk', 'value' => 'user_id']
+                (object) ['type' => 'fk', 'value' => 'user_id'],
             ],
         ],
         (object) [
@@ -145,14 +145,14 @@ test('mapRelation: Manager -> Users', function () {
             'table_name' => 'team_manager_users',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'manager_id'],
-                (object) ['type' => 'fk', 'value' => 'user_id']
+                (object) ['type' => 'fk', 'value' => 'user_id'],
             ],
         ],
         (object) [
             'table_name' => 'team_manager_users',
             'columns' => [
                 (object) ['type' => 'pk', 'value' => 'user_id'],
-                (object) ['type' => 'fk', 'value' => 'manager_id']
+                (object) ['type' => 'fk', 'value' => 'manager_id'],
             ],
         ],
     ]));
@@ -184,7 +184,7 @@ test('values: get cases values', function () {
         'super',
         'administrator',
         'manager',
-        'user'
+        'user',
     ]);
 });
 

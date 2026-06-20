@@ -10,21 +10,21 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
 beforeEach(function () {
-    $this->admin = User::factory()->create();
-    $this->admin->assignRole(UserRole::USER_ADMIN->value);
+    $this->administrator = User::factory()->create();
+    $this->administrator->assignRole(UserRole::ADMINISTRATOR);
 
     $this->country = Country::factory()->create();
     $this->file = UploadedFile::fake()->image('avatar.jpg');
 
-    $this->adminAction = new CompanyUpdateAction($this->admin);
+    $this->action = new CompanyUpdateAction();
 
     $this->company = Company::factory()->create([
-        'name' => 'Company Intialisation'
+        'name' => 'Company Intialisation',
     ]);
 });
 
 test('should update company', function () {
-    $this->adminAction->handle([
+    $this->action->handle([
         'name' => 'Company Test',
         'tax_id' => '787423847',
         'registration_number' => '8472873442',
@@ -33,7 +33,12 @@ test('should update company', function () {
         'image' => $this->file,
     ], $this->company);
 
-    $company = Company::find($this->company->id);
-    expect($company)->toBeInstanceOf(Company::class);
-    expect($company->name)->toEqual('Company Test');
+    expect($this->company)->toMatchArray([
+        'name' => 'Company Test',
+        'tax_id' => '787423847',
+        'registration_number' => '8472873442',
+        'tax_value' => 20,
+        'invoice_prefix' => 'INV',
+        'image_path' => 'companies/' . $this->file->hashName(),
+    ]);
 });

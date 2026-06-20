@@ -8,13 +8,13 @@ test('example test', function () {
     $users = User::factory()->createMany([
         ['name' => 'administrator'],
         ['name' => 'manager'],
-        ['name' => 'user']
+        ['name' => 'user'],
     ]);
 
     $users2 = User::factory()->createMany([
         ['name' => 'administrator2'],
         ['name' => 'manager2'],
-        ['name' => 'user2']
+        ['name' => 'user2'],
     ]);
 
     $users[0]->assignRole(UserRole::ADMINISTRATOR);

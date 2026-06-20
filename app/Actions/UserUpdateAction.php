@@ -31,14 +31,18 @@ class UserUpdateAction
 
         DB::transaction(function () use ($user, $data) {
             // replace old image with new one
-            if (Arr::has($data, 'user.image_path') && ($user->image_path && Storage::disk('public')->exists($user->image_path))) {
+            if (
+                Arr::has($data, 'user.image_path') &&
+                ($user->image_path && Storage::disk('public')->exists($user->image_path))
+            ) {
                 Storage::disk('public')->delete($user->image_path);
             }
-            $user->update($data['user']);
 
             if (Arr::has($data, 'role')) {
                 $user->assignRole($data['role']);
             }
+
+            $user->update($data['user']);
         });
     }
 }

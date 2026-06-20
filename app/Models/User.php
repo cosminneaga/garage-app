@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Builder;
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
+use App\Traits\Blameable;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Collection;
@@ -34,17 +37,19 @@ use Throwable;
  * @property Carbon|null $email_verified_at
  * @property string|null $image_path
  * @property string $password
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property string|null $remember_token
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Address> $addresses
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, \App\Models\Company> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, \App\Models\Contact> $contacts
+ * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read Collection<int, User> $managers
  * @property-read int|null $managers_count
@@ -58,31 +63,34 @@ use Throwable;
  * @property-read int|null $teams_count
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User permission($permissions, bool $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, ?string $guard = null, bool $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User team($teams, bool $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereImagePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, ?string $guard = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTeam($teams)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
+ * @method static UserFactory factory($count = null, $state = [])
+ * @method static Builder<static>|User newModelQuery()
+ * @method static Builder<static>|User newQuery()
+ * @method static Builder<static>|User onlyTrashed()
+ * @method static Builder<static>|User permission($permissions, bool $without = false)
+ * @method static Builder<static>|User query()
+ * @method static Builder<static>|User role($roles, ?string $guard = null, bool $without = false)
+ * @method static Builder<static>|User team($teams, bool $without = false)
+ * @method static Builder<static>|User whereActive($value)
+ * @method static Builder<static>|User whereCreatedAt($value)
+ * @method static Builder<static>|User whereCreatedBy($value)
+ * @method static Builder<static>|User whereDeletedAt($value)
+ * @method static Builder<static>|User whereEmail($value)
+ * @method static Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static Builder<static>|User whereId($value)
+ * @method static Builder<static>|User whereImagePath($value)
+ * @method static Builder<static>|User whereName($value)
+ * @method static Builder<static>|User wherePassword($value)
+ * @method static Builder<static>|User whereRememberToken($value)
+ * @method static Builder<static>|User whereUpdatedAt($value)
+ * @method static Builder<static>|User whereUpdatedBy($value)
+ * @method static Builder<static>|User withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|User withoutPermission($permissions)
+ * @method static Builder<static>|User withoutRole($roles, ?string $guard = null)
+ * @method static Builder<static>|User withoutTeam($teams)
+ * @method static Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperUser
  */
 #[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable
@@ -93,6 +101,7 @@ class User extends Authenticatable
     use Notifiable;
     use Searchable;
     use SoftDeletes;
+    use Blameable;
 
     /**
      * The attributes that are mass assignable.
@@ -105,6 +114,8 @@ class User extends Authenticatable
         'password',
         'active',
         'image_path',
+        'created_by',
+        'updated_by',
     ];
 
     /**

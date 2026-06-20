@@ -4,9 +4,7 @@ use App\Enums\UserRole;
 use App\Models\Country;
 use App\Models\User;
 
-// use Illuminate\Http\UploadedFile;
-
-use function Pest\Laravel\{actingAs};
+use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
     $this->password = 'P@ssword';
@@ -15,7 +13,7 @@ beforeEach(function () {
         'email' => 'testing_super@garage.com',
         'password' => $this->password,
     ]);
-    $this->super->assignRole(UserRole::SUPER->value);
+    $this->super->assignRole(UserRole::SUPER);
     $this->country = Country::factory()->create();
 });
 

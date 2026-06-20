@@ -18,6 +18,8 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('image_path')->nullable();
             $table->string('password');
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
@@ -26,6 +28,8 @@ return new class () extends Migration {
             $table->index('active', 'usr_active_idx');
             $table->index('email_verified_at', 'usr_emailverifiedat_idx');
             $table->index('created_at', 'usr_createdat_idx');
+            $table->index('created_by', 'usr_createdby_idx');
+            $table->index('updated_by', 'usr_updatedby_idx');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -54,6 +58,8 @@ return new class () extends Migration {
             $table->dropIndex('usr_active_idx');
             $table->dropIndex('usr_emailverifiedat_idx');
             $table->dropIndex('usr_createdat_idx');
+            $table->dropIndex('usr_createdby_idx');
+            $table->dropIndex('usr_updatedby_idx');
         });
 
         Schema::dropIfExists('users');

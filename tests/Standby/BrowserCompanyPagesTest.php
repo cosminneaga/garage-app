@@ -16,7 +16,7 @@ beforeEach(function () {
         'email' => 'testing_super@garage.com',
         'password' => $this->password,
     ]);
-    $this->super->assignRole(UserRole::SUPER->value);
+    $this->super->assignRole(UserRole::SUPER);
 
     $this->companies = Company::factory()->createMany([
         ['name' => 'Company1'],
@@ -27,7 +27,7 @@ beforeEach(function () {
 
     $this->contact = Contact::factory()->create();
     $this->address = Address::factory()->create([
-        'coordinates' => null // cancel inserting coordinates as this works only in a real MySQL database
+        'coordinates' => null, // cancel inserting coordinates as this works only in a real MySQL database
     ]);
     $this->supplier = Supplier::factory()->create();
     $this->companies[0]->contacts()->attach($this->contact);

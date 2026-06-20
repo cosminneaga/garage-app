@@ -19,7 +19,11 @@ return new class () extends Migration {
             $table->string('building', 50)->nullable();
             $table->string('floor', 20)->nullable();
             $table->string('unit', 20)->nullable();
-            $table->geography('location', subtype: 'point', srid: 4326)->nullable();
+            $table->geography('coordinates', subtype: 'point', srid: 4326);
+
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                $table->spatialIndex('coordinates');
+            }
 
             $table->foreignIdFor(Country::class)
                 ->constrained()

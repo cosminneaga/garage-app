@@ -19,7 +19,7 @@ class CompanyStoreAction
         //
     }
 
-    public function handle(array $attributes): void
+    public function handle(array $attributes): Company
     {
         $data['contact'] = $attributes['contact'];
         $data['address'] = $attributes['address'];
@@ -38,20 +38,14 @@ class CompanyStoreAction
             $data['company']['image_path'] = $attributes['image']->store('companies', 'public');
         }
 
-        DB::transaction(function () use ($data) {
+        return DB::transaction(function () use ($data) {
             $company = Company::create($data['company']);
             $company->users()->attach($this->user);
 
-            $company->addresses()->attach(Address::updateOrCreateByCoordinates(
-                Arr::get($data, 'address.coordinates.latitude'),
-                Arr::get($data, 'address.coordinates.longitude'),
-                $data['address'],
-            ));
+            $company->addresses()->attach(Address::create($data['address']));
+            $company->contacts()->attach(Contact::create($data['contact']));
 
-            $company->contacts()->attach(Contact::updateOrCreate(
-                ['email' => Arr::get($data, 'contact.email')],
-                $data['contact'],
-            ));
+            return $company;
         });
     }
 }

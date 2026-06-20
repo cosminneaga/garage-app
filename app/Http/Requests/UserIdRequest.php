@@ -26,7 +26,7 @@ class UserIdRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'exists:users,id']
+            'id' => ['required', 'exists:users,id'],
         ];
     }
 }

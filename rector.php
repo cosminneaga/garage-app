@@ -6,6 +6,7 @@ use Rector\Config\RectorConfig;
 use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedCallRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnUnionTypeRector;
+use Rector\TypeDeclaration\Rector\Closure\AddClosureNeverReturnTypeRector;
 use Rector\TypeDeclaration\Rector\Closure\AddClosureVoidReturnTypeWhereNoReturnRector;
 use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 use RectorLaravel\Set\LaravelSetProvider;
@@ -31,6 +32,7 @@ return RectorConfig::configure()
             __DIR__.'/resources/views',
         ],
         AddArrowFunctionReturnTypeRector::class,
+        AddClosureNeverReturnTypeRector::class,
     ])
     ->withPhpSets()
     ->withSetProviders(LaravelSetProvider::class)
@@ -44,4 +46,5 @@ return RectorConfig::configure()
     )
     ->withRules([
         DeclareStrictTypesRector::class,
-    ]);
+    ])
+    ->withImportNames(removeUnusedImports: true);

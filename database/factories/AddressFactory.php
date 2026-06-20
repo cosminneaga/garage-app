@@ -18,14 +18,16 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'number' => fake()->buildingNumber(),
+            'street_number' => fake()->buildingNumber(),
             'street' => fake()->streetName(),
             'postcode' => fake()->postcode(),
             'coordinates' => [
                 'latitude' => floatval(fake()->latitude()),
                 'longitude' => floatval(fake()->longitude()),
             ],
-            'extra' => fake()->secondaryAddress(),
+            'building' => fake()->buildingNumber(),
+            'floor' => fake()->buildingNumber(),
+            'unit' => fake()->buildingNumber(),
             'country_id' => Country::factory(),
         ];
     }

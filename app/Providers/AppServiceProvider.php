@@ -94,5 +94,6 @@ class AppServiceProvider extends ServiceProvider
         Model::automaticallyEagerLoadRelationships();
 
         Collection::macro('getBy', fn (string $key, mixed $value) => $this->firstWhere($key, $value));
+        Collection::macro('existsInList', fn (array $list, array $compareList) => (bool) $this->values()->every(fn ($value) => in_array($value, $compareList)));
     }
 }

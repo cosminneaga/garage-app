@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Database\Factories\RepairFileFactory;
+use Illuminate\Database\Eloquent\Builder;
 use App\Enums\FileStatus;
 use App\Enums\RepairStatus;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,7 +14,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -30,27 +32,28 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Repair|null $repair
- * @method static \Database\Factories\RepairFileFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereExtension($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereRepairId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereRepairStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile withoutTrashed()
+ * @property-read Repair|null $repair
+ * @method static RepairFileFactory factory($count = null, $state = [])
+ * @method static Builder<static>|RepairFile newModelQuery()
+ * @method static Builder<static>|RepairFile newQuery()
+ * @method static Builder<static>|RepairFile onlyTrashed()
+ * @method static Builder<static>|RepairFile query()
+ * @method static Builder<static>|RepairFile whereCreatedAt($value)
+ * @method static Builder<static>|RepairFile whereDeletedAt($value)
+ * @method static Builder<static>|RepairFile whereDescription($value)
+ * @method static Builder<static>|RepairFile whereExtension($value)
+ * @method static Builder<static>|RepairFile whereId($value)
+ * @method static Builder<static>|RepairFile whereName($value)
+ * @method static Builder<static>|RepairFile wherePath($value)
+ * @method static Builder<static>|RepairFile whereRepairId($value)
+ * @method static Builder<static>|RepairFile whereRepairStatus($value)
+ * @method static Builder<static>|RepairFile whereStatus($value)
+ * @method static Builder<static>|RepairFile whereType($value)
+ * @method static Builder<static>|RepairFile whereUpdatedAt($value)
+ * @method static Builder<static>|RepairFile withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|RepairFile withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperRepairFile
  */
 class RepairFile extends Model
 {

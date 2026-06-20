@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use stdClass;
 use ErrorException;
 use Illuminate\Support\Collection;
 
@@ -24,28 +25,28 @@ enum UserRole: string
         };
     }
 
-    public static function relation(UserRole $role): \stdClass
+    public static function relation(UserRole $role): stdClass
     {
         return match($role) {
             self::ADMINISTRATOR => (object) [
                 'table_name' => 'team_administrator_managers',
                 'columns' => [
                     (object) ['type' => 'pk', 'value' => 'administrator_id'],
-                    (object) ['type' => 'fk', 'value' => 'manager_id']
+                    (object) ['type' => 'fk', 'value' => 'manager_id'],
                 ],
             ],
             self::MANAGER => (object) [
                 'table_name' => 'team_manager_users',
                 'columns' => [
                     (object) ['type' => 'pk', 'value' => 'manager_id'],
-                    (object) ['type' => 'fk', 'value' => 'user_id']
+                    (object) ['type' => 'fk', 'value' => 'user_id'],
                 ],
             ],
             self::USER => (object) [
                 'table_name' => 'team_manager_users',
                 'columns' => [
                     (object) ['type' => 'pk', 'value' => 'user_id'],
-                    (object) ['type' => 'fk', 'value' => 'manager_id']
+                    (object) ['type' => 'fk', 'value' => 'manager_id'],
                 ],
             ],
         };
@@ -59,7 +60,7 @@ enum UserRole: string
 
         $roles = new Collection(self::cases())
             ->reject(fn ($role) => $role === UserRole::SUPER)
-            ->map(fn (\App\Enums\UserRole $role) => self::relation($role))
+            ->map(fn (UserRole $role) => self::relation($role))
             ->values();
         $startIndex = $roles->search(self::relation($start));
         $endIndex = $roles->search(self::relation($end));

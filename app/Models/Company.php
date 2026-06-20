@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Database\Factories\CompanyFactory;
+use Illuminate\Database\Eloquent\Builder;
 use App\Policies\CompanyPolicy;
+use App\Traits\Blameable;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,7 +17,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -27,43 +30,48 @@ use Throwable;
  * @property float $tax_value
  * @property string $invoice_prefix
  * @property string|null $image_path
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Address> $addresses
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, \App\Models\Client> $clients
+ * @property-read Collection<int, Client> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, \App\Models\Contact> $contacts
+ * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read Collection<int, \App\Models\Product> $products
+ * @property-read Collection<int, Product> $products
  * @property-read int|null $products_count
- * @property-read Collection<int, \App\Models\Repair> $repairs
+ * @property-read Collection<int, Repair> $repairs
  * @property-read int|null $repairs_count
- * @property-read Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read Collection<int, \App\Models\User> $users
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereImagePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereInvoicePrefix($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereRegistrationNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereTaxId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereTaxValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Company withoutTrashed()
+ * @method static CompanyFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Company newModelQuery()
+ * @method static Builder<static>|Company newQuery()
+ * @method static Builder<static>|Company onlyTrashed()
+ * @method static Builder<static>|Company query()
+ * @method static Builder<static>|Company whereCreatedAt($value)
+ * @method static Builder<static>|Company whereCreatedBy($value)
+ * @method static Builder<static>|Company whereDeletedAt($value)
+ * @method static Builder<static>|Company whereId($value)
+ * @method static Builder<static>|Company whereImagePath($value)
+ * @method static Builder<static>|Company whereInvoicePrefix($value)
+ * @method static Builder<static>|Company whereName($value)
+ * @method static Builder<static>|Company whereRegistrationNumber($value)
+ * @method static Builder<static>|Company whereTaxId($value)
+ * @method static Builder<static>|Company whereTaxValue($value)
+ * @method static Builder<static>|Company whereUpdatedAt($value)
+ * @method static Builder<static>|Company whereUpdatedBy($value)
+ * @method static Builder<static>|Company withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Company withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperCompany
  */
 #[UsePolicy(CompanyPolicy::class)]
 class Company extends Model
@@ -72,6 +80,7 @@ class Company extends Model
     use LogsActivity;
     use Searchable;
     use SoftDeletes;
+    use Blameable;
 
     protected $fillable = [
         'name',
@@ -80,6 +89,8 @@ class Company extends Model
         'invoice_prefix',
         'registration_number',
         'image_path',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [

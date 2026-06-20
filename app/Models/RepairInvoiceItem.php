@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Database\Factories\RepairInvoiceItemFactory;
+use Illuminate\Database\Eloquent\Builder;
 use App\Enums\JobName;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -29,29 +31,30 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\RepairInvoice|null $invoice
- * @property-read \App\Models\Product|null $product
- * @property-read \App\Models\Supplier|null $supplier
- * @method static \Database\Factories\RepairInvoiceItemFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereItemPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereJobName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereLabourPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereRepairInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereSku($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereSupplierId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withoutTrashed()
+ * @property-read RepairInvoice|null $invoice
+ * @property-read Product|null $product
+ * @property-read Supplier|null $supplier
+ * @method static RepairInvoiceItemFactory factory($count = null, $state = [])
+ * @method static Builder<static>|RepairInvoiceItem newModelQuery()
+ * @method static Builder<static>|RepairInvoiceItem newQuery()
+ * @method static Builder<static>|RepairInvoiceItem onlyTrashed()
+ * @method static Builder<static>|RepairInvoiceItem query()
+ * @method static Builder<static>|RepairInvoiceItem whereCreatedAt($value)
+ * @method static Builder<static>|RepairInvoiceItem whereDeletedAt($value)
+ * @method static Builder<static>|RepairInvoiceItem whereId($value)
+ * @method static Builder<static>|RepairInvoiceItem whereItemPrice($value)
+ * @method static Builder<static>|RepairInvoiceItem whereJobName($value)
+ * @method static Builder<static>|RepairInvoiceItem whereLabourPrice($value)
+ * @method static Builder<static>|RepairInvoiceItem whereProductId($value)
+ * @method static Builder<static>|RepairInvoiceItem whereQuantity($value)
+ * @method static Builder<static>|RepairInvoiceItem whereRepairInvoiceId($value)
+ * @method static Builder<static>|RepairInvoiceItem whereSku($value)
+ * @method static Builder<static>|RepairInvoiceItem whereSupplierId($value)
+ * @method static Builder<static>|RepairInvoiceItem whereUpdatedAt($value)
+ * @method static Builder<static>|RepairInvoiceItem withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|RepairInvoiceItem withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperRepairInvoiceItem
  */
 class RepairInvoiceItem extends Model
 {

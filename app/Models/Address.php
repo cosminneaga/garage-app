@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Database\Factories\AddressFactory;
 use App\Dto\Coordinates;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,52 +17,56 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property string $number
+ * @property string $street_number
  * @property string $street
  * @property string $postcode
- * @property \App\Dto\Coordinates|null $coordinates
- * @property string|null $extra
+ * @property string|null $building
+ * @property string|null $floor
+ * @property string|null $unit
+ * @property Coordinates|null $coordinates
  * @property int $country_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Client> $clients
+ * @property-read Collection<int, Client> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, \App\Models\Company> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read \App\Models\Country|null $country
- * @property-read Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read Country|null $country
+ * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read Collection<int, \App\Models\User> $users
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
+ * @method static AddressFactory factory($count = null, $state = [])
  * @method static Builder<static>|Address newModelQuery()
  * @method static Builder<static>|Address newQuery()
  * @method static Builder<static>|Address onlyTrashed()
  * @method static Builder<static>|Address query()
+ * @method static Builder<static>|Address whereBuilding($value)
  * @method static Builder<static>|Address whereCoordinates($value)
  * @method static Builder<static>|Address whereCountryId($value)
  * @method static Builder<static>|Address whereCreatedAt($value)
  * @method static Builder<static>|Address whereDeletedAt($value)
- * @method static Builder<static>|Address whereExtra($value)
+ * @method static Builder<static>|Address whereFloor($value)
  * @method static Builder<static>|Address whereId($value)
- * @method static Builder<static>|Address whereNumber($value)
  * @method static Builder<static>|Address wherePostcode($value)
  * @method static Builder<static>|Address whereStreet($value)
+ * @method static Builder<static>|Address whereStreetNumber($value)
+ * @method static Builder<static>|Address whereUnit($value)
  * @method static Builder<static>|Address whereUpdatedAt($value)
  * @method static Builder<static>|Address withCoordinates()
  * @method static Builder<static>|Address withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Address withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperAddress
  */
 class Address extends Model
 {
@@ -69,7 +75,7 @@ class Address extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'number',
+        'street_number',
         'street',
         'postcode',
         'building',
@@ -79,10 +85,6 @@ class Address extends Model
         'coordinates',
         'coordinates->latitude',
         'coordinates->longitude',
-    ];
-
-    protected $attributes = [
-        'coordinates' => null,
     ];
 
     /**
@@ -117,7 +119,7 @@ class Address extends Model
             set: function (mixed $value): Expression|null {
 
                 $value = Coordinates::format($value);
-                if ($value instanceof \App\Dto\Coordinates) {
+                if ($value instanceof Coordinates) {
                     return DB::raw("ST_GeomFromText('POINT({$value->longitude} {$value->latitude})', 4326)");
                 }
 

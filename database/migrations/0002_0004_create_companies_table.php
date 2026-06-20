@@ -17,7 +17,12 @@ return new class () extends Migration {
             $table->string('registration_number');
             $table->decimal('tax_value', 4, 2)->default(20.00);
             $table->string('invoice_prefix')->nullable(false);
-            $table->string('image_path')->nullable();
+            $table->string('image_path')
+                ->references('id')
+                ->on('users')
+                ->nullable();
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -25,6 +30,8 @@ return new class () extends Migration {
             $table->index('tax_id', 'cmp_taxid_idx');
             $table->index('tax_value', 'cmp_taxvalue_idx');
             $table->index('registration_number', 'cmp_registrationnumber_idx');
+            $table->index('created_by', 'cmp_createdby_idx');
+            $table->index('updated_by', 'cmp_updatedby_idx');
         });
     }
 
@@ -38,6 +45,8 @@ return new class () extends Migration {
             $table->dropIndex('cmp_taxid_idx');
             $table->dropIndex('cmp_taxvalue_idx');
             $table->dropIndex('cmp_registrationnumber_idx');
+            $table->dropIndex('cmp_createdby_idx');
+            $table->dropIndex('cmp_updatedby_idx');
         });
 
         Schema::dropIfExists('companies');

@@ -95,9 +95,9 @@
             "vendor/bin/pest --configuration ./phpunit.xml --bail"
         ],
         "format": [
+            "@php artisan ide-helper:models -RW --write-mixin",
             "vendor/bin/rector",
-            "vendor/bin/pint --parallel",
-            "@php artisan ide-helper:models -RW"
+            "vendor/bin/pint --parallel"
         ],
         "setup": [
             "composer install",

@@ -25428,6 +25428,17 @@ namespace Illuminate\Support {
             return \Illuminate\Support\Collection::getBy($key, $value);
         }
 
+        /**
+         * @see \App\Providers\AppServiceProvider::boot()
+         * @param array $list
+         * @param array $compareList
+         * @static
+         */
+        public static function existsInList($list, $compareList)
+        {
+            return \Illuminate\Support\Collection::existsInList($list, $compareList);
+        }
+
             }
     }
 

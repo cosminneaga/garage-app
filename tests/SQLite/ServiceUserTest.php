@@ -61,7 +61,7 @@ test('team: administrator -> users', function () {
 
     expect($users)->toHaveCount(2);
     expect($users[0])->toMatchArray([
-        'name' => 'user'
+        'name' => 'user',
     ]);
 });
 /* ------------------------------ BOTTOM -> UP ------------------------------ */
@@ -75,7 +75,7 @@ test('team: user -> administrators', function () {
 
     expect($users)->toHaveCount(1);
     expect($users[0])->toMatchArray([
-        'name' => 'admin'
+        'name' => 'admin',
     ]);
 });
 
@@ -91,7 +91,7 @@ test('team: administrator -> managers', function () {
 
     expect($users)->toHaveCount(2);
     expect($users[0])->toMatchArray([
-        'name' => 'manager'
+        'name' => 'manager',
     ]);
 });
 
@@ -105,7 +105,7 @@ test('team: manager -> users', function () {
 
     expect($users)->toHaveCount(2);
     expect($users[0])->toMatchArray([
-        'name' => 'user'
+        'name' => 'user',
     ]);
 });
 
@@ -120,7 +120,7 @@ test('team: manager -> administrators', function () {
 
     expect($users)->toHaveCount(1);
     expect($users[0])->toMatchArray([
-        'name' => 'admin'
+        'name' => 'admin',
     ]);
 });
 

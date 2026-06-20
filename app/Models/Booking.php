@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Database\Factories\BookingFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -22,22 +24,23 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Repair> $repairs
+ * @property-read Collection<int, Repair> $repairs
  * @property-read int|null $repairs_count
- * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereOn($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking withoutTrashed()
+ * @method static BookingFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Booking newModelQuery()
+ * @method static Builder<static>|Booking newQuery()
+ * @method static Builder<static>|Booking onlyTrashed()
+ * @method static Builder<static>|Booking query()
+ * @method static Builder<static>|Booking whereCreatedAt($value)
+ * @method static Builder<static>|Booking whereDeletedAt($value)
+ * @method static Builder<static>|Booking whereId($value)
+ * @method static Builder<static>|Booking whereNotes($value)
+ * @method static Builder<static>|Booking whereOn($value)
+ * @method static Builder<static>|Booking whereUpdatedAt($value)
+ * @method static Builder<static>|Booking withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Booking withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperBooking
  */
 class Booking extends Model
 {

@@ -8,10 +8,9 @@ test('coordinates: set/get', function () {
     $country = Country::factory()->create();
 
     $resource = Address::create([
-        'number' => 123,
+        'street_number' => 123,
         'street' => 'Flowers Street',
         'postcode' => 212212,
-        'extra' => 'Just around the corner.',
         'coordinates' => [
             'latitude' => 4.895168,
             'longitude' => 52.370216,
@@ -28,10 +27,9 @@ test('coordinates: set/get using Coordinates DTO', function () {
     $country = Country::factory()->create();
 
     $resource = Address::create([
-        'number' => 123,
+        'street_number' => 123,
         'street' => 'Flowers Street',
         'postcode' => 212212,
-        'extra' => 'Just around the corner.',
         'coordinates' => new Coordinates(4.895168, 52.370216),
         'country_id' => $country->id,
     ]);
@@ -45,10 +43,9 @@ test('withCoordinates scope', function () {
     $country = Country::factory()->create();
 
     Address::create([
-        'number' => 123,
+        'street_number' => 123,
         'street' => 'Flowers Street',
         'postcode' => 212212,
-        'extra' => 'Just around the corner.',
         'coordinates' => [
             'latitude' => 4.895168,
             'longitude' => 52.370216,
@@ -58,10 +55,9 @@ test('withCoordinates scope', function () {
 
     $resource = Address::withCoordinates()->first();
     expect($resource)->toMatchArray([
-        'number' => 123,
+        'street_number' => 123,
         'street' => 'Flowers Street',
         'postcode' => 212212,
-        'extra' => 'Just around the corner.',
         'latitude' => 4.895168,
         'longitude' => 52.370216,
         'country_id' => $country->id,
@@ -75,10 +71,9 @@ test('updateOrCreateByCoordinates: create resource', function () {
         latitude: '4.895168',
         longitude: '52.370216',
         attributes: [
-            'number' => 123,
+            'street_number' => 123,
             'street' => 'Flowers Street',
             'postcode' => 212212,
-            'extra' => 'Just around the corner.',
             'country_id' => $country->id,
         ],
     );
@@ -94,10 +89,9 @@ test('updateOrCreateByCoordinates: update existing resource', function () {
         latitude: '4.895168',
         longitude: '52.370216',
         attributes: [
-            'number' => 123,
+            'street_number' => 123,
             'street' => 'Flowers Street',
             'postcode' => 212212,
-            'extra' => 'Just around the corner.',
             'country_id' => $country->id,
         ],
     );
@@ -106,10 +100,9 @@ test('updateOrCreateByCoordinates: update existing resource', function () {
         latitude: '4.895168',
         longitude: '52.370216',
         attributes: [
-            'number' => 321,
+            'street_number' => 321,
             'street' => 'SunFlowers Street',
             'postcode' => 555555,
-            'extra' => 'Just around the corner, by the back yard.',
             'country_id' => $country->id,
         ],
     );
@@ -128,10 +121,9 @@ test('updateOrCreateByCoordinates: create new resource', function () {
         latitude: '4.895168',
         longitude: '52.370216',
         attributes: [
-            'number' => 123,
+            'street_number' => 123,
             'street' => 'Flowers Street',
             'postcode' => 212212,
-            'extra' => 'Just around the corner.',
             'country_id' => $country->id,
         ],
     );
@@ -140,10 +132,9 @@ test('updateOrCreateByCoordinates: create new resource', function () {
         latitude: '4.895168',
         longitude: '52.370217',
         attributes: [
-            'number' => 321,
+            'street_number' => 321,
             'street' => 'SunFlowers Street',
             'postcode' => 555555,
-            'extra' => 'Just around the corner, by the back yard.',
             'country_id' => $country->id,
         ],
     );
