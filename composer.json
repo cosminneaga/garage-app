@@ -20,7 +20,6 @@
         "spatie/fork": "^1.2",
         "spatie/laravel-activitylog": "^5.0",
         "spatie/laravel-permission": "^7.2",
-        "staudenmeir/eloquent-has-many-deep": "^1.7",
         "themesberg/flowbite-blade-icons": "^1.4"
     },
     "require-dev": {

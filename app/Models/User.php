@@ -24,7 +24,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
-use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Throwable;
 
 /**
@@ -94,7 +93,6 @@ class User extends Authenticatable
     use Notifiable;
     use Searchable;
     use SoftDeletes;
-    use HasRelationships;
 
     /**
      * The attributes that are mass assignable.

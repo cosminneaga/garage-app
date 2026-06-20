@@ -13,13 +13,18 @@ return new class () extends Migration {
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('number', length: 15)->nullable(false);
-            $table->string('street', length: 50)->nullable(false);
-            $table->string('postcode', length: 10)->nullable(false);
-            $table->geography('coordinates', subtype: 'point', srid: 4326)->nullable();
-            $table->string('extra')->nullable();
+            $table->string('street_number', length: 30)->nullable(false);
+            $table->string('street', length: 150)->nullable(false);
+            $table->string('postcode', length: 20)->nullable(false);
+            $table->string('building', 50)->nullable();
+            $table->string('floor', 20)->nullable();
+            $table->string('unit', 20)->nullable();
+            $table->geography('location', subtype: 'point', srid: 4326)->nullable();
 
-            $table->foreignIdFor(Country::class)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Country::class)
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
 
             $table->timestamps();
             $table->softDeletes();

@@ -25417,6 +25417,17 @@ namespace Illuminate\Support {
             return \Illuminate\Support\Collection::debug();
         }
 
+        /**
+         * @see \App\Providers\AppServiceProvider::boot()
+         * @param string $key
+         * @param mixed|null $value
+         * @static
+         */
+        public static function getBy($key, $value)
+        {
+            return \Illuminate\Support\Collection::getBy($key, $value);
+        }
+
             }
     }
 

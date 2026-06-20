@@ -9,13 +9,13 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
 beforeEach(function () {
-    $this->admin = User::factory()->create();
-    $this->admin->assignRole(UserRole::USER_ADMIN->value);
+    $this->administrator = User::factory()->create();
+    $this->administrator->assignRole(UserRole::ADMINISTRATOR->value);
 
     $this->country = Country::factory()->create();
     $this->file = UploadedFile::fake()->image('avatar.jpg');
 
-    $this->adminAction = new UserStoreAction($this->admin);
+    $this->adminAction = new UserStoreAction($this->administrator);
 });
 
 test('should store user along with address & contact', function () {
@@ -24,7 +24,7 @@ test('should store user along with address & contact', function () {
         'email' => 'testuser@garage.com',
         'password' => 'Password',
         'active' => true,
-        'role' => UserRole::USER_EDITOR->value,
+        'role' => UserRole::USER->value,
         'address' => [
             'number' => 123,
             'street' => 'Sunflower Street',

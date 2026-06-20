@@ -40,6 +40,13 @@ class UserStoreAction
             $user = User::create($data['user']);
             $user->assignRole($data['role']);
 
+            /**
+             * 1. must check for current role
+             * 2. if role is administrator, $this->user->managers()->attach($created_user);
+             * 2.1. if $companies array is present attach to created user
+             * 3. if role is manager, $this->user->users()->attach($created_user);
+             * 3.1. if $companies array is present attach to created user
+             */
             $this->user->team()->attach($user);
 
             $user->addresses()->attach(Address::updateOrCreateByCoordinates(
