@@ -10,6 +10,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Builder as ScoutBuilder;
@@ -110,17 +111,34 @@ class UserService
         return $this;
     }
 
-    // !!! Keeping this here to have an idea how data was manipulated, after re-work, erase
-    // public function whereNotInCompany(Company $company): UserService
-    // {
-    //     $this->filterOwn(ResourceFilter::DEFAULT)->result->whereNotIn('id', $company->users()->select('users.id'));
-    //     return $this;
-    // }
-    // public function whereInCompany(Company $company): UserService
-    // {
-    //     $this->result->whereIn('id', $company->users()->select('users.id'));
-    //     return $this;
-    // }
+    /**
+     * Filter user by given model.
+     * Model users that are attached to the given model.
+     *
+     * @param Model $model
+     * @return UserService
+     */
+    public function whereIn(Model $model): UserService
+    {
+        $this->result->whereIn('users.id', $model->users()->select('users.id'));
+
+        return $this;
+    }
+
+    /**
+     * Filter user by given model.
+     * Model users that are not attached to the given model.
+     *
+     * @param Model $model
+     * @return UserService
+     */
+    public function whereNotIn(Model $model): UserService
+    {
+        $this->result->whereNotIn('users.id', $model->users()->select('users.id'));
+
+        return $this;
+    }
+
     /**
      * Returns a list of related users based on authenticated or given user
      * able to select user account using administrator role, thus all users

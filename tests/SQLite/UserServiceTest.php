@@ -2,6 +2,7 @@
 
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
+use App\Models\Company;
 use App\Models\User;
 use App\Services\UserService;
 
@@ -274,4 +275,66 @@ test('search on team: user -> should not find "administrator" that doesn\'t have
         ->get();
 
     expect($result)->toHaveCount(0);
+});
+
+test('whereIn: all users attached to company', function () {
+    $service = new UserService($this->admin);
+
+    $company = Company::factory()->create();
+    $user = User::factory()->create();
+    $company->users()->attach($user);
+
+    $members = $service->model()->whereIn($company)->get();
+
+    expect($members)->toHaveCount(1);
+    expect($members[0]->id)->toEqual($user->id);
+});
+
+test('whereNotIn: all users not attached to company', function () {
+    $service = new UserService($this->admin);
+
+    $company = Company::factory()->create();
+    $user = User::factory()->create();
+    $company->users()->attach($user);
+
+    $nonMembers = $service->model()->whereNotIn($company)->get();
+
+    expect($nonMembers)->toHaveCount(9);
+});
+
+test('whereIn: filter own attached to company', function () {
+    $service = new UserService($this->admin);
+
+    $company = Company::factory()->create();
+    $user = User::factory()->create();
+    $company->users()->attach($user);
+    $company->users()->attach($this->manager);
+
+    $members = $service->model()->team(UserRole::MANAGER)->whereIn($company)->get();
+
+    expect($members)->toHaveCount(1);
+    expect($members[0]->id)->toEqual($this->manager->id);
+});
+
+test('whereNotIn: filter own not attached to company', function () {
+    $manager = User::factory()->create();
+    $manager->assignRole(UserRole::MANAGER);
+    $service = new UserService($manager);
+
+    $user = User::factory()->create();
+    $user->assignRole(UserRole::USER);
+    $company = Company::factory()->create();
+    $company->users()->attach($user);
+    // $company->users()->attach($manager);
+
+    $nonMemberUser = User::factory()->create();
+    $nonMemberUser->assignRole(UserRole::USER);
+
+    $manager->users()->attach([$user, $nonMemberUser]);
+
+
+    $nonMembers = $service->model()->team(UserRole::USER)->whereNotIn($company)->get();
+
+    expect($nonMembers)->toHaveCount(1);
+    expect($nonMembers[0]->id)->toEqual($nonMemberUser->id);
 });

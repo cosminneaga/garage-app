@@ -8,10 +8,6 @@ use App\Models\Client;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Country;
-use App\Models\Repair;
-use App\Models\RepairFile;
-use App\Models\RepairInvoice;
-use App\Models\RepairInvoiceItem;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -30,136 +26,74 @@ class LocalEnv extends Seeder
         $this->call(CountriesSeeder::class);
         $country = Country::first(['*']);
 
-        /*
-        // 3. addresses & contact, 10
-        $contact = Contact::factory(10)->create();
-        $address = Address::factory(10)->create([
-            'country_id' => $country,
+        // 3. seed super admin & rest of test users
+        $users = User::factory()->createMany([
+            [
+                'name' => 'Super Admin',
+                'email' => 'super@garage.com',
+                'password' => 'password',
+                'active' => true,
+            ],
+            [
+                'name' => 'Administrator User',
+                'email' => 'administrator@garage.com',
+                'password' => 'password',
+                'active' => true,
+            ],
+            [
+                'name' => 'Manager User',
+                'email' => 'manager@garage.com',
+                'password' => 'password',
+                'active' => true,
+            ],
+            [
+                'name' => 'User',
+                'email' => 'user@garage.com',
+                'password' => 'password',
+                'active' => true,
+            ],
         ]);
 
-        // 4. seed super admin & attach contacts & addresses, role assignation + team members
-        $superAdmin = User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'admin@garage.com',
-            'password' => 'password',
-            'active' => true,
-        ]);
-        $superAdmin->assignRole(UserRole::SUPER);
-        $superAdmin->addresses()->attach($address[0]);
-        $superAdmin->contacts()->attach($contact[0]);
-        $superTeamMember = User::factory()->create([
-            'name' => 'Super Team member',
-            'active' => true,
-        ]);
-        $superAdmin->team()->attach($superTeamMember);
+        // 4. assign roles & create team
+        $users[0]->assignRole(UserRole::SUPER);
+        $users[1]->assignRole(UserRole::ADMINISTRATOR);
+        $users[2]->assignRole(UserRole::MANAGER);
+        $users[3]->assignRole(UserRole::USER);
+        $users[1]->managers()->attach($users[2]);
+        $users[2]->users()->attach($users[3]);
 
-        // 4.1 adding testing admin company
-        $adminCompany = Company::factory()->create();
-        $adminCompany->addresses()->attach($address[4]);
-        $adminCompany->contacts()->attach($contact[4]);
-        $adminCompany->users()->attach($superAdmin);
 
-        // 5. adding user manager, attach contact & address, role assignation
-        $manager = User::factory()->create([
-            'name' => 'Manager User',
-            'email' => 'manager@garage.com',
-            'password' => 'password',
-            'active' => true,
-        ]);
-        $manager->assignRole(UserRole::ADMINISTRATOR);
-        $manager->addresses()->attach($address[1]);
-        $manager->contacts()->attach($contact[1]);
+        // 5. creating & attaching addresses & contacts
+        $users[0]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[0]->contacts()->attach(Contact::factory()->create());
+        $users[1]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[1]->contacts()->attach(Contact::factory()->create());
+        $users[2]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[2]->contacts()->attach(Contact::factory()->create());
+        $users[3]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[3]->contacts()->attach(Contact::factory()->create());
 
-        // 5.1 adding second manager attached to the first manager
-        $manager2 = User::factory()->create([
-            'name' => 'Manager2 User',
-            'email' => 'manager2@garage.com',
-            'password' => 'password',
-            'active' => true,
-        ]);
-        $manager2->assignRole(UserRole::ADMINISTRATOR);
-        $manager2->addresses()->attach($address[1]);
-        $manager2->contacts()->attach($contact[1]);
-        $manager->team()->attach($manager2);
+        // 6. creating & attaching companies & suppliers
+        $companies = Company::factory(10)->create();
+        $companies->each(function ($company) use ($country, $users) {
+            $company->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+            $company->contacts()->attach(Contact::factory()->create());
 
-        // 6. adding editor team member, attach contact & address, role assignation
-        $editorUser = User::factory()->create([
-            'name' => 'Editor User',
-            'email' => 'editor@garage.com',
-            'password' => 'password',
-            'active' => true,
-        ]);
-        $editorUser->assignRole(UserRole::MANAGER);
-        $editorUser->addresses()->attach($address[2]);
-        $editorUser->contacts()->attach($contact[2]);
-        $manager->team()->attach($editorUser);
-        $manager2->team()->attach($editorUser);
+            $supplier = Supplier::factory()->create();
+            $supplier->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+            $supplier->contacts()->attach(Contact::factory()->create());
+            $company->suppliers()->attach($supplier);
 
-        // 7. adding viewer team member
-        $viewerUser = User::factory()->create([
-            'name' => 'Viewer User',
-            'email' => 'viewer@garage.com',
-            'password' => 'password',
-            'active' => true,
-        ]);
-        $viewerUser->assignRole(UserRole::USER);
-        $viewerUser->addresses()->attach($address[3]);
-        $viewerUser->contacts()->attach($contact[3]);
-        $manager->team()->attach($viewerUser);
-        $manager2->team()->attach($viewerUser);
+            $users[1]->companies()->attach($company);
+        });
 
-        // 8. adding related company for all team members
-        $teamCompany = Company::factory()->create([
-            'name' => 'Seeded Company Name LTD',
-        ]);
-        $teamCompany->addresses()->attach($address[4]);
-        $teamCompany->contacts()->attach($contact[4]);
-        $teamCompany->users()->attach([$manager, $manager2, $editorUser, $viewerUser]);
 
-        // 9. adding related supplier for given company
-        $supplier = Supplier::factory()->create([
-            'name' => 'Seeded Supplier Name LTD',
-        ]);
-        $supplier->addresses()->attach($address[5]);
-        $supplier->contacts()->attach($contact[5]);
-        $supplier->companies()->attach($teamCompany);
-
-        // 8. create client, attach addresses & contacts
-        $client = Client::factory()->create();
-        $client->companies()->attach($teamCompany);
-        $client->addresses()->attach($address[6]);
-        $client->contacts()->attach($contact[6]);
-
-        // 9. create repair with assignation on 'company_id' -- this will also create
-        // clients, bookings, vehicle data
-        $repair = Repair::factory()->create([
-            'company_id' => $teamCompany,
-            'client_id' => $client,
-        ]);
-
-        // 10. create repair file, 20
-        RepairFile::factory(20)->create([
-            'repair_id' => $repair,
-            'type' => 'image/png',
-        ]);
-
-        // 11. create repair invoice, 5
-        $repairInvoice = RepairInvoice::factory(5)->create([
-            'repair_id' => $repair,
-        ]);
-
-        // 12. create repair items, 30
-        RepairInvoiceItem::factory(30)->create([
-            'repair_invoice_id' => $repairInvoice[0],
-            'supplier_id' => $supplier,
-        ]);
-
-        // 13. adding some more companies to given manager
-        $managerCompanies = Company::factory(9)->create();
-        $manager->companies()->attach($managerCompanies);
-
-        // 14. adding companies that are not attached to created users
-        Company::factory(10)->create();
-        */
+        // 7. create clients with address & contact & attach to the first company
+        $clients = Client::factory(10)->create();
+        $clients->each(function ($client) use ($country, $companies) {
+            $client->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+            $client->contacts()->attach(Contact::factory()->create());
+            $client->companies()->attach($companies[0]);
+        });
     }
 }

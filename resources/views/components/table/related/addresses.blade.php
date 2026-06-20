@@ -42,7 +42,7 @@
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">
-                    {{ $row->number }}
+                    {{ $row->street_number }}
                 </td>
                 <td class="px-6 py-4">
                     {{ $row->street }}
@@ -51,7 +51,13 @@
                     {{ $row->postcode }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ $row->extra }}
+                    {{ $row->building }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->floor }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $row->unit }}
                 </td>
                 @if ($edit || $delete)
                     <td class="px-6 py-4">

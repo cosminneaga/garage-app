@@ -1,25 +1,14 @@
-@props(['id', 'title' => null, 'size' => 'md', 'position' => 'top-center'])
+@props(['id', 'title' => null, 'size' => 'md', 'position' => 'center'])
 
 <div
-    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+    class="fixed left-0 right-0 top-0 bottom-0 z-99 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
     id="{{ $id }}"
     data-modal-backdrop="static"
     data-modal-placement="{{ $position }}"
     aria-hidden="true"
     tabindex="-1"
 >
-    <div {{ $attributes->class([
-        'bg-neutral-primary-soft',
-        'border-default',
-        'rounded-base',
-        'relative',
-        'border',
-        'p-4',
-        'shadow-sm',
-        'md:p-6',
-        'w-full',
-        'max-w-' . $size
-    ]) }}>
+    <div class="absolute top-1 sm:top-5 md:top-10 bg-neutral-primary-soft border-default rounded-base border p-4 md:p-6 shadow-sm w-full max-w-{{ $size }}">
         @if ($title)
             <div class="border-default grid grid-cols-[1fr_auto] border-b pb-4 md:pb-5">
                 <div>

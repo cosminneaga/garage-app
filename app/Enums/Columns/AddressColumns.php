@@ -10,5 +10,7 @@ enum AddressColumns: string
     case NUMBER = 'Number';
     case STREET = 'Street';
     case POSTCODE = 'Postcode';
-    case EXTRA = 'Extra Info';
+    case BUILDING = 'Building';
+    case FLOOR = 'Floor';
+    case UNIT = 'Unit';
 }

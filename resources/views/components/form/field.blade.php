@@ -6,7 +6,7 @@
     'autocomplete' => false,
     'value' => null,
     'options' => [],
-    'select_map_value' => 'name',
+    'select_map_value' => 'value',
     'select_map_label' => 'label',
     'checked' => false,
     'identifier' => '',

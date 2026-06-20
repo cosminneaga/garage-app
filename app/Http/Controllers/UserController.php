@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
 use App\Enums\Resource\ResourceFilter;
+use App\Enums\UserRole;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Country;
@@ -38,7 +39,7 @@ class UserController extends Controller
         return view('pages.user.index', [
             'users' => $this->userService
                 ->search($querySearch)
-                ->filterOwn(ResourceFilter::DEFAULT)
+                ->team(UserRole::USER)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }

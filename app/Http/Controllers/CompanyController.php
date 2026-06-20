@@ -8,6 +8,7 @@ use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
 use App\Actions\UserStoreAction;
 use App\Enums\Resource\ResourceFilter;
+use App\Enums\UserRole;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateCompanyRequest;
@@ -47,7 +48,7 @@ class CompanyController extends Controller
         return view('pages.company.index', [
             'companies' => $this->companyService
                 ->search($search)
-                ->filterOwn(ResourceFilter::DEFAULT)
+                ->resourceFilterOwn(ResourceFilter::DEFAULT)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }
@@ -92,14 +93,8 @@ class CompanyController extends Controller
             'members' => view('pages.company.edit.members', [
                 'company' => $company,
                 'countries' => Country::all(),
-                'team' => $this->userService
-                    ->model()
-                    ->whereNotInCompany($company)
-                    ->get(),
-                'members' => $this->userService
-                    ->search($search)
-                    ->whereInCompany($company)
-                    ->paginate(10, request()->query()),
+                'team' => $this->userService->model()->team(UserRole::USER)->whereNotIn($company)->get(),
+                'members' => $company->users,
             ]),
             'contacts' => view('pages.company.edit.contacts', [
                 'company' => $company,

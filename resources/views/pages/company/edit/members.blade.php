@@ -11,7 +11,6 @@
                 :edit="Permission::can(UserPermission::USER, 'update')"
                 :delete="Permission::can(UserPermission::COMPANY, 'update')"
             />
-
         </x-card>
     </x-tabs>
 </x-layout::index>

@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::controller(CompanyController::class)
-    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::resource('companies', CompanyController::class)->except('show');
         Route::get('/companies/restore', 'removed')->name('companies.removed');
@@ -35,7 +35,7 @@ Route::controller(CompanyController::class)
     });
 
 Route::controller(UserController::class)
-    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::resource('users', UserController::class)->except('show');
         Route::get('/users/restore', 'removed')->name('users.removed');
@@ -44,14 +44,14 @@ Route::controller(UserController::class)
     });
 
 Route::controller(ProfileController::class)
-    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::get('/users/profile', 'edit')->name('users.profile.edit');
         Route::put('/users/{user}/profile', 'update')->name('users.profile.update');
     });
 
 Route::controller(SupplierController::class)
-    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::get('/suppliers/restore', 'removed')->name('suppliers.removed');
         Route::get('/companies/{company}/suppliers/{supplier}', 'edit')->name('companies.supplier.edit');
@@ -62,7 +62,7 @@ Route::controller(SupplierController::class)
     });
 
 Route::controller(AddressController::class)
-    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::get('/users/{user}/address/{address}', 'edit')->name('users.address.edit');
         Route::get('/companies/{company}/address/{address}', 'edit')->name('companies.address.edit');
@@ -76,7 +76,7 @@ Route::controller(AddressController::class)
     });
 
 Route::controller(ContactController::class)
-    ->middleware(['auth', 'role:super|user_admin|user_editor|user_viewer'])
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::get('/users/{user}/contact/{contact}', 'edit')->name('users.contact.edit');
         Route::get('/companies/{company}/contact/{contact}', 'edit')->name('companies.contact.edit');
