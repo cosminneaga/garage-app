@@ -1,6 +1,8 @@
 <x-layout::index>
     <x-tabs :tabs="CompanyTabs::ui()">
-        <x-card description="Visualise & Edit {{ $company->name }}'s registered members">
+        <x-card
+            description="Visualise & Edit {{ $company->name }}'s registered members"
+        >
             <x-table.related.users
                 chat
                 :data="$members"

@@ -19,8 +19,6 @@
     }
 @endphp
 
-
-
 <x-table.wrapper :data="$data">
     <x-slot name="header">
         <form
@@ -28,8 +26,7 @@
             method="GET"
             action="{{ $searchRoute }}"
         >
-
-            @foreach(request()->except('search') as $key => $value)
+            @foreach (request()->except('search') as $key => $value)
                 <x-form.field
                     name="{{ $key }}"
                     type="text"
@@ -45,9 +42,7 @@
                 label="Search users..."
             />
 
-            <x-button type="submit">
-                Search
-            </x-button>
+            <x-button type="submit"> Search </x-button>
         </form>
 
         <x-modal.user.create
@@ -56,6 +51,7 @@
             :countries="$countries"
             :team="$team"
             trigger
+            trigger_label="{{ Auth::user()->isAdministrator() ? 'Add Manager' : 'Add User' }}"
         />
     </x-slot>
 
@@ -64,23 +60,24 @@
             <th
                 class="px-6 py-3"
                 scope="col"
-            >
-                {{ $column }}
-            </th>
+            >{{ $column }}</th>
         @endforeach
     </x-slot>
 
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
-                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+            <tr
+                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                <th
+                    class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-user-pic"
-                            :src="$row->image_path && !Str::isUrl($row->image_path)
+                            :src="$row->image_path &&
+                            !Str::isUrl($row->image_path)
                                 ? asset('storage/' . $row->image_path)
                                 : $row->image_path"
                             :title="$row->name"
@@ -89,23 +86,23 @@
                         {{ $row->name }}
                     </div>
                 </td>
-                <td class="px-6 py-4">
-                    {{ $row->email }}
-                </td>
+                <td class="px-6 py-4">{{ $row->email }}</td>
                 <td class="px-6 py-4">
                     <x-tab.active :status="$row->active" />
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex gap-3">
                         @if ($chat)
-                            @isNotCurrentUser($row->id)
+                            @isNotCurrentUser
+                                ($row->id)
                                 <button
                                     class="text-green-500 hover:cursor-pointer"
                                     data-modal-target="user-send-message-modal"
                                     data-modal-toggle="user-send-message-modal"
                                     type="button"
-                                >Message</button>
-
+                                >
+                                    Message
+                                </button>
                                 <x-modal.message.send
                                     id="user-send-message-modal"
                                     :resource="$row"
@@ -113,7 +110,8 @@
                             @endisNotCurrentUser
                         @endif
                         @if ($edit)
-                            @isCurrentUser($row->id)
+                            @isCurrentUser
+                                ($row->id)
                                 <a
                                     class="text-brand"
                                     href="{{ route('users.profile.edit') }}"
@@ -126,7 +124,8 @@
                             @endisCurrentUser
                         @endif
                         @if ($delete)
-                            @isNotCurrentUser($row->id)
+                            @isNotCurrentUser
+                                ($row->id)
                                 <x-modal.confirm
                                     id="user-company-delete-{{ $row->id }}"
                                     type="delete"
@@ -134,14 +133,15 @@
                                     {{-- companies.user.destroy --}}
                                     message="Are you sure you want to remove {{ $row->name }} from {{ $resource->name }}?"
                                 />
-
                                 <button
                                     class="text-danger hover:cursor-pointer"
                                     data-modal-target="user-company-delete-{{ $row->id }}-modal"
                                     data-modal-toggle="user-company-delete-{{ $row->id }}-modal"
                                     data-test="user-company-delete-{{ $row->id }}-modal-trigger"
                                     type="button"
-                                >Delete</button>
+                                >
+                                    Delete
+                                </button>
                             @endisNotCurrentUser
                         @endif
                     </div>
@@ -149,5 +149,4 @@
             </tr>
         @endforeach
     </x-slot>
-
 </x-table.wrapper>

@@ -1,6 +1,8 @@
 <x-layout::index title="{{ $supplier->name }} | Addresses">
     <x-tabs :tabs="SupplierTabs::ui()">
-        <x-card description="Visualise & Edit {{ $supplier->name }}'s location details">
+        <x-card
+            description="Visualise & Edit {{ $supplier->name }}'s location details"
+        >
             <x-table.related.addresses
                 :data="$supplier->addresses"
                 :resource="$supplier"

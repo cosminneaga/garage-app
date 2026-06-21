@@ -1,3 +1,3 @@
 <x-layout::index :title="$address->street_number">
-    @json($address)
+    @json ($address)
 </x-layout::index>

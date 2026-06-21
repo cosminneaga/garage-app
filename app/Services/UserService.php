@@ -114,9 +114,6 @@ class UserService
     /**
      * Filter user by given model.
      * Model users that are attached to the given model.
-     *
-     * @param Model $model
-     * @return UserService
      */
     public function whereIn(Model $model): UserService
     {
@@ -128,9 +125,6 @@ class UserService
     /**
      * Filter user by given model.
      * Model users that are not attached to the given model.
-     *
-     * @param Model $model
-     * @return UserService
      */
     public function whereNotIn(Model $model): UserService
     {

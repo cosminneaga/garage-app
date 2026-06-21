@@ -12,7 +12,6 @@
             @csrf
 
             <div class="grid grid-rows-1 gap-1 md:grid-cols-2 lg:grid-cols-3">
-
                 <div class="p-2">
                     <x-form.field
                         name="name"
@@ -72,7 +71,7 @@
                     />
 
                     <h3 class="text-lg font-bold">Location</h3>
-                    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
+                    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
                     <x-form.field
                         name="address[coordinates][latitude]"
                         type="text"
@@ -122,7 +121,6 @@
                         rows="15"
                     />
                 </div>
-
             </div>
 
             <div class="flex gap-1">

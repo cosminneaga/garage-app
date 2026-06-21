@@ -1,6 +1,8 @@
 <x-layout::index title="{{ $user->name }} | Addresses">
     <x-tabs :tabs="UserTabs::ui()">
-        <x-card description="Visualise & Edit {{ $user->name }}'s location details">
+        <x-card
+            description="Visualise & Edit {{ $user->name }}'s location details"
+        >
             <x-table.related.addresses
                 :data="$user->addresses"
                 :resource="$user"

@@ -59,7 +59,10 @@
         />
 
         <div class="flex gap-1">
-            <x-button id="{{ $ids['submit'] }}" type="submit">Submit</x-button>
+            <x-button
+                id="{{ $ids['submit'] }}"
+                type="submit"
+            >Submit</x-button>
         </div>
     </form>
 </x-modal.wrapper>

@@ -8,14 +8,14 @@
                 enctype="@enctype"
             >
                 @csrf
-                @method('PUT')
+                @method ('PUT')
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
                     src="{{ $company->image_path && !Str::isUrl($company->image_path) ? asset('storage/' . $company->image_path) : $company->image_path }}"
                     alt="alt"
-                >
-                <br>
+                />
+                <br />
                 <x-form.field
                     identifier="company"
                     name="name"
@@ -64,7 +64,8 @@
                         id="form-company-update-button"
                         form="form-company-update"
                         type="submit"
-                    >Update Details</x-button>
+                    >Update
+                        Details</x-button>
 
                     @permitted(UserPermission::COMPANY, 'delete')
                         <x-button
@@ -73,11 +74,10 @@
                             data-modal-toggle="company-delete-modal"
                             type="button"
                             variant="danger"
-                        >Delete Company</x-button>
+                        >Delete
+                            Company</x-button>
                     @endpermitted
                 </div>
-
-
             </form>
             <x-modal.confirm
                 id="company-delete"

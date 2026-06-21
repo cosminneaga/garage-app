@@ -18,7 +18,6 @@
 @endphp
 
 <div class="space-y-2 text-start">
-
     @if ($label)
         <label
             class="text-heading mb-1.25 text-md block font-medium"
@@ -27,8 +26,8 @@
     @endif
 
     <div class="relative mb-5">
-        @switch($type)
-            @case('textarea')
+        @switch ($type)
+            @case ('textarea')
                 <textarea
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border p-3.5 text-sm"
                     {{ $attributes->merge([
@@ -39,7 +38,7 @@
                 >{{ old($name, $value) }}</textarea>
             @break
 
-            @case('image')
+            @case ('image')
                 <x-form.file.image
                     :identifier="$testName"
                     :name="$name"
@@ -49,7 +48,7 @@
                 />
             @break
 
-            @case('select')
+            @case ('select')
                 <select
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
                     {{ $attributes->merge([
@@ -61,21 +60,25 @@
                     ]) }}
                 >
                     @foreach ($options as $option)
-                        <option value="{{ $option[$select_map_value] }}">{{ $option[$select_map_label] }}</option>
+                        <option value="{{ $option[$select_map_value] }}">
+                            {{ $option[$select_map_label] }}
+                        </option>
                     @endforeach
                 </select>
             @break
 
-            @case('checkbox')
-            @case('toggle')
-            @case('switch')
+            @case ('checkbox')
+
+            @case ('toggle')
+
+            @case ('switch')
                 <div class="flex gap-2">
                     @isset($before)
                         {{ $before }}
                     @endisset
                     <div class="relative w-11 cursor-pointer">
                         <input
-                            class="peer absolute-center @testing z-1 @endtesting"
+                            class="absolute-center @testing z-1 @endtesting peer"
                             type="checkbox"
                             {{ $attributes->merge([
                                 'name' => $name,
@@ -84,7 +87,7 @@
                                 'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
                                 'value' => old($errorName, $value),
                             ]) }}
-                        >
+                        />
 
                         <label
                             class="absolute-center bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand after:inset-s-0.5 peer h-5 w-9 rounded-full after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full"

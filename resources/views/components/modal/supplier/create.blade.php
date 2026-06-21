@@ -20,7 +20,10 @@
     >Add Supplier</x-button>
 @endif
 
-<x-modal.wrapper id="{{ $ids['modal'] }}" size="6xl">
+<x-modal.wrapper
+    id="{{ $ids['modal'] }}"
+    size="6xl"
+>
     <form
         action="{{ route($parentname . '.supplier.store', $resource) }}"
         method="POST"
@@ -95,7 +98,7 @@
                     identifier="supplier"
                 />
                 <h3>Location</h3>
-                <br>
+                <br />
                 <x-form.field
                     name="coordinates[latitude]"
                     type="text"

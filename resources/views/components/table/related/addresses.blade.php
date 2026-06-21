@@ -29,36 +29,23 @@
             <th
                 class="px-6 py-3"
                 scope="col"
-            >
-                {{ $column }}
-            </th>
+            >{{ $column }}</th>
         @endforeach
     </x-slot>
 
     <x-slot name="tbody">
         @forelse ($data as $row)
-            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr
+                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
-                <td class="px-6 py-4">
-                    {{ $row->street_number }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->street }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->postcode }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->building }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->floor }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->unit }}
-                </td>
+                <td class="px-6 py-4">{{ $row->street_number }}</td>
+                <td class="px-6 py-4">{{ $row->street }}</td>
+                <td class="px-6 py-4">{{ $row->postcode }}</td>
+                <td class="px-6 py-4">{{ $row->building }}</td>
+                <td class="px-6 py-4">{{ $row->floor }}</td>
+                <td class="px-6 py-4">{{ $row->unit }}</td>
                 @if ($edit || $delete)
                     <td class="px-6 py-4">
                         <div class="flex gap-3">
@@ -75,14 +62,15 @@
                                     action="{{ route($parentname . '.address.destroy', [$resource, $row]) }}"
                                     message="Are you sure you want to remove this address?"
                                 />
-
                                 <button
                                     class="text-danger hover:cursor-pointer"
                                     data-modal-target="{{ $parentname }}-address-delete-{{ $row->id }}-modal"
                                     data-modal-toggle="{{ $parentname }}-address-delete-{{ $row->id }}-modal"
                                     data-test="{{ $parentname }}-address-delete-{{ $row->id }}-modal-trigger"
                                     type="button"
-                                >Delete</button>
+                                >
+                                    Delete
+                                </button>
                             @endif
                         </div>
                     </td>

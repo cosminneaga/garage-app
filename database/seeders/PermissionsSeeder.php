@@ -6,7 +6,6 @@ use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -17,44 +16,6 @@ class PermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        /*
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
-
-        foreach (UserPermission::list() as $permission) {
-            Permission::create(['name' => $permission]);
-        }
-
-        app(Role::class)->findOrCreate(UserRole::SUPER->value, 'web');
-        $administrator = app(Role::class)->findOrCreate(UserRole::ADMINISTRATOR->value, 'web');
-        $manager = app(Role::class)->findOrCreate(UserRole::MANAGER->value, 'web');
-        $user = app(Role::class)->findOrCreate(UserRole::USER->value, 'web');
-
-        // administrator
-        foreach (UserPermission::list() as $permission) {
-            $administrator->givePermissionTo($permission);
-        }
-
-        // manager
-        $manager->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
-        $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
-        foreach (
-            UserPermission::list(
-                excludeReferences: ['company'],
-            ) as $permission
-        ) {
-            $manager->givePermissionTo($permission);
-        }
-
-        // user
-        foreach (
-            UserPermission::list(
-                excludeActions: ['restore', 'store', 'update', 'delete'],
-            ) as $permission
-        ) {
-            $user->givePermissionTo($permission);
-        }
-        */
-
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
         app(Role::class)->findOrCreate(UserRole::SUPER->value, 'web');
         $administrator = app(Role::class)->findOrCreate(UserRole::ADMINISTRATOR->value, 'web');
@@ -64,7 +25,7 @@ class PermissionsSeeder extends Seeder
         $permissions = [
             UserRole::ADMINISTRATOR->value => UserPermission::list(),
             UserRole::MANAGER->value => UserPermission::list(excludeReferences: ['company']),
-            UserRole::USER->value => UserPermission::list(excludeActions: ['restore', 'store', 'update', 'delete']),
+            UserRole::USER->value => UserPermission::list(excludeReferences: ['user'], excludeActions: ['restore', 'store', 'update', 'delete']),
         ];
 
         $insertPermissions = fn ($role) => collect($permissions[$role])
@@ -90,6 +51,7 @@ class PermissionsSeeder extends Seeder
 
         /* ------------------------- PRIVILEGED PERMISSIONS ------------------------- */
         $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
 
         foreach ($roleWithPermissions as $roleId => $permissions) {
             DB::table('role_has_permissions')

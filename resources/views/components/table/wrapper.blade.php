@@ -4,15 +4,18 @@
 
 @props(['data'])
 
-<div class="bg-neutral-primary-soft shadow-xs rounded-base border-default relative overflow-x-auto border">
+<div
+    class="bg-neutral-primary-soft shadow-xs rounded-base border-default relative overflow-x-auto border">
     @isset($header)
-        <div class="flex items-center gap-3 p-4">
-            {{ $header }}
-        </div>
+        <div class="flex items-center gap-3 p-4">{{ $header }}</div>
     @endisset
 
-    <table {{ $attributes->merge(['class' => 'w-full text-sm text-left rtl:text-right text-body']) }}>
-        <thead class="text-body bg-neutral-secondary-medium border-default-medium border-b text-sm">
+    <table
+        {{ $attributes->merge(['class' => 'w-full text-sm text-left rtl:text-right text-body']) }}
+    >
+        <thead
+            class="text-body bg-neutral-secondary-medium border-default-medium border-b text-sm"
+        >
             <tr>
                 {{ $thead }}
             </tr>
@@ -31,18 +34,26 @@
             aria-label="Table navigation"
         >
             <div>
-                <span class="text-body mb-4 block w-full text-sm font-normal md:mb-0 md:inline md:w-auto">
+                <span
+                    class="text-body mb-4 block w-full text-sm font-normal md:mb-0 md:inline md:w-auto"
+                >
                     Page
-                    <span class="text-heading font-semibold">{{ $data->currentPage() }}</span>
+                    <span
+                        class="text-heading font-semibold">{{ $data->currentPage() }}</span>
                     of
-                    <span class="text-heading font-semibold">{{ $data->lastPage() }}</span>
+                    <span
+                        class="text-heading font-semibold">{{ $data->lastPage() }}</span>
                 </span>
-                <br>
-                <span class="text-body mb-4 block w-full text-sm font-normal md:mb-0 md:inline md:w-auto">
+                <br />
+                <span
+                    class="text-body mb-4 block w-full text-sm font-normal md:mb-0 md:inline md:w-auto"
+                >
                     Showing
-                    <span class="text-heading font-semibold">{{ $data->count() }}</span>
+                    <span
+                        class="text-heading font-semibold">{{ $data->count() }}</span>
                     items out of
-                    <span class="text-heading font-semibold">{{ $data->total() }}</span>
+                    <span
+                        class="text-heading font-semibold">{{ $data->total() }}</span>
                 </span>
             </div>
             <ul class="flex -space-x-px text-sm">
@@ -66,14 +77,13 @@
                 </li>
             </ul>
         </nav>
-
         <script type="module">
-            const currentPage = @json($data->currentPage());
-            const total = @json($data->total());
-            const pageUrls = @json($data->getUrlRange(1, $data->lastPage()));
+            const currentPage = @json ($data->currentPage());
+            const total = @json ($data->total());
+            const pageUrls = @json ($data->getUrlRange(1, $data->lastPage()));
 
             const pagination = new Pagination(currentPage, pageUrls);
-            pagination.construct(document.getElementById('table-paginator-numbers'));
+            pagination.construct(document.getElementById("table-paginator-numbers"));
         </script>
     @endif
 </div>

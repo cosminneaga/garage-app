@@ -6,7 +6,6 @@
     <div class="mx-auto flex h-24 max-w-7xl items-center justify-between">
         <div>
             <div class="flex items-center gap-4">
-
                 @auth
                     <button
                         class="hover:cursor-pointer"
@@ -34,7 +33,6 @@
         <div class="flex flex-col gap-2">
             <div class="flex items-center gap-x-5">
                 @auth
-
                     <button
                         class="flex items-center gap-2 hover:cursor-pointer"
                         id="nav-dropdown-profile-btn"
@@ -46,10 +44,11 @@
                             class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
                             src="{{ !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
                             alt="User avatar"
-                        >
-                        <x-fwb-o-adjustments-horizontal class="h-8 w-8 text-gray-500" />
+                        />
+                        <x-fwb-o-adjustments-horizontal
+                            class="h-8 w-8 text-gray-500"
+                        />
                     </button>
-
                     <x-navigation::user-dropdown />
 
                 @endauth

@@ -56,7 +56,7 @@
             identifier="address"
         />
         <h3 class="text-lg font-bold">Location</h3>
-        <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
+        <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
         <x-form.field
             name="coordinates[latitude]"
             type="text"
@@ -78,7 +78,10 @@
         />
 
         <div class="flex gap-1">
-            <x-button id="{{ $ids['submit'] }}" type="submit">Submit</x-button>
+            <x-button
+                id="{{ $ids['submit'] }}"
+                type="submit"
+            >Submit</x-button>
         </div>
     </form>
 </x-modal.wrapper>

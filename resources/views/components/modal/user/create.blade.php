@@ -1,4 +1,11 @@
-@props(['id', 'resource', 'trigger' => false, 'countries', 'team'])
+@props([
+    'id',
+    'resource',
+    'trigger' => false,
+    'trigger_label' => 'Add User',
+    'countries',
+    'team',
+])
 
 @php
     $parentname = $resource->getTable();
@@ -18,7 +25,7 @@
         data-modal-toggle="{{ $ids['modal'] }}"
         type="button"
         variant="default"
-    >Add User</x-button>
+    >{{ $trigger_label }}</x-button>
 @endif
 
 <x-modal.wrapper
@@ -32,7 +39,7 @@
             method="POST"
         >
             @csrf
-            @method('PUT')
+            @method ('PUT')
 
             <x-form.field
                 identifier="user_select"
@@ -46,7 +53,8 @@
             <x-button
                 id="{{ $ids['submit-attach'] }}"
                 type="submit"
-            >Attach User</x-button>
+            >Attach
+                User</x-button>
         </form>
     @endif
 
@@ -102,8 +110,12 @@
                     name="active"
                     type="checkbox"
                 >
-                    <x-slot name="before">Inactive</x-slot>
-                    <x-slot name="after">Active</x-slot>
+                    <x-slot name="before">
+                        Inactive
+                    </x-slot>
+                    <x-slot name="after">
+                        Active
+                    </x-slot>
                 </x-form.field>
             </div>
 
@@ -136,7 +148,7 @@
                     :options="$countries"
                 />
                 <h3 class="text-lg font-bold">Location</h3>
-                <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
+                <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
                 <x-form.field
                     identifier="user"
                     name="address[coordinates][latitude]"

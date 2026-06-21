@@ -11,14 +11,14 @@
                 enctype="@enctype"
             >
                 @csrf
-                @method('PUT')
+                @method ('PUT')
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
                     src="{{ $user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
                     alt="alt"
-                >
-                <br>
+                />
+                <br />
                 <x-form.field
                     identifier="user_update"
                     name="name"
@@ -45,8 +45,12 @@
                     type="toggle"
                     checked="{{ $user->active }}"
                 >
-                    <x-slot name="before">Inactive</x-slot>
-                    <x-slot name="after">Active</x-slot>
+                    <x-slot name="before">
+                        Inactive
+                    </x-slot>
+                    <x-slot name="after">
+                        Active
+                    </x-slot>
                 </x-form.field>
 
                 <div class="mt-5 flex gap-1">
@@ -65,7 +69,8 @@
                             data-modal-toggle="user-delete-modal"
                             type="button"
                             variant="danger"
-                        >Delete User</x-button>
+                        >Delete
+                            User</x-button>
                     @endpermitted
                 </div>
             </form>

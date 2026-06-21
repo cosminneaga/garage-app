@@ -4,7 +4,6 @@
     aria-labelledby="drawer-label"
     tabindex="-1"
 >
-
     <div class="flex items-end gap-2 pb-4">
         <img
             class="h-auto w-20 rounded-sm"
@@ -12,31 +11,29 @@
             title="GarageApp Logo"
             alt="GarageApp Logo"
         />
-        <span class="text-heading self-center whitespace-nowrap text-lg font-semibold">Garage App</span>
+        <span
+            class="text-heading self-center whitespace-nowrap text-lg font-semibold"
+        >Garage App</span>
     </div>
 
-    <br>
-    <div class="border-default border-b">
-        <span class="text-heading">Users</span>
-    </div>
-    <ul class="space-y-2 font-medium">
-        @permitted(UserPermission::USER, 'show')
+    @permitted(UserPermission::USER, 'show')
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Users</span>
+        </div>
+        <ul class="space-y-2 font-medium">
             <li class="my-2">
                 <a
                     class="w-full"
                     href="/users"
-                >
-                    Team
-                </a>
+                > Team </a>
             </li>
             @permitted(UserPermission::USER, 'store')
                 <li class="my-2">
                     <a
                         class="w-full"
                         href="/users/create"
-                    >
-                        Create
-                    </a>
+                    > Create </a>
                 </li>
             @endpermitted
             @permitted(UserPermission::USER, 'restore')
@@ -44,16 +41,13 @@
                     <a
                         class="w-full"
                         href="/users/restore"
-                    >
-                        Removed
-                    </a>
+                    > Removed </a>
                 </li>
             @endpermitted
-        @endpermitted
-    </ul>
+        </ul>
+    @endpermitted
 
-
-    <br>
+    <br />
     <div class="border-default border-b">
         <span class="text-heading">Companies</span>
     </div>
@@ -63,18 +57,14 @@
                 <a
                     class="w-full"
                     href="/companies"
-                >
-                    List
-                </a>
+                > List </a>
             </li>
             @permitted(UserPermission::COMPANY, 'store')
                 <li class="my-2">
                     <a
                         class="w-full"
                         href="/companies/create"
-                    >
-                        Create
-                    </a>
+                    > Create </a>
                 </li>
             @endpermitted
             @permitted(UserPermission::COMPANY, 'restore')
@@ -82,9 +72,7 @@
                     <a
                         class="w-full"
                         href="/companies/restore"
-                    >
-                        Removed
-                    </a>
+                    > Removed </a>
                 </li>
             @endpermitted
         @endpermitted

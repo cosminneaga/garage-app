@@ -6,7 +6,8 @@
             $class = 'bg-brand-softer border-brand-subtle text-fg-brand-strong';
             break;
         case false:
-            $class = 'bg-danger-soft border-danger-subtle text-fg-danger-strong';
+            $class =
+                'bg-danger-soft border-danger-subtle text-fg-danger-strong';
             break;
 
         default:
@@ -16,5 +17,5 @@
 @endphp
 
 <span
-    class="{{ $class }} border text-xs font-medium px-1.5 py-0.5 rounded-full"
+    class="{{ $class }} rounded-full border px-1.5 py-0.5 text-xs font-medium"
 >{{ $status ? 'Active' : 'Inactive' }}</span>

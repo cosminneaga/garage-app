@@ -15,7 +15,6 @@
     }
 @endphp
 
-
 <x-modal.contact.create
     id="contact-create"
     :resource="$resource"
@@ -28,27 +27,20 @@
             <th
                 class="px-6 py-3"
                 scope="col"
-            >
-                {{ $column }}
-            </th>
+            >{{ $column }}</th>
         @endforeach
     </x-slot>
 
     <x-slot name="tbody">
         @forelse ($data as $row)
-            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr
+                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
-                <td class="px-6 py-4">
-                    {{ $row->mobile }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->landline }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->email }}
-                </td>
+                <td class="px-6 py-4">{{ $row->mobile }}</td>
+                <td class="px-6 py-4">{{ $row->landline }}</td>
+                <td class="px-6 py-4">{{ $row->email }}</td>
                 <td class="px-6 py-4">
                     <a
                         class="text-fg-brand font-medium hover:underline"
@@ -57,9 +49,7 @@
                         rel="noopener noreferrer"
                     >{{ $row->url }}</a>
                 </td>
-                <td class="px-6 py-4">
-                    {{ $row->info }}
-                </td>
+                <td class="px-6 py-4">{{ $row->info }}</td>
                 @if ($edit || $delete)
                     <td class="px-6 py-4">
                         <div class="flex gap-3">
@@ -76,13 +66,14 @@
                                     action="{{ route($parentname . '.contact.destroy', [$resource, $row->id]) }}"
                                     message="Are you sure you want to remove this contact?"
                                 />
-
                                 <button
                                     class="text-danger hover:cursor-pointer"
                                     data-modal-target="{{ $parentname }}-contact-delete-{{ $row->id }}-modal"
                                     data-modal-toggle="{{ $parentname }}-contact-delete-{{ $row->id }}-modal"
                                     data-test="{{ $parentname }}-contact-delete-{{ $row->id }}-modal-trigger"
-                                >Delete</button>
+                                >
+                                    Delete
+                                </button>
                             @endif
                         </div>
                     </td>

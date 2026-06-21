@@ -8,8 +8,7 @@
 ])
 
 @php
-    $columns = collect(CompanyColumns::cases())
-        ->map(fn ($col) => $col->value);
+    $columns = collect(CompanyColumns::cases())->map(fn($col) => $col->value);
 
     if ($edit || $delete || $restore) {
         $columns->push('Actions');
@@ -30,9 +29,7 @@
                 label="Search companies..."
             />
 
-            <x-button type="submit">
-                Search
-            </x-button>
+            <x-button type="submit"> Search </x-button>
         </form>
     </x-slot>
 
@@ -41,22 +38,23 @@
             <th
                 class="px-6 py-3"
                 scope="col"
-            >
-                {{ $column }}
-            </th>
+            >{{ $column }}</th>
         @endforeach
     </x-slot>
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
-                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+            <tr
+                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                <th
+                    class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-company-pic"
-                            :src="$row->image_path && !Str::isUrl($row->image_path)
+                            :src="$row->image_path &&
+                            !Str::isUrl($row->image_path)
                                 ? asset('storage/' . $row->image_path)
                                 : $row->image_path"
                             :title="$row->name"
@@ -65,18 +63,10 @@
                         {{ $row->name }}
                     </div>
                 </td>
-                <td class="px-6 py-4">
-                    {{ $row->tax_id }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->registration_number }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->tax_value }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->invoice_prefix }}
-                </td>
+                <td class="px-6 py-4">{{ $row->tax_id }}</td>
+                <td class="px-6 py-4">{{ $row->registration_number }}</td>
+                <td class="px-6 py-4">{{ $row->tax_value }}</td>
+                <td class="px-6 py-4">{{ $row->invoice_prefix }}</td>
                 <td class="px-6 py-4">
                     @if ($edit)
                         <a
@@ -92,14 +82,15 @@
                             action="{{ route('companies.destroy', $row->id) }}"
                             message="Are you sure you want to remove {{ $row->name }} from your list of companies?"
                         />
-
                         <button
                             class="text-danger hover:cursor-pointer"
                             data-modal-target="company-delete-{{ $row->id }}-modal"
                             data-modal-toggle="company-delete-{{ $row->id }}-modal"
                             data-test="company-delete-{{ $row->id }}-modal-trigger"
                             type="button"
-                        >Delete</button>
+                        >
+                            Delete
+                        </button>
                     @endif
                     @if ($restore && $row->trashed())
                         <x-modal.confirm
@@ -108,14 +99,15 @@
                             action="{{ route('companies.restore', $row->id) }}"
                             message="Are you sure you want to restore {{ $row->name }}?"
                         />
-
                         <button
                             class="text-success hover:cursor-pointer"
                             data-modal-target="company-restore-{{ $row->id }}-modal"
                             data-modal-toggle="company-restore-{{ $row->id }}-modal"
                             data-test="company-restore-{{ $row->id }}-modal-trigger"
                             type="button"
-                        >Restore</button>
+                        >
+                            Restore
+                        </button>
                     @endif
                 </td>
             </tr>

@@ -32,9 +32,10 @@ class CompanyController extends Controller
     use RequestTabHandler;
     use ResponseMessage;
 
-    public function __construct(protected CompanyService $companyService, protected UserService $userService)
-    {
-        //
+    public function __construct(
+        protected CompanyService $companyService,
+        protected UserService $userService
+    ) {
     }
 
     /**
@@ -88,13 +89,16 @@ class CompanyController extends Controller
         $this->authorize('edit', $company);
         $search = request()->string('search')->value();
 
+        $role = Auth::user()->getRoleNames();
+        $forRole = $role[0] === UserRole::ADMINISTRATOR->value ? UserRole::MANAGER : UserRole::USER;
+
         return match(request()->query('tab')) {
             'statistics' => view('pages.company.edit.statistics'),
             'members' => view('pages.company.edit.members', [
                 'company' => $company,
                 'countries' => Country::all(),
-                'team' => $this->userService->model()->team(UserRole::USER)->whereNotIn($company)->get(),
-                'members' => $company->users,
+                'team' => $this->userService->model()->team($forRole)->whereNotIn($company)->get(),
+                'members' => $this->userService->search($search)->team($forRole)->whereIn($company)->get(),
             ]),
             'contacts' => view('pages.company.edit.contacts', [
                 'company' => $company,

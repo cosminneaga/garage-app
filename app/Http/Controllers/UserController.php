@@ -165,7 +165,8 @@ class UserController extends Controller
         return view('pages.user.removed', [
             'users' => $this->userService
                 ->search($querySearch)
-                ->filterOwn(ResourceFilter::ONLY_TRASHED)
+                ->resourceFilter(ResourceFilter::ONLY_TRASHED)
+                ->team(UserRole::USER)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }

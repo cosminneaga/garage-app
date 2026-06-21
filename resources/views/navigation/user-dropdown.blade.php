@@ -66,8 +66,6 @@
                     <x-fwb-o-arrow-right-to-bracket />
                     Logout
                 </button>
-
-
             </form>
         </li>
     </ul>

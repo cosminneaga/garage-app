@@ -13,20 +13,23 @@
             $class = 'text-fg-brand-strong bg-brand-soft border-brand-subtle';
             break;
         case 'error':
-            $class = 'text-fg-danger-strong bg-danger-soft border-danger-subtle';
+            $class =
+                'text-fg-danger-strong bg-danger-soft border-danger-subtle';
             break;
         case 'warning':
-            $class = 'text-fg-warning-strong bg-warning-soft border-warning-subtle';
+            $class =
+                'text-fg-warning-strong bg-warning-soft border-warning-subtle';
             break;
         case 'success':
-            $class = 'text-fg-success-strong bg-success-soft border-success-subtle';
+            $class =
+                'text-fg-success-strong bg-success-soft border-success-subtle';
             break;
         default:
-            $class = 'text-fg-success-strong bg-success-soft border-success-subtle';
+            $class =
+                'text-fg-success-strong bg-success-soft border-success-subtle';
             break;
     }
 @endphp
-
 
 <div
     x-data="{ show: true }"
@@ -35,7 +38,7 @@
     x-transition.opacity.duration.300ms
 >
     <div
-        class="{{ $class }} rounded-base mb-4 grid auto-cols-max grid-flow-col items-center border p-4 text-sm relative"
+        class="{{ $class }} rounded-base relative mb-4 grid auto-cols-max grid-flow-col items-center border p-4 text-sm"
         id="{{ $id }}"
         role="alert"
     >
@@ -60,7 +63,7 @@
         </div>
 
         <button
-            class="text-white bg-danger-medium focus:ring-danger-soft hover:bg-danger-soft absolute right-2 top-2 h-6 w-6 rounded p-1.5"
+            class="bg-danger-medium focus:ring-danger-soft hover:bg-danger-soft absolute right-2 top-2 h-6 w-6 rounded p-1.5 text-white"
             data-dismiss-target="#{{ $id }}"
             type="button"
             aria-label="Close"

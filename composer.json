@@ -97,7 +97,8 @@
         "format": [
             "@php artisan ide-helper:models -RW --write-mixin",
             "vendor/bin/rector",
-            "vendor/bin/pint --parallel"
+            "vendor/bin/pint --parallel",
+            "npx prettier --write 'resources/views/**/**.blade.php'"
         ],
         "setup": [
             "composer install",

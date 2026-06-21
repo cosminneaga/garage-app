@@ -7,14 +7,17 @@
             <form
                 id="company-supplier-update"
                 @isset($company)
-                    :action="route('companies.supplier.update', [$company, $supplier])"
+                    :action="route('companies.supplier.update', [
+                        $company,
+                        $supplier,
+                    ])"
                 @else
                     :action="route('supplier.update', $supplier)"
                 @endisset
                 method="POST"
             >
                 @csrf
-                @method('PUT')
+                @method ('PUT')
 
                 <x-form.field
                     name="name"

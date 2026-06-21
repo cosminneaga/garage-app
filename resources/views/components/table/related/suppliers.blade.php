@@ -28,33 +28,24 @@
             <th
                 class="px-6 py-3"
                 scope="col"
-            >
-                {{ $column }}
-            </th>
+            >{{ $column }}</th>
         @endforeach
     </x-slot>
 
     <x-slot name="tbody">
         @forelse ($data as $row)
-            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr
+                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
-                <td class="px-6 py-4">
-                    {{ $row->name }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->code }}
-                </td>
+                <td class="px-6 py-4">{{ $row->name }}</td>
+                <td class="px-6 py-4">{{ $row->code }}</td>
                 <td class="px-6 py-4">
                     {{ SupplierType::getLabel($row->type) }}
                 </td>
-                <td class="px-6 py-4">
-                    {{ $row->tax_id }}
-                </td>
-                <td class="px-6 py-4">
-                    {{ $row->registration_number }}
-                </td>
+                <td class="px-6 py-4">{{ $row->tax_id }}</td>
+                <td class="px-6 py-4">{{ $row->registration_number }}</td>
                 @if ($edit || $delete)
                     <td class="px-6 py-4">
                         <div class="flex gap-3">
@@ -71,13 +62,14 @@
                                     action="{{ route('suppliers.destroy', $row->id) }}"
                                     message="Are you sure you want to remove this {{ $row->name }}?"
                                 />
-
                                 <button
                                     class="text-danger hover:cursor-pointer"
                                     data-modal-target="supplier-delete-{{ $row->id }}-modal"
                                     data-modal-toggle="supplier-delete-{{ $row->id }}-modal"
                                     data-test="supplier-delete-{{ $row->id }}-modal-trigger"
-                                >Delete</button>
+                                >
+                                    Delete
+                                </button>
                             @endif
                         </div>
                     </td>
