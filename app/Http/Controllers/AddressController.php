@@ -25,11 +25,7 @@ class AddressController extends Controller
         $type = array_keys($request->route()->parameters())[0];
         $entity = RelatedAddressContact::from($type)->entity($id);
         $policy = RelatedAddressContact::from($type)->policy();
-
-        $guard = app($policy)->edit(Auth::user(), $entity);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
 
         $action->handle($request->safe()->all(), $entity);
 
@@ -49,11 +45,7 @@ class AddressController extends Controller
         $type = array_keys($request->route()->parameters())[0];
         $entity = RelatedAddressContact::from($type)->entity($id);
         $policy = RelatedAddressContact::from($type)->policy();
-
-        $guard = app($policy)->view(Auth::user(), $entity);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(app($policy)->view(Auth::user(), $entity), 401);
 
         return view('pages.address.edit', [
             'address' => $entity->addresses()->findOrFail($addressId),
@@ -68,11 +60,7 @@ class AddressController extends Controller
         $type = array_keys($request->route()->parameters())[0];
         $entity = RelatedAddressContact::from($type)->entity($id);
         $policy = RelatedAddressContact::from($type)->policy();
-
-        $guard = app($policy)->edit(Auth::user(), $entity);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
 
         $entity->addresses()->detach($addressId);
 

@@ -79,7 +79,7 @@ class ManagerController extends Controller
      */
     public function edit(User $manager): RedirectResponse|View
     {
-        $this->authorize('viewManager', $manager);
+        $this->authorize('view', $manager);
 
         if ($manager->id === Auth::user()->id) {
             return redirect()->route('users.profile.edit', $manager);
@@ -133,7 +133,7 @@ class ManagerController extends Controller
      */
     public function destroy(User $manager): RedirectResponse
     {
-        $this->authorize('deleteManager', $manager);
+        $this->authorize('delete', $manager);
 
         if ($manager->id === Auth::user()->id) {
             return back()
@@ -177,7 +177,7 @@ class ManagerController extends Controller
     public function restore(string|int $managerId): RedirectResponse
     {
         $manager = User::onlyTrashed()->findOrFail($managerId);
-        $this->authorize('restoreManager', $manager);
+        $this->authorize('restore', $manager);
         $manager->restore();
 
         return back()

@@ -28,7 +28,7 @@
         @csrf
 
         <x-form.field
-            name="number"
+            name="street_number"
             type="text"
             label="Number"
             identifier="address"
@@ -71,9 +71,21 @@
         />
 
         <x-form.field
-            name="extra"
-            type="textarea"
-            label="Extra Information"
+            name="building"
+            type="text"
+            label="Building"
+            identifier="address"
+        />
+        <x-form.field
+            name="floor"
+            type="text"
+            label="Floor"
+            identifier="address"
+        />
+        <x-form.field
+            name="unit"
+            type="text"
+            label="Unit"
             identifier="address"
         />
 

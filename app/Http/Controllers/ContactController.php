@@ -43,11 +43,7 @@ class ContactController extends Controller
         $type = array_keys($request->route()->parameters())[0];
         $entity = RelatedAddressContact::from($type)->entity($id);
         $policy = RelatedAddressContact::from($type)->policy();
-
-        $guard = app($policy)->view(Auth::user(), $entity);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
 
         return view('pages.contact.edit', [
             'contact' => $entity->contacts()->findOrFail($contactId),
@@ -62,11 +58,7 @@ class ContactController extends Controller
         $type = array_keys($request->route()->parameters())[0];
         $entity = RelatedAddressContact::from($type)->entity($id);
         $policy = RelatedAddressContact::from($type)->policy();
-
-        $guard = app($policy)->edit(Auth::user(), $entity);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
 
         $entity->contacts()->detach($contactId);
 
