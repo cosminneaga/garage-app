@@ -26,8 +26,8 @@
     @endif
 
     <div class="relative mb-5">
-        @switch ($type)
-            @case ('textarea')
+        @switch($type)
+            @case('textarea')
                 <textarea
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border p-3.5 text-sm"
                     {{ $attributes->merge([
@@ -38,7 +38,7 @@
                 >{{ old($name, $value) }}</textarea>
             @break
 
-            @case ('image')
+            @case('image')
                 <x-form.file.image
                     :identifier="$testName"
                     :name="$name"
@@ -48,7 +48,7 @@
                 />
             @break
 
-            @case ('select')
+            @case('select')
                 <select
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
                     {{ $attributes->merge([
@@ -67,11 +67,10 @@
                 </select>
             @break
 
-            @case ('checkbox')
+            @case('checkbox')
+            @case('toggle')
 
-            @case ('toggle')
-
-            @case ('switch')
+            @case('switch')
                 <div class="flex gap-2">
                     @isset($before)
                         {{ $before }}

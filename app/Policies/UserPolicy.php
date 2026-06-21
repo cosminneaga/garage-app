@@ -15,51 +15,53 @@ class UserPolicy
         return Permission::can(UserPermission::USER, 'show');
     }
 
-    /**
-     * Has access to user listing page
-     */
     public function view(User $user, User $model): bool
     {
-        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'show');
+        return $user->isMyUser($model) && Permission::can(UserPermission::USER, 'show');
     }
 
-    /**
-     * Has access to store page
-     */
+    public function viewManager(User $user, User $model): bool
+    {
+        return $user->isMyManager($model) && Permission::can(UserPermission::USER, 'show');
+    }
+
     public function create(): bool
     {
         return Permission::can(UserPermission::USER, 'store');
     }
 
-    /**
-     * Has access to update page
-     */
     public function edit(User $user, User $model): bool
     {
-        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'update');
+        return $user->isMyUser($model) && Permission::can(UserPermission::USER, 'update');
     }
 
-    /**
-     * Has access to delete the resource
-     */
+    public function editManager(User $user, User $model): bool
+    {
+        return $user->isMyManager($model) && Permission::can(UserPermission::USER, 'update');
+    }
+
     public function delete(User $user, User $model): bool
     {
-        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'delete');
+        return $user->isMyUser($model) && Permission::can(UserPermission::USER, 'delete');
     }
 
-    /**
-     * Has access to view the deleted resources
-     */
+    public function deleteManager(User $user, User $model): bool
+    {
+        return $user->isMyManager($model) && Permission::can(UserPermission::USER, 'delete');
+    }
+
     public function viewTrashed(): bool
     {
         return Permission::can(UserPermission::USER, 'restore');
     }
 
-    /**
-     * Has access to restore a deleted resource
-     */
     public function restore(User $user, User $model): bool
     {
-        return $user->isTeamMember($model) && Permission::can(UserPermission::USER, 'restore');
+        return $user->isMyUser($model) && Permission::can(UserPermission::USER, 'restore');
+    }
+
+    public function restoreManager(User $user, User $model): bool
+    {
+        return $user->isMyManager($model) && Permission::can(UserPermission::USER, 'restore');
     }
 }

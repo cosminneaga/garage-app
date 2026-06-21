@@ -67,14 +67,15 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::if('testing', fn () => config('app.env') === 'testing');
         Blade::if('notTesting', fn () => config('app.env') !== 'testing');
+
         Blade::if('isCurrentUser', fn ($id) => Auth::user()->id === $id);
         Blade::if('isNotCurrentUser', fn ($id) => Auth::check() && Auth::user()->id !== $id);
-        Blade::if('permitted', fn (UserPermission $permission, string $action) => Auth::check() && Auth::user()->can(UserPermission::name($permission, $action)));
 
         Blade::if('super', fn () => Auth::check() && Auth::user()->hasRole(UserRole::SUPER));
         Blade::if('administrator', fn () => Auth::check() && Auth::user()->hasRole(UserRole::ADMINISTRATOR));
         Blade::if('manager', fn () => Auth::check() && Auth::user()->hasRole(UserRole::MANAGER));
         Blade::if('user', fn () => Auth::check() && Auth::user()->hasRole(UserRole::USER));
+        Blade::if('permitted', fn (UserPermission $permission, string $action) => Auth::check() && Auth::user()->can(UserPermission::name($permission, $action)));
 
         Gate::before(fn ($user, $ability) => $user->hasRole(UserRole::SUPER->value) ? true : null);
         Gate::before(function ($user) {

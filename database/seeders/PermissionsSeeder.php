@@ -49,10 +49,7 @@ class PermissionsSeeder extends Seeder
             $user->id => $insertPermissions(UserRole::USER->value),
         ];
 
-        /* ------------------------- PRIVILEGED PERMISSIONS ------------------------- */
-        $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
-        $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
-
+        /* ----------------------- ASSIGN PERMISSIONS TO ROLES ---------------------- */
         foreach ($roleWithPermissions as $roleId => $permissions) {
             DB::table('role_has_permissions')
                 ->insert(collect($permissions)->map(fn ($permissionId) => [
@@ -60,5 +57,9 @@ class PermissionsSeeder extends Seeder
                     'permission_id' => $permissionId,
                 ])->toArray());
         }
+
+        /* ------------------------- PRIVILEGED PERMISSIONS ------------------------- */
+        $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
     }
 }

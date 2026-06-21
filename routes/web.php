@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -35,12 +36,20 @@ Route::controller(CompanyController::class)
     });
 
 Route::controller(UserController::class)
-    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->middleware(['auth', 'role:super|administrator|manager'])
     ->group(function () {
         Route::resource('users', UserController::class)->except('show');
         Route::get('/users/restore', 'removed')->name('users.removed');
         Route::get('/chart/users', 'chart')->name('chart.users');
         Route::post('/users/{id}/restore', 'restore')->name('users.restore');
+    });
+
+Route::controller(ManagerController::class)
+    ->middleware(['auth', 'role:administrator'])
+    ->group(function () {
+        Route::resource('managers', ManagerController::class)->except('show');
+        Route::get('/managers/restore', 'removed')->name('managers.removed');
+        Route::post('/managers/{id}/restore', 'restore')->name('managers.restore');
     });
 
 Route::controller(ProfileController::class)

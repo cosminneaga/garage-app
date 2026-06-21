@@ -183,10 +183,15 @@ class User extends Authenticatable
                 ->join('team_administrator_managers', 'team_administrator_managers.manager_id', '=', 'team_manager_users.manager_id')
                 ->where('team_administrator_managers.administrator_id', $this->id)
                 ->where('users.id', $user->id)
+                ->withTrashed()
                 ->exists();
         }
 
-        return $this->users()->where('users.id', $user->id)->exists();
+        return $this
+            ->users()
+            ->where('users.id', $user->id)
+            ->withTrashed()
+            ->exists();
     }
 
     public function isMyManager(User $user): Throwable|bool
@@ -195,7 +200,11 @@ class User extends Authenticatable
             throw new Exception('The user must hold the administrator role.');
         }
 
-        return $this->managers()->where('users.id', $user->id)->exists();
+        return $this
+            ->managers()
+            ->where('users.id', $user->id)
+            ->withTrashed()
+            ->exists();
     }
 
     public function chart(): array

@@ -19,7 +19,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ManagerController extends Controller
 {
     use ResponseMessage;
 
@@ -34,12 +34,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', User::class);
+
         $querySearch = $request->string('search')->value();
 
-        return view('pages.user.index', [
-            'users' => $this->userService
+        return view('pages.manager.index', [
+            'managers' => $this->userService
                 ->search($querySearch)
-                ->team(UserRole::USER)
+                ->team(UserRole::MANAGER)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }
@@ -49,9 +50,9 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        $this->authorize('create', Auth::user());
+        $this->authorize('create', User::class);
 
-        return view('pages.user.create', [
+        return view('pages.manager.create', [
             'countries' => Country::all(),
         ]);
     }
@@ -65,7 +66,7 @@ class UserController extends Controller
         $attributes['active'] = $request->boolean('active');
         $action->handle($attributes);
 
-        return redirect(route('users.index'))
+        return redirect(route('managers.index'))
             ->with('message', self::responseMessage(
                 'success',
                 'User created',
@@ -76,27 +77,27 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user): RedirectResponse|View
+    public function edit(User $manager): RedirectResponse|View
     {
-        $this->authorize('view', $user);
+        $this->authorize('viewManager', $manager);
 
-        if ($user->id === Auth::user()->id) {
-            return redirect()->route('users.profile.edit', $user);
+        if ($manager->id === Auth::user()->id) {
+            return redirect()->route('users.profile.edit', $manager);
         }
 
         return match(request()->query('tab')) {
-            'statistics' => view('pages.user.edit.statistics', [
-                'user' => $user,
+            'statistics' => view('pages.manager.edit.statistics', [
+                'manager' => $manager,
             ]),
-            'contacts' => view('pages.user.edit.contacts', [
-                'user' => $user,
+            'contacts' => view('pages.manager.edit.contacts', [
+                'user' => $manager,
             ]),
-            'addresses' => view('pages.user.edit.addresses', [
-                'user' => $user,
+            'addresses' => view('pages.manager.edit.addresses', [
+                'user' => $manager,
                 'countries' => Country::all(),
             ]),
-            default => view('pages.user.edit.index', [
-                'user' => $user,
+            default => view('pages.manager.edit.index', [
+                'manager' => $manager,
             ]),
         };
     }
@@ -104,9 +105,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user, UserUpdateAction $action): RedirectResponse
+    public function update(UpdateUserRequest $request, User $manager, UserUpdateAction $action): RedirectResponse
     {
-        if ($user->id === Auth::user()->id) {
+        if ($manager->id === Auth::user()->id) {
             return back()
                 ->with('message', self::responseMessage(
                     'error',
@@ -117,24 +118,24 @@ class UserController extends Controller
 
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
-        $action->handle($attributes, $user);
+        $action->handle($attributes, $manager);
 
         return back()
             ->with('message', self::responseMessage(
                 'success',
-                'User updated',
-                'The user details have been successfully updated.',
+                'Manager updated',
+                'The manager details have been successfully updated.',
             ));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $manager): RedirectResponse
     {
-        $this->authorize('delete', $user);
+        $this->authorize('deleteManager', $manager);
 
-        if ($user->id === Auth::user()->id) {
+        if ($manager->id === Auth::user()->id) {
             return back()
                 ->with('message', self::responseMessage(
                     'error',
@@ -143,14 +144,14 @@ class UserController extends Controller
                 ));
         }
 
-        $user = User::findOrFail($user->id);
-        $user->delete();
+        $manager = User::findOrFail($manager->id);
+        $manager->delete();
 
-        return redirect(route('users.index'))
+        return redirect(route('managers.index'))
             ->with('message', self::responseMessage(
                 'info',
-                'User removed',
-                'The user ' . $user->name . ' has been successfully removed from the team.',
+                'Manager removed',
+                'The manager ' . $manager->name . ' has been successfully removed from the team.',
             ));
     }
 
@@ -162,10 +163,10 @@ class UserController extends Controller
         $this->authorize('viewTrashed', User::class);
         $querySearch = $request->string('search')->value();
 
-        return view('pages.user.removed', [
-            'users' => $this->userService
+        return view('pages.manager.removed', [
+            'managers' => $this->userService
                 ->search($querySearch)
-                ->team(UserRole::USER, ResourceFilter::ONLY_TRASHED)
+                ->team(UserRole::MANAGER, ResourceFilter::ONLY_TRASHED)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }
@@ -173,30 +174,17 @@ class UserController extends Controller
     /**
      * Restore a given item
      */
-    public function restore(string|int $userId): RedirectResponse
+    public function restore(string|int $managerId): RedirectResponse
     {
-        $user = User::onlyTrashed()->findOrFail($userId);
-        $this->authorize('restore', $user);
-        $user->restore();
+        $manager = User::onlyTrashed()->findOrFail($managerId);
+        $this->authorize('restoreManager', $manager);
+        $manager->restore();
 
         return back()
             ->with('message', self::responseMessage(
                 'success',
-                'User restored',
-                'The user has been successfully restored and is now active again.',
+                'Manager restored',
+                'The manager has been successfully restored and is now active again.',
             ));
-    }
-
-    // ADMIN
-    public function all(Request $request): View
-    {
-        $querySearch = $request->string('search')->value();
-
-        return view('pages.user.admin', [
-            'users' => $this->userService
-                ->search($querySearch)
-                ->resourceFilter(ResourceFilter::WITH_TRASHED)
-                ->paginate($request->integer('limit') ?? 10),
-        ]);
     }
 }

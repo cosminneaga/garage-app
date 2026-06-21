@@ -18,6 +18,7 @@ use Laravel\Scout\Builder as ScoutBuilder;
 class UserService
 {
     public string $searchQuery = '';
+    public ResourceFilter|null $resourceFilter = null;
     public ScoutBuilder|User|EloquentBuilder $result;
 
     public function __construct(
@@ -108,6 +109,8 @@ class UserService
                 break;
         }
 
+        $this->resourceFilter = $filter;
+
         return $this;
     }
 
@@ -147,7 +150,7 @@ class UserService
      * Applying resource filtering with pagination on related users for manager or administrator.
      * $service->search('user')->resourceFilter(ResourceFilter::ONLY_TRASHED)->team(UserRole::USER)->paginate();
      */
-    public function team(UserRole $forRole): UserService
+    public function team(UserRole $forRole, ResourceFilter $filter = ResourceFilter::DEFAULT): UserService
     {
 
         $role = $this->user->getRoleNames();
@@ -218,10 +221,24 @@ class UserService
 
         $result = $result->select('users.*')->distinct();
 
+        /* --------------------------- RESOURCE FILTERING --------------------------- */
+        switch ($filter) {
+            case ResourceFilter::ONLY_TRASHED:
+                $result = $result->onlyTrashed();
+                $this->result->onlyTrashed();
+                break;
+            case ResourceFilter::WITH_TRASHED:
+                $result = $result->withTrashed();
+                $this->result->withTrashed();
+                break;
+            default:
+                break;
+        }
+
         /* ------------------ QUERY BUILDER & SCOUT SEARCH SWITCHER ----------------- */
         switch ($this->result::class) {
             case \Laravel\Scout\Builder::class:
-                $this->result->whereIn('id', $result->select('users.id'));
+                $this->result->whereIn('users.id', $result->select('users.id'));
                 break;
             default:
                 $this->result = $result;

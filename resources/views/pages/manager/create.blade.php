@@ -1,11 +1,11 @@
 <x-layout::index title="Add User">
     <x-card
-        title="Create user"
-        description="Create a new user details, address & contact"
+        title="Create manager member"
+        description="Create a new manager details, address & contact"
     >
         <form
             class="flex flex-col gap-4 text-start"
-            action="{{ route('users.store') }}"
+            action="{{ route('managers.store') }}"
             method="POST"
             enctype="@enctype"
         >
@@ -145,7 +145,7 @@
 
             <div class="flex gap-1">
                 <x-button
-                    id="form-users-create-submit"
+                    id="form-managers-create-submit"
                     type="submit"
                 >Submit</x-button>
             </div>

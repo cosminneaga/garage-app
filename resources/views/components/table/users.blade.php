@@ -5,7 +5,8 @@
     'delete' => false,
     'chat' => false,
     'restore' => false,
-    'searchRoute' => route('users.index'),
+    'routesPrefix' => 'users',
+    'searchPrefix' => null,
 ])
 
 @php
@@ -21,7 +22,7 @@
         <form
             class="flex items-center gap-2"
             method="GET"
-            action="{{ $searchRoute }}"
+            action="{{ route($searchPrefix ? $searchPrefix : $routesPrefix . '.index') }}"
         >
             <x-form.field
                 name="search"
@@ -72,8 +73,7 @@
                 <td class="px-6 py-4">
                     <div class="flex gap-3">
                         @if ($chat)
-                            @isNotCurrentUser
-                                ($row->id)
+                            @isNotCurrentUser($row->id)
                                 <button
                                     class="text-green-500 hover:cursor-pointer"
                                     data-modal-target="user-send-message-modal"
@@ -89,26 +89,24 @@
                             @endisNotCurrentUser
                         @endif
                         @if ($edit)
-                            @isCurrentUser
-                                ($row->id)
+                            @isCurrentUser($row->id)
                                 <a
                                     class="text-brand"
-                                    href="{{ route('users.profile.edit') }}"
+                                    href="{{ route($routesPrefix . '.profile.edit') }}"
                                 >Profile</a>
                             @else
                                 <a
                                     class="text-brand"
-                                    href="{{ route('users.edit', $row) }}"
+                                    href="{{ route($routesPrefix . '.edit', $row) }}"
                                 >Edit</a>
                             @endisCurrentUser
                         @endif
                         @if ($delete)
-                            @isNotCurrentUser
-                                ($row->id)
+                            @isNotCurrentUser($row->id)
                                 <x-modal.confirm
                                     id="user-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route('users.destroy', $row->id) }}"
+                                    action="{{ route($routesPrefix . '.destroy', $row->id) }}"
                                     message="Are you sure you want to remove {{ $row->name }} from your team?"
                                 />
                                 <button
@@ -126,7 +124,7 @@
                             <x-modal.confirm
                                 id="user-restore-{{ $row->id }}"
                                 type="restore"
-                                action="{{ route('users.restore', $row->id) }}"
+                                action="{{ route($routesPrefix . '.restore', $row->id) }}"
                                 message="Are you sure you want to restore {{ $row->name }}?"
                             />
                             <button
