@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Actions\UserStoreAction;
@@ -13,7 +15,6 @@ use App\Services\UserService;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdministratorController extends Controller
@@ -26,11 +27,9 @@ class AdministratorController extends Controller
     }/**
      * Display all resources related to model
      */
-    public function index(Request $request)
+    public function index()
     {
         $this->authorize('viewAny', User::class);
-
-        $querySearch = $request->string('search')->value();
 
         return view('pages.administrator.index', [
             'administrators' => User::role(UserRole::ADMINISTRATOR->value)->paginate(),
