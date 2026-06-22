@@ -34,12 +34,15 @@ class StoreUserRequest extends FormRequest
             'contact.email' => ['required', 'email', 'max:255'],
             'contact.url' => ['nullable', 'url', 'max:255'],
             'contact.info' => ['nullable', 'string', 'max:255'],
-            'address.number' => ['required', 'string', 'max:10'],
+            'address.street_number' => ['required', 'string', 'max:10'],
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],
             'address.country_id' => ['required', 'integer', 'exists:countries,id'],
             'address.coordinates.latitude' => ['required', 'string', 'max:20'],
             'address.coordinates.longitude' => ['required', 'string', 'max:20'],
+            'address.building' => ['nullable', 'string', 'max:255'],
+            'address.floor' => ['nullable', 'string', 'max:255'],
+            'address.unit' => ['nullable', 'string', 'max:255'],
             'image' => ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }

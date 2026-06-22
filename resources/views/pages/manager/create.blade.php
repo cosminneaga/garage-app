@@ -66,7 +66,7 @@
 
                 <div class="p-2">
                     <x-form.field
-                        name="address[number]"
+                        name="address[street_number]"
                         type="text"
                         label="Number"
                         identifier="user"
@@ -105,6 +105,25 @@
                         type="text"
                         label="Longitude"
                         identifier="user"
+                    />
+
+                    <x-form.field
+                        identifier="address"
+                        name="address[building]"
+                        type="text"
+                        label="Building"
+                    />
+                    <x-form.field
+                        identifier="address"
+                        name="address[floor]"
+                        type="text"
+                        label="Floor"
+                    />
+                    <x-form.field
+                        identifier="address"
+                        name="address[unit]"
+                        type="text"
+                        label="Unit"
                     />
                 </div>
 

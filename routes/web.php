@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
@@ -24,15 +25,18 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
 
-Route::controller(CompanyController::class)
-    ->middleware(['auth', 'role:super|administrator|manager|user'])
+Route::controller(AdministratorController::class)
+    ->middleware(['auth', 'role:super'])
     ->group(function () {
-        Route::resource('companies', CompanyController::class)->except('show');
-        Route::get('/companies/restore', 'removed')->name('companies.removed');
-        Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');
-        Route::post('/companies/{company}/user', 'userStore')->name('companies.user.store');
-        Route::put('/companies/{company}/user', 'userAttach')->name('companies.user.attach');
-        Route::delete('/companies/{company}/user/{user}', 'userDestroy')->name('companies.user.destroy');
+        Route::resource('administrators', AdministratorController::class)->except(['show', 'destroy']);
+    });
+
+Route::controller(ManagerController::class)
+    ->middleware(['auth', 'role:administrator'])
+    ->group(function () {
+        Route::resource('managers', ManagerController::class)->except('show');
+        Route::get('/managers/restore', 'removed')->name('managers.removed');
+        Route::post('/managers/{id}/restore', 'restore')->name('managers.restore');
     });
 
 Route::controller(UserController::class)
@@ -44,12 +48,15 @@ Route::controller(UserController::class)
         Route::post('/users/{id}/restore', 'restore')->name('users.restore');
     });
 
-Route::controller(ManagerController::class)
-    ->middleware(['auth', 'role:administrator'])
+Route::controller(CompanyController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        Route::resource('managers', ManagerController::class)->except('show');
-        Route::get('/managers/restore', 'removed')->name('managers.removed');
-        Route::post('/managers/{id}/restore', 'restore')->name('managers.restore');
+        Route::resource('companies', CompanyController::class)->except('show');
+        Route::get('/companies/restore', 'removed')->name('companies.removed');
+        Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');
+        Route::post('/companies/{company}/user', 'userStore')->name('companies.user.store');
+        Route::put('/companies/{company}/user', 'userAttach')->name('companies.user.attach');
+        Route::delete('/companies/{company}/user/{user}', 'userDestroy')->name('companies.user.destroy');
     });
 
 Route::controller(ProfileController::class)
