@@ -75,30 +75,25 @@
             "@php artisan db:seed"
         ],
         "clear": [
+            "@php artisan optimize:clear",
             "@php artisan permission:cache-reset",
-            "@php artisan view:clear",
-            "@php artisan event:clear",
-            "@php artisan route:clear",
-            "@php artisan config:clear",
             "@php artisan activitylog:clean",
-            "@php artisan scout::flush",
-            "@php artisan scout::import",
             "composer dump-autoload"
         ],
         "storage": [
             "@php artisan storage:link"
         ],
         "pest:filter": [
-            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --bail'"
+            "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --bail --profile'"
         ],
         "pest": [
-            "vendor/bin/pest --configuration ./phpunit.xml --bail"
+            "vendor/bin/pest --configuration ./phpunit.xml --bail --profile"
         ],
         "format": [
             "@php artisan ide-helper:models -RW --write-mixin",
             "vendor/bin/rector",
             "vendor/bin/pint --parallel",
-            "npx prettier --write 'resources/views/**/**.blade.php'"
+            "npx prettier --write --log-level=warn 'resources/views/**/**.blade.php'"
         ],
         "setup": [
             "composer install",
@@ -111,10 +106,6 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
-        ],
-        "test": [
-            "@php artisan config:clear --ansi",
-            "@php artisan test"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
