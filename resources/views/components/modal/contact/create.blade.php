@@ -20,43 +20,19 @@
     >Add Contact</x-button>
 @endif
 
-<x-modal.wrapper id="{{ $ids['modal'] }}">
+<x-modal.wrapper
+    id="{{ $ids['modal'] }}"
+    size="2xl"
+>
     <form
         action="{{ route($parentname . '.contact.store', $resource) }}"
         method="POST"
     >
         @csrf
 
-        <x-form.field
-            name="mobile"
-            type="text"
-            label="Mobile Phone"
-            identifier="contact"
-        />
-        <x-form.field
-            name="landline"
-            type="text"
-            label="Landline Phone"
-            identifier="contact"
-        />
-        <x-form.field
-            name="email"
-            type="email"
-            label="Email"
-            identifier="contact"
-        />
-        <x-form.field
-            name="url"
-            type="text"
-            label="URL"
-            identifier="contact"
-        />
-        <x-form.field
-            name="info"
-            type="textarea"
-            label="More Information"
-            identifier="contact"
-        />
+        <div class="grid grid-rows-1 gap-4 md:grid-cols-2">
+            <x-form.content.contact identifier="contact" />
+        </div>
 
         <div class="flex gap-1">
             <x-button

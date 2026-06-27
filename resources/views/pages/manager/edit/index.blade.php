@@ -79,7 +79,7 @@
             <x-modal.confirm
                 id="manager-delete"
                 type="delete"
-                action="{{ route('users.destroy', $manager->id) }}"
+                action="{{ route('managers.destroy', $manager->id) }}"
                 message="Are you sure you want to remove {{ $manager->name }} from your team?"
             />
         </x-card>

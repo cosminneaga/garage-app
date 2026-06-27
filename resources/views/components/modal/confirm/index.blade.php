@@ -70,6 +70,7 @@
     <x-fwb-o-info-circle class="text-fg-disabled mx-auto mb-4 h-12 w-12" />
     <h3 class="text-body mb-6">{{ $message }}</h3>
     <div class="flex items-center justify-center space-x-4">
+
         <form
             action="{{ $action }}"
             method="POST"
@@ -86,6 +87,7 @@
                 :variant="$class['confirm']"
             >{{ $label['confirm'] }}</x-button>
         </form>
+
         <button
             class="text-body bg-neutral-secondary-medium border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-neutral-tertiary shadow-xs rounded-base box-border border px-4 py-2.5 text-sm font-medium leading-5 focus:outline-none focus:ring-4"
             data-modal-hide="{{ $ids['modal'] }}"
@@ -93,5 +95,6 @@
         >
             {{ $label['cancel'] }}
         </button>
+
     </div>
 </x-modal.wrapper>

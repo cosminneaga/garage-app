@@ -6,7 +6,7 @@
     'chat' => false,
     'restore' => false,
     'routesPrefix' => 'users',
-    'searchPrefix' => null,
+    'searchRoute' => null,
 ])
 
 @php
@@ -18,22 +18,24 @@
 @endphp
 
 <x-table.wrapper :data="$data">
-    <x-slot name="header">
-        <form
-            class="flex items-center gap-2"
-            method="GET"
-            action="{{ route($searchPrefix ? $searchPrefix : $routesPrefix . '.index') }}"
-        >
-            <x-form.field
-                name="search"
-                type="text"
-                value="{{ request('search') }}"
-                label="Search users..."
-            />
+    @if ($searchRoute)
+        <x-slot name="header">
+            <form
+                class="flex items-center gap-2"
+                method="GET"
+                action="{{ $searchRoute }}"
+            >
+                <x-form.field
+                    name="search"
+                    type="text"
+                    value="{{ request('search') }}"
+                    label="Search users..."
+                />
 
-            <x-button type="submit"> Search </x-button>
-        </form>
-    </x-slot>
+                <x-button type="submit"> Search </x-button>
+            </form>
+        </x-slot>
+    @endif
 
     <x-slot name="thead">
         @foreach ($columns as $column)
@@ -120,7 +122,7 @@
                                 </button>
                             @endisNotCurrentUser
                         @endif
-                        @if ($restore)
+                        @if ($restore && $row->trashed())
                             <x-modal.confirm
                                 id="user-restore-{{ $row->id }}"
                                 type="restore"

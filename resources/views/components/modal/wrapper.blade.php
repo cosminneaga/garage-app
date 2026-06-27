@@ -14,7 +14,7 @@
             <div
                 class="border-default grid grid-cols-[1fr_auto] border-b pb-4 md:pb-5">
                 <div>
-                    <h3 class="text-heading text-lg font-medium">
+                    <h3 class="text-heading text-lg font-bold">
                         {{ $title }}
                     </h3>
                 </div>

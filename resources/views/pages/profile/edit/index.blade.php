@@ -1,5 +1,5 @@
 <x-layout::index title="{{ $user->name }} | Profile">
-    <x-tabs :tabs="UserTabs::ui()">
+    <x-tabs :tabs="UserProfileTabs::ui()">
         <x-card description="Visualise & Edit your details">
             <form
                 action="{{ route('users.profile.update', $user) }}"

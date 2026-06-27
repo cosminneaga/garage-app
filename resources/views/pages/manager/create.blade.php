@@ -14,46 +14,46 @@
             <div class="grid grid-rows-1 gap-1 md:grid-cols-2 lg:grid-cols-3">
                 <div class="p-2">
                     <x-form.field
+                        identifier="user"
                         name="name"
                         type="text"
                         label="Name"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="email"
                         type="email"
                         label="Email"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="image"
                         type="image"
                         accept="image/*"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="password"
                         type="password"
                         label="Password"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="password_confirmed"
                         type="password"
                         label="Password Confirmation"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="role"
                         type="select"
                         label="Select a role"
                         :options="UserRole::ui()"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="active"
                         type="checkbox"
-                        identifier="user"
                     >
                         <x-slot name="before">
                             Inactive
@@ -65,99 +65,44 @@
                 </div>
 
                 <div class="p-2">
-                    <x-form.field
-                        name="address[street_number]"
-                        type="text"
-                        label="Number"
+                    <x-form.content.address
                         identifier="user"
-                    />
-                    <x-form.field
-                        name="address[street]"
-                        type="text"
-                        label="Street"
-                        identifier="user"
-                    />
-                    <x-form.field
-                        name="address[postcode]"
-                        type="text"
-                        label="Postcode"
-                        identifier="user"
-                    />
-                    <x-form.field
-                        name="address[country_id]"
-                        type="select"
-                        label="Select a country"
-                        select_map_label="name"
-                        select_map_value="id"
-                        :options="$countries"
-                        identifier="user"
-                    />
-                    <h3 class="text-lg font-bold">Location</h3>
-                    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
-                    <x-form.field
-                        name="address[coordinates][latitude]"
-                        type="text"
-                        label="Latitude"
-                        identifier="user"
-                    />
-                    <x-form.field
-                        name="address[coordinates][longitude]"
-                        type="text"
-                        label="Longitude"
-                        identifier="user"
-                    />
-
-                    <x-form.field
-                        identifier="address"
-                        name="address[building]"
-                        type="text"
-                        label="Building"
-                    />
-                    <x-form.field
-                        identifier="address"
-                        name="address[floor]"
-                        type="text"
-                        label="Floor"
-                    />
-                    <x-form.field
-                        identifier="address"
-                        name="address[unit]"
-                        type="text"
-                        label="Unit"
+                        :countries="$countries"
+                        nested_parent_name="address"
                     />
                 </div>
 
                 <div class="p-2">
                     <x-form.field
+                        identifier="user"
                         name="contact[mobile]"
                         type="text"
                         label="Mobile Phone"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="contact[landline]"
                         type="text"
                         label="Landline Phone"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="contact[email]"
                         type="email"
                         label="Email"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="contact[url]"
                         type="text"
                         label="URL"
-                        identifier="user"
                     />
                     <x-form.field
+                        identifier="user"
                         name="contact[info]"
                         type="textarea"
                         label="More Information"
                         rows="10"
-                        identifier="user"
                     />
                 </div>
             </div>

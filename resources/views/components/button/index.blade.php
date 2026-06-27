@@ -1,6 +1,5 @@
 @props([
     'id' => 'btn',
-    'form' => null,
     'variant' => 'default',
 ])
 

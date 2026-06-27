@@ -1,11 +1,7 @@
 <x-layout::index title="Companies">
     <x-table.companies
         :data="$companies"
-        :edit="Auth::user()->can(
-            UserPermission::name(UserPermission::COMPANY, 'update'),
-        )"
-        :delete="Auth::user()->can(
-            UserPermission::name(UserPermission::COMPANY, 'delete'),
-        )"
+        :edit="Permission::can(UserPermission::COMPANY, 'update')"
+        :delete="Permission::can(UserPermission::COMPANY, 'delete')"
     />
 </x-layout::index>

@@ -8,7 +8,7 @@
                 enctype="@enctype"
             >
                 @csrf
-                @method ('PUT')
+                @method('PUT')
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
@@ -64,8 +64,7 @@
                         id="form-company-update-button"
                         form="form-company-update"
                         type="submit"
-                    >Update
-                        Details</x-button>
+                    >Update Details</x-button>
 
                     @permitted(UserPermission::COMPANY, 'delete')
                         <x-button

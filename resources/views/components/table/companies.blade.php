@@ -4,7 +4,7 @@
     'edit' => false,
     'delete' => false,
     'restore' => false,
-    'searchRoute' => route('companies.index'),
+    'searchRoute' => null,
 ])
 
 @php
@@ -16,22 +16,24 @@
 @endphp
 
 <x-table.wrapper :data="$data">
-    <x-slot name="header">
-        <form
-            class="flex items-center gap-2"
-            method="GET"
-            action="{{ $searchRoute }}"
-        >
-            <x-form.field
-                name="search"
-                type="text"
-                value="{{ request('search') }}"
-                label="Search companies..."
-            />
+    @if ($searchRoute)
+        <x-slot name="header">
+            <form
+                class="flex items-center gap-2"
+                method="GET"
+                action="{{ $searchRoute }}"
+            >
+                <x-form.field
+                    name="search"
+                    type="text"
+                    value="{{ request('search') }}"
+                    label="Search companies..."
+                />
 
-            <x-button type="submit"> Search </x-button>
-        </form>
-    </x-slot>
+                <x-button type="submit"> Search </x-button>
+            </form>
+        </x-slot>
+    @endif
 
     <x-slot name="thead">
         @foreach ($columns as $column)
@@ -71,8 +73,8 @@
                     @if ($edit)
                         <a
                             class="text-brand"
-                            href="{{ route('companies.edit', $row) }}"
                             data-test="company-edit-link-{{ $row->id }}"
+                            href="{{ route('companies.edit', $row) }}"
                         >Edit</a>
                     @endif
                     @if ($delete)

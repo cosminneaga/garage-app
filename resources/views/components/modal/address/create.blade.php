@@ -20,74 +20,22 @@
     >Add Address</x-button>
 @endif
 
-<x-modal.wrapper id="{{ $ids['modal'] }}">
+<x-modal.wrapper
+    id="{{ $ids['modal'] }}"
+    size="6xl"
+>
     <form
         action="{{ route($parentname . '.address.store', $resource) }}"
         method="POST"
     >
         @csrf
 
-        <x-form.field
-            name="street_number"
-            type="text"
-            label="Number"
-            identifier="address"
-        />
-        <x-form.field
-            name="street"
-            type="text"
-            label="Street"
-            identifier="address"
-        />
-        <x-form.field
-            name="postcode"
-            type="text"
-            label="Postcode"
-            identifier="address"
-        />
-        <x-form.field
-            name="country_id"
-            type="select"
-            label="Select a country"
-            select_map_label="name"
-            select_map_value="id"
-            :options="$countries"
-            selected_value="1"
-            identifier="address"
-        />
-        <h3 class="text-lg font-bold">Location</h3>
-        <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
-        <x-form.field
-            name="coordinates[latitude]"
-            type="text"
-            label="Latitude"
-            identifier="address"
-        />
-        <x-form.field
-            name="coordinates[longitude]"
-            type="text"
-            label="Longitude"
-            identifier="address"
-        />
-
-        <x-form.field
-            name="building"
-            type="text"
-            label="Building"
-            identifier="address"
-        />
-        <x-form.field
-            name="floor"
-            type="text"
-            label="Floor"
-            identifier="address"
-        />
-        <x-form.field
-            name="unit"
-            type="text"
-            label="Unit"
-            identifier="address"
-        />
+        <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
+            <x-form.content.address
+                :countries="$countries"
+                identifier="address"
+            />
+        </div>
 
         <div class="flex gap-1">
             <x-button

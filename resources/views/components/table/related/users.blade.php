@@ -93,8 +93,7 @@
                 <td class="px-6 py-4">
                     <div class="flex gap-3">
                         @if ($chat)
-                            @isNotCurrentUser
-                                ($row->id)
+                            @isNotCurrentUser($row->id)
                                 <button
                                     class="text-green-500 hover:cursor-pointer"
                                     data-modal-target="user-send-message-modal"
@@ -110,8 +109,7 @@
                             @endisNotCurrentUser
                         @endif
                         @if ($edit)
-                            @isCurrentUser
-                                ($row->id)
+                            @isCurrentUser($row->id)
                                 <a
                                     class="text-brand"
                                     href="{{ route('users.profile.edit') }}"
@@ -124,8 +122,7 @@
                             @endisCurrentUser
                         @endif
                         @if ($delete)
-                            @isNotCurrentUser
-                                ($row->id)
+                            @isNotCurrentUser($row->id)
                                 <x-modal.confirm
                                     id="user-company-delete-{{ $row->id }}"
                                     type="delete"
