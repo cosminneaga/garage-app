@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Database\Seeders\PermissionsSeeder;
+use Database\Seeders\TestPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Override;
 
@@ -18,8 +18,7 @@ abstract class SqliteTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        seed(PermissionsSeeder::class);
+        seed(TestPermissionsSeeder::class);
     }
 
     public function createApplication()
@@ -33,6 +32,9 @@ abstract class SqliteTestCase extends TestCase
             'prefix' => '',
             'foreign_key_constraints' => true,
         ]);
+
+        $app['config']->set('cache.default', 'array');
+        $app['config']->set('app.env', 'testing');
 
         return $app;
     }

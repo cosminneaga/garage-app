@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Database\Seeders\PermissionsSeeder;
+use Database\Seeders\TestPermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Override;
 
@@ -18,14 +18,12 @@ abstract class MySqlTestCase extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        seed(PermissionsSeeder::class);
+        seed(TestPermissionsSeeder::class);
     }
 
     public function createApplication()
     {
         $app = parent::createApplication();
-
         $app['config']->set('database.default', 'mysql_testing');
 
         $app['config']->set('database.connections.mysql_testing', [
@@ -40,6 +38,9 @@ abstract class MySqlTestCase extends TestCase
             'prefix' => '',
             'strict' => true,
         ]);
+
+        $app['config']->set('cache.default', 'array');
+        $app['config']->set('app.env', 'testing');
 
         return $app;
     }
