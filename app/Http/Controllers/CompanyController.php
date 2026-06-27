@@ -97,8 +97,16 @@ class CompanyController extends Controller
             'members' => view('pages.company.edit.members', [
                 'company' => $company,
                 'countries' => Country::all(),
-                'team' => $this->userService->model()->team($forRole)->whereNotIn($company)->get(),
-                'members' => $this->userService->search($search)->team($forRole)->whereIn($company)->get(),
+                'team' => $this->userService
+                    ->model()
+                    ->team($forRole)
+                    ->whereNotIn($company)
+                    ->get(),
+                'members' => $this->userService
+                    ->search($search)
+                    ->team($forRole)
+                    ->whereIn($company)
+                    ->get(),
             ]),
             'contacts' => view('pages.company.edit.contacts', [
                 'company' => $company,
@@ -142,7 +150,18 @@ class CompanyController extends Controller
         $company = Company::findOrFail($company->id);
         $company->delete();
 
-        return redirect(route('companies.index'))
+        if (Auth::user()->isSuper()) {
+            return redirect()
+                ->intended(route('companies.all'))
+                ->with('message', self::responseMessage(
+                    'info',
+                    'User removed',
+                    'The company ' . $company->name . ' has been successfully removed.',
+                ));
+        }
+
+        return redirect()
+            ->intended(route('companies.index'))
             ->with('message', self::responseMessage(
                 'info',
                 'Company removed',
@@ -161,7 +180,7 @@ class CompanyController extends Controller
         return view('pages.company.removed', [
             'companies' => $this->companyService
                 ->search($querySearch)
-                ->filterOwn(ResourceFilter::ONLY_TRASHED)
+                ->resourceFilterOwn(ResourceFilter::ONLY_TRASHED)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }
@@ -191,7 +210,7 @@ class CompanyController extends Controller
 
         $user = $action->handle($attributes);
         $company->users()->attach($user);
-        Auth::user()->team()->attach($user);
+        Auth::user()->peerAttach($user);
 
         return back()->with('message', self::responseMessage(
             'success',
@@ -232,7 +251,7 @@ class CompanyController extends Controller
         return view('pages.company.admin', [
             'companies' => $this->companyService
                 ->search($querySearch)
-                ->filterAll(ResourceFilter::WITH_TRASHED)
+                ->resourceFilter(ResourceFilter::WITH_TRASHED)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }

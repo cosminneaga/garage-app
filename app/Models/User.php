@@ -154,6 +154,11 @@ class User extends Authenticatable
         return $this->active;
     }
 
+    public function isSuper(): bool
+    {
+        return $this->hasRole(UserRole::SUPER);
+    }
+
     public function isAdministrator(): bool
     {
         return $this->hasRole(UserRole::ADMINISTRATOR);
@@ -253,6 +258,16 @@ class User extends Authenticatable
             'manager_id',
             'user_id',
         );
+    }
+
+    public function peerAttach(User $user): void
+    {
+        if ($this->isManager()) {
+            $this->users()->attach($user);
+            return;
+        }
+
+        $this->managers()->attach($user);
     }
 
     public function addresses(): BelongsToMany
