@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Dto;
 
 use Exception;
+use Throwable;
 
 class Coordinates
 {
@@ -15,12 +16,25 @@ class Coordinates
         //
     }
 
-    public static function format(mixed $value): Coordinates|null
+    public static function format(mixed $value): Coordinates|Throwable|null
     {
-        return match (gettype($value)) {
-            'array' => new Coordinates($value['latitude'], $value['longitude']),
-            'object' => new Coordinates($value->latitude, $value->longitude),
-            default => throw new Exception('Unknown value type: ' . gettype($value)),
-        };
+        switch (gettype($value)) {
+            case 'array':
+                if (!$value['latitude'] || !$value['longitude']) {
+                    return null;
+                }
+
+                return new Coordinates($value['latitude'], $value['longitude']);
+            case 'object':
+                if (!$value->latitude || !$value->longitude) {
+                    return null;
+                }
+
+                return new Coordinates($value->latitude, $value->longitude);
+            case 'NULL':
+                return null;
+            default:
+                throw new Exception('Unknown value type: ' . gettype($value));
+        }
     }
 }
