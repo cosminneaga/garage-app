@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Dto\Coordinates;
 use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,10 +22,7 @@ class AddressFactory extends Factory
             'street_number' => fake()->buildingNumber(),
             'street' => fake()->streetName(),
             'postcode' => fake()->postcode(),
-            'coordinates' => [
-                'latitude' => floatval(fake()->latitude()),
-                'longitude' => floatval(fake()->longitude()),
-            ],
+            'coordinates' => new Coordinates(fake()->latitude(), fake()->longitude()),
             'building' => fake()->buildingNumber(),
             'floor' => fake()->buildingNumber(),
             'unit' => fake()->buildingNumber(),
