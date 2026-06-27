@@ -117,7 +117,6 @@ class Address extends Model
                 );
             },
             set: function (mixed $value): Expression|null {
-
                 $value = Coordinates::format($value);
                 if ($value instanceof Coordinates) {
                     return DB::raw("ST_GeomFromText('POINT({$value->longitude} {$value->latitude})', 4326)");

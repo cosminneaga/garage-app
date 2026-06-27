@@ -29,7 +29,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read int|null $activities_as_subject_count
  * @property-read Collection<int, User> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, User> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
  * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
@@ -75,7 +75,7 @@ class Contact extends Model
 
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Company::class);
     }
 
     public function clients(): BelongsToMany

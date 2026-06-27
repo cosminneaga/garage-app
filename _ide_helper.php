@@ -25440,6 +25440,22 @@ namespace Illuminate\Support {
         }
 
             }
+    /**
+     */
+    class Str {
+        /**
+         * @see \App\Providers\AppServiceProvider::boot()
+         * @param string $name
+         * @param mixed $nested_parent
+         * @return string
+         * @static
+         */
+        public static function generateFormFieldName($name, $nested_parent)
+        {
+            return \Illuminate\Support\Str::generateFormFieldName($name, $nested_parent);
+        }
+
+            }
     }
 
 namespace Illuminate\Http {
@@ -30762,6 +30778,8 @@ namespace  {
     class UserColumns extends \App\Enums\Columns\UserColumns {}
     class AddressColumns extends \App\Enums\Columns\AddressColumns {}
     class ContactColumns extends \App\Enums\Columns\ContactColumns {}
+    class Country extends \App\Models\Country {}
+    class UserProfileTabs extends \App\Enums\Tabs\UserProfileTabs {}
 }
 
 

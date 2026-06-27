@@ -1,10 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Tests\MySqlTestCase;
 use Tests\SqliteTestCase;
 use Tests\TestCase;
+
+use function Pest\Laravel\actingAs;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +21,18 @@ use Tests\TestCase;
 */
 
 pest()
-    ->extend(TestCase::class)
-    ->in('Unit');
-
-pest()
     ->extend(SqliteTestCase::class)
     ->in('SQLite');
 
 pest()
     ->extend(MySqlTestCase::class)
     ->in('MySql');
+
+pest()
+    ->extend(TestCase::class)
+    ->in('Unit');
+
+pest()->printer()->compact();
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +58,11 @@ expect()->extend('toBeOne', fn () => $this->toBe(1));
 |
 */
 
-function something(): void
+function loginAs(User $user)
 {
-    // ..
+    $user = $user ?: User::factory()->create();
+    Auth::login($user);
+    actingAs($user);
+
+    return $user;
 }

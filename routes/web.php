@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
@@ -106,7 +105,6 @@ Route::controller(ContactController::class)
     });
 
 // ADMINISTRATION
-// !NOTE: seems like after another build this functionality came along and point the unauthorized users to 404, keep an eye on it...
 Route::group(['middleware' => 'auth', 'role:super'], function () {
     Route::get('/administration/company/all', [CompanyController::class, 'all'])->name('companies.all');
     Route::get('/administration/user/all', [UserController::class, 'all'])->name('users.all');
