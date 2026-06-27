@@ -99,18 +99,32 @@ class SupplierController extends Controller
             ));
     }
 
+    /**
+     * Restore a given item
+     */
+    public function restore(string|int $id): RedirectResponse
+    {
+        $supplier = Supplier::onlyTrashed()->find($id);
+        $this->authorize('restore', $supplier);
+        $supplier->restore();
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Supplier restored',
+                'The supplier has been successfully restored and is now available in your account.',
+            ));
+    }
+
     // ADMIN
     public function all(Request $request): View
     {
+        $querySearch = $request->string('search')->value();
+
         return view('pages.supplier.admin', [
-            'suppliers' => Supplier::withTrashed()->paginate(
-                perPage: $request->query('limit') ?? 10,
-                columns: ['*'],
-                pageName: 'suppliers',
-                page: null,
-                total: null,
-            ),
-            'countries' => Country::all(),
+            'suppliers' => Supplier::search($querySearch)
+                ->withTrashed()
+                ->paginate($request->query('limit') ?? 10, 'suppliers'),
         ]);
     }
 
