@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Throwable;
@@ -63,6 +64,7 @@ class Supplier extends Model
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
+    use Searchable;
 
     protected $fillable = [
         'name',
@@ -79,6 +81,17 @@ class Supplier extends Model
     protected $attributes = [
         'type' => SupplierType::DISTRIBUTOR->value,
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'code' => $this->code,
+            'type' => $this->type,
+            'tax_id' => $this->tax_id,
+            'registration_number' => $this->registration_number,
+        ];
+    }
 
     public function isMySupplier(User $user): Throwable|bool
     {
