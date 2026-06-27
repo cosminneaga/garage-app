@@ -146,7 +146,18 @@ class UserController extends Controller
         $user = User::findOrFail($user->id);
         $user->delete();
 
-        return redirect(route('users.index'))
+        if (Auth::user()->isSuper()) {
+            return redirect()
+                ->intended(route('users.all'))
+                ->with('message', self::responseMessage(
+                    'info',
+                    'User removed',
+                    'The user ' . $user->name . ' has been successfully removed from the team.',
+                ));
+        }
+
+        return redirect()
+            ->intended(route('users.index'))
             ->with('message', self::responseMessage(
                 'info',
                 'User removed',
