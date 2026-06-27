@@ -38,7 +38,7 @@ class StoreSupplierRequest extends FormRequest
             'contact.email' => ['required', 'email', 'max:255'],
             'contact.url' => ['nullable', 'url', 'max:255'],
             'contact_info' => ['nullable', 'string', 'max:255'],
-            'address.number' => ['required', 'string', 'max:10'],
+            'address.street_number' => ['required', 'string', 'max:10'],
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],
             'address.country_id' => ['required', 'integer', 'exists:countries,id'],

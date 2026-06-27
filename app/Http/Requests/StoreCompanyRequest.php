@@ -28,12 +28,12 @@ class StoreCompanyRequest extends FormRequest
             'contact.email' => ['required', 'email', 'max:255'],
             'contact.url' => ['nullable', 'url', 'max:255'],
             'contact_info' => ['nullable', 'string', 'max:255'],
-            'address.number' => ['required', 'string', 'max:10'],
+            'address.street_number' => ['required', 'string', 'max:10'],
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],
             'address.country_id' => ['required', 'integer', 'exists:countries,id'],
-            'address.coordinates.latitude' => ['required', 'string', 'max:20'],
-            'address.coordinates.longitude' => ['required', 'string', 'max:20'],
+            'address.coordinates.latitude' => ['nullable', 'string', 'max:20'],
+            'address.coordinates.longitude' => ['nullable', 'string', 'max:20'],
             'image' => ['mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }
