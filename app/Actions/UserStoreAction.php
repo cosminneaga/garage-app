@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Dto\Coordinates;
 use App\Models\Address;
 use App\Models\Contact;
 use App\Models\User;
@@ -25,6 +26,7 @@ class UserStoreAction
             ])
             ->toArray();
         $data['role'] = $attributes['role'];
+        $data['address']['coordinates'] = Coordinates::format($data['address']['coordinates']);
 
         if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {
             $data['user']['image_path'] = $attributes['image']->store('users', 'public');
