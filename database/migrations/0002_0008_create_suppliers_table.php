@@ -20,6 +20,12 @@ return new class () extends Migration {
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('name', 'sup_name_idx');
+            $table->index('code', 'sup_code_idx');
+            $table->index('type', 'sup_type_idx');
+            $table->index('tax_id', 'sup_tax_id_idx');
+            $table->index('registration_number', 'sup_registration_number_idx');
         });
     }
 
@@ -28,6 +34,14 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->dropIndex('sup_name_idx');
+            $table->dropIndex('sup_code_idx');
+            $table->dropIndex('sup_type_idx');
+            $table->dropIndex('sup_tax_id_idx');
+            $table->dropIndex('sup_registration_number_idx');
+        });
+
         Schema::dropIfExists('suppliers');
     }
 };
