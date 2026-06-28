@@ -4,6 +4,7 @@ and old values but not for default values -->
 @props([
     'identifier' => '',
     'nestedParentName' => false,
+    'exclude' => [],
 ])
 
 <section>
@@ -26,46 +27,57 @@ and old values but not for default values -->
 <section>
     <h3 class="text-lg font-bold">User Media</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
-    <x-form.field
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('image', $nestedParentName) }}"
-        type="image"
-        accept="image/*"
-    />
+    @if (collect($exclude)->doesntContain('image'))
+        <x-form.field
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('image', $nestedParentName) }}"
+            type="image"
+            accept="image/*"
+        />
+    @endif
 </section>
 
 <section>
     <h3 class="text-lg font-bold">User Authentication *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
-    <x-form.field
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('password', $nestedParentName) }}"
-        type="password"
-        label="Password"
-    />
-    <x-form.field
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('password_confirmed', $nestedParentName) }}"
-        type="password"
-        label="Password Confirmation"
-    />
-    <x-form.field
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('role', $nestedParentName) }}"
-        type="select"
-        label="Select a role"
-        :options="UserRole::ui()"
-    />
-    <x-form.field
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('active', $nestedParentName) }}"
-        type="checkbox"
-    >
-        <x-slot name="before">
-            Inactive
-        </x-slot>
-        <x-slot name="after">
-            Active
-        </x-slot>
-    </x-form.field>
+    @if (collect($exclude)->doesntContain('password'))
+        <x-form.field
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('password', $nestedParentName) }}"
+            type="password"
+            label="Password"
+        />
+    @endif
+    @if (collect($exclude)->doesntContain('password_confirmed'))
+        <x-form.field
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('password_confirmed', $nestedParentName) }}"
+            type="password"
+            label="Password Confirmation"
+        />
+    @endif
+    @if (collect($exclude)->doesntContain('role'))
+        <x-form.field
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('role', $nestedParentName) }}"
+            type="select"
+            label="Select a role"
+            :options="UserRole::ui()"
+        />
+    @endif
+    @if (collect($exclude)->doesntContain('active'))
+        <x-form.field
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('active', $nestedParentName) }}"
+            type="checkbox"
+            checked="{{ old('active') }}"
+        >
+            <x-slot name="before">
+                Inactive
+            </x-slot>
+            <x-slot name="after">
+                Active
+            </x-slot>
+        </x-form.field>
+    @endif
 </section>

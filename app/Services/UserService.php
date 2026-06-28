@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Builder as ScoutBuilder;
@@ -117,10 +118,17 @@ class UserService
     /**
      * Filter user by given model.
      * Model users that are attached to the given model.
+     * Ensuring filtering based on role.
      */
     public function whereIn(Model $model): UserService
     {
-        $this->result->whereIn('users.id', $model->users()->select('users.id'));
+        $role = $this->user->roles->first();
+        $this->result
+            ->whereIn('users.id', $this
+                ->modelRoleResourceSelect(
+                    $model,
+                    UserRole::findByCollection($role)
+                )->select('users.id'));
 
         return $this;
     }
@@ -128,10 +136,17 @@ class UserService
     /**
      * Filter user by given model.
      * Model users that are not attached to the given model.
+     * Ensuring filtering based on role.
      */
     public function whereNotIn(Model $model): UserService
     {
-        $this->result->whereNotIn('users.id', $model->users()->select('users.id'));
+        $role = $this->user->roles->first();
+        $this->result
+            ->whereNotIn('users.id', $this
+                ->modelRoleResourceSelect(
+                    $model,
+                    UserRole::findByCollection($role)
+                )->select('users.id'));
 
         return $this;
     }
@@ -272,6 +287,50 @@ class UserService
      */
     public function dd(): void
     {
-        $this->result->dd();
+        $this->result->ddRawSql();
+    }
+
+    /**
+     * This method is ensuring data filtering through role based on given related model
+     * administrator: himself, manager, user
+     * manager: himself, user
+     * user: himself, user
+     */
+    protected function modelRoleResourceSelect(Model $model, UserRole $role): BelongsToMany
+    {
+        switch ($role) {
+            case UserRole::USER:
+                return $model
+                    ->users()
+                    ->whereHas(
+                        'roles',
+                        fn ($query) => $query->whereIn('name', [
+                            UserRole::USER->value,
+                        ])
+                    );
+            case UserRole::MANAGER:
+                return $model
+                    ->users()
+                    ->whereHas(
+                        'roles',
+                        fn ($query) => $query->whereIn('name', [
+                            UserRole::MANAGER->value,
+                            UserRole::USER->value,
+                        ])
+                    );
+            case UserRole::ADMINISTRATOR:
+                return $model
+                    ->users()
+                    ->whereHas(
+                        'roles',
+                        fn ($query) => $query->whereIn('name', [
+                            UserRole::ADMINISTRATOR->value,
+                            UserRole::MANAGER->value,
+                            UserRole::USER->value,
+                        ])
+                    );
+            default:
+                return $model->users();
+        }
     }
 }

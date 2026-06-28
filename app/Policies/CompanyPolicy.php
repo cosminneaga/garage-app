@@ -40,7 +40,7 @@ class CompanyPolicy
      */
     public function edit(User $user, Company $company): bool
     {
-        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'update');
+        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'show');
     }
 
     /**

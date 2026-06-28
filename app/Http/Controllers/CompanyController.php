@@ -97,7 +97,7 @@ class CompanyController extends Controller
             'members' => view('pages.company.edit.members', [
                 'company' => $company,
                 'countries' => Country::all(),
-                'team' => $this->userService
+                'non_members' => $this->userService
                     ->model()
                     ->team($forRole)
                     ->whereNotIn($company)

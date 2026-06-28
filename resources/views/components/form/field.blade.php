@@ -84,7 +84,6 @@
                                 'id' => $name,
                                 'data-test' => $testName,
                                 'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
-                                'value' => old($errorName, $value),
                             ]) }}
                         />
 

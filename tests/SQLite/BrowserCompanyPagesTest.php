@@ -24,12 +24,11 @@ beforeEach(function () {
     $this->address->companies()->attach($this->companies);
     $this->supplier->companies()->attach($this->companies);
     $this->administrator->companies()->attach($this->companies);
-
-    $this->visitIndex = visit(route('companies.index'));
 });
 
 test('administrator: should see only own companies listing table', function () {
     actingAs($this->administrator);
+
     Company::factory()->createMany([
         ['name' => 'Company External'],
     ]);
@@ -42,6 +41,7 @@ test('administrator: should see only own companies listing table', function () {
 
 test('administrator: should test successfully removing/restoring company', function () {
     actingAs($this->administrator);
+
     visit(route('companies.index'))
         ->assertSee('Company One')
         ->assertSee('Company Two')
@@ -62,6 +62,7 @@ test('administrator: should test successfully removing/restoring company', funct
 
 test('administrator: should see company details', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->assertSee($this->companies[0]->name)
         ->click('@statistics')
@@ -78,6 +79,7 @@ test('administrator: should see company details', function () {
 
 test('administrator: should update company details', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->fill('@company_name', 'Updated Company Name')
         ->click('@form-company-update-button')
@@ -87,6 +89,7 @@ test('administrator: should update company details', function () {
 
 test('administrator: should remove company', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@company-delete-modal-trigger')
         ->click('@company-delete-modal-confirm')
@@ -96,9 +99,10 @@ test('administrator: should remove company', function () {
 
 test('administrator: should add an existing manager', function () {
     $managers = User::factory(2)->create();
+    $managers->each(fn ($manager) => $manager->assignRole(UserRole::MANAGER));
     $this->administrator->managers()->attach($managers);
-
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@members')
         ->click('companies-user-create-modal-trigger')
@@ -111,6 +115,7 @@ test('administrator: should add an existing manager', function () {
 
 test('administrator: should create a new manager', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@members')
         ->click('@companies-user-create-modal-trigger')
@@ -134,10 +139,11 @@ test('administrator: should create a new manager', function () {
 
 test('administrator: should remove a member', function () {
     $manager = User::factory()->create();
+    $manager->assignRole(UserRole::MANAGER);
     $this->administrator->managers()->attach($manager);
     $this->companies[0]->users()->attach($manager);
-
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@members')
         ->click('@user-company-delete-' . $manager->id . '-modal-trigger')
@@ -149,6 +155,7 @@ test('administrator: should remove a member', function () {
 
 test('administrator: should add contact', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@contacts')
         ->click('@companies-contact-create-modal-trigger')
@@ -165,6 +172,7 @@ test('administrator: should remove contact', function () {
     $contact = Contact::factory()->create();
     $this->companies[0]->contacts()->attach($contact);
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@contacts')
         ->assertSee($contact->email)
@@ -177,12 +185,13 @@ test('administrator: should remove contact', function () {
 
 test('administrator: should add address', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@addresses')
         ->click('@companies-address-create-modal-trigger')
         ->fill('@address_street_number', '123')
         ->fill('@address_street', 'Flower Street')
-        ->fill('@address_postcode', '123456')->wait(1)
+        ->fill('@address_postcode', '123456')
         ->click('@companies-address-create-modal-submit')
         ->assertSee('Resource created')
         ->assertSee('Address has been created and attached to given resource');
@@ -190,6 +199,7 @@ test('administrator: should add address', function () {
 
 test('administrator: should remove address', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@addresses')
         ->assertSee($this->address->street)
@@ -202,6 +212,7 @@ test('administrator: should remove address', function () {
 
 test('administrator: should add supplier', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@suppliers')
         ->click('@companies-supplier-create-modal-trigger')
@@ -224,6 +235,7 @@ test('administrator: should add supplier', function () {
 
 test('administrator: should remove supplier', function () {
     actingAs($this->administrator);
+
     visit(route('companies.edit', $this->companies[0]))
         ->click('@suppliers')
         ->click('@supplier-delete-' . $this->supplier->id . '-modal-trigger')

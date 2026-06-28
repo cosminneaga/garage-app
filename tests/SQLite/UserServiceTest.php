@@ -282,6 +282,7 @@ test('whereIn: all users attached to company', function () {
 
     $company = Company::factory()->create();
     $user = User::factory()->create();
+    $user->assignRole(UserRole::USER);
     $company->users()->attach($user);
 
     $members = $service->model()->whereIn($company)->get();
@@ -295,6 +296,7 @@ test('whereNotIn: all users not attached to company', function () {
 
     $company = Company::factory()->create();
     $user = User::factory()->create();
+    $user->assignRole(UserRole::USER);
     $company->users()->attach($user);
 
     $nonMembers = $service->model()->whereNotIn($company)->get();
@@ -307,6 +309,7 @@ test('whereIn: filter own attached to company', function () {
 
     $company = Company::factory()->create();
     $user = User::factory()->create();
+    $user->assignRole(UserRole::USER);
     $company->users()->attach($user);
     $company->users()->attach($this->manager);
 

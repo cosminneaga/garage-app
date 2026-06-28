@@ -5,7 +5,7 @@
         >
             <x-table.related.users
                 chat
-                :team="$team"
+                :team="$non_members"
                 :data="$members"
                 :resource="$company"
                 :countries="$countries"

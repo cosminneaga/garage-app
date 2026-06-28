@@ -92,6 +92,7 @@ class AppServiceProvider extends ServiceProvider
             }
             return null;
         });
+
         Gate::define('viewPulse', function (User $user): bool {
             if (app()->environment('local')) {
                 return true;

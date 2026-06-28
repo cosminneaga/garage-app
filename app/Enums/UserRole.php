@@ -7,6 +7,7 @@ namespace App\Enums;
 use stdClass;
 use ErrorException;
 use Illuminate\Support\Collection;
+use Spatie\Permission\Models\Role;
 
 enum UserRole: string
 {
@@ -103,5 +104,11 @@ enum UserRole: string
     {
         return new Collection(self::cases())
             ->first(fn ($item) => $item->value === $value);
+    }
+
+    public static function findByCollection(Role $role): ?UserRole
+    {
+        return new Collection(self::cases())
+            ->first(fn ($item) => $item->value === $role->name);
     }
 }
