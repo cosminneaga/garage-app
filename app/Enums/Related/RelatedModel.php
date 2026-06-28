@@ -15,10 +15,10 @@ use Illuminate\Database\Eloquent\Model;
 
 enum RelatedModel: string
 {
-    case COMPANY = 'companies';
-    case SUPPLIER = 'suppliers';
-    case USER = 'users';
-    case ADDRESS = 'addresses';
+    case COMPANY = 'company';
+    case SUPPLIER = 'supplier';
+    case USER = 'user';
+    case ADDRESS = 'address';
 
     public function entity(string|int $id): Model
     {

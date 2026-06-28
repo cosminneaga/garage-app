@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
+use App\Enums\Related\RelatedModel;
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreUserRequest;
@@ -17,6 +18,8 @@ use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -195,6 +198,52 @@ class UserController extends Controller
                 'success',
                 'User restored',
                 'The user has been successfully restored and is now active again.',
+            ));
+    }
+
+    /**
+     * Attach an user to a related resource
+     * ! This needs tests review
+     */
+    public function modelAttach(Request $request, string|int $modelId, User $user)
+    {
+        $modelName = Collection::make($request->route()->parameters())->keys()->first();
+        $model = RelatedModel::from($modelName)->entity($modelId);
+        $policy = RelatedModel::from($modelName)->policy();
+
+        abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
+        $this->authorize('edit', $user);
+
+        $model->users()->attach($user);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'User linked',
+                'User has been linked to ' . $modelName
+            ));
+    }
+
+    /**
+     * Detach an user from a related resource
+     * ! This needs tests review
+     */
+    public function modelDetach(Request $request, string|int $modelId, User $user): RedirectResponse
+    {
+        $modelName = Collection::make($request->route()->parameters())->keys()->first();
+        $model = RelatedModel::from($modelName)->entity($modelId);
+        $policy = RelatedModel::from($modelName)->policy();
+
+        abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
+        $this->authorize('edit', $user);
+
+        $model->users()->detach($user);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'warning',
+                'User unlinked',
+                'User has been unlinked from ' . $modelName
             ));
     }
 

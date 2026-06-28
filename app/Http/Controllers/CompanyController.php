@@ -12,10 +12,8 @@ use App\Enums\UserRole;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateCompanyRequest;
-use App\Http\Requests\UserIdRequest;
 use App\Models\Company;
 use App\Models\Country;
-use App\Models\User;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use App\Traits\RequestTabHandler;
@@ -202,6 +200,7 @@ class CompanyController extends Controller
             ));
     }
 
+    // !!!NOTE: this should fly along attach & detach into user controller, under modelStore
     public function userStore(StoreUserRequest $request, Company $company, UserStoreAction $action)
     {
         $this->authorize('edit', $company);
@@ -216,30 +215,6 @@ class CompanyController extends Controller
             'success',
             'User created',
             'User created and attached to your team & company'
-        ));
-    }
-
-    public function userAttach(UserIdRequest $request, Company $company)
-    {
-        $this->authorize('edit', $company);
-        $company->users()->attach($request->safe()->id);
-
-        return back()->with('message', self::responseMessage(
-            'info',
-            'User added',
-            'Existing user has been attached to your company'
-        ));
-    }
-
-    public function userDestroy(Company $company, User $user)
-    {
-        $this->authorize('edit', $company);
-        $company->users()->detach($user);
-
-        return back()->with('message', self::responseMessage(
-            'info',
-            'User removed',
-            'Existing user has been detached from your company'
         ));
     }
 

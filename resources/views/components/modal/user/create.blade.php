@@ -34,27 +34,12 @@
     size="7xl"
 >
     @if ($team->count())
-        <form
-            action="{{ route($parentname . '.user.attach', $resource) }}"
-            method="POST"
-        >
-            @csrf
-            @method('PUT')
-
-            <x-form.field
-                identifier="user_select"
-                name="id"
-                type="select"
-                select_map_label="name"
-                select_map_value="id"
-                :options="$team"
-            />
-
-            <x-button
-                id="{{ $ids->submit_attach }}"
-                type="submit"
-            >Attach User</x-button>
-        </form>
+        <x-table.users
+            :data="$team"
+            :parentResource="$resource"
+            routesPrefix="companies"
+            attach
+        />
     @endif
 
     <form

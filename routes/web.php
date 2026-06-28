@@ -46,6 +46,8 @@ Route::controller(UserController::class)
         Route::get('/users/restore', 'removed')->name('users.removed');
         Route::get('/chart/users', 'chart')->name('chart.users');
         Route::post('/users/{id}/restore', 'restore')->name('users.restore');
+        Route::delete('/companies/{company}/user/{user}', 'modelDetach')->name('companies.user.destroy');
+        Route::put('/companies/{company}/user/{user}', 'modelAttach')->name('companies.user.attach');
     });
 
 Route::controller(CompanyController::class)
@@ -55,8 +57,7 @@ Route::controller(CompanyController::class)
         Route::get('/companies/restore', 'removed')->name('companies.removed');
         Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');
         Route::post('/companies/{company}/user', 'userStore')->name('companies.user.store');
-        Route::put('/companies/{company}/user', 'userAttach')->name('companies.user.attach');
-        Route::delete('/companies/{company}/user/{user}', 'userDestroy')->name('companies.user.destroy');
+
     });
 
 Route::controller(ProfileController::class)

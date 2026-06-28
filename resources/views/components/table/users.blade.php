@@ -5,14 +5,16 @@
     'delete' => false,
     'chat' => false,
     'restore' => false,
+    'attach' => false,
     'routesPrefix' => 'users',
     'searchRoute' => null,
+    'parentResource' => null,
 ])
 
 @php
     $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
 
-    if ($edit || $delete || $chat || $restore) {
+    if ($edit || $delete || $chat || $restore || ($attach && $parentResource)) {
         $columns->push('Actions');
     }
 @endphp
@@ -89,6 +91,25 @@
                                     :resource="$row"
                                 />
                             @endisNotCurrentUser
+                        @endif
+                        @if ($attach && $parentResource)
+                            <form
+                                action="{{ route($routesPrefix . '.user.attach', [$parentResource, $row]) }}"
+                                method="POST"
+                            >
+                                @csrf
+                                @method('PUT')
+
+                                <button
+                                    class="text-success hover:cursor-pointer"
+                                    data-modal-target="user-delete-{{ $row->id }}-modal"
+                                    data-modal-toggle="user-delete-{{ $row->id }}-modal"
+                                    data-test="user-delete-{{ $row->id }}-modal-trigger"
+                                    type="submit"
+                                >
+                                    Attach
+                                </button>
+                            </form>
                         @endif
                         @if ($edit)
                             @isCurrentUser($row->id)
