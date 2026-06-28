@@ -4,8 +4,7 @@
 
     <x-table.companies
         :data="$companies"
-        :restore="Auth::user()->can(
-            UserPermission::name(UserPermission::COMPANY, 'restore'),
-        )"
+        :restore="Permission::can(UserPermission::COMPANY, 'restore')"
+        searchRoute="{{ route('companies.removed') }}"
     />
 </x-layout::index>

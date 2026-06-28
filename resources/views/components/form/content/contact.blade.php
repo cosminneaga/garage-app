@@ -3,7 +3,7 @@ and old values but not for default values -->
 
 @props([
     'identifier' => '',
-    'nested_parent_name' => false,
+    'nestedParentName' => false,
 ])
 
 <section>
@@ -11,13 +11,13 @@ and old values but not for default values -->
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('email', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('email', $nestedParentName) }}"
         type="email"
         label="Email"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('mobile', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('mobile', $nestedParentName) }}"
         type="text"
         label="Mobile Phone"
     />
@@ -28,20 +28,21 @@ and old values but not for default values -->
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('url', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('url', $nestedParentName) }}"
         type="text"
         label="URL"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('landline', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('landline', $nestedParentName) }}"
         type="text"
         label="Landline Phone"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('info', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('info', $nestedParentName) }}"
         type="textarea"
         label="More Information"
+        rows="15"
     />
 </section>

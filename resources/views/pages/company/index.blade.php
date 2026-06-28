@@ -3,5 +3,6 @@
         :data="$companies"
         :edit="Permission::can(UserPermission::COMPANY, 'update')"
         :delete="Permission::can(UserPermission::COMPANY, 'delete')"
+        searchRoute="{{ route('companies.index') }}"
     />
 </x-layout::index>

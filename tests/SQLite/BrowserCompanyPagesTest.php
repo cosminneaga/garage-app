@@ -143,7 +143,7 @@ test('administrator: should remove a member', function () {
         ->click('@user-company-delete-' . $manager->id . '-modal-trigger')
         ->click('@user-company-delete-' . $manager->id . '-modal-confirm')
         ->assertSee('User removed')
-        ->assertSee('Existing user has been deattached from your company')
+        ->assertSee('Existing user has been detached from your company')
         ->assertDontSee($manager->name);
 });
 

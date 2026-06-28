@@ -3,7 +3,7 @@ and old values but not for default values -->
 
 @props([
     'identifier' => '',
-    'nested_parent_name' => false,
+    'nestedParentName' => false,
 ])
 
 <section>
@@ -11,13 +11,13 @@ and old values but not for default values -->
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('name', $nestedParentName) }}"
         type="text"
         label="Name"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('email', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('email', $nestedParentName) }}"
         type="email"
         label="Email"
     />
@@ -28,7 +28,7 @@ and old values but not for default values -->
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('image', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('image', $nestedParentName) }}"
         type="image"
         accept="image/*"
     />
@@ -39,26 +39,26 @@ and old values but not for default values -->
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('password', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('password', $nestedParentName) }}"
         type="password"
         label="Password"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('password_confirmed', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('password_confirmed', $nestedParentName) }}"
         type="password"
         label="Password Confirmation"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('role', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('role', $nestedParentName) }}"
         type="select"
         label="Select a role"
         :options="UserRole::ui()"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('active', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('active', $nestedParentName) }}"
         type="checkbox"
     >
         <x-slot name="before">

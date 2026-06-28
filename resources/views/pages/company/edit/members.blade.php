@@ -5,13 +5,13 @@
         >
             <x-table.related.users
                 chat
+                :team="$team"
                 :data="$members"
                 :resource="$company"
                 :countries="$countries"
-                :team="$team"
-                searchRoute="{{ route('companies.edit', $company) }}"
                 :edit="Permission::can(UserPermission::USER, 'update')"
                 :delete="Permission::can(UserPermission::COMPANY, 'update')"
+                searchRoute="{{ route('companies.edit', $company) }}"
             />
         </x-card>
     </x-tabs>

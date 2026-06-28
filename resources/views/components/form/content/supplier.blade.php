@@ -3,7 +3,7 @@ and old values but not for default values -->
 
 @props([
     'identifier' => '',
-    'nested_parent_name' => false,
+    'nestedParentName' => false,
 ])
 
 <section>
@@ -11,19 +11,19 @@ and old values but not for default values -->
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('name', $nestedParentName) }}"
         type="text"
         label="Name"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('code', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('code', $nestedParentName) }}"
         type="text"
         label="Code"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('type', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('type', $nestedParentName) }}"
         type="select"
         label="Type"
         select_map_label="label"
@@ -33,13 +33,13 @@ and old values but not for default values -->
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('tax_id', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('tax_id', $nestedParentName) }}"
         type="text"
         label="Tax ID"
     />
     <x-form.field
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('registration_number', $nested_parent_name) }}"
+        name="{{ Str::generateFormFieldName('registration_number', $nestedParentName) }}"
         type="text"
         label="Registration Number"
     />

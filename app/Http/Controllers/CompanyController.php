@@ -239,7 +239,7 @@ class CompanyController extends Controller
         return back()->with('message', self::responseMessage(
             'info',
             'User removed',
-            'Existing user has been deattached from your company'
+            'Existing user has been detached from your company'
         ));
     }
 

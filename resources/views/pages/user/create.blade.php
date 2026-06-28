@@ -13,151 +13,21 @@
 
             <div class="grid grid-rows-1 gap-1 md:grid-cols-2 lg:grid-cols-3">
                 <div class="p-2">
-                    <x-form.field
-                        identifier="user"
-                        name="name"
-                        type="text"
-                        label="Name"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="email"
-                        type="email"
-                        label="Email"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="image"
-                        type="image"
-                        accept="image/*"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="password"
-                        type="password"
-                        label="Password"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="password_confirmed"
-                        type="password"
-                        label="Password Confirmation"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="role"
-                        type="select"
-                        label="Select a role"
-                        :options="UserRole::ui()"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="active"
-                        type="checkbox"
-                    >
-                        <x-slot name="before">
-                            Inactive
-                        </x-slot>
-                        <x-slot name="after">
-                            Active
-                        </x-slot>
-                    </x-form.field>
+                    <x-form.content.user identifier="user" />
                 </div>
 
                 <div class="p-2">
-                    <x-form.field
+                    <x-form.content.address
+                        :countries="$countries"
                         identifier="user"
-                        name="address[street_number]"
-                        type="text"
-                        label="Number"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="address[street]"
-                        type="text"
-                        label="Street"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="address[postcode]"
-                        type="text"
-                        label="Postcode"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="address[country_id]"
-                        type="select"
-                        label="Select a country"
-                        select_map_label="name"
-                        select_map_value="id"
-                        :options="$countries"
-                    />
-                    <h3 class="text-lg font-bold">Location</h3>
-                    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
-                    <x-form.field
-                        identifier="user"
-                        name="address[coordinates][latitude]"
-                        type="text"
-                        label="Latitude"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="address[coordinates][longitude]"
-                        type="text"
-                        label="Longitude"
-                    />
-
-                    <x-form.field
-                        identifier="address"
-                        name="address[building]"
-                        type="text"
-                        label="Building"
-                    />
-                    <x-form.field
-                        identifier="address"
-                        name="address[floor]"
-                        type="text"
-                        label="Floor"
-                    />
-                    <x-form.field
-                        identifier="address"
-                        name="address[unit]"
-                        type="text"
-                        label="Unit"
+                        nestedParentName="address"
                     />
                 </div>
 
                 <div class="p-2">
-                    <x-form.field
+                    <x-form.content.contact
                         identifier="user"
-                        name="contact[mobile]"
-                        type="text"
-                        label="Mobile Phone"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="contact[landline]"
-                        type="text"
-                        label="Landline Phone"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="contact[email]"
-                        type="email"
-                        label="Email"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="contact[url]"
-                        type="text"
-                        label="URL"
-                    />
-                    <x-form.field
-                        identifier="user"
-                        name="contact[info]"
-                        type="textarea"
-                        label="More Information"
-                        rows="10"
+                        nestedParentName="contact"
                     />
                 </div>
             </div>

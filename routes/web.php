@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;

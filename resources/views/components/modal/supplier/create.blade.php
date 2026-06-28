@@ -35,13 +35,13 @@
 
             <x-form.content.address
                 identifier="supplier"
-                nested_parent_name="address"
                 :countries="$countries"
+                nestedParentName="address"
             />
 
             <x-form.content.contact
                 identifier="supplier"
-                nested_parent_name="contact"
+                nestedParentName="contact"
             />
         </div>
 

@@ -3,6 +3,6 @@
         :data="$managers"
         :restore="Permission::can(UserPermission::USER, 'restore')"
         routesPrefix="managers"
-        searchPrefix="managers.removed"
+        searchRoute="{{ route('managers.removed') }}"
     />
 </x-layout::index>

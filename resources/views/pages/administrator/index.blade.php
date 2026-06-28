@@ -1,7 +1,7 @@
 <x-layout::index title="Administrators">
     <x-table.users
-        :data="$administrators"
         chat
+        :data="$administrators"
         :edit="Permission::can(UserPermission::USER, 'update')"
         routesPrefix="administrators"
     />
