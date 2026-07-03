@@ -24,6 +24,10 @@ beforeEach(function () {
     $this->address->companies()->attach($this->companies);
     $this->supplier->companies()->attach($this->companies);
     $this->administrator->companies()->attach($this->companies);
+
+    $this->manager = User::factory()->create();
+    $this->manager->assignRole(UserRole::MANAGER);
+    $this->administrator->managers()->attach($this->manager);
 });
 
 test('administrator: should see only own companies listing table', function () {
@@ -98,19 +102,15 @@ test('administrator: should remove company', function () {
 });
 
 test('administrator: should add an existing manager', function () {
-    $managers = User::factory(2)->create();
-    $managers->each(fn ($manager) => $manager->assignRole(UserRole::MANAGER));
-    $this->administrator->managers()->attach($managers);
     actingAs($this->administrator);
 
     visit(route('companies.edit', $this->companies[0]))
         ->click('@members')
-        ->click('companies-user-create-modal-trigger')
-        ->select('@user_select_id', $managers[1]->id)
-        ->click('@companies-user-create-modal-submit-attach')
-        ->assertSee('User added')
-        ->assertSee('Existing user has been attached to your company')
-        ->assertSee($managers[1]->name);
+        ->click('@companies-user-attach-modal-trigger')
+        ->click('@user-attach-' . $this->manager->id . '-button')
+        ->assertSee('User linked')
+        ->assertSee('User has been linked to company')
+        ->assertSee($this->manager->name);
 });
 
 test('administrator: should create a new manager', function () {
@@ -148,8 +148,8 @@ test('administrator: should remove a member', function () {
         ->click('@members')
         ->click('@user-company-delete-' . $manager->id . '-modal-trigger')
         ->click('@user-company-delete-' . $manager->id . '-modal-confirm')
-        ->assertSee('User removed')
-        ->assertSee('Existing user has been detached from your company')
+        ->assertSee('User unlinked')
+        ->assertSee('User has been unlinked from company')
         ->assertDontSee($manager->name);
 });
 

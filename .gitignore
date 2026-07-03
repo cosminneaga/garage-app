@@ -23,7 +23,7 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 .phpstorm.meta.php
-tests/Browser/Screenshots
+tests/Browser
 
 **/caddy
 frankenphp

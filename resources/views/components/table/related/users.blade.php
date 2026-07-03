@@ -1,13 +1,10 @@
 @props([
+    'resource',
     'data' => null,
     'limit' => 10,
     'edit' => false,
     'delete' => false,
     'chat' => false,
-    'resource',
-    'countries',
-    'team',
-    'searchRoute' => route('users.index'), // #NOTE: must go into: companies.user.search or something
 ])
 
 @php
@@ -20,41 +17,6 @@
 @endphp
 
 <x-table.wrapper :data="$data">
-    <x-slot name="header">
-        <form
-            class="flex items-center gap-2"
-            method="GET"
-            action="{{ $searchRoute }}"
-        >
-            @foreach (request()->except('search') as $key => $value)
-                <x-form.field
-                    name="{{ $key }}"
-                    type="text"
-                    value="{{ $value }}"
-                    hidden
-                />
-            @endforeach
-
-            <x-form.field
-                name="search"
-                type="text"
-                value="{{ request('search') }}"
-                label="Search users..."
-            />
-
-            <x-button type="submit"> Search </x-button>
-        </form>
-
-        <x-modal.user.create
-            id="user-create"
-            :resource="$resource"
-            :countries="$countries"
-            :team="$team"
-            trigger
-            trigger_label="{{ Auth::user()->isAdministrator() ? 'Add Manager' : 'Add User' }}"
-        />
-    </x-slot>
-
     <x-slot name="thead">
         @foreach ($columns as $column)
             <th
@@ -66,18 +28,15 @@
 
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr
-                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
-                <th
-                    class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-user-pic"
-                            :src="$row->image_path &&
-                            !Str::isUrl($row->image_path)
+                            :src="$row->image_path && !Str::isUrl($row->image_path)
                                 ? asset('storage/' . $row->image_path)
                                 : $row->image_path"
                             :title="$row->name"

@@ -6,26 +6,26 @@
     'chat' => false,
     'restore' => false,
     'attach' => false,
-    'routesPrefix' => 'users',
-    'searchRoute' => null,
-    'parentResource' => null,
+    'routes_prefix' => 'users',
+    'search_route' => null,
+    'parent_resource' => null,
 ])
 
 @php
     $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
 
-    if ($edit || $delete || $chat || $restore || ($attach && $parentResource)) {
+    if ($edit || $delete || $chat || $restore || ($attach && $parent_resource)) {
         $columns->push('Actions');
     }
 @endphp
 
 <x-table.wrapper :data="$data">
-    @if ($searchRoute)
+    @if ($search_route)
         <x-slot name="header">
             <form
                 class="flex items-center gap-2"
                 method="GET"
-                action="{{ $searchRoute }}"
+                action="{{ $search_route }}"
             >
                 <x-form.field
                     name="search"
@@ -34,7 +34,7 @@
                     label="Search users..."
                 />
 
-                <x-button type="submit"> Search </x-button>
+                <x-button type="submit" variant="secondary"> Search </x-button>
             </form>
         </x-slot>
     @endif
@@ -92,20 +92,20 @@
                                 />
                             @endisNotCurrentUser
                         @endif
-                        @if ($attach && $parentResource)
+                        @if ($attach && $parent_resource)
                             <form
-                                action="{{ route($routesPrefix . '.user.attach', [$parentResource, $row]) }}"
+                                action="{{ route($routes_prefix . '.user.attach', [$parent_resource, $row]) }}"
                                 method="POST"
+                                id="user-attach-submit"
                             >
                                 @csrf
                                 @method('PUT')
 
                                 <button
                                     class="text-success hover:cursor-pointer"
-                                    data-modal-target="user-delete-{{ $row->id }}-modal"
-                                    data-modal-toggle="user-delete-{{ $row->id }}-modal"
-                                    data-test="user-delete-{{ $row->id }}-modal-trigger"
+                                    data-test="user-attach-{{ $row->id }}-button"
                                     type="submit"
+                                    form="user-attach-submit"
                                 >
                                     Attach
                                 </button>
@@ -115,12 +115,12 @@
                             @isCurrentUser($row->id)
                                 <a
                                     class="text-brand"
-                                    href="{{ route($routesPrefix . '.profile.edit') }}"
+                                    href="{{ route($routes_prefix . '.profile.edit') }}"
                                 >Profile</a>
                             @else
                                 <a
                                     class="text-brand"
-                                    href="{{ route($routesPrefix . '.edit', $row) }}"
+                                    href="{{ route($routes_prefix . '.edit', $row) }}"
                                 >Edit</a>
                             @endisCurrentUser
                         @endif
@@ -129,7 +129,7 @@
                                 <x-modal.confirm
                                     id="user-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route($routesPrefix . '.destroy', $row->id) }}"
+                                    action="{{ route($routes_prefix . '.destroy', $row->id) }}"
                                     message="Are you sure you want to remove {{ $row->name }} from your team?"
                                 />
                                 <button
@@ -147,7 +147,7 @@
                             <x-modal.confirm
                                 id="user-restore-{{ $row->id }}"
                                 type="restore"
-                                action="{{ route($routesPrefix . '.restore', $row->id) }}"
+                                action="{{ route($routes_prefix . '.restore', $row->id) }}"
                                 message="Are you sure you want to restore {{ $row->name }}?"
                             />
                             <button

@@ -25,7 +25,7 @@
         >{{ $label }}</label>
     @endif
 
-    <div class="relative mb-5">
+    <div class="relative">
         @switch($type)
             @case('textarea')
                 <textarea
@@ -96,6 +96,32 @@
                     @isset($after)
                         {{ $after }}
                     @endisset
+                </div>
+            @break
+
+            @case('search')
+                <label
+                    class="text-heading sr-only mb-2.5 block text-sm font-medium"
+                    for="search"
+                >Search</label>
+                <div class="relative">
+                    <div class="inset-s-0 pointer-events-none absolute inset-y-0 flex items-center ps-3">
+                        <x-fwb-o-search class="h-4 w-4 text-gray-500" />
+                    </div>
+                    <input
+                        class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border p-3 ps-9 text-sm"
+                        {{ $attributes->merge([
+                            'value' => old($errorName, $value),
+                            'name' => $name,
+                            'id' => $name,
+                            'data-test' => $testName,
+                            'placeholder' => "Search"
+                        ]) }}
+                    />
+                    <button
+                        class="bg-brand hover:bg-brand-strong focus:ring-brand-medium shadow-xs inset-e-1.5 absolute bottom-1.5 box-border rounded border border-transparent px-3 py-1.5 text-xs font-medium leading-5 text-white focus:outline-none focus:ring-4"
+                        type="submit"
+                    >Search</button>
                 </div>
             @break
 

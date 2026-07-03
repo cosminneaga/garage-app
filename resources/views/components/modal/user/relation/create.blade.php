@@ -1,10 +1,9 @@
 @props([
-    'id',
     'resource',
-    'trigger' => false,
-    'trigger_label' => 'Add User',
-    'countries',
-    'team',
+    'id' => 'create-user',
+    'countries' => [],
+    'trigger' => true,
+    'trigger_label' => 'Create User',
 ])
 
 @php
@@ -13,7 +12,6 @@
         'modal' => $parentname . '-' . $id . '-modal',
         'trigger' => $parentname . '-' . $id . '-modal-trigger',
         'submit' => $parentname . '-' . $id . '-modal-submit-resource',
-        'submit_attach' => $parentname . '-' . $id . '-modal-submit-attach',
     ];
 @endphp
 
@@ -21,26 +19,19 @@
     <x-button
         class="w-fit"
         id="{{ $ids->trigger }}"
+        data-test="{{ $ids->trigger }}"
         data-modal-target="{{ $ids->modal }}"
         data-modal-toggle="{{ $ids->modal }}"
         type="button"
-        variant="default"
+        variant="secondary"
     >{{ $trigger_label }}</x-button>
 @endif
 
 <x-modal.wrapper
     id="{{ $ids->modal }}"
-    title="Create or Attach existing user"
+    title="Create & Attach an user"
     size="7xl"
 >
-    @if ($team->count())
-        <x-table.users
-            :data="$team"
-            :parentResource="$resource"
-            routesPrefix="companies"
-            attach
-        />
-    @endif
 
     <form
         id="company-user-create-form"
