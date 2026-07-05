@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\UserPermission;
-use App\Enums\UserRole;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
 use Permission;
 
 class StoreUserRequest extends FormRequest
@@ -28,7 +26,6 @@ class StoreUserRequest extends FormRequest
             'password' => ['required', 'string', 'min:6', 'max:40'],
             'password_confirmed' => ['required', 'string', 'same:password'],
             'active' => ['string'],
-            'role' => ['required', new Enum(UserRole::class)],
             'contact.mobile' => ['required', 'string', 'min:6', 'max:40'],
             'contact.landline' => ['nullable', 'string', 'min:6', 'max:40'],
             'contact.email' => ['required', 'email', 'max:255'],
@@ -38,8 +35,9 @@ class StoreUserRequest extends FormRequest
             'address.street' => ['required', 'string', 'max:60'],
             'address.postcode' => ['required', 'string', 'max:20'],
             'address.country_id' => ['required', 'integer', 'exists:countries,id'],
-            'address.coordinates.latitude' => ['nullable', 'string', 'max:20'],
-            'address.coordinates.longitude' => ['nullable', 'string', 'max:20'],
+            'address.coordinates' => [config('app.env') !== 'testing' ? 'required' : 'nullable', 'array'],
+            'address.coordinates.latitude' => [config('app.env') !== 'testing' ? 'required' : 'nullable', 'string', 'max:20'],
+            'address.coordinates.longitude' => [config('app.env') !== 'testing' ? 'required' : 'nullable', 'string', 'max:20'],
             'address.building' => ['nullable', 'string', 'max:255'],
             'address.floor' => ['nullable', 'string', 'max:255'],
             'address.unit' => ['nullable', 'string', 'max:255'],

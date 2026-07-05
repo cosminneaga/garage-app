@@ -105,7 +105,8 @@
                     for="search"
                 >Search</label>
                 <div class="relative">
-                    <div class="inset-s-0 pointer-events-none absolute inset-y-0 flex items-center ps-3">
+                    <div
+                        class="inset-s-0 pointer-events-none absolute inset-y-0 flex items-center ps-3">
                         <x-fwb-o-search class="h-4 w-4 text-gray-500" />
                     </div>
                     <input
@@ -115,12 +116,16 @@
                             'name' => $name,
                             'id' => $name,
                             'data-test' => $testName,
-                            'placeholder' => "Search"
+                            'placeholder' => 'Search',
                         ]) }}
                     />
                     <button
                         class="bg-brand hover:bg-brand-strong focus:ring-brand-medium shadow-xs inset-e-1.5 absolute bottom-1.5 box-border rounded border border-transparent px-3 py-1.5 text-xs font-medium leading-5 text-white focus:outline-none focus:ring-4"
-                        type="submit"
+                        {{ $attributes->merge([
+                            'type' => 'submit',
+                            'id' => $name . '-submit',
+                            'data-test' => $name . '-submit',
+                        ]) }}
                     >Search</button>
                 </div>
             @break

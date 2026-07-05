@@ -14,7 +14,13 @@
 @php
     $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
 
-    if ($edit || $delete || $chat || $restore || ($attach && $parent_resource)) {
+    if (
+        $edit ||
+        $delete ||
+        $chat ||
+        $restore ||
+        ($attach && $parent_resource)
+    ) {
         $columns->push('Actions');
     }
 @endphp
@@ -34,7 +40,10 @@
                     label="Search users..."
                 />
 
-                <x-button type="submit" variant="secondary"> Search </x-button>
+                <x-button
+                    type="submit"
+                    variant="secondary"
+                > Search </x-button>
             </form>
         </x-slot>
     @endif

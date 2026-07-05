@@ -1,38 +1,30 @@
 <x-layout::index>
     <x-tabs :tabs="CompanyTabs::ui()">
-        <x-card description="Visualise & Edit {{ $company->name }}'s registered members">
+        <x-card
+            description="Visualise & Edit {{ $company->name }}'s registered members"
+        >
             <div class="mb-2 flex items-center gap-2">
-                <form
-                    class="flex items-center gap-2"
-                    method="GET"
+                <x-form.search-box.table
+                    id="company-members-search"
                     action="{{ route('companies.edit', $company) }}"
-                >
-                    @foreach (request()->except('search') as $key => $value)
-                        <x-form.field
-                            name="{{ $key }}"
-                            type="text"
-                            value="{{ $value }}"
-                            hidden
-                        />
-                    @endforeach
-
-                    <x-form.field
-                        name="search"
-                        type="search"
-                        value="{{ request('search') }}"
-                    />
-                </form>
+                />
 
                 <x-modal.user.relation.attach
                     id="user-attach"
                     :resource="$company"
                     :countries="$countries"
                     :existing_users="$non_members"
+                    :title="Auth::user()->isAdministrator()
+                        ? 'Add an existing manager'
+                        : 'Add an existing user'"
                 />
                 <x-modal.user.relation.create
                     id="user-create"
                     :resource="$company"
                     :countries="$countries"
+                    :title="Auth::user()->isAdministrator()
+                        ? 'Create a new manager'
+                        : 'Create a new user'"
                 />
             </div>
 

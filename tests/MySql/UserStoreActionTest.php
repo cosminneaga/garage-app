@@ -17,7 +17,7 @@ beforeEach(function () {
     $this->country = Country::factory()->create();
     $this->file = UploadedFile::fake()->image('avatar.jpg');
 
-    $this->action = new UserStoreAction();
+    $this->action = new UserStoreAction($this->administrator);
 });
 
 test('should store user along with address & contact', function () {

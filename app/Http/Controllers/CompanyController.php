@@ -6,11 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
-use App\Actions\UserStoreAction;
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\Country;
@@ -198,24 +196,6 @@ class CompanyController extends Controller
                 'Company restored',
                 'The company has been successfully restored and is now available in your account.',
             ));
-    }
-
-    // !!!NOTE: this should fly along attach & detach into user controller, under modelStore
-    public function userStore(StoreUserRequest $request, Company $company, UserStoreAction $action)
-    {
-        $this->authorize('edit', $company);
-        $attributes = $request->safe()->all();
-        $attributes['active'] = $request->boolean('active');
-
-        $user = $action->handle($attributes);
-        $company->users()->attach($user);
-        Auth::user()->peerAttach($user);
-
-        return back()->with('message', self::responseMessage(
-            'success',
-            'User created',
-            'User created and attached to your team & company'
-        ));
     }
 
     // ADMIN

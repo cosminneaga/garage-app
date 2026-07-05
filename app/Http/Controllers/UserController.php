@@ -213,7 +213,7 @@ class UserController extends Controller
 
         abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
         $this->authorize('edit', $user);
-
+        abort_unless(!$model->users()->find($user), 404);
         $model->users()->attach($user);
 
         return back()
@@ -236,7 +236,7 @@ class UserController extends Controller
 
         abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
         $this->authorize('edit', $user);
-
+        abort_unless($model->users()->find($user), 404);
         $model->users()->detach($user);
 
         return back()
@@ -245,6 +245,29 @@ class UserController extends Controller
                 'User unlinked',
                 'User has been unlinked from ' . $modelName
             ));
+    }
+
+    public function modelStore(StoreUserRequest $request, string|int $modelId, UserStoreAction $action): RedirectResponse
+    {
+        $modelName = Collection::make($request->route()->parameters())->keys()->first();
+        $model = RelatedModel::from($modelName)->entity($modelId);
+        $policy = RelatedModel::from($modelName)->policy();
+
+        abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
+
+        $attributes = $request->safe()->all();
+        $attributes['active'] = $request->boolean('active');
+        $user = $action->handle($attributes);
+
+        $model->users()->attach($user);
+        Auth::user()->peerAttach($user);
+
+        return back()
+          ->with('message', self::responseMessage(
+              'success',
+              'User created & linked',
+              'User has been created and linked to ' . $modelName,
+          ));
     }
 
     // ADMIN

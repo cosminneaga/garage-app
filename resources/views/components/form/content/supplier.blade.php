@@ -6,7 +6,7 @@ and old values but not for default values -->
     'nestedParentName' => false,
 ])
 
-<section>
+<section class="space-y-2">
     <h3 class="text-lg font-bold">Supplier Basic Information *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field

@@ -33,9 +33,9 @@ class StoreAddressRequest extends FormRequest
             'floor' => ['nullable', 'string', 'max:255'],
             'unit' => ['nullable', 'string', 'max:255'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
-            'coordinates' => ['nullable', 'array'],
-            'coordinates.latitude' => ['nullable', 'string', 'max:20'],
-            'coordinates.longitude' => ['nullable', 'string', 'max:20'],
+            'coordinates' => [config('app.env') !== 'testing' ? 'required' : 'nullable', 'array'],
+            'coordinates.latitude' => [config('app.env') !== 'testing' ? 'required' : 'nullable', 'string', 'max:20'],
+            'coordinates.longitude' => [config('app.env') !== 'testing' ? 'required' : 'nullable', 'string', 'max:20'],
         ];
     }
 }

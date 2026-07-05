@@ -28,7 +28,8 @@
 
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr
+                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
@@ -36,7 +37,8 @@
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-user-pic"
-                            :src="$row->image_path && !Str::isUrl($row->image_path)
+                            :src="$row->image_path &&
+                            !Str::isUrl($row->image_path)
                                 ? asset('storage/' . $row->image_path)
                                 : $row->image_path"
                             :title="$row->name"

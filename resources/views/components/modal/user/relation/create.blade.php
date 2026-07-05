@@ -4,6 +4,7 @@
     'countries' => [],
     'trigger' => true,
     'trigger_label' => 'Create User',
+    'title' => 'Create & Attach an user',
 ])
 
 @php
@@ -29,7 +30,7 @@
 
 <x-modal.wrapper
     id="{{ $ids->modal }}"
-    title="Create & Attach an user"
+    title="{{ $title }}"
     size="7xl"
 >
 
@@ -43,20 +44,23 @@
 
         <div class="grid grid-rows-1 gap-1 md:grid-cols-2 lg:grid-cols-3">
             <div class="p-2">
-                <x-form.content.user identifier="user" />
+                <x-form.content.user
+                    identifier="user_create"
+                    :exclude="['role']"
+                />
             </div>
 
             <div class="p-2">
                 <x-form.content.address
                     :countries="$countries"
-                    identifier="user"
+                    identifier="user_create"
                     nestedParentName="address"
                 />
             </div>
 
             <div class="p-2">
                 <x-form.content.contact
-                    identifier="user"
+                    identifier="user_create"
                     nestedParentName="contact"
                 />
             </div>

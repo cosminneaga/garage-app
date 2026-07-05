@@ -8,11 +8,18 @@ use App\Dto\Coordinates;
 use App\Models\Address;
 use App\Models\Contact;
 use App\Models\User;
+use App\Enums\UserRole;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Container\Attributes\CurrentUser;
 
 class UserStoreAction
 {
+    public function __construct(#[CurrentUser] protected User $user)
+    {
+        //
+    }
+
     public function handle(array $attributes): User
     {
         $data['contact'] = $attributes['contact'];
@@ -25,8 +32,9 @@ class UserStoreAction
                 'active',
             ])
             ->toArray();
-        $data['role'] = $attributes['role'];
         $data['address']['coordinates'] = Coordinates::format($data['address']['coordinates']);
+
+        $data['role'] = $this->user->isAdministrator() ? UserRole::MANAGER->value : UserRole::USER->value;
 
         if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {
             $data['user']['image_path'] = $attributes['image']->store('users', 'public');

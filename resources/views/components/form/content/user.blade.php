@@ -7,7 +7,7 @@ and old values but not for default values -->
     'exclude' => [],
 ])
 
-<section>
+<section class="space-y-2">
     <h3 class="text-lg font-bold">User Basic Information *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     <x-form.field
@@ -24,7 +24,7 @@ and old values but not for default values -->
     />
 </section>
 
-<section>
+<section class="space-y-2">
     <h3 class="text-lg font-bold">User Media</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     @if (collect($exclude)->doesntContain('image'))
@@ -37,7 +37,7 @@ and old values but not for default values -->
     @endif
 </section>
 
-<section>
+<section class="space-y-2">
     <h3 class="text-lg font-bold">User Authentication *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
     @if (collect($exclude)->doesntContain('password'))

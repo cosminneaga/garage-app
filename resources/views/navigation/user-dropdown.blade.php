@@ -16,10 +16,11 @@
         class="text-body p-2 text-sm font-medium"
         aria-labelledby="nav-dropdown-profile-btn"
     >
+
+        <li>
+            <p class="font-bold">Administrative</p>
+        </li>
         @role('super')
-            <li>
-                <p class="font-bold">Administrative</p>
-            </li>
             <li>
                 <a
                     class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
@@ -53,6 +54,12 @@
                 >Telescope</a>
             </li>
         @endrole
+        <li>
+            <a
+                class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
+                href="{{ route('users.profile.edit', Auth::user()) }}"
+            >Profile</a>
+        </li>
         <li>
             <form
                 action="/logout"

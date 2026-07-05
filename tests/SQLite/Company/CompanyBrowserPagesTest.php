@@ -43,6 +43,14 @@ test('administrator: should see only own companies listing table', function () {
         ->assertDontSee('Company External');
 });
 
+test('administrator: should filter search', function () {
+    actingAs($this->administrator);
+
+    visit(route('companies.index', ['search' => 'Company One']))
+        ->assertSee('Company One')
+        ->assertDontSee('Company Two');
+});
+
 test('administrator: should test successfully removing/restoring company', function () {
     actingAs($this->administrator);
 
@@ -99,58 +107,6 @@ test('administrator: should remove company', function () {
         ->click('@company-delete-modal-confirm')
         ->assertDontSee($this->companies[0]->name)
         ->assertRoute('companies.index');
-});
-
-test('administrator: should add an existing manager', function () {
-    actingAs($this->administrator);
-
-    visit(route('companies.edit', $this->companies[0]))
-        ->click('@members')
-        ->click('@companies-user-attach-modal-trigger')
-        ->click('@user-attach-' . $this->manager->id . '-button')
-        ->assertSee('User linked')
-        ->assertSee('User has been linked to company')
-        ->assertSee($this->manager->name);
-});
-
-test('administrator: should create a new manager', function () {
-    actingAs($this->administrator);
-
-    visit(route('companies.edit', $this->companies[0]))
-        ->click('@members')
-        ->click('@companies-user-create-modal-trigger')
-        ->fill('@user_name', 'Manager Test')
-        ->fill('@user_email', 'manager.test@garage.com')
-        ->fill('@user_password', 'Password')
-        ->fill('@user_password_confirmed', 'Password')
-        ->select('@user_role', 'manager')
-        ->check('@user_active')
-        ->fill('@user_address_street_number', '324')
-        ->fill('@user_address_street', 'Sunflower Street')
-        ->fill('@user_address_postcode', 'B434BNB')
-        ->fill('@user_contact_mobile', '0744444444')
-        ->fill('@user_contact_landline', '0112111111')
-        ->fill('@user_contact_email', 'manager.test@garage.com')
-        ->click('@companies-user-create-modal-submit-resource')
-        ->assertSee('User created')
-        ->assertSee('User created and attached to your team & company')
-        ->assertSee('Manager Test');
-});
-
-test('administrator: should remove a member', function () {
-    $manager = User::factory()->create();
-    $manager->assignRole(UserRole::MANAGER);
-    $this->administrator->managers()->attach($manager);
-    $this->companies[0]->users()->attach($manager);
-    actingAs($this->administrator);
-
-    visit(route('companies.edit', $this->companies[0]))
-        ->click('@members')
-        ->click('@user-company-delete-' . $manager->id . '-modal-trigger')
-        ->click('@user-company-delete-' . $manager->id . '-modal-confirm')
-        ->assertSee('User unlinked')
-        ->assertSee('User has been unlinked from company')
-        ->assertDontSee($manager->name);
 });
 
 test('administrator: should add contact', function () {

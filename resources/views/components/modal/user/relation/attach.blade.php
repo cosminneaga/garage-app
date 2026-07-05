@@ -5,6 +5,7 @@
     'existing_users' => [],
     'trigger' => true,
     'trigger_label' => 'Attach User',
+    'title' => 'Attach an existing user',
 ])
 
 @php
@@ -29,7 +30,7 @@
 
 <x-modal.wrapper
     id="{{ $ids->modal }}"
-    title="Attach an existing user"
+    title="{{ $title }}"
     size="7xl"
 >
     <x-table.users
