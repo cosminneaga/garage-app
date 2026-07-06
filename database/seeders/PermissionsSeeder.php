@@ -23,9 +23,38 @@ class PermissionsSeeder extends Seeder
         $user = Role::findOrCreate(UserRole::USER->value);
 
         $permissions = [
-            UserRole::ADMINISTRATOR->value => UserPermission::list(),
-            UserRole::MANAGER->value => UserPermission::list(excludeReferences: ['company']),
-            UserRole::USER->value => UserPermission::list(excludeReferences: ['user'], excludeActions: ['restore', 'store', 'update', 'delete']),
+            UserRole::ADMINISTRATOR->value => UserPermission::list(
+                excludeReferences: [
+                    'country',
+                    'vehicle_data',
+                    'vehicle_make',
+                    'vehicle_model',
+                    'vehicle_year'
+                ]
+            ),
+            UserRole::MANAGER->value => UserPermission::list(
+                excludeReferences: [
+                    'country',
+                    'company',
+                    'vehicle_data',
+                    'vehicle_make',
+                    'vehicle_model',
+                    'vehicle_year',
+                ]
+            ),
+            UserRole::USER->value => UserPermission::list(
+                excludeReferences: [
+                    'address',
+                    'contact',
+                    'country',
+                    'company',
+                    'user',
+                    'vehicle_data',
+                    'vehicle_make',
+                    'vehicle_model',
+                    'vehicle_year',
+                ]
+            ),
         ];
 
         foreach (UserPermission::list() as $permission) {
@@ -36,8 +65,30 @@ class PermissionsSeeder extends Seeder
         $manager->syncPermissions($permissions[UserRole::MANAGER->value]);
         $user->syncPermissions($permissions[UserRole::USER->value]);
 
-        /* ------------------------- PRIVILEGED PERMISSIONS ------------------------- */
+        /* ------------------------- GRANULATED PERMISSIONS ------------------------- */
+        $administrator->givePermissionTo(UserPermission::name(UserPermission::COUNTRY, 'show'));
+        $administrator->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_DATA, 'show'));
+        $administrator->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MAKE, 'show'));
+        $administrator->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MODEL, 'show'));
+        $administrator->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_YEAR, 'show'));
+
+
+        $manager->givePermissionTo(UserPermission::name(UserPermission::COUNTRY, 'show'));
+        $manager->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_DATA, 'show'));
+        $manager->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MAKE, 'show'));
+        $manager->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MODEL, 'show'));
+        $manager->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_YEAR, 'show'));
         $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
         $manager->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'update'));
+
+        $user->givePermissionTo(UserPermission::name(UserPermission::ADDRESS, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::COMPANY, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::CONTACT, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::COUNTRY, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::USER, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_DATA, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MAKE, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MODEL, 'show'));
+        $user->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_YEAR, 'show'));
     }
 }
