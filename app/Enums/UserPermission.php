@@ -11,7 +11,7 @@ enum UserPermission: string
 {
     use Collect;
 
-    # Database references
+    // Table <-> Permission references
     case ADDRESS = 'address';
     case BOOKING = 'booking';
     case CLIENT = 'client';
@@ -19,19 +19,19 @@ enum UserPermission: string
     case CONTACT = 'contact';
     case COUNTRY = 'country';
     case PRODUCT = 'product';
+    case SUPPLIER = 'supplier';
+
     case REPAIR = 'repair';
     case REPAIR_FILE = 'repair_file';
     case REPAIR_INVOICE = 'repair_invoice';
     case REPAIR_INVOICE_ITEM = 'repair_invoice_item';
-    case SUPPLIER = 'supplier';
+
     case USER = 'user';
+
     case VEHICLE_DATA = 'vehicle_data';
     case VEHICLE_MAKE = 'vehicle_make';
     case VEHICLE_MODEL = 'vehicle_model';
     case VEHICLE_YEAR = 'vehicle_year';
-
-    # Application references
-    case PERMISSION = 'permission';
 
     public function label(): string
     {
@@ -43,17 +43,19 @@ enum UserPermission: string
             self::CONTACT => 'Contact',
             self::COUNTRY => 'Company',
             self::PRODUCT => 'Product',
+            self::SUPPLIER => 'Supplier',
+
             self::REPAIR => 'Repair',
             self::REPAIR_FILE => 'Repair File',
             self::REPAIR_INVOICE => 'Repair Invoice',
             self::REPAIR_INVOICE_ITEM => 'Repair Invoice Item',
-            self::SUPPLIER => 'Supplier',
+
             self::USER => 'User',
+
             self::VEHICLE_DATA => 'Vehicle Data',
             self::VEHICLE_MAKE => 'Vehicle Make',
             self::VEHICLE_MODEL => 'Vehicle Model',
             self::VEHICLE_YEAR => 'Vehicle Year',
-            self::PERMISSION => 'Permission',
         };
     }
 

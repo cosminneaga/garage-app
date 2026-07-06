@@ -7,7 +7,6 @@ namespace App\Providers;
 use App\Enums\Columns\AddressColumns;
 use App\Enums\Columns\CompanyColumns;
 use App\Enums\Columns\ContactColumns;
-use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
 use App\Enums\SupplierType;
@@ -42,7 +41,6 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('SupplierColumns', SupplierColumns::class);
         $loader->alias('SupplierTabs', SupplierTabs::class);
         $loader->alias('SupplierType', SupplierType::class);
-        $loader->alias('PermissionColumns', PermissionColumns::class);
         $loader->alias('UserColumns', UserColumns::class);
         $loader->alias('UserPermission', UserPermission::class);
         $loader->alias('UserProfileTabs', UserProfileTabs::class);

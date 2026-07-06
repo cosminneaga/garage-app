@@ -98,10 +98,6 @@ class UserController extends Controller
                 'user' => $user,
                 'countries' => Country::all(),
             ]),
-            'permissions' => view('pages.user.edit.permissions', [
-                'user' => $user,
-                'permissions' => $user->getAllPermissions(),
-            ]),
             default => view('pages.user.edit.index', [
                 'user' => $user,
             ]),

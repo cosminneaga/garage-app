@@ -9,7 +9,6 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
-use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -25,13 +24,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'show'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
-
-Route::controller(PermissionController::class)
-    ->middleware('auth', 'role:super|administrator|manager')
-    ->group(function () {
-        Route::post('/permission/{permission}/user/{user}', 'update')->name('permission.update');
-        Route::delete('/permission/{permission}/user/{user}', 'destroy')->name('permission.destroy');
-    });
 
 Route::controller(AdministratorController::class)
     ->middleware(['auth', 'role:super'])

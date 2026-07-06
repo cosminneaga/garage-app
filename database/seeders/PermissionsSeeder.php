@@ -25,7 +25,7 @@ class PermissionsSeeder extends Seeder
         $permissions = [
             UserRole::ADMINISTRATOR->value => UserPermission::list(),
             UserRole::MANAGER->value => UserPermission::list(excludeReferences: ['company']),
-            UserRole::USER->value => UserPermission::list(excludeReferences: ['user', 'permission'], excludeActions: ['restore', 'store', 'update', 'delete']),
+            UserRole::USER->value => UserPermission::list(excludeReferences: ['user'], excludeActions: ['restore', 'store', 'update', 'delete']),
         ];
 
         foreach (UserPermission::list() as $permission) {
