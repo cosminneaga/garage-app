@@ -85,9 +85,11 @@ Route::controller(AddressController::class)
         Route::get('/users/{user}/address/{address}', 'edit')->name('users.address.edit');
         Route::get('/companies/{company}/address/{address}', 'edit')->name('companies.address.edit');
         Route::get('/suppliers/{supplier}/address/{address}', 'edit')->name('suppliers.address.edit');
+
         Route::post('/users/{user}/address', 'store')->name('users.address.store');
         Route::post('/companies/{company}/address', 'store')->name('companies.address.store');
         Route::post('/suppliers/{supplier}/address', 'store')->name('suppliers.address.store');
+
         Route::delete('/users/{user}/address/{address}', 'destroy')->name('users.address.destroy');
         Route::delete('/companies/{company}/address/{address}', 'destroy')->name('companies.address.destroy');
         Route::delete('/suppliers/{supplier}/address/{address}', 'destroy')->name('suppliers.address.destroy');
@@ -99,9 +101,11 @@ Route::controller(ContactController::class)
         Route::get('/users/{user}/contact/{contact}', 'edit')->name('users.contact.edit');
         Route::get('/companies/{company}/contact/{contact}', 'edit')->name('companies.contact.edit');
         Route::get('/suppliers/{supplier}/contact/{contact}', 'edit')->name('suppliers.contact.edit');
+
         Route::post('/users/{user}/contact', 'store')->name('users.contact.store');
         Route::post('/companies/{company}/contact', 'store')->name('companies.contact.store');
         Route::post('/suppliers/{supplier}/contact', 'store')->name('suppliers.contact.store');
+
         Route::delete('/users/{user}/contact/{contact}', 'destroy')->name('users.contact.destroy');
         Route::delete('/companies/{company}/contact/{contact}', 'destroy')->name('companies.contact.destroy');
         Route::delete('/suppliers/{supplier}/contact/{contact}', 'destroy')->name('suppliers.contact.destroy');

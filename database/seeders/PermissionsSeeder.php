@@ -72,7 +72,6 @@ class PermissionsSeeder extends Seeder
         $administrator->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MODEL, 'show'));
         $administrator->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_YEAR, 'show'));
 
-
         $manager->givePermissionTo(UserPermission::name(UserPermission::COUNTRY, 'show'));
         $manager->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_DATA, 'show'));
         $manager->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_MAKE, 'show'));
