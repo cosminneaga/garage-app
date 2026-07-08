@@ -29,7 +29,7 @@ class PermissionsSeeder extends Seeder
                     'vehicle_data',
                     'vehicle_make',
                     'vehicle_model',
-                    'vehicle_year'
+                    'vehicle_year',
                 ]
             ),
             UserRole::MANAGER->value => UserPermission::list(
