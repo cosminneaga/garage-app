@@ -56,7 +56,7 @@ and old values but not for default values -->
             label="Password Confirmation"
         />
     @endif
-    @if (collect($exclude)->doesntContain('role'))
+    {{-- @if (collect($exclude)->doesntContain('role'))
         <x-form.field
             identifier="{{ $identifier }}"
             name="{{ Str::generateFormFieldName('role', $nestedParentName) }}"
@@ -64,7 +64,7 @@ and old values but not for default values -->
             label="Select a role"
             :options="UserRole::ui()"
         />
-    @endif
+    @endif --}}
     @if (collect($exclude)->doesntContain('active'))
         <x-form.field
             identifier="{{ $identifier }}"

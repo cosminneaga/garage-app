@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Client;
@@ -61,7 +62,7 @@ class LocalEnv extends Seeder
         $users[3]->assignRole(UserRole::USER);
         $users[1]->managers()->attach($users[2]);
         $users[2]->users()->attach($users[3]);
-
+        $users[3]->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_YEAR, 'update'));
 
         // 5. creating & attaching addresses & contacts
         $users[0]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
@@ -86,6 +87,7 @@ class LocalEnv extends Seeder
 
             $users[1]->companies()->attach($company);
         });
+        $companies[0]->users()->attach([$users[2], $users[3]]);
 
 
         // 7. create clients with address & contact & attach to the first company

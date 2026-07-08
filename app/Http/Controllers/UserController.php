@@ -98,6 +98,46 @@ class UserController extends Controller
                 'user' => $user,
                 'countries' => Country::all(),
             ]),
+            'permissions' => view('pages.user.edit.permissions', [
+                'permissions' => $user->getAllPermissions(),
+                // get all available permissions, and assign "available" key to the object
+                /**
+                    Model assigned permission structure
+                   {
+                        "id":83,
+                        "name":"vehicle_year-update",
+                        "guard_name":"web",
+                        "created_at":"2026-07-08T20:00:47.000000Z",
+                        "updated_at":"2026-07-08T20:00:47.000000Z",
+                        "pivot":{
+                            "model_type":"App\\Models\\User",
+                            "model_id":4,
+                            "permission_id":83
+                        }
+                    },
+                    Role assigned permission structure
+                    {
+                        "id":1,
+                        "name":"address-show",
+                        "guard_name":"web",
+                        "created_at":"2026-07-08T20:00:46.000000Z",
+                        "updated_at":"2026-07-08T20:00:46.000000Z",
+                        "pivot":{
+                            "role_id":4,
+                            "permission_id":1
+                        }
+                    },
+                    Available permission structure
+                    {
+                        "id":1,
+                        "name":"address-show",
+                        "guard_name":"web",
+                        "created_at":"null",
+                        "updated_at":"null",
+                        "available" :"true"
+                    },
+                 */
+            ]),
             default => view('pages.user.edit.index', [
                 'user' => $user,
             ]),

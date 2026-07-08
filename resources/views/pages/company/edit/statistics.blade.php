@@ -1,5 +1,7 @@
 <x-layout::index>
-    <x-card description="Statistics">
-        <x-tabs :tabs="CompanyTabs::ui()"> Data goes here </x-tabs>
-    </x-card>
+    <x-tabs :tabs="CompanyTabs::ui()">
+        <x-card description="Statistics">
+            Data goes here
+        </x-card>
+    </x-tabs>
 </x-layout::index>
