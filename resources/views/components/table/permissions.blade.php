@@ -1,10 +1,13 @@
 @props([
     'data' => [],
+    'user' => null,
     'edit' => false,
 ])
 
 @php
-    $columns = collect(PermissionColumns::cases())->map(fn($col) => $col->value);
+    $columns = collect(PermissionColumns::cases())->map(
+        fn($col) => $col->value,
+    );
 @endphp
 
 <x-table.wrapper :data="$data">
@@ -19,9 +22,10 @@
 
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr
+                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                    {{ $row->id }}
+                    {{ isset($row->id) ? $row->id : '' }}
                 </th>
                 <td class="px-6 py-4">{{ $row->name }}</td>
                 <td class="px-6 py-4">{{ $row->guard_name }}</td>
@@ -29,23 +33,39 @@
                     <div class="flex gap-3">
                         @if ($edit)
                             @if (isset($row->pivot->model_id))
-                                <button
-                                    class="text-red-500 hover:cursor-pointer"
-                                    data-modal-target="user-send-message-modal"
-                                    data-modal-toggle="user-send-message-modal"
-                                    type="button"
+                                <form
+                                    action="{{ route('users.permission.revoke', [$user, $row->name]) }}"
+                                    method="POST"
                                 >
-                                    Revoke
-                                </button>
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        class="text-red-500 hover:cursor-pointer"
+                                        data-modal-target="user-send-message-modal"
+                                        data-modal-toggle="user-send-message-modal"
+                                        type="submit"
+                                    >
+                                        Revoke
+                                    </button>
+                                </form>
                             @elseif (isset($row->available))
-                                <button
-                                    class="text-red-500 hover:cursor-pointer"
-                                    data-modal-target="user-send-message-modal"
-                                    data-modal-toggle="user-send-message-modal"
-                                    type="button"
+                                <form
+                                    action="{{ route('users.permission.revoke', [$user, $row->name]) }}"
+                                    method="POST"
                                 >
-                                    Revoke
-                                </button>
+                                    @csrf
+                                    @method('PUT')
+
+                                    <button
+                                        class="text-green-500 hover:cursor-pointer"
+                                        data-modal-target="user-send-message-modal"
+                                        data-modal-toggle="user-send-message-modal"
+                                        type="submit"
+                                    >
+                                        Assign
+                                    </button>
+                                </form>
                             @endif
                         @endif
                     </div>

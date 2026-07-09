@@ -86,7 +86,7 @@ class CompanyController extends Controller
         $search = request()->string('search')->value();
 
         $role = Auth::user()->getRoleNames();
-        $forRole = $role[0] === UserRole::ADMINISTRATOR->value ? UserRole::MANAGER : UserRole::USER;
+        $forRole = $role[0] === UserRole::ADMINISTRATOR->value ? UserRole::MANAGER : ($role[0] === UserRole::USER->value ? UserRole::MANAGER : UserRole::USER);
 
         return match(request()->query('tab')) {
             'statistics' => view('pages.company.edit.statistics'),

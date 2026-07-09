@@ -47,6 +47,10 @@ Route::controller(UserController::class)
         Route::get('/chart/users', 'chart')->name('chart.users');
         Route::post('/users/{id}/restore', 'restore')->name('users.restore');
 
+        # permissions
+        Route::put('/users/{user}/permission/{name}', 'assignPermission')->name('users.permission.assign');
+        Route::delete('/users/{user}/permission/{name}', 'revokePermission')->name('users.permission.revoke');
+
         # companies
         Route::delete('/companies/{company}/user/{user}', 'modelDetach')->name('companies.user.destroy');
         Route::put('/companies/{company}/user/{user}', 'modelAttach')->name('companies.user.attach');

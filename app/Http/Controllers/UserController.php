@@ -8,6 +8,7 @@ use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
 use App\Enums\Related\RelatedModel;
 use App\Enums\Resource\ResourceFilter;
+use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -99,44 +100,8 @@ class UserController extends Controller
                 'countries' => Country::all(),
             ]),
             'permissions' => view('pages.user.edit.permissions', [
-                'permissions' => $user->getAllPermissions(),
-                // get all available permissions, and assign "available" key to the object
-                /**
-                    Model assigned permission structure
-                   {
-                        "id":83,
-                        "name":"vehicle_year-update",
-                        "guard_name":"web",
-                        "created_at":"2026-07-08T20:00:47.000000Z",
-                        "updated_at":"2026-07-08T20:00:47.000000Z",
-                        "pivot":{
-                            "model_type":"App\\Models\\User",
-                            "model_id":4,
-                            "permission_id":83
-                        }
-                    },
-                    Role assigned permission structure
-                    {
-                        "id":1,
-                        "name":"address-show",
-                        "guard_name":"web",
-                        "created_at":"2026-07-08T20:00:46.000000Z",
-                        "updated_at":"2026-07-08T20:00:46.000000Z",
-                        "pivot":{
-                            "role_id":4,
-                            "permission_id":1
-                        }
-                    },
-                    Available permission structure
-                    {
-                        "id":1,
-                        "name":"address-show",
-                        "guard_name":"web",
-                        "created_at":"null",
-                        "updated_at":"null",
-                        "available" :"true"
-                    },
-                 */
+                'user' => $user,
+                'permissions' => UserPermission::tableStructure($user->getAllPermissions()),
             ]),
             default => view('pages.user.edit.index', [
                 'user' => $user,
@@ -308,6 +273,32 @@ class UserController extends Controller
               'User created & linked',
               'User has been created and linked to ' . $modelName,
           ));
+    }
+
+    public function assignPermission(User $user, string $name): RedirectResponse
+    {
+        $this->authorize('edit', $user);
+        $user->givePermissionTo($name);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Permission assigned',
+                'Permission assign to user ' . $user->name
+            ));
+    }
+
+    public function revokePermission(User $user, string $name): RedirectResponse
+    {
+        $this->authorize('edit', $user);
+        $user->revokePermissionTo($name);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Permission revoked',
+                'Permission revoked from user ' . $user->name
+            ));
     }
 
     // ADMIN

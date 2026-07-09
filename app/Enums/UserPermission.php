@@ -6,6 +6,7 @@ namespace App\Enums;
 
 use App\Traits\Collect;
 use Exception;
+use Illuminate\Support\Collection;
 
 enum UserPermission: string
 {
@@ -140,5 +141,31 @@ enum UserPermission: string
         }
 
         return $result;
+    }
+
+    public static function tableStructure(Collection $existing_permissions): Collection
+    {
+        $result = Collection::make();
+        $existingPermissionNames = $existing_permissions->map(fn ($in) => $in->name);
+
+        foreach (self::references() as $reference) {
+            foreach (self::actions() as $action_name) {
+                if ($existingPermissionNames->containsStrict($reference . '-' . $action_name)) {
+                    $result->push($existing_permissions->firstWhere('name', $reference . '-' . $action_name));
+                    continue;
+                }
+
+                $result->push((object) [
+                    'id' => null,
+                    'name' => $reference . '-' . $action_name,
+                    'guard_name' => null,
+                    'created_at' => null,
+                    'updated_at' => null,
+                    'available' => true,
+                ]);
+            }
+        }
+
+        return $result->sortByDesc(['pivot.model_id', 'available'])->values();
     }
 }

@@ -46,7 +46,7 @@ class PermissionsSeeder extends Seeder
                     'vehicle_year',
                 ],
                 onlyActions: ['show']
-            )
+            ),
         ]);
 
         $manager->syncPermissions([
@@ -73,7 +73,7 @@ class PermissionsSeeder extends Seeder
             ...UserPermission::list(
                 onlyReferences: ['company'],
                 onlyActions: ['show', 'update']
-            )
+            ),
         ]);
 
         $user->syncPermissions([
@@ -103,7 +103,7 @@ class PermissionsSeeder extends Seeder
                     'vehicle_year',
                 ],
                 onlyActions: ['show']
-            )
+            ),
         ]);
     }
 }
