@@ -14,6 +14,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Country;
 use App\Models\User;
+use App\Policies\PermissionPolicy;
 use App\Services\UserService;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
@@ -22,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class UserController extends Controller
 {
@@ -88,7 +90,12 @@ class UserController extends Controller
             return redirect()->route('users.profile.edit', $user);
         }
 
-        return match(request()->query('tab')) {
+        # guards
+        if (FacadesRequest::query('tab') === 'permissions') {
+            abort_unless(App::make(PermissionPolicy::class)->view(), 401);
+        }
+
+        return match(FacadesRequest::query('tab')) {
             'statistics' => view('pages.user.edit.statistics', [
                 'user' => $user,
             ]),
@@ -252,6 +259,10 @@ class UserController extends Controller
             ));
     }
 
+    /**
+     * Store a resource to related to an user
+     * ! This needs test review
+     */
     public function modelStore(StoreUserRequest $request, string|int $modelId, UserStoreAction $action): RedirectResponse
     {
         $modelName = Collection::make($request->route()->parameters())->keys()->first();
@@ -275,9 +286,14 @@ class UserController extends Controller
           ));
     }
 
+    /**
+     * Assign permission to an user
+     * ! This needs test review
+     */
     public function assignPermission(User $user, string $name): RedirectResponse
     {
         $this->authorize('edit', $user);
+        abort_unless(App::make(PermissionPolicy::class)->assign(), 401);
         $user->givePermissionTo($name);
 
         return back()
@@ -288,9 +304,14 @@ class UserController extends Controller
             ));
     }
 
+    /**
+     * Revoke permission from an user
+     * ! This needs test review
+     */
     public function revokePermission(User $user, string $name): RedirectResponse
     {
         $this->authorize('edit', $user);
+        abort_unless(App::make(PermissionPolicy::class)->revoke(), 401);
         $user->revokePermissionTo($name);
 
         return back()

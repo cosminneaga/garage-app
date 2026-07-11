@@ -34,6 +34,8 @@ enum UserPermission: string
     case VEHICLE_MODEL = 'vehicle_model';
     case VEHICLE_YEAR = 'vehicle_year';
 
+    case PERMISSION = 'permission';
+
     public function label(): string
     {
         return match ($this) {
@@ -57,6 +59,8 @@ enum UserPermission: string
             self::VEHICLE_MAKE => 'Vehicle Make',
             self::VEHICLE_MODEL => 'Vehicle Model',
             self::VEHICLE_YEAR => 'Vehicle Year',
+
+            self::PERMISSION => 'Permission',
         };
     }
 
