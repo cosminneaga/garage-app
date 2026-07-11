@@ -14,7 +14,6 @@ use App\Policies\CompanyPolicy;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
@@ -38,7 +37,7 @@ class SupplierController extends Controller
             ));
     }
 
-    public function edit(Company $company, Supplier $supplier): View
+    public function edit(Supplier $supplier, Company $company): View
     {
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
         if (! $guard) {
@@ -64,7 +63,7 @@ class SupplierController extends Controller
         };
     }
 
-    public function update(UpdateSupplierRequest $request, Company $company, Supplier $supplier): RedirectResponse
+    public function update(UpdateSupplierRequest $request, Supplier $supplier, Company $company): RedirectResponse
     {
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
         if (! $guard) {
@@ -81,7 +80,7 @@ class SupplierController extends Controller
             ));
     }
 
-    public function destroy(Company $company, Supplier $supplier): RedirectResponse
+    public function destroy(Supplier $supplier, Company $company): RedirectResponse
     {
         $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
         if (! $guard) {
@@ -114,18 +113,6 @@ class SupplierController extends Controller
                 'Supplier restored',
                 'The supplier has been successfully restored and is now available in your account.',
             ));
-    }
-
-    // ADMIN
-    public function all(Request $request): View
-    {
-        $querySearch = $request->string('search')->value();
-
-        return view('pages.supplier.admin', [
-            'suppliers' => Supplier::search($querySearch)
-                ->withTrashed()
-                ->paginate($request->query('limit') ?? 10, 'suppliers'),
-        ]);
     }
 
     public function editSingle(Supplier $supplier): View

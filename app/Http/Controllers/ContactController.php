@@ -11,6 +11,8 @@ use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -23,7 +25,7 @@ class ContactController extends Controller
      */
     public function store(StoreContactRequest $request, string|int $id, ModelContactStoreAction $action): RedirectResponse
     {
-        $type = array_keys($request->route()->parameters())[0];
+        $type = Collection::make($request->route()->parameters())->keys()->last();
         $entity = RelatedAddressContact::from($type)->entity($id);
 
         $action->handle($request->safe()->all(), $entity);
@@ -39,12 +41,15 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function edit(Request $request, string|int $id, string|int $contactId): View
+    public function edit(Request $request, string|int $contactId, string|int $id): View
     {
-        $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedAddressContact::from($type)->entity($id);
-        $policy = RelatedAddressContact::from($type)->policy();
-        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
+        $type = Collection::make($request->route()->parameters())->keys()->last();
+        $relatedModel = RelatedAddressContact::from($type);
+        $entity = $relatedModel->entity($id);
+        abort_unless(
+            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
+            401
+        );
 
         $resource = $entity->contacts()->findOrFail($contactId);
         Session::flashInput([
@@ -61,12 +66,15 @@ class ContactController extends Controller
     /**
      * Update the specified resource
      */
-    public function update(Request $request, string|int $id, string|int $contactId): RedirectResponse
+    public function update(Request $request, string|int $contactId, string|int $id): RedirectResponse
     {
-        $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedAddressContact::from($type)->entity($id);
-        $policy = RelatedAddressContact::from($type)->policy();
-        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
+        $type = Collection::make($request->route()->parameters())->keys()->last();
+        $relatedModel = RelatedAddressContact::from($type);
+        $entity = $relatedModel->entity($id);
+        abort_unless(
+            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
+            401
+        );
 
         $resource = $entity->contacts()->findOrFail($contactId);
         $resource->update([...$request->except(['_token', '_method'])]);
@@ -82,12 +90,15 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, string|int $id, string|int $contactId): RedirectResponse
+    public function destroy(Request $request, string|int $contactId, string|int $id): RedirectResponse
     {
-        $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedAddressContact::from($type)->entity($id);
-        $policy = RelatedAddressContact::from($type)->policy();
-        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
+        $type = Collection::make($request->route()->parameters())->keys()->last();
+        $relatedModel = RelatedAddressContact::from($type);
+        $entity = $relatedModel->entity($id);
+        abort_unless(
+            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
+            401
+        );
 
         $entity->contacts()->detach($contactId);
 

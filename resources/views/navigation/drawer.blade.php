@@ -11,33 +11,51 @@
             title="GarageApp Logo"
             alt="GarageApp Logo"
         />
-        <span
-            class="text-heading self-center whitespace-nowrap text-lg font-semibold"
-        >Garage App</span>
+        <span class="text-heading self-center whitespace-nowrap text-lg font-semibold">Garage App</span>
     </div>
 
-    @permitted(UserPermission::USER, 'show')
-        @super
-            <br />
-            <div class="border-default border-b">
-                <span class="text-heading">Administrators</span>
-            </div>
-            <ul class="space-y-2 font-medium">
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="/administrators"
-                    > List </a>
-                </li>
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="/administrators/create"
-                    > Create </a>
-                </li>
-            </ul>
-        @endsuper
+    @super
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Users</span>
+        </div>
+        <ul class="space-y-2 font-medium">
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.users.all') }}"
+                > List </a>
+            </li>
+        </ul>
 
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Companies</span>
+        </div>
+        <ul class="space-y-2 font-medium">
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.companies.all') }}"
+                > List </a>
+            </li>
+        </ul>
+
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Suppliers</span>
+        </div>
+        <ul class="space-y-2 font-medium">
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.suppliers.all') }}"
+                > List </a>
+            </li>
+        </ul>
+    @endsuper
+
+    @permitted(UserPermission::USER, 'show')
         @manager
             <br />
             <div class="border-default border-b">

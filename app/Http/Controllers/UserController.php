@@ -87,7 +87,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         if ($user->id === Auth::user()->id) {
-            return redirect()->route('users.profile.edit', $user);
+            return redirect()->route('profile.users.edit', $user);
         }
 
         # guards
@@ -163,7 +163,7 @@ class UserController extends Controller
 
         if (Auth::user()->isSuper()) {
             return redirect()
-                ->intended(route('users.all'))
+                ->intended(route('super.users.all'))
                 ->with('message', self::responseMessage(
                     'info',
                     'User removed',
@@ -217,9 +217,9 @@ class UserController extends Controller
      * Attach an user to a related resource
      * ! This needs tests review
      */
-    public function modelAttach(Request $request, string|int $modelId, User $user)
+    public function modelAttach(Request $request, User $user, string|int $modelId)
     {
-        $modelName = Collection::make($request->route()->parameters())->keys()->first();
+        $modelName = Collection::make($request->route()->parameters())->keys()->last();
         $model = RelatedModel::from($modelName)->entity($modelId);
         $policy = RelatedModel::from($modelName)->policy();
 
@@ -240,9 +240,9 @@ class UserController extends Controller
      * Detach an user from a related resource
      * ! This needs tests review
      */
-    public function modelDetach(Request $request, string|int $modelId, User $user): RedirectResponse
+    public function modelDetach(Request $request, User $user, string|int $modelId): RedirectResponse
     {
-        $modelName = Collection::make($request->route()->parameters())->keys()->first();
+        $modelName = Collection::make($request->route()->parameters())->keys()->last();
         $model = RelatedModel::from($modelName)->entity($modelId);
         $policy = RelatedModel::from($modelName)->policy();
 
@@ -265,7 +265,7 @@ class UserController extends Controller
      */
     public function modelStore(StoreUserRequest $request, string|int $modelId, UserStoreAction $action): RedirectResponse
     {
-        $modelName = Collection::make($request->route()->parameters())->keys()->first();
+        $modelName = Collection::make($request->route()->parameters())->keys()->last();
         $model = RelatedModel::from($modelName)->entity($modelId);
         $policy = RelatedModel::from($modelName)->policy();
 
@@ -320,18 +320,5 @@ class UserController extends Controller
                 'Permission revoked',
                 'Permission revoked from user ' . $user->name
             ));
-    }
-
-    // ADMIN
-    public function all(Request $request): View
-    {
-        $querySearch = $request->string('search')->value();
-
-        return view('pages.user.admin', [
-            'users' => $this->userService
-                ->search($querySearch)
-                ->resourceFilter(ResourceFilter::WITH_TRASHED)
-                ->paginate($request->integer('limit') ?? 10),
-        ]);
     }
 }

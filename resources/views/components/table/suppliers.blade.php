@@ -4,7 +4,7 @@
     'edit' => false,
     'delete' => false,
     'restore' => false,
-    'searchRoute' => null,
+    'search_route' => null,
 ])
 
 @php
@@ -20,16 +20,14 @@
         <form
             class="flex items-center gap-2"
             method="GET"
-            action="{{ $searchRoute }}"
+            action="{{ $search_route }}"
         >
             <x-form.field
                 name="search"
-                type="text"
+                type="search"
                 value="{{ request('search') }}"
                 label="Search suppliers..."
             />
-
-            <x-button type="submit"> Search </x-button>
         </form>
     </x-slot>
 

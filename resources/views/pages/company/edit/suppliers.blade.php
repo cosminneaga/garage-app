@@ -6,7 +6,7 @@
                 :resource="$company"
                 :countries="$countries"
                 :edit="Permission::can(UserPermission::SUPPLIER, 'update')"
-                :delete="Permission::can(UserPermission::COMPANY, 'update')"
+                :delete="Permission::can(UserPermission::SUPPLIER, 'update')"
             />
         </x-card>
     </x-tabs>

@@ -21,7 +21,7 @@ beforeEach(function () {
 test('administrator: create & attach manager', function () {
     actingAs($this->administrator);
 
-    post(route('companies.user.store', $this->company), [
+    post(route('users.companies.store', $this->company), [
         'name' => 'user',
         'email' => 'user@garage.com',
         'password' => 'P@ssword',
@@ -57,7 +57,7 @@ test('manager: create & attach user', function () {
     $this->company->users()->attach($manager);
     actingAs($manager);
 
-    post(route('companies.user.store', $this->company), [
+    post(route('users.companies.store', $this->company), [
         'name' => 'user',
         'email' => 'user@garage.com',
         'password' => 'P@ssword',
@@ -93,7 +93,7 @@ test('user: create & attach user, user should not be able to create & attach oth
     $this->company->users()->attach($user);
     actingAs($user);
 
-    post(route('companies.user.store', $this->company), [
+    post(route('users.companies.store', $this->company), [
         'name' => 'user',
         'email' => 'user@garage.com',
         'password' => 'P@ssword',

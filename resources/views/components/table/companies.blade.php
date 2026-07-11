@@ -25,12 +25,10 @@
             >
                 <x-form.field
                     name="search"
-                    type="text"
+                    type="search"
                     value="{{ request('search') }}"
                     label="Search companies..."
                 />
-
-                <x-button type="submit"> Search </x-button>
             </form>
         </x-slot>
     @endif

@@ -29,21 +29,15 @@
     @if ($search_route)
         <x-slot name="header">
             <form
-                class="flex items-center gap-2"
                 method="GET"
                 action="{{ $search_route }}"
             >
                 <x-form.field
                     name="search"
-                    type="text"
+                    type="search"
                     value="{{ request('search') }}"
                     label="Search users..."
                 />
-
-                <x-button
-                    type="submit"
-                    variant="secondary"
-                > Search </x-button>
             </form>
         </x-slot>
     @endif
@@ -103,7 +97,7 @@
                         @endif
                         @if ($attach && $parent_resource)
                             <form
-                                action="{{ route($routes_prefix . '.user.attach', [$parent_resource, $row]) }}"
+                                action="{{ route('users.' . $routes_prefix . '.attach', [$row, $parent_resource]) }}"
                                 method="POST"
                                 id="user-attach-submit"
                             >

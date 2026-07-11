@@ -7,8 +7,8 @@
                 :data="$user->addresses"
                 :resource="$user"
                 :countries="$countries"
-                :edit="Permission::can(UserPermission::USER, 'update')"
-                :delete="Permission::can(UserPermission::USER, 'delete')"
+                :edit="Permission::can(UserPermission::ADDRESS, 'update')"
+                :delete="Permission::can(UserPermission::ADDRESS, 'delete')"
             />
         </x-card>
     </x-tabs>

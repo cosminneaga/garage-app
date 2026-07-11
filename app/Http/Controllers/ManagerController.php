@@ -82,7 +82,7 @@ class ManagerController extends Controller
         $this->authorize('view', $manager);
 
         if ($manager->id === Auth::user()->id) {
-            return redirect()->route('users.profile.edit', $manager);
+            return redirect()->route('profile.users.edit', $manager);
         }
 
         return match(request()->query('tab')) {

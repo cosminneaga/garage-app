@@ -10,6 +10,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SuperController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +45,7 @@ Route::controller(UserController::class)
     ->group(function () {
         Route::resource('users', UserController::class)->except('show');
         Route::get('/users/restore', 'removed')->name('users.removed');
-        Route::get('/chart/users', 'chart')->name('chart.users');
+        Route::get('/users/chart', 'chart')->name('users.chart');
         Route::post('/users/{id}/restore', 'restore')->name('users.restore');
 
         # permissions
@@ -52,9 +53,9 @@ Route::controller(UserController::class)
         Route::delete('/users/{user}/permission/{name}', 'revokePermission')->name('users.permission.revoke');
 
         # companies
-        Route::delete('/companies/{company}/user/{user}', 'modelDetach')->name('companies.user.destroy');
-        Route::put('/companies/{company}/user/{user}', 'modelAttach')->name('companies.user.attach');
-        Route::post('/companies/{company}/user', 'modelStore')->name('companies.user.store');
+        Route::post('/users/companies/{company}', 'modelStore')->name('users.companies.store');
+        Route::put('/users/{user}/companies/{company}', 'modelAttach')->name('users.companies.attach');
+        Route::delete('/users/{user}/companies/{company}', 'modelDetach')->name('users.companies.destroy');
     });
 
 Route::controller(CompanyController::class)
@@ -68,68 +69,84 @@ Route::controller(CompanyController::class)
 Route::controller(ProfileController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        Route::get('/users/profile', 'edit')->name('users.profile.edit');
-        Route::put('/users/{user}/profile', 'update')->name('users.profile.update');
+        Route::get('/profile/users', 'edit')->name('profile.users.edit');
+        Route::put('/profile/users/{user}', 'update')->name('profile.users.update');
     });
 
 Route::controller(SupplierController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::get('/suppliers/restore', 'removed')->name('suppliers.removed');
-        Route::get('/companies/{company}/suppliers/{supplier}', 'edit')->name('companies.supplier.edit');
         Route::post('/suppliers/{supplier}/restore', 'restore')->name('suppliers.restore');
-        Route::post('/companies/{company}/suppliers', 'store')->name('companies.supplier.store');
-        Route::put('/companies/{company}/suppliers/{supplier}', 'update')->name('companies.supplier.update');
-        Route::delete('/companies/{company}/supplier/{supplier}', 'destroy')->name('companies.supplier.destroy');
+
+        # companies
+        Route::post('/suppliers/companies/{company}', 'store')->name('suppliers.companies.store');
+        Route::get('/suppliers/{supplier}/companies/{company}', 'edit')->name('suppliers.companies.edit');
+        Route::put('/suppliers/{supplier}/companies/{company}', 'update')->name('suppliers.companies.update');
+        Route::delete('/suppliers/{supplier}/companies/{company}', 'destroy')->name('suppliers.companies.destroy');
     });
 
 Route::controller(AddressController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        Route::get('/users/{user}/address/{address}', 'edit')->name('users.address.edit');
-        Route::get('/companies/{company}/address/{address}', 'edit')->name('companies.address.edit');
-        Route::get('/suppliers/{supplier}/address/{address}', 'edit')->name('suppliers.address.edit');
+        # users
+        Route::get('/addresses/{address}/users/{user}', 'edit')->name('addresses.users.edit');
+        Route::post('/addresses/users/{user}', 'store')->name('addresses.users.store');
+        Route::put('/addresses/{address}/users/{user}', 'update')->name('addresses.users.update');
+        Route::delete('/addresses/{address}/users/{user}', 'destroy')->name('addresses.users.destroy');
 
-        Route::post('/users/{user}/address', 'store')->name('users.address.store');
-        Route::post('/companies/{company}/address', 'store')->name('companies.address.store');
-        Route::post('/suppliers/{supplier}/address', 'store')->name('suppliers.address.store');
+        # companies
+        Route::get('/addresses/{address}/companies/{company}', 'edit')->name('addresses.companies.edit');
+        Route::post('/addresses/companies/{company}', 'store')->name('addresses.companies.store');
+        Route::put('/addresses/{address}/companies/{company}', 'update')->name('addresses.companies.update');
+        Route::delete('/addresses/{address}/companies/{company}', 'destroy')->name('addresses.companies.destroy');
 
-        Route::put('/users/{user}/address/{address}', 'update')->name('users.address.update');
-        Route::put('/companies/{company}/address/{address}', 'update')->name('companies.address.update');
-        Route::put('/suppliers/{supplier}/address/{address}', 'update')->name('suppliers.address.update');
-
-        Route::delete('/users/{user}/address/{address}', 'destroy')->name('users.address.destroy');
-        Route::delete('/companies/{company}/address/{address}', 'destroy')->name('companies.address.destroy');
-        Route::delete('/suppliers/{supplier}/address/{address}', 'destroy')->name('suppliers.address.destroy');
+        # suppliers
+        Route::get('/addresses/{address}/suppliers/{supplier}', 'edit')->name('addresses.suppliers.edit');
+        Route::post('/addresses/suppliers/{supplier}', 'store')->name('addresses.suppliers.store');
+        Route::put('/addresses/{address}/suppliers/{supplier}', 'update')->name('addresses.suppliers.update');
+        Route::delete('/addresses/{address}/suppliers/{supplier}', 'destroy')->name('addresses.suppliers.destroy');
     });
 
 Route::controller(ContactController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        Route::get('/users/{user}/contact/{contact}', 'edit')->name('users.contact.edit');
-        Route::get('/companies/{company}/contact/{contact}', 'edit')->name('companies.contact.edit');
-        Route::get('/suppliers/{supplier}/contact/{contact}', 'edit')->name('suppliers.contact.edit');
+        # users
+        Route::get('/contacts/{contact}/users/{user}', 'edit')->name('contacts.users.edit');
+        Route::post('/contacts/users/{user}')->name('contacts.users.store');
+        Route::put('/contacts/{contact}/users/{user}', 'update')->name('contacts.users.update');
+        Route::delete('/contacts/{contact}/users/{user}', 'destroy')->name('contacts.users.destroy');
 
-        Route::post('/users/{user}/contact', 'store')->name('users.contact.store');
-        Route::post('/companies/{company}/contact', 'store')->name('companies.contact.store');
-        Route::post('/suppliers/{supplier}/contact', 'store')->name('suppliers.contact.store');
+        # companies
+        Route::get('/contacts/{contact}/companies/{company}', 'edit')->name('contacts.companies.edit');
+        Route::post('/contacts/companies/{company}', 'store')->name('contacts.companies.store');
+        Route::put('/contacts/{contact}/companies/{company}', 'update')->name('contacts.companies.update');
+        Route::delete('/contacts/{contact}/companies/{company}', 'destroy')->name('contacts.companies.destroy');
 
-        Route::put('/users/{user}/contact/{contact}', 'update')->name('users.contact.update');
-        Route::put('/companies/{company}/contact/{contact}', 'update')->name('companies.contact.update');
-        Route::put('/suppliers/{supplier}/contact/{contact}', 'update')->name('suppliers.contact.update');
-
-        Route::delete('/users/{user}/contact/{contact}', 'destroy')->name('users.contact.destroy');
-        Route::delete('/companies/{company}/contact/{contact}', 'destroy')->name('companies.contact.destroy');
-        Route::delete('/suppliers/{supplier}/contact/{contact}', 'destroy')->name('suppliers.contact.destroy');
+        # suppliers
+        Route::get('/contacts/{contact}/suppliers/{supplier}', 'edit')->name('contacts.suppliers.edit');
+        Route::post('/contacts/suppliers/{supplier}', 'store')->name('contacts.suppliers.store');
+        Route::put('/contacts/{contact}/suppliers/{supplier}', 'update')->name('contacts.suppliers.contact.update');
+        Route::delete('/contacts/{contact}/suppliers/{supplier}', 'destroy')->name('contacts.suppliers.destroy');
     });
 
 // ADMINISTRATION
-Route::group(['middleware' => 'auth', 'role:super'], function () {
-    Route::get('/administration/company/all', [CompanyController::class, 'all'])->name('companies.all');
-    Route::get('/administration/user/all', [UserController::class, 'all'])->name('users.all');
+// Route::group(['middleware' => 'auth', 'role:super'], function () {
+//     Route::get('/root/users', [])
 
-    Route::get('/administration/supplier/all', [SupplierController::class, 'all'])->name('suppliers.all');
-    Route::get('/administration/suppliers/{supplier}/edit', [SupplierController::class, 'editSingle'])->name('suppliers.edit');
-    Route::put('/administration/suppliers/{supplier}/edit', [SupplierController::class, 'updateSingle'])->name('suppliers.update');
-    Route::delete('/administration/supplier/{supplier}', [SupplierController::class, 'destroySingle'])->name('suppliers.destroy');
-});
+//     Route::get('/root/company/all', [CompanyController::class, 'all'])->name('companies.all');
+//     Route::get('/root/user/all', [UserController::class, 'all'])->name('users.all');
+
+//     Route::get('/root/supplier/all', [SupplierController::class, 'all'])->name('suppliers.all');
+//     Route::get('/root/suppliers/{supplier}/edit', [SupplierController::class, 'editSingle'])->name('suppliers.edit');
+//     Route::put('/root/suppliers/{supplier}/edit', [SupplierController::class, 'updateSingle'])->name('suppliers.update');
+//     Route::delete('/root/supplier/{supplier}', [SupplierController::class, 'destroySingle'])->name('suppliers.destroy');
+// });
+
+Route::controller(SuperController::class)
+    ->middleware(['auth', 'role:super'])
+    ->group(function () {
+        Route::get('/super/users', 'users')->name('super.users.all');
+        Route::get('/super/companies', 'companies')->name('super.companies.all');
+        Route::get('/super/suppliers', 'suppliers')->name('super.suppliers.all');
+    });

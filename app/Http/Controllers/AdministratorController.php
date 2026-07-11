@@ -15,6 +15,7 @@ use App\Services\UserService;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdministratorController extends Controller
@@ -27,12 +28,18 @@ class AdministratorController extends Controller
     }/**
      * Display all resources related to model
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', User::class);
+        $search = $request->string('search')->value();
+        $users = User::role(UserRole::ADMINISTRATOR->value)->select('users.id');
 
         return view('pages.administrator.index', [
-            'administrators' => User::role(UserRole::ADMINISTRATOR->value)->paginate(),
+            'administrators' => $this->user_service
+                ->search($search)
+                ->result
+                ->whereIn('users.id', $users)
+                ->paginate(10),
         ]);
     }
 
@@ -76,7 +83,7 @@ class AdministratorController extends Controller
         $this->authorize('view', $administrator);
 
         if ($administrator->id === Auth::user()->id) {
-            return redirect()->route('users.profile.edit', $administrator);
+            return redirect()->route('profile.users.edit', $administrator);
         }
 
         return match(request()->query('tab')) {

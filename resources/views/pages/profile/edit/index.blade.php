@@ -2,7 +2,7 @@
     <x-tabs :tabs="UserProfileTabs::ui()">
         <x-card description="Visualise & Edit your details">
             <form
-                action="{{ route('users.profile.update', $user) }}"
+                action="{{ route('profile.users.update', $user) }}"
                 method="POST"
                 enctype="multipart/form-data"
             >

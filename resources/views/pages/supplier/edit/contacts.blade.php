@@ -6,8 +6,8 @@
             <x-table.related.contacts
                 :data="$supplier->contacts"
                 :resource="$supplier"
-                :edit="Permission::can(UserPermission::SUPPLIER, 'update')"
-                :delete="Permission::can(UserPermission::SUPPLIER, 'delete')"
+                :edit="Permission::can(UserPermission::CONTACT, 'update')"
+                :delete="Permission::can(UserPermission::CONTACT, 'delete')"
             />
         </x-card>
     </x-tabs>

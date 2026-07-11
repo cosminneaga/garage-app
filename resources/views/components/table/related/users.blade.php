@@ -73,7 +73,7 @@
                             @isCurrentUser($row->id)
                                 <a
                                     class="text-brand"
-                                    href="{{ route('users.profile.edit') }}"
+                                    href="{{ route('profile.users.edit') }}"
                                 >Profile</a>
                             @else
                                 <a
@@ -87,8 +87,8 @@
                                 <x-modal.confirm
                                     id="user-company-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route($parentname . '.user.destroy', [$resource, $row]) }}"
-                                    {{-- companies.user.destroy --}}
+                                    action="{{ route('users.' . $parentname . '.destroy', [$resource, $row]) }}"
+                                    {{-- users.companies.destroy --}}
                                     message="Are you sure you want to remove {{ $row->name }} from {{ $resource->name }}?"
                                 />
                                 <button

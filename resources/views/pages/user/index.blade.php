@@ -4,6 +4,6 @@
         :edit="Permission::can(UserPermission::USER, 'update')"
         :delete="Permission::can(UserPermission::USER, 'delete')"
         chat
-        searchRoute="{{ route('users.index') }}"
+        search_route="{{ route('users.index') }}"
     />
 </x-layout::index>

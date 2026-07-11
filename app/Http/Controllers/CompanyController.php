@@ -148,7 +148,7 @@ class CompanyController extends Controller
 
         if (Auth::user()->isSuper()) {
             return redirect()
-                ->intended(route('companies.all'))
+                ->intended(route('super.companies.all'))
                 ->with('message', self::responseMessage(
                     'info',
                     'User removed',
@@ -196,18 +196,5 @@ class CompanyController extends Controller
                 'Company restored',
                 'The company has been successfully restored and is now available in your account.',
             ));
-    }
-
-    // ADMIN
-    public function all(Request $request): View
-    {
-        $querySearch = $request->string('search')->value();
-
-        return view('pages.company.admin', [
-            'companies' => $this->companyService
-                ->search($querySearch)
-                ->resourceFilter(ResourceFilter::WITH_TRASHED)
-                ->paginate($request->integer('limit') ?? 10),
-        ]);
     }
 }

@@ -12,6 +12,8 @@ use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -24,10 +26,13 @@ class AddressController extends Controller
      */
     public function store(StoreAddressRequest $request, string|int $id, ModelAddressStoreAction $action): RedirectResponse
     {
-        $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedAddressContact::from($type)->entity($id);
-        $policy = RelatedAddressContact::from($type)->policy();
-        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
+        $type = Collection::make($request->route()->parameters())->keys()->last();
+        $relatedModel = RelatedAddressContact::from($type);
+        $entity = $relatedModel->entity($id);
+        abort_unless(
+            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
+            401
+        );
 
         $action->handle($request->safe()->all(), $entity);
 
@@ -42,12 +47,15 @@ class AddressController extends Controller
     /**
      * Display the specified resource.
      */
-    public function edit(Request $request, string|int $id, string|int $addressId): View
+    public function edit(Request $request, string|int $addressId, string|int $id): View
     {
-        $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedAddressContact::from($type)->entity($id);
-        $policy = RelatedAddressContact::from($type)->policy();
-        abort_unless(app($policy)->view(Auth::user(), $entity), 401);
+        $type = Collection::make($request->route()->parameters())->keys()->last();
+        $relatedModel = RelatedAddressContact::from($type);
+        $entity = $relatedModel->entity($id);
+        abort_unless(
+            App::make($relatedModel->policy())->view(Auth::user(), $entity),
+            401
+        );
 
         $resource = $entity->addresses()->findOrFail($addressId);
         Session::flashInput([
@@ -71,12 +79,15 @@ class AddressController extends Controller
     /**
      * Update the specified resource
      */
-    public function update(Request $request, string|int $id, string|int $addressId)
+    public function update(Request $request, string|int $addressId, string|int $id)
     {
-        $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedAddressContact::from($type)->entity($id);
-        $policy = RelatedAddressContact::from($type)->policy();
-        abort_unless(app($policy)->view(Auth::user(), $entity), 401);
+        $type = Collection::make($request->route()->parameters())->keys()->last();
+        $relatedModel = RelatedAddressContact::from($type);
+        $entity = $relatedModel->entity($id);
+        abort_unless(
+            App::make($relatedModel->policy())->view(Auth::user(), $entity),
+            401
+        );
 
         $resource = $entity->addresses()->findOrFail($addressId);
         $resource->update([...$request->except(['_token', '_method'])]);
@@ -92,12 +103,15 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, string|int $id, string|int $addressId): RedirectResponse
+    public function destroy(Request $request, string|int $addressId, string|int $id): RedirectResponse
     {
-        $type = array_keys($request->route()->parameters())[0];
-        $entity = RelatedAddressContact::from($type)->entity($id);
-        $policy = RelatedAddressContact::from($type)->policy();
-        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
+        $type = Collection::make($request->route()->parameters())->keys()->last();
+        $relatedModel = RelatedAddressContact::from($type);
+        $entity = $relatedModel->entity($id);
+        abort_unless(
+            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
+            401
+        );
 
         $entity->addresses()->detach($addressId);
 

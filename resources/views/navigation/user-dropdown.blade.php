@@ -20,25 +20,7 @@
         <li>
             <p class="font-bold">Administrative</p>
         </li>
-        @role('super')
-            <li>
-                <a
-                    class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                    href="/administration/user/all?limit=10"
-                >Users</a>
-            </li>
-            <li>
-                <a
-                    class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                    href="/administration/company/all?limit=10"
-                >Companies</a>
-            </li>
-            <li>
-                <a
-                    class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                    href="/administration/supplier/all?limit=10"
-                >Suppliers</a>
-            </li>
+        @super
             <li>
                 <a
                     class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
@@ -53,11 +35,11 @@
                     target="__blank"
                 >Telescope</a>
             </li>
-        @endrole
+        @endsuper
         <li>
             <a
                 class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                href="{{ route('users.profile.edit', Auth::user()) }}"
+                href="{{ route('profile.users.edit', Auth::user()) }}"
             >Profile</a>
         </li>
         <li>

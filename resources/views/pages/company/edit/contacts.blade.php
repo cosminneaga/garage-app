@@ -7,7 +7,7 @@
                 :data="$company->contacts"
                 :resource="$company"
                 :edit="Permission::can(UserPermission::CONTACT, 'update')"
-                :delete="Permission::can(UserPermission::COMPANY, 'update')"
+                :delete="Permission::can(UserPermission::CONTACT, 'update')"
             />
         </x-card>
     </x-tabs>

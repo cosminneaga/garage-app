@@ -7,7 +7,7 @@
             <form
                 id="company-supplier-update"
                 @isset($company)
-                    :action="route('companies.supplier.update', [
+                    :action="route('suppliers.companies.update', [
                         $company,
                         $supplier,
                     ])"

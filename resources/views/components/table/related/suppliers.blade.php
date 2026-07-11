@@ -52,7 +52,7 @@
                             @if ($edit)
                                 <a
                                     class="text-brand"
-                                    href="{{ route('companies.supplier.edit', [$resource, $row]) }}"
+                                    href="{{ route('suppliers.companies.edit', [$resource, $row]) }}"
                                 >Edit</a>
                             @endif
                             @if ($delete)

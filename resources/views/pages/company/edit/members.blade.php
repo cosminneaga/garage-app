@@ -36,7 +36,7 @@
                 :data="$members"
                 :resource="$company"
                 :edit="Permission::can(UserPermission::USER, 'update')"
-                :delete="Permission::can(UserPermission::COMPANY, 'update')"
+                :delete="Permission::can(UserPermission::USER, 'update')"
                 chat
             />
         </x-card>
