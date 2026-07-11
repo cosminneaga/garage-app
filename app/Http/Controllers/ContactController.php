@@ -24,7 +24,11 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreContactRequest $request, string|int $id, ModelContactStoreAction $action): RedirectResponse
+    public function store(
+        StoreContactRequest $request,
+        string|int $id,
+        ModelContactStoreAction $action
+    ): RedirectResponse
     {
         $type = Collection::make($request->route()->parameters())->keys()->last();
         $entity = RelatedAddressContact::from($type)->entity($id);

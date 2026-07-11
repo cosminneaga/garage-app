@@ -30,6 +30,7 @@ class SupplierController extends Controller
             App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
             401
         );
+        $this->authorize('create');
         $action->handle($request->safe()->all(), $company);
 
         return back()
@@ -40,12 +41,15 @@ class SupplierController extends Controller
             ));
     }
 
-    public function edit(Supplier $supplier, Company $company): View
+    public function modelEdit(
+        Supplier $supplier,
+        Company $company
+    ): View
     {
-        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(
+            App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
+            401
+        );
         $this->authorize('edit', $supplier);
 
         return match (request()->query('tab')) {
@@ -66,12 +70,17 @@ class SupplierController extends Controller
         };
     }
 
-    public function update(UpdateSupplierRequest $request, Supplier $supplier, Company $company): RedirectResponse
+    public function modelUpdate(
+        UpdateSupplierRequest $request,
+        Supplier $supplier,
+        Company $company
+    ): RedirectResponse
     {
-        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(
+            App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
+            401
+        );
+        $this->authorize('edit', $supplier);
 
         $supplier->update($request->safe()->all());
 
@@ -83,12 +92,15 @@ class SupplierController extends Controller
             ));
     }
 
-    public function destroy(Supplier $supplier, Company $company): RedirectResponse
+    public function modelDestroy(
+        Supplier $supplier,
+        Company $company
+    ): RedirectResponse
     {
-        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
-        if (! $guard) {
-            abort(401);
-        }
+        abort_unless(
+            App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
+            401
+        );
         $this->authorize('delete', $supplier);
 
         $company->suppliers()->detach($supplier);
