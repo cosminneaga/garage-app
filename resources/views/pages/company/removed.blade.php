@@ -5,6 +5,6 @@
     <x-table.companies
         :data="$companies"
         :restore="Permission::can(UserPermission::COMPANY, 'restore')"
-        searchRoute="{{ route('companies.removed') }}"
+        search_prefix="{{ route('companies.removed') }}"
     />
 </x-layout::index>

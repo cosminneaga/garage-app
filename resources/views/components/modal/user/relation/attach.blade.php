@@ -9,11 +9,11 @@
 ])
 
 @php
-    $parentname = $resource->getTable();
+    $parentName = $resource->getTable();
     $ids = (object) [
-        'modal' => $parentname . '-' . $id . '-modal',
-        'trigger' => $parentname . '-' . $id . '-modal-trigger',
-        'submit_attach' => $parentname . '-' . $id . '-modal-submit-attach',
+        'modal' => $parentName . '-' . $id . '-modal',
+        'trigger' => $parentName . '-' . $id . '-modal-trigger',
+        'submit_attach' => $parentName . '-' . $id . '-modal-submit-attach',
     ];
 @endphp
 

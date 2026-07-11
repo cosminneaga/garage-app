@@ -25,7 +25,7 @@
     size="6xl"
 >
     <form
-        action="{{ route($parentname . '.address.store', $resource) }}"
+        action="{{ route('addresses.' . $parentname . '.store', $resource) }}"
         method="POST"
     >
         @csrf

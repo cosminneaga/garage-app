@@ -1,11 +1,16 @@
-@props(['id', 'resource', 'countries' => [], 'trigger' => false])
+@props([
+    'id',
+    'resource',
+    'countries' => [],
+    'trigger' => false
+])
 
 @php
-    $parentname = $resource->getTable();
+    $parentName = $resource->getTable();
     $ids = [
-        'modal' => $parentname . '-' . $id . '-modal',
-        'trigger' => $parentname . '-' . $id . '-modal-trigger',
-        'submit' => $parentname . '-' . $id . '-modal-submit',
+        'modal' => $parentName . '-' . $id . '-modal',
+        'trigger' => $parentName . '-' . $id . '-modal-trigger',
+        'submit' => $parentName . '-' . $id . '-modal-submit',
     ];
 @endphp
 
@@ -25,7 +30,7 @@
     size="6xl"
 >
     <form
-        action="{{ route($parentname . '.supplier.store', $resource) }}"
+        action="{{ route('suppliers.' . $parentName . '.store', $resource) }}"
         method="POST"
     >
         @csrf

@@ -8,11 +8,11 @@
 ])
 
 @php
-    $parentname = $resource->getTable();
+    $parentName = $resource->getTable();
     $ids = (object) [
-        'modal' => $parentname . '-' . $id . '-modal',
-        'trigger' => $parentname . '-' . $id . '-modal-trigger',
-        'submit' => $parentname . '-' . $id . '-modal-submit-resource',
+        'modal' => $parentName . '-' . $id . '-modal',
+        'trigger' => $parentName . '-' . $id . '-modal-trigger',
+        'submit' => $parentName . '-' . $id . '-modal-submit-resource',
     ];
 @endphp
 
@@ -36,7 +36,7 @@
 
     <form
         id="company-user-create-form"
-        action="{{ route($parentname . '.user.store', $resource) }}"
+        action="{{ route('users.' . $parentName . '.store', $resource) }}"
         method="POST"
         enctype="@enctype"
     >

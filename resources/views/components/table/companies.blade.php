@@ -4,7 +4,7 @@
     'edit' => false,
     'delete' => false,
     'restore' => false,
-    'searchRoute' => null,
+    'search_route' => null,
 ])
 
 @php
@@ -16,12 +16,12 @@
 @endphp
 
 <x-table.wrapper :data="$data">
-    @if ($searchRoute)
+    @if ($search_route)
         <x-slot name="header">
             <form
                 class="flex items-center gap-2"
                 method="GET"
-                action="{{ $searchRoute }}"
+                action="{{ $search_route }}"
             >
                 <x-form.field
                     name="search"

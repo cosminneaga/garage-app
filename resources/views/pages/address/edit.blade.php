@@ -1,14 +1,14 @@
 @php
     $parameter = collect(Request::route()->parameters())
         ->keys()
-        ->first();
+        ->last();
     $tableName = RelatedModel::from($parameter)->tableName();
 @endphp
 
 <x-layout::index title="Address editing">
     <x-card>
         <form
-            action="{{ route($tableName . '.address.update', [Request::route($parameter), Request::route('address')]) }}"
+            action="{{ route('addresses.' .$tableName . '.update', [Request::route('address'), Request::route($parameter)]) }}"
             method="POST"
         >
             @csrf

@@ -2,7 +2,7 @@
     <x-table.users
         :data="$managers"
         :restore="Permission::can(UserPermission::USER, 'restore')"
-        routesPrefix="managers"
-        searchRoute="{{ route('managers.removed') }}"
+        routes_prefix="managers"
+        search_prefix="{{ route('managers.removed') }}"
     />
 </x-layout::index>
