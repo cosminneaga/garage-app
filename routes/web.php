@@ -94,6 +94,10 @@ Route::controller(AddressController::class)
         Route::post('/companies/{company}/address', 'store')->name('companies.address.store');
         Route::post('/suppliers/{supplier}/address', 'store')->name('suppliers.address.store');
 
+        Route::put('/users/{user}/address/{address}', 'update')->name('users.address.update');
+        Route::put('/companies/{company}/address/{address}', 'update')->name('companies.address.update');
+        Route::put('/suppliers/{supplier}/address/{address}', 'update')->name('suppliers.address.update');
+
         Route::delete('/users/{user}/address/{address}', 'destroy')->name('users.address.destroy');
         Route::delete('/companies/{company}/address/{address}', 'destroy')->name('companies.address.destroy');
         Route::delete('/suppliers/{supplier}/address/{address}', 'destroy')->name('suppliers.address.destroy');
@@ -109,6 +113,10 @@ Route::controller(ContactController::class)
         Route::post('/users/{user}/contact', 'store')->name('users.contact.store');
         Route::post('/companies/{company}/contact', 'store')->name('companies.contact.store');
         Route::post('/suppliers/{supplier}/contact', 'store')->name('suppliers.contact.store');
+
+        Route::put('/users/{user}/contact/{contact}', 'update')->name('users.contact.update');
+        Route::put('/companies/{company}/contact/{contact}', 'update')->name('companies.contact.update');
+        Route::put('/suppliers/{supplier}/contact/{contact}', 'update')->name('suppliers.contact.update');
 
         Route::delete('/users/{user}/contact/{contact}', 'destroy')->name('users.contact.destroy');
         Route::delete('/companies/{company}/contact/{contact}', 'destroy')->name('companies.contact.destroy');

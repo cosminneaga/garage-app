@@ -30,6 +30,16 @@ enum RelatedModel: string
         };
     }
 
+    public function tableName(): string
+    {
+        return match($this) {
+            self::COMPANY => 'companies',
+            self::SUPPLIER => 'suppliers',
+            self::USER => 'users',
+            self::ADDRESS => 'addresses',
+        };
+    }
+
     public function instance(): string
     {
         return match ($this) {

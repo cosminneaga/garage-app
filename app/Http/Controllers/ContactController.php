@@ -59,6 +59,27 @@ class ContactController extends Controller
     }
 
     /**
+     * Update the specified resource
+     */
+    public function update(Request $request, string|int $id, string|int $contactId): RedirectResponse
+    {
+        $type = array_keys($request->route()->parameters())[0];
+        $entity = RelatedAddressContact::from($type)->entity($id);
+        $policy = RelatedAddressContact::from($type)->policy();
+        abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
+
+        $resource = $entity->contacts()->findOrFail($contactId);
+        $resource->update([...$request->except(['_token', '_method'])]);
+
+        return back()
+            ->with('message', self::responseMessage(
+                'success',
+                'Resource updated',
+                'Contact updated successfully'
+            ));
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, string|int $id, string|int $contactId): RedirectResponse

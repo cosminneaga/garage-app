@@ -1,16 +1,21 @@
+@php
+    $parameter = collect(Request::route()->parameters())
+        ->keys()
+        ->first();
+    $tableName = RelatedModel::from($parameter)->tableName();
+@endphp
+
 <x-layout::index title="Contact editing">
     <x-card>
         <form
-            action=""
+            action="{{ route($tableName . '.contact.update', [Request::route($parameter), Request::route('contact')]) }}"
             method="POST"
         >
-        @csrf
-        @method('PUT')
+            @csrf
+            @method('PUT')
 
-        <div class="grid grid-rows-1 gap-4">
-                <x-form.content.contact
-                    identifier="contact"
-                />
+            <div class="grid grid-rows-1 gap-4">
+                <x-form.content.contact identifier="contact" />
             </div>
 
             <div class="mt-5 flex gap-1">
@@ -19,6 +24,6 @@
                     type="submit"
                 >Submit</x-button>
             </div>
-    </form>
+        </form>
     </x-card>
 </x-layout::index>
