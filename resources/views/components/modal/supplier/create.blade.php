@@ -46,6 +46,7 @@
         </div>
 
         <x-button
+            class="mt-5"
             id="{{ $ids['submit'] }}"
             type="submit"
         >Submit</x-button>

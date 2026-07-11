@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
@@ -45,9 +46,16 @@ class ContactController extends Controller
         $policy = RelatedAddressContact::from($type)->policy();
         abort_unless(app($policy)->edit(Auth::user(), $entity), 401);
 
-        return view('pages.contact.edit', [
-            'contact' => $entity->contacts()->findOrFail($contactId),
+        $resource = $entity->contacts()->findOrFail($contactId);
+        Session::flashInput([
+            'email' => $resource->email,
+            'mobile' => $resource->mobile,
+            'landline' => $resource->landline,
+            'url' => $resource->url,
+            'info' => $resource->info,
         ]);
+
+        return view('pages.contact.edit');
     }
 
     /**

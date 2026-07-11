@@ -36,7 +36,6 @@ and old values but not for default values -->
         select_map_label="name"
         select_map_value="id"
         :options="$countries"
-        selected_value="1"
     />
 </section>
 

@@ -7,11 +7,13 @@ namespace App\Http\Controllers;
 use App\Actions\ModelAddressStoreAction;
 use App\Enums\Related\RelatedAddressContact;
 use App\Http\Requests\StoreAddressRequest;
+use App\Models\Country;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AddressController extends Controller
 {
@@ -47,8 +49,22 @@ class AddressController extends Controller
         $policy = RelatedAddressContact::from($type)->policy();
         abort_unless(app($policy)->view(Auth::user(), $entity), 401);
 
+        $resource = $entity->addresses()->findOrFail($addressId);
+        Session::flashInput([
+            'street_number' => $resource->street_number,
+            'street' => $resource->street,
+            'postcode' => $resource->postcode,
+            'building' => $resource->building,
+            'floor' => $resource->floor,
+            'unit' => $resource->unit,
+            'country_id' => $resource->country_id,
+            'coordinates' => [
+                'latitude' => $resource->coordinates?->latitude,
+                'longitude' => $resource->coordinates?->longitude
+            ]
+        ]);
         return view('pages.address.edit', [
-            'address' => $entity->addresses()->findOrFail($addressId),
+            'countries' => Country::all(),
         ]);
     }
 

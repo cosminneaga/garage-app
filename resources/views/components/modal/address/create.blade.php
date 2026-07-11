@@ -37,7 +37,7 @@
             />
         </div>
 
-        <div class="flex gap-1">
+        <div class="flex gap-1 mt-5">
             <x-button
                 id="{{ $ids['submit'] }}"
                 type="submit"
