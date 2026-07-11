@@ -37,7 +37,7 @@ class AddressController extends Controller
         $action->handle($request->safe()->all(), $entity);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Resource created',
                 'Address has been created and attached to given resource',
@@ -68,8 +68,8 @@ class AddressController extends Controller
             'country_id' => $resource->country_id,
             'coordinates' => [
                 'latitude' => $resource->coordinates?->latitude,
-                'longitude' => $resource->coordinates?->longitude
-            ]
+                'longitude' => $resource->coordinates?->longitude,
+            ],
         ]);
         return view('pages.address.edit', [
             'countries' => Country::all(),
@@ -93,7 +93,7 @@ class AddressController extends Controller
         $resource->update([...$request->except(['_token', '_method'])]);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Resource updated',
                 'Address updated successfully'
@@ -116,7 +116,7 @@ class AddressController extends Controller
         $entity->addresses()->detach($addressId);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'info',
                 'Resource removed',
                 'Address has been removed from given resource',

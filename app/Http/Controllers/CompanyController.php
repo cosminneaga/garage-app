@@ -70,7 +70,7 @@ class CompanyController extends Controller
         $action->handle($request->safe()->all());
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Company created',
                 'The company has been successfully created and is now available in your account.',
@@ -129,7 +129,7 @@ class CompanyController extends Controller
         $action->handle($request->safe()->all(), $company);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Company updated',
                 'The company details have been successfully updated.',
@@ -149,7 +149,7 @@ class CompanyController extends Controller
         if (Auth::user()->isSuper()) {
             return redirect()
                 ->intended(route('super.companies.all'))
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'info',
                     'User removed',
                     'The company ' . $company->name . ' has been successfully removed.',
@@ -158,7 +158,7 @@ class CompanyController extends Controller
 
         return redirect()
             ->intended(route('companies.index'))
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'info',
                 'Company removed',
                 'The company has been successfully removed from your account.',
@@ -191,7 +191,7 @@ class CompanyController extends Controller
         $company->restore();
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Company restored',
                 'The company has been successfully restored and is now available in your account.',

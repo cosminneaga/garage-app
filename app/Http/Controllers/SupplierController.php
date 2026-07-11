@@ -14,23 +14,26 @@ use App\Policies\CompanyPolicy;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
 {
     use ResponseMessage;
 
-    public function store(StoreSupplierRequest $request, Company $company, SupplierStoreAction $action): RedirectResponse
-    {
-        $guard = app(CompanyPolicy::class)->edit(Auth::user(), $company);
-        if (! $guard) {
-            abort(401);
-        }
-
+    public function modelStore(
+        StoreSupplierRequest $request,
+        Company $company,
+        SupplierStoreAction $action
+    ): RedirectResponse {
+        abort_unless(
+            App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
+            401
+        );
         $action->handle($request->safe()->all(), $company);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Supplier created',
                 'Supplier information has been created and attached to respective company',
@@ -73,7 +76,7 @@ class SupplierController extends Controller
         $supplier->update($request->safe()->all());
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Supplier updated',
                 'Supplier information has been successfully updated from respective company',
@@ -91,7 +94,7 @@ class SupplierController extends Controller
         $company->suppliers()->detach($supplier);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'info',
                 'Supplier removed',
                 'Supplier information has been successfully removed from respective company',
@@ -108,7 +111,7 @@ class SupplierController extends Controller
         $supplier->restore();
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Supplier restored',
                 'The supplier has been successfully restored and is now available in your account.',
@@ -142,7 +145,7 @@ class SupplierController extends Controller
         $supplier->update($request->safe()->all());
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Supplier updated',
                 'Supplier information has been successfully updated from respective company',
@@ -155,7 +158,7 @@ class SupplierController extends Controller
         $supplier->delete();
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'info',
                 'Supplier removed',
                 'Supplier has been successfully removed',

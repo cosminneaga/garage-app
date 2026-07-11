@@ -76,11 +76,12 @@ Route::controller(ProfileController::class)
 Route::controller(SupplierController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
+        Route::get('/suppliers/{supplier}', 'editSingle')->name('suppliers.edit');
         Route::get('/suppliers/restore', 'removed')->name('suppliers.removed');
         Route::post('/suppliers/{supplier}/restore', 'restore')->name('suppliers.restore');
 
         # companies
-        Route::post('/suppliers/companies/{company}', 'store')->name('suppliers.companies.store');
+        Route::post('/suppliers/companies/{company}', 'modelStore')->name('suppliers.companies.store');
         Route::get('/suppliers/{supplier}/companies/{company}', 'edit')->name('suppliers.companies.edit');
         Route::put('/suppliers/{supplier}/companies/{company}', 'update')->name('suppliers.companies.update');
         Route::delete('/suppliers/{supplier}/companies/{company}', 'destroy')->name('suppliers.companies.destroy');
@@ -113,7 +114,7 @@ Route::controller(ContactController::class)
     ->group(function () {
         # users
         Route::get('/contacts/{contact}/users/{user}', 'edit')->name('contacts.users.edit');
-        Route::post('/contacts/users/{user}')->name('contacts.users.store');
+        Route::post('/contacts/users/{user}', 'store')->name('contacts.users.store');
         Route::put('/contacts/{contact}/users/{user}', 'update')->name('contacts.users.update');
         Route::delete('/contacts/{contact}/users/{user}', 'destroy')->name('contacts.users.destroy');
 

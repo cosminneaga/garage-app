@@ -1,9 +1,4 @@
-@props([
-    'id',
-    'resource',
-    'countries' => [],
-    'trigger' => false
-])
+@props(['id', 'resource', 'countries' => [], 'trigger' => false])
 
 @php
     $parentName = $resource->getTable();

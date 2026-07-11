@@ -52,14 +52,14 @@
                             @if ($edit)
                                 <a
                                     class="text-brand"
-                                    href="{{ route('suppliers.companies.edit', [$resource, $row]) }}"
+                                    href="{{ route('suppliers.companies.edit', [$row, $resource]) }}"
                                 >Edit</a>
                             @endif
                             @if ($delete)
                                 <x-modal.confirm
                                     id="supplier-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route('suppliers.companies.destroy', [$resource, $row]) }}"
+                                    action="{{ route('suppliers.companies.destroy', [$row, $resource]) }}"
                                     message="Are you sure you want to remove this {{ $row->name }}?"
                                 />
                                 <button

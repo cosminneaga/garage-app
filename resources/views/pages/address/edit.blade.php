@@ -8,7 +8,7 @@
 <x-layout::index title="Address editing">
     <x-card>
         <form
-            action="{{ route('addresses.' .$tableName . '.update', [Request::route('address'), Request::route($parameter)]) }}"
+            action="{{ route('addresses.' . $tableName . '.update', [Request::route('address'), Request::route($parameter)]) }}"
             method="POST"
         >
             @csrf

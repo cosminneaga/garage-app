@@ -24,7 +24,7 @@ class AuthController extends Controller
         if (! Auth::attempt($request->safe()->all())) {
             return redirect()
                 ->back()
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'error',
                     'Authentication failed',
                     'We were unable to authenticate using the provided credentials. Please verify your login details and try again.',
@@ -37,7 +37,7 @@ class AuthController extends Controller
         if ($user && ! $user->active) {
             return redirect()
                 ->back()
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'error',
                     'Your account has been suspended',
                     'Please contact administration to resolve the issue and restore access.',
@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         return redirect()
             ->intended(route('home'))
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Login successful',
                 'You are logged in and can now access your account.',

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
 use App\Enums\Resource\ResourceFilter;
+use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -67,7 +68,7 @@ class ManagerController extends Controller
         $action->handle($attributes);
 
         return redirect(route('managers.index'))
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'User created',
                 'The user has been successfully created and added to the team.',
@@ -96,6 +97,10 @@ class ManagerController extends Controller
                 'user' => $manager,
                 'countries' => Country::all(),
             ]),
+            'permissions' => view('pages.user.edit.permissions', [
+                'user' => $manager,
+                'permissions' => UserPermission::tableStructure($manager->getAllPermissions()),
+            ]),
             default => view('pages.manager.edit.index', [
                 'manager' => $manager,
             ]),
@@ -109,7 +114,7 @@ class ManagerController extends Controller
     {
         if ($manager->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'error',
                     'User update error',
                     'Please update your own details from profile section',
@@ -121,7 +126,7 @@ class ManagerController extends Controller
         $action->handle($attributes, $manager);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Manager updated',
                 'The manager details have been successfully updated.',
@@ -137,7 +142,7 @@ class ManagerController extends Controller
 
         if ($manager->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'error',
                     'User delete error',
                     'You cannot delete your own account',
@@ -148,7 +153,7 @@ class ManagerController extends Controller
         $manager->delete();
 
         return redirect(route('managers.index'))
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'info',
                 'Manager removed',
                 'The manager ' . $manager->name . ' has been successfully removed from the team.',
@@ -181,7 +186,7 @@ class ManagerController extends Controller
         $manager->restore();
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Manager restored',
                 'The manager has been successfully restored and is now active again.',

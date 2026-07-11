@@ -87,7 +87,7 @@
                                 <x-modal.confirm
                                     id="user-company-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route('users.' . $parentname . '.destroy', [$resource, $row]) }}"
+                                    action="{{ route('users.' . $parentname . '.destroy', [$row, $resource]) }}"
                                     {{-- users.companies.destroy --}}
                                     message="Are you sure you want to remove {{ $row->name }} from {{ $resource->name }}?"
                                 />

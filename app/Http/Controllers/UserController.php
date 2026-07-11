@@ -72,7 +72,7 @@ class UserController extends Controller
         $action->handle($attributes);
 
         return redirect(route('users.index'))
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'User created',
                 'The user has been successfully created and added to the team.',
@@ -123,7 +123,7 @@ class UserController extends Controller
     {
         if ($user->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'error',
                     'User update error',
                     'Please update your own details from profile section',
@@ -135,7 +135,7 @@ class UserController extends Controller
         $action->handle($attributes, $user);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'User updated',
                 'The user details have been successfully updated.',
@@ -151,7 +151,7 @@ class UserController extends Controller
 
         if ($user->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'error',
                     'User delete error',
                     'You cannot delete your own account',
@@ -164,7 +164,7 @@ class UserController extends Controller
         if (Auth::user()->isSuper()) {
             return redirect()
                 ->intended(route('super.users.all'))
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'info',
                     'User removed',
                     'The user ' . $user->name . ' has been successfully removed from the team.',
@@ -173,7 +173,7 @@ class UserController extends Controller
 
         return redirect()
             ->intended(route('users.index'))
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'info',
                 'User removed',
                 'The user ' . $user->name . ' has been successfully removed from the team.',
@@ -206,7 +206,7 @@ class UserController extends Controller
         $user->restore();
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'User restored',
                 'The user has been successfully restored and is now active again.',
@@ -229,7 +229,7 @@ class UserController extends Controller
         $model->users()->attach($user);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'User linked',
                 'User has been linked to ' . $modelName
@@ -252,7 +252,7 @@ class UserController extends Controller
         $model->users()->detach($user);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'warning',
                 'User unlinked',
                 'User has been unlinked from ' . $modelName
@@ -279,7 +279,7 @@ class UserController extends Controller
         Auth::user()->peerAttach($user);
 
         return back()
-          ->with('message', self::responseMessage(
+          ->with(self::flashMessage(
               'success',
               'User created & linked',
               'User has been created and linked to ' . $modelName,
@@ -297,7 +297,7 @@ class UserController extends Controller
         $user->givePermissionTo($name);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Permission assigned',
                 'Permission assign to user ' . $user->name
@@ -315,7 +315,7 @@ class UserController extends Controller
         $user->revokePermissionTo($name);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Permission revoked',
                 'Permission revoked from user ' . $user->name

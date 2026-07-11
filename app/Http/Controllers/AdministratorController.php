@@ -68,7 +68,7 @@ class AdministratorController extends Controller
         $action->handle($attributes);
 
         return redirect(route('administrators.index'))
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'User created',
                 'The user has been successfully created and added to the team.',
@@ -110,7 +110,7 @@ class AdministratorController extends Controller
     {
         if ($administrator->id === Auth::user()->id) {
             return back()
-                ->with('message', self::responseMessage(
+                ->with(self::flashMessage(
                     'error',
                     'User update error',
                     'Please update your own details from profile section',
@@ -122,7 +122,7 @@ class AdministratorController extends Controller
         $action->handle($attributes, $administrator);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Administrator updated',
                 'The administrator details have been successfully updated.',

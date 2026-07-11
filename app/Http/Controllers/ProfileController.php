@@ -40,7 +40,7 @@ class ProfileController extends Controller
         $action->handle($request->validated(), $user);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Profile updated',
                 'Your profile has been updated successfully',

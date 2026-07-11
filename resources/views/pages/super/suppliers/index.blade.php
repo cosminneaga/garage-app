@@ -2,5 +2,6 @@
     <x-table.suppliers
         :data="$data"
         search_route="{{ route('super.suppliers.all') }}"
+        edit
     />
 </x-layout::index>

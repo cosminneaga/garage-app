@@ -22,7 +22,7 @@ class SupplierFactory extends Factory
             'name' => fake()->company(),
             'tax_id' => fake()->numberBetween(10000000, 99999999),
             'registration_number' => fake()->numberBetween(10000000, 99999999),
-            'code' => 'NIMACODE43',
+            'code' => fake()->randomElement(['NIMACODE43', 'DUDE874', 'HEYHOO79']),
             'type' => fake()->randomElement(SupplierType::class),
         ];
     }

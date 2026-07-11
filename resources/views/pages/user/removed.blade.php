@@ -2,6 +2,6 @@
     <x-table.users
         :data="$users"
         :restore="Permission::can(UserPermission::USER, 'restore')"
-        search_prefix="{{ route('users.removed') }}"
+        search_route="{{ route('users.removed') }}"
     />
 </x-layout::index>

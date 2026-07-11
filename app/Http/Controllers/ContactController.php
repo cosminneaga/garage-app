@@ -8,6 +8,7 @@ use App\Actions\ModelContactStoreAction;
 use App\Enums\Related\RelatedAddressContact;
 use App\Http\Requests\StoreContactRequest;
 use App\Traits\ResponseMessage;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,10 +29,20 @@ class ContactController extends Controller
         $type = Collection::make($request->route()->parameters())->keys()->last();
         $entity = RelatedAddressContact::from($type)->entity($id);
 
-        $action->handle($request->safe()->all(), $entity);
+        try {
+            $action->handle($request->safe()->all(), $entity);
+        } catch (Exception $e) {
+            return back()
+                ->withInput()
+                ->with(self::flashMessage(
+                    'error',
+                    'Resource not created',
+                    $e->getMessage(),
+                ));
+        }
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Resource created',
                 'Contact has been created and attached to given resource',
@@ -80,7 +91,7 @@ class ContactController extends Controller
         $resource->update([...$request->except(['_token', '_method'])]);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'success',
                 'Resource updated',
                 'Contact updated successfully'
@@ -103,7 +114,7 @@ class ContactController extends Controller
         $entity->contacts()->detach($contactId);
 
         return back()
-            ->with('message', self::responseMessage(
+            ->with(self::flashMessage(
                 'info',
                 'Resource removed',
                 'Contact has been removed from given resource',

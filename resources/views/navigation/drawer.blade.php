@@ -11,7 +11,9 @@
             title="GarageApp Logo"
             alt="GarageApp Logo"
         />
-        <span class="text-heading self-center whitespace-nowrap text-lg font-semibold">Garage App</span>
+        <span
+            class="text-heading self-center whitespace-nowrap text-lg font-semibold"
+        >Garage App</span>
     </div>
 
     @super

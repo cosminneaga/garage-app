@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Company;
@@ -31,7 +33,7 @@ class SuperController extends Controller
     {
         $search = $request->string('search')->value();
 
-        return view('pages.super.companies.index', [
+        return view('pages.super.suppliers.index', [
             'data' => Supplier::search($search)->paginate(10),
         ]);
     }

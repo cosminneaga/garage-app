@@ -56,14 +56,14 @@
                             @if ($edit)
                                 <a
                                     class="text-brand"
-                                    href="{{ route('contacts.' . $parentname . '.edit', [$resource, $row]) }}"
+                                    href="{{ route('contacts.' . $parentname . '.edit', [$row, $resource]) }}"
                                 >Edit</a>
                             @endif
                             @if ($delete)
                                 <x-modal.confirm
                                     id="{{ $parentname }}-contact-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route('contacts.' . $parentname . '.destroy', [$resource, $row->id]) }}"
+                                    action="{{ route('contacts.' . $parentname . '.destroy', [$row, $resource]) }}"
                                     message="Are you sure you want to remove this contact?"
                                 />
                                 <button
