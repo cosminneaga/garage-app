@@ -9,23 +9,27 @@
                     action="{{ route('companies.edit', $company) }}"
                 />
 
-                <x-modal.user.relation.attach
-                    id="user-attach"
-                    :resource="$company"
-                    :countries="$countries"
-                    :existing_users="$non_members"
-                    :title="Auth::user()->isAdministrator()
-                        ? 'Add an existing manager'
-                        : 'Add an existing user'"
-                />
-                <x-modal.user.relation.create
-                    id="user-create"
-                    :resource="$company"
-                    :countries="$countries"
-                    :title="Auth::user()->isAdministrator()
-                        ? 'Create a new manager'
-                        : 'Create a new user'"
-                />
+                @permitted(UserPermission::USER, 'update')
+                    <x-modal.user.relation.attach
+                        id="user-attach"
+                        :resource="$company"
+                        :countries="$countries"
+                        :existing_users="$non_members"
+                        :title="Auth::user()->isAdministrator()
+                            ? 'Add an existing manager'
+                            : 'Add an existing user'"
+                    />
+                @endpermitted
+                @permitted(UserPermission::USER, 'update')
+                    <x-modal.user.relation.create
+                        id="user-create"
+                        :resource="$company"
+                        :countries="$countries"
+                        :title="Auth::user()->isAdministrator()
+                            ? 'Create a new manager'
+                            : 'Create a new user'"
+                    />
+                @endpermitted
             </div>
 
             <x-table.related.users

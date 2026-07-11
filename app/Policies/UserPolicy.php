@@ -31,9 +31,13 @@ class UserPolicy
 
     public function edit(User $user, User $model): bool
     {
+        if (!Permission::can(UserPermission::USER, 'update')) {
+            return false;
+        }
+
         return match ($user->getRoleNames()[0]) {
-            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)) && Permission::can(UserPermission::USER, 'update'),
-            UserRole::MANAGER->value => $user->isMyUser($model) && Permission::can(UserPermission::USER, 'update')
+            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
+            UserRole::MANAGER->value => $user->isMyUser($model),
         };
     }
 

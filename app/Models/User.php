@@ -192,11 +192,12 @@ class User extends Authenticatable
                 ->exists();
         }
 
+
         return $this
-            ->users()
-            ->where('users.id', $user->id)
-            ->withTrashed()
-            ->exists();
+        ->users()
+        ->where('users.id', $user->id)
+        ->withTrashed()
+        ->exists();
     }
 
     public function isMyManager(User $user): Throwable|bool
