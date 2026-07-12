@@ -24,7 +24,7 @@
                 />
                 <br />
                 <x-form.content.user
-                    identifier="user_update"
+                    identifier="user-update"
                     :exclude="['role', 'password', 'password_confirmed']"
                 />
 

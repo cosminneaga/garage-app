@@ -24,12 +24,8 @@ class ExtensionServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
-        Collection::macro('getBy', function (string $key, mixed $value) {
-            return $this->firstWhere($key, $value);
-        });
-        Collection::macro('existsInList', function (array $list, array $compareList) {
-            return (bool) $this->values()->every(fn($value) => in_array($value, $compareList));
-        });
+        Collection::macro('getBy', fn (string $key, mixed $value) => $this->firstWhere($key, $value));
+        Collection::macro('existsInList', fn (array $list, array $compareList) => (bool) $this->values()->every(fn ($value) => in_array($value, $compareList)));
         Str::macro('generateFormFieldName', function (string $name, $nested_parent): string {
             if (!$nested_parent) {
                 return $name;

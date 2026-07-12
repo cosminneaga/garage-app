@@ -18,9 +18,13 @@ class UserPolicy
 
     public function view(User $user, User $model): bool
     {
+        if (!Permission::can(UserPermission::USER, 'show')) {
+            return false;
+        }
+
         return match ($user->getRoleNames()[0]) {
-            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)) && Permission::can(UserPermission::USER, 'show'),
-            UserRole::MANAGER->value => $user->isMyUser($model) && Permission::can(UserPermission::USER, 'show')
+            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
+            UserRole::MANAGER->value => $user->isMyUser($model)
         };
     }
 
@@ -43,9 +47,13 @@ class UserPolicy
 
     public function delete(User $user, User $model): bool
     {
+        if (!Permission::can(UserPermission::USER, 'delete')) {
+            return false;
+        }
+
         return match ($user->getRoleNames()[0]) {
-            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)) && Permission::can(UserPermission::USER, 'delete'),
-            UserRole::MANAGER->value => $user->isMyUser($model) && Permission::can(UserPermission::USER, 'delete')
+            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
+            UserRole::MANAGER->value => $user->isMyUser($model)
         };
     }
 
@@ -56,9 +64,13 @@ class UserPolicy
 
     public function restore(User $user, User $model): bool
     {
+        if (!Permission::can(UserPermission::USER, 'restore')) {
+            return false;
+        }
+
         return match ($user->getRoleNames()[0]) {
-            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)) && Permission::can(UserPermission::USER, 'restore'),
-            UserRole::MANAGER->value => $user->isMyUser($model) && Permission::can(UserPermission::USER, 'restore')
+            UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
+            UserRole::MANAGER->value => $user->isMyUser($model)
         };
     }
 }

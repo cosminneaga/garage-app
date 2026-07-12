@@ -1,3 +1,7 @@
+@php
+    Session::flashInput([...$manager->toArray()]);
+@endphp
+
 <x-layout::index title="{{ $manager->name }} | Details">
     <x-tabs :tabs="UserTabs::ui()">
         <x-card
@@ -20,39 +24,10 @@
                     alt="alt"
                 />
                 <br />
-                <x-form.field
-                    identifier="user_update"
-                    name="name"
-                    type="text"
-                    label="Name"
-                    :value="$manager->name"
+                <x-form.content.user
+                    identifier="manager-update"
+                    :exclude="['password', 'password_confirmed']"
                 />
-                <x-form.field
-                    identifier="user_update"
-                    name="email"
-                    type="email"
-                    label="Email"
-                    :value="$manager->email"
-                />
-                <x-form.field
-                    identifier="user_update"
-                    name="image"
-                    type="image"
-                    accept="image/*"
-                />
-                <x-form.field
-                    identifier="user_update"
-                    name="active"
-                    type="toggle"
-                    checked="{{ $manager->active }}"
-                >
-                    <x-slot name="before">
-                        Inactive
-                    </x-slot>
-                    <x-slot name="after">
-                        Active
-                    </x-slot>
-                </x-form.field>
 
                 <div class="mt-5 flex gap-1">
                     <x-button

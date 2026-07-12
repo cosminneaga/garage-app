@@ -20,6 +20,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
@@ -179,6 +180,10 @@ class User extends Authenticatable
      */
     public function isMyUser(User $user): Throwable|bool
     {
+        if (Auth::user()->id === $user->id) {
+            return true;
+        }
+
         if (!$this->hasAnyRole(UserRole::MANAGER->value, UserRole::ADMINISTRATOR->value)) {
             throw new Exception('The user must hold the manager or administrator role.');
         }
@@ -192,12 +197,11 @@ class User extends Authenticatable
                 ->exists();
         }
 
-
         return $this
-        ->users()
-        ->where('users.id', $user->id)
-        ->withTrashed()
-        ->exists();
+            ->users()
+            ->where('users.id', $user->id)
+            ->withTrashed()
+            ->exists();
     }
 
     public function isMyManager(User $user): Throwable|bool

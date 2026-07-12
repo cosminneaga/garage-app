@@ -28,8 +28,7 @@ class ContactController extends Controller
         StoreContactRequest $request,
         string|int $id,
         ModelContactStoreAction $action
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $type = Collection::make($request->route()->parameters())->keys()->last();
         $entity = RelatedAddressContact::from($type)->entity($id);
 

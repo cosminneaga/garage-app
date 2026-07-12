@@ -20,14 +20,14 @@
                     <x-form.content.address
                         :countries="$countries"
                         identifier="user"
-                        nestedParentName="address"
+                        nested_parent_name="address"
                     />
                 </div>
 
                 <div class="p-2">
                     <x-form.content.contact
                         identifier="user"
-                        nestedParentName="contact"
+                        nested_parent_name="contact"
                     />
                 </div>
             </div>

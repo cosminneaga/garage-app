@@ -44,8 +44,7 @@ class SupplierController extends Controller
     public function modelEdit(
         Supplier $supplier,
         Company $company
-    ): View
-    {
+    ): View {
         abort_unless(
             App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
             401
@@ -74,8 +73,7 @@ class SupplierController extends Controller
         UpdateSupplierRequest $request,
         Supplier $supplier,
         Company $company
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         abort_unless(
             App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
             401
@@ -95,8 +93,7 @@ class SupplierController extends Controller
     public function modelDestroy(
         Supplier $supplier,
         Company $company
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         abort_unless(
             App::make(CompanyPolicy::class)->edit(Auth::user(), $company),
             401
@@ -130,7 +127,7 @@ class SupplierController extends Controller
             ));
     }
 
-    public function editSingle(Supplier $supplier): View
+    public function edit(Supplier $supplier): View
     {
         $this->authorize('view', $supplier);
 
@@ -151,8 +148,10 @@ class SupplierController extends Controller
         };
     }
 
-    public function updateSingle(UpdateSupplierRequest $request, Supplier $supplier): RedirectResponse
-    {
+    public function update(
+        UpdateSupplierRequest $request,
+        Supplier $supplier
+    ): RedirectResponse {
         $this->authorize('edit', $supplier);
         $supplier->update($request->safe()->all());
 
@@ -164,7 +163,7 @@ class SupplierController extends Controller
             ));
     }
 
-    public function destroySingle(Supplier $supplier)
+    public function destroy(Supplier $supplier)
     {
         $this->authorize('delete', $supplier);
         $supplier->delete();

@@ -1,3 +1,7 @@
+@php
+    Session::flashInput($supplier->toArray());
+@endphp
+
 <x-layout::index title="{{ $supplier->name }} | Details">
     <x-tabs :tabs="SupplierTabs::ui()">
         <x-card
@@ -19,41 +23,9 @@
                 @csrf
                 @method ('PUT')
 
-                <x-form.field
-                    name="name"
-                    type="text"
-                    label="Name"
-                    :value="$supplier->name"
-                />
-                <x-form.field
-                    name="code"
-                    type="text"
-                    label="Code"
-                    :value="$supplier->code"
-                />
-                <x-form.field
-                    name="type"
-                    type="select"
-                    label="Type"
-                    select_map_label="label"
-                    select_map_value="value"
-                    :options="SupplierType::ui()"
-                    :value="$supplier->type->value"
-                />
-                <x-form.field
-                    name="tax_id"
-                    type="text"
-                    label="Tax ID"
-                    :value="$supplier->tax_id"
-                />
-                <x-form.field
-                    name="registration_number"
-                    type="text"
-                    label="Registration Number"
-                    :value="$supplier->registration_number"
-                />
+                <x-form.content.supplier identifier="supplier-update" />
 
-                <div class="flex gap-1">
+                <div class="mt-5 flex gap-1">
                     <x-button
                         class="w-fit"
                         type="submit"

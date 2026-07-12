@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 
 enum UserPermission: string
 {
-
     // Table <-> Permission references
     case ADDRESS = 'address';
     case BOOKING = 'booking';

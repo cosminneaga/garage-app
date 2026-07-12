@@ -1,4 +1,18 @@
 @php
+    Session::flashInput([
+        'street_number' => $resource->street_number,
+        'street' => $resource->street,
+        'postcode' => $resource->postcode,
+        'building' => $resource->building,
+        'floor' => $resource->floor,
+        'unit' => $resource->unit,
+        'country_id' => $resource->country_id,
+        'coordinates' => [
+            'latitude' => $resource->coordinates?->latitude,
+            'longitude' => $resource->coordinates?->longitude,
+        ],
+    ]);
+
     $parameter = collect(Request::route()->parameters())
         ->keys()
         ->last();

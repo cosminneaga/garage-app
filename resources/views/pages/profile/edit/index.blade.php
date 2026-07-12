@@ -1,3 +1,7 @@
+@php
+    Session::flashInput($user->toArray());
+@endphp
+
 <x-layout::index title="{{ $user->name }} | Profile">
     <x-tabs :tabs="UserProfileTabs::ui()">
         <x-card description="Visualise & Edit your details">
@@ -15,22 +19,9 @@
                 />
                 <br />
 
-                <x-form.field
-                    name="name"
-                    type="text"
-                    label="Name"
-                    :value="$user->name"
-                />
-                <x-form.field
-                    name="email"
-                    type="email"
-                    label="Email"
-                    :value="$user->email"
-                />
-                <x-form.field
-                    name="image"
-                    type="image"
-                    accept="image/*"
+                <x-form.content.user
+                    identifier="profile-update"
+                    :exclude="['active', 'password', 'password_confirmed']"
                 />
 
                 <div class="mt-5 flex gap-1">

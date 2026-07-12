@@ -36,12 +36,12 @@
             <x-form.content.address
                 identifier="supplier"
                 :countries="$countries"
-                nestedParentName="address"
+                nested_parent_name="address"
             />
 
             <x-form.content.contact
                 identifier="supplier"
-                nestedParentName="contact"
+                nested_parent_name="contact"
             />
         </div>
 

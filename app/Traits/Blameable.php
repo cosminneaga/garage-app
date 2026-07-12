@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  *
  * @method static void creating(Model $model)
  * @method static void updating(Model $model)

@@ -59,6 +59,7 @@ class PermissionsSeeder extends Seeder
                     'vehicle_model',
                     'vehicle_year',
                     'permission',
+                    'user',
                 ]
             ),
             ...UserPermission::list(

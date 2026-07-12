@@ -1,3 +1,7 @@
+@php
+    Session::flashInput($company->toArray());
+@endphp
+
 <x-layout::index title="{{ $company->name }}">
     <x-tabs :tabs="CompanyTabs::ui()">
         <x-card description="Visualise & Edit {{ $company->name }} details">
@@ -16,52 +20,13 @@
                     alt="alt"
                 />
                 <br />
-                <x-form.field
-                    identifier="company"
-                    name="name"
-                    type="text"
-                    label="Name"
-                    :value="$company->name"
-                />
-                <x-form.field
-                    identifier="company"
-                    name="image"
-                    type="image"
-                    accept="image/*"
-                />
-                <x-form.field
-                    identifier="company"
-                    name="tax_id"
-                    type="text"
-                    label="Tax ID"
-                    :value="$company->tax_id"
-                />
-                <x-form.field
-                    identifier="company"
-                    name="registration_number"
-                    type="text"
-                    label="Registration Number"
-                    :value="$company->registration_number"
-                />
-                <x-form.field
-                    identifier="company"
-                    name="tax_value"
-                    type="text"
-                    label="Tax Value"
-                    :value="$company->tax_value"
-                />
-                <x-form.field
-                    identifier="company"
-                    name="invoice_prefix"
-                    type="text"
-                    label="Invoice Prefix"
-                    :value="$company->invoice_prefix"
-                />
+
+                <x-form.content.company identifier="company-update" />
 
                 <div class="mt-5 flex gap-1">
                     <x-button
                         class="w-fit"
-                        id="form-company-update-button"
+                        id="form-company-update-submit"
                         form="form-company-update"
                         type="submit"
                     >Update Details</x-button>

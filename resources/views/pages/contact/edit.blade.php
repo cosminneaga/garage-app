@@ -15,12 +15,12 @@
             @method('PUT')
 
             <div class="grid grid-rows-1 gap-4">
-                <x-form.content.contact identifier="contact" />
+                <x-form.content.contact identifier="contact-update" />
             </div>
 
             <div class="mt-5 flex gap-1">
                 <x-button
-                    id="contact_update"
+                    id="contact-update-submit"
                     type="submit"
                 >Submit</x-button>
             </div>
