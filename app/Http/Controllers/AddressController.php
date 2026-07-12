@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\ModelAddressStoreAction;
 use App\Http\Requests\StoreAddressRequest;
+use App\Models\Address;
 use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
@@ -25,6 +26,7 @@ class AddressController extends Controller
         ModelAddressStoreAction $action
     ): RedirectResponse {
         self::guard('update', $request, $id);
+        $this->authorize('store', Address::class);
 
         try {
             $action->handle($request->safe()->all(), self::$entity);
@@ -53,6 +55,7 @@ class AddressController extends Controller
     ): View {
         self::guard('show', $request, $id);
         $resource = self::$entity->addresses()->findOrFail($addressId);
+        $this->authorize('show', $resource);
 
         return view('pages.address.edit', [
             'countries' => Country::all(),
@@ -67,6 +70,7 @@ class AddressController extends Controller
     ) {
         self::guard('update', $request, $id);
         $resource = self::$entity->addresses()->findOrFail($addressId);
+        $this->authorize('update', $resource);
         $resource->update([...$request->except(['_token', '_method'])]);
 
         return back()

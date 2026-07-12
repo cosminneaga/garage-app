@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\ModelContactStoreAction;
 use App\Http\Requests\StoreContactRequest;
+use App\Models\Contact;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Exception;
@@ -25,6 +26,7 @@ class ContactController extends Controller
         ModelContactStoreAction $action
     ): RedirectResponse {
         self::guard('update', $request, $id);
+        $this->authorize('store', Contact::class);
 
         try {
             $action->handle($request->safe()->all(), self::$entity);
@@ -53,6 +55,7 @@ class ContactController extends Controller
     ): View {
         self::guard('show', $request, $id);
         $resource = self::$entity->contacts()->findOrFail($contactId);
+        $this->authorize('show', $resource);
 
         Session::flashInput([
             'email' => $resource->email,
@@ -72,6 +75,7 @@ class ContactController extends Controller
     ): RedirectResponse {
         self::guard('update', $request, $id);
         $resource = self::$entity->contacts()->findOrFail($contactId);
+        $this->authorize('update', $resource);
         $resource->update([...$request->except(['_token', '_method'])]);
 
         return back()
@@ -89,6 +93,7 @@ class ContactController extends Controller
         string|int $id
     ): RedirectResponse {
         self::guard('update', $request, $id);
+        $this->authorize('destroy', self::$entity);
         self::$entity->contacts()->detach($contactId);
 
         return back()
