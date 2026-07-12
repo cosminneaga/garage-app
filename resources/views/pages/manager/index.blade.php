@@ -4,7 +4,7 @@
         routes_prefix="managers"
         search_route="{{ route('managers.index') }}"
         :data="$managers"
-        :edit="Permission::can(UserPermission::USER, 'update')"
+        :edit="Permission::can(UserPermission::USER, 'show')"
         :delete="Permission::can(UserPermission::USER, 'delete')"
     />
 </x-layout::index>

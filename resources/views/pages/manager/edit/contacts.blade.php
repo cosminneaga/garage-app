@@ -6,7 +6,7 @@
             <x-table.related.contacts
                 :data="$user->contacts"
                 :resource="$user"
-                :edit="Permission::can(UserPermission::USER, 'update')"
+                :edit="Permission::can(UserPermission::USER, 'show')"
                 :delete="Permission::can(UserPermission::USER, 'delete')"
             />
         </x-card>

@@ -35,8 +35,8 @@
             <x-table.related.users
                 :data="$members"
                 :resource="$company"
-                :edit="Permission::can(UserPermission::USER, 'update')"
-                :delete="Permission::can(UserPermission::USER, 'update')"
+                :edit="Permission::can(UserPermission::USER, 'show')"
+                :delete="Permission::can(UserPermission::USER, 'delete')"
                 chat
             />
         </x-card>

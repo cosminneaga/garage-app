@@ -5,8 +5,8 @@
                 :data="$company->suppliers"
                 :resource="$company"
                 :countries="$countries"
-                :edit="Permission::can(UserPermission::SUPPLIER, 'update')"
-                :delete="Permission::can(UserPermission::SUPPLIER, 'update')"
+                :edit="Permission::can(UserPermission::SUPPLIER, 'show')"
+                :delete="Permission::can(UserPermission::SUPPLIER, 'delete')"
             />
         </x-card>
     </x-tabs>

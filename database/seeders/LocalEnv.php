@@ -62,7 +62,6 @@ class LocalEnv extends Seeder
         $users[3]->assignRole(UserRole::USER);
         $users[1]->managers()->attach($users[2]);
         $users[2]->users()->attach($users[3]);
-        $users[3]->givePermissionTo(UserPermission::name(UserPermission::VEHICLE_YEAR, 'update'));
 
         // 5. creating & attaching addresses & contacts
         $users[0]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));

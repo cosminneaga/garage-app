@@ -7,7 +7,7 @@
                 :data="$supplier->addresses"
                 :resource="$supplier"
                 :countries="$countries"
-                :edit="Permission::can(UserPermission::ADDRESS, 'update')"
+                :edit="Permission::can(UserPermission::ADDRESS, 'show')"
                 :delete="Permission::can(UserPermission::ADDRESS, 'delete')"
             />
         </x-card>
