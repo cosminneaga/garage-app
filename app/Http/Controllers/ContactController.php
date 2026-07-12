@@ -88,7 +88,7 @@ class ContactController extends Controller
         string|int $contactId,
         string|int $id
     ): RedirectResponse {
-        self::guard('update', $request, $id)->update();
+        self::guard('update', $request, $id);
         self::$entity->contacts()->detach($contactId);
 
         return back()
