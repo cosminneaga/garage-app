@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use App\Traits\Collect;
 use Exception;
 use Illuminate\Support\Collection;
 
 enum UserPermission: string
 {
-    use Collect;
 
     // Table <-> Permission references
     case ADDRESS = 'address';

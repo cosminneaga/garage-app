@@ -14,7 +14,6 @@ use App\Models\Company;
 use App\Models\Country;
 use App\Services\CompanyService;
 use App\Services\UserService;
-use App\Traits\RequestTabHandler;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -25,7 +24,6 @@ use Illuminate\Support\Facades\Auth;
 class CompanyController extends Controller
 {
     use AuthorizesRequests;
-    use RequestTabHandler;
     use ResponseMessage;
 
     public function __construct(
