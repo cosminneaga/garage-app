@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Client;
