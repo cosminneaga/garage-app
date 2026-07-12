@@ -31,7 +31,8 @@ class UserController extends Controller
 
     public function __construct(
         protected UserService $userService
-    ) {}
+    ) {
+    }
 
     public function index(Request $request)
     {
@@ -107,8 +108,7 @@ class UserController extends Controller
         UpdateUserRequest $request,
         User $user,
         UserUpdateAction $action
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         if ($user->id === Auth::user()->id) {
             return back()
                 ->with(self::flashMessage(
