@@ -17,80 +17,77 @@ trait RelatedModelGuard
     public static ?User $user;
     public static ?Model $entity;
     public static ?string $policy;
+    public static ?string $relatedName;
 
-    public static function guard(Request $request, string|int $modelId): self
+    public static function guard(string $action, Request $request, string|int $modelId): void
     {
         self::$user = Auth::user();
 
         $name = Collection::make($request->route()->parameters())
             ->keys()
             ->last();
+        self::$relatedName = $name;
         $entity = RelatedModel::from($name)->entity($modelId);
         $policy = RelatedModel::from($name)->policy();
 
         self::$entity = $entity;
         self::$policy = $policy;
 
-        return new static();
+        match($action) {
+            'show' => self::show(),
+            'create' => self::create(),
+            'destroy' => self::destroy(),
+            'restore' => self::restore(),
+            'showTrashed' => self::showTrashed(),
+            default => self::show(),
+        };
     }
 
-    public static function show(): self
+    protected static function show(): void
     {
         abort_unless(
-            App::make(self::$policy)->view(self::$user, self::$entity),
+            App::make(self::$policy)->show(self::$user, self::$entity),
             401
         );
-
-        return new static();
     }
 
-    public static function create(): self
+    protected static function create(): void
     {
         abort_unless(
-            App::make(self::$policy)->create(),
+            App::make(self::$policy)->store(),
             401
         );
-
-        return new static();
     }
 
-    public static function update(): self
+    protected static function update(): void
     {
         abort_unless(
-            App::make(self::$policy)->edit(self::$user, self::$entity),
+            App::make(self::$policy)->update(self::$user, self::$entity),
             401
         );
-
-        return new static();
     }
 
-    public static function destroy(): self
+    protected static function destroy(): void
     {
         abort_unless(
-            App::make(self::$policy)->delete(self::$user, self::$entity),
+            App::make(self::$policy)->destroy(self::$user, self::$entity),
             401
         );
-
-        return new static();
     }
 
-    public static function restore(): self
+    protected static function restore(): void
     {
         abort_unless(
             App::make(self::$policy)->restore(self::$user, self::$entity),
             401
         );
-
-        return new static();
     }
 
-    public static function showTrashed(): self
+    protected static function showTrashed(): void
     {
         abort_unless(
-            App::make(self::$policy)->viewTrashed(),
+            App::make(self::$policy)->showTrashed(),
             401
         );
-
-        return new static();
     }
 }

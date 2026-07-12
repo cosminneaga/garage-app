@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
@@ -25,12 +24,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'show'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 });
-
-Route::controller(AdministratorController::class)
-    ->middleware(['auth', 'role:super'])
-    ->group(function () {
-        Route::resource('administrators', AdministratorController::class)->except(['show', 'destroy']);
-    });
 
 Route::controller(ManagerController::class)
     ->middleware(['auth', 'role:administrator'])
@@ -112,22 +105,22 @@ Route::controller(ContactController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         # users
-        Route::get('/contacts/{contact}/users/{user}', 'edit')->name('contacts.users.edit');
-        Route::post('/contacts/users/{user}', 'store')->name('contacts.users.store');
-        Route::put('/contacts/{contact}/users/{user}', 'update')->name('contacts.users.update');
-        Route::delete('/contacts/{contact}/users/{user}', 'destroy')->name('contacts.users.destroy');
+        Route::get('/contacts/{contact}/users/{user}', 'modelEdit')->name('contacts.users.edit');
+        Route::post('/contacts/users/{user}', 'modelStore')->name('contacts.users.store');
+        Route::put('/contacts/{contact}/users/{user}', 'modelUpdate')->name('contacts.users.update');
+        Route::delete('/contacts/{contact}/users/{user}', 'modelDestroy')->name('contacts.users.destroy');
 
         # companies
-        Route::get('/contacts/{contact}/companies/{company}', 'edit')->name('contacts.companies.edit');
-        Route::post('/contacts/companies/{company}', 'store')->name('contacts.companies.store');
-        Route::put('/contacts/{contact}/companies/{company}', 'update')->name('contacts.companies.update');
-        Route::delete('/contacts/{contact}/companies/{company}', 'destroy')->name('contacts.companies.destroy');
+        Route::get('/contacts/{contact}/companies/{company}', 'modelEdit')->name('contacts.companies.edit');
+        Route::post('/contacts/companies/{company}', 'modelStore')->name('contacts.companies.store');
+        Route::put('/contacts/{contact}/companies/{company}', 'modelUpdate')->name('contacts.companies.update');
+        Route::delete('/contacts/{contact}/companies/{company}', 'modelDestroy')->name('contacts.companies.destroy');
 
         # suppliers
-        Route::get('/contacts/{contact}/suppliers/{supplier}', 'edit')->name('contacts.suppliers.edit');
-        Route::post('/contacts/suppliers/{supplier}', 'store')->name('contacts.suppliers.store');
-        Route::put('/contacts/{contact}/suppliers/{supplier}', 'update')->name('contacts.suppliers.update');
-        Route::delete('/contacts/{contact}/suppliers/{supplier}', 'destroy')->name('contacts.suppliers.destroy');
+        Route::get('/contacts/{contact}/suppliers/{supplier}', 'modelEdit')->name('contacts.suppliers.edit');
+        Route::post('/contacts/suppliers/{supplier}', 'modelStore')->name('contacts.suppliers.store');
+        Route::put('/contacts/{contact}/suppliers/{supplier}', 'modelUpdate')->name('contacts.suppliers.update');
+        Route::delete('/contacts/{contact}/suppliers/{supplier}', 'modelDestroy')->name('contacts.suppliers.destroy');
     });
 
 Route::controller(SuperController::class)

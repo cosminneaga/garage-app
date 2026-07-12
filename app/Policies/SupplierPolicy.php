@@ -6,64 +6,41 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
-use App\Models\Supplier;
 use App\Models\User;
 
-class SupplierPolicy
+class SupplierPolicy implements StandardPolicyInterface
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(): bool
+    public function showAll(): bool
     {
         return Permission::can(UserPermission::SUPPLIER, 'show');
     }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Supplier $supplier): bool
+    public function show(User $user, mixed $supplier): bool
     {
         return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'show');
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(): bool
+    public function store(): bool
     {
         return Permission::can(UserPermission::SUPPLIER, 'store');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function edit(User $user, Supplier $supplier): bool
+    public function update(User $user, mixed $supplier): bool
     {
         return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'update');
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Supplier $supplier): bool
+    public function destroy(User $user, mixed $supplier): bool
     {
         return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'delete');
     }
 
-    /**
-     * Has access to view the deleted resources
-     */
-    public function viewTrashed(): bool
-    {
-        return Permission::can(UserPermission::SUPPLIER, 'restore');
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Supplier $supplier): bool
+    public function restore(User $user, mixed $supplier): bool
     {
         return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'restore');
+    }
+
+    public function showTrashed(): bool
+    {
+        return Permission::can(UserPermission::SUPPLIER, 'restore');
     }
 }

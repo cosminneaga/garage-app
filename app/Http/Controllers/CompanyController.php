@@ -32,12 +32,9 @@ class CompanyController extends Controller
     ) {
     }
 
-    /**
-     * Display all resources related to model
-     */
     public function index(Request $request): View
     {
-        $this->authorize('viewAny', Company::class);
+        $this->authorize('showAll', Company::class);
         $search = $request->string('search')->value();
 
         return view('pages.company.index', [
@@ -48,21 +45,15 @@ class CompanyController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View
     {
-        $this->authorize('create', Company::class);
+        $this->authorize('store', Company::class);
 
         return view('pages.company.create', [
             'countries' => Country::all(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCompanyRequest $request, CompanyStoreAction $action): RedirectResponse
     {
         $action->handle($request->safe()->all());
@@ -75,16 +66,13 @@ class CompanyController extends Controller
             ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Company $company): View
     {
-        $this->authorize('edit', $company);
+        $this->authorize('show', $company);
         $search = request()->string('search')->value();
 
-        $role = Auth::user()->getRoleNames();
-        $forRole = $role[0] === UserRole::ADMINISTRATOR->value ? UserRole::MANAGER : ($role[0] === UserRole::USER->value ? UserRole::MANAGER : UserRole::USER);
+        $role = Auth::user()->getRoleNames()->first();
+        $forRole = $role === UserRole::ADMINISTRATOR->value ? UserRole::MANAGER : ($role === UserRole::USER->value ? UserRole::MANAGER : UserRole::USER);
 
         return match(request()->query('tab')) {
             'statistics' => view('pages.company.edit.statistics'),
@@ -119,11 +107,11 @@ class CompanyController extends Controller
         };
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCompanyRequest $request, Company $company, CompanyUpdateAction $action): RedirectResponse
-    {
+    public function update(
+        UpdateCompanyRequest $request,
+        Company $company,
+        CompanyUpdateAction $action
+    ): RedirectResponse {
         $action->handle($request->safe()->all(), $company);
 
         return back()
@@ -134,12 +122,9 @@ class CompanyController extends Controller
             ));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Company $company): RedirectResponse
     {
-        $this->authorize('delete', $company);
+        $this->authorize('destroy', $company);
 
         $company = Company::findOrFail($company->id);
         $company->delete();
@@ -163,25 +148,6 @@ class CompanyController extends Controller
             ));
     }
 
-    /**
-     * Show the page with previously removed item
-     */
-    public function removed(Request $request): View
-    {
-        $this->authorize('viewTrashed', Company::class);
-        $querySearch = $request->string('search')->value();
-
-        return view('pages.company.removed', [
-            'companies' => $this->companyService
-                ->search($querySearch)
-                ->resourceFilterOwn(ResourceFilter::ONLY_TRASHED)
-                ->paginate($request->integer('limit') ?? 10),
-        ]);
-    }
-
-    /**
-     * Restore a given item
-     */
     public function restore(string|int $id): RedirectResponse
     {
         $company = Company::onlyTrashed()->find($id);
@@ -194,5 +160,18 @@ class CompanyController extends Controller
                 'Company restored',
                 'The company has been successfully restored and is now available in your account.',
             ));
+    }
+
+    public function removed(Request $request): View
+    {
+        $this->authorize('showTrashed', Company::class);
+        $querySearch = $request->string('search')->value();
+
+        return view('pages.company.removed', [
+            'companies' => $this->companyService
+                ->search($querySearch)
+                ->resourceFilterOwn(ResourceFilter::ONLY_TRASHED)
+                ->paginate($request->integer('limit') ?? 10),
+        ]);
     }
 }

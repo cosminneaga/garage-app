@@ -6,43 +6,41 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
-use App\Models\Company;
 use App\Models\User;
 
-class CompanyPolicy
+class CompanyPolicy implements StandardPolicyInterface
 {
-    public function viewAny(): bool
+    public function showAll(): bool
     {
         return Permission::can(UserPermission::COMPANY, 'show');
     }
-
-    public function view(User $user, Company $company): bool
+    public function show(User $user, mixed $company): bool
     {
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'show');
     }
 
-    public function create(): bool
+    public function store(): bool
     {
         return Permission::can(UserPermission::COMPANY, 'store');
     }
 
-    public function edit(User $user, Company $company): bool
+    public function update(User $user, mixed $company): bool
     {
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'update');
     }
 
-    public function delete(User $user, Company $company): bool
+    public function destroy(User $user, mixed $company): bool
     {
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'delete');
     }
 
-    public function viewTrashed(): bool
-    {
-        return Permission::can(UserPermission::COMPANY, 'restore');
-    }
-
-    public function restore(User $user, Company $company): bool
+    public function restore(User $user, mixed $company): bool
     {
         return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'restore');
+    }
+
+    public function showTrashed(): bool
+    {
+        return Permission::can(UserPermission::COMPANY, 'restore');
     }
 }

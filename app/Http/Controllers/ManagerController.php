@@ -24,18 +24,14 @@ class ManagerController extends Controller
 {
     use ResponseMessage;
 
-    public function __construct(protected UserService $userService)
-    {
-        //
+    public function __construct(
+        protected UserService $userService
+    ) {
     }
 
-    /**
-     * Display all resources related to model
-     */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', User::class);
-
+        $this->authorize('showAll', User::class);
         $querySearch = $request->string('search')->value();
 
         return view('pages.manager.index', [
@@ -46,23 +42,19 @@ class ManagerController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View
     {
-        $this->authorize('create', User::class);
+        $this->authorize('update', User::class);
 
         return view('pages.manager.create', [
             'countries' => Country::all(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserRequest $request, UserStoreAction $action): RedirectResponse
-    {
+    public function store(
+        StoreUserRequest $request,
+        UserStoreAction $action
+    ): RedirectResponse {
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
         $action->handle($attributes);
@@ -75,12 +67,9 @@ class ManagerController extends Controller
             ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $manager): RedirectResponse|View
     {
-        $this->authorize('view', $manager);
+        $this->authorize('show', $manager);
 
         if ($manager->id === Auth::user()->id) {
             return redirect()->route('profile.users.edit', $manager);
@@ -107,11 +96,11 @@ class ManagerController extends Controller
         };
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserRequest $request, User $manager, UserUpdateAction $action): RedirectResponse
-    {
+    public function update(
+        UpdateUserRequest $request,
+        User $manager,
+        UserUpdateAction $action
+    ): RedirectResponse {
         if ($manager->id === Auth::user()->id) {
             return back()
                 ->with(self::flashMessage(
@@ -133,12 +122,9 @@ class ManagerController extends Controller
             ));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $manager): RedirectResponse
     {
-        $this->authorize('delete', $manager);
+        $this->authorize('destroy', $manager);
 
         if ($manager->id === Auth::user()->id) {
             return back()
@@ -160,25 +146,6 @@ class ManagerController extends Controller
             ));
     }
 
-    /**
-     * Show the page with previously removed item
-     */
-    public function removed(Request $request): View
-    {
-        $this->authorize('viewTrashed', User::class);
-        $querySearch = $request->string('search')->value();
-
-        return view('pages.manager.removed', [
-            'managers' => $this->userService
-                ->search($querySearch)
-                ->team(UserRole::MANAGER, ResourceFilter::ONLY_TRASHED)
-                ->paginate($request->integer('limit') ?? 10),
-        ]);
-    }
-
-    /**
-     * Restore a given item
-     */
     public function restore(string|int $managerId): RedirectResponse
     {
         $manager = User::onlyTrashed()->findOrFail($managerId);
@@ -191,5 +158,18 @@ class ManagerController extends Controller
                 'Manager restored',
                 'The manager has been successfully restored and is now active again.',
             ));
+    }
+
+    public function removed(Request $request): View
+    {
+        $this->authorize('showTrashed', User::class);
+        $querySearch = $request->string('search')->value();
+
+        return view('pages.manager.removed', [
+            'managers' => $this->userService
+                ->search($querySearch)
+                ->team(UserRole::MANAGER, ResourceFilter::ONLY_TRASHED)
+                ->paginate($request->integer('limit') ?? 10),
+        ]);
     }
 }

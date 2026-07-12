@@ -9,7 +9,7 @@ use App\Helpers\Permission;
 
 class PermissionPolicy
 {
-    public function view(): bool
+    public function show(): bool
     {
         return Permission::can(UserPermission::PERMISSION, 'show');
     }

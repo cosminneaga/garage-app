@@ -5,35 +5,29 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\ModelContactStoreAction;
-use App\Enums\Related\RelatedAddressContact;
 use App\Http\Requests\StoreContactRequest;
+use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
     use ResponseMessage;
+    use RelatedModelGuard;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(
+    public function modelStore(
         StoreContactRequest $request,
         string|int $id,
         ModelContactStoreAction $action
     ): RedirectResponse {
-        $type = Collection::make($request->route()->parameters())->keys()->last();
-        $entity = RelatedAddressContact::from($type)->entity($id);
+        self::guard('update', $request, $id);
 
         try {
-            $action->handle($request->safe()->all(), $entity);
+            $action->handle($request->safe()->all(), self::$entity);
         } catch (Exception $e) {
             return back()
                 ->withInput()
@@ -52,20 +46,14 @@ class ContactController extends Controller
             ));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function edit(Request $request, string|int $contactId, string|int $id): View
-    {
-        $type = Collection::make($request->route()->parameters())->keys()->last();
-        $relatedModel = RelatedAddressContact::from($type);
-        $entity = $relatedModel->entity($id);
-        abort_unless(
-            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
-            401
-        );
+    public function modelEdit(
+        Request $request,
+        string|int $contactId,
+        string|int $id
+    ): View {
+        self::guard('show', $request, $id);
+        $resource = self::$entity->contacts()->findOrFail($contactId);
 
-        $resource = $entity->contacts()->findOrFail($contactId);
         Session::flashInput([
             'email' => $resource->email,
             'mobile' => $resource->mobile,
@@ -77,20 +65,13 @@ class ContactController extends Controller
         return view('pages.contact.edit');
     }
 
-    /**
-     * Update the specified resource
-     */
-    public function update(Request $request, string|int $contactId, string|int $id): RedirectResponse
-    {
-        $type = Collection::make($request->route()->parameters())->keys()->last();
-        $relatedModel = RelatedAddressContact::from($type);
-        $entity = $relatedModel->entity($id);
-        abort_unless(
-            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
-            401
-        );
-
-        $resource = $entity->contacts()->findOrFail($contactId);
+    public function modelUpdate(
+        Request $request,
+        string|int $contactId,
+        string|int $id
+    ): RedirectResponse {
+        self::guard('update', $request, $id);
+        $resource = self::$entity->contacts()->findOrFail($contactId);
         $resource->update([...$request->except(['_token', '_method'])]);
 
         return back()
@@ -101,20 +82,14 @@ class ContactController extends Controller
             ));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request, string|int $contactId, string|int $id): RedirectResponse
-    {
-        $type = Collection::make($request->route()->parameters())->keys()->last();
-        $relatedModel = RelatedAddressContact::from($type);
-        $entity = $relatedModel->entity($id);
-        abort_unless(
-            App::make($relatedModel->policy())->edit(Auth::user(), $entity),
-            401
-        );
 
-        $entity->contacts()->detach($contactId);
+    public function modelDestroy(
+        Request $request,
+        string|int $contactId,
+        string|int $id
+    ): RedirectResponse {
+        self::guard('update', $request, $id)->update();
+        self::$entity->contacts()->detach($contactId);
 
         return back()
             ->with(self::flashMessage(

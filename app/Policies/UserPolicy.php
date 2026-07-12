@@ -9,14 +9,14 @@ use App\Enums\UserRole;
 use App\Helpers\Permission;
 use App\Models\User;
 
-class UserPolicy
+class UserPolicy implements StandardPolicyInterface
 {
-    public function viewAny(): bool
+    public function showAll(): bool
     {
         return Permission::can(UserPermission::USER, 'show');
     }
 
-    public function view(User $user, User $model): bool
+    public function show(User $user, mixed $model): bool
     {
         if (!Permission::can(UserPermission::USER, 'show')) {
             return false;
@@ -28,12 +28,12 @@ class UserPolicy
         };
     }
 
-    public function create(): bool
+    public function store(): bool
     {
         return Permission::can(UserPermission::USER, 'store');
     }
 
-    public function edit(User $user, User $model): bool
+    public function update(User $user, mixed $model): bool
     {
         if (!Permission::can(UserPermission::USER, 'update')) {
             return false;
@@ -45,7 +45,7 @@ class UserPolicy
         };
     }
 
-    public function delete(User $user, User $model): bool
+    public function destroy(User $user, mixed $model): bool
     {
         if (!Permission::can(UserPermission::USER, 'delete')) {
             return false;
@@ -57,12 +57,7 @@ class UserPolicy
         };
     }
 
-    public function viewTrashed(): bool
-    {
-        return Permission::can(UserPermission::USER, 'restore');
-    }
-
-    public function restore(User $user, User $model): bool
+    public function restore(User $user, mixed $model): bool
     {
         if (!Permission::can(UserPermission::USER, 'restore')) {
             return false;
@@ -72,5 +67,10 @@ class UserPolicy
             UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
             UserRole::MANAGER->value => $user->isMyUser($model)
         };
+    }
+
+    public function showTrashed(): bool
+    {
+        return Permission::can(UserPermission::USER, 'restore');
     }
 }

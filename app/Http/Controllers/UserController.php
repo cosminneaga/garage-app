@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
-use App\Enums\Related\RelatedModel;
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
@@ -16,11 +15,11 @@ use App\Models\Country;
 use App\Models\User;
 use App\Policies\PermissionPolicy;
 use App\Services\UserService;
+use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -28,18 +27,15 @@ use Illuminate\Support\Facades\Request as FacadesRequest;
 class UserController extends Controller
 {
     use ResponseMessage;
+    use RelatedModelGuard;
 
-    public function __construct(protected UserService $userService)
-    {
-        //
-    }
+    public function __construct(
+        protected UserService $userService
+    ) {}
 
-    /**
-     * Display all resources related to model
-     */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', User::class);
+        $this->authorize('showAll', User::class);
         $querySearch = $request->string('search')->value();
 
         return view('pages.user.index', [
@@ -50,21 +46,15 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View
     {
-        $this->authorize('create', Auth::user());
+        $this->authorize('store', Auth::user());
 
         return view('pages.user.create', [
             'countries' => Country::all(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreUserRequest $request, UserStoreAction $action): RedirectResponse
     {
         $attributes = $request->safe()->all();
@@ -79,12 +69,9 @@ class UserController extends Controller
             ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user): RedirectResponse|View
     {
-        $this->authorize('view', $user);
+        $this->authorize('show', $user);
 
         if ($user->id === Auth::user()->id) {
             return redirect()->route('profile.users.edit', $user);
@@ -92,7 +79,7 @@ class UserController extends Controller
 
         # guards
         if (FacadesRequest::query('tab') === 'permissions') {
-            abort_unless(App::make(PermissionPolicy::class)->view(), 401);
+            abort_unless(App::make(PermissionPolicy::class)->show(), 401);
         }
 
         return match(FacadesRequest::query('tab')) {
@@ -116,10 +103,11 @@ class UserController extends Controller
         };
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserRequest $request, User $user, UserUpdateAction $action): RedirectResponse
+    public function update(
+        UpdateUserRequest $request,
+        User $user,
+        UserUpdateAction $action
+    ): RedirectResponse
     {
         if ($user->id === Auth::user()->id) {
             return back()
@@ -142,12 +130,9 @@ class UserController extends Controller
             ));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user): RedirectResponse
     {
-        $this->authorize('delete', $user);
+        $this->authorize('destroy', $user);
 
         if ($user->id === Auth::user()->id) {
             return back()
@@ -180,12 +165,9 @@ class UserController extends Controller
             ));
     }
 
-    /**
-     * Show the page with previously removed item
-     */
     public function removed(Request $request): View
     {
-        $this->authorize('viewTrashed', User::class);
+        $this->authorize('showTrashed', User::class);
         $querySearch = $request->string('search')->value();
 
         return view('pages.user.removed', [
@@ -196,9 +178,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Restore a given item
-     */
     public function restore(string|int $userId): RedirectResponse
     {
         $user = User::onlyTrashed()->findOrFail($userId);
@@ -219,20 +198,18 @@ class UserController extends Controller
      */
     public function modelAttach(Request $request, User $user, string|int $modelId)
     {
-        $modelName = Collection::make($request->route()->parameters())->keys()->last();
-        $model = RelatedModel::from($modelName)->entity($modelId);
-        $policy = RelatedModel::from($modelName)->policy();
+        self::guard('update', $request, $modelId);
+        $this->authorize('update', $user);
 
-        abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
-        $this->authorize('edit', $user);
-        abort_unless(!$model->users()->find($user), 404);
-        $model->users()->attach($user);
+        # check if user is linked
+        abort_unless(!self::$entity->users()->find($user), 404);
+        self::$entity->users()->attach($user);
 
         return back()
             ->with(self::flashMessage(
                 'success',
                 'User linked',
-                'User has been linked to ' . $modelName
+                'User has been linked to ' . self::$relatedName
             ));
     }
 
@@ -242,20 +219,18 @@ class UserController extends Controller
      */
     public function modelDetach(Request $request, User $user, string|int $modelId): RedirectResponse
     {
-        $modelName = Collection::make($request->route()->parameters())->keys()->last();
-        $model = RelatedModel::from($modelName)->entity($modelId);
-        $policy = RelatedModel::from($modelName)->policy();
+        self::guard('update', $request, $modelId);
+        $this->authorize('update', $user);
 
-        abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
-        $this->authorize('edit', $user);
-        abort_unless($model->users()->find($user), 404);
-        $model->users()->detach($user);
+        # check if user is linked
+        abort_unless(self::$entity->users()->find($user), 404);
+        self::$entity->users()->detach($user);
 
         return back()
             ->with(self::flashMessage(
                 'warning',
                 'User unlinked',
-                'User has been unlinked from ' . $modelName
+                'User has been unlinked from ' . self::$relatedName
             ));
     }
 
@@ -265,24 +240,19 @@ class UserController extends Controller
      */
     public function modelStore(StoreUserRequest $request, string|int $modelId, UserStoreAction $action): RedirectResponse
     {
-        $modelName = Collection::make($request->route()->parameters())->keys()->last();
-        $model = RelatedModel::from($modelName)->entity($modelId);
-        $policy = RelatedModel::from($modelName)->policy();
-
-        abort_unless(App::make($policy)->edit(Auth::user(), $model), 401);
-
+        self::guard('update', $request, $modelId);
         $attributes = $request->safe()->all();
         $attributes['active'] = $request->boolean('active');
         $user = $action->handle($attributes);
 
-        $model->users()->attach($user);
+        self::$entity->users()->attach($user);
         Auth::user()->peerAttach($user);
 
         return back()
           ->with(self::flashMessage(
               'success',
               'User created & linked',
-              'User has been created and linked to ' . $modelName,
+              'User has been created and linked to ' . self::$relatedName,
           ));
     }
 
@@ -292,7 +262,7 @@ class UserController extends Controller
      */
     public function assignPermission(User $user, string $name): RedirectResponse
     {
-        $this->authorize('edit', $user);
+        $this->authorize('update', $user);
         abort_unless(App::make(PermissionPolicy::class)->assign(), 401);
         $user->givePermissionTo($name);
 
@@ -310,7 +280,7 @@ class UserController extends Controller
      */
     public function revokePermission(User $user, string $name): RedirectResponse
     {
-        $this->authorize('edit', $user);
+        $this->authorize('update', $user);
         abort_unless(App::make(PermissionPolicy::class)->revoke(), 401);
         $user->revokePermissionTo($name);
 
