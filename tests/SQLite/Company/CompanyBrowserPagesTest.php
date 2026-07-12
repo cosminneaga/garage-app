@@ -93,8 +93,8 @@ test('administrator: should update company details', function () {
     actingAs($this->administrator);
 
     visit(route('companies.edit', $this->companies[0]))
-        ->fill('@company_name', 'Updated Company Name')
-        ->click('@form-company-update-button')
+        ->fill('@company-update_name', 'Updated Company Name')
+        ->click('@form-company-update-submit')
         ->assertSee('Company updated')
         ->assertSee('The company details have been successfully updated.');
 });
@@ -197,5 +197,5 @@ test('administrator: should remove supplier', function () {
         ->click('@supplier-delete-' . $this->supplier->id . '-modal-trigger')
         ->click('@supplier-delete-' . $this->supplier->id . '-modal-confirm')
         ->assertSee('Supplier removed')
-        ->assertSee('Supplier has been successfully removed');
+        ->assertSee('Supplier information has been successfully removed from respective company');
 });

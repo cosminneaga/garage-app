@@ -180,7 +180,7 @@ class User extends Authenticatable
      */
     public function isMyUser(User $user): Throwable|bool
     {
-        if (Auth::user()->id === $user->id) {
+        if (Auth::check() && Auth::user()->id === $user->id) {
             return true;
         }
 

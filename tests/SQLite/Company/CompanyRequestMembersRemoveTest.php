@@ -25,7 +25,7 @@ test('administrator: remove manager', function () {
     $this->company->users()->attach($this->manager);
     actingAs($this->administrator);
 
-    delete(route('users.companies.destroy', [$this->company, $this->manager]))
+    delete(route('users.companies.destroy', [$this->manager, $this->company]))
         ->assertRedirect()
         ->assertSessionHas('message', (object) [
             'type' => 'warning',
@@ -40,7 +40,7 @@ test('administrator [detached]: cannot remove manager', function () {
     $this->company->users()->attach($this->manager);
     actingAs($this->administrator);
 
-    delete(route('users.companies.destroy', [$this->company, $this->manager]))
+    delete(route('users.companies.destroy', [$this->manager, $this->company]))
         ->assertUnauthorized();
 });
 
@@ -49,7 +49,7 @@ test('administrator: cannot remove attached users', function () {
     $this->company->users()->attach($this->user);
     actingAs($this->administrator);
 
-    delete(route('users.companies.destroy', [$this->company, $this->user]))
+    delete(route('users.companies.destroy', [$this->user, $this->company]))
         ->assertForbidden();
 });
 
@@ -57,7 +57,7 @@ test('administrator: cannot remove not linked manager', function () {
     $this->administrator->managers()->attach($this->manager);
     actingAs($this->administrator);
 
-    delete(route('users.companies.destroy', [$this->company, $this->manager]))
+    delete(route('users.companies.destroy', [$this->manager, $this->company]))
         ->assertNotFound();
 });
 
@@ -66,7 +66,7 @@ test('manager: remove user', function () {
     $this->company->users()->attach([$this->manager, $this->user]);
     actingAs($this->manager);
 
-    delete(route('users.companies.destroy', [$this->company, $this->user]))
+    delete(route('users.companies.destroy', [$this->user, $this->company]))
         ->assertRedirect()
         ->assertSessionHas('message', (object) [
             'type' => 'warning',
@@ -81,7 +81,7 @@ test('manager [detached]: cannot remove user', function () {
     $this->company->users()->attach($this->user);
     actingAs($this->manager);
 
-    delete(route('users.companies.destroy', [$this->company, $this->user]))
+    delete(route('users.companies.destroy', [$this->user, $this->company]))
         ->assertUnauthorized();
 });
 
@@ -90,9 +90,9 @@ test('manager: cannot remove unauthorized/unexisting users', function () {
     $this->company->users()->attach([$this->administrator, $this->manager]);
     actingAs($this->manager);
 
-    delete(route('users.companies.destroy', [$this->company, $this->user]))
+    delete(route('users.companies.destroy', [$this->user, $this->company]))
         ->assertNotFound();
-    delete(route('users.companies.destroy', [$this->company, $this->administrator]))
+    delete(route('users.companies.destroy', [$this->administrator, $this->company]))
         ->assertForbidden();
 });
 
@@ -101,10 +101,10 @@ test('user: cannot remove any members', function () {
     $this->company->users()->attach([$this->user, $user, $this->administrator, $this->manager]);
     actingAs($this->user);
 
-    delete(route('users.companies.destroy', [$this->company, $user]))
+    delete(route('users.companies.destroy', [$user, $this->company]))
         ->assertForbidden();
-    delete(route('users.companies.destroy', [$this->company, $this->manager]))
+    delete(route('users.companies.destroy', [$this->manager, $this->company]))
         ->assertForbidden();
-    delete(route('users.companies.destroy', [$this->company, $this->administrator]))
+    delete(route('users.companies.destroy', [$this->administrator, $this->company]))
         ->assertForbidden();
 });
