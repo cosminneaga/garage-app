@@ -3,42 +3,41 @@
 declare(strict_types=1);
 
 use App\Actions\CompanyUpdateAction;
-use App\Enums\UserRole;
 use App\Models\Company;
 use App\Models\Country;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\App;
 
 beforeEach(function () {
-    $this->administrator = User::factory()->create();
-    $this->administrator->assignRole(UserRole::ADMINISTRATOR);
-
     $this->country = Country::factory()->create();
-    $this->file = UploadedFile::fake()->image('avatar.jpg');
-
-    $this->action = new CompanyUpdateAction();
-
+    $file = UploadedFile::fake()->image('avatar.jpg');
     $this->company = Company::factory()->create([
-        'name' => 'Company Intialisation',
+        'name' => 'Company Init',
+        'tax_id' => '12345',
+        'registration_number' => '12345',
+        'tax_value' => 20,
+        'invoice_prefix' => 'INV-INIT',
+        'image_path' => 'companies/' . $file->hashName(),
     ]);
 });
 
-test('should update company', function () {
-    $this->action->handle([
+test('handle: update company details', function () {
+    $file = UploadedFile::fake()->image('avatars.jpg');
+    App::make(CompanyUpdateAction::class)->handle([
         'name' => 'Company Test',
         'tax_id' => '787423847',
         'registration_number' => '8472873442',
-        'tax_value' => 20,
+        'tax_value' => 30,
         'invoice_prefix' => 'INV',
-        'image' => $this->file,
+        'image' => $file,
     ], $this->company);
 
     expect($this->company)->toMatchArray([
         'name' => 'Company Test',
         'tax_id' => '787423847',
         'registration_number' => '8472873442',
-        'tax_value' => 20,
+        'tax_value' => 30,
         'invoice_prefix' => 'INV',
-        'image_path' => 'companies/' . $this->file->hashName(),
+        'image_path' => 'companies/' . $file->hashName(),
     ]);
 });

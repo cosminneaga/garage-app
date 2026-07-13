@@ -8,12 +8,19 @@ use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Supplier;
+use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class SupplierStoreAction
 {
     public function handle(array $attributes, Company $company): Supplier
     {
+
+        if (!Arr::has($attributes, 'contact') || !Arr::has($attributes, 'address')) {
+            throw new Exception('Address & Contact are required when Company data is stored');
+        }
+
         $data['contact'] = $attributes['contact'];
         $data['address'] = $attributes['address'];
 

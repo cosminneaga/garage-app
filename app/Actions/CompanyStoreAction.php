@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class CompanyStoreAction
 {
@@ -21,6 +22,10 @@ class CompanyStoreAction
 
     public function handle(array $attributes): Company
     {
+        if (!Arr::has($attributes, 'contact') || !Arr::has($attributes, 'address')) {
+            throw new Exception('Address & Contact are required when Company data is stored');
+        }
+
         $data['contact'] = $attributes['contact'];
         $data['address'] = $attributes['address'];
 

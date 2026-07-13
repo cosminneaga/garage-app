@@ -16,7 +16,7 @@ class ModelContactStoreAction
     {
         $exists = Contact::where('email', $attributes['email'])->exists();
         if ($exists) {
-            throw new Exception('Contact information already exists under same email.');
+            throw new Exception('Contact information already exists under same email');
         }
 
         return DB::transaction(function () use ($attributes, $model) {

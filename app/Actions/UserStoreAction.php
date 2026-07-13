@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Dto\Coordinates;
+use App\Enums\UserRole;
 use App\Models\Address;
 use App\Models\Contact;
 use App\Models\User;
-use App\Enums\UserRole;
+use Exception;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Container\Attributes\CurrentUser;
 
 class UserStoreAction
 {
@@ -22,6 +23,10 @@ class UserStoreAction
 
     public function handle(array $attributes): User
     {
+        if (!Arr::has($attributes, 'contact') || !Arr::has($attributes, 'address')) {
+            throw new Exception('Address & Contact are required when User data is stored');
+        }
+
         $data['contact'] = $attributes['contact'];
         $data['address'] = $attributes['address'];
         $data['user'] = collect($attributes)
@@ -32,7 +37,9 @@ class UserStoreAction
                 'active',
             ])
             ->toArray();
-        $data['address']['coordinates'] = Coordinates::format($data['address']['coordinates']);
+
+        # In order for MySQL tests to pass we should defined 'coordinates' as 'null'
+        $data['address']['coordinates'] = Arr::has($attributes, 'address.coordinates') ? Coordinates::format($data['address']['coordinates']) : null;
 
         $data['role'] = $this->user->isAdministrator() ? UserRole::MANAGER->value : UserRole::USER->value;
 
