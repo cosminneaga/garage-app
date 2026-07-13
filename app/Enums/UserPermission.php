@@ -6,6 +6,7 @@ namespace App\Enums;
 
 use Exception;
 use Illuminate\Support\Collection;
+use Spatie\Permission\Models\Permission;
 
 // !!! TESTING - tests/SQLite/EnumUserPermissionTest.php
 enum UserPermission: string
@@ -157,14 +158,14 @@ enum UserPermission: string
                     continue;
                 }
 
-                $result->push((object) [
+                $result->push(new Permission([
                     'id' => null,
                     'name' => $reference . '-' . $action_name,
-                    'guard_name' => null,
+                    'guard_name' => 'web',
                     'created_at' => null,
                     'updated_at' => null,
                     'available' => true,
-                ]);
+                ]));
             }
         }
 
