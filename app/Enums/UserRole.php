@@ -9,6 +9,7 @@ use ErrorException;
 use Illuminate\Support\Collection;
 use Spatie\Permission\Models\Role;
 
+// !!! TESTING - unit/enum/EnumUserRoleTest.php
 enum UserRole: string
 {
     case SUPER = 'super';

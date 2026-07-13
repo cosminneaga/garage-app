@@ -16,7 +16,7 @@ class CompanyPolicy implements StandardPolicyInterface
     }
     public function show(User $user, mixed $company): bool
     {
-        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'show');
+        return Permission::can(UserPermission::COMPANY, 'show') && $company->isMyCompany($user);
     }
 
     public function store(): bool
@@ -26,17 +26,17 @@ class CompanyPolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $company): bool
     {
-        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'update');
+        return Permission::can(UserPermission::COMPANY, 'update') && $company->isMyCompany($user);
     }
 
     public function destroy(User $user, mixed $company): bool
     {
-        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'delete');
+        return Permission::can(UserPermission::COMPANY, 'delete') && $company->isMyCompany($user);
     }
 
     public function restore(User $user, mixed $company): bool
     {
-        return $company->isMyCompany($user) && Permission::can(UserPermission::COMPANY, 'restore');
+        return Permission::can(UserPermission::COMPANY, 'restore') && $company->isMyCompany($user);
     }
 
     public function showTrashed(): bool

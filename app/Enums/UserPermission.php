@@ -7,6 +7,7 @@ namespace App\Enums;
 use Exception;
 use Illuminate\Support\Collection;
 
+// !!! TESTING - tests/SQLite/EnumUserPermissionTest.php
 enum UserPermission: string
 {
     // Table <-> Permission references

@@ -16,7 +16,7 @@ class SupplierPolicy implements StandardPolicyInterface
     }
     public function show(User $user, mixed $supplier): bool
     {
-        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'show');
+        return Permission::can(UserPermission::SUPPLIER, 'show') && $supplier->isMySupplier($user);
     }
 
     public function store(): bool
@@ -26,17 +26,17 @@ class SupplierPolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $supplier): bool
     {
-        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'update');
+        return Permission::can(UserPermission::SUPPLIER, 'update') && $supplier->isMySupplier($user);
     }
 
     public function destroy(User $user, mixed $supplier): bool
     {
-        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'delete');
+        return Permission::can(UserPermission::SUPPLIER, 'delete') && $supplier->isMySupplier($user);
     }
 
     public function restore(User $user, mixed $supplier): bool
     {
-        return $supplier->isMySupplier($user) && Permission::can(UserPermission::SUPPLIER, 'restore');
+        return Permission::can(UserPermission::SUPPLIER, 'restore') && $supplier->isMySupplier($user);
     }
 
     public function showTrashed(): bool

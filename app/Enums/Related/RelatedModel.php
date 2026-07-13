@@ -8,6 +8,7 @@ use App\Models\Address;
 use App\Models\Company;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Policies\AddressPolicy;
 use App\Policies\CompanyPolicy;
 use App\Policies\SupplierPolicy;
 use App\Policies\UserPolicy;
@@ -56,7 +57,7 @@ enum RelatedModel: string
             self::COMPANY => CompanyPolicy::class,
             self::SUPPLIER => SupplierPolicy::class,
             self::USER => UserPolicy::class,
-            self::ADDRESS => null,
+            self::ADDRESS => AddressPolicy::class,
         };
     }
 }

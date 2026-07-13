@@ -68,27 +68,6 @@ enum Environment: string
                 ],
                 UserRole::USER->value => [
                     ...UserPermission::list(
-                        excludeReferences: [
-                            'address',
-                            'booking',
-                            'contact',
-                            'company',
-                            'country',
-                            'client',
-                            'supplier',
-                            'permission',
-                            'repair',
-                            'repair_file',
-                            'repair_invoice',
-                            'repair_invoice_item',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
-                            'user',
-                        ]
-                    ),
-                    ...UserPermission::list(
                         onlyReferences: [
                             'address',
                             'booking',
@@ -162,27 +141,6 @@ enum Environment: string
                 ],
                 UserRole::USER->value => [
                     ...UserPermission::list(
-                        excludeReferences: [
-                            'address',
-                            'booking',
-                            'contact',
-                            'company',
-                            'country',
-                            'client',
-                            'supplier',
-                            'permission',
-                            'repair',
-                            'repair_file',
-                            'repair_invoice',
-                            'repair_invoice_item',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
-                            'user',
-                        ]
-                    ),
-                    ...UserPermission::list(
                         onlyReferences: [
                             'address',
                             'booking',
@@ -255,27 +213,6 @@ enum Environment: string
                     ),
                 ],
                 UserRole::USER->value => [
-                    ...UserPermission::list(
-                        excludeReferences: [
-                            'address',
-                            'booking',
-                            'contact',
-                            'company',
-                            'country',
-                            'client',
-                            'supplier',
-                            'permission',
-                            'repair',
-                            'repair_file',
-                            'repair_invoice',
-                            'repair_invoice_item',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
-                            'user',
-                        ]
-                    ),
                     ...UserPermission::list(
                         onlyReferences: [
                             'address',
