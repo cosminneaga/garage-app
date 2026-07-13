@@ -1,6 +1,6 @@
 <x-layout::index>
     <x-tabs :tabs="CompanyTabs::ui()">
-        <x-card description="Visualise $ Edit {{ $company->name }}'s suppliers">
+        <x-card description="Visualise & Edit {{ $company->name }}'s suppliers">
             <x-table.related.suppliers
                 :data="$company->suppliers"
                 :resource="$company"
