@@ -40,7 +40,6 @@ class UserStoreAction
 
         # In order for MySQL tests to pass we should defined 'coordinates' as 'null'
         $data['address']['coordinates'] = Arr::has($attributes, 'address.coordinates') ? Coordinates::format($data['address']['coordinates']) : null;
-
         $data['role'] = $this->user->isAdministrator() ? UserRole::MANAGER->value : UserRole::USER->value;
 
         if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {

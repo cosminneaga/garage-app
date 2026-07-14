@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\UserRole;
+use Spatie\Permission\Models\Role;
 
 test('label: get specific role label', function () {
     expect(UserRole::SUPER->label())->toEqual('Application Administrator');
@@ -205,9 +206,14 @@ test('ui: get enum data', function () {
     ]);
 });
 
-test('findByValue: get specific role by it\'s value', function () {
-    expect(UserRole::findByValue('administrator'))->toEqual(UserRole::ADMINISTRATOR);
-    expect(UserRole::findByValue('manager'))->toEqual(UserRole::MANAGER);
-    expect(UserRole::findByValue('user'))->toEqual(UserRole::USER);
-    expect(UserRole::findByValue('wrong'))->toEqual(null);
+test('findByRole', function () {
+
+    expect(UserRole::findByRole(Role::make(['name' => 'administrator'])))
+        ->toEqual(UserRole::ADMINISTRATOR);
+    expect(UserRole::findByRole(Role::make(['name' => 'manager'])))
+        ->toEqual(UserRole::MANAGER);
+    expect(UserRole::findByRole(Role::make(['name' => 'user'])))
+        ->toEqual(UserRole::USER);
+    expect(UserRole::findByRole(Role::make(['name' => 'wrong'])))
+        ->toEqual(null);
 });

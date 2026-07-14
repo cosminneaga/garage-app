@@ -127,7 +127,7 @@ class UserService
             ->whereIn('users.id', $this
                 ->modelRoleResourceSelect(
                     $model,
-                    UserRole::findByCollection($role)
+                    UserRole::findByRole($role)
                 )->select('users.id'));
 
         return $this;
@@ -145,7 +145,7 @@ class UserService
             ->whereNotIn('users.id', $this
                 ->modelRoleResourceSelect(
                     $model,
-                    UserRole::findByCollection($role)
+                    UserRole::findByRole($role)
                 )->select('users.id'));
 
         return $this;
