@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Enums\UserRole;
@@ -39,12 +40,12 @@ test('administrator: create & attach manager', function () {
             'coordinates' => null,
         ],
     ])
-    ->assertRedirect()
-    ->assertSessionHas('message', (object) [
-        'type' => 'success',
-        'title' => 'User created & linked',
-        'message' => 'User has been created and linked to company',
-    ]);
+        ->assertRedirect()
+        ->assertSessionHas('message', (object) [
+            'type' => 'success',
+            'title' => 'User created & linked',
+            'message' => 'User has been created and linked to company',
+        ]);
 
     # checking user role
     $user = User::where('name', 'user')->first();
@@ -75,12 +76,12 @@ test('manager: create & attach user', function () {
             'coordinates' => null,
         ],
     ])
-    ->assertRedirect()
-    ->assertSessionHas('message', (object) [
-        'type' => 'success',
-        'title' => 'User created & linked',
-        'message' => 'User has been created and linked to company',
-    ]);
+        ->assertRedirect()
+        ->assertSessionHas('message', (object) [
+            'type' => 'success',
+            'title' => 'User created & linked',
+            'message' => 'User has been created and linked to company',
+        ]);
 
     # checking user role
     $user = User::where('name', 'user')->first();
@@ -111,7 +112,7 @@ test('user: create & attach user, user should not be able to create & attach oth
             'coordinates' => null,
         ],
     ])
-    ->assertForbidden();
+        ->assertForbidden();
 
     # checking user role
     $user = User::where('name', 'user')->first();

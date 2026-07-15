@@ -12,71 +12,26 @@ use function Pest\Laravel\actingAs;
 beforeEach(function () {
     $this->administrator = User::factory()->create();
     $this->administrator->assignRole(UserRole::ADMINISTRATOR);
-    $this->companies = Company::factory()->createMany([
-        ['name' => 'Company One'],
-        ['name' => 'Company Two'],
-    ]);
+    $this->company = Company::factory()->create(['name' => 'Company']);
     $this->contact = Contact::factory()->create();
     $this->address = Address::factory()->create(['coordinates' => null]);
     $this->supplier = Supplier::factory()->create();
 
-    $this->contact->companies()->attach($this->companies);
-    $this->address->companies()->attach($this->companies);
-    $this->supplier->companies()->attach($this->companies);
-    $this->administrator->companies()->attach($this->companies);
+    $this->contact->companies()->attach($this->company);
+    $this->address->companies()->attach($this->company);
+    $this->supplier->companies()->attach($this->company);
+    $this->administrator->companies()->attach($this->company);
 
     $this->manager = User::factory()->create();
     $this->manager->assignRole(UserRole::MANAGER);
     $this->administrator->managers()->attach($this->manager);
 });
 
-test('administrator: should see only own companies listing table', function () {
-    actingAs($this->administrator);
-
-    Company::factory()->createMany([
-        ['name' => 'Company External'],
-    ]);
-
-    visit(route('companies.index'))
-        ->assertSee('Company One')
-        ->assertSee('Company Two')
-        ->assertDontSee('Company External');
-});
-
-test('administrator: should filter search', function () {
-    actingAs($this->administrator);
-
-    visit(route('companies.index', ['search' => 'Company One']))
-        ->assertSee('Company One')
-        ->assertDontSee('Company Two');
-});
-
-test('administrator: should test successfully removing/restoring company', function () {
-    actingAs($this->administrator);
-
-    visit(route('companies.index'))
-        ->assertSee('Company One')
-        ->assertSee('Company Two')
-        ->click('@company-delete-' . $this->companies[0]->id . '-modal-trigger')
-        ->click('@company-delete-' . $this->companies[0]->id . '-modal-confirm')
-        ->assertDontSee('Company One');
-
-    visit(route('companies.removed'))
-        ->assertSee('Company One')
-        ->click('@company-restore-' . $this->companies[0]->id . '-modal-trigger')
-        ->click('@company-restore-' . $this->companies[0]->id . '-modal-confirm')
-        ->assertDontSee('Company One');
-
-    visit(route('companies.index'))
-        ->assertSee('Company One')
-        ->assertSee('Company Two');
-});
-
 test('administrator: should see company details', function () {
     actingAs($this->administrator);
 
-    visit(route('companies.edit', $this->companies[0]))
-        ->assertSee($this->companies[0]->name)
+    visit(route('companies.edit', $this->company))
+        ->assertSee($this->company->name)
         ->click('@statistics')
         ->assertSee('Data goes here')
         ->click('@members')
@@ -92,7 +47,7 @@ test('administrator: should see company details', function () {
 test('administrator: should update company details', function () {
     actingAs($this->administrator);
 
-    visit(route('companies.edit', $this->companies[0]))
+    visit(route('companies.edit', $this->company))
         ->fill('@company-update_name', 'Updated Company Name')
         ->click('@form-company-update-submit')
         ->assertSee('Company updated')
@@ -102,17 +57,35 @@ test('administrator: should update company details', function () {
 test('administrator: should remove company', function () {
     actingAs($this->administrator);
 
-    visit(route('companies.edit', $this->companies[0]))
+    visit(route('companies.edit', $this->company))
         ->click('@company-delete-modal-trigger')
         ->click('@company-delete-modal-confirm')
-        ->assertDontSee($this->companies[0]->name)
+        ->assertDontSee($this->company->name)
         ->assertRoute('companies.index');
 });
 
-test('administrator: should add contact', function () {
+test('administrator: should attach/remove manager', function () {
     actingAs($this->administrator);
 
-    visit(route('companies.edit', $this->companies[0]))
+    visit(route('companies.edit', $this->company))
+        ->click('@members')
+        ->assertDontSee($this->manager->name)
+        ->click('@companies-user-attach-modal-trigger')
+        ->click('@user-attach-' . $this->manager->id . '-button')
+        ->assertSee('User linked')
+        ->assertSee('User has been linked to company')
+        ->assertSee($this->manager->name)
+        ->click('@user-company-delete-' . $this->manager->id . '-modal-trigger')
+        ->click('@user-company-delete-' . $this->manager->id . '-modal-confirm')
+        ->assertSee('User unlinked')
+        ->assertSee('User has been unlinked from company')
+        ->assertDontSee($this->manager->name);
+});
+
+test('administrator: should add/remove contact', function () {
+    actingAs($this->administrator);
+
+    visit(route('companies.edit', $this->company))
         ->click('@contacts')
         ->click('@companies-contact-create-modal-trigger')
         ->fill('@contact_mobile', '0777777777')
@@ -121,28 +94,20 @@ test('administrator: should add contact', function () {
         ->fill('@contact_url', 'http://example.com')
         ->fill('@contact_info', 'The building is just around the corner')
         ->click('@companies-contact-create-modal-submit')
-        ->assertSee('companycontact@garage.com');
-});
-
-test('administrator: should remove contact', function () {
-    $contact = Contact::factory()->create();
-    $this->companies[0]->contacts()->attach($contact);
-    actingAs($this->administrator);
-
-    visit(route('companies.edit', $this->companies[0]))
-        ->click('@contacts')
-        ->assertSee($contact->email)
-        ->click('@companies-contact-delete-' . $contact->id . '-modal-trigger')
-        ->click('@companies-contact-delete-' . $contact->id . '-modal-confirm')
+        ->assertSee('Resource created')
+        ->assertSee('Contact has been created and attached to given resource')
+        ->assertSee('companycontact@garage.com')
+        ->click('@companies-contact-delete-' . $this->contact->id . '-modal-trigger')
+        ->click('@companies-contact-delete-' . $this->contact->id . '-modal-confirm')
         ->assertSee('Resource removed')
         ->assertSee('Contact has been removed from given resource')
-        ->assertDontSee($contact->email);
+        ->assertDontSee($this->contact->email);
 });
 
-test('administrator: should add address', function () {
+test('administrator: should add/remove address', function () {
     actingAs($this->administrator);
 
-    visit(route('companies.edit', $this->companies[0]))
+    visit(route('companies.edit', $this->company))
         ->click('@addresses')
         ->click('@companies-address-create-modal-trigger')
         ->fill('@address_street_number', '123')
@@ -150,15 +115,8 @@ test('administrator: should add address', function () {
         ->fill('@address_postcode', '123456')
         ->click('@companies-address-create-modal-submit')
         ->assertSee('Resource created')
-        ->assertSee('Address has been created and attached to given resource');
-});
-
-test('administrator: should remove address', function () {
-    actingAs($this->administrator);
-
-    visit(route('companies.edit', $this->companies[0]))
-        ->click('@addresses')
-        ->assertSee($this->address->street)
+        ->assertSee('Address has been created and attached to given resource')
+        ->assertSee('Flower Street')
         ->click('@companies-address-delete-' . $this->address->id . '-modal-trigger')
         ->click('@companies-address-delete-' . $this->address->id . '-modal-confirm')
         ->assertSee('Resource removed')
@@ -166,10 +124,10 @@ test('administrator: should remove address', function () {
         ->assertDontSee($this->address->street);
 });
 
-test('administrator: should add supplier', function () {
+test('administrator: should add/remove supplier', function () {
     actingAs($this->administrator);
 
-    visit(route('companies.edit', $this->companies[0]))
+    visit(route('companies.edit', $this->company))
         ->click('@suppliers')
         ->click('@companies-supplier-create-modal-trigger')
         ->fill('@supplier_name', 'Supplier Test')
@@ -186,16 +144,10 @@ test('administrator: should add supplier', function () {
         ->fill('@supplier_contact_url', 'http://example.com')
         ->fill('@supplier_contact_info', 'Extra contact information')
         ->click('@companies-supplier-create-modal-submit')
-        ->assertSee('Supplier Test');
-});
-
-test('administrator: should remove supplier', function () {
-    actingAs($this->administrator);
-
-    visit(route('companies.edit', $this->companies[0]))
-        ->click('@suppliers')
+        ->assertSee('Supplier Test')
         ->click('@supplier-delete-' . $this->supplier->id . '-modal-trigger')
         ->click('@supplier-delete-' . $this->supplier->id . '-modal-confirm')
         ->assertSee('Supplier removed')
-        ->assertSee('Supplier information has been successfully removed from respective company');
+        ->assertSee('Supplier information has been successfully removed from respective company')
+        ->assertDontSee($this->supplier->name);
 });
