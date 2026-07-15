@@ -8,6 +8,7 @@
             action="{{ route('managers.store') }}"
             method="POST"
             enctype="@enctype"
+            id="form-manager-create"
         >
             @csrf
 
@@ -34,7 +35,8 @@
 
             <div class="flex gap-1">
                 <x-button
-                    id="form-managers-create-submit"
+                    id="manager-create-submit"
+                    form="form-manager-create"
                     type="submit"
                 >Submit</x-button>
             </div>

@@ -44,7 +44,7 @@ class ManagerController extends Controller
 
     public function create(): View
     {
-        $this->authorize('update', User::class);
+        $this->authorize('store', User::class);
 
         return view('pages.manager.create', [
             'countries' => Country::all(),
@@ -63,7 +63,7 @@ class ManagerController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'User created',
-                'The user has been successfully created and added to the team.',
+                'The user has been successfully created and added to the team',
             ));
     }
 
