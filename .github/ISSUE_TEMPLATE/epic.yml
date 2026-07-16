@@ -1,0 +1,85 @@
+name: Epic
+description: Track a large feature or initiative.
+title: "[Epic]: "
+labels:
+  - epic
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Epics represent larger pieces of work that are broken down into multiple issues.
+
+  - type: input
+    id: title
+    attributes:
+      label: Epic Title
+      placeholder: User Management Module
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What are we trying to accomplish?
+    validations:
+      required: true
+
+  - type: textarea
+    id: business-value
+    attributes:
+      label: Business Value
+      description: Why is this important?
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      placeholder: |
+        In Scope:
+        - User CRUD
+        - Roles & Permissions
+
+        Out of Scope:
+        - OAuth
+        - MFA
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Definition of Done
+      placeholder: |
+        - [ ] Documentation completed
+        - [ ] Tests written
+        - [ ] Feature deployed
+        - [ ] Product owner approved
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Child Issues
+      description: List related issues.
+      placeholder: |
+        - [ ] #123
+        - [ ] #124
+        - [ ] #125
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks / Dependencies
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
