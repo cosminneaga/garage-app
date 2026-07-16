@@ -1,4 +1,12 @@
 @php
+    Session::flashInput([
+        'email' => $resource->email,
+        'mobile' => $resource->mobile,
+        'landline' => $resource->landline,
+        'url' => $resource->url,
+        'info' => $resource->info,
+    ]);
+
     $parameter = collect(Request::route()->parameters())
         ->keys()
         ->last();
@@ -15,12 +23,12 @@
             @method('PUT')
 
             <div class="grid grid-rows-1 gap-4">
-                <x-form.content.contact identifier="contact-update" />
+                <x-form.content.contact identifier="contact" />
             </div>
 
             <div class="mt-5 flex gap-1">
                 <x-button
-                    id="contact-update-submit"
+                    id="contact_update"
                     type="submit"
                 >Submit</x-button>
             </div>

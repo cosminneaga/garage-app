@@ -57,15 +57,9 @@ class ContactController extends Controller
         $resource = self::$entity->contacts()->findOrFail($contactId);
         $this->authorize('show', $resource);
 
-        Session::flashInput([
-            'email' => $resource->email,
-            'mobile' => $resource->mobile,
-            'landline' => $resource->landline,
-            'url' => $resource->url,
-            'info' => $resource->info,
+        return view('pages.contact.edit', [
+            'resource' => $resource,
         ]);
-
-        return view('pages.contact.edit');
     }
 
     public function modelUpdate(

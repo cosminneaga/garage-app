@@ -118,7 +118,7 @@ class CompanyController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Company updated',
-                'The company details have been successfully updated.',
+                'The company details have been successfully updated',
             ));
     }
 

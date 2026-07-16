@@ -69,7 +69,7 @@ Route::controller(ProfileController::class)
 Route::controller(SupplierController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        Route::put('/suppliers/{supplier}')->name('suppliers.update');
+        Route::put('/suppliers/{supplier}', 'update')->name('suppliers.update');
         Route::get('/suppliers/{supplier}', 'edit')->name('suppliers.edit');
 
         # companies

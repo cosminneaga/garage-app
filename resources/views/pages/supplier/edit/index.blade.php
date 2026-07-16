@@ -9,24 +9,24 @@
             description="Visualise & Edit {{ $supplier->name }}'s details"
         >
             <form
-                id="company-supplier-update"
                 @isset($company)
                     :action="route('suppliers.companies.update', [
                         $company,
                         $supplier,
                     ])"
                 @else
-                    :action="route('supplier.update', $supplier)"
+                    :action="route('suppliers.update', $supplier)"
                 @endisset
                 method="POST"
             >
                 @csrf
                 @method ('PUT')
 
-                <x-form.content.supplier identifier="supplier-update" />
+                <x-form.content.supplier identifier="supplier" />
 
                 <div class="mt-5 flex gap-1">
                     <x-button
+                        id="supplier_update"
                         class="w-fit"
                         type="submit"
                     >UPDATE</x-button>

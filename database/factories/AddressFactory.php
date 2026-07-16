@@ -18,6 +18,14 @@ class AddressFactory extends Factory
      */
     public function definition(): array
     {
+        $country = Country::all()->first();
+
+        if ($country) {
+            $country = $country;
+        } else {
+            $country = Country::factory();
+        }
+
         return [
             'street_number' => fake()->buildingNumber(),
             'street' => fake()->streetName(),
@@ -26,7 +34,7 @@ class AddressFactory extends Factory
             'building' => fake()->buildingNumber(),
             'floor' => fake()->buildingNumber(),
             'unit' => fake()->buildingNumber(),
-            'country_id' => Country::factory(),
+            'country_id' => $country,
         ];
     }
 }
