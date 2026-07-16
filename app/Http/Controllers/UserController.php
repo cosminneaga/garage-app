@@ -194,7 +194,6 @@ class UserController extends Controller
 
     /**
      * Attach an user to a related resource
-     * ! This needs tests review
      */
     public function modelAttach(Request $request, User $user, string|int $modelId)
     {
@@ -215,7 +214,6 @@ class UserController extends Controller
 
     /**
      * Detach an user from a related resource
-     * ! This needs tests review
      */
     public function modelDetach(Request $request, User $user, string|int $modelId): RedirectResponse
     {
@@ -236,7 +234,6 @@ class UserController extends Controller
 
     /**
      * Store a resource to related to an user
-     * ! This needs test review
      */
     public function modelStore(StoreUserRequest $request, string|int $modelId, UserStoreAction $action): RedirectResponse
     {
@@ -258,7 +255,6 @@ class UserController extends Controller
 
     /**
      * Assign permission to an user
-     * ! This needs test review
      */
     public function assignPermission(User $user, string $name): RedirectResponse
     {
@@ -270,13 +266,12 @@ class UserController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Permission assigned',
-                'Permission assign to user ' . $user->name
+                'Permission assigned to user ' . $user->name
             ));
     }
 
     /**
      * Revoke permission from an user
-     * ! This needs test review
      */
     public function revokePermission(User $user, string $name): RedirectResponse
     {

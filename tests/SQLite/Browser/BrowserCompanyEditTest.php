@@ -64,6 +64,8 @@ test('administrator: should remove company', function () {
         ->assertRoute('companies.index');
 });
 
+# App\Http\Controllers\UserController.php->modelAttach()
+# App\Http\Controllers\UserController.php->modelDetach()
 test('administrator: should attach/remove manager', function () {
     actingAs($this->administrator);
 

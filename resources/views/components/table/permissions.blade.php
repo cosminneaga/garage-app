@@ -44,6 +44,7 @@
                                         class="text-red-500 hover:cursor-pointer"
                                         data-modal-target="user-send-message-modal"
                                         data-modal-toggle="user-send-message-modal"
+                                        data-test="{{ $row->name }}-revoke"
                                         type="submit"
                                     >
                                         Revoke
@@ -61,6 +62,7 @@
                                         class="text-green-500 hover:cursor-pointer"
                                         data-modal-target="user-send-message-modal"
                                         data-modal-toggle="user-send-message-modal"
+                                        data-test="{{ $row->name }}-assign"
                                         type="submit"
                                     >
                                         Assign
