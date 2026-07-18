@@ -25,7 +25,7 @@
                 />
                 <br />
                 <x-form.content.user
-                    identifier="manager-update"
+                    identifier="manager_update"
                     :exclude="['password', 'password_confirmed']"
                 />
 

@@ -33,6 +33,7 @@
                 action="{{ $search_route }}"
             >
                 <x-form.field
+                    identifier="user"
                     name="search"
                     type="search"
                     value="{{ request('search') }}"
@@ -119,11 +120,13 @@
                                 <a
                                     class="text-brand"
                                     href="{{ route($routes_prefix . '.profile.edit') }}"
+                                    data-test="user-{{ $row->id }}-profile-button"
                                 >Profile</a>
                             @else
                                 <a
                                     class="text-brand"
                                     href="{{ route($routes_prefix . '.edit', $row) }}"
+                                    data-test="user-{{ $row->id }}-edit-button"
                                 >Edit</a>
                             @endisCurrentUser
                         @endif

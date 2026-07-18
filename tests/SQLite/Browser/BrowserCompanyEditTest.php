@@ -51,10 +51,10 @@ test('administrator: should update company details', function () {
         ->fill('@company-update_name', 'Updated Company Name')
         ->click('@form-company-update-submit')
         ->assertSee('Company updated')
-        ->assertSee('The company details have been successfully updated.');
+        ->assertSee('The company details have been successfully updated');
 });
 
-test('administrator: should remove company', function () {
+test('administrator: should delete company', function () {
     actingAs($this->administrator);
 
     visit(route('companies.edit', $this->company))

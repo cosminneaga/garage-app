@@ -24,6 +24,7 @@
                 action="{{ $search_route }}"
             >
                 <x-form.field
+                    identifier="company"
                     name="search"
                     type="search"
                     value="{{ request('search') }}"
@@ -71,8 +72,8 @@
                     @if ($edit)
                         <a
                             class="text-brand"
-                            data-test="company-edit-link-{{ $row->id }}"
                             href="{{ route('companies.edit', $row) }}"
+                            data-test="company-{{ $row->id }}-edit-button"
                         >Edit</a>
                     @endif
                     @if ($delete)

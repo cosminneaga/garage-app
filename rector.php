@@ -47,4 +47,7 @@ return RectorConfig::configure()
     ->withRules([
         DeclareStrictTypesRector::class,
     ])
-    ->withImportNames(removeUnusedImports: true);
+    ->withImportNames(
+        importShortClasses: true,
+        removeUnusedImports: true
+    );

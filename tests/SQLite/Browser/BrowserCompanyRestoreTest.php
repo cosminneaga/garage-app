@@ -22,5 +22,7 @@ test('administrator: should restore removed company', function () {
         ->assertSee('Company')
         ->click('@company-restore-' . $this->company->id . '-modal-trigger')
         ->click('@company-restore-' . $this->company->id . '-modal-confirm')
+        ->assertSee('Company restored')
+        ->assertSee('The company has been successfully restored and is now available in your account')
         ->assertDontSee('Company');
 });

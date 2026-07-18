@@ -152,7 +152,7 @@ class UserController extends Controller
                 ->with(self::flashMessage(
                     'info',
                     'User removed',
-                    'The user ' . $user->name . ' has been successfully removed from the team.',
+                    'The user ' . $user->name . ' has been successfully removed from the team',
                 ));
         }
 
@@ -161,7 +161,7 @@ class UserController extends Controller
             ->with(self::flashMessage(
                 'info',
                 'User removed',
-                'The user ' . $user->name . ' has been successfully removed from the team.',
+                'The user ' . $user->name . ' has been successfully removed from the team',
             ));
     }
 

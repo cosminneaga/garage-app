@@ -8,7 +8,7 @@ use Spatie\Permission\Models\Permission;
 
 test('references', function () {
     expect(UserPermission::references())->toMatchArray(
-        Collection::make(UserPermission::cases())->map(fn($case) => $case->value)
+        Collection::make(UserPermission::cases())->map(fn ($case) => $case->value)
     );
 });
 
@@ -18,7 +18,7 @@ test('name: success', function () {
 });
 
 test('name: fail', function () {
-    expect(fn() => UserPermission::name(UserPermission::USER, 'populate'))
+    expect(fn () => UserPermission::name(UserPermission::USER, 'populate'))
         ->toThrow('Action: populate does not exists in: show,store,update,delete,restore');
 });
 
@@ -28,13 +28,11 @@ test('list: exclude references & actions', function () {
         excludeActions: ['show'],
     ))->toMatchArray(
         Collection::make(UserPermission::cases())
-            ->reject(fn($case) => $case->value === 'company')
-            ->map(function ($reference) {
-                return Collection::make(UserPermission::actions())
-                    ->except('show')
-                    ->map(fn($action) => $reference->value . '-' . $action)
-                    ->values();
-            })->flatten()->toArray()
+            ->reject(fn ($case) => $case->value === 'company')
+            ->map(fn ($reference) => Collection::make(UserPermission::actions())
+                ->except('show')
+                ->map(fn ($action) => $reference->value . '-' . $action)
+                ->values())->flatten()->toArray()
     );
 });
 
@@ -43,7 +41,7 @@ test('list: only references & actions', function () {
         onlyReferences: ['company'],
         onlyActions: ['show'],
     ))->toMatchArray([
-        'company-show'
+        'company-show',
     ]);
 });
 

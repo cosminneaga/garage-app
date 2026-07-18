@@ -118,7 +118,7 @@ class ManagerController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Manager updated',
-                'The manager details have been successfully updated.',
+                'The manager details have been successfully updated',
             ));
     }
 
@@ -142,7 +142,7 @@ class ManagerController extends Controller
             ->with(self::flashMessage(
                 'info',
                 'Manager removed',
-                'The manager ' . $manager->name . ' has been successfully removed from the team.',
+                'The manager ' . $manager->name . ' has been successfully removed from the team',
             ));
     }
 
@@ -156,7 +156,7 @@ class ManagerController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Manager restored',
-                'The manager has been successfully restored and is now active again.',
+                'The manager has been successfully restored and is now active again',
             ));
     }
 

@@ -62,7 +62,7 @@ class CompanyController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Company created',
-                'The company has been successfully created and is now available in your account.',
+                'The company has been successfully created and is now available in your account',
             ));
     }
 
@@ -135,7 +135,7 @@ class CompanyController extends Controller
                 ->with(self::flashMessage(
                     'info',
                     'User removed',
-                    'The company ' . $company->name . ' has been successfully removed.',
+                    'The company ' . $company->name . ' has been successfully removed',
                 ));
         }
 
@@ -144,7 +144,7 @@ class CompanyController extends Controller
             ->with(self::flashMessage(
                 'info',
                 'Company removed',
-                'The company has been successfully removed from your account.',
+                'The company has been successfully removed from your account',
             ));
     }
 
@@ -158,7 +158,7 @@ class CompanyController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Company restored',
-                'The company has been successfully restored and is now available in your account.',
+                'The company has been successfully restored and is now available in your account',
             ));
     }
 

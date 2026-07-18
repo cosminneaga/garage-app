@@ -32,18 +32,30 @@ test('administrator: should see only own companies listing table', function () {
 test('administrator: should filter search', function () {
     actingAs($this->administrator);
 
-    visit(route('companies.index', ['search' => 'Company One']))
+    visit(route('companies.index'))
+        ->fill('@company_search', 'Company One')
+        ->click('@company_search_submit')
         ->assertSee('Company One')
         ->assertDontSee('Company Two');
 });
 
+test('administrator: should go on company edit page', function () {
+    actingAs($this->administrator);
+    $company = $this->companies->first();
+
+    visit(route('companies.index'))
+        ->click('@company-' . $company->id . '-edit-button')
+        ->assertRoute('companies.edit', [$company->id]);
+});
+
 test('administrator: should remove company', function () {
     actingAs($this->administrator);
+    $company = $this->companies->first();
 
     visit(route('companies.index'))
         ->assertSee('Company One')
         ->assertSee('Company Two')
-        ->click('@company-delete-' . $this->companies[0]->id . '-modal-trigger')
-        ->click('@company-delete-' . $this->companies[0]->id . '-modal-confirm')
+        ->click('@company-delete-' . $company->id . '-modal-trigger')
+        ->click('@company-delete-' . $company->id . '-modal-confirm')
         ->assertDontSee('Company One');
 });

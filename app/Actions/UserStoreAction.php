@@ -52,10 +52,10 @@ class UserStoreAction
 
             $user->addresses()->attach(Address::create($data['address']));
             $user->contacts()->attach(Contact::create($data['contact']));
-            
+
             if ($this->user->isAdministrator()) {
                 $this->user->managers()->attach($user);
-            } else if ($this->user->isManager()) {
+            } elseif ($this->user->isManager()) {
                 $this->user->users()->attach($user);
             }
 

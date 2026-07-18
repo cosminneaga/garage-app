@@ -126,8 +126,8 @@
                         class="bg-brand hover:bg-brand-strong focus:ring-brand-medium shadow-xs inset-e-1.5 absolute bottom-1.5 box-border rounded border border-transparent px-3 py-1.5 text-xs font-medium leading-5 text-white focus:outline-none focus:ring-4"
                         {{ $attributes->merge([
                             'type' => 'submit',
-                            'id' => $name . '-submit',
-                            'data-test' => $name . '-submit',
+                            'id' => $testName . '_submit',
+                            'data-test' => $testName . '_submit',
                         ]) }}
                     >Search</button>
                 </div>
