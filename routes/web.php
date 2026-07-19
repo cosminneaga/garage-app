@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::controller(ManagerController::class)
-    ->middleware(['auth', 'role:administrator'])
+    ->middleware(['auth', 'role:super|administrator'])
     ->group(function () {
         Route::resource('managers', ManagerController::class)->except('show');
         Route::get('/managers/restore', 'removed')->name('managers.removed');

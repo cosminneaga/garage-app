@@ -34,7 +34,7 @@
 
             <div class="flex gap-1">
                 <x-button
-                    id="form-users-create-submit"
+                    id="user-create-submit"
                     type="submit"
                 >Submit</x-button>
             </div>

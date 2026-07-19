@@ -27,6 +27,7 @@ enum UserPermission: string
     case REPAIR_INVOICE_ITEM = 'repair_invoice_item';
 
     case USER = 'user';
+    case MANAGER = 'manager';
 
     case VEHICLE_DATA = 'vehicle_data';
     case VEHICLE_MAKE = 'vehicle_make';

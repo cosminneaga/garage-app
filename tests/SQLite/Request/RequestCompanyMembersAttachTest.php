@@ -12,10 +12,8 @@ use function Pest\Laravel\post;
 beforeEach(function () {
     $this->administrator = User::factory()->create();
     $this->administrator->assignRole(UserRole::ADMINISTRATOR);
-
     $this->company = Company::factory()->create();
     $this->company->users()->attach($this->administrator);
-
     $this->country = Country::factory()->create();
 });
 

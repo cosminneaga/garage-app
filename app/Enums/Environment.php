@@ -49,6 +49,7 @@ enum Environment: string
                             'vehicle_make',
                             'vehicle_model',
                             'vehicle_year',
+                            'manager',
                         ]
                     ),
                     ...UserPermission::list(
@@ -122,6 +123,7 @@ enum Environment: string
                             'vehicle_make',
                             'vehicle_model',
                             'vehicle_year',
+                            'manager',
                         ]
                     ),
                     ...UserPermission::list(
@@ -195,6 +197,7 @@ enum Environment: string
                             'vehicle_make',
                             'vehicle_model',
                             'vehicle_year',
+                            'manager',
                         ]
                     ),
                     ...UserPermission::list(
