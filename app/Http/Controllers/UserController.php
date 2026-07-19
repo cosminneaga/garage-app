@@ -220,8 +220,6 @@ class UserController extends Controller
         self::guard('update', $request, $modelId);
         $this->authorize('update', $user);
 
-        # check if user is linked
-        abort_unless(self::$entity->users()->find($user), 404);
         self::$entity->users()->detach($user);
 
         return back()

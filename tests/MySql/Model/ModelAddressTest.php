@@ -39,7 +39,7 @@ test('coordinates: set/get using Coordinates DTO', function () {
 
 });
 
-test('withCoordinates scope', function () {
+test('scope: withCoordinates', function () {
     $country = Country::factory()->create();
 
     Address::create([
