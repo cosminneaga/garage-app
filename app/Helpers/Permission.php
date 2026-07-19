@@ -13,4 +13,9 @@ class Permission
     {
         return Auth::check() && Auth::user()->can(UserPermission::name($permission, $action));
     }
+
+    public static function value(UserPermission $permission, string $action): string
+    {
+        return UserPermission::name($permission, $action);
+    }
 }

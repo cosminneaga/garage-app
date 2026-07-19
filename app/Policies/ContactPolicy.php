@@ -32,7 +32,7 @@ class ContactPolicy implements StandardPolicyInterface
 
     public function destroy(User $user, mixed $contact): bool
     {
-        return Permission::can(UserPermission::CONTACT, 'destroy');
+        return Permission::can(UserPermission::CONTACT, 'delete');
     }
 
     public function restore(User $user, mixed $contact): bool

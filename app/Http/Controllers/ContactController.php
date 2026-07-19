@@ -49,11 +49,11 @@ class ContactController extends Controller
 
     public function modelEdit(
         Request $request,
-        string|int $contactId,
-        string|int $id
+        Contact $contact,
+        string|int $model_id
     ): View {
-        self::guard('show', $request, $id);
-        $resource = self::$entity->contacts()->findOrFail($contactId);
+        self::guard('show', $request, $model_id);
+        $resource = self::$entity->contacts()->findOrFail($contact->id);
         $this->authorize('show', $resource);
 
         return view('pages.contact.edit', [
@@ -63,11 +63,11 @@ class ContactController extends Controller
 
     public function modelUpdate(
         Request $request,
-        string|int $contactId,
-        string|int $id
+        Contact $contact,
+        string|int $model_id
     ): RedirectResponse {
-        self::guard('update', $request, $id);
-        $resource = self::$entity->contacts()->findOrFail($contactId);
+        self::guard('update', $request, $model_id);
+        $resource = self::$entity->contacts()->findOrFail($contact->id);
         $this->authorize('update', $resource);
         $resource->update([...$request->except(['_token', '_method'])]);
 
@@ -82,12 +82,12 @@ class ContactController extends Controller
 
     public function modelDestroy(
         Request $request,
-        string|int $contactId,
-        string|int $id
+        Contact $contact,
+        string|int $model_id
     ): RedirectResponse {
-        self::guard('update', $request, $id);
-        $this->authorize('destroy', self::$entity);
-        self::$entity->contacts()->detach($contactId);
+        self::guard('update', $request, $model_id);
+        $this->authorize('destroy', $contact);
+        self::$entity->contacts()->detach($contact);
 
         return back()
             ->with(self::flashMessage(

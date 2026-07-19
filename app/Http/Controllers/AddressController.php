@@ -50,11 +50,11 @@ class AddressController extends Controller
 
     public function modelEdit(
         Request $request,
-        string|int $addressId,
-        string|int $id
+        Address $address,
+        string|int $model_id
     ): View {
-        self::guard('show', $request, $id);
-        $resource = self::$entity->addresses()->findOrFail($addressId);
+        self::guard('show', $request, $model_id);
+        $resource = self::$entity->addresses()->findOrFail($address->id);
         $this->authorize('show', $resource);
 
         return view('pages.address.edit', [
@@ -65,11 +65,11 @@ class AddressController extends Controller
 
     public function modelUpdate(
         Request $request,
-        string|int $addressId,
-        string|int $id
+        Address $address,
+        string|int $model_id
     ) {
-        self::guard('update', $request, $id);
-        $resource = self::$entity->addresses()->findOrFail($addressId);
+        self::guard('update', $request, $model_id);
+        $resource = self::$entity->addresses()->findOrFail($address);
         $this->authorize('update', $resource);
         $resource->update([...$request->except(['_token', '_method'])]);
 
@@ -83,11 +83,11 @@ class AddressController extends Controller
 
     public function modelDestroy(
         Request $request,
-        string|int $addressId,
-        string|int $id
+        Address $address,
+        string|int $model_id
     ): RedirectResponse {
-        self::guard('update', $request, $id);
-        self::$entity->addresses()->detach($addressId);
+        self::guard('update', $request, $model_id);
+        self::$entity->addresses()->detach($address->id);
 
         return back()
             ->with(self::flashMessage(
