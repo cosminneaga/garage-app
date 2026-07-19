@@ -34,7 +34,7 @@ class UpdateProfileRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'active' => ['string'],
-            'image' => ['mimes:png,jpg,jpeg,webp', 'max:5000'],
+            'image' => ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }
 }

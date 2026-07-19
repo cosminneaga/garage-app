@@ -21,10 +21,7 @@ class ModelContactStoreAction
 
         return DB::transaction(function () use ($attributes, $model) {
             $contact = Contact::create($attributes);
-
-            if (! $model->contacts()->find($contact->id)) {
-                $model->contacts()->attach($contact);
-            }
+            $model->contacts()->attach($contact);
 
             return $contact;
         });

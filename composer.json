@@ -87,6 +87,7 @@
             "bash -c './vendor/bin/pest $(find tests -type f -name \"*$0*\") --bail --profile'"
         ],
         "pest": [
+            "composer clear",
             "vendor/bin/pest --configuration ./phpunit.xml --bail --profile"
         ],
         "format": [

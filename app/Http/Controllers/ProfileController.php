@@ -31,9 +31,12 @@ class ProfileController extends Controller
         };
     }
 
-    public function update(UpdateProfileRequest $request, User $user, UserUpdateAction $action): RedirectResponse
-    {
-        $action->handle($request->validated(), $user);
+    public function update(
+        UpdateProfileRequest $request,
+        User $user,
+        UserUpdateAction $action
+    ): RedirectResponse {
+        $action->handle($request->safe()->all(), $user);
 
         return back()
             ->with(self::flashMessage(

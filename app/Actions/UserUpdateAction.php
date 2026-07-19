@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class UserUpdateAction
 {
-    public function handle(array $attributes, User $user): void
+    public function handle(array $attributes, User $user): ?User
     {
         $data['user'] = collect($attributes)
             ->only([
@@ -29,7 +29,7 @@ class UserUpdateAction
             $data['user']['image_path'] = $attributes['image']->store('users', 'public');
         }
 
-        DB::transaction(function () use ($user, $data) {
+        return DB::transaction(function () use ($user, $data): User {
             // replace old image with new one
             if (
                 Arr::has($data, 'user.image_path') &&
@@ -43,6 +43,7 @@ class UserUpdateAction
             }
 
             $user->update($data['user']);
+            return $user;
         });
     }
 }
