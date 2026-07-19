@@ -1,3 +1,6 @@
 <?php
 
-beforeEach(function () {});
+declare(strict_types=1);
+
+beforeEach(function () {
+});

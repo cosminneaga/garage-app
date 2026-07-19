@@ -48,13 +48,13 @@ test('user: with permission to update company', function () {
         'tax_id' => '84732874837',
         'registration_number' => '98743298647234',
         'tax_value' => '25',
-        'invoice_prefix' => 'INVTEST'
+        'invoice_prefix' => 'INVTEST',
     ])
         ->assertRedirectBack()
         ->assertSessionHas('message', (object) [
             'type' => 'success',
             'title' => 'Company updated',
-            'message' => 'The company details have been successfully updated'
+            'message' => 'The company details have been successfully updated',
         ]);
 });
 
@@ -66,14 +66,14 @@ test('user: with permission to delete company', function () {
         ->assertSessionHas('message', (object) [
             'type' => 'info',
             'title' => 'Company removed',
-            'message' => 'The company has been successfully removed from your account'
+            'message' => 'The company has been successfully removed from your account',
         ]);
 });
 
 test('user: statistics', function () {
     get(route('companies.edit', [
         'company' => $this->company,
-        'tab' => 'statistics'
+        'tab' => 'statistics',
     ]))
         ->assertStatus(200)
         ->assertSee('Data goes here');
@@ -107,30 +107,30 @@ test('user: contacts, see, add & remove', function () {
 
     get(route('companies.edit', [
         'company' => $this->company,
-        'tab' => 'contacts'
+        'tab' => 'contacts',
     ]))
         ->assertStatus(200);
 
     post(route('contacts.companies.store', $this->company), [
         'email' => 'contact@garage.com',
-        'mobile' => '98291829819'
+        'mobile' => '98291829819',
     ])
         ->assertRedirectBack()
         ->assertSessionHas('message', (object) [
             'type' => 'success',
             'title' => 'Resource created',
-            'message' => 'Contact has been created and attached to given resource'
+            'message' => 'Contact has been created and attached to given resource',
         ]);
 
     delete(route('contacts.companies.destroy', [
         'contact' => $this->contact,
-        'company' => $this->company
+        'company' => $this->company,
     ]))
         ->assertRedirectBack()
         ->assertSessionHas('message', (object) [
             'type' => 'info',
             'title' => 'Resource removed',
-            'message' => 'Contact has been removed from given resource'
+            'message' => 'Contact has been removed from given resource',
         ]);
 });
 
@@ -143,7 +143,7 @@ test('user: addresses, see, add & remove', function () {
 
     get(route('companies.edit', [
         'company' => $this->company,
-        'tab' => 'addresses'
+        'tab' => 'addresses',
     ]))
         ->assertStatus(200);
 
@@ -158,7 +158,7 @@ test('user: addresses, see, add & remove', function () {
         ->assertSessionHas('message', (object) [
             'type' => 'success',
             'title' => 'Resource created',
-            'message' => 'Address has been created and attached to given resource'
+            'message' => 'Address has been created and attached to given resource',
         ]);
 
     delete(route('addresses.companies.destroy', [
@@ -169,7 +169,7 @@ test('user: addresses, see, add & remove', function () {
         ->assertSessionHas('message', (object) [
             'type' => 'info',
             'title' => 'Resource removed',
-            'message' => 'Address has been removed from given resource'
+            'message' => 'Address has been removed from given resource',
         ]);
 });
 
@@ -182,7 +182,7 @@ test('user: supplier, see, add & remove', function () {
 
     get(route('companies.edit', [
         'company' => $this->company,
-        'tab' => 'suppliers'
+        'tab' => 'suppliers',
     ]))
         ->assertStatus(200);
 
@@ -194,7 +194,7 @@ test('user: supplier, see, add & remove', function () {
         'registration_number' => '843874837483',
         'contact' => [
             'email' => 'supplier@garage.com',
-            'mobile' => '837287382783'
+            'mobile' => '837287382783',
         ],
         'address' => [
             'street_number' => '123',
@@ -202,13 +202,13 @@ test('user: supplier, see, add & remove', function () {
             'postcode' => 'B345BN',
             'country_id' => $this->country->id,
             'coordinates' => null,
-        ]
+        ],
     ])
         ->assertRedirectBack()
         ->assertSessionHas('message', (object) [
             'type' => 'success',
             'title' => 'Supplier created',
-            'message' => 'Supplier information has been created and attached to respective company'
+            'message' => 'Supplier information has been created and attached to respective company',
         ]);
 
     delete(route('suppliers.companies.destroy', [
@@ -219,7 +219,7 @@ test('user: supplier, see, add & remove', function () {
         ->assertSessionHas('message', (object) [
             'type' => 'info',
             'title' => 'Supplier removed',
-            'message' => 'Supplier information has been successfully removed from respective company'
+            'message' => 'Supplier information has been successfully removed from respective company',
         ]);
 });
 

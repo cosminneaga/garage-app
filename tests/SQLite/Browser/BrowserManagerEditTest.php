@@ -109,4 +109,3 @@ test('administrator: should assign/revoke permission', function () {
         ->assertSee('Permission revoked from user ' . $this->manager->name)
         ->assertDontSee('Revoke');
 });
-

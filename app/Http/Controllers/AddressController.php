@@ -69,7 +69,7 @@ class AddressController extends Controller
         string|int $model_id
     ) {
         self::guard('update', $request, $model_id);
-        $resource = self::$entity->addresses()->findOrFail($address);
+        $resource = self::$entity->addresses()->findOrFail($address->id);
         $this->authorize('update', $resource);
         $resource->update([...$request->except(['_token', '_method'])]);
 

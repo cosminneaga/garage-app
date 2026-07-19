@@ -58,65 +58,65 @@
     @endsuper
 
     @permitted(UserPermission::USER, 'show')
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Users</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="/users"
-                > List </a>
-            </li>
-            @permitted(UserPermission::USER, 'store')
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="/users/create"
-                > Create </a>
-            </li>
-            @endpermitted
-            @permitted(UserPermission::USER, 'restore')
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="/users/restore"
-                > Removed </a>
-            </li>
-            @endpermitted
-        </ul>
+    <br />
+    <div class="border-default border-b">
+        <span class="text-heading">Users</span>
+    </div>
+    <ul class="space-y-2 font-medium">
+        <li class="my-2">
+            <a
+                class="w-full"
+                href="/users"
+            > List </a>
+        </li>
+        @permitted(UserPermission::USER, 'store')
+        <li class="my-2">
+            <a
+                class="w-full"
+                href="/users/create"
+            > Create </a>
+        </li>
+        @endpermitted
+        @permitted(UserPermission::USER, 'restore')
+        <li class="my-2">
+            <a
+                class="w-full"
+                href="/users/restore"
+            > Removed </a>
+        </li>
+        @endpermitted
+    </ul>
     @endpermitted
 
     @permitted(UserPermission::MANAGER, 'show')
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Managers</span>
-        </div>
-        <ul class="space-y-2 font-medium">
+    <br />
+    <div class="border-default border-b">
+        <span class="text-heading">Managers</span>
+    </div>
+    <ul class="space-y-2 font-medium">
+        <li class="my-2">
+            <a
+                class="w-full"
+                href="/managers"
+            > List </a>
+        </li>
+        @permitted(UserPermission::MANAGER, 'store')
             <li class="my-2">
                 <a
                     class="w-full"
-                    href="/managers"
-                > List </a>
+                    href="/managers/create"
+                > Create </a>
             </li>
-            @permitted(UserPermission::MANAGER, 'store')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="/managers/create"
-                    > Create </a>
-                </li>
-            @endpermitted
-            @permitted(UserPermission::MANAGER, 'restore')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="/managers/restore"
-                    > Removed </a>
-                </li>
-            @endpermitted
-        </ul>
+        @endpermitted
+        @permitted(UserPermission::MANAGER, 'restore')
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="/managers/restore"
+                > Removed </a>
+            </li>
+        @endpermitted
+    </ul>
     @endadministrator
 
     <br />

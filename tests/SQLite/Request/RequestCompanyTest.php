@@ -60,7 +60,7 @@ test('user: should not see companies that are not attached', function () {
 test('user: filter companies', function () {
     $companies = Company::factory()->createMany([
         ['name' => 'One'],
-        ['name' => 'Two']
+        ['name' => 'Two'],
     ]);
     $user = User::factory()->create();
     $user->assignRole(UserRole::USER);
