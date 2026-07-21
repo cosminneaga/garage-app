@@ -267,12 +267,12 @@ class User extends Authenticatable
 
     public function peerAttach(User $user): void
     {
-        if ($this->isManager()) {
-            $this->users()->attach($user);
+        if ($this->isAdministrator()) {
+            $this->managers()->attach($user);
             return;
         }
 
-        $this->managers()->attach($user);
+        $this->users()->attach($user);
     }
 
     public function addresses(): BelongsToMany

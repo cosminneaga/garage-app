@@ -22,9 +22,10 @@ class UserPolicy implements StandardPolicyInterface
             return false;
         }
 
-        return match ($user->getRoleNames()[0]) {
+        return match ($user->getRoleNames()->first()) {
             UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
-            UserRole::MANAGER->value => $user->isMyUser($model)
+            UserRole::MANAGER->value => $user->isMyUser($model),
+            default => $user->isMyUser($model),
         };
     }
 
@@ -39,9 +40,10 @@ class UserPolicy implements StandardPolicyInterface
             return false;
         }
 
-        return match ($user->getRoleNames()[0]) {
+        return match ($user->getRoleNames()->first()) {
             UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
             UserRole::MANAGER->value => $user->isMyUser($model),
+            default => $user->isMyUser($model),
         };
     }
 
@@ -51,9 +53,10 @@ class UserPolicy implements StandardPolicyInterface
             return false;
         }
 
-        return match ($user->getRoleNames()[0]) {
+        return match ($user->getRoleNames()->first()) {
             UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
-            UserRole::MANAGER->value => $user->isMyUser($model)
+            UserRole::MANAGER->value => $user->isMyUser($model),
+            default => $user->isMyUser($model),
         };
     }
 
@@ -63,9 +66,10 @@ class UserPolicy implements StandardPolicyInterface
             return false;
         }
 
-        return match ($user->getRoleNames()[0]) {
+        return match ($user->getRoleNames()->first()) {
             UserRole::ADMINISTRATOR->value => ($user->isMyManager($model) || $user->isMyUser($model)),
-            UserRole::MANAGER->value => $user->isMyUser($model)
+            UserRole::MANAGER->value => $user->isMyUser($model),
+            default => $user->isMyUser($model),
         };
     }
 
