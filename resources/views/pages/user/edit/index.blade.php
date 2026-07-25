@@ -29,13 +29,15 @@
                 />
 
                 <div class="mt-5 flex gap-1">
-                    <x-button
-                        class="w-fit"
-                        id="form-user-update-submit"
-                        form="form-user-update"
-                        type="submit"
-                        variant="default"
-                    >Update Details</x-button>
+                    @permitted(UserPermission::USER, 'update')
+                        <x-button
+                            class="w-fit"
+                            id="form-user-update-submit"
+                            form="form-user-update"
+                            type="submit"
+                            variant="default"
+                        >Update Details</x-button>
+                    @endpermitted
 
                     @permitted(UserPermission::USER, 'delete')
                         <x-button

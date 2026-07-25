@@ -24,12 +24,14 @@
                 <x-form.content.company identifier="company-update" />
 
                 <div class="mt-5 flex gap-1">
-                    <x-button
-                        class="w-fit"
-                        id="form-company-update-submit"
-                        form="form-company-update"
-                        type="submit"
-                    >Update Details</x-button>
+                    @permitted(UserPermission::COMPANY, 'update')
+                        <x-button
+                            class="w-fit"
+                            id="form-company-update-submit"
+                            form="form-company-update"
+                            type="submit"
+                        >Update Details</x-button>
+                    @endpermitted
 
                     @permitted(UserPermission::COMPANY, 'delete')
                         <x-button

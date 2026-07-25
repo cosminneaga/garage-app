@@ -105,8 +105,6 @@ test('administrator: should edit supplier address', function () {
         ->assertValue('@address_postcode', '74466-9381');
 });
 
-
-
 test('manager: should not be able to edit administrator\'s address', function () {
     $this->administrator->managers()->attach($this->manager);
     actingAs($this->manager);
@@ -269,8 +267,6 @@ test('user: with address & user permissions should edit user\'s address', functi
         ->assertValue('@address_street', 'Sunflower Street')
         ->assertValue('@address_postcode', '74466-9381');
 });
-
-
 
 test('user: with address & company permission, should edit company address', function () {
     $this->user->givePermissionTo([
