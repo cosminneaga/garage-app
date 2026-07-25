@@ -2,6 +2,7 @@
 
 use App\Enums\UserRole;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 test('isMyUser: true', function () {
     $administrator = User::factory()->create(['name' => 'administrator']);
@@ -123,13 +124,14 @@ test('isMyUser: fail no role', function () {
     $manager = User::factory()->create(['name' => 'manager']);
     $user = User::factory()->create();
 
-    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold the manager or administrator role.');
+    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold a valid role');
 });
 
 test('isMyUser: fail wrong role', function () {
     $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::USER);
+    Role::create(['name' => 'mailman']);
+    $manager->assignRole('mailman');
     $user = User::factory()->create();
 
-    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold the manager or administrator role.');
+    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold a valid role');
 });

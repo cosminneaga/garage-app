@@ -184,8 +184,12 @@ class User extends Authenticatable
             return true;
         }
 
-        if (!$this->hasAnyRole(UserRole::MANAGER->value, UserRole::ADMINISTRATOR->value)) {
-            throw new Exception('The user must hold the manager or administrator role.');
+        if (!$this->hasAnyRole(
+            UserRole::MANAGER->value,
+            UserRole::ADMINISTRATOR->value,
+            UserRole::USER->value
+        )) {
+            throw new Exception('The user must hold a valid role');
         }
 
         if ($this->isAdministrator()) {
@@ -197,8 +201,20 @@ class User extends Authenticatable
                 ->exists();
         }
 
-        return $this
-            ->users()
+        if ($this->isManager()) {
+            return $this
+                ->users()
+                ->where('users.id', $user->id)
+                ->withTrashed()
+                ->exists();
+        }
+
+        if (count($this->managers) === 0) {
+            return false;
+        }
+
+        return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
+            ->where('team_manager_users.manager_id', '=', $this->managers()->first()->id)
             ->where('users.id', $user->id)
             ->withTrashed()
             ->exists();

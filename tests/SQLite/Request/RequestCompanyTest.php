@@ -192,7 +192,7 @@ test('user: addresses, see, add & remove', function () {
         'street_number' => '123',
         'street' => 'Sunflower Street',
         'postcode' => 'B345BN',
-        'country_id' => Country::factory()->create()->id,
+        'country_id' => $this->country->id,
         'coordinates' => null,
     ])
         ->assertRedirectBack()
@@ -476,7 +476,32 @@ test('user: cannot remove any members', function () {
     actingAs($this->user);
 
     delete(route('users.companies.destroy', [$user2, $this->company]))
-        ->assertForbidden();
+        ->assertUnauthorized();
+    delete(route('users.companies.destroy', [$this->manager, $this->company]))
+        ->assertUnauthorized();
+    delete(route('users.companies.destroy', [$this->administrator, $this->company]))
+        ->assertUnauthorized();
+});
+
+test('user: with permissions can remove only users', function () {
+    $user2 = User::factory()->create();
+    $this->manager->users()->attach($user2);
+    $this->company->users()->attach($user2);
+
+    $this->user->givePermissionTo([
+        Permission::value(UserPermission::USER, 'update'),
+        Permission::value(UserPermission::COMPANY, 'update'),
+    ]);
+
+    actingAs($this->user);
+
+    delete(route('users.companies.destroy', [$user2, $this->company]))
+        ->assertRedirect()
+        ->assertSessionHas('message', (object) [
+            'type' => 'warning',
+            'title' => 'User unlinked',
+            'message' => 'User has been unlinked from company',
+        ]);
     delete(route('users.companies.destroy', [$this->manager, $this->company]))
         ->assertForbidden();
     delete(route('users.companies.destroy', [$this->administrator, $this->company]))
