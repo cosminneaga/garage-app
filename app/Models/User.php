@@ -209,6 +209,8 @@ class User extends Authenticatable
                 ->exists();
         }
 
+        // !!! This could fail if there are multiple managers, as it takes the first one only
+        // Have a workarund for future, with tests
         if (count($this->managers) === 0) {
             return false;
         }
