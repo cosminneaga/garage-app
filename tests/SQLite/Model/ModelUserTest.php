@@ -4,134 +4,87 @@ use App\Enums\UserRole;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
-test('isMyUser: true', function () {
-    $administrator = User::factory()->create(['name' => 'administrator']);
-    $administrator->assignRole(UserRole::ADMINISTRATOR);
+beforeEach(function () {
+    $this->administrator = User::factory()->create();
+    $this->manager = User::factory()->create();
+    $this->user = User::factory()->create();
 
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
-    $administrator->managers()->attach($manager);
-
-    $user = User::factory()->create(['name' => 'user']);
-    $user->assignRole(UserRole::USER);
-    $manager->users()->attach($user);
-
-    expect($administrator->isMyUser($user))->toBeTrue();
-    expect($manager->isMyUser($user))->toBeTrue();
+    $this->administrator->assignRole(UserRole::ADMINISTRATOR);
+    $this->manager->assignRole(UserRole::MANAGER);
+    $this->user->assignRole(UserRole::USER);
 });
 
-test('isMyUser: manager not attached, administrator -> false', function () {
-    $administrator = User::factory()->create(['name' => 'administrator']);
-    $administrator->assignRole(UserRole::ADMINISTRATOR);
+/**
+ * administrator -> managers
+ * administrator -> users, as long as they are attached to existing manager
+ * manager -> users
+ * users -> users, at the moment by poiting to the first attached manager, subject to change in future
+ */
+test('isMyUser: attached & detached', function () {
+    $external_user = User::factory()->create();
+    $external_user->assignRole(UserRole::USER);
 
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
+    # attach users
+    $this->administrator->memberAttach($this->manager);
+    $this->manager->memberAttach($this->user);
+    $this->manager->memberAttach($external_user);
 
-    $user = User::factory()->create(['name' => 'user']);
-    $user->assignRole(UserRole::USER);
-    $manager->users()->attach($user);
+    expect($this->administrator->isMyUser($this->manager))->toBeTrue();
+    expect($this->administrator->isMyUser($this->user))->toBeTrue();
+    expect($this->manager->isMyUser($this->user))->toBeTrue();
+    expect($this->manager->isMyUser($external_user))->toBeTrue();
+    expect($this->user->isMyUser($external_user))->toBeTrue();
 
-    expect($administrator->isMyUser($user))->toBeFalse();
-    expect($manager->isMyUser($user))->toBeTrue();
+    # detach users
+    $this->administrator->memberDetach($this->manager);
+    $this->manager->memberDetach($this->user);
+    $this->manager->memberDetach($external_user);
+
+    expect($this->administrator->isMyUser($this->manager))->toBeFalse();
+    expect($this->administrator->isMyUser($this->user))->toBeFalse();
+    expect($this->manager->isMyUser($this->user))->toBeFalse();
+    expect($this->manager->isMyUser($external_user))->toBeFalse();
+    expect($this->user->isMyUser($external_user))->toBeFalse();
 });
 
-test('isMyUser: user not attached, administrator & manager -> false', function () {
-    $administrator = User::factory()->create(['name' => 'administrator']);
-    $administrator->assignRole(UserRole::ADMINISTRATOR);
-
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
-    $administrator->managers()->attach($manager);
-
-    $user = User::factory()->create(['name' => 'user']);
-    $user->assignRole(UserRole::USER);
-
-    expect($administrator->isMyUser($user))->toBeFalse();
-    expect($manager->isMyUser($user))->toBeFalse();
+test('isMyUser: user has no role', function () {
+    $norole_user = User::factory()->create();
+    $this->manager->memberAttach($norole_user);
+    expect($this->user->isMyUser($norole_user))->toBeFalse();
 });
 
-test('isMyManager: true', function () {
-    $administrator = User::factory()->create(['name' => 'administrator']);
-    $administrator->assignRole(UserRole::ADMINISTRATOR);
-
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
-    $administrator->managers()->attach($manager);
-
-    expect($administrator->isMyManager($manager))->toBeTrue();
-});
-
-test('isMyManager: false', function () {
-    $administrator = User::factory()->create(['name' => 'administrator']);
-    $administrator->assignRole(UserRole::ADMINISTRATOR);
-
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
-
-    expect($administrator->isMyManager($manager))->toBeFalse();
-});
-
-
-test('managers: from administrator to managers and user to managers', function () {
-    $administrator = User::factory()->create(['name' => 'administrator']);
-    $administrator->assignRole(UserRole::ADMINISTRATOR);
-
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
-    $administrator->managers()->attach($manager);
-
-    $user = User::factory()->create(['name' => 'user']);
-    $user->assignRole(UserRole::USER);
-    $manager->users()->attach($user);
-
-    expect($administrator->managers()->get())->toHaveCount(1);
-    expect($administrator->managers()->get()[0])->toMatchArray(['name' => 'manager']);
-    expect($user->managers()->get())->toHaveCount(1);
-    expect($user->managers()->get()[0])->toMatchArray(['name' => 'manager']);
-});
-
-test('isMyUser: success on manager', function () {
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
-
-    $user = User::factory()->create();
-    $manager->users()->attach($user);
-
-    $extUser = User::factory()->create();
-
-    expect($manager->isMyUser($user))->toEqual(true);
-    expect($manager->isMyUser($extUser))->toEqual(false);
-});
-
-test('isMyUser: success on administrator', function () {
-    $administrator = User::factory()->create(['name' => 'administrator']);
-    $administrator->assignRole(UserRole::ADMINISTRATOR);
-
-    $manager = User::factory()->create(['name' => 'manager']);
-    $manager->assignRole(UserRole::MANAGER);
-    $administrator->managers()->attach($manager);
-
-    $user = User::factory()->create();
-    $manager->users()->attach($user);
-
-    $extUser = User::factory()->create();
-
-    expect($administrator->isMyUser($user))->toEqual(true);
-    expect($administrator->isMyUser($extUser))->toEqual(false);
-});
-
-test('isMyUser: fail no role', function () {
-    $manager = User::factory()->create(['name' => 'manager']);
-    $user = User::factory()->create();
-
-    expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold a valid role');
-});
-
-test('isMyUser: fail wrong role', function () {
+test('isMyUser: fail on manager\'s wrong role', function () {
     $manager = User::factory()->create(['name' => 'manager']);
     Role::create(['name' => 'mailman']);
     $manager->assignRole('mailman');
     $user = User::factory()->create();
 
     expect(fn () => $manager->isMyUser($user))->toThrow('The user must hold a valid role');
+});
+
+test('isMyManager: administrator', function () {
+    # attach manager
+    $this->administrator->memberAttach($this->manager);
+    expect($this->administrator->isMyManager($this->manager))->toBeTrue();
+
+    # detach manager
+    $this->administrator->memberDetach($this->manager);
+    expect($this->administrator->isMyManager($this->manager))->toBeFalse();
+});
+
+test('isMyManager: user', function () {
+    # attach user
+    $this->manager->memberAttach($this->user);
+    expect(fn () => $this->user->isMyManager($this->manager))->toThrow('User data can only be access by an administrator');
+});
+
+test('managers: from administrator to managers and user to managers', function () {
+    # attach users
+    $this->administrator->memberAttach($this->manager);
+    $this->manager->memberAttach($this->user);
+
+    expect($this->administrator->managers()->get())->toHaveCount(1);
+    expect($this->administrator->managers()->get()[0])->toMatchArray(['name' => $this->manager->name]);
+    expect($this->user->managers()->get())->toHaveCount(1);
+    expect($this->user->managers()->get()[0])->toMatchArray(['name' => $this->manager->name]);
 });

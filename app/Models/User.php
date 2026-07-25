@@ -193,12 +193,21 @@ class User extends Authenticatable
         }
 
         if ($this->isAdministrator()) {
-            return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
+            if ($user->isManager()) {
+                return $this
+                    ->managers()
+                    ->where('users.id', $user->id)
+                    ->withTrashed()
+                    ->exists();
+            }
+            if ($user->isUser()) {
+                return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
                 ->join('team_administrator_managers', 'team_administrator_managers.manager_id', '=', 'team_manager_users.manager_id')
                 ->where('team_administrator_managers.administrator_id', $this->id)
                 ->where('users.id', $user->id)
                 ->withTrashed()
                 ->exists();
+            }
         }
 
         if ($this->isManager()) {
@@ -211,21 +220,21 @@ class User extends Authenticatable
 
         // !!! This could fail if there are multiple managers, as it takes the first one only
         // Have a workarund for future, with tests
-        if (count($this->managers) === 0) {
-            return false;
+        if (count($this->managers) > 0) {
+            return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
+                ->where('team_manager_users.manager_id', '=', $this->managers->first()->id)
+                ->where('users.id', $user->id)
+                ->withTrashed()
+                ->exists();
         }
 
-        return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
-            ->where('team_manager_users.manager_id', '=', $this->managers()->first()->id)
-            ->where('users.id', $user->id)
-            ->withTrashed()
-            ->exists();
+        return false;
     }
 
     public function isMyManager(User $user): Throwable|bool
     {
         if (!$this->hasRole(UserRole::ADMINISTRATOR)) {
-            throw new Exception('The user must hold the administrator role.');
+            throw new Exception('User data can only be access by an administrator');
         }
 
         return $this
@@ -283,14 +292,22 @@ class User extends Authenticatable
         );
     }
 
-    public function peerAttach(User $user): void
+    public function memberAttach(User $user): void
     {
-        if ($this->isAdministrator()) {
+        if ($user->isManager()) {
             $this->managers()->attach($user);
-            return;
+        } elseif ($user->isUser()) {
+            $this->users()->attach($user);
         }
+    }
 
-        $this->users()->attach($user);
+    public function memberDetach(User $user): void
+    {
+        if ($user->isManager()) {
+            $this->managers()->detach($user);
+        } elseif ($user->isUser()) {
+            $this->users()->detach($user);
+        }
     }
 
     public function addresses(): BelongsToMany

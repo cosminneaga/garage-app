@@ -241,7 +241,7 @@ class UserController extends Controller
         $user = $action->handle($attributes);
 
         self::$entity->users()->attach($user);
-        Auth::user()->peerAttach($user);
+        Auth::user()->memberAttach($user);
 
         return back()
           ->with(self::flashMessage(
