@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 use Database\Factories\SupplierFactory;
 use Illuminate\Database\Eloquent\Builder;
 use App\Enums\SupplierType;
-use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -95,10 +94,6 @@ class Supplier extends Model
 
     public function isMySupplier(User $user): Throwable|bool
     {
-        if (! $user->roles()->exists()) {
-            throw new Exception('The user must hold a valid role.');
-        }
-
         $company = $this->companies()->first();
         if (!$company) {
             return false;

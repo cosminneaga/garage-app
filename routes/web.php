@@ -69,9 +69,6 @@ Route::controller(ProfileController::class)
 Route::controller(SupplierController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        Route::put('/suppliers/{supplier}', 'update')->name('suppliers.update');
-        Route::get('/suppliers/{supplier}', 'edit')->name('suppliers.edit');
-
         # companies
         Route::post('/suppliers/companies/{company}', 'modelStore')->name('suppliers.companies.store');
         Route::get('/suppliers/{supplier}/companies/{company}', 'modelEdit')->name('suppliers.companies.edit');
@@ -130,7 +127,9 @@ Route::controller(SuperController::class)
         Route::get('/super/companies', 'companies')->name('super.companies.all');
         Route::get('/super/suppliers', 'suppliers')->name('super.suppliers.all');
 
-        Route::get('/suppliers/restore', [SupplierController::class, 'removed'])->name('suppliers.removed');
-        Route::post('/suppliers/{supplier}/restore', [SupplierController::class, 'restore'])->name('suppliers.restore');
-        Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+        Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('super.suppliers.update');
+        Route::get('/suppliers/removed', [SupplierController::class, 'removed'])->name('super.suppliers.removed');
+        Route::get('/suppliers/{supplier}', [SupplierController::class, 'edit'])->name('super.suppliers.edit');
+        Route::post('/suppliers/{supplier}/restore', [SupplierController::class, 'restore'])->name('super.suppliers.restore');
+        Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('super.suppliers.destroy');
     });

@@ -26,7 +26,7 @@
 
                 <div class="mt-5 flex gap-1">
                     <x-button
-                        id="supplier_update"
+                        id="supplier_update_submit"
                         class="w-fit"
                         type="submit"
                     >UPDATE</x-button>

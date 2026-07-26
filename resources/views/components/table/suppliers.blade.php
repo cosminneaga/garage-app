@@ -10,7 +10,7 @@
 @php
     $columns = collect(SupplierColumns::cases())->map(fn($col) => $col->value);
 
-    if ($edit || $delete) {
+    if ($edit || $delete || $restore) {
         $columns->push('Actions');
     }
 @endphp
@@ -59,7 +59,7 @@
                     @if ($edit)
                         <a
                             class="text-brand"
-                            href="{{ route('suppliers.edit', $row) }}"
+                            href="{{ route('super.suppliers.edit', $row) }}"
                         >Edit</a>
                     @endif
                     @if ($delete)

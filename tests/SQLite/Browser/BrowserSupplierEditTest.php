@@ -22,9 +22,9 @@ test('administrator: should update existing supplier', function () {
     visit(route('suppliers.companies.edit', [$this->supplier, $this->company]))
         ->assertValue('@supplier_name', $this->supplier->name)
         ->fill('@supplier_name', 'Supplier of AutoParts')
-        ->click('@supplier_update')
+        ->click('@supplier_update_submit')
         ->assertSee('Supplier updated')
-        ->assertSee('Supplier information has been successfully updated from respective company')
+        ->assertSee('Supplier information has been successfully updated to respective company')
         ->assertValue('@supplier_name', 'Supplier of AutoParts');
 });
 
@@ -33,11 +33,11 @@ test('super: update a supplier', function () {
     $super->assignRole(UserRole::SUPER);
     actingAs($super);
 
-    visit(route('suppliers.edit', [$this->supplier, $this->company]))
+    visit(route('super.suppliers.edit', [$this->supplier, $this->company]))
         ->assertValue('@supplier_name', $this->supplier->name)
         ->fill('@supplier_name', 'Supplier of AutoParts')
-        ->click('@supplier_update')
+        ->click('@supplier_update_submit')
         ->assertSee('Supplier updated')
-        ->assertSee('Supplier information has been successfully updated from respective company')
+        ->assertSee('Supplier information has been successfully updated')
         ->assertValue('@supplier_name', 'Supplier of AutoParts');
 });

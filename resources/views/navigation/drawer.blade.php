@@ -54,6 +54,12 @@
                     href="{{ route('super.suppliers.all') }}"
                 > List </a>
             </li>
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.suppliers.removed') }}"
+                > Removed </a>
+            </li>
         </ul>
     @endsuper
 

@@ -52,7 +52,7 @@ class SupplierController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Supplier updated',
-                'Supplier information has been successfully updated from respective company',
+                'Supplier information has been successfully updated',
             ));
     }
 
@@ -66,8 +66,16 @@ class SupplierController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Supplier restored',
-                'The supplier has been successfully restored and is now available in your account.',
+                'The supplier has been successfully restored',
             ));
+    }
+
+    public function removed(): View
+    {
+        $this->authorize('restore', Supplier::class);
+        return view('pages.supplier.removed', [
+            'suppliers' => Supplier::onlyTrashed()->get(),
+        ]);
     }
 
     public function destroy(Supplier $supplier)
@@ -140,7 +148,7 @@ class SupplierController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'Supplier updated',
-                'Supplier information has been successfully updated from respective company',
+                'Supplier information has been successfully updated to respective company',
             ));
     }
 
