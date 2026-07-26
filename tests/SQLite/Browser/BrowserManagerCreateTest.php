@@ -29,7 +29,7 @@ test('administrator: create new manager', function () {
         ->fill('@manager_contact_mobile', '8733-323-544')
         ->click('@manager-create-submit')
         ->assertRoute('managers.index')
-        ->assertSee('User created')
-        ->assertSee('The user has been successfully created and added to the team')
+        ->assertSee('Manager created')
+        ->assertSee('The manager has been successfully created and added to the team')
         ->assertSee('manager@garage.com');
 });

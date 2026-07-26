@@ -62,8 +62,8 @@ class ManagerController extends Controller
         return redirect(route('managers.index'))
             ->with(self::flashMessage(
                 'success',
-                'User created',
-                'The user has been successfully created and added to the team',
+                'Manager created',
+                'The manager has been successfully created and added to the team',
             ));
     }
 

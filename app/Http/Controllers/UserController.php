@@ -66,7 +66,7 @@ class UserController extends Controller
             ->with(self::flashMessage(
                 'success',
                 'User created',
-                'The user has been successfully created and added to the team.',
+                'The user has been successfully created and added to the team',
             ));
     }
 
