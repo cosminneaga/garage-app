@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Actions\UserUpdateAction;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Country;
-use App\Models\User;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -33,10 +32,9 @@ class ProfileController extends Controller
 
     public function update(
         UpdateProfileRequest $request,
-        User $user,
         UserUpdateAction $action
     ): RedirectResponse {
-        $action->handle($request->safe()->all(), $user);
+        $action->handle($request->safe()->all(), Auth::user());
 
         return back()
             ->with(self::flashMessage(

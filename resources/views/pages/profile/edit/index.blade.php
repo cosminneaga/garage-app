@@ -6,7 +6,7 @@
     <x-tabs :tabs="UserProfileTabs::ui()">
         <x-card description="Visualise & Edit your details">
             <form
-                action="{{ route('profile.users.update', $user) }}"
+                action="{{ route('profile.users.update') }}"
                 method="POST"
                 enctype="@enctype"
             >

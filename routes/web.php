@@ -60,10 +60,10 @@ Route::controller(CompanyController::class)
     });
 
 Route::controller(ProfileController::class)
-    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->middleware(['auth'])
     ->group(function () {
         Route::get('/profile/users', 'edit')->name('profile.users.edit');
-        Route::put('/profile/users/{user}', 'update')->name('profile.users.update');
+        Route::put('/profile/users', 'update')->name('profile.users.update');
     });
 
 Route::controller(SupplierController::class)

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Enums\UserPermission;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,12 +14,7 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $givenUser = $this->route('user');
-        if (Auth::user()->id !== $givenUser->id) {
-            return false;
-        }
-
-        return Auth::user()->can(UserPermission::name(UserPermission::USER, 'update'));
+        return Auth::check();
     }
 
     /**

@@ -79,7 +79,6 @@ class ContactController extends Controller
             ));
     }
 
-
     public function modelDestroy(
         Request $request,
         Contact $contact,

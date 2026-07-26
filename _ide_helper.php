@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.58.0.
+ * Generated for Laravel 12.64.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -14177,7 +14177,6 @@ namespace Illuminate\Support\Facades {
 
             }
     /**
-     * @method static \BackedEnum|(\BackedEnum|null enum(string $key, string $enumClass, \BackedEnum|null $default = null)
      * @see \Illuminate\Http\Request
      */
     class Request {
@@ -16054,10 +16053,6 @@ namespace Illuminate\Support\Facades {
          * header value is a comma+space separated list of IP addresses, the left-most
          * being the original client, and each successive proxy that passed the request
          * adding the IP address where it received the request from.
-         *
-         * If your reverse proxy uses a different header name than "X-Forwarded-For",
-         * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
-         * argument of the Request::setTrustedProxies() method instead.
          *
          * @see getClientIps()
          * @see https://wikipedia.org/wiki/X-Forwarded-For
@@ -23477,736 +23472,6 @@ namespace Illuminate\Support\Facades {
             }
     }
 
-namespace Fruitcake\LaravelDebugbar\Facades {
-    /**
-     * @method static void            alert(mixed $message)
-     * @method static void            critical(mixed $message)
-     * @method static void            debug(mixed $message)
-     * @method static void            emergency(mixed $message)
-     * @method static void            error(mixed $message)
-     * @method static void            info(mixed $message)
-     * @method static void            log(mixed $message)
-     * @method static void            notice(mixed $message)
-     * @method static void            warning(mixed $message)
-     * @see \Fruitcake\LaravelDebugbar\LaravelDebugbar
-     */
-    class Debugbar {
-        /**
-         * @static
-         */
-        public static function setApplication($app)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setApplication($app);
-        }
-
-        /**
-         * @static
-         */
-        public static function setRequest($request)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setRequest($request);
-        }
-
-        /**
-         * @static
-         */
-        public static function setProcessingJob($job)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setProcessingJob($job);
-        }
-
-        /**
-         * @static
-         */
-        public static function getProcessingJob()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getProcessingJob();
-        }
-
-        /**
-         * @static
-         */
-        public static function getHttpDriver()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getHttpDriver();
-        }
-
-        /**
-         * @static
-         */
-        public static function getRequestIdGenerator()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getRequestIdGenerator();
-        }
-
-        /**
-         * @static
-         */
-        public static function getTimeCollector()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getTimeCollector();
-        }
-
-        /**
-         * @static
-         */
-        public static function getMessagesCollector()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getMessagesCollector();
-        }
-
-        /**
-         * @static
-         */
-        public static function getExceptionsCollector()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getExceptionsCollector();
-        }
-
-        /**
-         * @static
-         */
-        public static function isCollecting()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->isCollecting();
-        }
-
-        /**
-         * Enable the Debugbar and boot, if not already booted.
-         *
-         * @static
-         */
-        public static function enable()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->enable();
-        }
-
-        /**
-         * Boot the debugbar (add collectors, renderer and listener)
-         *
-         * @static
-         */
-        public static function boot()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->boot();
-        }
-
-        /**
-         * @static
-         */
-        public static function booted()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->booted();
-        }
-
-        /**
-         * @static
-         */
-        public static function getJavascriptRenderer($baseUrl = null, $basePath = null)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getJavascriptRenderer($baseUrl, $basePath);
-        }
-
-        /**
-         * @static
-         */
-        public static function shouldCollect($name, $default = true)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->shouldCollect($name, $default);
-        }
-
-        /**
-         * Handle silenced errors
-         *
-         * @static
-         */
-        public static function handleError($level, $message, $file = '', $line = 0, $context = [])
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->handleError($level, $message, $file, $line, $context);
-        }
-
-        /**
-         * Starts a measure
-         *
-         * @param string $name Internal name, used to stop the measure
-         * @param string|null $label Public name
-         * @static
-         */
-        public static function startMeasure($name, $label = null, $collector = null, $group = null)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->startMeasure($name, $label, $collector, $group);
-        }
-
-        /**
-         * Stops a measure
-         *
-         * @static
-         */
-        public static function stopMeasure($name)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->stopMeasure($name);
-        }
-
-        /**
-         * Alias for addThrowable
-         *
-         * @static
-         */
-        public static function addException($e)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->addException($e);
-        }
-
-        /**
-         * Adds an exception to be profiled in the debug bar
-         *
-         * @static
-         */
-        public static function addThrowable($e)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->addThrowable($e);
-        }
-
-        /**
-         * Modify the response and inject the debugbar (or data in headers)
-         *
-         * @static
-         */
-        public static function handleResponse($request, $response)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->handleResponse($request, $response);
-        }
-
-        /**
-         * @static
-         */
-        public static function canBeEnabled()
-        {
-            return \Fruitcake\LaravelDebugbar\LaravelDebugbar::canBeEnabled();
-        }
-
-        /**
-         * Check if the Debugbar is enabled
-         *
-         * @static
-         */
-        public static function isEnabled()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->isEnabled();
-        }
-
-        /**
-         * @static
-         */
-        public static function isStorageOpen($request)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->isStorageOpen($request);
-        }
-
-        /**
-         * @static
-         */
-        public static function requestIsExcluded($request)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->requestIsExcluded($request);
-        }
-
-        /**
-         * Collects meta data about the current request
-         *
-         * @static
-         */
-        public static function collectMetaData()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->collectMetaData();
-        }
-
-        /**
-         * @static
-         */
-        public static function terminate()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->terminate();
-        }
-
-        /**
-         * Injects the web debug toolbar into the given Response.
-         *
-         * Based on https://github.com/symfony/WebProfilerBundle/blob/master/EventListener/WebDebugToolbarListener.php
-         *
-         * @static
-         */
-        public static function injectDebugbar($response)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->injectDebugbar($response);
-        }
-
-        /**
-         * Disable the Debugbar
-         *
-         * @static
-         */
-        public static function disable()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->disable();
-        }
-
-        /**
-         * @static
-         */
-        public static function reset()
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->reset();
-        }
-
-        /**
-         * Adds a measure
-         *
-         * @static
-         */
-        public static function addMeasure($label, $start, $end = null, $params = [], $collector = null, $group = null)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->addMeasure($label, $start, $end, $params, $collector, $group);
-        }
-
-        /**
-         * Utility function to measure the execution of a Closure
-         *
-         * @static
-         */
-        public static function measure($label, $closure, $collector = null, $group = null)
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->measure($label, $closure, $collector, $group);
-        }
-
-        /**
-         * Adds a message to the MessagesCollector
-         *
-         * A message can be anything from an object to a string
-         *
-         * @static
-         */
-        public static function addMessage($message, $label = 'info', $context = [])
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->addMessage($message, $label, $context);
-        }
-
-        /**
-         * Check the version of Laravel
-         *
-         * @static
-         */
-        public static function checkVersion($version, $operator = '>=')
-        {
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->checkVersion($version, $operator);
-        }
-
-        /**
-         * Adds a data collector
-         *
-         * @throws DebugBarException
-         * @return \Fruitcake\LaravelDebugbar\LaravelDebugbar
-         * @static
-         */
-        public static function addCollector($collector)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->addCollector($collector);
-        }
-
-        /**
-         * Checks if a data collector has been added
-         *
-         * @return boolean
-         * @static
-         */
-        public static function hasCollector($name)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->hasCollector($name);
-        }
-
-        /**
-         * @static
-         */
-        public static function getCollector($name)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getCollector($name);
-        }
-
-        /**
-         * @static
-         */
-        public static function removeCollector($name)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->removeCollector($name);
-        }
-
-        /**
-         * Returns an array of all data collectors
-         *
-         * @return array|\DebugBar\DataCollector\DataCollectorInterface[]
-         * @static
-         */
-        public static function getCollectors()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getCollectors();
-        }
-
-        /**
-         * Sets the request id generator
-         *
-         * @return \Fruitcake\LaravelDebugbar\LaravelDebugbar
-         * @static
-         */
-        public static function setRequestIdGenerator($generator)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setRequestIdGenerator($generator);
-        }
-
-        /**
-         * Returns the id of the current request
-         *
-         * @static
-         */
-        public static function getCurrentRequestId()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getCurrentRequestId();
-        }
-
-        /**
-         * Sets the storage backend to use to store the collected data
-         *
-         * @return \Fruitcake\LaravelDebugbar\LaravelDebugbar
-         * @static
-         */
-        public static function setStorage($storage = null)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setStorage($storage);
-        }
-
-        /**
-         * @static
-         */
-        public static function getStorage()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getStorage();
-        }
-
-        /**
-         * Checks if the data will be persisted
-         *
-         * @return boolean
-         * @static
-         */
-        public static function isDataPersisted()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->isDataPersisted();
-        }
-
-        /**
-         * Sets the HTTP driver
-         *
-         * @return \Fruitcake\LaravelDebugbar\LaravelDebugbar
-         * @static
-         */
-        public static function setHttpDriver($driver)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setHttpDriver($driver);
-        }
-
-        /**
-         * Collects the data from the collectors
-         *
-         * @static
-         */
-        public static function collect()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->collect();
-        }
-
-        /**
-         * Returns collected data
-         *
-         * Will collect the data if none have been collected yet
-         *
-         * @static
-         */
-        public static function getData()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getData();
-        }
-
-        /**
-         * Returns an array of HTTP headers containing the data
-         *
-         * @param integer $maxHeaderLength
-         * @return array<string, string>
-         * @static
-         */
-        public static function getDataAsHeaders($headerName = 'phpdebugbar', $maxHeaderLength = 4096, $maxTotalHeaderLength = 250000)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getDataAsHeaders($headerName, $maxHeaderLength, $maxTotalHeaderLength);
-        }
-
-        /**
-         * Sends the data through the HTTP headers
-         *
-         * @param integer $maxHeaderLength
-         * @return \Fruitcake\LaravelDebugbar\LaravelDebugbar
-         * @static
-         */
-        public static function sendDataInHeaders($useOpenHandler = null, $headerName = 'phpdebugbar', $maxHeaderLength = 4096)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->sendDataInHeaders($useOpenHandler, $headerName, $maxHeaderLength);
-        }
-
-        /**
-         * Stacks the data in the session for later rendering
-         *
-         * @static
-         */
-        public static function stackData()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->stackData();
-        }
-
-        /**
-         * Checks if there is stacked data in the session
-         *
-         * @return boolean
-         * @static
-         */
-        public static function hasStackedData()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->hasStackedData();
-        }
-
-        /**
-         * Returns the data stacked in the session
-         *
-         * @param boolean $delete Whether to delete the data in the session
-         * @return array[]
-         * @static
-         */
-        public static function getStackedData($delete = true)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getStackedData($delete);
-        }
-
-        /**
-         * @static
-         */
-        public static function getStackedIds($delete = true)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getStackedIds($delete);
-        }
-
-        /**
-         * Sets the key to use in the $_SESSION array
-         *
-         * @return \Fruitcake\LaravelDebugbar\LaravelDebugbar
-         * @static
-         */
-        public static function setStackDataSessionNamespace($ns)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setStackDataSessionNamespace($ns);
-        }
-
-        /**
-         * Returns the key used in the $_SESSION array
-         *
-         * @static
-         */
-        public static function getStackDataSessionNamespace()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->getStackDataSessionNamespace();
-        }
-
-        /**
-         * Sets whether to only use the session to store stacked data even
-         * if a storage is enabled
-         *
-         * @param boolean $enabled
-         * @return \Fruitcake\LaravelDebugbar\LaravelDebugbar
-         * @static
-         */
-        public static function setStackAlwaysUseSessionStorage($enabled = true)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setStackAlwaysUseSessionStorage($enabled);
-        }
-
-        /**
-         * Checks if the session is always used to store stacked data
-         * even if a storage is enabled
-         *
-         * @return boolean
-         * @static
-         */
-        public static function isStackAlwaysUseSessionStorage()
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->isStackAlwaysUseSessionStorage();
-        }
-
-        /**
-         * Set the editor globally, e.g., `vscode`
-         *
-         * @static
-         */
-        public static function setEditor($editor)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setEditor($editor);
-        }
-
-        /**
-         * Set the editor link template globally,
-         * `%f` = file, `%l` = line, e.g., `vscode://file/%f:%l`
-         *
-         * @static
-         */
-        public static function setEditorTemplate($editorLinkTemplate, $shouldUseAjax = false)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setEditorTemplate($editorLinkTemplate, $shouldUseAjax);
-        }
-
-        /**
-         * Set server path replacements, server paths will be mapped to local paths
-         * e.g., `['/var/www/remote/' => '/home/local/']`,
-         * '/var/www/remote/app/path' will become to '/home/local/app/path'
-         *
-         * @static
-         */
-        public static function setRemoteReplacements($remotePathReplacements)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->setRemoteReplacements($remotePathReplacements);
-        }
-
-        /**
-         * @static
-         */
-        public static function offsetSet($offset, $value)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->offsetSet($offset, $value);
-        }
-
-        /**
-         * @static
-         */
-        public static function offsetGet($offset)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->offsetGet($offset);
-        }
-
-        /**
-         * @static
-         */
-        public static function offsetExists($offset)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->offsetExists($offset);
-        }
-
-        /**
-         * @static
-         */
-        public static function offsetUnset($offset)
-        {
-            //Method inherited from \DebugBar\DebugBar 
-            /** @var \Fruitcake\LaravelDebugbar\LaravelDebugbar $instance */
-            return $instance->offsetUnset($offset);
-        }
-
-            }
-    }
-
 namespace Clockwork\Support\Laravel {
     /**
      */
@@ -25408,17 +24673,7 @@ namespace Illuminate\Support {
      */
     class Collection {
         /**
-         * @see \Fruitcake\LaravelDebugbar\ServiceProvider::register()
-         * @return \Illuminate\Support\Collection
-         * @static
-         */
-        public static function debug()
-        {
-            return \Illuminate\Support\Collection::debug();
-        }
-
-        /**
-         * @see \App\Providers\AppServiceProvider::boot()
+         * @see \App\Providers\ExtensionServiceProvider::boot()
          * @param string $key
          * @param mixed|null $value
          * @static
@@ -25429,7 +24684,7 @@ namespace Illuminate\Support {
         }
 
         /**
-         * @see \App\Providers\AppServiceProvider::boot()
+         * @see \App\Providers\ExtensionServiceProvider::boot()
          * @param array $list
          * @param array $compareList
          * @static
@@ -25444,7 +24699,7 @@ namespace Illuminate\Support {
      */
     class Str {
         /**
-         * @see \App\Providers\AppServiceProvider::boot()
+         * @see \App\Providers\ExtensionServiceProvider::boot()
          * @param string $name
          * @param mixed $nested_parent
          * @return string
@@ -26357,7 +25612,7 @@ namespace  {
          * @param string $pageName
          * @param int|null $page
          * @param \Closure|int|null $total
-         * @return \Illuminate\Pagination\LengthAwarePaginator
+         * @return \Illuminate\Pagination\LengthAwarePaginator<int, TModel>
          * @throws \InvalidArgumentException
          * @static
          */
@@ -26374,7 +25629,7 @@ namespace  {
          * @param array|string $columns
          * @param string $pageName
          * @param int|null $page
-         * @return \Illuminate\Contracts\Pagination\Paginator
+         * @return \Illuminate\Pagination\Paginator<int, TModel>
          * @static
          */
         public static function simplePaginate($perPage = null, $columns = [], $pageName = 'page', $page = null)
@@ -26390,7 +25645,7 @@ namespace  {
          * @param array|string $columns
          * @param string $cursorName
          * @param \Illuminate\Pagination\Cursor|string|null $cursor
-         * @return \Illuminate\Contracts\Pagination\CursorPaginator
+         * @return \Illuminate\Pagination\CursorPaginator<int, TModel>
          * @static
          */
         public static function cursorPaginate($perPage = null, $columns = [], $cursorName = 'cursor', $cursor = null)
@@ -30761,25 +30016,26 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
     class View extends \Illuminate\Support\Facades\View {}
     class Vite extends \Illuminate\Support\Facades\Vite {}
-    class Debugbar extends \Fruitcake\LaravelDebugbar\Facades\Debugbar {}
     class Clockwork extends \Clockwork\Support\Laravel\Facade {}
     class Octane extends \Laravel\Octane\Facades\Octane {}
     class Pulse extends \Laravel\Pulse\Facades\Pulse {}
     class Livewire extends \Livewire\Livewire {}
-    class Permission extends \App\Helpers\Permission {}
-    class UserPermission extends \App\Enums\UserPermission {}
-    class UserRole extends \App\Enums\UserRole {}
-    class SupplierType extends \App\Enums\SupplierType {}
-    class UserTabs extends \App\Enums\Tabs\UserTabs {}
-    class CompanyTabs extends \App\Enums\Tabs\CompanyTabs {}
-    class SupplierTabs extends \App\Enums\Tabs\SupplierTabs {}
-    class CompanyColumns extends \App\Enums\Columns\CompanyColumns {}
-    class SupplierColumns extends \App\Enums\Columns\SupplierColumns {}
-    class UserColumns extends \App\Enums\Columns\UserColumns {}
     class AddressColumns extends \App\Enums\Columns\AddressColumns {}
+    class CompanyColumns extends \App\Enums\Columns\CompanyColumns {}
+    class CompanyTabs extends \App\Enums\Tabs\CompanyTabs {}
     class ContactColumns extends \App\Enums\Columns\ContactColumns {}
     class Country extends \App\Models\Country {}
+    class Permission extends \App\Helpers\Permission {}
+    class SupplierColumns extends \App\Enums\Columns\SupplierColumns {}
+    class SupplierTabs extends \App\Enums\Tabs\SupplierTabs {}
+    class SupplierType extends \App\Enums\SupplierType {}
+    class UserColumns extends \App\Enums\Columns\UserColumns {}
+    class UserPermission extends \App\Enums\UserPermission {}
     class UserProfileTabs extends \App\Enums\Tabs\UserProfileTabs {}
+    class UserRole extends \App\Enums\UserRole {}
+    class UserTabs extends \App\Enums\Tabs\UserTabs {}
+    class PermissionColumns extends \App\Enums\Columns\PermissionColumns {}
+    class RelatedModel extends \App\Enums\Related\RelatedModel {}
 }
 
 
