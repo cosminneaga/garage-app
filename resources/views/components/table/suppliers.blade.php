@@ -5,6 +5,7 @@
     'delete' => false,
     'restore' => false,
     'search_route' => null,
+    'prefix_route' => null,
 ])
 
 @php
@@ -13,6 +14,21 @@
     if ($edit || $delete || $restore) {
         $columns->push('Actions');
     }
+
+    $routes = [
+        [
+            'type' => 'edit',
+            'name' => $prefix_route ? $prefix_route . '.suppliers.edit' : 'suppliers.edit',
+        ],
+        [
+            'type' => 'delete',
+            'name' => $prefix_route ? $prefix_route . '.suppliers.destroy' : 'suppliers.destroy',
+        ],
+        [
+            'type' => 'restore',
+            'name' => $prefix_route ? $prefix_route . '.suppliers.restore' : 'suppliers.restore',
+        ],
+    ];
 @endphp
 
 <x-table.wrapper :data="$data">
@@ -59,14 +75,14 @@
                     @if ($edit)
                         <a
                             class="text-brand"
-                            href="{{ route('super.suppliers.edit', $row) }}"
+                            href="{{ route($routes[0]['name'], $row) }}"
                         >Edit</a>
                     @endif
                     @if ($delete)
                         <x-modal.confirm
                             id="supplier-delete-{{ $row->id }}"
                             type="delete"
-                            action="{{ route('suppliers.destroy', $row->id) }}"
+                            action="{{ route($routes[1]['name'], $row->id) }}"
                             message="Are you sure you want to remove this {{ $row->name }}?"
                         />
                         <button
@@ -82,7 +98,7 @@
                         <x-modal.confirm
                             id="supplier-restore-{{ $row->id }}"
                             type="restore"
-                            action="{{ route('suppliers.restore', $row->id) }}"
+                            action="{{ route($routes[2]['name'], $row->id) }}"
                             message="Are you sure you want to restore {{ $row->name }}?"
                         />
                         <button

@@ -73,7 +73,7 @@ class SupplierController extends Controller
     public function removed(): View
     {
         $this->authorize('restore', Supplier::class);
-        return view('pages.supplier.removed', [
+        return view('pages.super.suppliers.removed', [
             'suppliers' => Supplier::onlyTrashed()->get(),
         ]);
     }

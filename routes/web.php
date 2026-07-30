@@ -125,11 +125,11 @@ Route::controller(SuperController::class)
     ->group(function () {
         Route::get('/super/users', 'users')->name('super.users.all');
         Route::get('/super/companies', 'companies')->name('super.companies.all');
-        Route::get('/super/suppliers', 'suppliers')->name('super.suppliers.all');
 
-        Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('super.suppliers.update');
+        Route::get('/super/suppliers', 'suppliers')->name('super.suppliers.all');
         Route::get('/suppliers/removed', [SupplierController::class, 'removed'])->name('super.suppliers.removed');
         Route::get('/suppliers/{supplier}', [SupplierController::class, 'edit'])->name('super.suppliers.edit');
         Route::post('/suppliers/{supplier}/restore', [SupplierController::class, 'restore'])->name('super.suppliers.restore');
+        Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('super.suppliers.update');
         Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('super.suppliers.destroy');
     });
