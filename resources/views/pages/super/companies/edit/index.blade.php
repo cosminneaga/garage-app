@@ -24,20 +24,20 @@
                 <x-form.content.company identifier="company-update" />
 
                 <div class="mt-5 flex gap-1">
-                        <x-button
-                            class="w-fit"
-                            id="form-company-update-submit"
-                            form="form-company-update"
-                            type="submit"
-                        >Update Details</x-button>
+                    <x-button
+                        class="w-fit"
+                        id="form-company-update-submit"
+                        form="form-company-update"
+                        type="submit"
+                    >Update Details</x-button>
 
-                        <x-button
-                            id="company-delete-modal-trigger"
-                            data-modal-target="company-delete-modal"
-                            data-modal-toggle="company-delete-modal"
-                            type="button"
-                            variant="danger"
-                        >Delete Company</x-button>
+                    <x-button
+                        id="company-delete-modal-trigger"
+                        data-modal-target="company-delete-modal"
+                        data-modal-toggle="company-delete-modal"
+                        type="button"
+                        variant="danger"
+                    >Delete Company</x-button>
                 </div>
             </form>
             <x-modal.confirm

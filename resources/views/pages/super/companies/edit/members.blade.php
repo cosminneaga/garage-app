@@ -8,8 +8,8 @@
                     id="company-members-search"
                     action="{{ route('super.companies.edit', $resource) }}"
                 />
-                    {{-- momemntarily on hold --}}
-                    {{-- <x-modal.user.relation.attach
+                {{-- momemntarily on hold --}}
+                {{-- <x-modal.user.relation.attach
                         id="user-attach"
                         :resource="$resource"
                         :countries="$countries"
@@ -18,7 +18,7 @@
                             ? 'Add an existing manager'
                             : 'Add an existing user'"
                     /> --}}
-                    {{-- <x-modal.user.relation.create
+                {{-- <x-modal.user.relation.create
                         id="user-create"
                         :resource="$resource"
                         :countries="$countries"

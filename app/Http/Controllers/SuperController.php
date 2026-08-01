@@ -12,8 +12,6 @@ use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
-use function Amp\Http\Server\redirectTo;
-
 class SuperController extends Controller
 {
     use ResponseMessage;
