@@ -8,7 +8,6 @@ use App\Enums\Related\RelatedModel;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,12 +22,8 @@ trait RelatedModelGuard
     public static function guard(string $action, Request $request, string|int $modelId): void
     {
         self::$user = Auth::user();
-
-        self::$relatedName = Collection::make($request->route()->parameters())
-            ->keys()
-            ->last();
-
-        self::$relatedModel = RelatedModel::from(self::$relatedName);
+        self::$relatedModel = $request->route()->getAction('model');
+        self::$relatedName = self::$relatedModel->value;
         self::$entity = self::$relatedModel->entity($modelId);
         self::$policy = self::$relatedModel->policy();
 

@@ -47,9 +47,11 @@ Route::controller(UserController::class)
         Route::delete('/users/{user}/permission/{name}', 'revokePermission')->name('users.permission.revoke');
 
         # companies
-        Route::post('/users/companies/{company}', 'modelStore')->name('users.companies.store');
-        Route::put('/users/{user}/companies/{company}', 'modelAttach')->name('users.companies.attach');
-        Route::delete('/users/{user}/companies/{company}', 'modelDetach')->name('users.companies.destroy');
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::post('/users/companies/{company}', 'modelStore')->name('users.companies.store');
+            Route::put('/users/{user}/companies/{company}', 'modelAttach')->name('users.companies.attach');
+            Route::delete('/users/{user}/companies/{company}', 'modelDetach')->name('users.companies.destroy');
+        });
     });
 
 Route::controller(CompanyController::class)
@@ -71,54 +73,68 @@ Route::controller(SupplierController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         # companies
-        Route::post('/suppliers/companies/{company}', 'modelStore')->name('suppliers.companies.store');
-        Route::get('/suppliers/{supplier}/companies/{company}', 'modelEdit')->name('suppliers.companies.edit');
-        Route::put('/suppliers/{supplier}/companies/{company}', 'modelUpdate')->name('suppliers.companies.update');
-        Route::delete('/suppliers/{supplier}/companies/{company}', 'modelDestroy')->name('suppliers.companies.destroy');
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::post('/suppliers/companies/{company}', 'modelStore')->name('suppliers.companies.store');
+            Route::get('/suppliers/{supplier}/companies/{company}', 'modelEdit')->name('suppliers.companies.edit');
+            Route::put('/suppliers/{supplier}/companies/{company}', 'modelUpdate')->name('suppliers.companies.update');
+            Route::delete('/suppliers/{supplier}/companies/{company}', 'modelDestroy')->name('suppliers.companies.destroy');
+        });
     });
 
 Route::controller(AddressController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         # users
-        Route::get('/addresses/{address}/users/{user}', 'modelEdit')->name('addresses.users.edit');
-        Route::post('/addresses/users/{user}', 'modelStore')->name('addresses.users.store');
-        Route::put('/addresses/{address}/users/{user}', 'modelUpdate')->name('addresses.users.update');
-        Route::delete('/addresses/{address}/users/{user}', 'modelDestroy')->name('addresses.users.destroy');
+        Route::group(['model' => RelatedModel::USER], function () {
+            Route::get('/addresses/{address}/users/{user}', 'modelEdit')->name('addresses.users.edit');
+            Route::post('/addresses/users/{user}', 'modelStore')->name('addresses.users.store');
+            Route::put('/addresses/{address}/users/{user}', 'modelUpdate')->name('addresses.users.update');
+            Route::delete('/addresses/{address}/users/{user}', 'modelDestroy')->name('addresses.users.destroy');
+        });
 
         # companies
-        Route::get('/addresses/{address}/companies/{company}', 'modelEdit')->name('addresses.companies.edit');
-        Route::post('/addresses/companies/{company}', 'modelStore')->name('addresses.companies.store');
-        Route::put('/addresses/{address}/companies/{company}', 'modelUpdate')->name('addresses.companies.update');
-        Route::delete('/addresses/{address}/companies/{company}', 'modelDestroy')->name('addresses.companies.destroy');
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::get('/addresses/{address}/companies/{company}', 'modelEdit')->name('addresses.companies.edit');
+            Route::post('/addresses/companies/{company}', 'modelStore')->name('addresses.companies.store');
+            Route::put('/addresses/{address}/companies/{company}', 'modelUpdate')->name('addresses.companies.update');
+            Route::delete('/addresses/{address}/companies/{company}', 'modelDestroy')->name('addresses.companies.destroy');
+        });
 
         # suppliers
-        Route::get('/addresses/{address}/suppliers/{supplier}', 'modelEdit')->name('addresses.suppliers.edit');
-        Route::post('/addresses/suppliers/{supplier}', 'modelStore')->name('addresses.suppliers.store');
-        Route::put('/addresses/{address}/suppliers/{supplier}', 'modelUpdate')->name('addresses.suppliers.update');
-        Route::delete('/addresses/{address}/suppliers/{supplier}', 'modelDestroy')->name('addresses.suppliers.destroy');
+        Route::group(['model' => RelatedModel::SUPPLIER], function () {
+            Route::get('/addresses/{address}/suppliers/{supplier}', 'modelEdit')->name('addresses.suppliers.edit');
+            Route::post('/addresses/suppliers/{supplier}', 'modelStore')->name('addresses.suppliers.store');
+            Route::put('/addresses/{address}/suppliers/{supplier}', 'modelUpdate')->name('addresses.suppliers.update');
+            Route::delete('/addresses/{address}/suppliers/{supplier}', 'modelDestroy')->name('addresses.suppliers.destroy');
+        });
     });
 
 Route::controller(ContactController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         # users
-        Route::get('/contacts/{contact}/users/{user}', 'modelEdit')->name('contacts.users.edit');
-        Route::post('/contacts/users/{user}', 'modelStore')->name('contacts.users.store');
-        Route::put('/contacts/{contact}/users/{user}', 'modelUpdate')->name('contacts.users.update');
-        Route::delete('/contacts/{contact}/users/{user}', 'modelDestroy')->name('contacts.users.destroy');
+        Route::group(['model' => RelatedModel::USER], function () {
+            Route::get('/contacts/{contact}/users/{user}', 'modelEdit')->name('contacts.users.edit');
+            Route::post('/contacts/users/{user}', 'modelStore')->name('contacts.users.store');
+            Route::put('/contacts/{contact}/users/{user}', 'modelUpdate')->name('contacts.users.update');
+            Route::delete('/contacts/{contact}/users/{user}', 'modelDestroy')->name('contacts.users.destroy');
+        });
 
         # companies
-        Route::get('/contacts/{contact}/companies/{company}', 'modelEdit')->name('contacts.companies.edit');
-        Route::post('/contacts/companies/{company}', 'modelStore')->name('contacts.companies.store');
-        Route::put('/contacts/{contact}/companies/{company}', 'modelUpdate')->name('contacts.companies.update');
-        Route::delete('/contacts/{contact}/companies/{company}', 'modelDestroy')->name('contacts.companies.destroy');
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::get('/contacts/{contact}/companies/{company}', 'modelEdit')->name('contacts.companies.edit');
+            Route::post('/contacts/companies/{company}', 'modelStore')->name('contacts.companies.store');
+            Route::put('/contacts/{contact}/companies/{company}', 'modelUpdate')->name('contacts.companies.update');
+            Route::delete('/contacts/{contact}/companies/{company}', 'modelDestroy')->name('contacts.companies.destroy');
+        });
 
         # suppliers
-        Route::get('/contacts/{contact}/suppliers/{supplier}', 'modelEdit')->name('contacts.suppliers.edit');
-        Route::post('/contacts/suppliers/{supplier}', 'modelStore')->name('contacts.suppliers.store');
-        Route::put('/contacts/{contact}/suppliers/{supplier}', 'modelUpdate')->name('contacts.suppliers.update');
-        Route::delete('/contacts/{contact}/suppliers/{supplier}', 'modelDestroy')->name('contacts.suppliers.destroy');
+        Route::group(['model' => RelatedModel::SUPPLIER], function () {
+            Route::get('/contacts/{contact}/suppliers/{supplier}', 'modelEdit')->name('contacts.suppliers.edit');
+            Route::post('/contacts/suppliers/{supplier}', 'modelStore')->name('contacts.suppliers.store');
+            Route::put('/contacts/{contact}/suppliers/{supplier}', 'modelUpdate')->name('contacts.suppliers.update');
+            Route::delete('/contacts/{contact}/suppliers/{supplier}', 'modelDestroy')->name('contacts.suppliers.destroy');
+        });
     });
 
 Route::controller(SuperController::class)
