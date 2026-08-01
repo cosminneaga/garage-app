@@ -7,7 +7,7 @@
         <x-card description="Visualise & Edit {{ $resource->name }} details">
             <form
                 id="form-company-update"
-                action="{{ route('companies.update', $resource) }}"
+                action="{{ route('super.companies.update', $resource) }}"
                 method="POST"
                 enctype="@enctype"
             >
@@ -24,25 +24,20 @@
                 <x-form.content.company identifier="company-update" />
 
                 <div class="mt-5 flex gap-1">
-                    @permitted(UserPermission::COMPANY, 'update')
                         <x-button
                             class="w-fit"
                             id="form-company-update-submit"
                             form="form-company-update"
                             type="submit"
                         >Update Details</x-button>
-                    @endpermitted
 
-                    @permitted(UserPermission::COMPANY, 'delete')
                         <x-button
                             id="company-delete-modal-trigger"
                             data-modal-target="company-delete-modal"
                             data-modal-toggle="company-delete-modal"
                             type="button"
                             variant="danger"
-                        >Delete
-                            Company</x-button>
-                    @endpermitted
+                        >Delete Company</x-button>
                 </div>
             </form>
             <x-modal.confirm

@@ -77,7 +77,7 @@ class CompanyController extends Controller
         return match(request()->query('tab')) {
             'statistics' => view('pages.company.edit.statistics'),
             'members' => view('pages.company.edit.members', [
-                'company' => $company,
+                'resource' => $company,
                 'countries' => Country::all(),
                 'non_members' => $this->userService
                     ->model()
@@ -91,18 +91,18 @@ class CompanyController extends Controller
                     ->get(),
             ]),
             'contacts' => view('pages.company.edit.contacts', [
-                'company' => $company,
+                'resource' => $company,
             ]),
             'addresses' => view('pages.company.edit.addresses', [
-                'company' => $company,
+                'resource' => $company,
                 'countries' => Country::all(),
             ]),
             'suppliers' => view('pages.company.edit.suppliers', [
-                'company' => $company,
+                'resource' => $company,
                 'countries' => Country::all(),
             ]),
             default => view('pages.company.edit.index', [
-                'company' => $company,
+                'resource' => $company,
             ]),
         };
     }
@@ -134,7 +134,7 @@ class CompanyController extends Controller
                 ->intended(route('super.companies.all'))
                 ->with(self::flashMessage(
                     'info',
-                    'User removed',
+                    'Company removed',
                     'The company ' . $company->name . ' has been successfully removed',
                 ));
         }

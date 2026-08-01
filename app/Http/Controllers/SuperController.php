@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App;
+use App\Enums\UserPermission;
 use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
+
+use function Amp\Http\Server\redirectTo;
 
 class SuperController extends Controller
 {
@@ -23,12 +27,11 @@ class SuperController extends Controller
     ) {
         self::guardAll('show_all', $request);
 
-        $search = $request->string('search')->value();
+        $search = FacadesRequest::query('search');
         $name = self::$relatedModel->tableName();
         $instance = self::$relatedModel->instance();
 
-        /** @intelephense-ignore-next-line */
-        return view("pages.super.$name.index", [
+        return view('pages.super.' . $name . '.index', [
             'data' => App::make($instance)->search($search)->paginate(10),
         ]);
     }
@@ -47,24 +50,35 @@ class SuperController extends Controller
         string|int $model_id
     ) {
         self::guard('show', $request, $model_id);
+        $name = self::$relatedModel->tableName();
 
-        self::$relatedModel->tableName();
-        self::$relatedModel->instance();
-
-        # perform action to show resource information including related resources, like address, contact
         return match (request()->query('tab')) {
-            'statistics' => view('pages.' . self::$relatedName . '.edit.statistics', [
-                self::$relatedName => self::$entity,
+            'statistics' => view('pages.super.' . $name . '.edit.statistics', [
+                'resource' => self::$entity,
             ]),
-            'contacts' => view('pages.' . self::$relatedName . '.edit.contacts', [
-                self::$relatedName => self::$entity,
+            'members' => view('pages.super.' . $name . '.edit.members', [
+                'resource' => self::$entity,
+                'countries' => Country::all(),
+                'non_members' => [], // !!! momentarily on hold
+                'members' => self::$entity->users()->get(),
             ]),
-            'addresses' => view('pages.' . self::$relatedName . '.edit.addresses', [
-                self::$relatedName => self::$entity,
+            'contacts' => view('pages.super.' . $name . '.edit.contacts', [
+                'resource' => self::$entity,
+            ]),
+            'addresses' => view('pages.super.' . $name . '.edit.addresses', [
+                'resource' => self::$entity,
                 'countries' => Country::all(),
             ]),
-            default => view('pages.' . self::$relatedName . '.edit.index', [
-                self::$relatedName => self::$entity,
+            'permissions' => view('pages.super.' . $name . '.edit.permissions', [
+                'resource' => self::$entity,
+                'permissions' => UserPermission::tableStructure(self::$entity->getAllPermissions()),
+            ]),
+            'suppliers' => view('pages.super.' . $name . '.edit.suppliers', [
+                'resource' => self::$entity,
+                'countries' => Country::all(),
+            ]),
+            default => view('pages.super.' . $name . '.edit.index', [
+                'resource' => self::$entity,
             ]),
         };
     }
@@ -94,8 +108,10 @@ class SuperController extends Controller
     ) {
         self::guard('destroy', $request, $model_id);
         self::$entity->delete();
+        $name = self::$relatedModel->tableName();
 
-        return back()
+        return redirect()
+            ->intended(route('super.' . $name . '.all'))
             ->with(self::flashMessage(
                 'info',
                 'Resource removed',
@@ -108,12 +124,11 @@ class SuperController extends Controller
     ) {
         self::guardAll('show_trashed', $request);
 
-        $search = $request->string('search')->value();
+        $search = FacadesRequest::query('search');
         $name = self::$relatedModel->tableName();
         $instance = self::$relatedModel->instance();
 
-        /** @intelephense-ignore-next-line */
-        return view("pages.super.$name.removed", [
+        return view('pages.super.' . $name . '.removed', [
             'data' => App::make($instance)->search($search)->onlyTrashed()->paginate(10),
         ]);
     }
@@ -124,8 +139,10 @@ class SuperController extends Controller
     ) {
         self::guard('restore', $request, $model_id);
         self::$entity->restore();
+        $name = self::$relatedModel->tableName();
 
-        return back()
+        return redirect()
+            ->intended(route('super.' . $name . '.removed'))
             ->with(self::flashMessage(
                 'success',
                 'Resource restored',

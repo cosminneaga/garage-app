@@ -5,10 +5,10 @@
     'delete' => false,
     'chat' => false,
     'restore' => false,
-    'attach' => false,
-    'routes_prefix' => 'users',
     'search_route' => null,
-    'parent_resource' => null,
+    'edit_route' => null,
+    'delete_route' => null,
+    'restore_route' => null,
 ])
 
 @php
@@ -18,8 +18,7 @@
         $edit ||
         $delete ||
         $chat ||
-        $restore ||
-        ($attach && $parent_resource)
+        $restore
     ) {
         $columns->push('Actions');
     }
@@ -96,36 +95,18 @@
                                 />
                             @endisNotCurrentUser
                         @endif
-                        @if ($attach && $parent_resource)
-                            <form
-                                action="{{ route('users.' . $routes_prefix . '.attach', [$row, $parent_resource]) }}"
-                                method="POST"
-                                id="user-attach-submit"
-                            >
-                                @csrf
-                                @method('PUT')
 
-                                <button
-                                    class="text-success hover:cursor-pointer"
-                                    data-test="user-attach-{{ $row->id }}-button"
-                                    type="submit"
-                                    form="user-attach-submit"
-                                >
-                                    Attach
-                                </button>
-                            </form>
-                        @endif
                         @if ($edit)
                             @isCurrentUser($row->id)
                                 <a
                                     class="text-brand"
-                                    href="{{ route($routes_prefix . '.profile.edit') }}"
+                                    href="{{ route('profile.users.edit') }}"
                                     data-test="user-{{ $row->id }}-profile-button"
                                 >Profile</a>
                             @else
                                 <a
                                     class="text-brand"
-                                    href="{{ route($routes_prefix . '.edit', $row) }}"
+                                    href="{{ route($edit_route ? $edit_route : 'users.edit', $row) }}"
                                     data-test="user-{{ $row->id }}-edit-button"
                                 >Edit</a>
                             @endisCurrentUser
@@ -135,7 +116,7 @@
                                 <x-modal.confirm
                                     id="user-delete-{{ $row->id }}"
                                     type="delete"
-                                    action="{{ route($routes_prefix . '.destroy', $row->id) }}"
+                                    action="{{ route($delete_route ? $delete_route : 'users.destroy', $row->id) }}"
                                     message="Are you sure you want to remove {{ $row->name }} from your team?"
                                 />
                                 <button
@@ -153,7 +134,7 @@
                             <x-modal.confirm
                                 id="user-restore-{{ $row->id }}"
                                 type="restore"
-                                action="{{ route($routes_prefix . '.restore', $row->id) }}"
+                                action="{{ route($restore_route ? $restore_route : 'users.restore', $row->id) }}"
                                 message="Are you sure you want to restore {{ $row->name }}?"
                             />
                             <button

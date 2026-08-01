@@ -85,21 +85,21 @@ class UserController extends Controller
 
         return match(FacadesRequest::query('tab')) {
             'statistics' => view('pages.user.edit.statistics', [
-                'user' => $user,
+                'resource' => $user,
             ]),
             'contacts' => view('pages.user.edit.contacts', [
-                'user' => $user,
+                'resource' => $user,
             ]),
             'addresses' => view('pages.user.edit.addresses', [
-                'user' => $user,
+                'resource' => $user,
                 'countries' => Country::all(),
             ]),
             'permissions' => view('pages.user.edit.permissions', [
-                'user' => $user,
+                'resource' => $user,
                 'permissions' => UserPermission::tableStructure($user->getAllPermissions()),
             ]),
             default => view('pages.user.edit.index', [
-                'user' => $user,
+                'resource' => $user,
             ]),
         };
     }

@@ -1,16 +1,16 @@
 @php
-    Session::flashInput($user->toArray());
+    Session::flashInput($resource->toArray());
 @endphp
 
-<x-layout::index title="{{ $user->name }} | Details">
+<x-layout::index title="{{ $resource->name }} | Details">
     <x-tabs :tabs="UserTabs::ui()">
         <x-card
-            :title="$user->name"
-            description="Visualise & Edit {{ $user->name }}'s details"
+            :title="$resource->name"
+            description="Visualise & Edit {{ $resource->name }}'s details"
         >
             <form
                 id="form-user-update"
-                action="{{ route('users.update', $user) }}"
+                action="{{ route('users.update', $resource) }}"
                 method="POST"
                 enctype="@enctype"
             >
@@ -19,7 +19,7 @@
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
-                    src="{{ $user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
+                    src="{{ $resource->image_path && !Str::isUrl($resource->image_path) ? asset('storage/' . $resource->image_path) : $resource->image_path }}"
                     alt="alt"
                 />
                 <br />
@@ -46,8 +46,7 @@
                             data-modal-toggle="user-delete-modal"
                             type="button"
                             variant="danger"
-                        >Delete
-                            User</x-button>
+                        >Delete User</x-button>
                     @endpermitted
                 </div>
             </form>
@@ -55,8 +54,8 @@
             <x-modal.confirm
                 id="user-delete"
                 type="delete"
-                action="{{ route('users.destroy', $user->id) }}"
-                message="Are you sure you want to remove {{ $user->name }} from your team?"
+                action="{{ route('users.destroy', $resource->id) }}"
+                message="Are you sure you want to remove {{ $resource->name }} from your team?"
             />
         </x-card>
     </x-tabs>

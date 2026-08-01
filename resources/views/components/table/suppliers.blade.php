@@ -20,19 +20,19 @@
             'type' => 'edit',
             'name' => $prefix_route
                 ? $prefix_route . '.suppliers.edit'
-                : 'suppliers.edit',
+                : 'super.suppliers.edit',
         ],
         [
             'type' => 'delete',
             'name' => $prefix_route
                 ? $prefix_route . '.suppliers.destroy'
-                : 'suppliers.destroy',
+                : 'super.suppliers.destroy',
         ],
         [
             'type' => 'restore',
             'name' => $prefix_route
                 ? $prefix_route . '.suppliers.restore'
-                : 'suppliers.restore',
+                : 'super.suppliers.restore',
         ],
     ];
 @endphp

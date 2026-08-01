@@ -17,6 +17,10 @@ class CompanyPolicy implements StandardPolicyInterface
     }
     public function show(User $user, mixed $company): bool
     {
+        if ($user->isSuper()) {
+            return true;
+        }
+
         return Permission::can(UserPermission::COMPANY, 'show') && $company->isMyCompany($user);
     }
 
@@ -27,16 +31,28 @@ class CompanyPolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $company): bool
     {
+        if ($user->isSuper()) {
+            return true;
+        }
+
         return Permission::can(UserPermission::COMPANY, 'update') && $company->isMyCompany($user);
     }
 
     public function destroy(User $user, mixed $company): bool
     {
+        if ($user->isSuper()) {
+            return true;
+        }
+
         return Permission::can(UserPermission::COMPANY, 'delete') && $company->isMyCompany($user);
     }
 
     public function restore(User $user, mixed $company): bool
     {
+        if ($user->isSuper()) {
+            return true;
+        }
+
         return Permission::can(UserPermission::COMPANY, 'restore') && $company->isMyCompany($user);
     }
 

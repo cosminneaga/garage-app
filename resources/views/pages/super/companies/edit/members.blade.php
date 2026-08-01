@@ -6,11 +6,10 @@
             <div class="mb-2 flex items-center gap-2">
                 <x-form.search-box.table
                     id="company-members-search"
-                    action="{{ route('companies.edit', $resource) }}"
+                    action="{{ route('super.companies.edit', $resource) }}"
                 />
-
-                @permitted(UserPermission::USER, 'update')
-                    <x-modal.user.relation.attach
+                    {{-- momemntarily on hold --}}
+                    {{-- <x-modal.user.relation.attach
                         id="user-attach"
                         :resource="$resource"
                         :countries="$countries"
@@ -18,25 +17,22 @@
                         :title="Auth::user()->isAdministrator()
                             ? 'Add an existing manager'
                             : 'Add an existing user'"
-                    />
-                @endpermitted
-                @permitted(UserPermission::USER, 'update')
-                    <x-modal.user.relation.create
+                    /> --}}
+                    {{-- <x-modal.user.relation.create
                         id="user-create"
                         :resource="$resource"
                         :countries="$countries"
                         :title="Auth::user()->isAdministrator()
                             ? 'Create a new manager'
                             : 'Create a new user'"
-                    />
-                @endpermitted
+                    /> --}}
             </div>
 
             <x-table.related.users
                 :data="$members"
                 :resource="$resource"
-                :edit="Permission::can(UserPermission::USER, 'show')"
-                :delete="Permission::can(UserPermission::USER, 'delete')"
+                edit
+                delete
                 chat
             />
         </x-card>

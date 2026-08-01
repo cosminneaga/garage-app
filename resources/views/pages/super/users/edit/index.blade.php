@@ -1,13 +1,16 @@
-<x-layout::index title="{{ $administrator->name }} | Details">
+@php
+    Session::flashInput($resource->toArray());
+@endphp
+
+<x-layout::index title="{{ $resource->name }} | Details">
     <x-tabs :tabs="UserTabs::ui()">
         <x-card
-            :title="$administrator->name"
-            description="Visualise & Edit {{ $administrator->name }}'s details"
+            :title="$resource->name"
+            description="Visualise & Edit {{ $resource->name }}'s details"
         >
-
             <form
-                id="form-administrator-update"
-                action="{{ route('administrators.update', $administrator) }}"
+                id="form-user-update"
+                action="{{ route('users.update', $resource) }}"
                 method="POST"
                 enctype="@enctype"
             >
@@ -16,54 +19,40 @@
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
-                    src="{{ $administrator->image_path && !Str::isUrl($administrator->image_path) ? asset('storage/' . $administrator->image_path) : $administrator->image_path }}"
+                    src="{{ $resource->image_path && !Str::isUrl($resource->image_path) ? asset('storage/' . $resource->image_path) : $resource->image_path }}"
                     alt="alt"
                 />
                 <br />
-                <x-form.field
+                <x-form.content.user
                     identifier="user_update"
-                    name="name"
-                    type="text"
-                    label="Name"
-                    :value="$administrator->name"
+                    :exclude="['role', 'password', 'password_confirmed']"
                 />
-                <x-form.field
-                    identifier="user_update"
-                    name="email"
-                    type="email"
-                    label="Email"
-                    :value="$administrator->email"
-                />
-                <x-form.field
-                    identifier="user_update"
-                    name="image"
-                    type="image"
-                    accept="image/*"
-                />
-                <x-form.field
-                    identifier="user_update"
-                    name="active"
-                    type="toggle"
-                    checked="{{ $administrator->active }}"
-                >
-                    <x-slot name="before">
-                        Inactive
-                    </x-slot>
-                    <x-slot name="after">
-                        Active
-                    </x-slot>
-                </x-form.field>
 
                 <div class="mt-5 flex gap-1">
                     <x-button
                         class="w-fit"
-                        id="form-administrator-update-submit"
-                        form="form-administrator-update"
+                        id="form-user-update-submit"
+                        form="form-user-update"
                         type="submit"
                         variant="default"
-                    >Update Details</x-button>
+                    >UPDATE</x-button>
+
+                    <x-button
+                        id="user-delete-modal-trigger"
+                        data-modal-target="user-delete-modal"
+                        data-modal-toggle="user-delete-modal"
+                        type="button"
+                        variant="danger"
+                    >DELETE</x-button>
                 </div>
             </form>
+
+            <x-modal.confirm
+                id="user-delete"
+                type="delete"
+                action="{{ route('users.destroy', $resource->id) }}"
+                message="Are you sure you want to remove {{ $resource->name }} from your team?"
+            />
         </x-card>
     </x-tabs>
 </x-layout::index>

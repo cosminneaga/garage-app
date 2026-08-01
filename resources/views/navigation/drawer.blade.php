@@ -11,57 +11,8 @@
             title="GarageApp Logo"
             alt="GarageApp Logo"
         />
-        <span
-            class="text-heading self-center whitespace-nowrap text-lg font-semibold"
-        >Garage App</span>
+        <span class="text-heading self-center whitespace-nowrap text-lg font-semibold">Garage App</span>
     </div>
-
-    @super
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Users</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.users.all') }}"
-                > List </a>
-            </li>
-        </ul>
-
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Companies</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.companies.all') }}"
-                > List </a>
-            </li>
-        </ul>
-
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Suppliers</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.suppliers.all') }}"
-                > List </a>
-            </li>
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.suppliers.removed') }}"
-                > Removed </a>
-            </li>
-        </ul>
-    @endsuper
 
     @permitted(UserPermission::USER, 'show')
     <br />
@@ -125,12 +76,12 @@
     </ul>
     @endadministrator
 
-    <br />
-    <div class="border-default border-b">
-        <span class="text-heading">Companies</span>
-    </div>
-    <ul class="space-y-2 font-medium">
-        @permitted(UserPermission::COMPANY, 'show')
+    @permitted(UserPermission::COMPANY, 'show')
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Companies</span>
+        </div>
+        <ul class="space-y-2 font-medium">
             <li class="my-2">
                 <a
                     class="w-full"
@@ -153,6 +104,65 @@
                     > Removed </a>
                 </li>
             @endpermitted
-        @endpermitted
-    </ul>
+        </ul>
+    @endpermitted
+
+    @super
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Users</span>
+        </div>
+        <ul class="space-y-2 font-medium">
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.users.all') }}"
+                > List </a>
+            </li>
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.users.removed') }}"
+                > Removed </a>
+            </li>
+        </ul>
+
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Companies</span>
+        </div>
+        <ul class="space-y-2 font-medium">
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.companies.all') }}"
+                > List </a>
+            </li>
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.companies.removed') }}"
+                > Removed </a>
+            </li>
+        </ul>
+
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Suppliers</span>
+        </div>
+        <ul class="space-y-2 font-medium">
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.suppliers.all') }}"
+                > List </a>
+            </li>
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('super.suppliers.removed') }}"
+                > Removed </a>
+            </li>
+        </ul>
+    @endsuper
 </div>

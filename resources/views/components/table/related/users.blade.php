@@ -4,6 +4,8 @@
     'limit' => 10,
     'edit' => false,
     'delete' => false,
+    'restore' => false,
+    'attach' => false,
     'chat' => false,
 ])
 
@@ -11,7 +13,7 @@
     $parentname = $resource->getTable();
     $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
 
-    if ($edit || $delete || $chat || $restore) {
+    if ($edit || $delete || $chat || $restore || $attach) {
         $columns->push('Actions');
     }
 @endphp
@@ -68,6 +70,25 @@
                                     :resource="$row"
                                 />
                             @endisNotCurrentUser
+                        @endif
+                        @if ($attach)
+                            <form
+                                action="{{ route('users.' . $parentname . '.attach', [$row, $resource]) }}"
+                                method="POST"
+                                id="user-attach-submit"
+                            >
+                                @csrf
+                                @method('PUT')
+
+                                <button
+                                    class="text-success hover:cursor-pointer"
+                                    data-test="user-attach-{{ $row->id }}-button"
+                                    type="submit"
+                                    form="user-attach-submit"
+                                >
+                                    Attach
+                                </button>
+                            </form>
                         @endif
                         @if ($edit)
                             @isCurrentUser($row->id)

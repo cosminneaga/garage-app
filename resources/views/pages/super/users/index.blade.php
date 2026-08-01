@@ -3,5 +3,7 @@
         :data="$data"
         search_route="{{ route('super.users.all') }}"
         chat
+        edit
+        delete
     />
 </x-layout::index>

@@ -47,18 +47,18 @@ class SupplierController extends Controller
 
         return match (request()->query('tab')) {
             'statistics' => view('pages.supplier.edit.statistics', [
-                'supplier' => $supplier,
+                'resource' => $supplier,
             ]),
             'contacts' => view('pages.supplier.edit.contacts', [
-                'supplier' => $supplier,
+                'resource' => $supplier,
             ]),
             'addresses' => view('pages.supplier.edit.addresses', [
-                'supplier' => $supplier,
+                'resource' => $supplier,
                 'countries' => Country::all(),
             ]),
             default => view('pages.supplier.edit.index', [
                 'company' => self::$entity,
-                'supplier' => $supplier,
+                'resource' => $supplier,
             ]),
         };
     }

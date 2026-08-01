@@ -1,13 +1,13 @@
-<x-layout::index title="{{ $supplier->name }} | Contacts">
+<x-layout::index title="{{ $resource->name }} | Contacts">
     <x-tabs :tabs="SupplierTabs::ui()">
         <x-card
-            description="Visualise & Edit {{ $supplier->name }}'s contact details"
+            description="Visualise & Edit {{ $resource->name }}'s contact details"
         >
             <x-table.related.contacts
-                :data="$supplier->contacts"
-                :resource="$supplier"
-                :edit="Permission::can(UserPermission::CONTACT, 'show')"
-                :delete="Permission::can(UserPermission::CONTACT, 'delete')"
+                :data="$resource->contacts"
+                :resource="$resource"
+                edit
+                delete
             />
         </x-card>
     </x-tabs>

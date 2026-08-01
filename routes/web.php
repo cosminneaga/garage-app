@@ -124,25 +124,33 @@ Route::controller(ContactController::class)
 Route::controller(SuperController::class)
     ->middleware(['auth', 'role:super'])
     ->group(function () {
+        # users
+        Route::group(['model' => RelatedModel::USER], function () {
+            Route::get('/super/users', 'modelIndex')->name('super.users.all');
+            Route::get('/super/users/removed', 'modelRemoved')->name('super.users.removed');
+            Route::get('/super/users/{user}', 'modelEdit')->name('super.users.edit');
+            Route::post('/super/users/{user}/restore', 'modelRestore')->name('super.users.restore');
+            // Route::put('/super/users/{user}', 'modelUpdate')->name('super.users.update'); momentarily on hold
+            Route::delete('/super/users/{user}', 'modelDestroy')->name('super.users.destroy');
+        });
 
-    # companies
-    Route::group(['model' => RelatedModel::COMPANY], function () {
-        Route::get('/super/companies', 'modelIndex')->name('super.companies.all');
-    });
+        # companies
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::get('/super/companies', 'modelIndex')->name('super.companies.all');
+            Route::get('/super/companies/removed', 'modelRemoved')->name('super.companies.removed');
+            Route::get('/super/companies/{company}', 'modelEdit')->name('super.companies.edit');
+            Route::post('/super/companies/{company}/restore', 'modelRestore')->name('super.companies.restore');
+            // Route::put('/super/companies/{company}', 'modelUpdate')->name('super.companies.update'); momentarily on hold
+            Route::delete('/super/companies/{company}', 'modelDestroy')->name('super.companies.destroy');
+        });
 
-    # users
-    Route::group(['model' => RelatedModel::USER], function () {
-        Route::get('/super/users', 'modelIndex')->name('super.users.all');
-    });
-
-
-    # suppliers
-    Route::group(['model' => RelatedModel::SUPPLIER], function () {
-        Route::get('/super/suppliers', 'modelIndex')->name('super.suppliers.all');
-        Route::get('/super/suppliers/removed', 'modelRemoved')->name('super.suppliers.removed');
-        Route::get('/super/suppliers/{supplier}', 'modelEdit')->name('super.suppliers.edit');
-        Route::post('/super/suppliers/{supplier}/restore', 'modelRestore')->name('super.suppliers.restore');
-        Route::put('/super/suppliers/{supplier}', 'modelUpdate')->name('super.suppliers.update');
-        Route::delete('/super/suppliers/{supplier}', 'modelDestroy')->name('super.suppliers.destroy');
-    });
+        # suppliers
+        Route::group(['model' => RelatedModel::SUPPLIER], function () {
+            Route::get('/super/suppliers', 'modelIndex')->name('super.suppliers.all');
+            Route::get('/super/suppliers/removed', 'modelRemoved')->name('super.suppliers.removed');
+            Route::get('/super/suppliers/{supplier}', 'modelEdit')->name('super.suppliers.edit');
+            Route::post('/super/suppliers/{supplier}/restore', 'modelRestore')->name('super.suppliers.restore');
+            // Route::put('/super/suppliers/{supplier}', 'modelUpdate')->name('super.suppliers.update'); momentarily on hold
+            Route::delete('/super/suppliers/{supplier}', 'modelDestroy')->name('super.suppliers.destroy');
+        });
     });

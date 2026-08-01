@@ -33,10 +33,9 @@
     title="{{ $title }}"
     size="7xl"
 >
-    <x-table.users
+    <x-table.related.users
         :data="$existing_users"
-        :parent_resource="$resource"
-        routes_prefix="companies"
+        :resource="$resource"
         attach
     />
 </x-modal.wrapper>

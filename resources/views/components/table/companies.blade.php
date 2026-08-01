@@ -5,6 +5,9 @@
     'delete' => false,
     'restore' => false,
     'search_route' => null,
+    'edit_route' => null,
+    'delete_route' => null,
+    'restore_route' => null,
 ])
 
 @php
@@ -44,18 +47,15 @@
     </x-slot>
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr
-                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
-                <th
-                    class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-company-pic"
-                            :src="$row->image_path &&
-                            !Str::isUrl($row->image_path)
+                            :src="$row->image_path && !Str::isUrl($row->image_path)
                                 ? asset('storage/' . $row->image_path)
                                 : $row->image_path"
                             :title="$row->name"
@@ -72,15 +72,15 @@
                     @if ($edit)
                         <a
                             class="text-brand"
-                            href="{{ route('companies.edit', $row) }}"
                             data-test="company-{{ $row->id }}-edit-button"
+                            href="{{ route($edit_route ? $edit_route : 'companies.edit', $row) }}"
                         >Edit</a>
                     @endif
                     @if ($delete)
                         <x-modal.confirm
                             id="company-delete-{{ $row->id }}"
                             type="delete"
-                            action="{{ route('companies.destroy', $row->id) }}"
+                            action="{{ route($delete_route ? $delete_route : 'companies.destroy', $row->id) }}"
                             message="Are you sure you want to remove {{ $row->name }} from your list of companies?"
                         />
                         <button
@@ -97,7 +97,7 @@
                         <x-modal.confirm
                             id="company-restore-{{ $row->id }}"
                             type="restore"
-                            action="{{ route('companies.restore', $row->id) }}"
+                            action="{{ route($restore_route ? $restore_route : 'companies.restore', $row->id) }}"
                             message="Are you sure you want to restore {{ $row->name }}?"
                         />
                         <button

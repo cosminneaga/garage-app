@@ -1,11 +1,11 @@
-<x-layout::index title="{{ $supplier->name }} | Addresses">
+<x-layout::index title="{{ $resource->name }} | Addresses">
     <x-tabs :tabs="SupplierTabs::ui()">
         <x-card
-            description="Visualise & Edit {{ $supplier->name }}'s location details"
+            description="Visualise & Edit {{ $resource->name }}'s location details"
         >
             <x-table.related.addresses
-                :data="$supplier->addresses"
-                :resource="$supplier"
+                :data="$resource->addresses"
+                :resource="$resource"
                 :countries="$countries"
                 :edit="Permission::can(UserPermission::ADDRESS, 'show')"
                 :delete="Permission::can(UserPermission::ADDRESS, 'delete')"
