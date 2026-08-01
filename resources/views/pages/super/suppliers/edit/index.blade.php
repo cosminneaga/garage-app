@@ -15,7 +15,7 @@
                         $supplier,
                     ])"
                 @else
-                    :action="route('supplier.update', $supplier)"
+                    :action="route('suppliers.update', $supplier)"
                 @endisset
                 method="POST"
             >

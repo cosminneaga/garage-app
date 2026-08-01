@@ -4,14 +4,14 @@ namespace Database\Factories;
 
 use App\Enums\JobName;
 use App\Models\Product;
-use App\Models\RepairInvoice;
-use App\Models\RepairInvoiceItem;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<RepairInvoiceItem>
+ * @extends Factory<InvoiceItem>
  */
-class RepairInvoiceItemFactory extends Factory
+class InvoiceItemFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -26,7 +26,7 @@ class RepairInvoiceItemFactory extends Factory
             'quantity' => fake()->numberBetween(1, 5),
             'item_price' => fake()->randomFloat(2, 1, 999),
             'labour_price' => fake()->randomFloat(2, 1, 999),
-            'repair_invoice_id' => RepairInvoice::factory(),
+            'invoice_id' => Invoice::factory(),
             'product_id' => Product::factory(),
         ];
     }

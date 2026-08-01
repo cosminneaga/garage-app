@@ -30,9 +30,6 @@ class AppServiceProvider extends ServiceProvider
                 return false;
             }
 
-            if ($user->hasRole(UserRole::SUPER)) {
-                return true;
-            }
             return null;
         });
 

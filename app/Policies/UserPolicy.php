@@ -7,6 +7,7 @@ namespace App\Policies;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Helpers\Permission;
+use App\Interfaces\StandardPolicyInterface;
 use App\Models\User;
 
 class UserPolicy implements StandardPolicyInterface

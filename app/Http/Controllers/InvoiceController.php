@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRepairInvoiceRequest;
-use App\Http\Requests\UpdateRepairInvoiceRequest;
-use App\Models\RepairInvoice;
+use App\Http\Requests\StoreInvoiceRequest;
+use App\Http\Requests\UpdateInvoiceRequest;
+use App\Models\Invoice;
 
-class RepairInvoiceController extends Controller
+class InvoiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class RepairInvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRepairInvoiceRequest $request): void
+    public function store(StoreInvoiceRequest $request): void
     {
         //
     }
@@ -37,7 +37,7 @@ class RepairInvoiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(RepairInvoice $repairInvoice): void
+    public function show(Invoice $invoice): void
     {
         //
     }
@@ -45,7 +45,7 @@ class RepairInvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(RepairInvoice $repairInvoice): void
+    public function edit(Invoice $invoice): void
     {
         //
     }
@@ -53,7 +53,7 @@ class RepairInvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRepairInvoiceRequest $request, RepairInvoice $repairInvoice): void
+    public function update(UpdateInvoiceRequest $request, Invoice $invoice): void
     {
         //
     }
@@ -61,7 +61,7 @@ class RepairInvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RepairInvoice $repairInvoice): void
+    public function destroy(Invoice $invoice): void
     {
         //
     }

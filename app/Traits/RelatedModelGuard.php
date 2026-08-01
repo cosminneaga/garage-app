@@ -18,22 +18,21 @@ trait RelatedModelGuard
     public static ?Model $entity;
     public static ?string $policy;
     public static ?string $relatedName;
+    public static ?RelatedModel $relatedModel;
 
     public static function guard(string $action, Request $request, string|int $modelId): void
     {
         self::$user = Auth::user();
 
-        $name = Collection::make($request->route()->parameters())
-        ->keys()
-        ->last();
-        self::$relatedName = $name;
-        $entity = RelatedModel::from($name)->entity($modelId);
-        $policy = RelatedModel::from($name)->policy();
+        self::$relatedName = Collection::make($request->route()->parameters())
+            ->keys()
+            ->last();
 
-        self::$entity = $entity;
-        self::$policy = $policy;
+        self::$relatedModel = RelatedModel::from(self::$relatedName);
+        self::$entity = self::$relatedModel->entity($modelId);
+        self::$policy = self::$relatedModel->policy();
 
-        match($action) {
+        match ($action) {
             'show' => self::_show(),
             'create' => self::_create(),
             'update' => self::_update(),
@@ -41,6 +40,20 @@ trait RelatedModelGuard
             'restore' => self::_restore(),
             'showTrashed' => self::_showTrashed(),
             default => self::_show(),
+        };
+    }
+
+    public static function guardAll(string $action, Request $request): void
+    {
+        self::$user = Auth::user();
+        self::$relatedModel = $request->route()->getAction('model');
+        self::$relatedName = self::$relatedModel->value;
+        self::$policy = RelatedModel::from(self::$relatedName)->policy();
+
+        match ($action) {
+            'show_all' => self::_showAll(),
+            'show_trashed' => self::_showTrashed(),
+            default => self::_showAll(),
         };
     }
 
@@ -88,6 +101,14 @@ trait RelatedModelGuard
     {
         abort_unless(
             App::make(self::$policy)->showTrashed(),
+            401
+        );
+    }
+
+    protected static function _showAll(): void
+    {
+        abort_unless(
+            App::make(self::$policy)->showAll(),
             401
         );
     }

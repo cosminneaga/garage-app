@@ -18,15 +18,21 @@
     $routes = [
         [
             'type' => 'edit',
-            'name' => $prefix_route ? $prefix_route . '.suppliers.edit' : 'suppliers.edit',
+            'name' => $prefix_route
+                ? $prefix_route . '.suppliers.edit'
+                : 'suppliers.edit',
         ],
         [
             'type' => 'delete',
-            'name' => $prefix_route ? $prefix_route . '.suppliers.destroy' : 'suppliers.destroy',
+            'name' => $prefix_route
+                ? $prefix_route . '.suppliers.destroy'
+                : 'suppliers.destroy',
         ],
         [
             'type' => 'restore',
-            'name' => $prefix_route ? $prefix_route . '.suppliers.restore' : 'suppliers.restore',
+            'name' => $prefix_route
+                ? $prefix_route . '.suppliers.restore'
+                : 'suppliers.restore',
         ],
     ];
 @endphp

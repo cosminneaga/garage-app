@@ -6,6 +6,7 @@ namespace App\Policies;
 
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
+use App\Interfaces\StandardPolicyInterface;
 use App\Models\User;
 
 class AddressPolicy implements StandardPolicyInterface

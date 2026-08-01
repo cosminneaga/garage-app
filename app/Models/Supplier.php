@@ -37,8 +37,8 @@ use Throwable;
  * @property-read int|null $companies_count
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read Collection<int, RepairInvoiceItem> $repairInvoiceItems
- * @property-read int|null $repair_invoice_items_count
+ * @property-read Collection<int, InvoiceItem> $invoiceItems
+ * @property-read int|null $invoice_items_count
  * @method static SupplierFactory factory($count = null, $state = [])
  * @method static Builder<static>|Supplier newModelQuery()
  * @method static Builder<static>|Supplier newQuery()
@@ -117,8 +117,8 @@ class Supplier extends Model
         return $this->belongsToMany(Company::class);
     }
 
-    public function repairInvoiceItems(): HasMany
+    public function invoiceItems(): HasMany
     {
-        return $this->hasMany(RepairInvoiceItem::class);
+        return $this->hasMany(InvoiceItem::class);
     }
 }

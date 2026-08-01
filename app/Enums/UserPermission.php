@@ -22,9 +22,9 @@ enum UserPermission: string
     case SUPPLIER = 'supplier';
 
     case REPAIR = 'repair';
-    case REPAIR_FILE = 'repair_file';
-    case REPAIR_INVOICE = 'repair_invoice';
-    case REPAIR_INVOICE_ITEM = 'repair_invoice_item';
+    case FILE = 'file';
+    case INVOICE = 'invoice';
+    case INVOICE_ITEM = 'invoice_item';
 
     case USER = 'user';
     case MANAGER = 'manager';
@@ -49,9 +49,9 @@ enum UserPermission: string
             self::SUPPLIER => 'Supplier',
 
             self::REPAIR => 'Repair',
-            self::REPAIR_FILE => 'Repair File',
-            self::REPAIR_INVOICE => 'Repair Invoice',
-            self::REPAIR_INVOICE_ITEM => 'Repair Invoice Item',
+            self::FILE => 'File',
+            self::INVOICE => 'Invoice',
+            self::INVOICE_ITEM => 'Invoice Item',
 
             self::USER => 'User',
 

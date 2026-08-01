@@ -283,6 +283,136 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $name
+ * @property string $extension
+ * @property string $path
+ * @property string $type
+ * @property \App\Enums\FileStatus $status
+ * @property \App\Enums\RepairStatus $repair_status
+ * @property string|null $description
+ * @property int $repair_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Repair|null $repair
+ * @method static \Database\Factories\FileFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereExtension($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereRepairId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereRepairStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperFile {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $invoice_number
+ * @property numeric $work_time
+ * @property numeric $hourly_charge
+ * @property \App\Enums\InvoiceStatus $status
+ * @property numeric $discount_applied
+ * @property numeric $paid_amount
+ * @property string|null $description
+ * @property int $repair_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
+ * @property-read int|null $items_count
+ * @property-read \App\Models\Repair|null $repair
+ * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDiscountApplied($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereHourlyCharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereInvoiceNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice wherePaidAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereRepairId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereWorkTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperInvoice {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property \App\Enums\JobName $job_name
+ * @property string $sku
+ * @property int $quantity
+ * @property numeric $item_price
+ * @property numeric $labour_price
+ * @property int $invoice_id
+ * @property int $supplier_id
+ * @property int $product_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\Supplier|null $supplier
+ * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereInvoiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereItemPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereJobName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereLabourPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSku($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSupplierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperInvoiceItem {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $name
  * @property string $code
  * @property int $company_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -291,8 +421,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Company|null $company
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairInvoiceItem> $repairInvoiceItems
- * @property-read int|null $repair_invoice_items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $invoiceItems
+ * @property-read int|null $invoice_items_count
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
@@ -343,9 +473,9 @@ namespace App\Models{
  * @property-read \App\Models\Client|null $client
  * @property-read \App\Models\Company|null $company
  * @property-read \App\Models\VehicleData|null $data
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairFile> $files
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairInvoice> $invoices
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invoice> $invoices
  * @property-read int|null $invoices_count
  * @method static \Database\Factories\RepairFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair newModelQuery()
@@ -386,136 +516,6 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $name
- * @property string $extension
- * @property string $path
- * @property string $type
- * @property \App\Enums\FileStatus $status
- * @property \App\Enums\RepairStatus $repair_status
- * @property string|null $description
- * @property int $repair_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Repair|null $repair
- * @method static \Database\Factories\RepairFileFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereExtension($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereRepairId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereRepairStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairFile withoutTrashed()
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperRepairFile {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $invoice_number
- * @property numeric $work_time
- * @property numeric $hourly_charge
- * @property \App\Enums\InvoiceStatus $status
- * @property numeric $discount_applied
- * @property numeric $paid_amount
- * @property string|null $description
- * @property int $repair_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairInvoiceItem> $items
- * @property-read int|null $items_count
- * @property-read \App\Models\Repair|null $repair
- * @method static \Database\Factories\RepairInvoiceFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereDiscountApplied($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereHourlyCharge($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereInvoiceNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice wherePaidAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereRepairId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice whereWorkTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoice withoutTrashed()
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperRepairInvoice {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property \App\Enums\JobName $job_name
- * @property string $sku
- * @property int $quantity
- * @property numeric $item_price
- * @property numeric $labour_price
- * @property int $repair_invoice_id
- * @property int $supplier_id
- * @property int $product_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\RepairInvoice|null $invoice
- * @property-read \App\Models\Product|null $product
- * @property-read \App\Models\Supplier|null $supplier
- * @method static \Database\Factories\RepairInvoiceItemFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereItemPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereJobName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereLabourPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereRepairInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereSku($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereSupplierId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|RepairInvoiceItem withoutTrashed()
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperRepairInvoiceItem {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $name
  * @property string $code
  * @property \App\Enums\SupplierType $type
  * @property string $tax_id
@@ -531,8 +531,8 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RepairInvoiceItem> $repairInvoiceItems
- * @property-read int|null $repair_invoice_items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $invoiceItems
+ * @property-read int|null $invoice_items_count
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newQuery()

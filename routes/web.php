@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\Related\RelatedModel;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
@@ -123,13 +124,25 @@ Route::controller(ContactController::class)
 Route::controller(SuperController::class)
     ->middleware(['auth', 'role:super'])
     ->group(function () {
-        Route::get('/super/users', 'users')->name('super.users.all');
-        Route::get('/super/companies', 'companies')->name('super.companies.all');
 
-        Route::get('/super/suppliers', 'suppliers')->name('super.suppliers.all');
-        Route::get('/suppliers/removed', [SupplierController::class, 'removed'])->name('super.suppliers.removed');
-        Route::get('/suppliers/{supplier}', [SupplierController::class, 'edit'])->name('super.suppliers.edit');
-        Route::post('/suppliers/{supplier}/restore', [SupplierController::class, 'restore'])->name('super.suppliers.restore');
-        Route::put('/suppliers/{supplier}', [SupplierController::class, 'update'])->name('super.suppliers.update');
-        Route::delete('/suppliers/{supplier}', [SupplierController::class, 'destroy'])->name('super.suppliers.destroy');
+    # companies
+    Route::group(['model' => RelatedModel::COMPANY], function () {
+        Route::get('/super/companies', 'modelIndex')->name('super.companies.all');
+    });
+
+    # users
+    Route::group(['model' => RelatedModel::USER], function () {
+        Route::get('/super/users', 'modelIndex')->name('super.users.all');
+    });
+
+
+    # suppliers
+    Route::group(['model' => RelatedModel::SUPPLIER], function () {
+        Route::get('/super/suppliers', 'modelIndex')->name('super.suppliers.all');
+        Route::get('/super/suppliers/removed', 'modelRemoved')->name('super.suppliers.removed');
+        Route::get('/super/suppliers/{supplier}', 'modelEdit')->name('super.suppliers.edit');
+        Route::post('/super/suppliers/{supplier}/restore', 'modelRestore')->name('super.suppliers.restore');
+        Route::put('/super/suppliers/{supplier}', 'modelUpdate')->name('super.suppliers.update');
+        Route::delete('/super/suppliers/{supplier}', 'modelDestroy')->name('super.suppliers.destroy');
+    });
     });

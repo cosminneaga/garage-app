@@ -4,13 +4,13 @@ namespace Database\Factories;
 
 use App\Enums\InvoiceStatus;
 use App\Models\Repair;
-use App\Models\RepairInvoice;
+use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<RepairInvoice>
+ * @extends Factory<Invoice>
  */
-class RepairInvoiceFactory extends Factory
+class InvoiceFactory extends Factory
 {
     /**
      * Define the model's default state.

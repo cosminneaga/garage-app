@@ -47,9 +47,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Client|null $client
  * @property-read Company|null $company
  * @property-read VehicleData|null $data
- * @property-read Collection<int, RepairFile> $files
+ * @property-read Collection<int, File> $files
  * @property-read int|null $files_count
- * @property-read Collection<int, RepairInvoice> $invoices
+ * @property-read Collection<int, Invoice> $invoices
  * @property-read int|null $invoices_count
  * @method static RepairFactory factory($count = null, $state = [])
  * @method static Builder<static>|Repair newModelQuery()
@@ -103,12 +103,12 @@ class Repair extends Model
 
     public function files(): HasMany
     {
-        return $this->hasMany(RepairFile::class);
+        return $this->hasMany(File::class);
     }
 
     public function invoices(): HasMany
     {
-        return $this->hasMany(RepairInvoice::class);
+        return $this->hasMany(Invoice::class);
     }
 
     public function data(): BelongsTo

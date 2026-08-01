@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
-use App\Models\Supplier;
-use App\Models\User;
+use App;
+use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
@@ -16,45 +15,28 @@ class SuperController extends Controller
     use ResponseMessage;
     use RelatedModelGuard;
 
-    public function users(Request $request)
-    {
-        $search = $request->string('search')->value();
-
-        return view('pages.super.users.index', [
-            'data' => User::search($search)->paginate(10),
-        ]);
-    }
-
-    public function companies(Request $request)
-    {
-        $search = $request->string('search')->value();
-
-        return view('pages.super.companies.index', [
-            'data' => Company::search($search)->paginate(10),
-        ]);
-    }
-
-    public function suppliers(Request $request)
-    {
-        $search = $request->string('search')->value();
-
-        return view('pages.super.suppliers.index', [
-            'data' => Supplier::search($search)->paginate(10),
-        ]);
-    }
-
+    /**
+     * !!!NOTE: pages.super.suppliers.index must exists
+     */
     public function modelIndex(
         Request $request
     ) {
-        # self::guard('show', $request, null);
+        self::guardAll('show_all', $request);
 
-        # perform action to show all resources
+        $search = $request->string('search')->value();
+        $name = self::$relatedModel->tableName();
+        $instance = self::$relatedModel->instance();
+
+        /** @intelephense-ignore-next-line */
+        return view("pages.super.$name.index", [
+            'data' => App::make($instance)->search($search)->paginate(10),
+        ]);
     }
 
     public function modelStore(
         Request $request,
         string|int $model_id
-    ) {
+    ): void {
         self::guard('create', $request, $model_id);
 
         # perform action to store the resource
@@ -66,12 +48,24 @@ class SuperController extends Controller
     ) {
         self::guard('show', $request, $model_id);
 
+        self::$relatedModel->tableName();
+        self::$relatedModel->instance();
+
         # perform action to show resource information including related resources, like address, contact
         return match (request()->query('tab')) {
-            'statistics' => '',
-            'contacts' => '',
-            'addresses' => '',
-            default => ''
+            'statistics' => view('pages.' . self::$relatedName . '.edit.statistics', [
+                self::$relatedName => self::$entity,
+            ]),
+            'contacts' => view('pages.' . self::$relatedName . '.edit.contacts', [
+                self::$relatedName => self::$entity,
+            ]),
+            'addresses' => view('pages.' . self::$relatedName . '.edit.addresses', [
+                self::$relatedName => self::$entity,
+                'countries' => Country::all(),
+            ]),
+            default => view('pages.' . self::$relatedName . '.edit.index', [
+                self::$relatedName => self::$entity,
+            ]),
         };
     }
 
@@ -81,24 +75,47 @@ class SuperController extends Controller
     ) {
         self::guard('update', $request, $model_id);
 
-        # perform action to update single resource
+        $validated = App::make(self::$relatedModel->request()->update)
+            ->merge($request->all())
+            ->validated();
+        self::$entity->update($validated);
+
+        return back()
+            ->with(self::flashMessage(
+                'success',
+                'Resource updated',
+                'Resource has been successfully updated'
+            ));
     }
 
     public function modelDestroy(
         Request $request,
         string|int $model_id
     ) {
-        self::guard('delete', $request, $model_id);
+        self::guard('destroy', $request, $model_id);
+        self::$entity->delete();
 
-        # perform action to destroy single resource
+        return back()
+            ->with(self::flashMessage(
+                'info',
+                'Resource removed',
+                'Resource has been successfully removed'
+            ));
     }
 
     public function modelRemoved(
         Request $request
     ) {
-        # self::guard('showTrashed', $request);
+        self::guardAll('show_trashed', $request);
 
-        # perform action to show removed resources
+        $search = $request->string('search')->value();
+        $name = self::$relatedModel->tableName();
+        $instance = self::$relatedModel->instance();
+
+        /** @intelephense-ignore-next-line */
+        return view("pages.super.$name.removed", [
+            'data' => App::make($instance)->search($search)->onlyTrashed()->paginate(10),
+        ]);
     }
 
     public function modelRestore(
@@ -106,7 +123,13 @@ class SuperController extends Controller
         string|int $model_id
     ) {
         self::guard('restore', $request, $model_id);
+        self::$entity->restore();
 
-        # perform action to restore single resource
+        return back()
+            ->with(self::flashMessage(
+                'success',
+                'Resource restored',
+                'Resource has been successfully restored',
+            ));
     }
 }

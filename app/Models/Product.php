@@ -27,8 +27,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Company|null $company
- * @property-read Collection<int, RepairInvoiceItem> $repairInvoiceItems
- * @property-read int|null $repair_invoice_items_count
+ * @property-read Collection<int, InvoiceItem> $invoiceItems
+ * @property-read int|null $invoice_items_count
  * @method static ProductFactory factory($count = null, $state = [])
  * @method static Builder<static>|Product newModelQuery()
  * @method static Builder<static>|Product newQuery()
@@ -62,8 +62,8 @@ class Product extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function repairInvoiceItems(): HasMany
+    public function invoiceItems(): HasMany
     {
-        return $this->hasMany(RepairInvoiceItem::class);
+        return $this->hasMany(InvoiceItem::class);
     }
 }

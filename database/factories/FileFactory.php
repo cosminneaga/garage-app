@@ -5,13 +5,12 @@ namespace Database\Factories;
 use App\Enums\FileStatus;
 use App\Enums\RepairStatus;
 use App\Models\Repair;
-use App\Models\RepairFile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<RepairFile>
  */
-class RepairFileFactory extends Factory
+class FileFactory extends Factory
 {
     /**
      * Define the model's default state.
