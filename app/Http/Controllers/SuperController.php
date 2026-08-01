@@ -8,13 +8,11 @@ use App;
 use App\Enums\UserPermission;
 use App\Models\Country;
 use App\Traits\RelatedModelGuard;
-use App\Traits\ResponseMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class SuperController extends Controller
 {
-    use ResponseMessage;
     use RelatedModelGuard;
 
     /**

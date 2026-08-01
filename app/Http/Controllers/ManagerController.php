@@ -14,7 +14,6 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Country;
 use App\Models\User;
 use App\Services\UserService;
-use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,8 +22,6 @@ use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class ManagerController extends Controller
 {
-    use ResponseMessage;
-
     public function __construct(
         protected UserService $userService
     ) {

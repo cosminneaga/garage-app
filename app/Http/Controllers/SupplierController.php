@@ -10,14 +10,12 @@ use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Country;
 use App\Models\Supplier;
 use App\Traits\RelatedModelGuard;
-use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    use ResponseMessage;
     use RelatedModelGuard;
 
     public function modelStore(

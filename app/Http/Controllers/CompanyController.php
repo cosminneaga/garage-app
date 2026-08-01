@@ -14,18 +14,13 @@ use App\Models\Company;
 use App\Models\Country;
 use App\Services\CompanyService;
 use App\Services\UserService;
-use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    use AuthorizesRequests;
-    use ResponseMessage;
-
     public function __construct(
         protected CompanyService $companyService,
         protected UserService $userService

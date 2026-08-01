@@ -7,15 +7,12 @@ namespace App\Http\Controllers;
 use App\Actions\UserUpdateAction;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Country;
-use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    use ResponseMessage;
-
     public function edit(): View
     {
         return match(request()->query('tab')) {

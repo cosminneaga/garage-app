@@ -16,7 +16,6 @@ use App\Models\User;
 use App\Policies\PermissionPolicy;
 use App\Services\UserService;
 use App\Traits\RelatedModelGuard;
-use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,7 +25,6 @@ use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class UserController extends Controller
 {
-    use ResponseMessage;
     use RelatedModelGuard;
 
     public function __construct(

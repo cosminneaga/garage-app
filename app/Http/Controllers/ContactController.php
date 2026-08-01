@@ -8,7 +8,6 @@ use App\Actions\ModelContactStoreAction;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Contact;
 use App\Traits\RelatedModelGuard;
-use App\Traits\ResponseMessage;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +15,6 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    use ResponseMessage;
     use RelatedModelGuard;
 
     public function modelStore(
