@@ -1,17 +1,17 @@
 @php
-    Session::flashInput([...$manager->toArray()]);
+    Session::flashInput([...$resource->toArray()]);
 @endphp
 
-<x-layout::index title="{{ $manager->name }} | Details">
+<x-layout::index title="{{ $resource->name }} | Details">
     <x-tabs :tabs="UserTabs::ui()">
         <x-card
-            :title="$manager->name"
-            description="Visualise & Edit {{ $manager->name }}'s details"
+            :title="$resource->name"
+            description="Visualise & Edit {{ $resource->name }}'s details"
         >
 
             <form
                 id="form-manager-update"
-                action="{{ route('managers.update', $manager) }}"
+                action="{{ route('managers.update', $resource) }}"
                 method="POST"
                 enctype="@enctype"
             >
@@ -20,7 +20,7 @@
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
-                    src="{{ $manager->image_path && !Str::isUrl($manager->image_path) ? asset('storage/' . $manager->image_path) : $manager->image_path }}"
+                    src="{{ $resource->image_path && !Str::isUrl($resource->image_path) ? asset('storage/' . $resource->image_path) : $resource->image_path }}"
                     alt="alt"
                 />
                 <br />
@@ -45,8 +45,7 @@
                             data-modal-toggle="manager-delete-modal"
                             type="button"
                             variant="danger"
-                        >Delete
-                            User</x-button>
+                        >Delete User</x-button>
                     @endpermitted
                 </div>
             </form>
@@ -54,8 +53,8 @@
             <x-modal.confirm
                 id="manager-delete"
                 type="delete"
-                action="{{ route('managers.destroy', $manager->id) }}"
-                message="Are you sure you want to remove {{ $manager->name }} from your team?"
+                action="{{ route('managers.destroy', $resource->id) }}"
+                message="Are you sure you want to remove {{ $resource->name }} from your team?"
             />
         </x-card>
     </x-tabs>

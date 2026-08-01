@@ -25,14 +25,14 @@
         <li class="my-2">
             <a
                 class="w-full"
-                href="/users"
+                href="{{ route('users.index') }}"
             > List </a>
         </li>
         @permitted(UserPermission::USER, 'store')
         <li class="my-2">
             <a
                 class="w-full"
-                href="/users/create"
+                href="{{ route('users.create') }}"
             > Create </a>
         </li>
         @endpermitted
@@ -40,7 +40,7 @@
         <li class="my-2">
             <a
                 class="w-full"
-                href="/users/restore"
+                href="{{ route('users.removed') }}"
             > Removed </a>
         </li>
         @endpermitted
@@ -56,14 +56,14 @@
         <li class="my-2">
             <a
                 class="w-full"
-                href="/managers"
+                href="{{ route('managers.index') }}"
             > List </a>
         </li>
         @permitted(UserPermission::MANAGER, 'store')
             <li class="my-2">
                 <a
                     class="w-full"
-                    href="/managers/create"
+                    href="{{ route('managers.create') }}"
                 > Create </a>
             </li>
         @endpermitted
@@ -71,7 +71,7 @@
             <li class="my-2">
                 <a
                     class="w-full"
-                    href="/managers/restore"
+                    href="{{ route('managers.removed') }}"
                 > Removed </a>
             </li>
         @endpermitted
@@ -87,14 +87,14 @@
             <li class="my-2">
                 <a
                     class="w-full"
-                    href="/companies"
+                    href="{{ route('companies.index') }}"
                 > List </a>
             </li>
             @permitted(UserPermission::COMPANY, 'store')
                 <li class="my-2">
                     <a
                         class="w-full"
-                        href="/companies/create"
+                        href="{{ route('companies.create') }}"
                     > Create </a>
                 </li>
             @endpermitted
@@ -102,7 +102,7 @@
                 <li class="my-2">
                     <a
                         class="w-full"
-                        href="/companies/restore"
+                        href="{{ route('companies.removed') }}"
                     > Removed </a>
                 </li>
             @endpermitted

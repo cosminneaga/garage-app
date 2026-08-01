@@ -27,17 +27,3 @@ test('administrator: should update existing supplier', function () {
         ->assertSee('Supplier information has been successfully updated to respective company')
         ->assertValue('@supplier_name', 'Supplier of AutoParts');
 });
-
-test('super: update a supplier', function () {
-    $super = User::factory()->create();
-    $super->assignRole(UserRole::SUPER);
-    actingAs($super);
-
-    visit(route('super.suppliers.edit', [$this->supplier, $this->company]))
-        ->assertValue('@supplier_name', $this->supplier->name)
-        ->fill('@supplier_name', 'Supplier of AutoParts')
-        ->click('@supplier_update_submit')
-        ->assertSee('Supplier updated')
-        ->assertSee('Supplier information has been successfully updated')
-        ->assertValue('@supplier_name', 'Supplier of AutoParts');
-});

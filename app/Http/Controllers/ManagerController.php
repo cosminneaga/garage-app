@@ -19,6 +19,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class ManagerController extends Controller
 {
@@ -35,7 +36,7 @@ class ManagerController extends Controller
         $querySearch = $request->string('search')->value();
 
         return view('pages.manager.index', [
-            'managers' => $this->userService
+            'data' => $this->userService
                 ->search($querySearch)
                 ->team(UserRole::MANAGER)
                 ->paginate($request->integer('limit') ?? 10),
@@ -75,23 +76,23 @@ class ManagerController extends Controller
             return redirect()->route('profile.users.edit', $manager);
         }
 
-        return match(request()->query('tab')) {
+        return match(FacadesRequest::query('tab')) {
             'statistics' => view('pages.manager.edit.statistics', [
                 'manager' => $manager,
             ]),
             'contacts' => view('pages.manager.edit.contacts', [
-                'user' => $manager,
+                'resource' => $manager,
             ]),
             'addresses' => view('pages.manager.edit.addresses', [
-                'user' => $manager,
+                'resource' => $manager,
                 'countries' => Country::all(),
             ]),
             'permissions' => view('pages.user.edit.permissions', [
-                'user' => $manager,
+                'resource' => $manager,
                 'permissions' => UserPermission::tableStructure($manager->getAllPermissions()),
             ]),
             default => view('pages.manager.edit.index', [
-                'manager' => $manager,
+                'resource' => $manager,
             ]),
         };
     }

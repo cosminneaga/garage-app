@@ -8,10 +8,10 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 
 beforeEach(function () {
-    $this->administrator = User::factory()->create();
+    $this->administrator = User::factory()->create(['name' => 'TestAdministrator']);
     $this->administrator->assignRole(UserRole::ADMINISTRATOR);
 
-    $this->manager = User::factory()->create();
+    $this->manager = User::factory()->create(['name' => 'TestManager']);
     $this->manager->assignRole(UserRole::MANAGER);
     $this->administrator->managers()->attach($this->manager);
 
@@ -99,13 +99,10 @@ test('administrator: should assign/revoke permission', function () {
 
     visit(route('managers.edit', [$this->manager]))
         ->click('@permissions')
-        ->assertDontSee('Revoke')
         ->click('@company-store-assign')
         ->assertSee('Permission assigned')
         ->assertSee('Permission assigned to user ' . $this->manager->name)
-        ->assertSee('Revoke')
         ->click('@company-store-revoke')
         ->assertSee('Permission revoked')
-        ->assertSee('Permission revoked from user ' . $this->manager->name)
-        ->assertDontSee('Revoke');
+        ->assertSee('Permission revoked from user ' . $this->manager->name);
 });

@@ -1,11 +1,11 @@
-<x-layout::index title="{{ $user->name }} | Addresses">
+<x-layout::index title="{{ $resource->name }} | Addresses">
     <x-tabs :tabs="UserTabs::ui()">
         <x-card
-            description="Visualise & Edit {{ $user->name }}'s location details"
+            description="Visualise & Edit {{ $resource->name }}'s location details"
         >
             <x-table.related.addresses
-                :data="$user->addresses"
-                :resource="$user"
+                :data="$resource->addresses"
+                :resource="$resource"
                 :countries="$countries"
                 :edit="Permission::can(UserPermission::USER, 'show')"
                 :delete="Permission::can(UserPermission::USER, 'delete')"
