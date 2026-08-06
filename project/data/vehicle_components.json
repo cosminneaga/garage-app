@@ -1,0 +1,223 @@
+[
+  {
+    "category": "Engine",
+    "components": [
+      "Engine Oil",
+      "Oil Filter",
+      "Air Filter",
+      "Cabin Filter",
+      "Fuel Filter",
+      "Spark Plugs",
+      "Glow Plugs",
+      "Timing Belt",
+      "Timing Chain",
+      "Timing Belt Kit",
+      "Water Pump",
+      "Serpentine Belt",
+      "Tensioner",
+      "Idler Pulley",
+      "Valve Cover Gasket",
+      "Cylinder Head Gasket",
+      "Engine Mount",
+      "PCV Valve",
+      "Turbocharger",
+      "Intercooler",
+      "EGR Valve",
+      "DPF",
+      "Catalytic Converter",
+      "Lambda Sensor",
+      "Mass Air Flow Sensor",
+      "MAP Sensor",
+      "Throttle Body",
+      "Injectors",
+      "Fuel Pump",
+      "High Pressure Fuel Pump",
+      "Radiator",
+      "Thermostat",
+      "Coolant Reservoir",
+      "Cooling Fan",
+      "Expansion Tank"
+    ]
+  },
+  {
+    "category": "Transmission",
+    "components": [
+      "Clutch Kit",
+      "Dual Mass Flywheel",
+      "Clutch Slave Cylinder",
+      "Clutch Master Cylinder",
+      "Gearbox",
+      "Transmission Oil",
+      "Transmission Filter",
+      "Torque Converter",
+      "CVT Belt",
+      "Gear Selector Cable",
+      "Driveshaft",
+      "CV Joint",
+      "CV Boot",
+      "Differential",
+      "Differential Oil"
+    ]
+  },
+  {
+    "category": "Brakes",
+    "components": [
+      "Front Brake Pads",
+      "Rear Brake Pads",
+      "Front Brake Discs",
+      "Rear Brake Discs",
+      "Brake Shoes",
+      "Brake Drums",
+      "Brake Caliper",
+      "Brake Hose",
+      "Brake Pipe",
+      "Brake Fluid",
+      "Master Cylinder",
+      "Brake Booster",
+      "ABS Sensor",
+      "ABS Pump",
+      "Handbrake Cable"
+    ]
+  },
+  {
+    "category": "Suspension",
+    "components": [
+      "Front Shock Absorber",
+      "Rear Shock Absorber",
+      "Front Coil Spring",
+      "Rear Coil Spring",
+      "Control Arm",
+      "Ball Joint",
+      "Tie Rod End",
+      "Inner Tie Rod",
+      "Anti Roll Bar Link",
+      "Anti Roll Bar Bush",
+      "Suspension Bush",
+      "Wheel Bearing",
+      "Steering Rack",
+      "Power Steering Pump",
+      "Power Steering Fluid"
+    ]
+  },
+  {
+    "category": "Electrical",
+    "components": [
+      "Battery",
+      "Alternator",
+      "Starter Motor",
+      "Fuse",
+      "Relay",
+      "Ignition Coil",
+      "Ignition Switch",
+      "ECU",
+      "Body Control Module",
+      "Crankshaft Sensor",
+      "Camshaft Sensor",
+      "Knock Sensor",
+      "Coolant Temperature Sensor",
+      "Battery Sensor",
+      "Horn"
+    ]
+  },
+  {
+    "category": "Lighting",
+    "components": [
+      "Headlight Bulb",
+      "LED Headlight Module",
+      "Tail Light Bulb",
+      "Brake Light Bulb",
+      "Indicator Bulb",
+      "Reverse Light",
+      "Fog Light",
+      "Number Plate Light",
+      "Daytime Running Light"
+    ]
+  },
+  {
+    "category": "Wheels & Tyres",
+    "components": [
+      "Front Left Tyre",
+      "Front Right Tyre",
+      "Rear Left Tyre",
+      "Rear Right Tyre",
+      "Spare Tyre",
+      "Wheel Rim",
+      "Wheel Nut",
+      "Wheel Bolt",
+      "TPMS Sensor",
+      "Valve Stem"
+    ]
+  },
+  {
+    "category": "HVAC",
+    "components": [
+      "Cabin Blower Motor",
+      "A/C Compressor",
+      "Condenser",
+      "Evaporator",
+      "Expansion Valve",
+      "Receiver Dryer",
+      "Cabin Temperature Sensor",
+      "Heater Core"
+    ]
+  },
+  {
+    "category": "Exhaust",
+    "components": [
+      "Exhaust Manifold",
+      "Flex Pipe",
+      "Centre Silencer",
+      "Rear Silencer",
+      "Exhaust Mount",
+      "Exhaust Clamp",
+      "Exhaust Gasket"
+    ]
+  },
+  {
+    "category": "Body",
+    "components": [
+      "Front Bumper",
+      "Rear Bumper",
+      "Bonnet",
+      "Boot Lid",
+      "Front Door",
+      "Rear Door",
+      "Wing Mirror",
+      "Door Lock",
+      "Door Handle",
+      "Windscreen",
+      "Rear Window",
+      "Side Window",
+      "Wiper Blade",
+      "Wiper Motor",
+      "Washer Pump"
+    ]
+  },
+  {
+    "category": "Fluids",
+    "components": [
+      "Engine Oil",
+      "Coolant",
+      "Brake Fluid",
+      "Transmission Oil",
+      "Differential Oil",
+      "Power Steering Fluid",
+      "Windshield Washer Fluid",
+      "AdBlue"
+    ]
+  },
+  {
+    "category": "Hybrid & Electric",
+    "components": [
+      "High Voltage Battery",
+      "Battery Cooling Pump",
+      "Battery Cooling Fan",
+      "Electric Motor",
+      "Inverter",
+      "Onboard Charger",
+      "DC-DC Converter",
+      "Charging Port",
+      "Charging Cable"
+    ]
+  }
+]
