@@ -18,8 +18,7 @@ return new class () extends Migration {
             $table->string('tax_id');
             $table->string('registration_number');
 
-            $table->timestamps();
-            $table->softDeletes();
+            $table->auditColumns();
 
             $table->index('name', 'sup_name_idx');
             $table->index('code', 'sup_code_idx');

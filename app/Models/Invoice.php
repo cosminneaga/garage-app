@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\InvoiceStatus;
 use Database\Factories\InvoiceFactory;
 use Illuminate\Database\Eloquent\Builder;
-use App\Enums\InvoiceStatus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Models\Activity;
@@ -56,11 +55,6 @@ class Invoice extends Model
         'discount_applied' => 0.00,
         'paid_amount' => 0.00,
     ];
-
-    public function repair(): BelongsTo
-    {
-        return $this->belongsTo(Repair::class);
-    }
 
     public function items(): HasMany
     {

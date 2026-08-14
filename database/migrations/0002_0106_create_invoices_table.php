@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Repair;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,8 +19,6 @@ return new class () extends Migration {
             $table->decimal('discount_applied', 4, 2)->default(0.00);
             $table->decimal('paid_amount', 4, 2)->default(0.00);
             $table->text('description')->nullable();
-
-            $table->foreignIdFor(Repair::class)->constrained()->cascadeOnUpdate();
 
             $table->timestamps();
             $table->softDeletes();

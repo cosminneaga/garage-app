@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
+use App\Enums\SupplierType;
+use App\Traits\Blameable;
 use Database\Factories\SupplierFactory;
 use Illuminate\Database\Eloquent\Builder;
-use App\Enums\SupplierType;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -64,6 +65,7 @@ class Supplier extends Model
     use LogsActivity;
     use SoftDeletes;
     use Searchable;
+    use Blameable;
 
     protected $fillable = [
         'name',

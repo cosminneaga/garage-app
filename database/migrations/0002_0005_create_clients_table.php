@@ -17,8 +17,10 @@ return new class () extends Migration {
             $table->boolean('active');
             $table->string('password')->nullable(false);
             $table->string('access_token')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+
+            $table->auditColumns();
+
+            $table->index('name', 'cl_name_idx');
         });
     }
 
@@ -27,6 +29,10 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('client', function (Blueprint $table) {
+            $table->dropIndex('cl_name_idx');
+        });
+
         Schema::dropIfExists('clients');
     }
 };

@@ -19,7 +19,7 @@ return new class () extends Migration {
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique('booking_number');
+            $table->string('number')->unique();
             $table->string('status')->default(BookingStatus::PENDING->value);
             $table->string('service_type')->default(ServiceType::SERVICE->value);
             $table->string('priority')->default(Priority::LOW->value);
@@ -40,10 +40,16 @@ return new class () extends Migration {
             $table->foreignIdFor(Vehicle::class, 'vehicle_id')->constrained()->cascadeOnUpdate();
             $table->foreignIdFor(Company::class, 'company_id')->constrained()->cascadeOnUpdate();
             $table->foreignIdFor(User::class, 'advisor_id')->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(User::class, 'created_by')->constrained()->cascadeOnUpdate();
 
-            $table->timestamps();
-            $table->softDeletes();
+            $table->auditColumns();
+
+            $table->index('number', 'bk_number_idx');
+            $table->index('service_type', 'bk_servicetype_idx');
+            $table->index('priority', 'bk_priority_idx');
+            $table->index('appointment_start', 'bk_appointmentstart_idx');
+            $table->index('checked_in_at', 'bk_checkedinat_idx');
+            $table->index('completed_at', 'bk_completedat_idx');
+            $table->index('cancelled_at', 'bk_cancelledat_idx');
         });
     }
 
@@ -52,6 +58,16 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('bookings', function (Blueprint $table) {
+            $table->dropIndex('bk_number_idx');
+            $table->dropIndex('bk_servicetype_idx');
+            $table->dropIndex('bk_priority_idx');
+            $table->dropIndex('bk_appointmentstart_idx');
+            $table->dropIndex('bk_checkedinat_idx');
+            $table->dropIndex('bk_completedat_idx');
+            $table->dropIndex('bk_cancelledat_idx');
+        });
+
         Schema::dropIfExists('bookings');
     }
 };

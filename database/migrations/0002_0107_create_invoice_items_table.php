@@ -1,8 +1,8 @@
 <?php
 
 use App\Enums\JobName;
-use App\Models\Product;
 use App\Models\Invoice;
+use App\Models\Part;
 use App\Models\Supplier;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,10 +24,9 @@ return new class () extends Migration {
 
             $table->foreignIdFor(Invoice::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Supplier::class)->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(Product::class)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Part::class)->constrained()->cascadeOnUpdate();
 
-            $table->timestamps();
-            $table->softDeletes();
+            $table->auditColumns();
         });
     }
 

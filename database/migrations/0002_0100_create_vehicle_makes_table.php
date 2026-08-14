@@ -14,6 +14,8 @@ return new class () extends Migration {
             $table->id();
             $table->string('name')->nullable(false);
             $table->timestamps();
+
+            $table->index('name', 'vhmk_name_idx');
         });
     }
 
@@ -22,6 +24,10 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('vehicle_makes', function (Blueprint $table) {
+            $table->dropIndex('vhmk_name_idx');
+        });
+
         Schema::dropIfExists('vehicle_makes');
     }
 };

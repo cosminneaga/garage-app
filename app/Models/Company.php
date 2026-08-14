@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
-use Database\Factories\CompanyFactory;
-use Illuminate\Database\Eloquent\Builder;
 use App\Policies\CompanyPolicy;
 use App\Traits\Blameable;
+use Database\Factories\CompanyFactory;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -139,16 +138,6 @@ class Company extends Model
     public function clients(): BelongsToMany
     {
         return $this->belongsToMany(Client::class);
-    }
-
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class);
-    }
-
-    public function repairs(): HasMany
-    {
-        return $this->hasMany(Repair::class);
     }
 
     public function suppliers(): BelongsToMany

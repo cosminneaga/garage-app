@@ -65,26 +65,66 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property string $number
+ * @property string $status
+ * @property string $service_type
+ * @property string $priority
+ * @property string|null $appointment_start
+ * @property string|null $appointment_finish
+ * @property string|null $reminder_sent_at
+ * @property string|null $checked_in_at
+ * @property string|null $completed_at
+ * @property string|null $cancelled_at
+ * @property int|null $estimated_duration
+ * @property string|null $status_info
+ * @property string|null $complaint
  * @property string|null $notes
- * @property \Illuminate\Support\Carbon $on
+ * @property string|null $client_notes
+ * @property numeric|null $estimated_cost
+ * @property int $client_id
+ * @property int $vehicle_id
+ * @property int $company_id
+ * @property int $advisor_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Repair> $repairs
- * @property-read int|null $repairs_count
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAdvisorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAppointmentFinish($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAppointmentStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCancelledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCheckedInAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereComplaint($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereOn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking wherePriority($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereReminderSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereServiceType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatusInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereVehicleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking withoutTrashed()
  * @mixin \Eloquent
@@ -104,6 +144,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
@@ -112,16 +154,16 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Repair> $repairs
- * @property-read int|null $repairs_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
  * @property-read int|null $teams_count
+ * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newQuery()
@@ -133,12 +175,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereAccessToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutRole($roles, ?string $guard = null)
@@ -159,11 +203,11 @@ namespace App\Models{
  * @property float $tax_value
  * @property string $invoice_prefix
  * @property string|null $image_path
- * @property int|null $created_by
- * @property int|null $updated_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
@@ -172,12 +216,10 @@ namespace App\Models{
  * @property-read int|null $clients_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
- * @property-read int|null $products_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Repair> $repairs
- * @property-read int|null $repairs_count
+ * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
  * @property-read int|null $suppliers_count
+ * @property-read \App\Models\User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
@@ -216,6 +258,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $clients
@@ -232,6 +276,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereId($value)
@@ -239,6 +284,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereLandline($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withoutTrashed()
@@ -289,13 +335,13 @@ namespace App\Models{
  * @property \App\Enums\FileStatus $status
  * @property \App\Enums\RepairStatus $repair_status
  * @property string|null $description
- * @property int $repair_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Repair|null $repair
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\FileFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File newQuery()
@@ -308,7 +354,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereRepairId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereRepairStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereType($value)
@@ -331,7 +376,6 @@ namespace App\Models{
  * @property numeric $discount_applied
  * @property numeric $paid_amount
  * @property string|null $description
- * @property int $repair_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -339,7 +383,6 @@ namespace App\Models{
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
  * @property-read int|null $items_count
- * @property-read \App\Models\Repair|null $repair
  * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
@@ -353,7 +396,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereInvoiceNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice wherePaidAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereRepairId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereWorkTime($value)
@@ -375,14 +417,13 @@ namespace App\Models{
  * @property numeric $labour_price
  * @property int $invoice_id
  * @property int $supplier_id
- * @property int $product_id
+ * @property int $part_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Invoice|null $invoice
- * @property-read \App\Models\Product|null $product
  * @property-read \App\Models\Supplier|null $supplier
  * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newModelQuery()
@@ -396,7 +437,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereItemPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereJobName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereLabourPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem wherePartId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSku($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSupplierId($value)
@@ -413,103 +454,42 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $name
- * @property string $code
- * @property int $company_id
+ * @property string|null $manufacturer
+ * @property string|null $part_number
+ * @property string|null $serial_number
+ * @property string|null $code
+ * @property string|null $notes
+ * @property int $brand
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Company|null $company
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $invoiceItems
- * @property-read int|null $invoice_items_count
- * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereCompanyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product withoutTrashed()
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereBrand($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereManufacturer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part wherePartNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereSerialNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
-	class IdeHelperProduct {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $registration
- * @property string $vin
- * @property int $odometer
- * @property \App\Enums\FuelType $fuel
- * @property \App\Enums\RepairStatus $status
- * @property string|null $complaint_description
- * @property string|null $initial_inspection
- * @property string|null $diagnosis_notes
- * @property string|null $work_order
- * @property string|null $parts_required
- * @property string|null $execution_data
- * @property string|null $labour_tracking_data
- * @property string|null $quality_check_testing
- * @property string|null $service_record
- * @property int $booking_id
- * @property int $vehicle_data_id
- * @property int $company_id
- * @property int $client_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Booking|null $booking
- * @property-read \App\Models\Client|null $client
- * @property-read \App\Models\Company|null $company
- * @property-read \App\Models\VehicleData|null $data
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
- * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invoice> $invoices
- * @property-read int|null $invoices_count
- * @method static \Database\Factories\RepairFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereBookingId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereClientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereCompanyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereComplaintDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereDiagnosisNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereExecutionData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereFuel($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereInitialInspection($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereLabourTrackingData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereOdometer($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair wherePartsRequired($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereQualityCheckTesting($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereRegistration($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereServiceRecord($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereVehicleDataId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereVin($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair whereWorkOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Repair withoutTrashed()
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperRepair {}
+	class IdeHelperPart {}
 }
 
 namespace App\Models{
@@ -523,6 +503,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
@@ -531,8 +513,10 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $invoiceItems
  * @property-read int|null $invoice_items_count
+ * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newQuery()
@@ -540,6 +524,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereName($value)
@@ -547,6 +532,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereTaxId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier withoutTrashed()
  * @mixin \Eloquent
@@ -599,6 +585,7 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $managers
  * @property-read int|null $managers_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -609,6 +596,7 @@ namespace App\Models{
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
  * @property-read int|null $teams_count
+ * @property-read User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
  * @property-read int|null $users_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -646,6 +634,62 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
+ * @property string $vin
+ * @property string|null $registration
+ * @property string $fuel
+ * @property string $status
+ * @property int|null $first_visit_odometer
+ * @property string|null $first_registration
+ * @property string|null $first_visit
+ * @property string|null $technical_notes
+ * @property string|null $notes
+ * @property string|null $diagnostic_information
+ * @property int|null $vehicle_make_id
+ * @property int|null $vehicle_model_id
+ * @property int|null $vehicle_data_id
+ * @property int|null $vehicle_year_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDiagnosticInformation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFirstRegistration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFirstVisit($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFirstVisitOdometer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFuel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereRegistration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereTechnicalNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleDataId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleMakeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleModelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleYearId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperVehicle {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
  * @property string $name
  * @property int $cylinders
  * @property float $displacement
@@ -660,8 +704,6 @@ namespace App\Models{
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\VehicleMake|null $make
  * @property-read \App\Models\VehicleModel|null $model
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Repair> $repairs
- * @property-read int|null $repairs_count
  * @property-read \App\Models\VehicleYear|null $year
  * @method static \Database\Factories\VehicleDataFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newModelQuery()
@@ -778,5 +820,147 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperVehicleYear {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $title
+ * @property int $number
+ * @property string $status
+ * @property int|null $odometer_on_start
+ * @property int|null $odometer_on_finish
+ * @property string|null $complaint
+ * @property string|null $initial_inspection_notes
+ * @property string|null $notes
+ * @property string|null $component_notes
+ * @property numeric|null $parts_total_cost
+ * @property numeric|null $labour_price_hourly
+ * @property numeric|null $labour_total_cost
+ * @property int $tehnician_id
+ * @property int $booking_id
+ * @property int $company_id
+ * @property int $assigned_by
+ * @property int $initial_inspection_files
+ * @property int $note_files
+ * @property int $vehicle_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereAssignedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereComplaint($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereComponentNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInitialInspectionFiles($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInitialInspectionNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereLabourPriceHourly($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereLabourTotalCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNoteFiles($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereOdometerOnFinish($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereOdometerOnStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder wherePartsTotalCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereTehnicianId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereVehicleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperWorkorder {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string|null $start
+ * @property string|null $end
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereEnd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperWorkorderLabourTime {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string|null $notes
+ * @property string|null $installed_at
+ * @property int|null $installed_odometer
+ * @property int|null $expected_life_km
+ * @property int|null $expected_life_months
+ * @property int $workorder_id
+ * @property int $part_id
+ * @property int $replaced_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereExpectedLifeKm($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereExpectedLifeMonths($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereInstalledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereInstalledOdometer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent wherePartId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereReplacedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereWorkorderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperWorkorderReplacedComponent {}
 }
 

@@ -17,14 +17,9 @@ return new class () extends Migration {
             $table->string('registration_number');
             $table->decimal('tax_value', 4, 2)->default(20.00);
             $table->string('invoice_prefix')->nullable(false);
-            $table->string('image_path')
-                ->references('id')
-                ->on('users')
-                ->nullable();
-            $table->foreignId('created_by')->nullable();
-            $table->foreignId('updated_by')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+            $table->string('image_path')->references('id')->on('users')->nullable();
+
+            $table->auditColumns();
 
             $table->index('name', 'cmp_name_idx');
             $table->index('tax_id', 'cmp_taxid_idx');

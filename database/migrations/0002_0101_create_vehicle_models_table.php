@@ -15,8 +15,13 @@ return new class () extends Migration {
             $table->id();
             $table->string('name')->nullable(false);
             $table->string('class');
+
             $table->foreignIdFor(VehicleMake::class)->constrained()->cascadeOnDelete();
+
             $table->timestamps();
+
+            $table->index('name', 'vhmd_name_idx');
+            $table->index('class', 'vhmd_class_idx');
         });
     }
 
@@ -25,6 +30,10 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('vehicle_models', function (Blueprint $table) {
+            $table->dropIndex('vhmd_name_idx');
+            $table->dropIndex('vhmd_class_idx');
+        });
         Schema::dropIfExists('vehicle_models');
     }
 };

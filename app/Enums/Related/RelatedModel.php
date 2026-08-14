@@ -12,8 +12,6 @@ use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\StoreInvoiceRequest;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\StoreRepairRequest;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateBookingRequest;
@@ -22,7 +20,6 @@ use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Http\Requests\UpdateInvoiceItemRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Address;
@@ -33,8 +30,6 @@ use App\Models\Contact;
 use App\Models\File;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\Product;
-use App\Models\Repair;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Policies\AddressPolicy;
@@ -53,8 +48,6 @@ enum RelatedModel: string
     case FILE = 'file';
     case INVOICE = 'invoice';
     case INVOICE_ITEM = 'invoice_item';
-    case PRODUCT = 'product';
-    case REPAIR = 'repair';
     case SUPPLIER = 'supplier';
     case USER = 'user';
 
@@ -69,8 +62,6 @@ enum RelatedModel: string
             self::FILE => File::withTrashed()->findOrFail($id),
             self::INVOICE => Invoice::withTrashed()->findOrFail($id),
             self::INVOICE_ITEM => InvoiceItem::withTrashed()->findOrFail($id),
-            self::PRODUCT => Product::withTrashed()->findOrFail($id),
-            self::REPAIR => Repair::withTrashed()->findOrFail($id),
             self::SUPPLIER => Supplier::withTrashed()->findOrFail($id),
             self::USER => User::withTrashed()->findOrFail($id),
         };
@@ -87,8 +78,6 @@ enum RelatedModel: string
             self::FILE => 'files',
             self::INVOICE => 'invoices',
             self::INVOICE_ITEM => 'invoice_items',
-            self::PRODUCT => 'products',
-            self::REPAIR => 'repairs',
             self::SUPPLIER => 'suppliers',
             self::USER => 'users',
         };
@@ -105,8 +94,6 @@ enum RelatedModel: string
             self::FILE => File::class,
             self::INVOICE => Invoice::class,
             self::INVOICE_ITEM => InvoiceItem::class,
-            self::PRODUCT => Product::class,
-            self::REPAIR => Repair::class,
             self::SUPPLIER => Supplier::class,
             self::USER => User::class,
         };
@@ -126,8 +113,6 @@ enum RelatedModel: string
             self::FILE => null,
             self::INVOICE => null,
             self::INVOICE_ITEM => null,
-            self::PRODUCT => null,
-            self::REPAIR => null,
             self::SUPPLIER => SupplierPolicy::class,
             self::USER => UserPolicy::class,
         };
@@ -170,14 +155,6 @@ enum RelatedModel: string
             self::INVOICE_ITEM => [
                 'store' => StoreInvoiceItemRequest::class,
                 'update' => UpdateInvoiceItemRequest::class,
-            ],
-            self::PRODUCT => [
-                'store' => StoreProductRequest::class,
-                'update' => UpdateProductRequest::class,
-            ],
-            self::REPAIR => [
-                'store' => StoreRepairRequest::class,
-                'update' => null,
             ],
             self::SUPPLIER => [
                 'store' => StoreSupplierRequest::class,
