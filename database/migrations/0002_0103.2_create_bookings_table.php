@@ -34,7 +34,7 @@ return new class () extends Migration {
             $table->longText('complaint')->nullable();
             $table->longText('notes')->nullable();
             $table->longText('client_notes')->nullable();
-            $table->decimal('estimated_cost', 10, 2)->nullable();
+            $table->decimal('estimated_cost', 10, 2)->default(0.00);
 
             $table->foreignIdFor(Client::class, 'client_id')->constrained()->cascadeOnUpdate();
             $table->foreignIdFor(Vehicle::class, 'vehicle_id')->constrained()->cascadeOnUpdate();

@@ -10,7 +10,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('workorder_replaced_components_postinstall_files', function (Blueprint $table) {
+        Schema::create('booking_client_file', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -21,6 +21,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('workorder_replaced_components_postinstall_files');
+        Schema::dropIfExists('booking_client_file');
     }
 };

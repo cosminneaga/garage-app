@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\FileStatus;
+use App\Enums\FileType;
 use App\Enums\RepairStatus;
 use App\Traits\Blameable;
 use Database\Factories\FileFactory;
@@ -17,11 +17,10 @@ use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
- * @property FileStatus $status
+ * @property FileType $status
  * @property RepairStatus $repair_status
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Repair|null $repair
  * @method static FileFactory factory($count = null, $state = [])
  * @method static Builder<static>|File newModelQuery()
  * @method static Builder<static>|File newQuery()
@@ -44,18 +43,14 @@ class File extends Model
         'extension',
         'path',
         'type',
-        'status',
-        'repair_status',
         'description',
     ];
 
     protected $casts = [
-        'status' => FileStatus::class,
-        'repair_status' => RepairStatus::class,
+        'type' => FileType::class,
     ];
 
     protected $attributes = [
-        'status' => FileStatus::BEFORE->value,
-        'repair_status' => RepairStatus::RECEPTION->value,
+        'type' => FileType::OTHER->value,
     ];
 }

@@ -13,6 +13,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class WorkorderLabourTime extends Model
 {
-    use SoftDeletes;
     use Blameable;
+    use SoftDeletes;
 }

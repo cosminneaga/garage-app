@@ -80,7 +80,7 @@ namespace App\Models{
  * @property string|null $complaint
  * @property string|null $notes
  * @property string|null $client_notes
- * @property numeric|null $estimated_cost
+ * @property numeric $estimated_cost
  * @property int $client_id
  * @property int $vehicle_id
  * @property int $company_id
@@ -331,13 +331,14 @@ namespace App\Models{
  * @property string $name
  * @property string $extension
  * @property string $path
- * @property string $type
- * @property \App\Enums\FileStatus $status
- * @property \App\Enums\RepairStatus $repair_status
+ * @property \App\Enums\FileType $type
  * @property string|null $description
+ * @property int $uploaded_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
@@ -348,16 +349,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereExtension($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereRepairStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUploadedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File withoutTrashed()
  * @mixin \Eloquent
@@ -421,6 +423,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Invoice|null $invoice
@@ -431,6 +435,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereInvoiceId($value)
@@ -442,6 +447,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSku($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSupplierId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withoutTrashed()
  * @mixin \Eloquent
@@ -459,6 +465,8 @@ namespace App\Models{
  * @property string|null $serial_number
  * @property string|null $code
  * @property string|null $notes
+ * @property numeric $item_price
+ * @property numeric $commercial_markup
  * @property int $brand
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -473,10 +481,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereBrand($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCommercialMarkup($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereItemPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereManufacturer($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereNotes($value)
@@ -833,16 +843,14 @@ namespace App\Models{
  * @property string|null $complaint
  * @property string|null $initial_inspection_notes
  * @property string|null $notes
- * @property string|null $component_notes
- * @property numeric|null $parts_total_cost
- * @property numeric|null $labour_price_hourly
- * @property numeric|null $labour_total_cost
- * @property int $tehnician_id
+ * @property string|null $part_notes
+ * @property numeric $labour_price_hourly
+ * @property numeric $labour_total_cost
+ * @property numeric $part_total_cost
+ * @property int $technician_id
  * @property int $booking_id
  * @property int $company_id
  * @property int $assigned_by
- * @property int $initial_inspection_files
- * @property int $note_files
  * @property int $vehicle_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -859,23 +867,21 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereBookingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereComplaint($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereComponentNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInitialInspectionFiles($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInitialInspectionNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereLabourPriceHourly($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereLabourTotalCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNoteFiles($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereOdometerOnFinish($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereOdometerOnStart($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder wherePartsTotalCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder wherePartNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder wherePartTotalCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereTehnicianId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereTechnicianId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedBy($value)
@@ -890,28 +896,12 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * @property int $id
- * @property string|null $start
- * @property string|null $end
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property int|null $created_by
- * @property int|null $updated_by
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $updater
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereEnd($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereStart($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime withoutTrashed()
  * @mixin \Eloquent
@@ -923,14 +913,14 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string|null $notes
- * @property string|null $installed_at
- * @property int|null $installed_odometer
+ * @property string $type
+ * @property int|null $part_installed_odometer
  * @property int|null $expected_life_km
  * @property int|null $expected_life_months
+ * @property string|null $notes
  * @property int $workorder_id
- * @property int $part_id
- * @property int $replaced_by
+ * @property int|null $part_id
+ * @property int $performed_by
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -938,29 +928,29 @@ namespace App\Models{
  * @property int|null $updated_by
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $updater
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereExpectedLifeKm($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereExpectedLifeMonths($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereInstalledAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereInstalledOdometer($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent wherePartId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereReplacedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent whereWorkorderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderReplacedComponent withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereExpectedLifeKm($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereExpectedLifeMonths($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation wherePartId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation wherePartInstalledOdometer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation wherePerformedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereWorkorderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
-	class IdeHelperWorkorderReplacedComponent {}
+	class IdeHelperWorkorderOperation {}
 }
 

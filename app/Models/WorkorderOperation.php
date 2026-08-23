@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @mixin IdeHelperWorkorderReplacedComponent
+ * @mixin IdeHelperWorkorderOperation
  */
-class WorkorderReplacedComponent extends Model
+class WorkorderOperation extends Model
 {
     use SoftDeletes;
     use Blameable;

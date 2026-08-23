@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\FileStatus;
+use App\Enums\FileType;
 use App\Enums\RepairStatus;
 use App\Models\Repair;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,7 +28,7 @@ class FileFactory extends Factory
                 'https://t3.ftcdn.net/jpg/17/53/39/58/240_F_1753395823_YbftgqVbHSNQY3yQjdU0goVbZSTUN0WC.jpg',
             ]),
             'type' => fake()->mimeType(),
-            'status' => fake()->randomElement(FileStatus::class),
+            'status' => fake()->randomElement(FileType::class),
             'repair_status' => fake()->randomElement(RepairStatus::class),
             'description' => fake()->text(30),
             'repair_id' => Repair::factory(),

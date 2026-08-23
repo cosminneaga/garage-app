@@ -19,6 +19,8 @@ return new class () extends Migration {
             $table->string('serial_number')->nullable();
             $table->string('code')->nullable();
             $table->longText('notes')->nullable();
+            $table->decimal('item_price', 8, 2)->default(0.00);
+            $table->decimal('commercial_markup', 8, 2)->default(0.00);
 
             $table->foreignIdFor(VehicleMake::class, 'brand')->constrained()->cascadeOnDelete();
 

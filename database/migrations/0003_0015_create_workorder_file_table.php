@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\File;
+use App\Models\Workorder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,8 +12,12 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('workorder_replaced_component_preinstall_files', function (Blueprint $table) {
+        Schema::create('workorder_file', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignIdFor(Workorder::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(File::class)->constrained()->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
@@ -21,6 +27,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('workorder_replaced_component_preinstall_files');
+        Schema::dropIfExists('workorder_file');
     }
 };

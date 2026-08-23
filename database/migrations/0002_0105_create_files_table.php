@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\FileType;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,16 +14,16 @@ return new class () extends Migration {
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
+
             $table->string('name')->nullable(false);
             $table->string('extension')->nullable(false);
             $table->string('path')->nullable(false);
-            $table->string('type')->nullable(false);
-            $table->string('status')->default('showcase');
-            $table->string('repair_status')->default('reception');
-            $table->text('description')->nullable();
+            $table->string('type')->default(FileType::OTHER->value);
+            $table->longText('description')->nullable();
 
-            $table->timestamps();
-            $table->softDeletes();
+            $table->foreignIdFor(User::class, 'uploaded_by')->constrained()->cascadeOnUpdate();
+
+            $table->auditColumns();
         });
     }
 

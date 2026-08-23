@@ -12,6 +12,7 @@ enum BookingStatus: string
     case CONFIRMED = 'confirmed';
     case CHECKED_IN = 'checked_in';
     case IN_PROGRESS = 'in_progress';
+    case IN_REVIEW = 'in_review';
     case COMPLETED = 'completed';
     case CANCELLED = 'cancelled';
 
@@ -22,6 +23,7 @@ enum BookingStatus: string
             self::CONFIRMED => 'Confirmed',
             self::CHECKED_IN => 'Checked In',
             self::IN_PROGRESS => 'In Progress',
+            self::IN_REVIEW => 'In Review',
             self::COMPLETED => 'Completed',
             self::CANCELLED => 'Cancelled',
         };

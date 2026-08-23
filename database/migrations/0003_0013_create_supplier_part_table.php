@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Workorder;
-use App\Models\WorkorderReplacedComponent;
+use App\Models\Part;
+use App\Models\Supplier;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,10 +12,12 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('workorder_component', function (Blueprint $table) {
+        Schema::create('supplier_part', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Workorder::class, 'workorder_id')->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(WorkorderReplacedComponent::class, 'component_id')->constrained()->cascadeOnDelete();
+
+            $table->foreignIdFor(Supplier::class)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Part::class)->constrained()->cascadeOnUpdate();
+
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('workorder_component');
+        Schema::dropIfExists('supplier_part');
     }
 };

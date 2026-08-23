@@ -9,9 +9,8 @@ use Illuminate\Support\Collection;
 enum WorkorderStatus: string
 {
     case PENDING = 'pending';
-    case CONFIRMED = 'confirmed';
-    case CHECKED_IN = 'checked_in';
     case IN_PROGRESS = 'in_progress';
+    case PAUSED = 'paused';
     case COMPLETED = 'completed';
     case CANCELLED = 'cancelled';
 
@@ -19,9 +18,8 @@ enum WorkorderStatus: string
     {
         return match($this) {
             self::PENDING => 'Pending',
-            self::CONFIRMED => 'Confirmed',
-            self::CHECKED_IN => 'Checked In',
             self::IN_PROGRESS => 'In Progress',
+            self::PAUSED => 'Paused',
             self::COMPLETED => 'Completed',
             self::CANCELLED => 'Cancelled',
         };
