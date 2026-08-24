@@ -25,6 +25,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Collection<int, User> $clients
@@ -41,6 +43,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Contact onlyTrashed()
  * @method static Builder<static>|Contact query()
  * @method static Builder<static>|Contact whereCreatedAt($value)
+ * @method static Builder<static>|Contact whereCreatedBy($value)
  * @method static Builder<static>|Contact whereDeletedAt($value)
  * @method static Builder<static>|Contact whereEmail($value)
  * @method static Builder<static>|Contact whereId($value)
@@ -48,6 +51,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Contact whereLandline($value)
  * @method static Builder<static>|Contact whereMobile($value)
  * @method static Builder<static>|Contact whereUpdatedAt($value)
+ * @method static Builder<static>|Contact whereUpdatedBy($value)
  * @method static Builder<static>|Contact whereUrl($value)
  * @method static Builder<static>|Contact withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Contact withoutTrashed()

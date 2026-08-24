@@ -14,6 +14,7 @@
         "laravel/framework": "^12.0",
         "laravel/octane": "^2.17",
         "laravel/pulse": "^1.7",
+        "laravel/reverb": "^1.0",
         "laravel/scout": "^11.2",
         "laravel/telescope": "^5.19",
         "laravel/tinker": "^2.10.1",
@@ -77,6 +78,7 @@
             "@php artisan optimize:clear",
             "@php artisan permission:cache-reset",
             "@php artisan activitylog:clean",
+            "@php artisan config:clear",
             "composer dump-autoload"
         ],
         "storage": [
@@ -105,7 +107,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan reverb:start --port=8081\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

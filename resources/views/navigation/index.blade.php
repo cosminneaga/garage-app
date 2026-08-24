@@ -51,6 +51,13 @@
                     </button>
                     <x-navigation::user-dropdown />
 
+                    <!-- NOTIFICATION -->
+                    <button id="notification-button">
+                        🔔
+                        <span id="notification-count">0</span>
+                    </button>
+
+                    <div id="notifications"></div>
                 @endauth
 
                 @guest

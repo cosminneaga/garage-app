@@ -24950,6 +24950,22 @@ namespace Illuminate\View {
             }
     }
 
+namespace Illuminate\Database\Schema {
+    /**
+     */
+    class Blueprint {
+        /**
+         * @see \App\Providers\BlueprintServiceProvider::boot()
+         * @static
+         */
+        public static function auditColumns()
+        {
+            return \Illuminate\Database\Schema\Blueprint::auditColumns();
+        }
+
+            }
+    }
+
 
 namespace  {
     class App extends \Illuminate\Support\Facades\App {}

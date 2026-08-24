@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Builder;
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
 use App\Traits\Blameable;
+use Database\Factories\UserFactory;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -52,6 +52,7 @@ use Throwable;
  * @property-read int|null $companies_count
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read User|null $creator
  * @property-read Collection<int, User> $managers
  * @property-read int|null $managers_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
@@ -62,6 +63,7 @@ use Throwable;
  * @property-read int|null $roles_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
+ * @property-read User|null $updater
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
  * @method static UserFactory factory($count = null, $state = [])
@@ -96,13 +98,13 @@ use Throwable;
 #[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable
 {
+    use Blameable;
     use HasFactory;
     use HasRoles;
-    use LogsActivity;
     use Notifiable;
     use Searchable;
     use SoftDeletes;
-    use Blameable;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.

@@ -93,6 +93,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
@@ -663,8 +665,11 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle onlyTrashed()

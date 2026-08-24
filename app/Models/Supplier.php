@@ -30,6 +30,8 @@ use Throwable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Collection<int, Address> $addresses
@@ -38,8 +40,10 @@ use Throwable;
  * @property-read int|null $companies_count
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read User|null $creator
  * @property-read Collection<int, InvoiceItem> $invoiceItems
  * @property-read int|null $invoice_items_count
+ * @property-read User|null $updater
  * @method static SupplierFactory factory($count = null, $state = [])
  * @method static Builder<static>|Supplier newModelQuery()
  * @method static Builder<static>|Supplier newQuery()
@@ -47,6 +51,7 @@ use Throwable;
  * @method static Builder<static>|Supplier query()
  * @method static Builder<static>|Supplier whereCode($value)
  * @method static Builder<static>|Supplier whereCreatedAt($value)
+ * @method static Builder<static>|Supplier whereCreatedBy($value)
  * @method static Builder<static>|Supplier whereDeletedAt($value)
  * @method static Builder<static>|Supplier whereId($value)
  * @method static Builder<static>|Supplier whereName($value)
@@ -54,6 +59,7 @@ use Throwable;
  * @method static Builder<static>|Supplier whereTaxId($value)
  * @method static Builder<static>|Supplier whereType($value)
  * @method static Builder<static>|Supplier whereUpdatedAt($value)
+ * @method static Builder<static>|Supplier whereUpdatedBy($value)
  * @method static Builder<static>|Supplier withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Supplier withoutTrashed()
  * @mixin \Eloquent

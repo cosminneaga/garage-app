@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Illuminate\Support\Collection;
+
 enum FuelType: string
 {
     case BIOFUEL = 'biofuel';
@@ -33,6 +35,8 @@ enum FuelType: string
 
     public static function values(): array
     {
-        return array_map(fn (FuelType $status) => $status->value, self::cases());
+        return Collection::make(self::cases())
+            ->map(fn (FuelType $case) => $case->value)
+            ->toArray();
     }
 }

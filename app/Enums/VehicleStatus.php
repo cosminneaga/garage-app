@@ -25,7 +25,7 @@ enum VehicleStatus: string
         };
     }
 
-    public function values(): array
+    public static function values(): array
     {
         return Collection::make(self::cases())
             ->map(fn (VehicleStatus $case) => $case->value)

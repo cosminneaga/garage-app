@@ -31,8 +31,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read int|null $activities_as_subject_count
  * @property-read VehicleMake|null $make
  * @property-read VehicleModel|null $model
- * @property-read Collection<int, Repair> $repairs
- * @property-read int|null $repairs_count
  * @property-read VehicleYear|null $year
  * @method static VehicleDataFactory factory($count = null, $state = [])
  * @method static Builder<static>|VehicleData newModelQuery()

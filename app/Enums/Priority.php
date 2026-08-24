@@ -23,7 +23,7 @@ enum Priority: string
         };
     }
 
-    public function values(): array
+    public static function values(): array
     {
         return Collection::make(self::cases())
             ->map(fn (Priority $case) => $case->value)

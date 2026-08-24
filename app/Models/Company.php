@@ -29,11 +29,11 @@ use Throwable;
  * @property float $tax_value
  * @property string $invoice_prefix
  * @property string|null $image_path
- * @property int|null $created_by
- * @property int|null $updated_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Collection<int, Address> $addresses
@@ -42,12 +42,10 @@ use Throwable;
  * @property-read int|null $clients_count
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read Collection<int, Product> $products
- * @property-read int|null $products_count
- * @property-read Collection<int, Repair> $repairs
- * @property-read int|null $repairs_count
+ * @property-read User|null $creator
  * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
+ * @property-read User|null $updater
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
  * @method static CompanyFactory factory($count = null, $state = [])

@@ -32,6 +32,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Collection<int, Address> $addresses
@@ -40,16 +42,16 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $companies_count
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read User|null $creator
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read Collection<int, Repair> $repairs
- * @property-read int|null $repairs_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
+ * @property-read User|null $updater
  * @method static ClientFactory factory($count = null, $state = [])
  * @method static Builder<static>|Client newModelQuery()
  * @method static Builder<static>|Client newQuery()
@@ -61,12 +63,14 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder<static>|Client whereAccessToken($value)
  * @method static Builder<static>|Client whereActive($value)
  * @method static Builder<static>|Client whereCreatedAt($value)
+ * @method static Builder<static>|Client whereCreatedBy($value)
  * @method static Builder<static>|Client whereDeletedAt($value)
  * @method static Builder<static>|Client whereEmail($value)
  * @method static Builder<static>|Client whereId($value)
  * @method static Builder<static>|Client whereName($value)
  * @method static Builder<static>|Client wherePassword($value)
  * @method static Builder<static>|Client whereUpdatedAt($value)
+ * @method static Builder<static>|Client whereUpdatedBy($value)
  * @method static Builder<static>|Client withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Client withoutPermission($permissions)
  * @method static Builder<static>|Client withoutRole($roles, ?string $guard = null)
