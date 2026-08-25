@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
+use Illuminate\Contracts\View\View;
 
 class BookingController extends Controller
 {
@@ -37,9 +38,9 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Booking $booking): void
+    public function show(Booking $booking): View
     {
-        //
+        return view('pages.booking.show', ['data' => $booking]);
     }
 
     /**

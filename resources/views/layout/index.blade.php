@@ -57,29 +57,6 @@
     <!-- ALERT AREA -->
 
     @stack ('scripts')
-    <script type="module">
-        const userId = {{ auth()->id() }};
-
-        Echo.private(`App.Models.User.${userId}`)
-            .notification((notification) => {
-                console.log('Notification received:', notification);
-
-                addNotification(notification);
-            });
-
-        function addNotification(notification) {
-            const container = document.getElementById('notifications');
-
-            const element = document.createElement('div');
-
-            element.innerHTML = `
-                <strong>${notification.title}</strong>
-                <p>${notification.message}</p>
-            `;
-
-            container.prepend(element);
-        }
-    </script>
 </body>
 
 </html>

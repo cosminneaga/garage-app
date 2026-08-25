@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Enums\Related\RelatedModel;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -40,6 +41,8 @@ Route::controller(UserController::class)
         Route::resource('users', UserController::class)->except('show');
         Route::get('/users/restore', 'removed')->name('users.removed');
         Route::get('/users/chart', 'chart')->name('users.chart');
+        Route::get('/users/notifications', 'notifications')->name('users.notifications');
+        Route::post('/users/notifications/{id}', 'notificationRead')->name('users.notifications.read');
         Route::post('/users/{id}/restore', 'restore')->name('users.restore');
 
         # permissions
@@ -135,6 +138,12 @@ Route::controller(ContactController::class)
             Route::put('/contacts/{contact}/suppliers/{supplier}', 'modelUpdate')->name('contacts.suppliers.update');
             Route::delete('/contacts/{contact}/suppliers/{supplier}', 'modelDestroy')->name('contacts.suppliers.destroy');
         });
+    });
+
+Route::controller(BookingController::class)
+    ->middleware((['auth', 'role:super|administrator|manager|user']))
+    ->group(function () {
+        Route::get('/bookings/{booking}', 'show')->name('bookings.show');
     });
 
 Route::controller(SuperController::class)

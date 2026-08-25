@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Actions\UserStoreAction;
 use App\Actions\UserUpdateAction;
 use App\Enums\Resource\ResourceFilter;
+use App\Enums\Tabs\NotificationTabs;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreUserRequest;
@@ -19,6 +20,7 @@ use App\Traits\RelatedModelGuard;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -187,6 +189,28 @@ class UserController extends Controller
                 'success',
                 'User restored',
                 'The user has been successfully restored and is now active again.',
+            ));
+    }
+
+    public function notifications(): View
+    {
+        return match(FacadesRequest::query('tab')) {
+            NotificationTabs::UNREAD->value => view('pages.user.notifications.unread'),
+            NotificationTabs::READ->value => view('pages.user.notifications.read'),
+            NotificationTabs::ALL->value => view('pages.user.notifications.all'),
+            default => view('pages.user.notifications.unread'),
+        };
+    }
+
+    public function notificationRead(string $notificationId): RedirectResponse
+    {
+        DatabaseNotification::find($notificationId)->markAsRead();
+
+        return back()
+            ->with(self::flashMessage(
+                'success',
+                'Notification read',
+                'Notification has been read'
             ));
     }
 

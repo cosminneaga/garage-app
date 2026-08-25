@@ -13,6 +13,7 @@ use App\Enums\Columns\UserColumns;
 use App\Enums\Related\RelatedModel;
 use App\Enums\SupplierType;
 use App\Enums\Tabs\CompanyTabs;
+use App\Enums\Tabs\NotificationTabs;
 use App\Enums\Tabs\SupplierTabs;
 use App\Enums\Tabs\UserProfileTabs;
 use App\Enums\Tabs\UserTabs;
@@ -39,7 +40,9 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('CompanyTabs', CompanyTabs::class);
         $loader->alias('ContactColumns', ContactColumns::class);
         $loader->alias('Country', Country::class);
+        $loader->alias('NotificationTabs', NotificationTabs::class);
         $loader->alias('Permission', Permission::class);
+        $loader->alias('PermissionColumns', PermissionColumns::class);
         $loader->alias('SupplierColumns', SupplierColumns::class);
         $loader->alias('SupplierTabs', SupplierTabs::class);
         $loader->alias('SupplierType', SupplierType::class);
@@ -48,7 +51,6 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('UserProfileTabs', UserProfileTabs::class);
         $loader->alias('UserRole', UserRole::class);
         $loader->alias('UserTabs', UserTabs::class);
-        $loader->alias('PermissionColumns', PermissionColumns::class);
         $loader->alias('RelatedModel', RelatedModel::class);
     }
 

@@ -10,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log;
 
 class BookingCreated extends Notification implements ShouldQueue
 {
@@ -36,7 +35,6 @@ class BookingCreated extends Notification implements ShouldQueue
 
     public function toDatabase(object $notifiable): array
     {
-        Log::info('db reached');
         return [
             'type' => 'booking.created',
             'booking_id' => $this->booking->id,
@@ -47,7 +45,6 @@ class BookingCreated extends Notification implements ShouldQueue
 
     public function toBroadcast(object $notifiable): BroadcastMessage
     {
-        Log::info('broadcast reached');
         return new BroadcastMessage([
             'type' => 'booking.created',
             'booking_id' => $this->booking->id,
@@ -61,10 +58,9 @@ class BookingCreated extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        Log::info('mail reached');
         return (new MailMessage())
             ->greeting('Hello!')
-            ->line('The introduction to the notification.')
+            ->line('A new booking has been created')
             ->action('Notification Action', url('/bookings/' . $this->booking->id))
             ->line('Thank you for using our application!');
     }

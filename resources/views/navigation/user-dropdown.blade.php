@@ -1,9 +1,13 @@
+@props([
+    'unread_notifications' => 0,
+])
+
 @php
     $user = Auth::user();
 @endphp
 
 <div
-    class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-auto border px-2.5 py-2 shadow-lg"
+    class="hidden bg-neutral-primary-medium border-default-medium rounded-base z-10 w-auto border px-2.5 py-2 shadow-lg"
     id="nav-dropdown-profile-menu"
 >
     <div class="p-2">
@@ -42,6 +46,27 @@
                 href="{{ route('profile.users.edit', Auth::user()) }}"
             >Profile</a>
         </li>
+
+        @if (count($unread_notifications) > 0)
+            <!-- UNREAD NOTIFICATIONS -->
+            <li>
+                <li class="mb-2">
+                    <p class="font-bold">Notifications</p>
+                </li>
+                <ul class="text-heading bg-neutral-primary-soft border-default rounded-base w-48 border text-sm font-medium">
+                    @foreach ($unread_notifications as $notification)
+                        <li class="border-default w-full border-b px-4 py-2">{{ $notification->data['title'] }}</li>
+                    @endforeach
+                </ul>
+
+                <a
+                    class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
+                    href="{{ route('users.notifications') }}"
+                >See all notifications</a>
+            </li>
+            <br>
+        @endif
+
         <li>
             <form
                 action="/logout"
@@ -59,3 +84,5 @@
         </li>
     </ul>
 </div>
+
+{{-- @json(Auth::user()->unreadNotifications) --}}
