@@ -1,13 +1,31 @@
-@props([
-    'unread_notifications' => 0,
-])
-
 @php
     $user = Auth::user();
+    $unreadNotifications = $user ? $user->unreadNotifications()->latest()->take(3)->get() : [];
 @endphp
 
+<button
+    class="relative flex items-center gap-2 hover:cursor-pointer"
+    id="nav-dropdown-profile-btn"
+    data-dropdown-toggle="nav-dropdown-profile-menu"
+    data-dropdown-trigger="click"
+    type="button"
+>
+    <img
+        class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
+        src="{{ !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
+        alt="User avatar"
+    />
+
+    <!-- NOTIFICATION INDICATOR -->
+    <span
+        class="absolute bg-success right-2 top-0 me-0 h-4 w-4 rounded-full"
+        x-data
+        x-show="$store.notification.indicator_show"
+    ></span>
+</button>
+
 <div
-    class="hidden bg-neutral-primary-medium border-default-medium rounded-base z-10 w-auto border px-2.5 py-2 shadow-lg"
+    class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-auto border px-2.5 py-2 shadow-lg"
     id="nav-dropdown-profile-menu"
 >
     <div class="p-2">
@@ -20,11 +38,9 @@
         class="text-body p-2 text-sm font-medium"
         aria-labelledby="nav-dropdown-profile-btn"
     >
-
-        <li>
-            <p class="font-bold">Administrative</p>
-        </li>
-        @super
+        <div>
+            <strong>Administrative</strong>
+            @super
             <li>
                 <a
                     class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
@@ -39,33 +55,44 @@
                     target="__blank"
                 >Telescope</a>
             </li>
-        @endsuper
-        <li>
-            <a
-                class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                href="{{ route('profile.users.edit', Auth::user()) }}"
-            >Profile</a>
-        </li>
-
-        @if (count($unread_notifications) > 0)
-            <!-- UNREAD NOTIFICATIONS -->
+            @endsuper
             <li>
-                <li class="mb-2">
-                    <p class="font-bold">Notifications</p>
-                </li>
-                <ul class="text-heading bg-neutral-primary-soft border-default rounded-base w-48 border text-sm font-medium">
-                    @foreach ($unread_notifications as $notification)
-                        <li class="border-default w-full border-b px-4 py-2">{{ $notification->data['title'] }}</li>
-                    @endforeach
+                <a
+                    class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
+                    href="{{ route('profile.users.edit', Auth::user()) }}"
+                >Profile</a>
+            </li>
+            <br>
+        </div>
+
+        {{-- !! This portion of code should be controlled and refresh on notifications arrival, and also the notification pages, if user is on any of them !! --}}
+        <!-- UNREAD NOTIFICATIONS -->
+        @auth
+            <div x-data x-show="$store.notification.list_show">
+                <strong>Notifications</strong>
+
+                <ul
+                    x-data
+                    class="text-heading bg-neutral-primary-soft border-default rounded-base w-48 border text-sm font-medium">
+                    <template
+                        x-for="notification in $store.notification.data"
+                        :key="notification.id"
+                    >
+                        <li
+                            class="border-default w-full border-b px-4 py-2">
+                            {{-- {{ $notification->data['title'] }} --}}
+                            <span x-text="notification.title"></span>
+                        </li>
+                    </template>
                 </ul>
 
                 <a
                     class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
                     href="{{ route('users.notifications') }}"
                 >See all notifications</a>
-            </li>
-            <br>
-        @endif
+                <br>
+            </div>
+        @endauth
 
         <li>
             <form
@@ -85,4 +112,27 @@
     </ul>
 </div>
 
-{{-- @json(Auth::user()->unreadNotifications) --}}
+@auth
+    <script type="module">
+        const unreadNotifications = @json($unreadNotifications);
+        const userId = {{ Auth::user()->id }};
+        const store = Alpine.store("notification");
+
+        Echo.private(`App.Models.User.${userId}`).notification((notification) => {
+            console.log('Notification received:', notification);
+
+            store.showList();
+            store.showIndicator();
+            if (store.data.length < 3) {
+                store.data.push(notification);
+            }
+        });
+
+
+        if (unreadNotifications.length > 0) {
+            store.showList();
+            store.showIndicator();
+            store.data = unreadNotifications.map((notification) => notification.data);
+        }
+    </script>
+@endauth

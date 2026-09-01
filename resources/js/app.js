@@ -1,15 +1,12 @@
 import axios from "axios";
-import Alpine from "alpinejs";
 import "flowbite";
 import './echo';
 import "./pagination";
+import "./alpine";
 
 
 window.axios = axios;
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
-
-window.Alpine = Alpine;
-Alpine.start();
 
 window.submitResourceDeleteForm = (formId) => {
     const form = document.querySelector(`form#${formId}`);

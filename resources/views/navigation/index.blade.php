@@ -1,8 +1,3 @@
-@php
-    $user = Auth::user();
-    $unreadNotifications = $user->unreadNotifications()->latest()->take(5)->get();
-@endphp
-
 <nav class="border-border border-b px-6">
     <div class="mx-auto flex h-24 max-w-7xl items-center justify-between">
         <div>
@@ -34,26 +29,7 @@
         <div class="flex flex-col gap-2">
             <div class="flex items-center gap-x-5">
                 @auth
-                    <button
-                        class="relative flex items-center gap-2 hover:cursor-pointer"
-                        id="nav-dropdown-profile-btn"
-                        data-dropdown-toggle="nav-dropdown-profile-menu"
-                        data-dropdown-trigger="click"
-                        type="button"
-                    >
-                        <img
-                            class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
-                            src="{{ !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
-                            alt="User avatar"
-                        />
-
-                        <!-- NOTIFICATION INDICATOR -->
-                        <span
-                            id="notification-indicator"
-                            class="{{ count($unreadNotifications) > 0 ? 'absolute' : 'hidden' }} bg-success right-2 top-0 me-0 h-4 w-4 rounded-full"
-                        ></span>
-                    </button>
-                    <x-navigation::user-dropdown :unread_notifications="$unreadNotifications" />
+                    <x-navigation::user-dropdown />
                 @endauth
 
                 @guest
@@ -66,16 +42,3 @@
         </div>
     </div>
 </nav>
-
-<script type="module">
-    const userId = {{ Auth::user()->id }};
-
-    Echo.private(`App.Models.User.${userId}`)
-        .notification((notification) => {
-            console.log('Notification received:', notification);
-
-            const indicator = document.getElementById('notification-indicator');
-            indicator.classList.remove('hidden');
-            indicator.classList.add('absolute');
-        });
-</script>
