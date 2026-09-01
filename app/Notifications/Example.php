@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use App\Models\Booking;
@@ -55,7 +57,7 @@ class Example extends Notification implements ShouldQueue
 
         $url = url('/booking/' . $this->booking->id);
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Example Notification on Booking')
             ->markdown('mail.example', [
                 'url' => $url,

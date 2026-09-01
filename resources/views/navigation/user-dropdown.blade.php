@@ -1,6 +1,8 @@
 @php
     $user = Auth::user();
-    $unreadNotifications = $user ? $user->unreadNotifications()->latest()->take(3)->get() : [];
+    $unreadNotifications = $user
+        ? $user->unreadNotifications()->latest()->take(3)->get()
+        : [];
 @endphp
 
 <button
@@ -18,7 +20,7 @@
 
     <!-- NOTIFICATION INDICATOR -->
     <span
-        class="absolute bg-success right-2 top-0 me-0 h-4 w-4 rounded-full"
+        class="bg-success absolute right-2 top-0 me-0 h-4 w-4 rounded-full"
         x-data
         x-show="$store.notification.indicator_show"
     ></span>
@@ -41,20 +43,20 @@
         <div>
             <strong>Administrative</strong>
             @super
-            <li>
-                <a
-                    class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                    href="/pulse"
-                    target="__blank"
-                >Pulse</a>
-            </li>
-            <li>
-                <a
-                    class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                    href="/telescope"
-                    target="__blank"
-                >Telescope</a>
-            </li>
+                <li>
+                    <a
+                        class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
+                        href="/pulse"
+                        target="__blank"
+                    >Pulse</a>
+                </li>
+                <li>
+                    <a
+                        class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
+                        href="/telescope"
+                        target="__blank"
+                    >Telescope</a>
+                </li>
             @endsuper
             <li>
                 <a
@@ -68,18 +70,21 @@
         {{-- !! This portion of code should be controlled and refresh on notifications arrival, and also the notification pages, if user is on any of them !! --}}
         <!-- UNREAD NOTIFICATIONS -->
         @auth
-            <div x-data x-show="$store.notification.list_show">
+            <div
+                x-data
+                x-show="$store.notification.list_show"
+            >
                 <strong>Notifications</strong>
 
                 <ul
                     x-data
-                    class="text-heading bg-neutral-primary-soft border-default rounded-base w-48 border text-sm font-medium">
+                    class="text-heading bg-neutral-primary-soft border-default rounded-base w-48 border text-sm font-medium"
+                >
                     <template
                         x-for="notification in $store.notification.data"
                         :key="notification.id"
                     >
-                        <li
-                            class="border-default w-full border-b px-4 py-2">
+                        <li class="border-default w-full border-b px-4 py-2">
                             {{-- {{ $notification->data['title'] }} --}}
                             <span x-text="notification.title"></span>
                         </li>
@@ -132,7 +137,8 @@
         if (unreadNotifications.length > 0) {
             store.showList();
             store.showIndicator();
-            store.data = unreadNotifications.map((notification) => notification.data);
+            store.data = unreadNotifications.map((notification) => notification
+                .data);
         }
     </script>
 @endauth
