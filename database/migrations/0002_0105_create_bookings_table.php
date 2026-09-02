@@ -36,14 +36,15 @@ return new class () extends Migration {
             $table->longText('client_notes')->nullable();
             $table->decimal('estimated_cost', 10, 2)->default(0.00);
 
-            $table->foreignIdFor(Client::class)->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(Vehicle::class)->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(Company::class)->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(User::class, 'advisor_id')->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Vehicle::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'advisor_id')->constrained()->cascadeOnDelete();
 
             $table->auditColumns();
 
             $table->index('number', 'bk_number_idx');
+            $table->index('status', 'bk_status_idx');
             $table->index('service_type', 'bk_servicetype_idx');
             $table->index('priority', 'bk_priority_idx');
             $table->index('appointment_start', 'bk_appointmentstart_idx');
@@ -60,6 +61,7 @@ return new class () extends Migration {
     {
         Schema::table('bookings', function (Blueprint $table) {
             $table->dropIndex('bk_number_idx');
+            $table->dropIndex('bk_status_idx');
             $table->dropIndex('bk_servicetype_idx');
             $table->dropIndex('bk_priority_idx');
             $table->dropIndex('bk_appointmentstart_idx');

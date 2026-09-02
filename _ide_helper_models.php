@@ -66,36 +66,42 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $number
- * @property string $status
- * @property string $service_type
- * @property string $priority
- * @property string|null $appointment_start
- * @property string|null $appointment_finish
- * @property string|null $reminder_sent_at
- * @property string|null $checked_in_at
- * @property string|null $completed_at
- * @property string|null $cancelled_at
+ * @property \App\Enums\BookingStatus $status
+ * @property \App\Enums\ServiceType $service_type
+ * @property \App\Enums\Priority $priority
+ * @property \Illuminate\Support\Carbon|null $appointment_start
+ * @property \Illuminate\Support\Carbon|null $appointment_finish
+ * @property \Illuminate\Support\Carbon|null $reminder_sent_at
+ * @property \Illuminate\Support\Carbon|null $checked_in_at
+ * @property \Illuminate\Support\Carbon|null $completed_at
+ * @property \Illuminate\Support\Carbon|null $cancelled_at
  * @property int|null $estimated_duration
  * @property string|null $status_info
  * @property string|null $complaint
  * @property string|null $notes
  * @property string|null $client_notes
- * @property numeric $estimated_cost
+ * @property float $estimated_cost
+ * @property int $company_id
  * @property int $client_id
  * @property int $vehicle_id
- * @property int $company_id
  * @property int $advisor_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\User|null $advisor
+ * @property-read \App\Models\Client|null $client
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $clientFiles
+ * @property-read int|null $client_files_count
+ * @property-read \App\Models\Company|null $company
  * @property-read \App\Models\User|null $creator
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
  * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Vehicle|null $vehicle
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Workorder> $workorders
+ * @property-read int|null $workorders_count
  * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newQuery()
@@ -143,15 +149,17 @@ namespace App\Models{
  * @property bool $active
  * @property string $password
  * @property string|null $access_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
@@ -205,15 +213,17 @@ namespace App\Models{
  * @property float $tax_value
  * @property string $invoice_prefix
  * @property string|null $image_path
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Client> $clients
  * @property-read int|null $clients_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
@@ -224,6 +234,8 @@ namespace App\Models{
  * @property-read \App\Models\User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
+ * @property-read int|null $vehicles_count
  * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newQuery()
@@ -257,11 +269,11 @@ namespace App\Models{
  * @property string|null $email
  * @property string|null $url
  * @property string|null $info
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $clients
@@ -336,11 +348,11 @@ namespace App\Models{
  * @property \App\Enums\FileType $type
  * @property string|null $description
  * @property int $uploaded_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
@@ -422,11 +434,11 @@ namespace App\Models{
  * @property int $invoice_id
  * @property int $supplier_id
  * @property int $part_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Invoice|null $invoice
@@ -467,15 +479,21 @@ namespace App\Models{
  * @property string|null $serial_number
  * @property string|null $code
  * @property string|null $notes
- * @property numeric $item_price
- * @property numeric $commercial_markup
+ * @property float $item_price
+ * @property float $commercial_markup
  * @property int $brand
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int $supplier_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
+ * @property-read int|null $operations_count
+ * @property-read \App\Models\Supplier|null $supplier
  * @property-read \App\Models\User|null $updater
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part newQuery()
@@ -494,6 +512,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part wherePartNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereSerialNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereSupplierId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part withTrashed(bool $withTrashed = true)
@@ -512,11 +531,11 @@ namespace App\Models{
  * @property \App\Enums\SupplierType $type
  * @property string $tax_id
  * @property string $registration_number
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
@@ -526,8 +545,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read \App\Models\User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $invoiceItems
- * @property-read int|null $invoice_items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Part> $parts
+ * @property-read int|null $parts_count
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
@@ -593,6 +612,8 @@ namespace App\Models{
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookingsAdvised
+ * @property-read int|null $bookings_advised_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
@@ -611,6 +632,10 @@ namespace App\Models{
  * @property-read User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
  * @property-read int|null $users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Workorder> $woAssigned
+ * @property-read int|null $wo_assigned_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $woOperationAssigned
+ * @property-read int|null $wo_operation_assigned_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -648,25 +673,29 @@ namespace App\Models{
  * @property int $id
  * @property string $vin
  * @property string|null $registration
- * @property string $fuel
- * @property string $status
+ * @property \App\Enums\FuelType $fuel
+ * @property \App\Enums\VehicleStatus $status
  * @property int|null $first_visit_odometer
  * @property string|null $first_registration
  * @property string|null $first_visit
  * @property string|null $technical_notes
  * @property string|null $notes
  * @property string|null $diagnostic_information
+ * @property int $company_id
  * @property int|null $vehicle_make_id
  * @property int|null $vehicle_model_id
  * @property int|null $vehicle_data_id
  * @property int|null $vehicle_year_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
+ * @property-read int|null $bookings_count
+ * @property-read \App\Models\Company|null $company
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
@@ -674,6 +703,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDeletedAt($value)
@@ -842,7 +872,7 @@ namespace App\Models{
  * @property int $id
  * @property string $title
  * @property int $number
- * @property string $status
+ * @property \App\Enums\WorkorderStatus $status
  * @property int|null $odometer_on_start
  * @property int|null $odometer_on_finish
  * @property string|null $complaint
@@ -852,25 +882,28 @@ namespace App\Models{
  * @property numeric $labour_price_hourly
  * @property numeric $labour_total_cost
  * @property numeric $part_total_cost
- * @property int $technician_id
  * @property int $booking_id
- * @property int $company_id
- * @property int $assigned_by
- * @property int $vehicle_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int $technician_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Booking|null $booking
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
+ * @property-read int|null $files_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operation
+ * @property-read int|null $operation_count
+ * @property-read \App\Models\User|null $technician
  * @property-read \App\Models\User|null $updater
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereAssignedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereBookingId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereComplaint($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedBy($value)
@@ -890,7 +923,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereVehicleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder withoutTrashed()
  * @mixin \Eloquent
@@ -901,7 +933,10 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\WorkorderOperation|null $operation
  * @property-read \App\Models\User|null $updater
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderLabourTime newQuery()
@@ -918,7 +953,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $type
+ * @property \App\Enums\WorkorderOperationType $type
  * @property int|null $part_installed_odometer
  * @property int|null $expected_life_km
  * @property int|null $expected_life_months
@@ -926,13 +961,22 @@ namespace App\Models{
  * @property int $workorder_id
  * @property int|null $part_id
  * @property int $performed_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
+ * @property-read int|null $files_count
+ * @property-read \App\Models\Part|null $part
+ * @property-read \App\Models\User|null $performedBy
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderLabourTime> $times
+ * @property-read int|null $times_count
  * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Workorder|null $workorder
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation onlyTrashed()

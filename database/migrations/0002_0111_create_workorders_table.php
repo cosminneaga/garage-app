@@ -2,9 +2,7 @@
 
 use App\Enums\WorkorderStatus;
 use App\Models\Booking;
-use App\Models\Company;
 use App\Models\User;
-use App\Models\Vehicle;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -30,13 +28,14 @@ return new class () extends Migration {
             $table->decimal('labour_total_cost', 10, 2)->default(0.00);
             $table->decimal('part_total_cost', 10, 2)->default(0.00);
 
-            $table->foreignIdFor(User::class, 'technician_id')->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(Booking::class, 'booking_id')->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(Company::class, 'company_id')->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(User::class, 'assigned_by')->constrained()->cascadeOnUpdate();
-            $table->foreignIdFor(Vehicle::class, 'vehicle_id')->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Booking::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'technician_id')->constrained()->cascadeOnDelete();
 
             $table->auditColumns();
+
+            $table->index('title', 'wo_title_idx');
+            $table->index('number', 'wo_number_idx');
+            $table->index('status', 'wo_status_idx');
         });
     }
 
@@ -45,6 +44,12 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('workorders', function (Blueprint $table) {
+            $table->dropIndex('wo_title_idx');
+            $table->dropIndex('wo_number_idx');
+            $table->dropIndex('wo_status_idx');
+        });
+
         Schema::dropIfExists('workorders');
     }
 };

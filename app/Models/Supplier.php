@@ -125,8 +125,8 @@ class Supplier extends Model
         return $this->belongsToMany(Company::class);
     }
 
-    public function invoiceItems(): HasMany
+    public function parts(): HasMany
     {
-        return $this->hasMany(InvoiceItem::class);
+        return $this->hasMany(Part::class);
     }
 }

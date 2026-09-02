@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BookingStatus;
+use App\Enums\Priority;
+use App\Enums\ServiceType;
 use App\Traits\Blameable;
 use Database\Factories\BookingFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -92,15 +97,73 @@ class Booking extends Model
     use Blameable;
     use HasFactory;
     use SoftDeletes;
-    use Notifiable;
     use LogsActivity;
 
     protected $fillable = [
+        'number',
+        'status',
+        'service_type',
+        'priority',
+        'appointment_start',
+        'appointment_finish',
+        'reminder_sent_at',
+        'checked_in_at',
+        'completed_at',
+        'cancelled_at',
+        'estimated_duration',
+        'status_info',
+        'complaint',
         'notes',
-        'on',
+        'client_notes',
+        'estimated_cost',
     ];
 
     protected $casts = [
-        'on' => 'datetime',
+        'appointment_start' => 'datetime',
+        'appointment_finish' => 'datetime',
+        'reminder_sent_at' => 'datetime',
+        'checked_in_at' => 'datetime',
+        'completed_at' => 'datetime',
+        'cancelled_at' => 'datetime',
+        'estimated_cost' => 'float',
+        'status' => BookingStatus::class,
+        'service_type' => ServiceType::class,
+        'priority' => Priority::class,
     ];
+
+    protected $attributes = [
+        'status' => BookingStatus::PENDING->value,
+        'service_type' => ServiceType::SERVICE->value,
+        'priority' => Priority::LOW->value,
+    ];
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function vehicle(): BelongsTo
+    {
+        return $this->belongsTo(Vehicle::class);
+    }
+
+    public function advisor(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function clientFiles(): BelongsToMany
+    {
+        return $this->belongsToMany(File::class);
+    }
+
+    public function workorders(): HasMany
+    {
+        return $this->hasMany(Workorder::class);
+    }
 }

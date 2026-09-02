@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Blameable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property-read User|null $creator
@@ -24,5 +28,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WorkorderLabourTime extends Model
 {
     use Blameable;
+    use HasFactory;
     use SoftDeletes;
+    use LogsActivity;
+
+    protected $fillable = [
+        'start',
+        'end',
+    ];
+
+    protected $casts = [
+        'start' => 'datetime',
+        'end' => 'datetime',
+    ];
+
+    protected static function booted()
+    {
+        static::creating(function (WorkorderLabourTime $time) {
+            $time->start ??= Carbon::now();
+        });
+    }
+
+    public function operation(): BelongsTo
+    {
+        return $this->belongsTo(WorkorderOperation::class);
+    }
 }

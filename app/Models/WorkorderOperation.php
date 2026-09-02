@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use App\Enums\WorkorderOperationType;
 use App\Traits\Blameable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
@@ -52,6 +58,49 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class WorkorderOperation extends Model
 {
-    use SoftDeletes;
     use Blameable;
+    use HasFactory;
+    use SoftDeletes;
+    use LogsActivity;
+
+    protected $fillable = [
+        'type',
+        'part_installed_odometer',
+        'expected_life_km',
+        'expected_life_months',
+        'notes',
+    ];
+
+    protected $casts = [
+        'type' => WorkorderOperationType::class,
+    ];
+
+    protected $attributes = [
+        'type' => WorkorderOperationType::REPAIR->value,
+    ];
+
+    public function workorder(): BelongsTo
+    {
+        return $this->belongsTo(Workorder::class);
+    }
+
+    public function part(): BelongsTo
+    {
+        return $this->belongsTo(Part::class);
+    }
+
+    public function performedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function times(): HasMany
+    {
+        return $this->hasMany(WorkorderLabourTime::class);
+    }
+
+    public function files(): BelongsToMany
+    {
+        return $this->belongsToMany(File::class);
+    }
 }

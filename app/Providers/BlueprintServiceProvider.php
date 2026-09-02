@@ -13,10 +13,10 @@ class BlueprintServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blueprint::macro('auditColumns', function () {
-            $this->timestamps();
-            $this->softDeletes();
             $this->foreignIdFor(User::class, 'created_by')->nullable()->constrained();
             $this->foreignIdFor(User::class, 'updated_by')->nullable()->constrained();
+            $this->softDeletes();
+            $this->timestamps();
         });
     }
 }

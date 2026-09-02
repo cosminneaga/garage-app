@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->dateTime('end')->nullable();
 
             $table->foreignIdFor(WorkorderOperation::class)->constrained()->cascadeOnDelete();
+
             $table->auditColumns();
         });
     }

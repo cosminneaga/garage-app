@@ -32,8 +32,8 @@
 >
     <div class="p-2">
         <div class="text-md">
-            <div class="text-heading font-medium">{{ Auth::user()->name }}</div>
-            <div class="text-body">{{ Auth::user()->email }}</div>
+            <div class="text-heading font-medium">{{ $user->name }}</div>
+            <div class="text-body">{{ $user->email }}</div>
         </div>
     </div>
     <ul
@@ -61,14 +61,12 @@
             <li>
                 <a
                     class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
-                    href="{{ route('profile.users.edit', Auth::user()) }}"
+                    href="{{ route('profile.users.edit', $user) }}"
                 >Profile</a>
             </li>
             <br>
         </div>
 
-        {{-- !! This portion of code should be controlled and refresh on notifications arrival, and also the notification pages, if user is on any of them !! --}}
-        <!-- UNREAD NOTIFICATIONS -->
         @auth
             <div
                 x-data
@@ -85,7 +83,6 @@
                         :key="notification.id"
                     >
                         <li class="border-default w-full border-b px-4 py-2">
-                            {{-- {{ $notification->data['title'] }} --}}
                             <span x-text="notification.title"></span>
                         </li>
                     </template>

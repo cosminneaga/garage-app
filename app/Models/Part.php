@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Blameable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
@@ -54,6 +58,39 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Part extends Model
 {
-    use SoftDeletes;
     use Blameable;
+    use HasFactory;
+    use SoftDeletes;
+    use LogsActivity;
+
+    protected $fillable = [
+        'name',
+        'manufacturer',
+        'part_number',
+        'serial_number',
+        'code',
+        'notes',
+        'item_price',
+        'commercial_markup',
+    ];
+
+    protected $casts = [
+        'item_price' => 'float',
+        'commercial_markup' => 'float',
+    ];
+
+    protected $attributes = [
+        'item_price' => 0.00,
+        'commercial_markup' => 0.00,
+    ];
+
+    public function operations(): HasMany
+    {
+        return $this->hasMany(WorkorderOperation::class);
+    }
+
+    public function supplier(): BelongsTo
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 }

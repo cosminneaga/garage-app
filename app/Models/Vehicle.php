@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Spatie\Activitylog\Models\Activity;
+use App\Enums\FuelType;
+use App\Enums\VehicleStatus;
+use App\Traits\Blameable;
 use Database\Factories\VehicleFactory;
 use Illuminate\Database\Eloquent\Builder;
-use App\Traits\Blameable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -76,4 +80,37 @@ class Vehicle extends Model
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;
+
+    protected $fillable = [
+        'vin',
+        'registration',
+        'fuel',
+        'status',
+        'first_visit_odometer',
+        'first_registration',
+        'first_visit',
+        'technical_notes',
+        'notes',
+        'diagnostic_information',
+    ];
+
+    protected $casts = [
+        'fuel' => FuelType::class,
+        'status' => VehicleStatus::class,
+    ];
+
+    protected $attributes = [
+        'fuel' => FuelType::OTHER->value,
+        'status' => VehicleStatus::ACTIVE->value,
+    ];
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Enums\FuelType;
 use App\Enums\VehicleStatus;
+use App\Models\Company;
 use App\Models\VehicleData;
 use App\Models\VehicleMake;
 use App\Models\VehicleModel;
@@ -29,6 +30,7 @@ return new class () extends Migration {
             $table->longText('notes')->nullable();
             $table->longText('diagnostic_information')->nullable();
 
+            $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(VehicleMake::class)->nullable();
             $table->foreignIdFor(VehicleModel::class)->nullable();
             $table->foreignIdFor(VehicleData::class)->nullable();
@@ -38,6 +40,8 @@ return new class () extends Migration {
 
             $table->index('vin', 'vh_vin_idx');
             $table->index('registration', 'vh_registration_idx');
+            $table->index('fuel', 'vh_fuel_idx');
+            $table->index('status', 'vh_status_idx');
         });
     }
 
@@ -49,6 +53,8 @@ return new class () extends Migration {
         Schema::table('vehicles', function (Blueprint $table) {
             $table->dropIndex('vh_vin_idx');
             $table->dropIndex('vh_registration_idx');
+            $table->index('fuel', 'vh_fuel_idx');
+            $table->index('status', 'vh_status_idx');
         });
 
         Schema::dropIfExists('vehicles');

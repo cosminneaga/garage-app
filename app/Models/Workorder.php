@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Builder;
+use App\Enums\WorkorderStatus;
 use App\Traits\Blameable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
@@ -70,6 +76,51 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Workorder extends Model
 {
-    use SoftDeletes;
     use Blameable;
+    use HasFactory;
+    use SoftDeletes;
+    use LogsActivity;
+
+    protected $fillable = [
+        'title',
+        'number',
+        'status',
+        'odometer_on_start',
+        'odometer_on_finish',
+        'complaint',
+        'initial_inspection_notes',
+        'notes',
+        'part_notes',
+        'labour_price_hourly',
+        'labour_total_cost',
+        'part_total_cost',
+    ];
+
+    protected $casts = [
+        'status' => WorkorderStatus::class,
+    ];
+
+    protected $attributes = [
+        'status' => WorkorderStatus::PENDING->value,
+    ];
+
+    public function booking(): BelongsTo
+    {
+        return $this->belongsTo(Booking::class);
+    }
+
+    public function technician(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function operation(): HasMany
+    {
+        return $this->hasMany(WorkorderOperation::class);
+    }
+
+    public function files(): BelongsToMany
+    {
+        return $this->belongsToMany(File::class);
+    }
 }
