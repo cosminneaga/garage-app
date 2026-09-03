@@ -13,16 +13,21 @@ enum UserPermission: string
 {
     // Table <-> Permission references
     case ADDRESS = 'address';
-    case BOOKING = 'booking';
     case CLIENT = 'client';
     case COMPANY = 'company';
     case CONTACT = 'contact';
     case COUNTRY = 'country';
     case PRODUCT = 'product';
     case SUPPLIER = 'supplier';
+    case PART = 'part';
+    case VEHICLE = 'vehicle';
 
-    case REPAIR = 'repair';
     case FILE = 'file';
+
+    case BOOKING = 'booking';
+    case WORKORDER = 'workorder';
+    case WORKORDER_OPERATION = 'workorder_operation';
+    case WORKORDER_OPERATION_LABOUR_TIME = 'workorder_operation_labour_time';
     case INVOICE = 'invoice';
     case INVOICE_ITEM = 'invoice_item';
 
@@ -40,20 +45,26 @@ enum UserPermission: string
     {
         return match ($this) {
             self::ADDRESS => 'Address',
-            self::BOOKING => 'Booking',
             self::CLIENT => 'Client',
             self::COMPANY => 'Company',
             self::CONTACT => 'Contact',
             self::COUNTRY => 'Company',
             self::PRODUCT => 'Product',
             self::SUPPLIER => 'Supplier',
+            self::PART => 'Vehicle Part',
+            self::VEHICLE => 'Vehicle',
 
-            self::REPAIR => 'Repair',
             self::FILE => 'File',
+
+            self::BOOKING => 'Booking',
+            self::WORKORDER => 'Workorder',
+            self::WORKORDER_OPERATION => 'Workorder Operation',
+            self::WORKORDER_OPERATION_LABOUR_TIME => 'Workorder Operation Labour Time',
             self::INVOICE => 'Invoice',
             self::INVOICE_ITEM => 'Invoice Item',
 
             self::USER => 'User',
+            self::MANAGER => 'Manager',
 
             self::VEHICLE_DATA => 'Vehicle Data',
             self::VEHICLE_MAKE => 'Vehicle Make',

@@ -29,12 +29,14 @@ return new class () extends Migration {
             $table->dateTime('checked_in_at')->nullable();
             $table->dateTime('completed_at')->nullable();
             $table->dateTime('cancelled_at')->nullable();
-            $table->integer('estimated_duration')->nullable();
-            $table->text('status_info')->nullable();
+            $table->integer('estimated_duration_minutes')->nullable();
+            $table->text('current_status_info')->nullable();
             $table->longText('complaint')->nullable();
             $table->longText('notes')->nullable();
-            $table->longText('client_notes')->nullable();
             $table->decimal('estimated_cost', 10, 2)->default(0.00);
+
+            $table->longText('client_notes')->nullable();
+            $table->string('client_url_token')->nullable();
 
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();

@@ -7,8 +7,10 @@ namespace App\Models;
 use App\Enums\BookingStatus;
 use App\Enums\Priority;
 use App\Enums\ServiceType;
+use App\Policies\BookingPolicy;
 use App\Traits\Blameable;
 use Database\Factories\BookingFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -92,6 +94,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperBooking
  */
+
+#[UsePolicy(BookingPolicy::class)]
 class Booking extends Model
 {
     use Blameable;
@@ -100,8 +104,6 @@ class Booking extends Model
     use LogsActivity;
 
     protected $fillable = [
-        'number',
-        'status',
         'service_type',
         'priority',
         'appointment_start',
@@ -110,8 +112,8 @@ class Booking extends Model
         'checked_in_at',
         'completed_at',
         'cancelled_at',
-        'estimated_duration',
-        'status_info',
+        'estimated_duration_minutes',
+        'current_status_info',
         'complaint',
         'notes',
         'client_notes',
@@ -136,6 +138,25 @@ class Booking extends Model
         'service_type' => ServiceType::SERVICE->value,
         'priority' => Priority::LOW->value,
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'number' => $this->number,
+            'status' => $this->status,
+            'service_type' => $this->service_type,
+            'priority' => $this->priority,
+            'appointment_start' => $this->appointment_start,
+            'checked_in_at' => $this->checked_in_at,
+            'completed_at' => $this->completed_at,
+            'cancelled_at' => $this->cancelled_at,
+        ];
+    }
+
+    public function isMyBooking(User $user): bool
+    {
+        return (bool) $this->company->users()->find($user->id);
+    }
 
     public function company(): BelongsTo
     {

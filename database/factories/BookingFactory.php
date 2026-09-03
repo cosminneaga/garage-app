@@ -25,6 +25,8 @@ class BookingFactory extends Factory
      */
     public function definition(): array
     {
+        $company = Company::factory()->create();
+
         return [
             'number' => fake()->numerify('BK-#########'),
             'status' => fake()->randomElement(BookingStatus::values()),
@@ -35,8 +37,10 @@ class BookingFactory extends Factory
             'client_notes' => fake()->text(),
 
             'client_id' => Client::factory()->create(),
-            'vehicle_id' => Vehicle::factory()->create(),
-            'company_id' => Company::factory()->create(),
+            'vehicle_id' => Vehicle::factory()->create([
+                'company_id' => $company,
+            ]),
+            'company_id' => $company,
             'advisor_id' => User::factory()->create(),
         ];
     }

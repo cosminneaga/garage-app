@@ -27,4 +27,13 @@ class Permission
     {
         return UserPermission::name($permission, $action);
     }
+
+    public static function isSuper(): bool|null
+    {
+        if (Auth::user()->hasRole(UserRole::SUPER)) {
+            return true;
+        }
+
+        return null;
+    }
 }

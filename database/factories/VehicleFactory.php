@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\FuelType;
 use App\Enums\VehicleStatus;
+use App\Models\Company;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,11 +20,15 @@ class VehicleFactory extends Factory
      */
     public function definition(): array
     {
+
+
         return [
             'vin' => fake()->unique()->numerify('BH####YO######'),
             'registration' => fake()->numerify('BH##LOH'),
             'fuel' => fake()->randomElement(FuelType::values()),
             'status' => fake()->randomElement(VehicleStatus::values()),
+
+            'company_id' => Company::factory()->create(),
         ];
     }
 }

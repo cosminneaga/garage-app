@@ -15,6 +15,7 @@ class CompanyPolicy implements StandardPolicyInterface
     {
         return Permission::can(UserPermission::COMPANY, 'show');
     }
+
     public function show(User $user, mixed $company): bool
     {
         if ($user->isSuper()) {

@@ -20,7 +20,6 @@ use App\Traits\RelatedModelGuard;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -204,7 +203,7 @@ class UserController extends Controller
 
     public function notificationRead(string $notificationId): RedirectResponse
     {
-        DatabaseNotification::find($notificationId)->markAsRead();
+        Auth::user()->notifications()->find($notificationId)->markAsRead();
 
         return back()
             ->with(self::flashMessage(
