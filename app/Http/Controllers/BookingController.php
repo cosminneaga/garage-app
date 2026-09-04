@@ -31,9 +31,9 @@ class BookingController extends Controller
         # generate based on events booking status
     }
 
-    public function edit(Booking $booking): void
+    public function edit(Booking $booking)
     {
-        //
+        return $booking;
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking): void

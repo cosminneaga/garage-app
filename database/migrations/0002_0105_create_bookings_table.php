@@ -19,7 +19,7 @@ return new class () extends Migration {
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();
+            $table->string('number')->nullable();
             $table->string('status')->default(BookingStatus::PENDING->value);
             $table->string('service_type')->default(ServiceType::SERVICE->value);
             $table->string('priority')->default(Priority::LOW->value);

@@ -12,7 +12,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class Example extends Notification implements ShouldQueue
+class ExampleNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -28,7 +28,7 @@ class Example extends Notification implements ShouldQueue
 
     public function toDatabase(object $notifiable): array
     {
-        $url = url('/' . $this->booking->getTable() . '/' . $this->booking->id);
+        $url = route('bookings.edit', $this->booking);
 
         return [
             'type' => 'example.notification',

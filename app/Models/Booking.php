@@ -7,9 +7,11 @@ namespace App\Models;
 use App\Enums\BookingStatus;
 use App\Enums\Priority;
 use App\Enums\ServiceType;
+use App\Observers\BookingObserver;
 use App\Policies\BookingPolicy;
 use App\Traits\Blameable;
 use Database\Factories\BookingFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Support\Carbon;
+use Override;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -96,12 +99,24 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 
 #[UsePolicy(BookingPolicy::class)]
+#[ObservedBy(BookingObserver::class)]
 class Booking extends Model
 {
     use Blameable;
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;
+
+    #[Override]
+    protected static function booted(): void
+    {
+        static::created(function ($model) {
+            $model->number = sprintf('BK-%s-%d', now()->timestamp, $model->id);
+            $model->client_url_token = sprintf('%s%d', now()->timestamp, random_int(1000, 9999));
+            $model->saveQuietly();
+        });
+
+    }
 
     protected $fillable = [
         'service_type',

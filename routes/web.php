@@ -143,7 +143,7 @@ Route::controller(ContactController::class)
 Route::controller(BookingController::class)
     ->middleware((['auth', 'role:super|administrator|manager|user']))
     ->group(function () {
-        Route::get('/bookings/{booking}', 'show')->name('bookings.show');
+        Route::resource('bookings', BookingController::class)->except('show');
     });
 
 Route::controller(SuperController::class)
