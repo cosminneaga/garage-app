@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
 use App\Models\Booking;
@@ -26,10 +28,8 @@ class BookingObserver
         if ($booking->wasChanged('status')) {
             $users = $booking->company->users;
             $old = $booking->getOriginal('status');
-            $new = $booking->status;
-            $notes = $booking->current_status_info;
 
-            Notification::send($users, new BookingStatusUpdateNotification($old, $new, $notes));
+            Notification::send($users, new BookingStatusUpdateNotification($booking, $old));
         }
     }
 

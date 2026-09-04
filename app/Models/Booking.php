@@ -31,7 +31,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 /**
  * @property int $id
  * @property string $number
- * @property string $status
+ * @property BookingStatus $status
  * @property string $service_type
  * @property string $priority
  * @property string|null $appointment_start

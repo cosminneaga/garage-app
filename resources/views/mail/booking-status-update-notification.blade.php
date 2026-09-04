@@ -1,12 +1,12 @@
 <x-mail::message>
-# Introduction
+    # {{ $title }}
 
-The body of your message.
+    {{ $message }}
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
+    <x-mail::button :url="$url">
+        Go to booking
+    </x-mail::button>
 
-Thanks,<br>
-{{ config('app.name') }}
+    Best regards,<br>
+    Garage Application Team
 </x-mail::message>

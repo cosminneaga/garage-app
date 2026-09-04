@@ -20,9 +20,12 @@
 
     <!-- NOTIFICATION INDICATOR -->
     <span
-        class="bg-success absolute right-2 top-0 me-0 h-4 w-4 rounded-full"
         x-data
-        x-show="$store.notification.indicator_show"
+        class="bg-success right-2 top-0 me-0 hidden h-4 w-4 rounded-full"
+        :class="{
+            'hidden': !$store.notification.indicator_show,
+            'absolute': $store.notification.indicator_show,
+        }"
     ></span>
 </button>
 

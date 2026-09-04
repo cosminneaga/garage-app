@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Enums\UserPermission;
@@ -9,7 +11,6 @@ use App\Models\User;
 
 class BookingPolicy implements StandardPolicyInterface
 {
-
     public function showAll(): bool
     {
         return Permission::can(UserPermission::BOOKING, 'show');

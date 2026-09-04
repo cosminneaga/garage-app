@@ -205,12 +205,7 @@ class UserController extends Controller
     {
         Auth::user()->notifications()->find($notificationId)->markAsRead();
 
-        return back()
-            ->with(self::flashMessage(
-                'success',
-                'Notification read',
-                'Notification has been read'
-            ));
+        return back();
     }
 
     /**

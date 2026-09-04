@@ -17,18 +17,21 @@
                         <li class="pb-4 sm:pb-4">
                             <div class="flex items-center gap-2">
                                 <div class="min-w-0 flex-1">
+
                                     <p class="text-heading truncate font-medium">
-                                        {{ $notification->data['title'] }} |
-                                        {{ $notification->id }} |
-                                        {{ $notification->type }}
-                                    </p>
+                                        {{ $notification->data['title'] }}</p>
+                                    <span
+                                        class="text-xs">{{ $notification->id }}
+                                        |
+                                        {{ $notification->data['type'] }}</span>
                                     <p class="text-body truncate text-sm">
-                                        {{ $notification->data['message'] }}
-                                    </p>
+                                        {{ $notification->data['message'] }}</p>
+
                                     <div>
                                         <a
                                             href="{{ $notification->data['url'] }}"
                                             class="text-orange hover:border-orange truncate border border-transparent pr-2 text-sm"
+                                            target="_blank"
                                         >
                                             Go to resource
                                         </a>
@@ -46,6 +49,7 @@
                                             </button>
                                         </form>
                                     </div>
+
                                 </div>
                             </div>
                         </li>

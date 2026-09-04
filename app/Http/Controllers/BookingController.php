@@ -7,11 +7,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
-use Illuminate\Contracts\View\View;
 
 class BookingController extends Controller
 {
-
     public function index(): void
     {
         //
@@ -31,7 +29,7 @@ class BookingController extends Controller
         # generate based on events booking status
     }
 
-    public function edit(Booking $booking)
+    public function edit(Booking $booking): Booking
     {
         return $booking;
     }

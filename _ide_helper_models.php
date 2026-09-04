@@ -65,7 +65,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $number
+ * @property string|null $number
  * @property \App\Enums\BookingStatus $status
  * @property \App\Enums\ServiceType $service_type
  * @property \App\Enums\Priority $priority
@@ -75,12 +75,13 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $checked_in_at
  * @property \Illuminate\Support\Carbon|null $completed_at
  * @property \Illuminate\Support\Carbon|null $cancelled_at
- * @property int|null $estimated_duration
- * @property string|null $status_info
+ * @property int|null $estimated_duration_minutes
+ * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes
- * @property string|null $client_notes
  * @property float $estimated_cost
+ * @property string|null $client_notes
+ * @property string|null $client_url_token
  * @property int $company_id
  * @property int $client_id
  * @property int $vehicle_id
@@ -114,14 +115,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCheckedInAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientUrlToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereComplaint($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCurrentStatusInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDurationMinutes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereNumber($value)
@@ -129,7 +132,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereReminderSentAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereServiceType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatusInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereVehicleId($value)
