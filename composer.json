@@ -79,6 +79,9 @@
             "@php artisan permission:cache-reset",
             "@php artisan activitylog:clean",
             "@php artisan config:clear",
+            "@php artisan queue:clear database",
+            "@php artisan queue:clear redis",
+            "@php artisan queue:flush",
             "composer dump-autoload"
         ],
         "storage": [
