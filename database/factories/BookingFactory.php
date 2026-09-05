@@ -21,7 +21,7 @@ class BookingFactory extends Factory
      */
     public function definition(): array
     {
-        $company = Company::factory()->create();
+        $company = Company::find(1) ?? Company::factory()->create();
         $user = User::find(1) ?? User::factory()->create();
         $company->users()->attach($user);
 

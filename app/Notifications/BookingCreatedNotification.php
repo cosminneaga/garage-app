@@ -37,7 +37,7 @@ class BookingCreatedNotification extends Notification
     public function toMail(): MailMessage
     {
         return (new MailMessage())
-            ->subject('New booking created')
+            ->subject('Booking ' . $this->booking->number . ' created')
             ->markdown('mail.booking-created-notification', $this->toArray());
     }
 

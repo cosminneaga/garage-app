@@ -44,6 +44,7 @@ class BookingObserver
             $users = $booking->company->users;
             $old = $booking->getOriginal('status');
             Notification::send($users, new BookingStatusUpdateNotification($booking, $old));
+
             return;
         }
 
@@ -53,16 +54,12 @@ class BookingObserver
          */
 
         # CHECKED_IN
-        if (
-            $booking->wasChanged('checked_in_at') &&
-            $booking->getOriginal('checked_in_at') === null &&
-            $booking->checked_in_at !== null
-        ) {
+        if ($this->columnInsertCheck($booking, 'checked_in_at')) {
             $booking->status = BookingStatus::CHECKED_IN;
             $booking->save();
 
             # client notification
-            $title = 'Booking with number ' . $booking->number . ' has been check in successfully';
+            $title = 'Booking with number ' . $booking->number . ' has been checked in successfully';
             $messages = [
                 'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
                 'You can click the button below to see more details about your booking and also add respective notes and/or photos related to the state of the vehicle which can help us in our investigation.',
@@ -71,14 +68,38 @@ class BookingObserver
         }
 
         # CONFIRMED
-        if (
-            $booking->wasChanged('appointment_start') &&
-            $booking->getOriginal('appointment_start') === null &&
-            $booking->appointment_start !== null
-        ) {
+        if ($this->columnInsertCheck($booking, 'appointment_start')) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
+
+            # client notification
+            $title = 'Booking with number ' . $booking->number . ' has been confirmed successfully';
+            $messages = [
+                'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
+                'You can click the button below to see more details about your booking and also add respective notes and/or photos related to the state of the vehicle which can help us in our investigation.',
+            ];
+            Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
         }
+
+        # IN_PROGRESS && IN_REVIEW
+        # This is manipulated entirely on workorder creation stage in WorkorderObserver
+
+        # CANCELLED
+        if ($this->columnInsertCheck($booking, 'cancelled_at')) {
+            $booking->status = BookingStatus::CANCELLED;
+            $booking->save();
+
+            # client notification
+            $title = 'Booking with number ' . $booking->number . ' has been cancelled';
+            $messages = [
+                'Booking number ' . $booking->number . ' has been cancelled.',
+                'Please contact our administration team to book another appointment.',
+            ];
+            Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
+        }
+
+        # COMPLETED
+        # This status should be triggered by invoicing part of the system
     }
 
     /**
@@ -103,5 +124,11 @@ class BookingObserver
     public function forceDeleted(Booking $booking): void
     {
         //
+    }
+
+    private function columnInsertCheck(Booking $booking, string $column_name): bool
+    {
+        return $booking->isDirty($column_name) &&
+            $booking->getOriginal($column_name) === null;
     }
 }

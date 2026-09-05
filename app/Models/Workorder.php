@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\WorkorderStatus;
+use App\Observers\WorkorderObserver;
 use App\Traits\Blameable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Override;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -74,6 +77,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperWorkorder
  */
+
+#[ObservedBy(WorkorderObserver::class)]
 class Workorder extends Model
 {
     use Blameable;
@@ -81,9 +86,17 @@ class Workorder extends Model
     use SoftDeletes;
     use LogsActivity;
 
+    #[Override]
+    protected static function booted(): void
+    {
+        static::created(function ($model) {
+            $model->number = sprintf('WO-%s-%d', now()->timestamp, $model->id);
+            $model->saveQuietly();
+        });
+    }
+
     protected $fillable = [
         'title',
-        'number',
         'status',
         'odometer_on_start',
         'odometer_on_finish',
@@ -103,6 +116,20 @@ class Workorder extends Model
     protected $attributes = [
         'status' => WorkorderStatus::PENDING->value,
     ];
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'number' => $this->number,
+            'status' => $this->status,
+        ];
+    }
+
+    public function isMyWorkorder(User $user): bool
+    {
+        return (bool) $this->booking->company->users()->find($user->id);
+    }
 
     public function booking(): BelongsTo
     {

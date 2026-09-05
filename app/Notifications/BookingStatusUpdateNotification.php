@@ -47,7 +47,7 @@ class BookingStatusUpdateNotification extends Notification
         return [
             'type' => 'booking.status.updated',
             'title' => 'Booking ' . $this->booking->number . ' status updated',
-            'message' => 'Booking with number: ' . $this->booking->number . ' status has been updated from "' . $this->oldStatus->value . '" to "' . $this->booking->status->value . '"',
+            'message' => 'Booking with number: ' . $this->booking->number . ' status has been updated from "' . $this->oldStatus->label() . '" to "' . $this->booking->status->label() . '"',
             'url' => route('bookings.edit', $this->booking),
         ];
     }

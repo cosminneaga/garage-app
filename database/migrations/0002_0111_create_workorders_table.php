@@ -16,7 +16,7 @@ return new class () extends Migration {
         Schema::create('workorders', function (Blueprint $table) {
             $table->id();
             $table->text('title');
-            $table->integer('number')->unique('workorder_number');
+            $table->string('number')->nullable();
             $table->string('status')->default(WorkorderStatus::PENDING->value);
             $table->integer('odometer_on_start')->nullable();
             $table->integer('odometer_on_finish')->nullable();

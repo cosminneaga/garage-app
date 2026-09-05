@@ -873,7 +873,7 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $title
- * @property int $number
+ * @property string|null $number
  * @property \App\Enums\WorkorderStatus $status
  * @property int|null $odometer_on_start
  * @property int|null $odometer_on_finish
@@ -901,6 +901,7 @@ namespace App\Models{
  * @property-read int|null $operation_count
  * @property-read \App\Models\User|null $technician
  * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\WorkorderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder onlyTrashed()
