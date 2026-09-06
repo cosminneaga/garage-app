@@ -24,7 +24,6 @@ class AddressController extends Controller
         ModelAddressStoreAction $action
     ): RedirectResponse {
         self::guard('update', $request, $id);
-        $this->authorize('store', Address::class);
 
         try {
             $action->handle($request->safe()->all(), self::$entity);
@@ -65,7 +64,7 @@ class AddressController extends Controller
         Request $request,
         Address $address,
         string|int $model_id
-    ) {
+    ): RedirectResponse {
         self::guard('update', $request, $model_id);
         $resource = self::$entity->addresses()->findOrFail($address->id);
         $this->authorize('update', $resource);

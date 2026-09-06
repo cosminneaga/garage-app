@@ -159,7 +159,14 @@ Route::controller(ContactController::class)
 Route::controller(BookingController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        Route::resource('bookings', BookingController::class)->except('show');
+        # companies
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::get('/bookings/companies/{company}', 'modelIndex')->name('bookings.companies.index');
+            Route::post('/bookings/companies/{company}', 'modelStore')->name('bookings.companies.store');
+            Route::get('/bookings/{booking}/companies/{company}', 'modelEdit')->name('bookings.companies.edit');
+            Route::put('/bookings/{booking}/companies/{company}', 'modelUpdate')->name('bookings.companies.update');
+            Route::delete('/bookings/{booking}/companies/{company}', 'modelDestroy')->name('bookings.companies.destroy');
+        });
     });
 
 Route::controller(WorkorderController::class)

@@ -1,3 +1,3 @@
 <x-layout::index title="Booking">
-    @json($data)
+    @json($booking)
 </x-layout::index>

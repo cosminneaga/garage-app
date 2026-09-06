@@ -44,7 +44,6 @@ class StoreBookingRequest extends FormRequest
             'estimated_cost' => ['decimal:2'],
 
             # relations
-            'company_id' => ['required', 'integer', 'exists:company,id'],
             'client_id' => ['required', 'integer', 'exists:client,id'],
             'vehicle_id' => ['required', 'integer', 'exists:vehicle,id'],
             'advisor_id' => ['required', 'integer', 'exists:users,id'],

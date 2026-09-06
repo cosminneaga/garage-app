@@ -12,6 +12,7 @@ use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
 use App\Enums\Related\RelatedModel;
 use App\Enums\SupplierType;
+use App\Enums\TableMap\BookingTableMap;
 use App\Enums\Tabs\CompanyTabs;
 use App\Enums\Tabs\NotificationTabs;
 use App\Enums\Tabs\SupplierTabs;
@@ -52,6 +53,8 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('UserRole', UserRole::class);
         $loader->alias('UserTabs', UserTabs::class);
         $loader->alias('RelatedModel', RelatedModel::class);
+
+        $loader->alias('BookingTableMap', BookingTableMap::class);
     }
 
     /**

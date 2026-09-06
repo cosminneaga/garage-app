@@ -47,7 +47,7 @@ class BookingCreatedNotification extends Notification
             'type' => 'booking.created',
             'title' => 'Booking ' . $this->booking->number . ' created',
             'message' => 'Booking with number: ' . $this->booking->number . ' has been created and added to company: ' . $this->booking->company->name,
-            'url' => route('bookings.edit', $this->booking),
+            'url' => route('bookings.companies.edit', [$this->booking, $this->booking->company]),
         ];
     }
 }
