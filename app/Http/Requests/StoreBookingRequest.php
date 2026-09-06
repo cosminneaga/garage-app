@@ -31,7 +31,7 @@ class StoreBookingRequest extends FormRequest
         return [
             'service_type' => [new Enum(ServiceType::class)],
             'priority' => [new Enum(Priority::class)],
-            'appointment_start' => ['required', 'date_format:d-m-Y H:i:s'],
+            'appointment_start' => ['date_format:d-m-Y H:i:s'],
             'appointment_finish' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],
             'reminder_sent_at' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],
             'checked_in_at' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],

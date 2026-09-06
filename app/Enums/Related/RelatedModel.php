@@ -48,8 +48,12 @@ use App\Policies\AddressPolicy;
 use App\Policies\BookingPolicy;
 use App\Policies\CompanyPolicy;
 use App\Policies\ContactPolicy;
+use App\Policies\PartPolicy;
 use App\Policies\SupplierPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\WorkorderOperationLabourTimePolicy;
+use App\Policies\WorkorderOperationPolicy;
+use App\Policies\WorkorderPolicy;
 use Illuminate\Database\Eloquent\Model;
 
 enum RelatedModel: string
@@ -144,11 +148,11 @@ enum RelatedModel: string
             self::INVOICE => null,
             self::INVOICE_ITEM => null,
             self::SUPPLIER => SupplierPolicy::class,
-            self::PART => null,
+            self::PART => PartPolicy::class,
             self::USER => UserPolicy::class,
-            self::WORKORDER => null,
-            self::WORKORDER_OPERATION => null,
-            self::WORKORDER_OPERATION_LABOUR_TIME => null,
+            self::WORKORDER => WorkorderPolicy::class,
+            self::WORKORDER_OPERATION => WorkorderOperationPolicy::class,
+            self::WORKORDER_OPERATION_LABOUR_TIME => WorkorderOperationLabourTimePolicy::class,
         };
     }
 
