@@ -73,6 +73,10 @@ class WorkorderOperation extends Model
 
     protected $casts = [
         'type' => WorkorderOperationType::class,
+        'part_installed_odometer' => 'integer',
+        'expected_life_km' => 'integer',
+        'expected_life_months' => 'integer',
+        'notes' => 'string',
     ];
 
     protected $attributes = [
@@ -96,7 +100,7 @@ class WorkorderOperation extends Model
 
     public function times(): HasMany
     {
-        return $this->hasMany(WorkorderLabourTime::class);
+        return $this->hasMany(WorkorderOperationLabourTime::class);
     }
 
     public function files(): BelongsToMany
