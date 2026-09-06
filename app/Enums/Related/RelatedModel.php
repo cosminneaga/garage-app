@@ -12,16 +12,24 @@ use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\StoreInvoiceItemRequest;
 use App\Http\Requests\StoreInvoiceRequest;
+use App\Http\Requests\StorePartRequest;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\StoreWorkorderOperationLabourTimeRequest;
+use App\Http\Requests\StoreWorkorderOperationRequest;
+use App\Http\Requests\StoreWorkorderRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Http\Requests\UpdateInvoiceItemRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Http\Requests\UpdatePartRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateWorkorderOperationLabourTimeRequest;
+use App\Http\Requests\UpdateWorkorderOperationRequest;
+use App\Http\Requests\UpdateWorkorderRequest;
 use App\Models\Address;
 use App\Models\Booking;
 use App\Models\Client;
@@ -30,10 +38,16 @@ use App\Models\Contact;
 use App\Models\File;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Part;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\Workorder;
+use App\Models\WorkorderOperation;
+use App\Models\WorkorderOperationLabourTime;
 use App\Policies\AddressPolicy;
+use App\Policies\BookingPolicy;
 use App\Policies\CompanyPolicy;
+use App\Policies\ContactPolicy;
 use App\Policies\SupplierPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Database\Eloquent\Model;
@@ -49,7 +63,11 @@ enum RelatedModel: string
     case INVOICE = 'invoice';
     case INVOICE_ITEM = 'invoice_item';
     case SUPPLIER = 'supplier';
+    case PART = 'part';
     case USER = 'user';
+    case WORKORDER = 'workorder';
+    case WORKORDER_OPERATION = 'workorder_operation';
+    case WORKORDER_OPERATION_LABOUR_TIME = 'workorder_operation_labour_time';
 
     public function entity(string|int $id): Model
     {
@@ -63,7 +81,11 @@ enum RelatedModel: string
             self::INVOICE => Invoice::withTrashed()->findOrFail($id),
             self::INVOICE_ITEM => InvoiceItem::withTrashed()->findOrFail($id),
             self::SUPPLIER => Supplier::withTrashed()->findOrFail($id),
+            self::PART => Part::withTrashed()->findOrFail($id),
             self::USER => User::withTrashed()->findOrFail($id),
+            self::WORKORDER => Workorder::withTrashed()->findOrFail($id),
+            self::WORKORDER_OPERATION => WorkorderOperation::withTrashed()->findOrFail($id),
+            self::WORKORDER_OPERATION_LABOUR_TIME => WorkorderOperationLabourTime::withTrashed()->findOrFail($id),
         };
     }
 
@@ -79,7 +101,11 @@ enum RelatedModel: string
             self::INVOICE => 'invoices',
             self::INVOICE_ITEM => 'invoice_items',
             self::SUPPLIER => 'suppliers',
+            self::PART => 'parts',
             self::USER => 'users',
+            self::WORKORDER => 'workorders',
+            self::WORKORDER_OPERATION => 'workorder_operations',
+            self::WORKORDER_OPERATION_LABOUR_TIME => 'workorder_operation_labour_times',
         };
     }
 
@@ -95,7 +121,11 @@ enum RelatedModel: string
             self::INVOICE => Invoice::class,
             self::INVOICE_ITEM => InvoiceItem::class,
             self::SUPPLIER => Supplier::class,
+            self::PART => Part::class,
             self::USER => User::class,
+            self::WORKORDER => Workorder::class,
+            self::WORKORDER_OPERATION => WorkorderOperation::class,
+            self::WORKORDER_OPERATION_LABOUR_TIME => WorkorderOperationLabourTime::class,
         };
     }
 
@@ -106,22 +136,26 @@ enum RelatedModel: string
     {
         return match ($this) {
             self::ADDRESS => AddressPolicy::class,
-            self::BOOKING => null,
+            self::BOOKING => BookingPolicy::class,
             self::COMPANY => CompanyPolicy::class,
-            self::CONTACT => null,
+            self::CONTACT => ContactPolicy::class,
             self::CLIENT => null,
             self::FILE => null,
             self::INVOICE => null,
             self::INVOICE_ITEM => null,
             self::SUPPLIER => SupplierPolicy::class,
+            self::PART => null,
             self::USER => UserPolicy::class,
+            self::WORKORDER => null,
+            self::WORKORDER_OPERATION => null,
+            self::WORKORDER_OPERATION_LABOUR_TIME => null,
         };
     }
 
     /**
      * !!! Update the request files as they are being created here
      */
-    public function request(): stdClass
+    public function request(): object
     {
         return (object) match ($this) {
             self::ADDRESS => [
@@ -160,9 +194,25 @@ enum RelatedModel: string
                 'store' => StoreSupplierRequest::class,
                 'update' => UpdateSupplierRequest::class,
             ],
+            self::PART => [
+                'store' => StorePartRequest::class,
+                'update' => UpdatePartRequest::class,
+            ],
             self::USER => [
                 'store' => StoreUserRequest::class,
                 'update' => UpdateUserRequest::class,
+            ],
+            self::WORKORDER => [
+                'store' => StoreWorkorderRequest::class,
+                'update' => UpdateWorkorderRequest::class,
+            ],
+            self::WORKORDER_OPERATION => [
+                'store' => StoreWorkorderOperationRequest::class,
+                'update' => UpdateWorkorderOperationRequest::class,
+            ],
+            self::WORKORDER_OPERATION_LABOUR_TIME => [
+                'store' => StoreWorkorderOperationLabourTimeRequest::class,
+                'update' => UpdateWorkorderOperationLabourTimeRequest::class,
             ],
         };
     }

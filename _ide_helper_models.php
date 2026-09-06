@@ -970,6 +970,8 @@ namespace App\Models{
  * @property-read int|null $files_count
  * @property-read \App\Models\Part|null $part
  * @property-read \App\Models\User|null $performedBy
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $times
+ * @property-read int|null $times_count
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Workorder|null $workorder
  * @method static \Database\Factories\WorkorderOperationFactory factory($count = null, $state = [])

@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
+/**
+ * @mixin IdeHelperWorkorderOperationLabourTime
+ */
 #[ObservedBy(WorkorderOperationLabourTimeObserver::class)]
 class WorkorderOperationLabourTime extends Model
 {

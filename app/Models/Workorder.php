@@ -23,7 +23,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property int $id
  * @property string $title
  * @property int $number
- * @property string $status
+ * @property WorkorderStatus $status
  * @property int|null $odometer_on_start
  * @property int|null $odometer_on_finish
  * @property string|null $complaint
@@ -107,10 +107,6 @@ class Workorder extends Model
         'labour_price_hourly',
         'labour_total_cost',
         'part_total_cost',
-        'completed_at',
-        'cancelled_at',
-        'in_progress_at',
-        'in_pause_at',
     ];
 
     protected $casts = [

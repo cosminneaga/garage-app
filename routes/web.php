@@ -10,10 +10,14 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\PartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkorderController;
+use App\Http\Controllers\WorkorderOperationController;
+use App\Http\Controllers\WorkorderOperationLabourTimeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -84,6 +88,18 @@ Route::controller(SupplierController::class)
         });
     });
 
+Route::controller(PartController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        # suppliers
+        Route::group(['model' => RelatedModel::SUPPLIER], function () {
+            Route::post('/parts/suppliers/{supplier}', 'modelStore')->name('parts.suppliers.store');
+            Route::get('/parts/{part}/suppliers/{supplier}', 'modelEdit')->name('parts.suppliers.edit');
+            Route::put('/parts/{part}/suppliers/{supplier}', 'modelUpdate')->name('parts.suppliers.update');
+            Route::delete('/parts/{part}/suppliers/{supplier}', 'modelDestroy')->name('parts.suppliers.destroy');
+        });
+    });
+
 Route::controller(AddressController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
@@ -141,9 +157,45 @@ Route::controller(ContactController::class)
     });
 
 Route::controller(BookingController::class)
-    ->middleware((['auth', 'role:super|administrator|manager|user']))
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::resource('bookings', BookingController::class)->except('show');
+    });
+
+Route::controller(WorkorderController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        # bookings
+        Route::group(['model' => RelatedModel::BOOKING], function () {
+            Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');
+            Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
+            Route::put('/workorders/{workorder}/bookings/{booking}', 'modelUpdate')->name('workorders.bookings.update');
+            Route::delete('/workorders/{workorder}/bookings/{booking}', 'modelDestroy')->name('workorders.bookings.destroy');
+        });
+    });
+
+Route::controller(WorkorderOperationController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        # workorders
+        Route::group(['model' => RelatedModel::WORKORDER], function () {
+            Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');
+            Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
+            Route::put('/workorders/{workorder}/bookings/{booking}', 'modelUpdate')->name('workorders.bookings.update');
+            Route::delete('/workorders/{workorder}/bookings/{booking}', 'modelDestroy')->name('workorders.bookings.destroy');
+        });
+    });
+
+Route::controller(WorkorderOperationLabourTimeController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        # workorder_operations
+        Route::group(['model' => RelatedModel::WORKORDER_OPERATION], function () {
+            Route::get('/workorder_operations/{workorder_operation}/workorders/{workorder}', 'modelEdit')->name('workorder_operations.workorders.edit');
+            Route::post('/workorder_operations/workorders/{workorder}', 'modelStore')->name('workorder_operations.workorders.store');
+            Route::put('/workorder_operations/{workorder_operation}/workorders/{workorder}', 'modelUpdate')->name('workorder_operations.workorders.update');
+            Route::delete('/workorder_operations/{workorder_operation}/workorders/{workorder}', 'modelDestroy')->name('workorder_operations.workorders.destroy');
+        });
     });
 
 Route::controller(SuperController::class)
