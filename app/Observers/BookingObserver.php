@@ -9,13 +9,13 @@ use App\Models\Booking;
 use App\Notifications\BookingClientNotification;
 use App\Notifications\BookingCreatedNotification;
 use App\Notifications\BookingStatusUpdateNotification;
+use App\Traits\ObserverHelper;
 use Illuminate\Support\Facades\Notification;
 
 class BookingObserver
 {
-    /**
-     * Handle the Booking "created" event.
-     */
+    use ObserverHelper;
+
     public function created(Booking $booking): void
     {
         $users = $booking->company->users;
@@ -34,16 +34,24 @@ class BookingObserver
         }
     }
 
-    /**
-     * Handle the Booking "updated" event.
-     */
     public function updated(Booking $booking): void
     {
 
+        $users = $booking->company->users;
+
         if ($booking->wasChanged('status')) {
-            $users = $booking->company->users;
             $old = $booking->getOriginal('status');
             Notification::send($users, new BookingStatusUpdateNotification($booking, $old));
+
+            if ($booking->status === BookingStatus::IN_PROGRESS) {
+                # client notification
+                $title = 'Booking with number ' . $booking->number . ' is in progress';
+                $messages = [
+                    'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
+                    'We just want to let you know that a technician has been assigned to your vehicle.'
+                ];
+                Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
+            }
 
             return;
         }
@@ -81,8 +89,17 @@ class BookingObserver
             Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
         }
 
-        # IN_PROGRESS && IN_REVIEW
-        # This is manipulated entirely on workorder creation stage in WorkorderObserver
+        # IN_REVIEW
+        if ($this->columnInsertCheck($booking, 'in_review_at')) {
+            $booking->status = BookingStatus::IN_REVIEW;
+            $booking->save();
+        }
+
+        # IN_PROGRESS
+        if ($this->columnInsertCheck($booking, 'in_progress_at')) {
+            $booking->status = BookingStatus::IN_PROGRESS;
+            $booking->save();
+        }
 
         # CANCELLED
         if ($this->columnInsertCheck($booking, 'cancelled_at')) {
@@ -102,33 +119,18 @@ class BookingObserver
         # This status should be triggered by invoicing part of the system
     }
 
-    /**
-     * Handle the Booking "deleted" event.
-     */
     public function deleted(Booking $booking): void
     {
         //
     }
 
-    /**
-     * Handle the Booking "restored" event.
-     */
     public function restored(Booking $booking): void
     {
         //
     }
 
-    /**
-     * Handle the Booking "force deleted" event.
-     */
     public function forceDeleted(Booking $booking): void
     {
         //
-    }
-
-    private function columnInsertCheck(Booking $booking, string $column_name): bool
-    {
-        return $booking->isDirty($column_name) &&
-            $booking->getOriginal($column_name) === null;
     }
 }

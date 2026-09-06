@@ -25,15 +25,17 @@ return new class () extends Migration {
             $table->string('priority')->default(Priority::LOW->value);
             $table->dateTime('appointment_start')->nullable();
             $table->dateTime('appointment_finish')->nullable();
-            $table->dateTime('reminder_sent_at')->nullable();
-            $table->dateTime('checked_in_at')->nullable();
-            $table->dateTime('completed_at')->nullable();
-            $table->dateTime('cancelled_at')->nullable();
             $table->integer('estimated_duration_minutes')->nullable();
             $table->text('current_status_info')->nullable();
             $table->longText('complaint')->nullable();
             $table->longText('notes')->nullable();
             $table->decimal('estimated_cost', 10, 2)->default(0.00);
+            $table->dateTime('reminder_sent_at')->nullable();
+            $table->dateTime('checked_in_at')->nullable();
+            $table->dateTime('cancelled_at')->nullable();
+            $table->dateTime('completed_at')->nullable();
+            $table->dateTime('in_review_at')->nullable();
+            $table->dateTime('in_progress_at')->nullable();
 
             $table->longText('client_notes')->nullable();
             $table->string('client_url_token')->nullable();

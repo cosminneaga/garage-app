@@ -884,6 +884,8 @@ namespace App\Models{
  * @property numeric $labour_price_hourly
  * @property numeric $labour_total_cost
  * @property numeric $part_total_cost
+ * @property string|null $completed_at
+ * @property string|null $cancelled_at
  * @property int $booking_id
  * @property int $technician_id
  * @property int|null $created_by
@@ -907,7 +909,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCancelledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereComplaint($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCompletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereDeletedAt($value)

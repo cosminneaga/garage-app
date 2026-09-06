@@ -107,6 +107,8 @@ class Workorder extends Model
         'labour_price_hourly',
         'labour_total_cost',
         'part_total_cost',
+        'completed_at',
+        'cancelled_at',
     ];
 
     protected $casts = [

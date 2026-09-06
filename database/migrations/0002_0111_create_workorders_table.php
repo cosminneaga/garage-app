@@ -27,6 +27,8 @@ return new class () extends Migration {
             $table->decimal('labour_price_hourly', 10, 2)->default(0.00);
             $table->decimal('labour_total_cost', 10, 2)->default(0.00);
             $table->decimal('part_total_cost', 10, 2)->default(0.00);
+            $table->dateTime('completed_at')->nullable();
+            $table->dateTime('cancelled_at')->nullable();
 
             $table->foreignIdFor(Booking::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'technician_id')->constrained()->cascadeOnDelete();
