@@ -71,15 +71,17 @@ namespace App\Models{
  * @property \App\Enums\Priority $priority
  * @property \Illuminate\Support\Carbon|null $appointment_start
  * @property \Illuminate\Support\Carbon|null $appointment_finish
- * @property \Illuminate\Support\Carbon|null $reminder_sent_at
- * @property \Illuminate\Support\Carbon|null $checked_in_at
- * @property \Illuminate\Support\Carbon|null $completed_at
- * @property \Illuminate\Support\Carbon|null $cancelled_at
  * @property int|null $estimated_duration_minutes
  * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes
  * @property float $estimated_cost
+ * @property \Illuminate\Support\Carbon|null $reminder_sent_at
+ * @property \Illuminate\Support\Carbon|null $checked_in_at
+ * @property \Illuminate\Support\Carbon|null $cancelled_at
+ * @property \Illuminate\Support\Carbon|null $completed_at
+ * @property string|null $in_review_at
+ * @property string|null $in_progress_at
  * @property string|null $client_notes
  * @property string|null $client_url_token
  * @property int $company_id
@@ -126,6 +128,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDurationMinutes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInProgressAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInReviewAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking wherePriority($value)
