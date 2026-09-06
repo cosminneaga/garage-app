@@ -123,16 +123,18 @@ class Booking extends Model
         'priority',
         'appointment_start',
         'appointment_finish',
-        'reminder_sent_at',
-        'checked_in_at',
-        'completed_at',
-        'cancelled_at',
         'estimated_duration_minutes',
         'current_status_info',
         'complaint',
         'notes',
         'client_notes',
         'estimated_cost',
+        'reminder_sent_at',
+        'checked_in_at',
+        'completed_at',
+        'cancelled_at',
+        'in_review_at',
+        'in_progress_at',
     ];
 
     protected $casts = [
@@ -142,6 +144,8 @@ class Booking extends Model
         'checked_in_at' => 'datetime',
         'completed_at' => 'datetime',
         'cancelled_at' => 'datetime',
+        'in_review_at' => 'datetime',
+        'in_progress_at' => 'datetime',
         'estimated_cost' => 'float',
         'status' => BookingStatus::class,
         'service_type' => ServiceType::class,
@@ -162,9 +166,6 @@ class Booking extends Model
             'service_type' => $this->service_type,
             'priority' => $this->priority,
             'appointment_start' => $this->appointment_start,
-            'checked_in_at' => $this->checked_in_at,
-            'completed_at' => $this->completed_at,
-            'cancelled_at' => $this->cancelled_at,
         ];
     }
 

@@ -36,11 +36,12 @@ class BookingObserver
 
     public function updated(Booking $booking): void
     {
-        if ($booking->wasChanged('status')) {
+        if ($this->columnChangeCheck($booking, 'status')) {
             $users = $booking->company->users;
             $old = $booking->getOriginal('status');
             Notification::send($users, new BookingStatusUpdateNotification($booking, $old));
 
+            # Client Notifications on several statuses
             switch ($booking->status) {
                 case BookingStatus::CHECKED_IN:
                     $title = 'Booking with number ' . $booking->number . ' has been checked in successfully';
@@ -94,30 +95,40 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'checked_in_at')) {
             $booking->status = BookingStatus::CHECKED_IN;
             $booking->save();
+
+            return;
         }
 
         # CONFIRMED
         if ($this->columnInsertCheck($booking, 'appointment_start')) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
+
+            return;
         }
 
         # IN_REVIEW
         if ($this->columnInsertCheck($booking, 'in_review_at')) {
             $booking->status = BookingStatus::IN_REVIEW;
             $booking->save();
+
+            return;
         }
 
         # IN_PROGRESS
         if ($this->columnInsertCheck($booking, 'in_progress_at')) {
             $booking->status = BookingStatus::IN_PROGRESS;
             $booking->save();
+
+            return;
         }
 
         # CANCELLED
         if ($this->columnInsertCheck($booking, 'cancelled_at')) {
             $booking->status = BookingStatus::CANCELLED;
             $booking->save();
+
+            return;
         }
 
         # COMPLETED

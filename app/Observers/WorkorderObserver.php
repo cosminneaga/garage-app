@@ -21,7 +21,7 @@ class WorkorderObserver
 
     public function updated(Workorder $workorder): void
     {
-        if ($workorder->wasChanged('status')) {
+        if ($this->columnChangeCheck($workorder, 'status')) {
             switch ($workorder->status) {
                 case WorkorderStatus::COMPLETED:
                     $workorder->booking->in_review_at = Carbon::now();
@@ -45,18 +45,40 @@ class WorkorderObserver
         if ($this->columnInsertCheck($workorder, 'odometer_on_start')) {
             $workorder->status = WorkorderStatus::IN_PROGRESS;
             $workorder->save();
+
+            return;
         }
 
         # COMPLETED
         if ($this->columnInsertCheck($workorder, 'completed_at')) {
             $workorder->status = WorkorderStatus::COMPLETED;
             $workorder->save();
+
+            return;
         }
 
         # CANCELLED
         if ($this->columnInsertCheck($workorder, 'cancelled_at')) {
             $workorder->status = WorkorderStatus::CANCELLED;
             $workorder->save();
+
+            return;
+        }
+
+        # IN_PROGRESS
+        if ($this->columnChangeCheck($workorder, 'in_progress_at')) {
+            $workorder->status = WorkorderStatus::IN_PROGRESS;
+            $workorder->save();
+
+            return;
+        }
+
+        # PAUSED
+        if ($this->columnChangeCheck($workorder, 'in_pause_at')) {
+            $workorder->status = WorkorderStatus::PAUSED;
+            $workorder->save();
+
+            return;
         }
     }
 

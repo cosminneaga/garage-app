@@ -109,10 +109,16 @@ class Workorder extends Model
         'part_total_cost',
         'completed_at',
         'cancelled_at',
+        'in_progress_at',
+        'in_pause_at',
     ];
 
     protected $casts = [
         'status' => WorkorderStatus::class,
+        'completed_at' => 'datetime',
+        'cancelled_at' => 'datetime',
+        'in_progress_at' => 'datetime',
+        'in_pause_at' => 'datetime',
     ];
 
     protected $attributes = [

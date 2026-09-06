@@ -13,4 +13,9 @@ trait ObserverHelper
         return $model->isDirty($column_name) &&
             $model->getOriginal($column_name) === null;
     }
+
+    private function columnChangeCheck(Model $model, string $column_name): bool
+    {
+        return $model->wasChanged($column_name);
+    }
 }
