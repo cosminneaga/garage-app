@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Enums\UserPermission;
@@ -14,9 +16,11 @@ class WorkorderOperationPolicy implements StandardPolicyInterface
         return Permission::can(UserPermission::WORKORDER_OPERATION, 'show');
     }
 
-    public function show(User $user, mixed $address): bool
+    public function show(User $user, mixed $workorder_operation): bool
     {
-        return Permission::can(UserPermission::WORKORDER_OPERATION, 'show');
+        Permission::isSuper();
+
+        return Permission::can(UserPermission::WORKORDER_OPERATION, 'show') && $workorder_operation->isPartOfMyCompany($user);
     }
 
     public function store(): bool
@@ -24,23 +28,31 @@ class WorkorderOperationPolicy implements StandardPolicyInterface
         return Permission::can(UserPermission::WORKORDER_OPERATION, 'store');
     }
 
-    public function update(User $user, mixed $address): bool
+    public function update(User $user, mixed $workorder_operation): bool
     {
-        return Permission::can(UserPermission::WORKORDER_OPERATION, 'update');
+        Permission::isSuper();
+
+        return Permission::can(UserPermission::WORKORDER_OPERATION, 'update') && $workorder_operation->isMine($user);
     }
 
-    public function destroy(User $user, mixed $address): bool
+    public function destroy(User $user, mixed $workorder_operation): bool
     {
-        return Permission::can(UserPermission::WORKORDER_OPERATION, 'destroy');
+        Permission::isSuper();
+
+        return Permission::can(UserPermission::WORKORDER_OPERATION, 'destroy') && $workorder_operation->isMine($user);
     }
 
-    public function restore(User $user, mixed $address): bool
+    public function restore(User $user, mixed $workorder_operation): bool
     {
-        return Permission::can(UserPermission::WORKORDER_OPERATION, 'restore');
+        Permission::isSuper();
+
+        return Permission::can(UserPermission::WORKORDER_OPERATION, 'restore') && $workorder_operation->isMine($user);
     }
 
     public function showTrashed(): bool
     {
+        Permission::isSuper();
+
         return Permission::can(UserPermission::WORKORDER_OPERATION, 'restore');
     }
 }

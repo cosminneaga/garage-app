@@ -906,10 +906,10 @@ namespace App\Models{
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operation
- * @property-read int|null $operation_count
  * @property-read \App\Models\User|null $technician
  * @property-read \App\Models\User|null $updater
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $workorderOperations
+ * @property-read int|null $workorder_operations_count
  * @method static \Database\Factories\WorkorderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newQuery()
@@ -970,10 +970,10 @@ namespace App\Models{
  * @property-read int|null $files_count
  * @property-read \App\Models\Part|null $part
  * @property-read \App\Models\User|null $performedBy
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $times
- * @property-read int|null $times_count
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Workorder|null $workorder
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $workorderOperationTimes
+ * @property-read int|null $workorder_operation_times_count
  * @method static \Database\Factories\WorkorderOperationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newQuery()
@@ -1015,8 +1015,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
- * @property-read \App\Models\WorkorderOperation|null $operation
  * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\WorkorderOperation|null $workorderOperation
  * @method static \Database\Factories\WorkorderOperationLabourTimeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime newQuery()

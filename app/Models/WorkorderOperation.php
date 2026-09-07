@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use App\Enums\WorkorderOperationType;
 use App\Traits\Blameable;
 use Illuminate\Database\Eloquent\Builder;
@@ -83,6 +84,29 @@ class WorkorderOperation extends Model
         'type' => WorkorderOperationType::REPAIR->value,
     ];
 
+    public function isPartOfMyCompany(User $user): bool
+    {
+        return (bool) $this->workorder->booking->company->users()->find($user->id);
+    }
+
+    public function isPartOfMyWorkorder(User $user): bool
+    {
+        if ($user->hasAnyRole([UserRole::ADMINISTRATOR->value, UserRole::MANAGER->value])) {
+            return $this->isPartOfMyCompany($user);
+        }
+
+        return (bool) $this->workorder->technician_id === $user->id;
+    }
+
+    public function isMine(User $user): bool
+    {
+        if ($user->hasAnyRole([UserRole::ADMINISTRATOR->value, UserRole::MANAGER->value])) {
+            return $this->isPartOfMyCompany($user);
+        }
+
+        return (bool) $this->performed_by === $user->id;
+    }
+
     public function workorder(): BelongsTo
     {
         return $this->belongsTo(Workorder::class);
@@ -98,7 +122,7 @@ class WorkorderOperation extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function times(): HasMany
+    public function workorderOperationTimes(): HasMany
     {
         return $this->hasMany(WorkorderOperationLabourTime::class);
     }

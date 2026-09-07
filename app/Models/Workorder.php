@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use App\Enums\WorkorderStatus;
 use App\Observers\WorkorderObserver;
 use App\Traits\Blameable;
@@ -130,9 +131,27 @@ class Workorder extends Model
         ];
     }
 
-    public function isMyWorkorder(User $user): bool
+    public function isPartOfMyCompany(User $user): bool
     {
         return (bool) $this->booking->company->users()->find($user->id);
+    }
+
+    public function isPartOfMyBooking(User $user): bool
+    {
+        if ($user->hasAnyRole([UserRole::ADMINISTRATOR->value, UserRole::MANAGER->value])) {
+            return $this->isPartOfMyCompany($user);
+        }
+
+        return (bool) $this->booking->advisor_id === $user->id;
+    }
+
+    public function isMine(User $user): bool
+    {
+        if ($user->hasAnyRole([UserRole::ADMINISTRATOR->value, UserRole::MANAGER->value])) {
+            return $this->isPartOfMyCompany($user);
+        }
+
+        return (bool) $this->technician_id === $user->id;
     }
 
     public function booking(): BelongsTo
@@ -145,7 +164,7 @@ class Workorder extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function operation(): HasMany
+    public function workorderOperations(): HasMany
     {
         return $this->hasMany(WorkorderOperation::class);
     }

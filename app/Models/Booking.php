@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\BookingStatus;
 use App\Enums\Priority;
 use App\Enums\ServiceType;
+use App\Enums\UserRole;
 use App\Observers\BookingObserver;
 use App\Policies\BookingPolicy;
 use App\Traits\Blameable;
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Support\Carbon;
+use Laravel\Scout\Searchable;
 use Override;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -106,6 +108,7 @@ class Booking extends Model
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;
+    use Searchable;
 
     #[Override]
     protected static function booted(): void
@@ -169,9 +172,18 @@ class Booking extends Model
         ];
     }
 
-    public function isMyBooking(User $user): bool
+    public function isPartOfMyCompany(User $user): bool
     {
         return (bool) $this->company->users()->find($user->id);
+    }
+
+    public function isMine(User $user): bool
+    {
+        if ($user->hasAnyRole([UserRole::ADMINISTRATOR->value, UserRole::MANAGER->value])) {
+            return $this->isPartOfMyCompany($user);
+        }
+
+        return (bool) $this->advisor_id === $user->id;
     }
 
     public function company(): BelongsTo

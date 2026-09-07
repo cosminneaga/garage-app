@@ -133,6 +133,10 @@
                 </div>
             @break
 
+            @case('datetime')
+                <x-form.datetime.modal :name="$name" />
+            @break
+
             @default
                 <input
                     class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"

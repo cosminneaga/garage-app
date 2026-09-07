@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\Columns;
 
 enum BookingColumns: string
@@ -13,5 +15,5 @@ enum BookingColumns: string
     case APPOINTMENT_FINISH = 'Appointment Finish At';
     case ESTIMATED_DURATION = 'Estimated Duration';
     case ESTIMATED_COST = 'Estimated Cost';
-    
+
 }

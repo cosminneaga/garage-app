@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum ServiceType: string
 {
+    use HasEnumOptions;
+
     case MOT = 'mot';
     case SERVICE = 'service';
     case REPAIR = 'repair';
@@ -21,12 +23,5 @@ enum ServiceType: string
             self::REPAIR => 'Repair',
             self::DIAGONISE => 'Diagnose',
         };
-    }
-
-    public static function values(): array
-    {
-        return Collection::make(self::cases())
-            ->map(fn (ServiceType $case) => $case->value)
-            ->toArray();
     }
 }

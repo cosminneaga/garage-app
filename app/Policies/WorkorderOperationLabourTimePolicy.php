@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Enums\UserPermission;
@@ -16,6 +18,8 @@ class WorkorderOperationLabourTimePolicy implements StandardPolicyInterface
 
     public function show(User $user, mixed $address): bool
     {
+        Permission::isSuper();
+
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'show');
     }
 
@@ -26,21 +30,29 @@ class WorkorderOperationLabourTimePolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $address): bool
     {
+        Permission::isSuper();
+
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'update');
     }
 
     public function destroy(User $user, mixed $address): bool
     {
+        Permission::isSuper();
+
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'destroy');
     }
 
     public function restore(User $user, mixed $address): bool
     {
+        Permission::isSuper();
+
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'restore');
     }
 
     public function showTrashed(): bool
     {
+        Permission::isSuper();
+
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'restore');
     }
 }

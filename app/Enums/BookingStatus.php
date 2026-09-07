@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum BookingStatus: string
 {
+    use HasEnumOptions;
+
     case PENDING = 'pending';
     case CONFIRMED = 'confirmed';
     case CHECKED_IN = 'checked_in';
@@ -27,12 +29,5 @@ enum BookingStatus: string
             self::COMPLETED => 'Completed',
             self::CANCELLED => 'Cancelled',
         };
-    }
-
-    public static function values(): array
-    {
-        return Collection::make(self::cases())
-            ->map(fn (BookingStatus $case) => $case->value)
-            ->toArray();
     }
 }

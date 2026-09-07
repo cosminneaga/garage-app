@@ -60,7 +60,11 @@ Route::controller(UserController::class)
             Route::delete('/users/{user}/companies/{company}', 'modelDetach')->name('users.companies.destroy');
         });
     });
-
+# companies
+# companies.bookings
+# companies.bookings.workorders
+# companies.bookings.workorders.workorder_operations
+# companies.bookings.workorder.workorder_operations.workorder_operation_labour_times
 Route::controller(CompanyController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
@@ -163,9 +167,9 @@ Route::controller(BookingController::class)
         Route::group(['model' => RelatedModel::COMPANY], function () {
             Route::get('/bookings/companies/{company}', 'modelIndex')->name('bookings.companies.index');
             Route::post('/bookings/companies/{company}', 'modelStore')->name('bookings.companies.store');
-            Route::get('/bookings/{booking}/companies/{company}', 'modelEdit')->name('bookings.companies.edit');
-            Route::put('/bookings/{booking}/companies/{company}', 'modelUpdate')->name('bookings.companies.update');
-            Route::delete('/bookings/{booking}/companies/{company}', 'modelDestroy')->name('bookings.companies.destroy');
+            Route::get('/bookings/{booking}', 'modelEdit')->name('bookings.edit');
+            Route::put('/bookings/{booking}', 'modelUpdate')->name('bookings.update');
+            Route::delete('/bookings/{booking}', 'modelDestroy')->name('bookings.destroy');
         });
     });
 
@@ -174,10 +178,9 @@ Route::controller(WorkorderController::class)
     ->group(function () {
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {
-            Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');
             Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
+            Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');
             Route::put('/workorders/{workorder}/bookings/{booking}', 'modelUpdate')->name('workorders.bookings.update');
-            Route::delete('/workorders/{workorder}/bookings/{booking}', 'modelDestroy')->name('workorders.bookings.destroy');
         });
     });
 
@@ -186,10 +189,9 @@ Route::controller(WorkorderOperationController::class)
     ->group(function () {
         # workorders
         Route::group(['model' => RelatedModel::WORKORDER], function () {
-            Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');
-            Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
-            Route::put('/workorders/{workorder}/bookings/{booking}', 'modelUpdate')->name('workorders.bookings.update');
-            Route::delete('/workorders/{workorder}/bookings/{booking}', 'modelDestroy')->name('workorders.bookings.destroy');
+            Route::post('/workorder_operations/workorders/{workorder}', 'modelStore')->name('operations.workorders.store');
+            Route::get('/workorder_operations/{operation}/workorders/{workorder}', 'modelEdit')->name('operations.workorders.edit');
+            Route::put('/workorder_operations/{operation}/workorders/{workorder}', 'modelUpdate')->name('operations.workorders.update');
         });
     });
 
@@ -198,10 +200,9 @@ Route::controller(WorkorderOperationLabourTimeController::class)
     ->group(function () {
         # workorder_operations
         Route::group(['model' => RelatedModel::WORKORDER_OPERATION], function () {
-            Route::get('/workorder_operations/{workorder_operation}/workorders/{workorder}', 'modelEdit')->name('workorder_operations.workorders.edit');
-            Route::post('/workorder_operations/workorders/{workorder}', 'modelStore')->name('workorder_operations.workorders.store');
-            Route::put('/workorder_operations/{workorder_operation}/workorders/{workorder}', 'modelUpdate')->name('workorder_operations.workorders.update');
-            Route::delete('/workorder_operations/{workorder_operation}/workorders/{workorder}', 'modelDestroy')->name('workorder_operations.workorders.destroy');
+            Route::post('/workorder_operation_labour_times/workorder_operations/{operation}', 'modelStore')->name('times.operations.store');
+            Route::get('/workorder_operation_labour_times/{time}/workorder_operations/{operation}', 'modelEdit')->name('times.operations.edit');
+            Route::put('/workorder_operation_labour_times/{time}/workorder_operations/{operation}', 'modelUpdate')->name('times.operations.update');
         });
     });
 

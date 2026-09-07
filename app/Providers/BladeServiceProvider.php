@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Enums\BookingStatus;
 use App\Enums\Columns\AddressColumns;
 use App\Enums\Columns\CompanyColumns;
 use App\Enums\Columns\ContactColumns;
 use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
+use App\Enums\Priority;
 use App\Enums\Related\RelatedModel;
+use App\Enums\ServiceType;
 use App\Enums\SupplierType;
 use App\Enums\TableMap\BookingTableMap;
 use App\Enums\Tabs\CompanyTabs;
@@ -54,7 +57,10 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('UserTabs', UserTabs::class);
         $loader->alias('RelatedModel', RelatedModel::class);
 
+        $loader->alias('BookingStatus', BookingStatus::class);
         $loader->alias('BookingTableMap', BookingTableMap::class);
+        $loader->alias('ServiceType', ServiceType::class);
+        $loader->alias('Priority', Priority::class);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use App\Enums\WorkorderStatus;
@@ -35,7 +37,7 @@ class WorkorderStatusUpdateNotification extends Notification
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage)->markdown('mail.workorder-status-update-notification');
+        return (new MailMessage())->markdown('mail.workorder-status-update-notification');
     }
 
     public function toArray(): array

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums\Related;
 
+use stdClass;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StoreClientRequest;
@@ -159,7 +160,7 @@ enum RelatedModel: string
     /**
      * !!! Update the request files as they are being created here
      */
-    public function request(): object
+    public function request(): stdClass
     {
         return (object) match ($this) {
             self::ADDRESS => [

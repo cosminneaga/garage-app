@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum Priority: string
 {
+    use HasEnumOptions;
+
     case LOW = 'low';
     case NORMAL = 'normal';
     case HIGH = 'high';
@@ -21,12 +23,5 @@ enum Priority: string
             self::HIGH => 'High',
             self::EMERGENCY => 'Emergency',
         };
-    }
-
-    public static function values(): array
-    {
-        return Collection::make(self::cases())
-            ->map(fn (Priority $case) => $case->value)
-            ->toArray();
     }
 }

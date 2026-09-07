@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\TableMap\BookingTableMap;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
+use App\Models\Company;
 use App\Traits\RelatedModelGuard;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -17,21 +19,25 @@ class BookingController extends Controller
 {
     use RelatedModelGuard;
 
-    public function modelIndex(Request $request, string|int $parent_id): View
+    public function modelIndex(Request $request, Company $company): View
     {
-        self::guard('show', $request, $parent_id);
+        self::guard('show', $request, $company->id);
         $search = $request->string('search')->value();
 
         return view('pages.booking.index', [
-            'bookings' => self::$entity->bookings,
+            'company' => self::$entity,
+            'bookings' => Booking::search($search)
+                ->whereIn('id', self::$entity->bookings()->select('bookings.id'))
+                ->query(fn ($query) => $query->select([...BookingTableMap::values()]))
+                ->get(),
         ]);
     }
 
     public function modelStore(
         StoreBookingRequest $request,
-        string|int $parent_id
+        Company $company
     ): RedirectResponse {
-        self::guard('update', $request, $parent_id);
+        self::guard('update', $request, $company->id);
 
         try {
             Booking::create();
@@ -55,27 +61,21 @@ class BookingController extends Controller
 
     public function modelEdit(
         Request $request,
-        Booking $booking,
-        string|int $parent_id
+        Booking $booking
     ): View {
-        self::guard('show', $request, $parent_id);
-        $resource = self::$entity->bookings()->findOrFail($booking->id);
-        $this->authorize('show', $resource);
+        $this->authorize('show', $booking);
 
         return view('pages.booking.edit.index', [
-            'booking' => $resource
+            'resource' => $booking,
         ]);
     }
 
     public function modelUpdate(
         UpdateBookingRequest $request,
-        Booking $booking,
-        string|int $parent_id
+        Booking $booking
     ): RedirectResponse {
-        self::guard('update', $request, $parent_id);
-        $resource = self::$entity->addresses()->findOrFail($booking->id);
-        $this->authorize('update', $resource);
-        $resource->update([...$request->except(['_token', '_method'])]);
+        $this->authorize('update', $booking);
+        $booking->update([...$request->except(['_token', '_method'])]);
 
         return back()
             ->with(self::flashMessage(
@@ -87,11 +87,9 @@ class BookingController extends Controller
 
     public function modelDestroy(
         Request $request,
-        Booking $booking,
-        string|int $parent_id
+        Booking $booking
     ): RedirectResponse {
-        self::guard('update', $request, $parent_id);
-        self::$entity->addresses()->detach($booking->id);
+        $booking->delete();
 
         return back()
             ->with(self::flashMessage(

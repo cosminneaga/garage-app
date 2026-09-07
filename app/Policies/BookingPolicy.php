@@ -20,7 +20,7 @@ class BookingPolicy implements StandardPolicyInterface
     {
         Permission::isSuper();
 
-        return Permission::can(UserPermission::BOOKING, 'show');
+        return Permission::can(UserPermission::BOOKING, 'show') && $booking->isPartOfMyCompany($user);
     }
 
     public function store(): bool
@@ -32,25 +32,27 @@ class BookingPolicy implements StandardPolicyInterface
     {
         Permission::isSuper();
 
-        return Permission::can(UserPermission::BOOKING, 'update');
+        return Permission::can(UserPermission::BOOKING, 'update') && $booking->isMine($user);
     }
 
     public function destroy(User $user, mixed $booking): bool
     {
         Permission::isSuper();
 
-        return Permission::can(UserPermission::BOOKING, 'delete');
+        return Permission::can(UserPermission::BOOKING, 'delete') && $booking->isMine($user);
     }
 
     public function restore(User $user, mixed $booking): bool
     {
         Permission::isSuper();
 
-        return Permission::can(UserPermission::BOOKING, 'restore');
+        return Permission::can(UserPermission::BOOKING, 'restore') && $booking->isMine($user);
     }
 
     public function showTrashed(): bool
     {
+        Permission::isSuper();
+
         return Permission::can(UserPermission::BOOKING, 'restore');
     }
 }
