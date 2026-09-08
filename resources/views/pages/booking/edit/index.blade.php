@@ -7,49 +7,49 @@
         <div class="grid grid-rows-1 md:grid-cols-3">
             <section class="space-y-2">
                 <x-form.field
-                    label="ID"
                     name="id"
+                    label="ID"
                     disabled
                 />
                 <x-form.field
-                    label="Number"
                     name="number"
+                    label="Number"
                     disabled
                 />
                 <x-form.field
-                    label="Status"
                     name="status"
                     type="select"
+                    label="Status"
                     select_map_value="value"
                     select_map_label="label"
                     :options="BookingStatus::tableUI()"
                 />
                 <x-form.field
-                    label="Service Type"
                     name="service_type"
                     type="select"
+                    label="Service Type"
                     select_map_value="value"
                     select_map_label="label"
                     :options="ServiceType::tableUI()"
                 />
                 <x-form.field
-                    label="Priority"
                     name="priority"
                     type="select"
+                    label="Priority"
                     select_map_value="value"
                     select_map_label="label"
                     :options="Priority::tableUI()"
                 />
                 <div class="grid grid-cols-2">
                     <x-form.field
-                        label="Appointment start"
                         name="appointment_start"
                         type="datetime"
+                        label="Appointment start"
                     />
                     <x-form.field
-                        label="Appointment finish"
                         name="appointment_finish"
                         type="datetime"
+                        label="Appointment finish"
                     />
                 </div>
             </section>

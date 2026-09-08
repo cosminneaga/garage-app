@@ -15,6 +15,7 @@ use App\Models\Country;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -167,6 +168,16 @@ class CompanyController extends Controller
                 ->search($querySearch)
                 ->resourceFilterOwn(ResourceFilter::ONLY_TRASHED)
                 ->paginate($request->integer('limit') ?? 10),
+        ]);
+    }
+
+    public function loadRelations(Company $company): JsonResponse
+    {
+        $this->authorize('show', $company);
+
+        return response()->json([
+            'vehicles' => $company->vehicles,
+            'clients' => $company->clients,
         ]);
     }
 }

@@ -62,7 +62,7 @@
                     @foreach ($options as $option)
                         <option
                             value="{{ $option[$select_map_value] }}"
-                            @selected(old($errorName, $value) === $option[$select_map_value])
+                            @selected($value === $option[$select_map_value])
                         >
                             {{ $option[$select_map_label] }}
                         </option>

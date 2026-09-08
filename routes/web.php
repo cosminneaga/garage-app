@@ -60,17 +60,14 @@ Route::controller(UserController::class)
             Route::delete('/users/{user}/companies/{company}', 'modelDetach')->name('users.companies.destroy');
         });
     });
-# companies
-# companies.bookings
-# companies.bookings.workorders
-# companies.bookings.workorders.workorder_operations
-# companies.bookings.workorder.workorder_operations.workorder_operation_labour_times
+
 Route::controller(CompanyController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
         Route::resource('companies', CompanyController::class)->except('show');
         Route::get('/companies/restore', 'removed')->name('companies.removed');
         Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');
+        Route::get('/companies/{company}/load_relations', 'loadRelations')->name('companies.relations');
     });
 
 Route::controller(ProfileController::class)
@@ -166,7 +163,9 @@ Route::controller(BookingController::class)
         # companies
         Route::group(['model' => RelatedModel::COMPANY], function () {
             Route::get('/bookings/companies/{company}', 'modelIndex')->name('bookings.companies.index');
-            Route::post('/bookings/companies/{company}', 'modelStore')->name('bookings.companies.store');
+            Route::get('/bookings', 'index')->name('bookings.index');
+            Route::get('/bookings/create', 'create')->name('bookings.create');
+            Route::post('/bookings/', 'store')->name('bookings.store');
             Route::get('/bookings/{booking}', 'modelEdit')->name('bookings.edit');
             Route::put('/bookings/{booking}', 'modelUpdate')->name('bookings.update');
             Route::delete('/bookings/{booking}', 'modelDestroy')->name('bookings.destroy');

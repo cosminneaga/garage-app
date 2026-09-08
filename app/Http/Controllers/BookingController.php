@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -33,11 +34,34 @@ class BookingController extends Controller
         ]);
     }
 
-    public function modelStore(
-        StoreBookingRequest $request,
-        Company $company
+    public function index(Request $request): View
+    {
+        $this->authorize('showAll', Booking::class);
+        $search = $request->string('search')->value();
+
+        $bookings = Booking::search($search)
+            ->whereIn('company_id', Auth::user()->companies()->select('companies.id'))
+            ->query(fn ($query) => $query->select([...BookingTableMap::values()]))
+            ->get();
+
+        return view('pages.booking.index', [
+            'bookings' => $bookings,
+        ]);
+    }
+
+    public function create(Request $request): View
+    {
+        $this->authorize('store', Booking::class);
+
+        return view('pages.booking.create', [
+            'companies' => Auth::user()->companies,
+        ]);
+    }
+
+    public function store(
+        StoreBookingRequest $request
     ): RedirectResponse {
-        self::guard('update', $request, $company->id);
+        $this->authorize('store', Booking::class);
 
         try {
             Booking::create();

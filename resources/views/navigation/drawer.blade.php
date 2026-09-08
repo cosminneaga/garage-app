@@ -109,6 +109,37 @@
         </ul>
     @endpermitted
 
+    @permitted(UserPermission::BOOKING, 'show')
+        <br />
+        <div class="border-default border-b">
+            <span class="text-heading">Bookings</span>
+        </div>
+        <ul class="space-y-2 font-medium">
+            <li class="my-2">
+                <a
+                    class="w-full"
+                    href="{{ route('bookings.index') }}"
+                > List </a>
+            </li>
+            @permitted(UserPermission::COMPANY, 'store')
+                <li class="my-2">
+                    <a
+                        class="w-full"
+                        href="{{ route('bookings.create') }}"
+                    > Create </a>
+                </li>
+            @endpermitted
+            @permitted(UserPermission::COMPANY, 'restore')
+                <li class="my-2">
+                    <a
+                        class="w-full"
+                        href="{{ route('companies.removed') }}"
+                    > Removed </a>
+                </li>
+            @endpermitted
+        </ul>
+    @endpermitted
+
     @super
         <br />
         <div class="border-default border-b">

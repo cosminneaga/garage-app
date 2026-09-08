@@ -3,8 +3,8 @@
 
     <x-table.bookings
         :data="$bookings"
-        search_route="{{ route('bookings.companies.index', $company) }}"
-        :edit="Permission::can(UserPermission::COMPANY, 'show')"
-        :delete="Permission::can(UserPermission::COMPANY, 'delete')"
+        search_route="{{ route('bookings.index') }}"
+        :edit="Permission::can(UserPermission::BOOKING, 'show')"
+        :delete="Permission::can(UserPermission::BOOKING, 'delete')"
     />
 </x-layout::index>
