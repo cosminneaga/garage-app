@@ -1,4 +1,9 @@
-@props(['id', 'title' => null, 'size' => 'md', 'position' => 'center'])
+@props([
+    'id',
+    'title' => null,
+    'size' => 'md',
+    'position' => 'center'
+])
 
 <div
     class="z-99 fixed bottom-0 left-0 right-0 top-0 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"

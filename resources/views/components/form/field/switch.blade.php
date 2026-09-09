@@ -1,0 +1,51 @@
+@props([
+    'label' => false,
+    'name',
+    'checked' => false,
+    'identifier' => '',
+])
+
+@php
+    $testName = $identifier . '_' . Str::replace(['[', ']'], ['_', ''], $name);
+    $errorName = Str::replace(['[', ']'], ['.', ''], $name);
+@endphp
+
+<div class="space-y-2 text-start">
+    @if ($label)
+        <label
+            class="text-heading mb-1.25 text-md block font-medium"
+            for="{{ $name }}"
+        >{{ $label }}</label>
+    @endif
+
+    <div class="flex gap-2">
+        @isset($before)
+            {{ $before }}
+        @endisset
+        <div class="relative w-11 cursor-pointer">
+            <input
+                class="absolute-center @testing z-1 @endtesting peer"
+                type="checkbox"
+                {{ $attributes->merge([
+                    'name' => $name,
+                    'id' => $name,
+                    'data-test' => $testName,
+                    'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
+                ]) }}
+            />
+
+            <label
+                class="absolute-center bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand after:inset-s-0.5 peer h-5 w-9 rounded-full after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full"
+                for={{ $name }}
+            >
+            </label>
+        </div>
+        @isset($after)
+            {{ $after }}
+        @endisset
+    </div>
+
+    @error($errorName)
+        <p class="text-xs text-red-600">{{ $message }}</p>
+    @enderror
+</div>

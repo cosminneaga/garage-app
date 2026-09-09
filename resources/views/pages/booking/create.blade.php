@@ -22,9 +22,8 @@
                     }
                 }"
             >
-                <x-form.field
+                <x-form.field.select
                     name="company_id"
-                    type="select"
                     label="Selected company"
                     select_map_value="id"
                     select_map_label="name"
@@ -51,80 +50,81 @@
                     size="7xl"
                 >
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4 pt-3">
                         <div>
-                            <h3 class="text-2xl">CLIENTS</h3>
-                            <ul>
-                                <template
-                                    x-for="client in resource?.clients"
-                                    :key="client.id"
-                                >
-                                    <li x-text="client.name"></li>
-                                </template>
-                            </ul>
+                            <h3 class="text-lg">CLIENTS</h3>
+                            <template
+                                x-for="client in resource?.clients"
+                                :key="client.id"
+                            >
+                                <x-form.field.radio
+                                    id="`client-${client.id}`"
+                                    name="client_id"
+                                    ::value="client.id"
+                                    label="client.name"
+                                />
+                            </template>
                         </div>
 
                         <div>
-                            <h3 class="text-2xl">VEHICLES</h3>
-                            <ul>
-                                <template
-                                    x-for="vehicle in resource?.vehicles"
-                                    :key="vehicle.id"
-                                >
-                                    <li x-text="vehicle.registration"></li>
-                                </template>
-                            </ul>
+                            <h3 class="text-lg">VEHICLES</h3>
+                            <template
+                                x-for="vehicle in resource?.vehicles"
+                                :key="vehicle.id"
+                            >
+                                <x-form.field.radio
+                                    id="`vehicle-${vehicle.id}`"
+                                    name="vehicle_id"
+                                    ::value="vehicle.id"
+                                    label="vehicle.registration"
+                                />
+                            </template>
                         </div>
                     </div>
 
                 </x-modal.wrapper>
 
 
-                <x-form.field
+                <x-form.field.text
                     name="client_id"
                     label="Selected client"
                     disabled
                 />
-                <x-form.field
+                <x-form.field.text
                     name="vehicle_id"
                     label="Selected vehicle"
                     disabled
                 />
             </section>
             <section class="space-y-2">
-                <x-form.field
+                <x-form.field.select
                     name="status"
-                    type="select"
                     label="Status"
                     select_map_value="value"
                     select_map_label="label"
                     :options="BookingStatus::tableUI()"
                 />
-                <x-form.field
+                <x-form.field.select
                     name="service_type"
-                    type="select"
                     label="Service Type"
                     select_map_value="value"
                     select_map_label="label"
                     :options="ServiceType::tableUI()"
                 />
-                <x-form.field
+                <x-form.field.select
                     name="priority"
-                    type="select"
                     label="Priority"
                     select_map_value="value"
                     select_map_label="label"
                     :options="Priority::tableUI()"
                 />
                 <div class="grid grid-cols-2">
-                    <x-form.field
+                    <x-form.field.datetime
                         name="appointment_start"
-                        type="datetime"
                         label="Appointment start"
                     />
-                    <x-form.field
+                    <x-form.field.datetime
                         name="appointment_finish"
-                        type="datetime"
                         label="Appointment finish"
                     />
                 </div>

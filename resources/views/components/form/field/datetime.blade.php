@@ -1,32 +1,16 @@
-@props(['name'])
+@props(['name', 'label' => null])
 
 {{-- !!! Need to create a main input to capture datetime on save, need to add JS, need to see what props should we pass to this children --}}
-
 <button
     class="text-body bg-neutral-secondary-medium border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-neutral-tertiary shadow-xs rounded-base box-border inline-flex items-center justify-center border px-4 py-2.5 text-sm font-medium leading-5 focus:outline-none focus:ring-4"
     data-modal-target="timepicker-modal"
     data-modal-toggle="timepicker-modal"
     type="button"
 >
-    <svg
-        class="-ms-0.5 me-1.5 h-4 w-4"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-    >
-        <path
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-        />
-    </svg>
-    Set datetime
+    <x-fwb-o-clock class="w-5 h-5 mr-2"/>
+    {{ $label }}
 </button>
+
 
 <div
     class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
@@ -34,12 +18,11 @@
     aria-hidden="true"
     tabindex="-1"
 >
-    <div class="relative max-h-full w-full max-w-[40rem] p-4">
+    <div class="relative max-h-full w-full max-w-160 p-4">
         <!-- Modal content -->
         <div class="bg-neutral-primary-soft rounded-base relative">
             <!-- Modal header -->
-            <div
-                class="border-default flex items-center justify-between rounded-t border-b p-4">
+            <div class="border-default flex items-center justify-between rounded-t border-b p-4">
                 <h3 class="text-heading font-medium">
                     Schedule an appointment
                 </h3>
@@ -48,23 +31,7 @@
                     data-modal-toggle="timepicker-modal"
                     type="button"
                 >
-                    <svg
-                        class="h-5 w-5"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            stroke="currentColor"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18 17.94 6M18 18 6.06 6"
-                        />
-                    </svg>
+                    <x-fwb-o-close class="w-3 h-3"/>
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
