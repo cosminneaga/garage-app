@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum FuelType: string
 {
+    use HasEnumOptions;
+
     case BIOFUEL = 'biofuel';
     case CNG = 'cng';
     case DIESEL = 'diesel';
@@ -31,12 +33,5 @@ enum FuelType: string
             self::LPG => 'Liquefied Petroleum Gas',
             self::OTHER => 'Other type of engine ignition material',
         };
-    }
-
-    public static function values(): array
-    {
-        return Collection::make(self::cases())
-            ->map(fn (FuelType $case) => $case->value)
-            ->toArray();
     }
 }

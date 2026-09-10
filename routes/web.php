@@ -6,6 +6,7 @@ use App\Enums\Related\RelatedModel;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -68,6 +69,16 @@ Route::controller(CompanyController::class)
         Route::get('/companies/restore', 'removed')->name('companies.removed');
         Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');
         Route::get('/companies/{company}/load_relations', 'loadRelations')->name('companies.relations');
+    });
+
+Route::controller(ClientController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::get('/clients/companies/{company}', 'modelIndex')->name('clients.companies.index');
+            Route::get('/clients/companies/{company}/create', 'modelCreate')->name('clients.companies.create');
+            Route::post('/clients/companies/{company}', 'modelStore')->name('clients.companies.store');
+        });
     });
 
 Route::controller(ProfileController::class)

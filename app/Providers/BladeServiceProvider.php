@@ -11,6 +11,7 @@ use App\Enums\Columns\ContactColumns;
 use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
+use App\Enums\FuelType;
 use App\Enums\Priority;
 use App\Enums\Related\RelatedModel;
 use App\Enums\ServiceType;
@@ -23,8 +24,13 @@ use App\Enums\Tabs\UserProfileTabs;
 use App\Enums\Tabs\UserTabs;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
+use App\Enums\VehicleStatus;
 use App\Helpers\Permission;
 use App\Models\Country;
+use App\Models\VehicleData;
+use App\Models\VehicleMake;
+use App\Models\VehicleModel;
+use App\Models\VehicleYear;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -61,6 +67,13 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('BookingTableMap', BookingTableMap::class);
         $loader->alias('ServiceType', ServiceType::class);
         $loader->alias('Priority', Priority::class);
+        $loader->alias('FuelType', FuelType::class);
+        $loader->alias('VehicleStatus', VehicleStatus::class);
+
+        $loader->alias('VehicleMake', VehicleMake::class);
+        $loader->alias('VehicleModel', VehicleModel::class);
+        $loader->alias('VehicleData', VehicleData::class);
+        $loader->alias('VehicleYear', VehicleYear::class);
     }
 
     /**

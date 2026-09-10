@@ -176,8 +176,7 @@ class CompanyController extends Controller
         $this->authorize('show', $company);
 
         return response()->json([
-            'vehicles' => $company->vehicles,
-            'clients' => $company->clients,
+            'company' => $company->load(['vehicles', 'clients']),
         ]);
     }
 }

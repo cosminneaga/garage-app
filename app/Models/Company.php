@@ -149,8 +149,8 @@ class Company extends Model
         return $this->hasMany(Booking::class);
     }
 
-    public function vehicles(): HasMany
+    public function vehicles(): BelongsToMany
     {
-        return $this->hasMany(Vehicle::class);
+        return $this->belongsToMany(Vehicle::class);
     }
 }

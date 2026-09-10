@@ -1,8 +1,6 @@
 <x-layout::index title="Booking">
     <h1>Booking create</h1>
 
-
-
     <x-card description="Edit booking details">
         <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
             <section
@@ -19,6 +17,7 @@
                         }
 
                         this.resource = await response.json();
+                        $store.form_data.setCompany(this.resource.company);
                     }
                 }"
             >
@@ -39,22 +38,37 @@
                     data-modal-toggle="create-booking-reveal-company-relations-modal"
                     type="button"
                     variant="primary"
+                    @click="fetchResource"
                 >
                     Show clients & vehicles
                 </x-button>
 
-                {{-- !!! WORK LEFT HERE --}}
                 <x-modal.wrapper
                     id="create-booking-reveal-company-relations-modal"
                     title="Company's clients & vehicles"
                     size="7xl"
                 >
 
-                    <div class="grid grid-cols-2 gap-4 pt-3">
-                        <div>
+                    <div class="grid grid-cols-2 gap-4 p-2">
+                        <div class="grid grid-cols-2 items-center">
                             <h3 class="text-lg">CLIENTS</h3>
+                            <x-modal.client.create :countries="$countries" />
+                        </div>
+                        <div class="grid grid-cols-2 items-center">
+                            <h3 class="text-lg">VEHICLES</h3>
+                            <x-modal.vehicle.create
+                                :makes="$makes"
+                                {{-- :models="$models" --}}
+                                {{-- :data="$data" --}}
+                                {{-- :years="$years" --}}
+                            />
+                        </div>
+                    </div>
+                    <div class="h-175 grid grid-cols-2 gap-4 pt-3">
+
+                        <div class="overflow-y-auto">
                             <template
-                                x-for="client in resource?.clients"
+                                x-for="client in resource?.company?.clients"
                                 :key="client.id"
                             >
                                 <x-form.field.radio
@@ -66,10 +80,9 @@
                             </template>
                         </div>
 
-                        <div>
-                            <h3 class="text-lg">VEHICLES</h3>
+                        <div class="overflow-y-auto">
                             <template
-                                x-for="vehicle in resource?.vehicles"
+                                x-for="vehicle in resource?.company?.vehicles"
                                 :key="vehicle.id"
                             >
                                 <x-form.field.radio
@@ -81,7 +94,6 @@
                             </template>
                         </div>
                     </div>
-
                 </x-modal.wrapper>
 
 
@@ -96,6 +108,7 @@
                     disabled
                 />
             </section>
+
             <section class="space-y-2">
                 <x-form.field.select
                     name="status"
@@ -103,6 +116,10 @@
                     select_map_value="value"
                     select_map_label="label"
                     :options="BookingStatus::tableUI()"
+                />
+                <x-form.field.textarea
+                    name="current_status_info"
+                    label="Status info"
                 />
                 <x-form.field.select
                     name="service_type"
@@ -118,7 +135,7 @@
                     select_map_label="label"
                     :options="Priority::tableUI()"
                 />
-                <div class="grid grid-cols-2">
+                <div class="grid grid-cols-2 gap-2">
                     <x-form.field.datetime
                         name="appointment_start"
                         label="Appointment start"
@@ -128,6 +145,26 @@
                         label="Appointment finish"
                     />
                 </div>
+            </section>
+
+            <section class="space-y-2">
+                <x-form.field.text
+                    name="estimated_cost"
+                    label="Estimated cost"
+                />
+                <x-form.field.text
+                    name="estimated_duration_minutes"
+                    label="Estimated duration (minutes)"
+                    type="number"
+                />
+                <x-form.field.textarea
+                    name="notes"
+                    label="General notes"
+                />
+                <x-form.field.datetime
+                        name="checked_in_at"
+                        label="Checked in"
+                    />
             </section>
         </div>
     </x-card>
@@ -147,5 +184,9 @@
                 console.log(this.resource);
             }
         }
+    }
+
+    function submitForm(company_id) {
+        console.log(company_id);
     }
 </script>

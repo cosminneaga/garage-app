@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Traits\HasEnumOptions;
 use Illuminate\Support\Collection;
 
 enum VehicleStatus: string
 {
+    use HasEnumOptions;
+
     case ACTIVE = 'active';
     case AWAITING_PARTS = 'awaiting_parts';
     case IN_REPAIR = 'in_repair';
@@ -23,12 +26,5 @@ enum VehicleStatus: string
             self::READY_FOR_COLLECTION => 'Ready for Collection',
             self::DELIVERED => 'Delivered',
         };
-    }
-
-    public static function values(): array
-    {
-        return Collection::make(self::cases())
-            ->map(fn (VehicleStatus $case) => $case->value)
-            ->toArray();
     }
 }

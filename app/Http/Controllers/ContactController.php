@@ -23,7 +23,6 @@ class ContactController extends Controller
         ModelContactStoreAction $action
     ): RedirectResponse {
         self::guard('update', $request, $id);
-        $this->authorize('store', Contact::class);
 
         try {
             $action->handle($request->safe()->all(), self::$entity);

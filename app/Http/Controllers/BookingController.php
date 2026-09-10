@@ -9,6 +9,12 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\Company;
+use App\Models\Country;
+use App\Models\Vehicle;
+use App\Models\VehicleData;
+use App\Models\VehicleMake;
+use App\Models\VehicleModel;
+use App\Models\VehicleYear;
 use App\Traits\RelatedModelGuard;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -54,7 +60,12 @@ class BookingController extends Controller
         $this->authorize('store', Booking::class);
 
         return view('pages.booking.create', [
-            'companies' => Auth::user()->companies,
+            'companies' => Auth::user()->companies()->orderBy('id')->get(),
+            'countries' => Country::all(),
+            'makes' => VehicleMake::all(),
+            // 'models' => VehicleModel::all(),
+            // 'data' => VehicleData::all(),
+            // 'years' => VehicleYear::all(),
         ]);
     }
 

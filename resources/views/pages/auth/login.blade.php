@@ -12,13 +12,13 @@
             >
                 @csrf
 
-                <x-form.field
+                <x-form.field.text
                     name="email"
                     type="email"
                     label="E-Mail"
                     required
                 />
-                <x-form.field
+                <x-form.field.text
                     name="password"
                     type="password"
                     label="Password"

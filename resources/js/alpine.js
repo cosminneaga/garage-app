@@ -21,4 +21,15 @@ Alpine.store("notification", {
     },
 });
 
+Alpine.store("form_data", {
+    company: null,
+
+    setCompany(company) {
+        this.company = company;
+    },
+    getCompany() {
+        return this.company;
+    }
+});
+
 Alpine.start();
