@@ -626,8 +626,6 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $managers
- * @property-read int|null $managers_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
@@ -688,7 +686,6 @@ namespace App\Models{
  * @property string|null $technical_notes
  * @property string|null $notes
  * @property string|null $diagnostic_information
- * @property int $company_id
  * @property int|null $vehicle_make_id
  * @property int|null $vehicle_model_id
  * @property int|null $vehicle_data_id
@@ -710,7 +707,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDeletedAt($value)
@@ -760,7 +756,6 @@ namespace App\Models{
  * @method static \Database\Factories\VehicleDataFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereCylinders($value)
@@ -773,8 +768,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleMakeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleModelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleYearId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -796,14 +789,11 @@ namespace App\Models{
  * @method static \Database\Factories\VehicleMakeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -828,7 +818,6 @@ namespace App\Models{
  * @method static \Database\Factories\VehicleModelFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereCreatedAt($value)
@@ -836,8 +825,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereVehicleMakeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -859,15 +846,12 @@ namespace App\Models{
  * @method static \Database\Factories\VehicleYearFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereVehicleModelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereYear($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]

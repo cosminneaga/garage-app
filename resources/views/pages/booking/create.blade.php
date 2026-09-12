@@ -8,14 +8,14 @@
                 x-data="{
                     resource: null,
                     id: {{ $companies[0]->id }},
-
+                
                     async fetchResource() {
                         const response = await fetch(`/companies/${this.id}/load_relations`);
-
+                
                         if (!response.ok) {
                             throw new Error('Failed to fetch resource');
                         }
-
+                
                         this.resource = await response.json();
                         $store.form_data.setCompany(this.resource.company);
                     }
@@ -56,7 +56,17 @@
                         </div>
                         <div class="grid grid-cols-2 items-center">
                             <h3 class="text-lg">VEHICLES</h3>
+                            <x-button
+                                id="vehicle-create-button"
+                                data-modal-target="vehicle_create_modal"
+                                data-modal-toggle="vehicle_create_modal"
+                                type="button"
+                                @click="$refs.vehicle_create_form.action = `/vehicles/companies/${$store.form_data.company.id}`"
+                            >
+                                Create
+                            </x-button>
                             <x-modal.vehicle.create
+                                id="vehicle_create"
                                 :makes="$makes"
                                 {{-- :models="$models" --}}
                                 {{-- :data="$data" --}}
@@ -96,7 +106,6 @@
                     </div>
                 </x-modal.wrapper>
 
-
                 <x-form.field.text
                     name="client_id"
                     label="Selected client"
@@ -115,7 +124,7 @@
                     label="Status"
                     select_map_value="value"
                     select_map_label="label"
-                    :options="BookingStatus::tableUI()"
+                    :options="BookingStatus::selectOptions()"
                 />
                 <x-form.field.textarea
                     name="current_status_info"
@@ -126,14 +135,14 @@
                     label="Service Type"
                     select_map_value="value"
                     select_map_label="label"
-                    :options="ServiceType::tableUI()"
+                    :options="ServiceType::selectOptions()"
                 />
                 <x-form.field.select
                     name="priority"
                     label="Priority"
                     select_map_value="value"
                     select_map_label="label"
-                    :options="Priority::tableUI()"
+                    :options="Priority::selectOptions()"
                 />
                 <div class="grid grid-cols-2 gap-2">
                     <x-form.field.datetime
@@ -162,9 +171,9 @@
                     label="General notes"
                 />
                 <x-form.field.datetime
-                        name="checked_in_at"
-                        label="Checked in"
-                    />
+                    name="checked_in_at"
+                    label="Checked in"
+                />
             </section>
         </div>
     </x-card>
@@ -177,7 +186,8 @@
             resource: null,
 
             async fetchResource() {
-                const response = await fetch(`/companies/${id}/load_relations`);
+                const response = await fetch(
+                    `/companies/${id}/load_relations`);
 
                 this.resource = await response.json();
 

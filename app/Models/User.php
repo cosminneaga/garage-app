@@ -20,7 +20,6 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
@@ -91,7 +90,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder<static>|User withoutRole($roles, ?string $guard = null)
  * @method static Builder<static>|User withoutTeam($teams)
  * @method static Builder<static>|User withoutTrashed()
- * @method static Builder<static>|User memberAttach(User $user)
  * @mixin \Eloquent
  * @mixin IdeHelperUser
  */
@@ -243,7 +241,7 @@ class User extends Authenticatable
     {
         if ($this->isAdministrator()) {
             return User::whereKey($user->id)
-                ->whereHas('roles', fn($query) => $query->where('name', UserRole::USER->value))
+                ->whereHas('roles', fn ($query) => $query->where('name', UserRole::USER->value))
                 ->exists();
         }
 
@@ -257,7 +255,7 @@ class User extends Authenticatable
     public function isMyManager(User $user): bool
     {
         return User::whereKey($user->id)
-            ->whereHas('roles', fn($query) => $query->where('name', UserRole::MANAGER->value))
+            ->whereHas('roles', fn ($query) => $query->where('name', UserRole::MANAGER->value))
             ->exists();
     }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Enums\Tabs\CompanyTabs;
 
 test('ui', function () {
-    expect(CompanyTabs::ui())->toMatchArray([
+    expect(CompanyTabs::tabs())->toMatchArray([
         [
             'value' => 'details',
             'label' => 'Details',

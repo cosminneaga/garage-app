@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Laravel\Scout\Builder as ScoutBuilder;
@@ -25,7 +24,8 @@ class UserService
     public function __construct(
         #[CurrentUser]
         protected User $user,
-    ) {}
+    ) {
+    }
 
     /**
      * Used when pagination is not needed.
@@ -122,7 +122,9 @@ class UserService
      */
     public function whereIn(Model $model): UserService
     {
-        $this->result->whereIn('users.id', $model
+        $this->result->whereIn(
+            'users.id',
+            $model
             ->users()
             ->whereHas(
                 'roles',
@@ -141,7 +143,9 @@ class UserService
      */
     public function whereNotIn(Model $model): UserService
     {
-        $this->result->whereNotIn('users.id', $model
+        $this->result->whereNotIn(
+            'users.id',
+            $model
             ->users()
             ->whereHas(
                 'roles',
@@ -158,7 +162,7 @@ class UserService
      */
     public function team(array $roles, ResourceFilter $filter = ResourceFilter::DEFAULT): UserService
     {
-        $this->selectedRoles = Collection::make($roles)->map(fn(UserRole $role) => $role->value);
+        $this->selectedRoles = Collection::make($roles)->map(fn (UserRole $role) => $role->value);
         $result = User::whereHas('roles', fn ($query) => $query->whereIn('name', [...$this->selectedRoles]));
 
         /* --------------------------- RESOURCE FILTERING --------------------------- */
@@ -176,7 +180,7 @@ class UserService
         }
 
         /* ------------------ QUERY BUILDER & SCOUT SEARCH SWITCHER ----------------- */
-        switch($this->result::class) {
+        switch ($this->result::class) {
             case \Laravel\Scout\Builder::class:
                 $this->result->whereIn('users.id', $result->select('users.id'));
                 break;

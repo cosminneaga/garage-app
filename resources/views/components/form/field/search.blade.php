@@ -24,7 +24,8 @@
         for="search"
     >Search</label>
     <div class="relative">
-        <div class="inset-s-0 pointer-events-none absolute inset-y-0 flex items-center ps-3">
+        <div
+            class="inset-s-0 pointer-events-none absolute inset-y-0 flex items-center ps-3">
             <x-fwb-o-search class="h-4 w-4 text-gray-500" />
         </div>
         <input

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Tabs;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum CompanyTabs: string
 {
+    use HasEnumOptions;
+
     case DETAILS = 'details';
     case STATISTICS = 'statistics';
     case MEMBERS = 'members';
@@ -29,38 +31,5 @@ enum CompanyTabs: string
             self::VEHICLES => 'Vehicles',
             self::CLIENTS => 'Clients',
         };
-    }
-
-    public function slug(): string
-    {
-        return match ($this) {
-            self::DETAILS => 'details',
-            self::STATISTICS => 'statistics',
-            self::MEMBERS => 'members',
-            self::CONTACTS => 'contacts',
-            self::ADDRESSES => 'addresses',
-            self::SUPPLIERS => 'suppliers',
-            self::VEHICLES => 'vehicles',
-            self::CLIENTS => 'clients',
-        };
-    }
-
-    public static function ui(): array
-    {
-        return new Collection(self::cases())
-            ->map(fn ($case) => [
-                'value' => $case->value,
-                'label' => $case->label(),
-                'slug' => $case->slug(),
-            ])->toArray();
-    }
-
-    public static function findByValue(?string $value): false|string
-    {
-        if (self::tryFrom($value)) {
-            return self::from($value)->value;
-        }
-
-        return false;
     }
 }

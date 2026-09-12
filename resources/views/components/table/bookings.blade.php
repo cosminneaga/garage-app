@@ -11,10 +11,10 @@
 ])
 
 @php
-    $columns = BookingTableMap::labels();
+    $columns = BookingColumns::tableColumns();
 
     if ($edit || $delete || $restore) {
-        $columns->push('Actions');
+        $columns->push(...ActionColumn::tableColumns());
     }
 @endphp
 
@@ -41,7 +41,7 @@
             <th
                 class="px-6 py-3"
                 scope="col"
-            >{{ $column }}</th>
+            >{{ $column->label }}</th>
         @endforeach
     </x-slot>
 

@@ -25,7 +25,7 @@ and old values but not for default values -->
         label="Type"
         select_map_label="label"
         select_map_value="value"
-        :options="SupplierType::ui()"
+        :options="SupplierType::selectOptions()"
         :selected_value="SupplierType::DISTRIBUTOR->value"
     />
     <x-form.field.text

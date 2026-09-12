@@ -3,7 +3,7 @@
 @endphp
 
 <x-layout::index title="{{ $resource->name }}">
-    <x-tabs :tabs="CompanyTabs::ui()">
+    <x-tabs :tabs="CompanyTabs::tabs()">
         <x-card description="Visualise & Edit {{ $resource->name }} details">
             <form
                 id="form-company-update"

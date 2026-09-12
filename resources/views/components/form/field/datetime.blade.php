@@ -11,10 +11,9 @@
     data-modal-toggle="timepicker-modal"
     type="button"
 >
-    <x-fwb-o-clock class="w-5 h-5 mr-2"/>
+    <x-fwb-o-clock class="mr-2 h-5 w-5" />
     {{ $label }}
 </button>
-
 
 <div
     class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
@@ -22,11 +21,12 @@
     aria-hidden="true"
     tabindex="-1"
 >
-    <div class="relative max-h-full w-full max-w-160 p-4">
+    <div class="max-w-160 relative max-h-full w-full p-4">
         <!-- Modal content -->
         <div class="bg-neutral-primary-soft rounded-base relative">
             <!-- Modal header -->
-            <div class="border-default flex items-center justify-between rounded-t border-b p-4">
+            <div
+                class="border-default flex items-center justify-between rounded-t border-b p-4">
                 <h3 class="text-heading font-medium">
                     Schedule an appointment
                 </h3>
@@ -35,7 +35,7 @@
                     data-modal-toggle="timepicker-modal"
                     type="button"
                 >
-                    <x-fwb-o-close class="w-3 h-3"/>
+                    <x-fwb-o-close class="h-3 w-3" />
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>

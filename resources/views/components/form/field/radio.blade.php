@@ -11,7 +11,8 @@
 @endphp
 
 <div class="space-y-2 text-start">
-    <div class="border-default bg-neutral-primary-soft rounded-base my-2 flex items-center border ps-4">
+    <div
+        class="border-default bg-neutral-primary-soft rounded-base my-2 flex items-center border ps-4">
         <input
             class="text-neutral-primary border-default-medium bg-neutral-secondary-medium checked:border-brand focus:ring-brand-subtle h-4 w-4 appearance-none rounded-full border focus:outline-none focus:ring-2"
             {{ $attributes->merge([

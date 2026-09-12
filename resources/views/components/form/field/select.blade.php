@@ -30,10 +30,10 @@
     >
         @foreach ($options as $option)
             <option
-                value="{{ $option[$select_map_value] }}"
-                @selected($value === $option[$select_map_value])
+                value="{{ $option->$select_map_value }}"
+                @selected($value === $option->$select_map_value)
             >
-                {{ $option[$select_map_label] }}
+                {{ $option->$select_map_label }}
             </option>
         @endforeach
     </select>

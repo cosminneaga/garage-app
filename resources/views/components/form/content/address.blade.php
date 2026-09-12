@@ -72,7 +72,3 @@ and old values but not for default values -->
         label="Unit"
     />
 </section>
-
-
-
-

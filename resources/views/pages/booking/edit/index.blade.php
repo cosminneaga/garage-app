@@ -1,7 +1,7 @@
 @php
     Session::flashInput($resource->toArray());
 @endphp
-{{-- @dd(BookingStatus::tableUI()) --}}
+{{-- @dd(BookingStatus::selectOptions()) --}}
 <x-layout::index title="{{ $resource->number }}">
     <x-card description="Edit booking details">
         <div class="grid grid-rows-1 md:grid-cols-3">
@@ -22,7 +22,7 @@
                     label="Status"
                     select_map_value="value"
                     select_map_label="label"
-                    :options="BookingStatus::tableUI()"
+                    :options="BookingStatus::selectOptions()"
                 />
                 <x-form.field
                     name="service_type"
@@ -30,7 +30,7 @@
                     label="Service Type"
                     select_map_value="value"
                     select_map_label="label"
-                    :options="ServiceType::tableUI()"
+                    :options="ServiceType::selectOptions()"
                 />
                 <x-form.field
                     name="priority"
@@ -38,7 +38,7 @@
                     label="Priority"
                     select_map_value="value"
                     select_map_label="label"
-                    :options="Priority::tableUI()"
+                    :options="Priority::selectOptions()"
                 />
                 <div class="grid grid-cols-2">
                     <x-form.field

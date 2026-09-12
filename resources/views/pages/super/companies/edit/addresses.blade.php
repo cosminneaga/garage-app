@@ -1,5 +1,5 @@
 <x-layout::index>
-    <x-tabs :tabs="CompanyTabs::ui()">
+    <x-tabs :tabs="CompanyTabs::tabs()">
         <x-card
             description="Visualise & Edit {{ $resource->name }}'s location details"
         >
