@@ -37,4 +37,3 @@
         </form>
     </x-modal.wrapper>
 </div>
-
