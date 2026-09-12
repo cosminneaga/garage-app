@@ -10,6 +10,7 @@ use App\Models\Contact;
 use App\Models\Country;
 use App\Models\Supplier;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Database\Seeder;
 
 class LocalEnv extends Seeder
@@ -59,8 +60,8 @@ class LocalEnv extends Seeder
         $users[1]->assignRole(UserRole::ADMINISTRATOR);
         $users[2]->assignRole(UserRole::MANAGER);
         $users[3]->assignRole(UserRole::USER);
-        $users[1]->managers()->attach($users[2]);
-        $users[2]->users()->attach($users[3]);
+        $users[1]->memberAttach($users[2]);
+        $users[2]->memberAttach($users[3]);
 
         // 5. creating & attaching addresses & contacts
         $users[0]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
@@ -95,5 +96,9 @@ class LocalEnv extends Seeder
             $client->contacts()->attach(Contact::factory()->create());
             $client->companies()->attach($companies[0]);
         });
+
+        // 8. create vehicles & attach to the first company
+        $vehicles = Vehicle::factory(10)->create();
+        $companies[0]->vehicles()->attach($vehicles);
     }
 }

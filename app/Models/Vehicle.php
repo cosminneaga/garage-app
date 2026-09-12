@@ -6,8 +6,10 @@ namespace App\Models;
 
 use App\Enums\FuelType;
 use App\Enums\VehicleStatus;
+use App\Policies\VehiclePolicy;
 use App\Traits\Blameable;
 use Database\Factories\VehicleFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -74,6 +76,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperVehicle
  */
+
+#[UsePolicy(VehiclePolicy::class)]
 class Vehicle extends Model
 {
     use Blameable;

@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Enums\BookingStatus;
+use App\Enums\Columns\ActionColumn;
 use App\Enums\Columns\AddressColumns;
+use App\Enums\Columns\BookingColumns;
+use App\Enums\Columns\ClientColumns;
 use App\Enums\Columns\CompanyColumns;
 use App\Enums\Columns\ContactColumns;
 use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
+use App\Enums\Columns\VehicleColumns;
 use App\Enums\FuelType;
 use App\Enums\Priority;
 use App\Enums\Related\RelatedModel;
@@ -70,6 +74,11 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('Priority', Priority::class);
         $loader->alias('FuelType', FuelType::class);
         $loader->alias('VehicleStatus', VehicleStatus::class);
+        $loader->alias('BookingColumns', BookingColumns::class);
+        $loader->alias('ActionColumn', ActionColumn::class);
+        $loader->alias('VehicleColumns', VehicleColumns::class);
+        $loader->alias('ClientColumns', ClientColumns::class);
+
 
         $loader->alias('VehicleMake', VehicleMake::class);
         $loader->alias('VehicleModel', VehicleModel::class);

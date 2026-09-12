@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Actions\CompanyStoreAction;
 use App\Actions\CompanyUpdateAction;
+use App\Enums\Columns\ClientColumns;
+use App\Enums\Columns\VehicleColumns;
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreCompanyRequest;
@@ -68,18 +70,13 @@ class CompanyController extends Controller
         $search = request()->string('search')->value();
 
         $roleName = Auth::user()->getRoleNames()->first();
-        $forRole = [];
-        switch($roleName) {
-            case UserRole::ADMINISTRATOR->value:
-                $forRole = [UserRole::MANAGER, UserRole::USER];
-                break;
-            case UserRole::MANAGER->value:
-                $forRole = [UserRole::USER];
-                break;
-            default:
-                $forRole = [UserRole::USER];
-                break;
-        }
+        $forRole = match ($roleName) {
+            UserRole::ADMINISTRATOR->value => [UserRole::MANAGER, UserRole::USER],
+            UserRole::MANAGER->value => [UserRole::USER],
+            default => [UserRole::USER],
+        };
+
+        // dd(VehicleColumns::values());
 
         return match(request()->query('tab')) {
             'statistics' => view('pages.company.edit.statistics'),
@@ -107,6 +104,14 @@ class CompanyController extends Controller
             'suppliers' => view('pages.company.edit.suppliers', [
                 'resource' => $company,
                 'countries' => Country::all(),
+            ]),
+            'vehicles' => view('pages.company.edit.vehicles', [
+                'resource' => $company,
+                'vehicles' => $company->vehicles()->get(VehicleColumns::values()->map(fn ($value) => 'vehicles.' . $value)->toArray()),
+            ]),
+            'clients' => view('pages.company.edit.clients', [
+                'resource' => $company,
+                'clients' => $company->clients()->get(ClientColumns::values()->map(fn ($value) => 'clients.' . $value)->toArray()),
             ]),
             default => view('pages.company.edit.index', [
                 'resource' => $company,

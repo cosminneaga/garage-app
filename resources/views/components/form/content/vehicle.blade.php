@@ -27,7 +27,7 @@
             name="{{ Str::generateFormFieldName('first_visit_odometer', $nested_parent_name) }}"
             label="1st visit odometer"
         />
-        <x-form.field.datetime
+        <x-form.field.text
             identifier="{{ $identifier }}"
             name="{{ Str::generateFormFieldName('first_visit', $nested_parent_name) }}"
             label="First visit"
@@ -44,7 +44,7 @@
             label="Fuel"
             select_map_value="value"
             select_map_label="label"
-            :options="FuelType::tableUI()"
+            :options="FuelType::selectOptions()"
         />
         <x-form.field.select
             identifier="{{ $identifier }}"
@@ -52,7 +52,7 @@
             label="Status"
             select_map_value="value"
             select_map_label="label"
-            :options="VehicleStatus::tableUI()"
+            :options="VehicleStatus::selectOptions()"
         />
         <x-form.field.textarea
             identifier="{{ $identifier }}"

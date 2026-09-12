@@ -16,6 +16,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WorkorderController;
 use App\Http\Controllers\WorkorderOperationController;
 use App\Http\Controllers\WorkorderOperationLabourTimeController;
@@ -109,6 +110,15 @@ Route::controller(PartController::class)
             Route::get('/parts/{part}/suppliers/{supplier}', 'modelEdit')->name('parts.suppliers.edit');
             Route::put('/parts/{part}/suppliers/{supplier}', 'modelUpdate')->name('parts.suppliers.update');
             Route::delete('/parts/{part}/suppliers/{supplier}', 'modelDestroy')->name('parts.suppliers.destroy');
+        });
+    });
+
+Route::controller(VehicleController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        #companies
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::post('/vehicles/companies/{company}', 'modelStore')->name('vehicles.companies.store');
         });
     });
 

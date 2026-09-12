@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Enums;
 
 use App\Traits\HasEnumOptions;
-use Illuminate\Support\Collection;
 
 enum VehicleStatus: string
 {
