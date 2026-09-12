@@ -8,7 +8,6 @@ use App\Enums\UserRole;
 use App\Policies\UserPolicy;
 use App\Traits\Blameable;
 use Database\Factories\UserFactory;
-use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -29,7 +28,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
-use Throwable;
 
 /**
  * @property int $id
@@ -93,6 +91,7 @@ use Throwable;
  * @method static Builder<static>|User withoutRole($roles, ?string $guard = null)
  * @method static Builder<static>|User withoutTeam($teams)
  * @method static Builder<static>|User withoutTrashed()
+ * @method static Builder<static>|User memberAttach(User $user)
  * @mixin \Eloquent
  * @mixin IdeHelperUser
  */
@@ -178,75 +177,6 @@ class User extends Authenticatable
         return $this->hasRole(UserRole::USER);
     }
 
-    /**
-     * Functions one-way from manager to users & one-way through from administrator to user
-     */
-    public function isMyUser(User $user): Throwable|bool
-    {
-        if (Auth::check() && Auth::user()->id === $user->id) {
-            return true;
-        }
-
-        if (!$this->hasAnyRole(
-            UserRole::MANAGER->value,
-            UserRole::ADMINISTRATOR->value,
-            UserRole::USER->value
-        )) {
-            throw new Exception('The user must hold a valid role');
-        }
-
-        if ($this->isAdministrator()) {
-            if ($user->isManager()) {
-                return $this
-                    ->managers()
-                    ->where('users.id', $user->id)
-                    ->withTrashed()
-                    ->exists();
-            }
-            if ($user->isUser()) {
-                return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
-                ->join('team_administrator_managers', 'team_administrator_managers.manager_id', '=', 'team_manager_users.manager_id')
-                ->where('team_administrator_managers.administrator_id', $this->id)
-                ->where('users.id', $user->id)
-                ->withTrashed()
-                ->exists();
-            }
-        }
-
-        if ($this->isManager()) {
-            return $this
-                ->users()
-                ->where('users.id', $user->id)
-                ->withTrashed()
-                ->exists();
-        }
-
-        // !!! This could fail if there are multiple managers, as it takes the first one only
-        // Have a workarund for future, with tests
-        if (count($this->managers) > 0) {
-            return $this->join('team_manager_users', 'team_manager_users.user_id', '=', 'users.id')
-                ->where('team_manager_users.manager_id', '=', $this->managers->first()->id)
-                ->where('users.id', $user->id)
-                ->withTrashed()
-                ->exists();
-        }
-
-        return false;
-    }
-
-    public function isMyManager(User $user): Throwable|bool
-    {
-        if (!$this->hasRole(UserRole::ADMINISTRATOR)) {
-            throw new Exception('User data can only be access by an administrator');
-        }
-
-        return $this
-            ->managers()
-            ->where('users.id', $user->id)
-            ->withTrashed()
-            ->exists();
-    }
-
     public function chart(): array
     {
         $data = $this->select('created_at as date', DB::raw('count(*) as count'))
@@ -261,29 +191,8 @@ class User extends Authenticatable
     }
 
     /**
-     * Functions two-ways as from administrator to managers, and from user to managers
-     */
-    public function managers(): BelongsToMany
-    {
-        if ($this->isAdministrator()) {
-            return $this->belongsToMany(
-                User::class,
-                'team_administrator_managers',
-                'administrator_id',
-                'manager_id',
-            );
-        }
-
-        return $this->belongsToMany(
-            User::class,
-            'team_manager_users',
-            'user_id',
-            'manager_id',
-        );
-    }
-
-    /**
-     * Functions one-way from manager to users
+     * !! To be used from top-bottom approach
+     * managers -> users
      */
     public function users(): BelongsToMany
     {
@@ -295,22 +204,61 @@ class User extends Authenticatable
         );
     }
 
-    public function memberAttach(User $user): void
+    /**
+     * !! To be used from top-bottom approach
+     */
+    public function memberDetach(User $user): void
     {
-        if ($user->isManager()) {
-            $this->managers()->attach($user);
-        } elseif ($user->isUser()) {
-            $this->users()->attach($user);
+        if ($this->isAdministrator()) {
+            return;
+        }
+
+        if ($this->isManager()) {
+            $this->users()->detach($user);
+
+            return;
         }
     }
 
-    public function memberDetach(User $user): void
+    /**
+     * !! To be used from top-bottom approach
+     */
+    public function memberAttach(User $user): void
     {
-        if ($user->isManager()) {
-            $this->managers()->detach($user);
-        } elseif ($user->isUser()) {
-            $this->users()->detach($user);
+        if ($this->isAdministrator()) {
+            return;
         }
+
+        if ($this->isManager()) {
+            $this->users()->attach($user);
+
+            return;
+        }
+    }
+
+    /**
+     * !! To be used from top-bottom approach
+     */
+    public function isMyUser(User $user): bool
+    {
+        if ($this->isAdministrator()) {
+            return User::whereKey($user->id)
+                ->whereHas('roles', fn($query) => $query->where('name', UserRole::USER->value))
+                ->exists();
+        }
+
+        // need to fetch only attached users
+        return $this->users()->whereKey($user->id)->exists();
+    }
+
+    /**
+     * !! To be used from top-bottom approach
+     */
+    public function isMyManager(User $user): bool
+    {
+        return User::whereKey($user->id)
+            ->whereHas('roles', fn($query) => $query->where('name', UserRole::MANAGER->value))
+            ->exists();
     }
 
     public function addresses(): BelongsToMany
