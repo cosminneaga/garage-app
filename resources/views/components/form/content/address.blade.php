@@ -10,6 +10,7 @@ and old values but not for default values -->
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Address Basic Information *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
+
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('street_number', $nested_parent_name) }}"
@@ -38,6 +39,7 @@ and old values but not for default values -->
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Address Location</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
+
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('coordinates[latitude]', $nested_parent_name) }}"
@@ -53,6 +55,7 @@ and old values but not for default values -->
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Address Extra Information</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
+
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('building', $nested_parent_name) }}"

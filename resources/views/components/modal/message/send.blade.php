@@ -18,9 +18,8 @@
     <form action="#">
         @csrf
 
-        <x-form.field
+        <x-form.field.textarea
             name="message"
-            type="textarea"
             value="Hello, \n My dear co-worker!"
             label="Your message"
         />

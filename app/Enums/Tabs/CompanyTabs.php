@@ -14,6 +14,8 @@ enum CompanyTabs: string
     case CONTACTS = 'contacts';
     case ADDRESSES = 'addresses';
     case SUPPLIERS = 'suppliers';
+    case VEHICLES = 'vehicles';
+    case CLIENTS = 'clients';
 
     public function label(): string
     {
@@ -24,6 +26,8 @@ enum CompanyTabs: string
             self::CONTACTS => 'Contacts',
             self::ADDRESSES => 'Addresses',
             self::SUPPLIERS => 'Suppliers',
+            self::VEHICLES => 'Vehicles',
+            self::CLIENTS => 'Clients',
         };
     }
 
@@ -36,6 +40,8 @@ enum CompanyTabs: string
             self::CONTACTS => 'contacts',
             self::ADDRESSES => 'addresses',
             self::SUPPLIERS => 'suppliers',
+            self::VEHICLES => 'vehicles',
+            self::CLIENTS => 'clients',
         };
     }
 

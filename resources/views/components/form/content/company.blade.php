@@ -9,34 +9,29 @@ and old values but not for default values -->
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Company Basic Information *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
-    <x-form.field
+    <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
-        type="text"
         label="Name"
     />
-    <x-form.field
+    <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('tax_id', $nested_parent_name) }}"
-        type="text"
         label="Tax ID"
     />
-    <x-form.field
+    <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('registration_number', $nested_parent_name) }}"
-        type="text"
         label="Registration Number"
     />
-    <x-form.field
+    <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('tax_value', $nested_parent_name) }}"
-        type="text"
         label="Tax Value"
     />
-    <x-form.field
+    <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('invoice_prefix', $nested_parent_name) }}"
-        type="text"
         label="Invoice Prefix"
     />
 </section>
@@ -44,10 +39,9 @@ and old values but not for default values -->
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Company Media</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
-    <x-form.field
+    <x-form.field.image
         identifier="company"
         name="image"
-        type="image"
         accept="image/*"
     />
 </section>

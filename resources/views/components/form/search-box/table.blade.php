@@ -10,9 +10,8 @@
     action="{{ $action }}"
 >
     @foreach (request()->except('search') as $key => $value)
-        <x-form.field
+        <x-form.field.text
             name="{{ $key }}"
-            type="text"
             value="{{ $value }}"
             hidden
         />

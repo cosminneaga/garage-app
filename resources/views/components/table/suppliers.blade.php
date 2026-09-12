@@ -44,9 +44,8 @@
             method="GET"
             action="{{ $search_route }}"
         >
-            <x-form.field
+            <x-form.field.search
                 name="search"
-                type="search"
                 value="{{ request('search') }}"
                 label="Search suppliers..."
             />
