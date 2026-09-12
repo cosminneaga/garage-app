@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\Columns\BookingColumns;
 use App\Enums\TableMap\BookingTableMap;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\Company;
 use App\Models\Country;
-use App\Models\Vehicle;
-use App\Models\VehicleData;
 use App\Models\VehicleMake;
-use App\Models\VehicleModel;
-use App\Models\VehicleYear;
 use App\Traits\RelatedModelGuard;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -47,7 +44,7 @@ class BookingController extends Controller
 
         $bookings = Booking::search($search)
             ->whereIn('company_id', Auth::user()->companies()->select('companies.id'))
-            ->query(fn ($query) => $query->select([...BookingTableMap::values()]))
+            ->query(fn ($query) => $query->select([...BookingColumns::values()]))
             ->get();
 
         return view('pages.booking.index', [
