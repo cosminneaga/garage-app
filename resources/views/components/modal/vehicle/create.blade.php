@@ -1,30 +1,45 @@
 @props([
+    'id',
+    'resource',
+    'action' => '#',
+    'trigger' => false,
     'makes' => [],
     'models' => [],
     'data' => [],
     'years' => [],
 ])
 
-<div>
+@php
+    $ids = [
+        'modal' => $id . '_modal',
+        'trigger' => $id . '_trigger',
+        'submit' => $id . '_submit',
+        'form' => $id . '_form',
+    ];
+@endphp
+
+@if ($trigger)
     <x-button
-        id="create-company-vehicle-button"
-        data-modal-target="create-company-vehicle-modal"
-        data-modal-toggle="create-company-vehicle-modal"
+        id="{{ $ids['trigger'] }}"
+        data-modal-target="{{ $ids['modal'] }}"
+        data-modal-toggle="{{ $ids['modal'] }}"
         type="button"
-        @click="$refs.vehicle_store_form.action = `/vehicles/companies/${$store.form_data.company.id}`"
     >
         Create
     </x-button>
+@endif
+<div>
 
     <x-modal.wrapper
-        id="create-company-vehicle-modal"
         title="Create new vehicle"
+        id="{{ $ids['modal'] }}"
         size="7xl"
     >
         <form
-            action="#"
+            action="{{ $action }}"
             method="POST"
-            x-ref="vehicle_store_form"
+            id="{{ $ids['form'] }}"
+            x-ref="{{ $ids['form'] }}"
         >
             @csrf
 
@@ -37,7 +52,7 @@
             />
 
             <x-button
-                id="vehicle-create-submit"
+                id="{{ $ids['submit'] }}"
                 type="submit"
             >Submit</x-button>
         </form>
