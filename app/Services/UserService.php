@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Enums\Resource\ResourceFilter;
 use App\Enums\UserRole;
 use App\Models\User;
-use Exception;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,14 +18,14 @@ use Laravel\Scout\Builder as ScoutBuilder;
 class UserService
 {
     public string $searchQuery = '';
+    public Collection $selectedRoles;
     public ResourceFilter|null $resourceFilter = null;
     public ScoutBuilder|User|EloquentBuilder $result;
 
     public function __construct(
         #[CurrentUser]
         protected User $user,
-    ) {
-    }
+    ) {}
 
     /**
      * Used when pagination is not needed.
@@ -119,16 +118,17 @@ class UserService
      * Filter user by given model.
      * Model users that are attached to the given model.
      * Ensuring filtering based on role.
+     *
      */
     public function whereIn(Model $model): UserService
     {
-        $role = $this->user->roles->first();
-        $this->result
-            ->whereIn('users.id', $this
-                ->modelRoleResourceSelect(
-                    $model,
-                    UserRole::findByRole($role)
-                )->select('users.id'));
+        $this->result->whereIn('users.id', $model
+            ->users()
+            ->whereHas(
+                'roles',
+                fn ($query) => $query->whereIn('name', [...$this->selectedRoles])
+            )->select('users.id')
+        );
 
         return $this;
     }
@@ -137,104 +137,29 @@ class UserService
      * Filter user by given model.
      * Model users that are not attached to the given model.
      * Ensuring filtering based on role.
+     *
      */
     public function whereNotIn(Model $model): UserService
     {
-        $role = $this->user->roles->first();
-        $this->result
-            ->whereNotIn('users.id', $this
-                ->modelRoleResourceSelect(
-                    $model,
-                    UserRole::findByRole($role)
-                )->select('users.id'));
+        $this->result->whereNotIn('users.id', $model
+            ->users()
+            ->whereHas(
+                'roles',
+                fn ($query) => $query->whereIn('name', [...$this->selectedRoles])
+            )->select('users.id')
+        );
 
         return $this;
     }
 
     /**
-     * Returns a list of related users based on authenticated or given user
-     * able to select user account using administrator role, thus all users
-     * must have a role assigned.
-     *
-     * Fetching the related users for manager or administrator.
-     * $service->model()->team(UserRole::USER)->get();
-     *
-     * Applying search query on related users for manager or administrator.
-     * $service->search('user')->team(UserRole::USER)->get();
-     *
-     * Applying resource filtering with pagination on related users for manager or administrator.
-     * $service->search('user')->resourceFilter(ResourceFilter::ONLY_TRASHED)->team(UserRole::USER)->paginate();
+     * Returns a list of users based on given roles and trash filter
+     * $service->model()->team([UserRole::MANAGER, UserRole::USER], ResourceFilter::WITH_TRASHED)
      */
-    public function team(UserRole $forRole, ResourceFilter $filter = ResourceFilter::DEFAULT): UserService
+    public function team(array $roles, ResourceFilter $filter = ResourceFilter::DEFAULT): UserService
     {
-
-        $role = $this->user->getRoleNames();
-
-        if (count($role) === 0) {
-            throw new Exception('Designated user must have a role attached');
-        }
-
-        if (UserRole::from($role[0]) === $forRole) {
-            throw new Exception('A relation cannot be build on same roles');
-        }
-
-        $pointRole = UserRole::from($role[0]);
-        $relationMapped = UserRole::mapRelation($pointRole, $forRole);
-
-        $first = $relationMapped->first();
-        $last = $relationMapped->last();
-        $result = $this->user;
-
-        /* ------------------------------- INNER JOINS ------------------------------ */
-        /**
-         * Legend ancronyms:
-         * $jtn => joined table name
-         * $jtc => joined table column
-         * $ctn => current table name
-         * $ctc -> current table column
-         */
-        if (count($relationMapped) > 2) {
-            $result = $result->join(
-                $last->table_name,
-                $last->table_name . '.' . collect($last->columns)->getBy('type', 'pk')->value,
-                '=',
-                'users.id'
-            );
-
-            $inner = $relationMapped->slice(1, -1);
-            foreach ($inner as $index => $ir) {
-                $previous = $relationMapped[$index - 1];
-                $next = $relationMapped[$index + 1];
-
-                $jtn = $previous->table_name;
-                $jtc = collect($previous->columns)->getBy('type', 'fk')->value;
-                $ctn = $ir->table_name;
-                $ctc = collect($ir->columns)->getBy('type', 'pk')->value;
-
-                if ($ir->table_name === $previous->table_name) {
-                    $ctn = $next->table_name;
-                }
-
-                $result = $result->join($jtn, $jtn . '.' . $jtc, '=', $ctn . '.' . $ctc);
-            }
-
-            $result = $result->where(
-                $first->table_name . '.' . collect($first->columns)->getBy('type', 'pk')->value,
-                $this->user->id
-            );
-        } else {
-            $result = $result->join(
-                $first->table_name,
-                $first->table_name . '.' . $first->columns[1]->value,
-                '=',
-                'users.id'
-            )->where(
-                $first->table_name . '.' . $first->columns[0]->value,
-                $this->user->id
-            );
-        }
-
-        $result = $result->select('users.*')->distinct();
+        $this->selectedRoles = Collection::make($roles)->map(fn(UserRole $role) => $role->value);
+        $result = User::whereHas('roles', fn ($query) => $query->whereIn('name', [...$this->selectedRoles]));
 
         /* --------------------------- RESOURCE FILTERING --------------------------- */
         switch ($filter) {
@@ -251,7 +176,7 @@ class UserService
         }
 
         /* ------------------ QUERY BUILDER & SCOUT SEARCH SWITCHER ----------------- */
-        switch ($this->result::class) {
+        switch($this->result::class) {
             case \Laravel\Scout\Builder::class:
                 $this->result->whereIn('users.id', $result->select('users.id'));
                 break;
@@ -288,49 +213,5 @@ class UserService
     public function dd(): void
     {
         $this->result->ddRawSql();
-    }
-
-    /**
-     * This method is ensuring data filtering through role based on given related model
-     * administrator: himself, manager, user
-     * manager: himself, user
-     * user: himself, user
-     */
-    protected function modelRoleResourceSelect(Model $model, UserRole $role): BelongsToMany
-    {
-        switch ($role) {
-            case UserRole::USER:
-                return $model
-                    ->users()
-                    ->whereHas(
-                        'roles',
-                        fn ($query) => $query->whereIn('name', [
-                            UserRole::USER->value,
-                        ])
-                    );
-            case UserRole::MANAGER:
-                return $model
-                    ->users()
-                    ->whereHas(
-                        'roles',
-                        fn ($query) => $query->whereIn('name', [
-                            UserRole::MANAGER->value,
-                            UserRole::USER->value,
-                        ])
-                    );
-            case UserRole::ADMINISTRATOR:
-                return $model
-                    ->users()
-                    ->whereHas(
-                        'roles',
-                        fn ($query) => $query->whereIn('name', [
-                            UserRole::ADMINISTRATOR->value,
-                            UserRole::MANAGER->value,
-                            UserRole::USER->value,
-                        ])
-                    );
-            default:
-                return $model->users();
-        }
     }
 }

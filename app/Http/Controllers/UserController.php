@@ -41,7 +41,7 @@ class UserController extends Controller
         return view('pages.user.index', [
             'users' => $this->userService
                 ->search($querySearch)
-                ->team(UserRole::USER)
+                ->team([UserRole::MANAGER, UserRole::USER])
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }
@@ -172,7 +172,7 @@ class UserController extends Controller
         return view('pages.user.removed', [
             'users' => $this->userService
                 ->search($querySearch)
-                ->team(UserRole::USER, ResourceFilter::ONLY_TRASHED)
+                ->team([UserRole::USER], ResourceFilter::ONLY_TRASHED)
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }
