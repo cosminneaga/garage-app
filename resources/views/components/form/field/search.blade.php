@@ -8,8 +8,7 @@
 ])
 
 @php
-    $testName = $identifier . '_' . Str::replace(['[', ']'], ['_', ''], $name);
-    $errorName = Str::replace(['[', ']'], ['.', ''], $name);
+    $helper = BladeFormHelper::names($identifier, $name);
 @endphp
 
 <div class="space-y-2 text-start">
@@ -31,10 +30,10 @@
         <input
             class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border p-3 ps-9 text-sm"
             {{ $attributes->merge([
-                'value' => old($errorName, $value),
+                'value' => old($helper->get('errorName'), $value),
                 'name' => $name,
                 'id' => $name,
-                'data-test' => $testName,
+                'data-test' => $helper->get('testName'),
                 'placeholder' => 'Search',
             ]) }}
         />
@@ -42,13 +41,13 @@
             class="bg-brand hover:bg-brand-strong focus:ring-brand-medium shadow-xs inset-e-1.5 absolute bottom-1.5 box-border rounded border border-transparent px-3 py-1.5 text-xs font-medium leading-5 text-white focus:outline-none focus:ring-4"
             {{ $attributes->merge([
                 'type' => 'submit',
-                'id' => $testName . '_submit',
-                'data-test' => $testName . '_submit',
+                'id' => $helper->get('testName') . '_submit',
+                'data-test' => $helper->get('testName') . '_submit',
             ]) }}
         >Search</button>
     </div>
 
-    @error($errorName)
+    @error($helper->get('errorName'))
         <p class="text-xs text-red-600">{{ $message }}</p>
     @enderror
 </div>

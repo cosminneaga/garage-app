@@ -6,8 +6,7 @@
 ])
 
 @php
-    $testName = $identifier . '_' . Str::replace(['[', ']'], ['_', ''], $name);
-    $errorName = Str::replace(['[', ']'], ['.', ''], $name);
+    $helper = BladeFormHelper::names($identifier, $name);
 @endphp
 
 <div class="space-y-2 py-4 text-start">
@@ -29,7 +28,7 @@
                 {{ $attributes->merge([
                     'name' => $name,
                     'id' => $name,
-                    'data-test' => $testName,
+                    'data-test' => $helper->get('testName'),
                     'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
                 ]) }}
             />
@@ -45,7 +44,7 @@
         @endisset
     </div>
 
-    @error($errorName)
+    @error($helper->get('errorName'))
         <p class="text-xs text-red-600">{{ $message }}</p>
     @enderror
 </div>

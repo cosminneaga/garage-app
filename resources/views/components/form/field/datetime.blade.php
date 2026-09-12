@@ -1,4 +1,8 @@
-@props(['name', 'label' => null])
+@props(['name', 'identifier' => 'datetime', 'label' => null])
+
+@php
+    $helper = BladeFormHelper::names($identifier, $name);
+@endphp
 
 {{-- !!! Need to create a main input to capture datetime on save, need to add JS, need to see what props should we pass to this children --}}
 <button
