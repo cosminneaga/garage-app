@@ -16,217 +16,63 @@
         >Garage App</span>
     </div>
 
-    @permitted(UserPermission::USER, 'show')
-    <br />
-    <div class="border-default border-b">
-        <span class="text-heading">Users</span>
-    </div>
-    <ul class="space-y-2 font-medium">
-        <li class="my-2">
-            <a
-                class="w-full"
-                href="{{ route('users.index') }}"
-            > List </a>
-        </li>
-        @permitted(UserPermission::USER, 'store')
-        <li class="my-2">
-            <a
-                class="w-full"
-                href="{{ route('users.create') }}"
-            > Create </a>
-        </li>
-        @endpermitted
-        @permitted(UserPermission::USER, 'restore')
-        <li class="my-2">
-            <a
-                class="w-full"
-                href="{{ route('users.removed') }}"
-            > Removed </a>
-        </li>
-        @endpermitted
-    </ul>
-    @endpermitted
+    <x-navigation.link-list.permission
+        label="Users"
+        :show="[UserPermission::USER, 'show']"
+        :store="[UserPermission::USER, 'store']"
+        :restore="[UserPermission::USER, 'restore']"
+        route_list="{{ route('users.index') }}"
+        route_store="{{ route('users.create') }}"
+        route_restore="{{ route('users.removed') }}"
+    />
 
-    @permitted(UserPermission::MANAGER, 'show')
-    <br />
-    <div class="border-default border-b">
-        <span class="text-heading">Managers</span>
-    </div>
-    <ul class="space-y-2 font-medium">
-        <li class="my-2">
-            <a
-                class="w-full"
-                href="{{ route('managers.index') }}"
-            > List </a>
-        </li>
-        @permitted(UserPermission::MANAGER, 'store')
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('managers.create') }}"
-                > Create </a>
-            </li>
-        @endpermitted
-        @permitted(UserPermission::MANAGER, 'restore')
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('managers.removed') }}"
-                > Removed </a>
-            </li>
-        @endpermitted
-    </ul>
-    @endadministrator
+    <x-navigation.link-list.permission
+        label="Managers"
+        :show="[UserPermission::MANAGER, 'show']"
+        :store="[UserPermission::MANAGER, 'store']"
+        :restore="[UserPermission::MANAGER, 'restore']"
+        route_list="{{ route('managers.index') }}"
+        route_store="{{ route('managers.create') }}"
+        route_restore="{{ route('managers.removed') }}"
+    />
 
-    @permitted(UserPermission::COMPANY, 'show')
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Companies</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('companies.index') }}"
-                > List </a>
-            </li>
-            @permitted(UserPermission::COMPANY, 'store')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="{{ route('companies.create') }}"
-                    > Create </a>
-                </li>
-            @endpermitted
-            @permitted(UserPermission::COMPANY, 'restore')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="{{ route('companies.removed') }}"
-                    > Removed </a>
-                </li>
-            @endpermitted
-        </ul>
-    @endpermitted
+    <x-navigation.link-list.permission
+        label="Companies"
+        :show="[UserPermission::COMPANY, 'show']"
+        :store="[UserPermission::COMPANY, 'store']"
+        :restore="[UserPermission::COMPANY, 'restore']"
+        route_list="{{ route('companies.index') }}"
+        route_store="{{ route('companies.create') }}"
+        route_restore="{{ route('companies.removed') }}"
+    />
 
-    @permitted(UserPermission::BOOKING, 'show')
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Bookings</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('bookings.index') }}"
-                > List </a>
-            </li>
-            @permitted(UserPermission::COMPANY, 'store')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="{{ route('bookings.create') }}"
-                    > Create </a>
-                </li>
-            @endpermitted
-            @permitted(UserPermission::COMPANY, 'restore')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="{{ route('companies.removed') }}"
-                    > Removed </a>
-                </li>
-            @endpermitted
-        </ul>
-    @endpermitted
-
-    @permitted(UserPermission::CLIENT, 'show')
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Clients</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('clients.index') }}"
-                > List </a>
-            </li>
-            @permitted(UserPermission::COMPANY, 'store')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="{{ route('bookings.create') }}"
-                    > Create </a>
-                </li>
-            @endpermitted
-            @permitted(UserPermission::COMPANY, 'restore')
-                <li class="my-2">
-                    <a
-                        class="w-full"
-                        href="{{ route('companies.removed') }}"
-                    > Removed </a>
-                </li>
-            @endpermitted
-        </ul>
-    @endpermitted
+    <x-navigation.link-list.permission
+        label="Bookings"
+        :show="[UserPermission::BOOKING, 'show']"
+        :store="[UserPermission::BOOKING, 'store']"
+        :restore="[UserPermission::BOOKING, 'restore']"
+        route_list="{{ route('bookings.index') }}"
+        route_store="{{ route('bookings.create') }}"
+        {{-- route_restore="{{ route('bookings.removed') }}" --}}
+    />
 
     @super
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Users</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.users.all') }}"
-                > List </a>
-            </li>
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.users.removed') }}"
-                > Removed </a>
-            </li>
-        </ul>
+        <x-navigation.link-list.direct
+            label="Users"
+            route_list="{{ route('super.users.all') }}"
+            route_removed="{{ route('super.users.removed') }}"
+        />
 
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Companies</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.companies.all') }}"
-                > List </a>
-            </li>
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.companies.removed') }}"
-                > Removed </a>
-            </li>
-        </ul>
+        <x-navigation.link-list.direct
+            label="Companies"
+            route_list="{{ route('super.companies.all') }}"
+            route_removed="{{ route('super.companies.removed') }}"
+        />
 
-        <br />
-        <div class="border-default border-b">
-            <span class="text-heading">Suppliers</span>
-        </div>
-        <ul class="space-y-2 font-medium">
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.suppliers.all') }}"
-                > List </a>
-            </li>
-            <li class="my-2">
-                <a
-                    class="w-full"
-                    href="{{ route('super.suppliers.removed') }}"
-                > Removed </a>
-            </li>
-        </ul>
+        <x-navigation.link-list.direct
+            label="Suppliers"
+            route_list="{{ route('super.suppliers.all') }}"
+            route_removed="{{ route('super.suppliers.removed') }}"
+        />
     @endsuper
 </div>
