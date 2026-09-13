@@ -1,5 +1,5 @@
 <x-layout::index title="{{ $user->name }} | Settings">
-    <x-tabs :tabs="UserProfileTabs::ui()">
+    <x-tabs :tabs="UserProfileTabs::tabs()">
         <x-card description="User application settings">
         </x-card>
     </x-tabs>

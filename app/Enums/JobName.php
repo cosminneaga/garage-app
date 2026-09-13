@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Traits\HasEnumOptions;
+
 enum JobName: string
 {
+    use HasEnumOptions;
+
     case OIL_CHANGE = 'oil_change';
     case FILTER_REPLACEMENT = 'filter_replacement';
     case FLUID_TOP_UP = 'fluid_top_up';

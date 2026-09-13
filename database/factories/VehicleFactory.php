@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\FuelType;
-use App\Enums\VehicleStatus;
+use App\Enums\Type\FuelType;
+use App\Enums\Status\VehicleStatus;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

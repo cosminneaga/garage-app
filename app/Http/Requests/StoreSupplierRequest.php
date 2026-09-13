@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Enums\SupplierType;
+use App\Enums\Type\SupplierType;
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;

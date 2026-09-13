@@ -8,11 +8,7 @@
 ])
 
 @php
-    $columns = collect(SupplierColumns::cases())->map(fn($col) => $col->value);
-
-    if ($edit || $delete) {
-        $columns->push('Actions');
-    }
+    $columns = SupplierColumns::tableColumns();
 @endphp
 
 <x-modal.supplier.create
@@ -23,60 +19,34 @@
 />
 
 <x-table.wrapper :data="$data">
-    <x-slot name="thead">
-        @foreach ($columns as $column)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >{{ $column }}</th>
-        @endforeach
-    </x-slot>
+    <x-table.extension.thead
+        :columns="$columns"
+        action_column_enabled="{{ $edit || $delete || $restore }}"
+    />
 
     <x-slot name="tbody">
-        @forelse ($data as $row)
+        @foreach ($data as $row)
             <tr
                 class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
-                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                    {{ $row->id }}
-                </th>
-                <td class="px-6 py-4">{{ $row->name }}</td>
-                <td class="px-6 py-4">{{ $row->code }}</td>
-                <td class="px-6 py-4">
-                    {{ SupplierType::getLabel($row->type) }}
-                </td>
-                <td class="px-6 py-4">{{ $row->tax_id }}</td>
-                <td class="px-6 py-4">{{ $row->registration_number }}</td>
+
+                <!-- GENERIC DATABASE COLUMNS -->
+                @foreach ($columns as $column)
+                    <td class="px-6 py-4">{{ $row[$column->value] }}</td>
+                @endforeach
+
+                <!-- ACTION COLUMNS -->
                 @if ($edit || $delete)
-                    <td class="px-6 py-4">
-                        <div class="flex gap-3">
-                            @if ($edit)
-                                <a
-                                    class="text-brand"
-                                    href="{{ route('suppliers.companies.edit', [$row, $resource]) }}"
-                                >Edit</a>
-                            @endif
-                            @if ($delete)
-                                <x-modal.confirm
-                                    id="supplier-delete-{{ $row->id }}"
-                                    type="delete"
-                                    action="{{ route('suppliers.companies.destroy', [$row, $resource]) }}"
-                                    message="Are you sure you want to remove this {{ $row->name }}?"
-                                />
-                                <button
-                                    class="text-danger hover:cursor-pointer"
-                                    data-modal-target="supplier-delete-{{ $row->id }}-modal"
-                                    data-modal-toggle="supplier-delete-{{ $row->id }}-modal"
-                                    data-test="supplier-delete-{{ $row->id }}-modal-trigger"
-                                >
-                                    Delete
-                                </button>
-                            @endif
-                        </div>
-                    </td>
+                    <x-table.extension.action
+                        identifier="name"
+                        name="supplier"
+                        :data="$row"
+                        :edit="$edit"
+                        :delete="$delete"
+                        edit_route="{{ route('suppliers.companies.edit', [$row, $resource]) }}"
+                        delete_route="{{ route('suppliers.companies.destroy', [$row, $resource]) }}"
+                    />
                 @endif
             </tr>
-        @empty
-            No available data
-        @endforelse
+        @endforeach
     </x-slot>
 </x-table.wrapper>

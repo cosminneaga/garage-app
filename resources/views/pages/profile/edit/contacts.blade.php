@@ -1,5 +1,5 @@
 <x-layout::index title="{{ $user->name }} | Contacts">
-    <x-tabs :tabs="UserProfileTabs::ui()">
+    <x-tabs :tabs="UserProfileTabs::tabs()">
         <x-card description="Visualise & Edit your contact details">
             <x-table.related.contacts
                 :data="$user->contacts"

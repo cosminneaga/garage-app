@@ -9,11 +9,7 @@
 
 @php
     $parentname = $resource->getTable();
-    $columns = collect(AddressColumns::cases())->map(fn($col) => $col->value);
-
-    if ($edit || $delete) {
-        $columns->push('Actions');
-    }
+    $columns = AddressColumns::tableColumns();
 @endphp
 
 <x-modal.address.create
@@ -24,56 +20,32 @@
 />
 
 <x-table.wrapper :data="$data">
-    <x-slot name="thead">
-        @foreach ($columns as $column)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >{{ $column }}</th>
-        @endforeach
-    </x-slot>
+    <x-table.extension.thead
+        :columns="$columns"
+        action_column_enabled="{{ $edit || $delete }}"
+    />
 
     <x-slot name="tbody">
         @forelse ($data as $row)
             <tr
                 class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
-                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                    {{ $row->id }}
-                </th>
-                <td class="px-6 py-4">{{ $row->street_number }}</td>
-                <td class="px-6 py-4">{{ $row->street }}</td>
-                <td class="px-6 py-4">{{ $row->postcode }}</td>
-                <td class="px-6 py-4">{{ $row->building }}</td>
-                <td class="px-6 py-4">{{ $row->floor }}</td>
-                <td class="px-6 py-4">{{ $row->unit }}</td>
-                @if ($edit || $delete)
-                    <td class="px-6 py-4">
-                        <div class="flex gap-3">
-                            @if ($edit)
-                                <a
-                                    class="text-brand"
-                                    href="{{ route('addresses.' . $parentname . '.edit', [$row, $resource]) }}"
-                                >Edit</a>
-                            @endif
-                            @if ($delete)
-                                <x-modal.confirm
-                                    id="{{ $parentname }}-address-delete-{{ $row->id }}"
-                                    type="delete"
-                                    action="{{ route('addresses.' . $parentname . '.destroy', [$row, $resource]) }}"
-                                    message="Are you sure you want to remove this address?"
-                                />
-                                <button
-                                    class="text-danger hover:cursor-pointer"
-                                    data-modal-target="{{ $parentname }}-address-delete-{{ $row->id }}-modal"
-                                    data-modal-toggle="{{ $parentname }}-address-delete-{{ $row->id }}-modal"
-                                    data-test="{{ $parentname }}-address-delete-{{ $row->id }}-modal-trigger"
-                                    type="button"
-                                >
-                                    Delete
-                                </button>
-                            @endif
-                        </div>
-                    </td>
+
+                <!-- GENERIC DATABASE COLUMNS -->
+                @foreach ($columns as $column)
+                    <td class="px-6 py-4">{{ $row[$column->value] }}</td>
+                @endforeach
+
+                <!-- ACTION COLUMNS -->
+                @if ($edit || $delete || $restore)
+                    <x-table.extension.action
+                        name="address"
+                        identifier="street"
+                        :data="$row"
+                        :edit="$edit"
+                        :delete="$delete"
+                        edit_route="{{ route('addresses.' . $parentname . '.edit', [$row, $resource]) }}"
+                        delete_route="{{ route('addresses.' . $parentname . '.destroy', [$row, $resource]) }}"
+                    />
                 @endif
             </tr>
         @empty

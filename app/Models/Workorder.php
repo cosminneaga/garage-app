@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\UserRole;
-use App\Enums\WorkorderStatus;
+use App\Enums\Status\WorkorderStatus;
 use App\Observers\WorkorderObserver;
 use App\Traits\Blameable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;

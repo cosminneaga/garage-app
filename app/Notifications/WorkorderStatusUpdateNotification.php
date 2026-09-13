@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Enums\WorkorderStatus;
+use App\Enums\Status\WorkorderStatus;
 use App\Models\Workorder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;

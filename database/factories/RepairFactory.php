@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\FuelType;
-use App\Enums\RepairStatus;
+use App\Enums\Type\FuelType;
+use App\Enums\Status\RepairStatus;
 use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Company;

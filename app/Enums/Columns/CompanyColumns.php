@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Enums\Columns;
 
+use App\Traits\HasEnumOptions;
+
 enum CompanyColumns: string
 {
-    case ID = 'ID';
-    case NAME = 'Name';
-    case TAX_ID = 'Tax ID';
-    case REGISTRATION_NUMBER = 'Registration Number';
-    case TAX_VALUE = 'Tax Value';
-    case INVOICE_PREFIX = 'Invoice Prefix';
+    use HasEnumOptions;
+
+    case ID = 'id';
+    case NAME = 'name';
+    case TAX_ID = 'tax_id';
+    case REGISTRATION_NUMBER = 'registration_number';
+    case TAX_VALUE = 'tax_value';
+    case INVOICE_PREFIX = 'invoice_prefix';
 }

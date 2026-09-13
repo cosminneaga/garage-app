@@ -3,7 +3,7 @@
 @endphp
 
 <x-layout::index title="Unread Notifications">
-    <x-tabs :tabs="NotificationTabs::ui()">
+    <x-tabs :tabs="NotificationTabs::tabs()">
         <div
             class="bg-neutral-primary-soft border-default rounded-base shadow-xs w-full border p-6">
             <h5 class="text-heading mb-6 text-xl font-semibold">Unread

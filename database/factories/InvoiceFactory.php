@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\InvoiceStatus;
+use App\Enums\Status\InvoiceStatus;
 use App\Models\Repair;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;

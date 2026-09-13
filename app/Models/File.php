@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Support\Carbon;
-use App\Enums\FileType;
+use App\Enums\Type\FileType;
 use App\Traits\Blameable;
 use Database\Factories\FileFactory;
 use Illuminate\Database\Eloquent\Builder;

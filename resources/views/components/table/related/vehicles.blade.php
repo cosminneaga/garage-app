@@ -20,21 +20,10 @@
 />
 
 <x-table.wrapper :data="$data">
-    <x-slot name="thead">
-        @foreach ($columns as $column)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >{{ $column->label }}</th>
-        @endforeach
-
-        @if ($edit || $delete || $restore)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >ACTIONS</th>
-        @endif
-    </x-slot>
+    <x-table.extension.thead
+        :columns="$columns"
+        action_column_enabled="{{ $edit || $delete || $restore }}"
+    />
 
     <x-slot name="tbody">
         @foreach ($data as $row)

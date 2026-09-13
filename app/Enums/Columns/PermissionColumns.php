@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Enums\Columns;
 
+use App\Traits\HasEnumOptions;
+
 enum PermissionColumns: string
 {
-    case ID = 'ID';
-    case NAME = 'Name';
-    case GUARD_NAME = 'Guard Name';
-    case ACTIONS = 'Actions';
+    use HasEnumOptions;
+
+    case ID = 'id';
+    case NAME = 'name';
+    case GUARD_NAME = 'guard_name';
 }

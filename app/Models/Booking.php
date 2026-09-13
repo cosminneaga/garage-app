@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\BookingStatus;
+use App\Enums\Status\BookingStatus;
 use App\Enums\Priority;
-use App\Enums\ServiceType;
+use App\Enums\Type\ServiceType;
 use App\Enums\UserRole;
 use App\Observers\BookingObserver;
 use App\Policies\BookingPolicy;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\WorkorderStatus;
+use App\Enums\Status\WorkorderStatus;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;

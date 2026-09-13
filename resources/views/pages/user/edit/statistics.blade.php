@@ -1,5 +1,5 @@
 <x-layout::index title="{{ $resource->name }} | Statistics">
-    <x-tabs :tabs="UserTabs::ui()">
+    <x-tabs :tabs="UserTabs::tabs()">
         <x-card description="{{ $resource->name }} statistics">
             Stats goes here
         </x-card>

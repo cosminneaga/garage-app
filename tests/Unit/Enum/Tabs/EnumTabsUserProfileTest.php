@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Enums\Tabs\UserProfileTabs;
 
 test('ui', function () {
-    expect(UserProfileTabs::ui())->toMatchArray([
+    expect(UserProfileTabs::tabs())->toMatchArray([
         [
             'value' => 'details',
             'label' => 'Details',

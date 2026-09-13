@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\SupplierType;
+use App\Enums\Type\SupplierType;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Helpers\Permission;

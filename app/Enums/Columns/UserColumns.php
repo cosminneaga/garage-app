@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Enums\Columns;
 
+use App\Traits\HasEnumOptions;
+
 enum UserColumns: string
 {
-    case ID = 'ID';
-    case NAME = 'Name';
-    case EMAIL = 'Email';
-    case Active = 'Active';
+    use HasEnumOptions;
+
+    case ID = 'id';
+    case NAME = 'name';
+    case EMAIL = 'email';
+    case Active = 'active';
 }

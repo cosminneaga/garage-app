@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\TypeDeclaration\Rector\ArrowFunction\AddArrowFunctionReturnTypeRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\NarrowObjectReturnTypeRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedCallRector;
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnUnionTypeRector;
 use Rector\TypeDeclaration\Rector\Closure\AddClosureNeverReturnTypeRector;
@@ -33,6 +34,7 @@ return RectorConfig::configure()
         ],
         AddArrowFunctionReturnTypeRector::class,
         AddClosureNeverReturnTypeRector::class,
+        NarrowObjectReturnTypeRector::class,
     ])
     ->withPhpSets()
     ->withSetProviders(LaravelSetProvider::class)

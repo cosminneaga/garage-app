@@ -5,30 +5,26 @@
 ])
 
 @php
-    $columns = collect(PermissionColumns::cases())->map(
-        fn($col) => $col->value,
-    );
+    $columns = PermissionColumns::tableColumns();
 @endphp
 
 <x-table.wrapper :data="$data">
-    <x-slot name="thead">
-        @foreach ($columns as $column)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >{{ $column }}</th>
-        @endforeach
-    </x-slot>
+    <x-table.extension.thead
+        :columns="$columns"
+        action_column_enabled="{{ $edit }}"
+    />
 
     <x-slot name="tbody">
         @foreach ($data as $row)
             <tr
                 class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
-                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                    {{ isset($row->id) ? $row->id : '' }}
-                </th>
-                <td class="px-6 py-4">{{ $row->name }}</td>
-                <td class="px-6 py-4">{{ $row->guard_name }}</td>
+
+                <!-- GENERIC DATABASE COLUMNS -->
+                @foreach ($columns as $column)
+                    <td class="px-6 py-4">{{ $row[$column->value] }}</td>
+                @endforeach
+
+                <!-- ACTION COLUMNS -->
                 <td class="px-6 py-4">
                     <div class="flex gap-3">
                         @if ($edit)

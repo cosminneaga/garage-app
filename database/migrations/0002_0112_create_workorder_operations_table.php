@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\WorkorderOperationType;
+use App\Enums\Type\WorkorderOperationType;
 use App\Models\Part;
 use App\Models\User;
 use App\Models\Workorder;

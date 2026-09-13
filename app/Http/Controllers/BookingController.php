@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\Columns\BookingColumns;
-use App\Enums\TableMap\BookingTableMap;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
-use App\Models\Company;
 use App\Models\Country;
 use App\Models\VehicleMake;
 use App\Traits\RelatedModelGuard;
@@ -23,20 +21,6 @@ class BookingController extends Controller
 {
     use RelatedModelGuard;
 
-    public function modelIndex(Request $request, Company $company): View
-    {
-        self::guard('show', $request, $company->id);
-        $search = $request->string('search')->value();
-
-        return view('pages.booking.index', [
-            'company' => self::$entity,
-            'bookings' => Booking::search($search)
-                ->whereIn('id', self::$entity->bookings()->select('bookings.id'))
-                ->query(fn ($query) => $query->select([...BookingTableMap::values()]))
-                ->get(),
-        ]);
-    }
-
     public function index(Request $request): View
     {
         $this->authorize('showAll', Booking::class);
@@ -44,7 +28,7 @@ class BookingController extends Controller
 
         $bookings = Booking::search($search)
             ->whereIn('company_id', Auth::user()->companies()->select('companies.id'))
-            ->query(fn ($query) => $query->select([...BookingColumns::values()]))
+            ->query(fn ($query) => $query->select([...BookingColumns::values(), 'company_id']))
             ->get();
 
         return view('pages.booking.index', [
@@ -66,7 +50,7 @@ class BookingController extends Controller
         ]);
     }
 
-    public function store(
+    public function modelStore(
         StoreBookingRequest $request
     ): RedirectResponse {
         $this->authorize('store', Booking::class);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Observers;
 
-use App\Enums\WorkorderStatus;
+use App\Enums\Status\WorkorderStatus;
 use App\Models\WorkorderOperationLabourTime;
 use App\Traits\ObserverHelper;
 use Carbon\Carbon;

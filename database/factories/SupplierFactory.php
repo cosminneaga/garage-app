@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\SupplierType;
+use App\Enums\Type\SupplierType;
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

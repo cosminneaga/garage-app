@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\FileType;
-use App\Enums\RepairStatus;
+use App\Enums\Type\FileType;
+use App\Enums\Status\RepairStatus;
 use App\Models\Repair;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

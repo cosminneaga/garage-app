@@ -1,7 +1,7 @@
 <?php
 
 use App\Actions\SupplierStoreAction;
-use App\Enums\SupplierType;
+use App\Enums\Type\SupplierType;
 use App\Models\Company;
 use App\Models\Country;
 use Illuminate\Support\Facades\App;

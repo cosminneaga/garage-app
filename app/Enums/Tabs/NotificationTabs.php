@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Tabs;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum NotificationTabs: string
 {
+    use HasEnumOptions;
+
     case UNREAD = 'unread';
     case READ = 'read';
     case ALL = 'all';
@@ -19,15 +21,5 @@ enum NotificationTabs: string
             self::READ => 'Read',
             self::ALL => 'All',
         };
-    }
-
-    public static function ui(): array
-    {
-        return new Collection(self::cases())
-            ->map(fn ($case) => [
-                'value' => $case->value,
-                'label' => $case->label(),
-                'slug' => $case->value,
-            ])->toArray();
     }
 }

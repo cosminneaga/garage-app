@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Enums\FuelType;
+use App\Enums\Type\FuelType;
 use App\Enums\UserPermission;
-use App\Enums\VehicleStatus;
+use App\Enums\Status\VehicleStatus;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;

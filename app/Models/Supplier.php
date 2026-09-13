@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\SupplierType;
+use App\Enums\Type\SupplierType;
 use App\Traits\Blameable;
 use Database\Factories\SupplierFactory;
 use Illuminate\Database\Eloquent\Builder;

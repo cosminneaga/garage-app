@@ -11,27 +11,21 @@
 
 @php
     $parentname = $resource->getTable();
-    $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
-
-    if ($edit || $delete || $chat || $restore || $attach) {
-        $columns->push('Actions');
-    }
+    $columns = UserColumns::tableColumns();
 @endphp
 
 <x-table.wrapper :data="$data">
-    <x-slot name="thead">
-        @foreach ($columns as $column)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >{{ $column }}</th>
-        @endforeach
-    </x-slot>
+    <x-table.extension.thead
+        :columns="$columns"
+        action_column_enabled="{{ $edit || $delete || $restore }}"
+    />
 
     <x-slot name="tbody">
         @foreach ($data as $row)
             <tr
                 class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+
+                <!-- GENERIC DATABASE COLUMNS -->
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
@@ -53,6 +47,8 @@
                 <td class="px-6 py-4">
                     <x-tab.active :status="$row->active" />
                 </td>
+
+                <!-- ACTION COLUMNS -->
                 <td class="px-6 py-4">
                     <div class="flex gap-3">
                         @if ($chat)

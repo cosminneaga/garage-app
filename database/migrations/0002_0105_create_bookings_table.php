@@ -1,8 +1,8 @@
 <?php
 
-use App\Enums\BookingStatus;
+use App\Enums\Status\BookingStatus;
 use App\Enums\Priority;
-use App\Enums\ServiceType;
+use App\Enums\Type\ServiceType;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;

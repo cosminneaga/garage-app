@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Enums\BookingStatus;
+use App\Enums\Status\BookingStatus;
 use App\Enums\Columns\ActionColumn;
 use App\Enums\Columns\AddressColumns;
 use App\Enums\Columns\BookingColumns;
@@ -15,12 +15,11 @@ use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
 use App\Enums\Columns\VehicleColumns;
-use App\Enums\FuelType;
+use App\Enums\Type\FuelType;
 use App\Enums\Priority;
 use App\Enums\Related\RelatedModel;
-use App\Enums\ServiceType;
-use App\Enums\SupplierType;
-use App\Enums\TableMap\BookingTableMap;
+use App\Enums\Type\ServiceType;
+use App\Enums\Type\SupplierType;
 use App\Enums\Tabs\CompanyTabs;
 use App\Enums\Tabs\NotificationTabs;
 use App\Enums\Tabs\SupplierTabs;
@@ -28,7 +27,7 @@ use App\Enums\Tabs\UserProfileTabs;
 use App\Enums\Tabs\UserTabs;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Enums\VehicleStatus;
+use App\Enums\Status\VehicleStatus;
 use App\Helpers\BladeFormHelper;
 use App\Helpers\Permission;
 use App\Models\Country;
@@ -69,7 +68,6 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('RelatedModel', RelatedModel::class);
 
         $loader->alias('BookingStatus', BookingStatus::class);
-        $loader->alias('BookingTableMap', BookingTableMap::class);
         $loader->alias('ServiceType', ServiceType::class);
         $loader->alias('Priority', Priority::class);
         $loader->alias('FuelType', FuelType::class);

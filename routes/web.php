@@ -183,13 +183,14 @@ Route::controller(BookingController::class)
     ->group(function () {
         # companies
         Route::group(['model' => RelatedModel::COMPANY], function () {
-            Route::get('/bookings/companies/{company}', 'modelIndex')->name('bookings.companies.index');
             Route::get('/bookings', 'index')->name('bookings.index');
+
             Route::get('/bookings/create', 'create')->name('bookings.create');
-            Route::post('/bookings/', 'store')->name('bookings.store');
-            Route::get('/bookings/{booking}', 'modelEdit')->name('bookings.edit');
-            Route::put('/bookings/{booking}', 'modelUpdate')->name('bookings.update');
-            Route::delete('/bookings/{booking}', 'modelDestroy')->name('bookings.destroy');
+            Route::post('/bookings/company/{company}', 'modelStore')->name('bookings.companies.store');
+
+            Route::get('/bookings/{booking}/company/{company}', 'modelEdit')->name('bookings.companies.edit');
+            Route::put('/bookings/{booking}/company/{company}', 'modelUpdate')->name('bookings.companies.update');
+            Route::delete('/bookings/{booking}/company/{company}', 'modelDestroy')->name('bookings.companies.destroy');
         });
     });
 

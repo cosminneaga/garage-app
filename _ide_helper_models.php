@@ -66,8 +66,8 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string|null $number
- * @property \App\Enums\BookingStatus $status
- * @property \App\Enums\ServiceType $service_type
+ * @property \App\Enums\Status\BookingStatus $status
+ * @property \App\Enums\Type\ServiceType $service_type
  * @property \App\Enums\Priority $priority
  * @property \Illuminate\Support\Carbon|null $appointment_start
  * @property \Illuminate\Support\Carbon|null $appointment_finish
@@ -351,7 +351,7 @@ namespace App\Models{
  * @property string $name
  * @property string $extension
  * @property string $path
- * @property \App\Enums\FileType $type
+ * @property \App\Enums\Type\FileType $type
  * @property string|null $description
  * @property int $uploaded_by
  * @property int|null $created_by
@@ -394,7 +394,7 @@ namespace App\Models{
  * @property string $invoice_number
  * @property numeric $work_time
  * @property numeric $hourly_charge
- * @property \App\Enums\InvoiceStatus $status
+ * @property \App\Enums\Status\InvoiceStatus $status
  * @property numeric $discount_applied
  * @property numeric $paid_amount
  * @property string|null $description
@@ -535,7 +535,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $code
- * @property \App\Enums\SupplierType $type
+ * @property \App\Enums\Type\SupplierType $type
  * @property string $tax_id
  * @property string $registration_number
  * @property int|null $created_by
@@ -678,8 +678,8 @@ namespace App\Models{
  * @property int $id
  * @property string $vin
  * @property string|null $registration
- * @property \App\Enums\FuelType $fuel
- * @property \App\Enums\VehicleStatus $status
+ * @property \App\Enums\Type\FuelType $fuel
+ * @property \App\Enums\Status\VehicleStatus $status
  * @property int|null $first_visit_odometer
  * @property string|null $first_registration
  * @property string|null $first_visit
@@ -863,7 +863,7 @@ namespace App\Models{
  * @property int $id
  * @property string $title
  * @property string|null $number
- * @property \App\Enums\WorkorderStatus $status
+ * @property \App\Enums\Status\WorkorderStatus $status
  * @property int|null $odometer_on_start
  * @property int|null $odometer_on_finish
  * @property string|null $complaint
@@ -934,7 +934,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property \App\Enums\WorkorderOperationType $type
+ * @property \App\Enums\Type\WorkorderOperationType $type
  * @property int|null $part_installed_odometer
  * @property int|null $expected_life_km
  * @property int|null $expected_life_months

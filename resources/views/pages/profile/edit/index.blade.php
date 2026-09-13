@@ -3,7 +3,7 @@
 @endphp
 
 <x-layout::index title="{{ $user->name }} | Profile">
-    <x-tabs :tabs="UserProfileTabs::ui()">
+    <x-tabs :tabs="UserProfileTabs::tabs()">
         <x-card description="Visualise & Edit your details">
             <form
                 action="{{ route('profile.users.update') }}"

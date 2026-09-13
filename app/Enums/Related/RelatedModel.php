@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Enums\Related;
 
-use stdClass;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StoreClientRequest;
@@ -47,6 +46,7 @@ use App\Models\WorkorderOperation;
 use App\Models\WorkorderOperationLabourTime;
 use App\Policies\AddressPolicy;
 use App\Policies\BookingPolicy;
+use App\Policies\ClientPolicy;
 use App\Policies\CompanyPolicy;
 use App\Policies\ContactPolicy;
 use App\Policies\PartPolicy;
@@ -144,7 +144,7 @@ enum RelatedModel: string
             self::BOOKING => BookingPolicy::class,
             self::COMPANY => CompanyPolicy::class,
             self::CONTACT => ContactPolicy::class,
-            self::CLIENT => null,
+            self::CLIENT => ClientPolicy::class,
             self::FILE => null,
             self::INVOICE => null,
             self::INVOICE_ITEM => null,
@@ -160,7 +160,7 @@ enum RelatedModel: string
     /**
      * !!! Update the request files as they are being created here
      */
-    public function request(): stdClass
+    public function request(): object
     {
         return (object) match ($this) {
             self::ADDRESS => [

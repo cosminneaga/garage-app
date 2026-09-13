@@ -1,5 +1,5 @@
 <x-layout::index title="{{ $resource->name }} | Contacts">
-    <x-tabs :tabs="SupplierTabs::ui()">
+    <x-tabs :tabs="SupplierTabs::tabs()">
         <x-card
             description="Visualise & Edit {{ $resource->name }}'s contact details"
         >

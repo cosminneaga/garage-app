@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\FuelType;
-use App\Enums\VehicleStatus;
+use App\Enums\Type\FuelType;
+use App\Enums\Status\VehicleStatus;
 use App\Policies\VehiclePolicy;
 use App\Traits\Blameable;
 use Database\Factories\VehicleFactory;

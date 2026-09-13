@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\FuelType;
-use App\Enums\VehicleStatus;
+use App\Enums\Type\FuelType;
+use App\Enums\Status\VehicleStatus;
 use App\Models\VehicleData;
 use App\Models\VehicleMake;
 use App\Models\VehicleModel;
