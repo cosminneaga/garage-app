@@ -15,6 +15,7 @@ class BlueprintServiceProvider extends ServiceProvider
         Blueprint::macro('auditColumns', function () {
             $this->foreignIdFor(User::class, 'created_by')->nullable()->constrained();
             $this->foreignIdFor(User::class, 'updated_by')->nullable()->constrained();
+            $this->foreignIdFor(User::class, 'deleted_by')->nullable()->constrained();
             $this->softDeletes();
             $this->timestamps();
         });

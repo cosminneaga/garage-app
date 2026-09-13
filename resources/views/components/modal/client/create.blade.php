@@ -1,39 +1,52 @@
 @props([
+    'id',
+    'parent',
+    'action' => '#',
+    'trigger' => false,
     'countries' => [],
 ])
 
-<div>
+@php
+    $ids = [
+        'modal' => $id . '_modal',
+        'trigger' => $id . '_trigger',
+        'submit' => $id . '_submit',
+        'form' => $id . '_form',
+    ];
+@endphp
+
+@if ($trigger)
     <x-button
-        id="create-company-client-button"
-        data-modal-target="create-company-client-modal"
-        data-modal-toggle="create-company-client-modal"
+        id="{{ $ids['trigger'] }}"
+        data-modal-target="{{ $ids['modal'] }}"
+        data-modal-toggle="{{ $ids['modal'] }}"
         type="button"
-        @click="$refs.client_store_form.action = `/clients/companies/${$store.form_data.company.id}`"
     >
-        Create
+        Add client
     </x-button>
+@endif
 
-    <x-modal.wrapper
-        id="create-company-client-modal"
-        title="Create new client"
-        size="7xl"
+<x-modal.wrapper
+    title="Create new client"
+    id="{{ $ids['modal'] }}"
+    size="7xl"
+>
+    <form
+        action="{{ $action }}"
+        method="POST"
+        id="{{ $ids['form'] }}"
+        x-ref="{{ $ids['form'] }}"
     >
-        <form
-            action="#"
-            method="POST"
-            x-ref="client_store_form"
-        >
-            @csrf
+        @csrf
 
-            <x-form.content.client
-                identifier="client"
-                :countries="$countries"
-            />
+        <x-form.content.client
+            identifier="client"
+            :countries="$countries"
+        />
 
-            <x-button
-                id="client-create-submit"
-                type="submit"
-            >Submit</x-button>
-        </form>
-    </x-modal.wrapper>
-</div>
+        <x-button
+            id="{{ $ids['submit'] }}"
+            type="submit"
+        >Submit</x-button>
+    </form>
+</x-modal.wrapper>

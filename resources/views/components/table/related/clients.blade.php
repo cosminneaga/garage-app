@@ -8,13 +8,14 @@
 ])
 
 @php
-    $parentname = $resource->getTable();
     $columns = ClientColumns::tableColumns();
 @endphp
 
 <x-modal.client.create
     id="client-create"
-    :resource="$resource"
+    :parent="$resource"
+    :countries="Country::all()"
+    action="{{ route('clients.companies.store', $resource) }}"
     trigger
 />
 
@@ -43,9 +44,8 @@
                         :edit="$edit"
                         :delete="$delete"
                         :restore="$restore"
-                        edit_route="{{ route('companies.edit', $row->id) }}"
-                        delete_route="{{ route('companies.destroy', $row->id) }}"
-                        restore_route="{{ route('companies.restore', $row->id) }}"
+                        edit_route="{{ route('clients.companies.edit', [$row, $resource]) }}"
+                        delete_route="{{ route('clients.companies.destroy', [$row, $resource]) }}"
                     />
                 @endif
             </tr>

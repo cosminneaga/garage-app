@@ -22,7 +22,7 @@ class ClientPolicy implements StandardPolicyInterface
             return true;
         }
 
-        return Permission::can(UserPermission::CLIENT, 'show');
+        return Permission::can(UserPermission::CLIENT, 'show') && $client->isMyClient($user);
     }
 
     public function store(): bool
@@ -30,31 +30,31 @@ class ClientPolicy implements StandardPolicyInterface
         return Permission::can(UserPermission::CLIENT, 'store');
     }
 
-    public function update(User $user, mixed $company): bool
+    public function update(User $user, mixed $client): bool
     {
         if ($user->isSuper()) {
             return true;
         }
 
-        return Permission::can(UserPermission::CLIENT, 'update') && $company->isMyClient($user);
+        return Permission::can(UserPermission::CLIENT, 'update') && $client->isMyClient($user);
     }
 
-    public function destroy(User $user, mixed $company): bool
+    public function destroy(User $user, mixed $client): bool
     {
         if ($user->isSuper()) {
             return true;
         }
 
-        return Permission::can(UserPermission::CLIENT, 'delete') && $company->isMyClient($user);
+        return Permission::can(UserPermission::CLIENT, 'delete') && $client->isMyClient($user);
     }
 
-    public function restore(User $user, mixed $company): bool
+    public function restore(User $user, mixed $client): bool
     {
         if ($user->isSuper()) {
             return true;
         }
 
-        return Permission::can(UserPermission::CLIENT, 'restore') && $company->isMyClient($user);
+        return Permission::can(UserPermission::CLIENT, 'restore') && $client->isMyClient($user);
     }
 
     public function showTrashed(): bool

@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->string('name', length: 40);
             $table->string('email')->unique();
             $table->boolean('active');
-            $table->string('password')->nullable(false);
+            $table->string('password')->nullable();
             $table->string('access_token')->nullable();
 
             $table->auditColumns();

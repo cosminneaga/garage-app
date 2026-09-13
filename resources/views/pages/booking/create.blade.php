@@ -52,10 +52,24 @@
                     <div class="grid grid-cols-2 gap-4 p-2">
                         <div class="grid grid-cols-2 items-center">
                             <h3 class="text-lg">CLIENTS</h3>
-                            <x-modal.client.create :countries="$countries" />
+
+                            <x-button
+                                id="client-create-button"
+                                data-modal-target="client_create_modal"
+                                data-modal-toggle="client_create_modal"
+                                type="button"
+                                @click="$refs.client_create_form.action = `/clients/companies/${$store.form_data.company.id}`"
+                            >
+                                Create
+                            </x-button>
+                            <x-modal.client.create
+                                id="client_create"
+                                :countries="$countries"
+                            />
                         </div>
                         <div class="grid grid-cols-2 items-center">
                             <h3 class="text-lg">VEHICLES</h3>
+
                             <x-button
                                 id="vehicle-create-button"
                                 data-modal-target="vehicle_create_modal"

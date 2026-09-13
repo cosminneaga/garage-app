@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\ClientObserver;
+use App\Policies\ClientPolicy;
 use App\Traits\Blameable;
 use Database\Factories\ClientFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +21,9 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Override;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Models\Permission;
@@ -81,6 +87,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @mixin \Eloquent
  * @mixin IdeHelperClient
  */
+#[UsePolicy(ClientPolicy::class)]
+#[ObservedBy(ClientObserver::class)]
 class Client extends Model
 {
     use HasFactory;
@@ -90,6 +98,14 @@ class Client extends Model
     use SoftDeletes;
     use Blameable;
     use Searchable;
+
+    #[Override]
+    protected static function booted(): void
+    {
+        static::creating(function ($model) {
+            $model->access_token = Str::random(64);
+        });
+    }
 
     protected $fillable = [
         'name',
@@ -119,6 +135,17 @@ class Client extends Model
         return [
             'name' => $this->name,
         ];
+    }
+
+    public function isMyClient(User $user): bool
+    {
+        return (bool) $this
+            ->join('client_company', 'client_company.client_id', '=', 'clients.id')
+            ->join('company_user', 'company_user.company_id', '=', 'client_company.company_id')
+            ->join('users', 'users.id', '=', 'company_user.user_id')
+            ->where('client_company.client_id', $this->id)
+            ->where('users.id', $user->id)
+            ->exists();
     }
 
     public function companies(): BelongsToMany
