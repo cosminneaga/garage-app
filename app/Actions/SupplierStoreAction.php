@@ -18,7 +18,7 @@ class SupplierStoreAction
     {
 
         if (!Arr::has($attributes, 'contact') || !Arr::has($attributes, 'address')) {
-            throw new Exception('Address & Contact are required when Company data is stored');
+            throw new Exception('Address & Contact are required when Supplier data is stored');
         }
 
         $data['contact'] = $attributes['contact'];

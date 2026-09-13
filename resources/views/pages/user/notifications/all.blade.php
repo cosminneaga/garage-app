@@ -24,8 +24,11 @@
                                         class="text-xs">{{ $notification->id }}
                                         |
                                         {{ $notification->data['type'] }}</span>
-                                    <p class="text-body truncate text-sm">
-                                        {{ $notification->data['message'] }}</p>
+
+                                    @foreach ($notification->data['messages'] as $message)
+                                        <p class="text-body truncate text-sm">
+                                            {{ $message }}</p>
+                                    @endforeach
 
                                     <a
                                         href="{{ $notification->data['url'] }}"

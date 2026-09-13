@@ -13,9 +13,11 @@ class BookingClientNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public Booking $booking, public string $title, public array $messages)
-    {
-        //
+    public function __construct(
+        public Booking $booking,
+        public string $title,
+        public array $messages
+    ) {
     }
 
     public function via(): array

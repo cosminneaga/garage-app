@@ -76,17 +76,12 @@ Route::controller(ClientController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
 
-        Route::get('/clients', 'index')->name('clients.index');
-        Route::get('/clients/{client}', 'edit')->name('clients.edit');
-        Route::put('/clients/{client}', 'update')->name('clients.update');
-        Route::delete('/clients/{client}', 'destroy')->name('clients.destroy');
-
+        # companies
         Route::group(['model' => RelatedModel::COMPANY], function () {
-
-            Route::get('/clients/companies/{company}', 'modelIndex')->name('clients.companies.index');
-            Route::get('/clients/companies/{company}/create', 'modelCreate')->name('clients.companies.create');
             Route::post('/clients/companies/{company}', 'modelStore')->name('clients.companies.store');
-
+            Route::get('/clients/{client}/companies/{company}', 'modelEdit')->name('clients.companies.edit');
+            Route::put('/clients/{client}/companies/{company}', 'modelUpdate')->name('clients.companies.update');
+            Route::delete('/clients/{client}/companies/{company}', 'modelDestroy')->name('clients.companies.destroy');
         });
     });
 
@@ -156,6 +151,14 @@ Route::controller(AddressController::class)
             Route::put('/addresses/{address}/suppliers/{supplier}', 'modelUpdate')->name('addresses.suppliers.update');
             Route::delete('/addresses/{address}/suppliers/{supplier}', 'modelDestroy')->name('addresses.suppliers.destroy');
         });
+
+        # clients
+        Route::group(['model' => RelatedModel::CLIENT], function () {
+            Route::get('/addresses/{address}/clients/{client}', 'modelEdit')->name('addresses.clients.edit');
+            Route::post('/addresses/clients/{client}', 'modelStore')->name('addresses.clients.store');
+            Route::put('/addresses/{address}/clients/{client}', 'modelUpdate')->name('addresses.clients.update');
+            Route::delete('/addresses/{address}/clients/{client}', 'modelDestroy')->name('addresses.clients.destroy');
+        });
     });
 
 Route::controller(ContactController::class)
@@ -183,6 +186,14 @@ Route::controller(ContactController::class)
             Route::post('/contacts/suppliers/{supplier}', 'modelStore')->name('contacts.suppliers.store');
             Route::put('/contacts/{contact}/suppliers/{supplier}', 'modelUpdate')->name('contacts.suppliers.update');
             Route::delete('/contacts/{contact}/suppliers/{supplier}', 'modelDestroy')->name('contacts.suppliers.destroy');
+        });
+
+        # clients
+        Route::group(['model' => RelatedModel::CLIENT], function () {
+            Route::get('/contacts/{contact}/clients/{client}', 'modelEdit')->name('contacts.clients.edit');
+            Route::post('/contacts/clients/{client}', 'modelStore')->name('contacts.clients.store');
+            Route::put('/contacts/{contact}/clients/{client}', 'modelUpdate')->name('contacts.clients.update');
+            Route::delete('/contacts/{contact}/clients/{client}', 'modelDestroy')->name('contacts.clients.destroy');
         });
     });
 

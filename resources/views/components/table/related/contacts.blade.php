@@ -20,7 +20,7 @@
 <x-table.wrapper :data="$data">
     <x-table.extension.thead
         :columns="$columns"
-        action_column_enabled="{{ $edit || $delete || $restore }}"
+        action_column_enabled="{{ $edit || $delete }}"
     />
 
     <x-slot name="tbody">

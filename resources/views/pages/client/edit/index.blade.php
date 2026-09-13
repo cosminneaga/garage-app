@@ -4,8 +4,12 @@
 
 <x-layout::index title="Client">
     <x-tabs :tabs="ClientTabs::tabs()">
-        <x-card description="Visualise % Edit {{ $resource->name }} details">
-            <form method="POST" action="{{ route('clients.update', $resource) }}" id="client-update-form">
+        <x-card description="Visualise & Edit {{ $resource->name }} details">
+            <form
+                method="POST"
+                action="{{ route('clients.companies.update', [$resource, $parent]) }}"
+                id="client-update-form"
+            >
                 @csrf
                 @method('PUT')
 
@@ -56,7 +60,7 @@
             <x-modal.confirm
                 id="client-delete"
                 type="delete"
-                action="{{ route('clients.destroy', $resource->id) }}"
+                action="{{ route('clients.companies.destroy', [$resource, $parent]) }}"
                 message="Are you sure you want to remove {{ $resource->name }} from your list of clients?"
             />
         </x-card>

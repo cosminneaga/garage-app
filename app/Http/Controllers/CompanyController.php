@@ -76,8 +76,6 @@ class CompanyController extends Controller
             default => [UserRole::USER],
         };
 
-        // dd(VehicleColumns::values());
-
         return match(request()->query('tab')) {
             'statistics' => view('pages.company.edit.statistics'),
             'members' => view('pages.company.edit.members', [

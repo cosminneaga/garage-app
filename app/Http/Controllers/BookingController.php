@@ -27,7 +27,7 @@ class BookingController extends Controller
         $search = $request->string('search')->value();
 
         $bookings = Booking::search($search)
-            ->whereIn('id', Auth::user()->companies()->select('companies.id'))
+            ->whereIn('company_id', Auth::user()->companies()->select('companies.id'))
             ->query(fn ($query) => $query->select([...BookingColumns::values(), 'company_id']))
             ->get();
 

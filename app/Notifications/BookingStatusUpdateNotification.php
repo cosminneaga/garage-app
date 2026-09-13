@@ -15,9 +15,10 @@ class BookingStatusUpdateNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(public Booking $booking, public BookingStatus $oldStatus)
-    {
-        //
+    public function __construct(
+        public Booking $booking,
+        public BookingStatus $oldStatus
+    ) {
     }
 
     public function via(): array

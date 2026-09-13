@@ -90,6 +90,7 @@ namespace App\Models{
  * @property int $advisor_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -125,6 +126,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCurrentStatusInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDurationMinutes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
@@ -153,10 +155,11 @@ namespace App\Models{
  * @property string $name
  * @property string $email
  * @property bool $active
- * @property string $password
+ * @property string|null $password
  * @property string|null $access_token
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -193,6 +196,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereName($value)
@@ -221,6 +225,7 @@ namespace App\Models{
  * @property string|null $image_path
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -250,6 +255,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereImagePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereInvoicePrefix($value)
@@ -277,6 +283,7 @@ namespace App\Models{
  * @property string|null $info
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -298,6 +305,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereInfo($value)
@@ -356,6 +364,7 @@ namespace App\Models{
  * @property int $uploaded_by
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -371,6 +380,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereExtension($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereId($value)
@@ -442,6 +452,7 @@ namespace App\Models{
  * @property int $part_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -457,6 +468,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereInvoiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereItemPrice($value)
@@ -491,6 +503,7 @@ namespace App\Models{
  * @property int $supplier_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -512,6 +525,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereItemPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part whereManufacturer($value)
@@ -540,6 +554,7 @@ namespace App\Models{
  * @property string $registration_number
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -564,6 +579,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereRegistrationNumber($value)
@@ -692,6 +708,7 @@ namespace App\Models{
  * @property int|null $vehicle_year_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -710,6 +727,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDiagnosticInformation($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFirstRegistration($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFirstVisit($value)
@@ -881,6 +899,7 @@ namespace App\Models{
  * @property int $technician_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -906,6 +925,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInPauseAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInProgressAt($value)
@@ -944,6 +964,7 @@ namespace App\Models{
  * @property int $performed_by
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -966,6 +987,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereExpectedLifeKm($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereExpectedLifeMonths($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation whereId($value)
@@ -993,6 +1015,7 @@ namespace App\Models{
  * @property int $workorder_operation_id
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -1009,6 +1032,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereEnd($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereStart($value)

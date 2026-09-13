@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Policies\CompanyPolicy;
 use App\Traits\Blameable;
 use Database\Factories\CompanyFactory;
-use Exception;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,7 +19,6 @@ use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
-use Throwable;
 
 /**
  * @property int $id
@@ -105,18 +103,19 @@ class Company extends Model
         ];
     }
 
-    public function isMyCompany(User $user): Throwable|bool
+    public function isMyCompany(User $user): bool
     {
-        if (! $user->roles()->exists()) {
-            throw new Exception('The user must hold a valid role.');
-        }
-
         return (bool) $this->users()->find($user->id);
     }
 
     public function findSupplierByName(string $name): ?Supplier
     {
         return $this->suppliers()->where('name', $name)->first();
+    }
+
+    public function findClientByEmail(string $email): ?Client
+    {
+        return $this->clients()->where('email', $email)->first();
     }
 
     public function users(): BelongsToMany

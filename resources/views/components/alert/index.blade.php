@@ -38,7 +38,7 @@
     x-transition.opacity.duration.300ms
 >
     <div
-        class="{{ $class }} rounded-base relative mb-4 grid auto-cols-max grid-flow-col items-center border p-4 text-sm"
+        class="{{ $class }} rounded-base relative mb-4 grid max-w-[95vw] auto-cols-max grid-flow-col items-center border p-4 text-sm"
         id="{{ $id }}"
         role="alert"
     >
@@ -49,15 +49,18 @@
         <div class="mr-6">
             <span class="sr-only">Info</span>
             <div>
-                <p class="text-lg">{{ $title }}</p>
+                <p class="max-w-[80vw] break-all text-lg">{{ $title }}
+                </p>
                 @if (count($message_list))
                     <ul class="mt-2 list-outside list-disc space-y-1 ps-2.5">
                         @foreach ($message_list as $msg)
-                            <li>{{ $msg }}</li>
+                            <li><span
+                                    class="max-w-[80vw] break-all">{{ $msg }}</span>
+                            </li>
                         @endforeach
                     </ul>
                 @else
-                    <p>{{ $message }}</p>
+                    <p class="max-w-[80vw] break-all">{{ $message }}</p>
                 @endif
             </div>
         </div>
