@@ -17,6 +17,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Models\Permission;
@@ -88,6 +89,7 @@ class Client extends Model
     use Notifiable;
     use SoftDeletes;
     use Blameable;
+    use Searchable;
 
     protected $fillable = [
         'name',
@@ -109,6 +111,13 @@ class Client extends Model
         return [
             'password' => 'hashed',
             'active' => 'boolean',
+        ];
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
         ];
     }
 

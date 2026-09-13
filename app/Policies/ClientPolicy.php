@@ -16,13 +16,13 @@ class ClientPolicy implements StandardPolicyInterface
         return Permission::can(UserPermission::CLIENT, 'show');
     }
 
-    public function show(User $user, mixed $company): bool
+    public function show(User $user, mixed $client): bool
     {
         if ($user->isSuper()) {
             return true;
         }
 
-        return Permission::can(UserPermission::CLIENT, 'show') && $company->isMyClient($user);
+        return Permission::can(UserPermission::CLIENT, 'show');
     }
 
     public function store(): bool

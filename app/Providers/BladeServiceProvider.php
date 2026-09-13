@@ -28,6 +28,7 @@ use App\Enums\Tabs\UserTabs;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Enums\Status\VehicleStatus;
+use App\Enums\Tabs\ClientTabs;
 use App\Helpers\BladeFormHelper;
 use App\Helpers\Permission;
 use App\Models\Country;
@@ -84,6 +85,8 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('VehicleYear', VehicleYear::class);
 
         $loader->alias('BladeFormHelper', BladeFormHelper::class);
+
+        $loader->alias('ClientTabs', ClientTabs::class);
     }
 
     /**

@@ -75,10 +75,18 @@ Route::controller(CompanyController::class)
 Route::controller(ClientController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
+
+        Route::get('/clients', 'index')->name('clients.index');
+        Route::get('/clients/{client}', 'edit')->name('clients.edit');
+        Route::put('/clients/{client}', 'update')->name('clients.update');
+        Route::delete('/clients/{client}', 'destroy')->name('clients.destroy');
+
         Route::group(['model' => RelatedModel::COMPANY], function () {
+
             Route::get('/clients/companies/{company}', 'modelIndex')->name('clients.companies.index');
             Route::get('/clients/companies/{company}/create', 'modelCreate')->name('clients.companies.create');
             Route::post('/clients/companies/{company}', 'modelStore')->name('clients.companies.store');
+
         });
     });
 
