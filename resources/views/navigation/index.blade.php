@@ -1,10 +1,11 @@
-<nav class="border-border border-b px-6">
-    <div class="mx-auto flex h-24 max-w-7xl items-center justify-between">
+<nav class="border-border border-b px-2 pb-2 lg:px-6">
+    <div class="mx-auto flex items-center justify-between">
         <div>
             <div class="flex items-center gap-4">
                 @auth
+                    {{-- DRAWER BUTTON --}}
                     <button
-                        class="hover:cursor-pointer"
+                        class="hover:cursor-pointer lg:hidden"
                         data-drawer-target="app-drawer"
                         data-drawer-show="app-drawer"
                         type="button"
@@ -13,7 +14,6 @@
                         <x-fwb-o-bars class="h-8 w-8 text-gray-600" />
                     </button>
                 @endauth
-                <x-navigation::drawer />
 
                 <a href="/">
                     <img

@@ -35,7 +35,7 @@ class ManagerController extends Controller
         return view('pages.manager.index', [
             'data' => $this->userService
                 ->search($querySearch)
-                ->team(UserRole::MANAGER)
+                ->team([UserRole::MANAGER])
                 ->paginate($request->integer('limit') ?? 10),
         ]);
     }

@@ -3,7 +3,7 @@
 @endphp
 
 <x-layout::index title="{{ $resource->name }} | Details">
-    <x-tabs :tabs="UserTabs::ui()">
+    <x-tabs :tabs="UserTabs::tabs()">
         <x-card
             :title="$resource->name"
             description="Visualise & Edit {{ $resource->name }}'s details"

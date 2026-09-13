@@ -1,19 +1,19 @@
 <div
-    class="bg-neutral-primary-soft border-default text-heading fixed left-0 top-0 z-40 h-screen w-96 -translate-x-full overflow-y-auto border-e p-4 transition-transform"
     id="app-drawer"
     aria-labelledby="drawer-label"
     tabindex="-1"
+    {{ $attributes->merge([
+        'class' => 'bg-neutral-primary-soft border-default text-heading overflow-y-auto border-e p-4 max-w-96 min-h-screen left-0 top-0 z-40 transition-transform'
+    ]) }}
 >
-    <div class="flex items-end gap-2 pb-4">
-        <img
+    <div class="flex flex-col items-start gap-2 pb-4">
+        {{-- <img
             class="h-auto w-20 rounded-sm"
             src="{{ asset('logo-4x3.webp') }}"
             title="GarageApp Logo"
             alt="GarageApp Logo"
-        />
-        <span
-            class="text-heading self-center whitespace-nowrap text-lg font-semibold"
-        >Garage App</span>
+        /> --}}
+        <span class="text-heading whitespace-nowrap text-xl font-semibold">Garage App</span>
     </div>
 
     <x-navigation.link-list.permission
@@ -76,3 +76,38 @@
         />
     @endsuper
 </div>
+
+<script type="module">
+    // set the drawer menu element
+    const $targetEl = document.getElementById('app-drawer');
+
+    // options with default values
+    const options = {
+        placement: 'right',
+        backdrop: true,
+        bodyScrolling: false,
+        edge: false,
+        edgeOffset: '',
+        backdropClasses: 'bg-dark/50 fixed inset-0 z-30',
+        onHide: () => {
+            console.log('drawer is hidden');
+        },
+        onShow: () => {
+            console.log('drawer is shown');
+        },
+        onToggle: () => {
+            console.log('drawer has been toggled');
+        },
+    };
+
+    // instance options object
+    const instanceOptions = {
+        id: 'app-drawer',
+        override: true
+    };
+
+    const drawer = new Drawer($targetEl, options, instanceOptions);
+    console.log(drawer);
+
+    // drawer.show();
+</script>

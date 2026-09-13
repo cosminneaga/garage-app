@@ -1,10 +1,4 @@
-@props([
-    'id',
-    'parent',
-    'action' => '#',
-    'trigger' => false,
-    'countries' => [],
-])
+@props(['id', 'parent', 'action' => '#', 'trigger' => false, 'countries' => []])
 
 @php
     $ids = [
@@ -27,22 +21,35 @@
 @endif
 
 <x-modal.wrapper
-    title="Create new client"
     id="{{ $ids['modal'] }}"
+    title="Create new client"
     size="7xl"
 >
     <form
+        id="{{ $ids['form'] }}"
         action="{{ $action }}"
         method="POST"
-        id="{{ $ids['form'] }}"
         x-ref="{{ $ids['form'] }}"
     >
         @csrf
 
-        <x-form.content.client
-            identifier="client"
-            :countries="$countries"
-        />
+        <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
+            <x-form.content.client
+                identifier="client"
+                :countries="$countries"
+            />
+
+            <x-form.content.address
+                identifier="client"
+                :countries="$countries"
+                nested_parent_name="address"
+            />
+
+            <x-form.content.contact
+                identifier="client"
+                nested_parent_name="contact"
+            />
+        </div>
 
         <x-button
             id="{{ $ids['submit'] }}"

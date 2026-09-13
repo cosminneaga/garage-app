@@ -28,11 +28,21 @@
 
 </head>
 
-<body class="dark:bg-gray-800 dark:text-white">
-    {{-- <body> --}}
-    <x-navigation::index />
+<body class="dark:bg-gray-800 dark:text-white text-black bg-neutral-200">
+{{-- <body> --}}
 
-    <main class="max-w-400 mx-auto px-4 py-6">{{ $slot }}</main>
+
+
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
+        <x-navigation::drawer class="fixed -translate-x-full lg:relative lg:transform-none lg:translate-none" />
+        <main class="p-2 lg:px-4">
+            <x-navigation::index />
+            <br>
+            <div class="max-w-500 mx-auto">
+                {{ $slot }}
+            </div>
+        </main>
+    </div>
 
     <!-- ALERT AREA -->
     @session('message')
