@@ -13,7 +13,6 @@
 
 <x-modal.client.create
     id="client_create"
-    :parent="$resource"
     :countries="Country::all()"
     action="{{ route('clients.companies.store', $resource) }}"
     trigger

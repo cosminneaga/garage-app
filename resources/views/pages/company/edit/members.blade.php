@@ -11,23 +11,19 @@
 
                 @permitted(UserPermission::USER, 'update')
                     <x-modal.user.relation.attach
-                        id="user-attach"
+                        id="user_attach"
                         :resource="$resource"
                         :countries="$countries"
                         :existing_users="$non_members"
-                        :title="Auth::user()->isAdministrator()
-                            ? 'Add an existing manager'
-                            : 'Add an existing user'"
+                        trigger
                     />
                 @endpermitted
                 @permitted(UserPermission::USER, 'update')
                     <x-modal.user.relation.create
-                        id="user-create"
-                        :resource="$resource"
+                        id="user_create"
+                        action="{{ route('users.' . $resource->getTable() . '.store', $resource) }}"
                         :countries="$countries"
-                        :title="Auth::user()->isAdministrator()
-                            ? 'Create a new manager'
-                            : 'Create a new user'"
+                        trigger
                     />
                 @endpermitted
             </div>

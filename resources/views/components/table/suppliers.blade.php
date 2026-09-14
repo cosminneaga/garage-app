@@ -9,11 +9,7 @@
 ])
 
 @php
-    $columns = collect(SupplierColumns::cases())->map(fn($col) => $col->value);
-
-    if ($edit || $delete || $restore) {
-        $columns->push('Actions');
-    }
+    $columns = SupplierColumns::tableColumns();
 
     $routes = [
         [
@@ -38,33 +34,22 @@
 @endphp
 
 <x-table.wrapper :data="$data">
-    <x-slot name="header">
-        <form
-            class="flex items-center gap-2"
-            method="GET"
-            action="{{ $search_route }}"
-        >
-            <x-form.field.search
-                name="search"
-                value="{{ request('search') }}"
-                label="Search suppliers..."
-            />
-        </form>
-    </x-slot>
+    <x-table.extension.search
+        :route="$search_route"
+        label="Search suppliers..."
+    />
 
-    <x-slot name="thead">
-        @foreach ($columns as $column)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >{{ $column }}</th>
-        @endforeach
-    </x-slot>
+    <x-table.extension.thead
+        :columns="$columns"
+        action_column_enabled="{{ $edit || $delete || $restore }}"
+    />
 
     <x-slot name="tbody">
-        @forelse ($data as $row)
+        @foreach ($data as $row)
             <tr
                 class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+
+                <!-- GENERIC DATABASE COLUMNS -->
                 <th
                     class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
@@ -76,50 +61,22 @@
                 </td>
                 <td class="px-6 py-4">{{ $row->tax_id }}</td>
                 <td class="px-6 py-4">{{ $row->registration_number }}</td>
-                <td class="not-last:py-4 px-6">
-                    @if ($edit)
-                        <a
-                            class="text-brand"
-                            href="{{ route($routes[0]['name'], $row) }}"
-                        >Edit</a>
-                    @endif
-                    @if ($delete)
-                        <x-modal.confirm
-                            id="supplier-delete-{{ $row->id }}"
-                            type="delete"
-                            action="{{ route($routes[1]['name'], $row->id) }}"
-                            message="Are you sure you want to remove this {{ $row->name }}?"
-                        />
-                        <button
-                            class="text-danger hover:cursor-pointer"
-                            data-modal-target="supplier-delete-{{ $row->id }}-modal"
-                            data-modal-toggle="supplier-delete-{{ $row->id }}-modal"
-                            data-test="supplier-delete-{{ $row->id }}-modal-trigger"
-                        >
-                            Delete
-                        </button>
-                    @endif
-                    @if ($restore && $row->trashed())
-                        <x-modal.confirm
-                            id="supplier-restore-{{ $row->id }}"
-                            type="restore"
-                            action="{{ route($routes[2]['name'], $row->id) }}"
-                            message="Are you sure you want to restore {{ $row->name }}?"
-                        />
-                        <button
-                            class="text-success hover:cursor-pointer"
-                            data-modal-target="supplier-restore-{{ $row->id }}-modal"
-                            data-modal-toggle="supplier-restore-{{ $row->id }}-modal"
-                            data-test="supplier-restore-{{ $row->id }}-modal-trigger"
-                            type="button"
-                        >
-                            Restore
-                        </button>
-                    @endif
-                </td>
+
+                <!-- ACTION COLUMNS -->
+                @if ($edit || $delete || $restore)
+                    <x-table.extension.action
+                        name="supplier"
+                        identifier="name"
+                        :data="$row"
+                        :edit="$edit"
+                        :delete="$delete"
+                        :restore="$restore"
+                        edit_route="{{ route($routes[0]['name'], $row) }}"
+                        delete_route="{{ route($routes[1]['name'], $row->id) }}"
+                        restore_route="{{ route($routes[2]['name'], $row->id) }}"
+                    />
+                @endif
             </tr>
-        @empty
-            No available data
-        @endforelse
+        @endforeach
     </x-slot>
 </x-table.wrapper>

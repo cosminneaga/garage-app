@@ -17,7 +17,7 @@
 <x-table.wrapper :data="$data">
     <x-table.extension.thead
         :columns="$columns"
-        action_column_enabled="{{ $edit || $delete || $restore }}"
+        action_column_enabled="{{ $edit || $delete || $restore || $attach }}"
     />
 
     <x-slot name="tbody">

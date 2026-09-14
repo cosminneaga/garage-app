@@ -1,42 +1,34 @@
 @props([
-    'resource',
-    'id' => 'create-user',
-    'countries' => [],
-    'trigger' => true,
-    'trigger_label' => 'Create User',
-    'title' => 'Create & Attach an user',
+    'id',
+    'action' => '#',
+    'trigger' => false,
+    'countries' => []
 ])
 
 @php
-    $parentName = $resource->getTable();
-    $ids = (object) [
-        'modal' => $parentName . '-' . $id . '-modal',
-        'trigger' => $parentName . '-' . $id . '-modal-trigger',
-        'submit' => $parentName . '-' . $id . '-modal-submit-resource',
-    ];
+    $ids = BladeModalHelper::ids($id);
 @endphp
 
 @if ($trigger)
     <x-button
-        class="w-fit"
-        id="{{ $ids->trigger }}"
-        data-test="{{ $ids->trigger }}"
-        data-modal-target="{{ $ids->modal }}"
-        data-modal-toggle="{{ $ids->modal }}"
+        id="{{ $ids->get('trigger') }}"
+        data-modal-target="{{ $ids->get('modal') }}"
+        data-modal-toggle="{{ $ids->get('modal') }}"
         type="button"
-        variant="secondary"
-    >{{ $trigger_label }}</x-button>
+    >
+        Add user
+    </x-button>
 @endif
 
 <x-modal.wrapper
-    id="{{ $ids->modal }}"
-    title="{{ $title }}"
+    id="{{ $ids->get('modal') }}"
+    title="Create & Attach an user"
     size="7xl"
 >
 
     <form
-        id="company-user-create-form"
-        action="{{ route('users.' . $parentName . '.store', $resource) }}"
+        id="{{ $ids->get('form') }}"
+        action="{{ $action }}"
         method="POST"
         enctype="@enctype"
     >
@@ -66,12 +58,10 @@
             </div>
         </div>
 
-        <div class="flex gap-1">
-            <x-button
-                id="{{ $ids->submit }}"
-                form="company-user-create-form"
-                type="submit"
-            >Submit</x-button>
-        </div>
+        <br>
+        <x-button
+            id="{{ $ids->get('submit') }}"
+            type="submit"
+        >Submit</x-button>
     </form>
 </x-modal.wrapper>

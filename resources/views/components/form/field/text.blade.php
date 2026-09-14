@@ -1,8 +1,8 @@
 @props([
-    'label' => false,
     'name',
-    'value' => null,
     'identifier' => '',
+    'label' => false,
+    'value' => null,
 ])
 
 @php

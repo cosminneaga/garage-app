@@ -8,12 +8,13 @@
 ])
 
 @php
+    $parentname = $resource->getTable();
     $columns = SupplierColumns::tableColumns();
 @endphp
 
 <x-modal.supplier.create
-    id="supplier-create"
-    :resource="$resource"
+    id="supplier_create"
+    action="{{ route('suppliers.' . $parentname . '.store', $resource) }}"
     :countries="$countries"
     trigger
 />

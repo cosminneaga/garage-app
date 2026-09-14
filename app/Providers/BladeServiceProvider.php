@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Enums\Status\BookingStatus;
 use App\Enums\Columns\ActionColumn;
 use App\Enums\Columns\AddressColumns;
 use App\Enums\Columns\BookingColumns;
@@ -15,26 +14,28 @@ use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
 use App\Enums\Columns\VehicleColumns;
-use App\Enums\Type\FuelType;
 use App\Enums\Priority;
 use App\Enums\Related\RelatedModel;
-use App\Enums\Type\ServiceType;
-use App\Enums\Type\SupplierType;
+use App\Enums\Status\BookingStatus;
+use App\Enums\Status\VehicleStatus;
+use App\Enums\Tabs\ClientTabs;
 use App\Enums\Tabs\CompanyTabs;
 use App\Enums\Tabs\NotificationTabs;
 use App\Enums\Tabs\SupplierTabs;
 use App\Enums\Tabs\UserProfileTabs;
 use App\Enums\Tabs\UserTabs;
+use App\Enums\Type\FuelType;
+use App\Enums\Type\ServiceType;
+use App\Enums\Type\SupplierType;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
-use App\Enums\Status\VehicleStatus;
-use App\Enums\Tabs\ClientTabs;
 use App\Helpers\BladeFormHelper;
+use App\Helpers\BladeModalHelper;
 use App\Helpers\Permission;
-use App\Models\Country;
 use App\Models\CarData;
 use App\Models\CarMake;
 use App\Models\CarModel;
+use App\Models\Country;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -83,6 +84,7 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('CarData', CarData::class);
 
         $loader->alias('BladeFormHelper', BladeFormHelper::class);
+        $loader->alias('BladeModalHelper', BladeModalHelper::class);
 
         $loader->alias('ClientTabs', ClientTabs::class);
     }

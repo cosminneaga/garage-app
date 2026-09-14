@@ -13,9 +13,9 @@
 @endphp
 
 <x-modal.address.create
-    id="address-create"
-    :resource="$resource"
+    id="address_create"
     :countries="$countries"
+    action="{{ route('addresses.' . $parentname . '.store', $resource) }}"
     trigger
 />
 

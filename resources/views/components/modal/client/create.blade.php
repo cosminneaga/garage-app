@@ -1,25 +1,14 @@
-@props([
-    'id',
-    'parent',
-    'action' => '#',
-    'trigger' => false,
-    'countries' => [],
-])
+@props(['id', 'action' => '#', 'trigger' => false, 'countries' => []])
 
 @php
-    $ids = [
-        'modal' => $id . '_modal',
-        'trigger' => $id . '_trigger',
-        'submit' => $id . '_submit',
-        'form' => $id . '_form',
-    ];
+    $ids = BladeModalHelper::ids($id);
 @endphp
 
 @if ($trigger)
     <x-button
-        id="{{ $ids['trigger'] }}"
-        data-modal-target="{{ $ids['modal'] }}"
-        data-modal-toggle="{{ $ids['modal'] }}"
+        id="{{ $ids->get('trigger') }}"
+        data-modal-target="{{ $ids->get('modal') }}"
+        data-modal-toggle="{{ $ids->get('modal') }}"
         type="button"
     >
         Add client
@@ -27,38 +16,39 @@
 @endif
 
 <x-modal.wrapper
-    id="{{ $ids['modal'] }}"
+    id="{{ $ids->get('modal') }}"
     title="Create new client"
     size="7xl"
 >
     <form
-        id="{{ $ids['form'] }}"
+        id="{{ $ids->get('form') }}"
+        x-ref="{{ $ids->get('form') }}"
         action="{{ $action }}"
         method="POST"
-        x-ref="{{ $ids['form'] }}"
     >
         @csrf
 
         <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
             <x-form.content.client
-                identifier="client"
+                identifier="modal_client"
                 :countries="$countries"
             />
 
             <x-form.content.address
-                identifier="client"
+                identifier="modal_client"
                 :countries="$countries"
                 nested_parent_name="address"
             />
 
             <x-form.content.contact
-                identifier="client"
+                identifier="modal_client"
                 nested_parent_name="contact"
             />
         </div>
 
+        <br>
         <x-button
-            id="{{ $ids['submit'] }}"
+            id="{{ $ids->get('submit') }}"
             type="submit"
         >Submit</x-button>
     </form>

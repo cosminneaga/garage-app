@@ -1,31 +1,28 @@
-@props(['id', 'resource', 'trigger' => false])
+@props(['id', 'action' => '#', 'trigger' => false])
 
 @php
-    $parentname = $resource->getTable();
-    $ids = [
-        'modal' => $parentname . '-' . $id . '-modal',
-        'trigger' => $parentname . '-' . $id . '-modal-trigger',
-        'submit' => $parentname . '-' . $id . '-modal-submit',
-    ];
+    $ids = BladeModalHelper::ids($id);
 @endphp
 
 @if ($trigger)
     <x-button
-        class="w-fit"
-        id="{{ $ids['trigger'] }}"
-        data-modal-target="{{ $ids['modal'] }}"
-        data-modal-toggle="{{ $ids['modal'] }}"
+        id="{{ $ids->get('trigger') }}"
+        data-modal-target="{{ $ids->get('modal') }}"
+        data-modal-toggle="{{ $ids->get('modal') }}"
         type="button"
-        variant="default"
-    >Add Contact</x-button>
+    >
+        Add Contact
+    </x-button>
 @endif
 
 <x-modal.wrapper
-    id="{{ $ids['modal'] }}"
-    size="2xl"
+    id="{{ $ids->get('modal') }}"
+    title="Create new contact"
+    size="6xl"
 >
     <form
-        action="{{ route('contacts.' . $parentname . '.store', $resource) }}"
+        id="{{ $ids->get('form') }}"
+        action="{{ $action }}"
         method="POST"
     >
         @csrf
@@ -34,11 +31,10 @@
             <x-form.content.contact identifier="contact" />
         </div>
 
-        <div class="mt-5 flex gap-1">
-            <x-button
-                id="{{ $ids['submit'] }}"
-                type="submit"
-            >Submit</x-button>
-        </div>
+        <br>
+        <x-button
+            id="{{ $ids->get('submit') }}"
+            type="submit"
+        >Submit</x-button>
     </form>
 </x-modal.wrapper>

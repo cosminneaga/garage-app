@@ -12,43 +12,26 @@
 ])
 
 @php
-    $columns = collect(UserColumns::cases())->map(fn($col) => $col->value);
-
-    if ($edit || $delete || $chat || $restore) {
-        $columns->push('Actions');
-    }
+    $columns = UserColumns::tableColumns();
 @endphp
 
 <x-table.wrapper :data="$data">
-    @if ($search_route)
-        <x-slot name="header">
-            <form
-                method="GET"
-                action="{{ $search_route }}"
-            >
-                <x-form.field.search
-                    identifier="user"
-                    name="search"
-                    value="{{ request('search') }}"
-                    label="Search users..."
-                />
-            </form>
-        </x-slot>
-    @endif
+    <x-table.extension.search
+        :route="$search_route"
+        label="Search users..."
+    />
 
-    <x-slot name="thead">
-        @foreach ($columns as $column)
-            <th
-                class="px-6 py-3"
-                scope="col"
-            >{{ $column }}</th>
-        @endforeach
-    </x-slot>
+    <x-table.extension.thead
+        :columns="$columns"
+        action_column_enabled="{{ $edit || $delete || $restore || $chat }}"
+    />
 
     <x-slot name="tbody">
         @foreach ($data as $row)
             <tr
                 class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+
+                <!-- GENERIC DATABASE COLUMNS -->
                 <th
                     class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}

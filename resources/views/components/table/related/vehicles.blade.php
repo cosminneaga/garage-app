@@ -14,9 +14,8 @@
 
 <x-modal.vehicle.create
     id="vehicle_create"
-    :resource="$resource"
-    trigger
     action="{{ route('vehicles.companies.store', $resource) }}"
+    trigger
 />
 
 <x-table.wrapper :data="$data">

@@ -8,14 +8,14 @@
                 x-data="{
                     resource: null,
                     id: {{ $companies[0]->id }},
-                
+
                     async fetchResource() {
                         const response = await fetch(`/companies/${this.id}/load_relations`);
-                
+
                         if (!response.ok) {
                             throw new Error('Failed to fetch resource');
                         }
-                
+
                         this.resource = await response.json();
                         $store.form_data.setCompany(this.resource.company);
                     }
@@ -81,10 +81,6 @@
                             </x-button>
                             <x-modal.vehicle.create
                                 id="vehicle_create"
-                                :makes="$makes"
-                                {{-- :models="$models" --}}
-                                {{-- :data="$data" --}}
-                                {{-- :years="$years" --}}
                             />
                         </div>
                     </div>

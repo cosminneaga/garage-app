@@ -12,8 +12,8 @@
 @endphp
 
 <x-modal.contact.create
-    id="contact-create"
-    :resource="$resource"
+    id="contact_create"
+    action="{{ route('contacts.' . $parentname . '.store', $resource) }}"
     trigger
 />
 

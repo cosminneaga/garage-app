@@ -1,36 +1,23 @@
-@props([
-    'resource',
-    'id' => 'attach-user',
-    'countries' => [],
-    'existing_users' => [],
-    'trigger' => true,
-    'trigger_label' => 'Attach User',
-    'title' => 'Attach an existing user',
-])
+@props(['resource', 'id', 'trigger' => false, 'countries' => [], 'existing_users' => []])
 
 @php
-    $parentName = $resource->getTable();
-    $ids = (object) [
-        'modal' => $parentName . '-' . $id . '-modal',
-        'trigger' => $parentName . '-' . $id . '-modal-trigger',
-        'submit_attach' => $parentName . '-' . $id . '-modal-submit-attach',
-    ];
+    $ids = BladeModalHelper::ids($id);
 @endphp
 
 @if ($trigger)
     <x-button
-        class="w-fit"
-        id="{{ $ids->trigger }}"
-        data-modal-target="{{ $ids->modal }}"
-        data-modal-toggle="{{ $ids->modal }}"
+        id="{{ $ids->get('trigger') }}"
+        data-modal-target="{{ $ids->get('modal') }}"
+        data-modal-toggle="{{ $ids->get('modal') }}"
         type="button"
-        variant="secondary"
-    >{{ $trigger_label }}</x-button>
+    >
+        Attach user
+    </x-button>
 @endif
 
 <x-modal.wrapper
-    id="{{ $ids->modal }}"
-    title="{{ $title }}"
+    id="{{ $ids->get('modal') }}"
+    title="Attach an existing user"
     size="7xl"
 >
     <x-table.related.users

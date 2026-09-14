@@ -1,58 +1,42 @@
-@props([
-    'id',
-    'resource',
-    'action' => '#',
-    'trigger' => false,
-    'makes' => [],
-    'models' => [],
-    'data' => [],
-    'years' => [],
-])
+@props(['id', 'action' => '#', 'trigger' => false])
 
 @php
-    $ids = [
-        'modal' => $id . '_modal',
-        'trigger' => $id . '_trigger',
-        'submit' => $id . '_submit',
-        'form' => $id . '_form',
-    ];
+    $ids = BladeModalHelper::ids($id);
 @endphp
 
 @if ($trigger)
     <x-button
-        id="{{ $ids['trigger'] }}"
-        data-modal-target="{{ $ids['modal'] }}"
-        data-modal-toggle="{{ $ids['modal'] }}"
+        id="{{ $ids->get('trigger') }}"
+        data-modal-target="{{ $ids->get('modal') }}"
+        data-modal-toggle="{{ $ids->get('modal') }}"
         type="button"
     >
-        Create
+        Add vehicle
     </x-button>
 @endif
+
 <div>
 
     <x-modal.wrapper
+        id="{{ $ids->get('modal') }}"
         title="Create new vehicle"
-        id="{{ $ids['modal'] }}"
         size="7xl"
     >
         <form
+            id="{{ $ids->get('form') }}"
+            x-ref="{{ $ids->get('form') }}"
             action="{{ $action }}"
             method="POST"
-            id="{{ $ids['form'] }}"
-            x-ref="{{ $ids['form'] }}"
         >
             @csrf
 
-            <x-form.content.vehicle
-                identifier="vehicle"
-                :makes="$makes"
-                :models="$models"
-                :data="$data"
-                :years="$years"
-            />
+            <div class="grid grid-rows-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <x-form.content.vehicle identifier="vehicle" />
+            </div>
 
+            <br>
             <x-button
-                id="{{ $ids['submit'] }}"
+                id="{{ $ids->get('submit') }}"
                 type="submit"
             >Submit</x-button>
         </form>
