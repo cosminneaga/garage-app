@@ -3,7 +3,8 @@
     aria-labelledby="drawer-label"
     tabindex="-1"
     {{ $attributes->merge([
-        'class' => 'bg-neutral-primary-soft border-default text-heading overflow-y-auto border-e p-4 max-w-96 min-h-screen left-0 top-0 z-40 transition-transform'
+        'class' =>
+            'bg-neutral-primary-soft border-default text-heading overflow-y-auto border-e p-4 max-w-96 min-h-screen left-0 top-0 z-40 transition-transform',
     ]) }}
 >
     <div class="flex flex-col items-start gap-2 pb-4">
@@ -13,7 +14,8 @@
             title="GarageApp Logo"
             alt="GarageApp Logo"
         /> --}}
-        <span class="text-heading whitespace-nowrap text-xl font-semibold">Garage App</span>
+        <span class="text-heading whitespace-nowrap text-xl font-semibold">Garage
+            App</span>
     </div>
 
     <x-navigation.link-list.permission

@@ -28,13 +28,15 @@
 
 </head>
 
-<body class="dark:bg-gray-800 dark:text-white text-black bg-neutral-200">
-{{-- <body> --}}
+<body class="bg-neutral-200 text-black dark:bg-gray-800 dark:text-white">
+    {{-- <body> --}}
 
-
-
-    <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
-        <x-navigation::drawer class="fixed -translate-x-full lg:relative lg:transform-none lg:translate-none" />
+    <div class="@auth lg:grid-cols-[280px_1fr] @endauth grid grid-cols-1">
+        @auth
+            <x-navigation::drawer
+                class="lg:translate-none fixed -translate-x-full lg:relative lg:transform-none"
+            />
+        @endauth
         <main class="p-2 lg:px-4">
             <x-navigation::index />
             <br>

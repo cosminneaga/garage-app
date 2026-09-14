@@ -17,7 +17,7 @@
 <x-table.wrapper :data="$data">
     <x-table.extension.search
         :route="$search_route"
-        label="Search bookings..."
+        label="Search by name, tax id and registration number"
     />
 
     <x-table.extension.thead

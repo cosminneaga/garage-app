@@ -23,7 +23,6 @@ return new class () extends Migration {
 
             $table->index('name', 'cmp_name_idx');
             $table->index('tax_id', 'cmp_taxid_idx');
-            $table->index('tax_value', 'cmp_taxvalue_idx');
             $table->index('registration_number', 'cmp_registrationnumber_idx');
             $table->index('created_by', 'cmp_createdby_idx');
             $table->index('updated_by', 'cmp_updatedby_idx');

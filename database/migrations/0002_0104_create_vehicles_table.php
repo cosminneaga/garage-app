@@ -2,10 +2,9 @@
 
 use App\Enums\Type\FuelType;
 use App\Enums\Status\VehicleStatus;
-use App\Models\VehicleData;
-use App\Models\VehicleMake;
-use App\Models\VehicleModel;
-use App\Models\VehicleYear;
+use App\Models\CarData;
+use App\Models\CarMake;
+use App\Models\CarModel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,10 +28,9 @@ return new class () extends Migration {
             $table->longText('notes')->nullable();
             $table->longText('diagnostic_information')->nullable();
 
-            $table->foreignIdFor(VehicleMake::class)->nullable();
-            $table->foreignIdFor(VehicleModel::class)->nullable();
-            $table->foreignIdFor(VehicleData::class)->nullable();
-            $table->foreignIdFor(VehicleYear::class)->nullable();
+            $table->foreignIdFor(CarMake::class, 'make_id')->nullable();
+            $table->foreignIdFor(CarModel::class, 'model_id')->nullable();
+            $table->foreignIdFor(CarData::class, 'data_id')->nullable();
 
             $table->auditColumns();
 

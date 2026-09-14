@@ -18,11 +18,6 @@
             for="{{ $name }}"
         >{{ $label }}</label>
     @endif
-
-    <label
-        class="text-heading sr-only mb-2.5 block text-sm font-medium"
-        for="search"
-    >Search</label>
     <div class="relative">
         <div
             class="inset-s-0 pointer-events-none absolute inset-y-0 flex items-center ps-3">

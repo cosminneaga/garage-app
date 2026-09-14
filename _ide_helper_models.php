@@ -153,6 +153,97 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $name
+ * @property int $cylinders
+ * @property float $displacement
+ * @property string $drive
+ * @property string $transmission
+ * @property int $make_id
+ * @property int $model_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\CarMake $make
+ * @property-read \App\Models\CarModel $model
+ * @method static \Database\Factories\CarDataFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereCylinders($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereDisplacement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereDrive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereMakeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereModelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereTransmission($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperCarData {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarData> $data
+ * @property-read int|null $data_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarModel> $models
+ * @property-read int|null $models_count
+ * @method static \Database\Factories\CarMakeFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperCarMake {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $class
+ * @property int $make_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarData> $data
+ * @property-read int|null $data_count
+ * @property-read \App\Models\CarMake $make
+ * @method static \Database\Factories\CarModelFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel whereMakeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperCarModel {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $name
  * @property string $email
  * @property bool $active
  * @property string|null $password
@@ -702,10 +793,9 @@ namespace App\Models{
  * @property string|null $technical_notes
  * @property string|null $notes
  * @property string|null $diagnostic_information
- * @property int|null $vehicle_make_id
- * @property int|null $vehicle_model_id
- * @property int|null $vehicle_data_id
- * @property int|null $vehicle_year_id
+ * @property int|null $make_id
+ * @property int|null $model_id
+ * @property int|null $data_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -726,6 +816,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDataId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereDiagnosticInformation($value)
@@ -734,16 +825,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFirstVisitOdometer($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereFuel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereMakeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereModelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereRegistration($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereTechnicalNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleDataId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleMakeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVehicleYearId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle whereVin($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle withoutTrashed()
@@ -751,129 +840,6 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperVehicle {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $name
- * @property int $cylinders
- * @property float $displacement
- * @property string $drive
- * @property string $transmission
- * @property int $vehicle_make_id
- * @property int $vehicle_model_id
- * @property int $vehicle_year_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\VehicleMake|null $make
- * @property-read \App\Models\VehicleModel|null $model
- * @property-read \App\Models\VehicleYear|null $year
- * @method static \Database\Factories\VehicleDataFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereCylinders($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereDisplacement($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereDrive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereTransmission($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleMakeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleData whereVehicleYearId($value)
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperVehicleData {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VehicleData> $data
- * @property-read int|null $data_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VehicleModel> $models
- * @property-read int|null $models_count
- * @method static \Database\Factories\VehicleMakeFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleMake whereUpdatedAt($value)
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperVehicleMake {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $name
- * @property string $class
- * @property int $vehicle_make_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VehicleData> $data
- * @property-read int|null $data_count
- * @property-read \App\Models\VehicleMake|null $make
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VehicleYear> $years
- * @property-read int|null $years_count
- * @method static \Database\Factories\VehicleModelFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereClass($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleModel whereVehicleMakeId($value)
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperVehicleModel {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $year
- * @property int $vehicle_model_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\VehicleData> $data
- * @property-read int|null $data_count
- * @property-read \App\Models\VehicleModel|null $model
- * @method static \Database\Factories\VehicleYearFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereVehicleModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|VehicleYear whereYear($value)
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperVehicleYear {}
 }
 
 namespace App\Models{

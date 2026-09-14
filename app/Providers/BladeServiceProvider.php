@@ -32,10 +32,9 @@ use App\Enums\Tabs\ClientTabs;
 use App\Helpers\BladeFormHelper;
 use App\Helpers\Permission;
 use App\Models\Country;
-use App\Models\VehicleData;
-use App\Models\VehicleMake;
-use App\Models\VehicleModel;
-use App\Models\VehicleYear;
+use App\Models\CarData;
+use App\Models\CarMake;
+use App\Models\CarModel;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
@@ -79,10 +78,9 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('ClientColumns', ClientColumns::class);
 
 
-        $loader->alias('VehicleMake', VehicleMake::class);
-        $loader->alias('VehicleModel', VehicleModel::class);
-        $loader->alias('VehicleData', VehicleData::class);
-        $loader->alias('VehicleYear', VehicleYear::class);
+        $loader->alias('CarMake', CarMake::class);
+        $loader->alias('CarModel', CarModel::class);
+        $loader->alias('CarData', CarData::class);
 
         $loader->alias('BladeFormHelper', BladeFormHelper::class);
 

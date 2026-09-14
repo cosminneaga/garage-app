@@ -8,7 +8,7 @@ use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Repair;
-use App\Models\VehicleData;
+use App\Models\CarData;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -40,7 +40,7 @@ class RepairFactory extends Factory
             'service_record' => fake()->randomHTML(),
 
             'booking_id' => Booking::factory(),
-            'vehicle_data_id' => VehicleData::factory(),
+            'vehicle_data_id' => CarData::factory(),
             'company_id' => Company::factory(),
             'client_id' => Client::factory(),
         ];

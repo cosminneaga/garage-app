@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\VehicleMake;
-use App\Models\VehicleModel;
+use App\Models\CarMake;
+use App\Models\CarModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<VehicleModel>
+ * @extends Factory<CarModel>
  */
-class VehicleModelFactory extends Factory
+class CarModelFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,7 +21,7 @@ class VehicleModelFactory extends Factory
         return [
             'name' => fake()->randomElement(['A3', 'Corolla', 'Tiguan', 'RAV4']),
             'class' => fake()->randomElement(['Small/Mini', 'Medium', 'Executive', 'MPV']),
-            'vehicle_make_id' => VehicleMake::factory(),
+            'make_id' => CarMake::factory(),
         ];
     }
 }

@@ -98,7 +98,6 @@ class Company extends Model
         return [
             'name' => $this->name,
             'tax_id' => $this->tax_id,
-            'tax_value' => $this->tax_value,
             'registration_number' => $this->registration_number,
         ];
     }

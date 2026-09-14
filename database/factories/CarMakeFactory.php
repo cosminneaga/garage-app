@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\VehicleModel;
-use App\Models\VehicleYear;
+use App\Models\CarMake;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<VehicleYear>
+ * @extends Factory<CarMake>
  */
-class VehicleYearFactory extends Factory
+class CarMakeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +18,7 @@ class VehicleYearFactory extends Factory
     public function definition(): array
     {
         return [
-            'year' => fake()->year(),
-            'vehicle_model_id' => VehicleModel::factory(),
+            'name' => fake()->randomElement(['Mazda', 'Nissan', 'Peugeot']),
         ];
     }
 }

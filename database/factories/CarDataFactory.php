@@ -2,16 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\VehicleData;
-use App\Models\VehicleMake;
-use App\Models\VehicleModel;
-use App\Models\VehicleYear;
+use App\Models\CarData;
+use App\Models\CarMake;
+use App\Models\CarModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<VehicleData>
+ * @extends Factory<CarData>
  */
-class VehicleDataFactory extends Factory
+class CarDataFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -39,9 +38,8 @@ class VehicleDataFactory extends Factory
                 'Continuously Variable (CVT)',
                 'Dual-Clutch (DCT)',
             ]),
-            'vehicle_make_id' => VehicleMake::factory(),
-            'vehicle_model_id' => VehicleModel::factory(),
-            'vehicle_year_id' => VehicleYear::factory(),
+            'make_id' => CarMake::factory(),
+            'model_id' => CarModel::factory(),
         ];
     }
 }

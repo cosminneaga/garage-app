@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\CarMake;
 use App\Models\Supplier;
-use App\Models\VehicleMake;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +23,7 @@ return new class () extends Migration {
             $table->decimal('item_price', 8, 2)->default(0.00);
             $table->decimal('commercial_markup', 8, 2)->default(0.00);
 
-            $table->foreignIdFor(VehicleMake::class, 'brand')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(CarMake::class, 'brand')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Supplier::class)->constrained()->cascadeOnDelete();
 
             $table->auditColumns();

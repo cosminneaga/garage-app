@@ -1,4 +1,10 @@
-@props(['id', 'parent', 'action' => '#', 'trigger' => false, 'countries' => []])
+@props([
+    'id',
+    'parent',
+    'action' => '#',
+    'trigger' => false,
+    'countries' => [],
+])
 
 @php
     $ids = [

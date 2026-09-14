@@ -10,12 +10,12 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('vehicle_makes', function (Blueprint $table) {
+        Schema::create('car_makes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
             $table->timestamps();
 
-            $table->index('name', 'vhmk_name_idx');
+            $table->index('name', 'cmk_name_idx');
         });
     }
 
@@ -24,10 +24,10 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::table('vehicle_makes', function (Blueprint $table) {
-            $table->dropIndex('vhmk_name_idx');
+        Schema::table('car_makes', function (Blueprint $table) {
+            $table->dropIndex('cmk_name_idx');
         });
 
-        Schema::dropIfExists('vehicle_makes');
+        Schema::dropIfExists('car_makes');
     }
 };

@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Part;
 use App\Models\Supplier;
-use App\Models\VehicleMake;
+use App\Models\CarMake;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +23,7 @@ class PartFactory extends Factory
 
         return [
             'name' => fake()->randomElement(['Oil Filter MANN', 'Oil Pan', 'Head Gasket', 'Piston', 'Piston Ring', 'Timing Kit']),
-            'brand' => VehicleMake::factory()->create(),
+            'brand' => CarMake::factory()->create(),
             'supplier_id' => $supplier,
         ];
     }
