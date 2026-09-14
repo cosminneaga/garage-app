@@ -34,10 +34,9 @@ enum UserPermission: string
     case USER = 'user';
     case MANAGER = 'manager';
 
-    case VEHICLE_DATA = 'vehicle_data';
-    case VEHICLE_MAKE = 'vehicle_make';
-    case VEHICLE_MODEL = 'vehicle_model';
-    case VEHICLE_YEAR = 'vehicle_year';
+    case CAR_DATA = 'car_data';
+    case CAR_MAKE = 'car_make';
+    case CAR_MODEL = 'car_model';
 
     case PERMISSION = 'permission';
 
@@ -66,10 +65,9 @@ enum UserPermission: string
             self::USER => 'User',
             self::MANAGER => 'Manager',
 
-            self::VEHICLE_DATA => 'Vehicle Data',
-            self::VEHICLE_MAKE => 'Vehicle Make',
-            self::VEHICLE_MODEL => 'Vehicle Model',
-            self::VEHICLE_YEAR => 'Vehicle Year',
+            self::CAR_DATA => 'Car Data',
+            self::CAR_MAKE => 'Car Make',
+            self::CAR_MODEL => 'Car Model',
 
             self::PERMISSION => 'Permission',
         };

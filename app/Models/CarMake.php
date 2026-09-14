@@ -23,11 +23,6 @@ class CarMake extends Model
 
     public function models(): HasMany
     {
-        return $this->hasMany(CarModel::class);
-    }
-
-    public function data(): HasMany
-    {
-        return $this->hasMany(CarData::class);
+        return $this->hasMany(CarModel::class, 'make_id');
     }
 }

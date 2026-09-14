@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\Type\FuelType;
 use App\Enums\Status\VehicleStatus;
+use App\Enums\Type\FuelType;
 use App\Policies\VehiclePolicy;
 use App\Traits\Blameable;
 use Database\Factories\VehicleFactory;
@@ -96,11 +96,15 @@ class Vehicle extends Model
         'technical_notes',
         'notes',
         'diagnostic_information',
+        'make_id',
+        'model_id',
+        'data_id',
     ];
 
     protected $casts = [
         'fuel' => FuelType::class,
         'status' => VehicleStatus::class,
+        'first_visit' => 'datetime',
     ];
 
     protected $attributes = [
@@ -108,7 +112,7 @@ class Vehicle extends Model
         'status' => VehicleStatus::ACTIVE->value,
     ];
 
-    public function company(): BelongsTo
+    public function companies(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }

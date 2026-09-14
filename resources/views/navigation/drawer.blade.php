@@ -78,38 +78,3 @@
         />
     @endsuper
 </div>
-
-<script type="module">
-    // set the drawer menu element
-    const $targetEl = document.getElementById('app-drawer');
-
-    // options with default values
-    const options = {
-        placement: 'right',
-        backdrop: true,
-        bodyScrolling: false,
-        edge: false,
-        edgeOffset: '',
-        backdropClasses: 'bg-dark/50 fixed inset-0 z-30',
-        onHide: () => {
-            console.log('drawer is hidden');
-        },
-        onShow: () => {
-            console.log('drawer is shown');
-        },
-        onToggle: () => {
-            console.log('drawer has been toggled');
-        },
-    };
-
-    // instance options object
-    const instanceOptions = {
-        id: 'app-drawer',
-        override: true
-    };
-
-    const drawer = new Drawer($targetEl, options, instanceOptions);
-    console.log(drawer);
-
-    // drawer.show();
-</script>

@@ -23,19 +23,17 @@ enum Environment: string
                     ...UserPermission::list(
                         excludeReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ]
                     ),
                     ...UserPermission::list(
                         onlyReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ],
                         onlyActions: ['show']
                     ),
@@ -45,20 +43,18 @@ enum Environment: string
                         excludeReferences: [
                             'country',
                             'company',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                             'manager',
                         ]
                     ),
                     ...UserPermission::list(
                         onlyReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ],
                         onlyActions: ['show']
                     ),
@@ -82,10 +78,9 @@ enum Environment: string
                             'file',
                             'invoice',
                             'invoice_item',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                             'user',
                         ],
                         onlyActions: ['show']
@@ -97,19 +92,17 @@ enum Environment: string
                     ...UserPermission::list(
                         excludeReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ]
                     ),
                     ...UserPermission::list(
                         onlyReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ],
                         onlyActions: ['show']
                     ),
@@ -119,20 +112,18 @@ enum Environment: string
                         excludeReferences: [
                             'country',
                             'company',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                             'manager',
                         ]
                     ),
                     ...UserPermission::list(
                         onlyReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ],
                         onlyActions: ['show']
                     ),
@@ -156,10 +147,9 @@ enum Environment: string
                             'file',
                             'invoice',
                             'invoice_item',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                             'user',
                         ],
                         onlyActions: ['show']
@@ -171,19 +161,17 @@ enum Environment: string
                     ...UserPermission::list(
                         excludeReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ]
                     ),
                     ...UserPermission::list(
                         onlyReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ],
                         onlyActions: ['show']
                     ),
@@ -193,20 +181,18 @@ enum Environment: string
                         excludeReferences: [
                             'country',
                             'company',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                             'manager',
                         ]
                     ),
                     ...UserPermission::list(
                         onlyReferences: [
                             'country',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                         ],
                         onlyActions: ['show']
                     ),
@@ -230,10 +216,9 @@ enum Environment: string
                             'file',
                             'invoice',
                             'invoice_item',
-                            'vehicle_data',
-                            'vehicle_make',
-                            'vehicle_model',
-                            'vehicle_year',
+                            'car_data',
+                            'car_make',
+                            'car_model',
                             'user',
                         ],
                         onlyActions: ['show']

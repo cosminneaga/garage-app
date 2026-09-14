@@ -28,9 +28,9 @@ return new class () extends Migration {
             $table->longText('notes')->nullable();
             $table->longText('diagnostic_information')->nullable();
 
-            $table->foreignIdFor(CarMake::class, 'make_id')->nullable();
-            $table->foreignIdFor(CarModel::class, 'model_id')->nullable();
-            $table->foreignIdFor(CarData::class, 'data_id')->nullable();
+            $table->foreignIdFor(CarMake::class, 'make_id')->nullable()->constrained();
+            $table->foreignIdFor(CarModel::class, 'model_id')->nullable()->constrained();
+            $table->foreignIdFor(CarData::class, 'data_id')->nullable()->constrained();
 
             $table->auditColumns();
 

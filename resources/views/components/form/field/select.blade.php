@@ -7,7 +7,6 @@
     'select_map_label' => 'label',
     'identifier' => '',
 ])
-
 @php
     $helper = BladeFormHelper::names($identifier, $name);
 @endphp

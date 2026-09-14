@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\Status\VehicleStatus;
 use App\Enums\Type\FuelType;
 use App\Enums\UserPermission;
-use App\Enums\Status\VehicleStatus;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -38,11 +38,9 @@ class StoreVehicleRequest extends FormRequest
             'technical_notes' =>        ['nullable', 'string', 'max:600'],
             'notes' =>                  ['nullable', 'string', 'max:600'],
             'diagnostic_information' => ['nullable', 'string', 'max:600'],
-
-            'vehicle_make_id' =>        ['nullable', 'exists:vehicle_makes,id'],
-            'vehicle_model_id' =>       ['nullable', 'exists:vehicle_models,id'],
-            'vehicle_data_id' =>        ['nullable', 'exists:vehicle_data,id'],
-            'vehicle_year_id' =>        ['nullable', 'exists:vehicle_years,id'],
+            'make_id' =>                ['nullable', 'exists:car_makes,id'],
+            'model_id' =>               ['nullable', 'exists:car_models,id'],
+            'data_id' =>                ['nullable', 'exists:car_data,id'],
         ];
     }
 }

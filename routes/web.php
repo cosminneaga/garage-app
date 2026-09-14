@@ -6,6 +6,7 @@ use App\Enums\Related\RelatedModel;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CarInfoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
@@ -244,6 +245,14 @@ Route::controller(WorkorderOperationLabourTimeController::class)
             Route::get('/workorder_operation_labour_times/{time}/workorder_operations/{operation}', 'modelEdit')->name('times.operations.edit');
             Route::put('/workorder_operation_labour_times/{time}/workorder_operations/{operation}', 'modelUpdate')->name('times.operations.update');
         });
+    });
+
+Route::controller(CarInfoController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        Route::get('/car/makes', 'makes')->name('car.makes');
+        Route::get('/car/makes/{make}/models', 'models')->name('car.makes.models');
+        Route::get('/car/makes/{make}/models/{model}/data', 'data')->name('car.makes.models.data');
     });
 
 Route::controller(SuperController::class)

@@ -6,7 +6,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -28,14 +27,4 @@ class CarData extends Model
     protected $casts = [
         'displacement' => 'float',
     ];
-
-    public function make(): BelongsTo
-    {
-        return $this->belongsTo(CarMake::class);
-    }
-
-    public function model(): BelongsTo
-    {
-        return $this->belongsTo(CarModel::class);
-    }
 }

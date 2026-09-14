@@ -163,8 +163,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\CarMake $make
- * @property-read \App\Models\CarModel $model
  * @method static \Database\Factories\CarDataFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData newQuery()
@@ -193,8 +191,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarData> $data
- * @property-read int|null $data_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarModel> $models
  * @property-read int|null $models_count
  * @method static \Database\Factories\CarMakeFactory factory($count = null, $state = [])
@@ -221,8 +217,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarData> $data
- * @property-read int|null $data_count
  * @property-read \App\Models\CarMake $make
  * @method static \Database\Factories\CarModelFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel newModelQuery()
@@ -789,7 +783,7 @@ namespace App\Models{
  * @property \App\Enums\Status\VehicleStatus $status
  * @property int|null $first_visit_odometer
  * @property string|null $first_registration
- * @property string|null $first_visit
+ * @property \Illuminate\Support\Carbon|null $first_visit
  * @property string|null $technical_notes
  * @property string|null $notes
  * @property string|null $diagnostic_information
@@ -806,7 +800,7 @@ namespace App\Models{
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Company|null $companies
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])

@@ -75,37 +75,15 @@
         <h3 class="text-lg font-bold">Technical Data</h3>
         <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
 
-        <x-form.field.select
+        <x-form.content.carinfo
             identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('vehicle_make_id', $nested_parent_name) }}"
-            label="Vehicle make"
-            select_map_value="id"
-            select_map_label="name"
-            :options="$makes"
-        />
-        <x-form.field.select
-            identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('vehicle_model_id', $nested_parent_name) }}"
-            label="Vehicle model"
-            select_map_value="id"
-            select_map_label="name"
-            :options="$models"
-        />
-        <x-form.field.select
-            identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('vehicle_data_id', $nested_parent_name) }}"
-            label="Vehicle data"
-            select_map_value="id"
-            select_map_label="name"
-            :options="$data"
-        />
-        <x-form.field.select
-            identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('vehicle_year_id', $nested_parent_name) }}"
-            label="Vehicle year"
-            select_map_value="id"
-            select_map_label="year"
-            :options="$years"
+            parent_name="{{ $nested_parent_name }}"
         />
     </section>
 </div>
+
+{{-- <script type="module">
+    (async () => {
+        await Alpine.store('form_data').setCarMakes();
+    })();
+</script> --}}
