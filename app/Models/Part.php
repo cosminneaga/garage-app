@@ -22,16 +22,24 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $serial_number
  * @property string|null $code
  * @property string|null $notes
- * @property numeric $item_price
- * @property numeric $commercial_markup
+ * @property float $item_price
+ * @property float $commercial_markup
  * @property int $brand
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
+ * @property int $supplier_id
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property-read User|null $creator
- * @property-read User|null $updater
+ * @property int|null $deleted_by
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
+ * @property-read int|null $operations_count
+ * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\PartFactory factory($count = null, $state = [])
  * @method static Builder<static>|Part newModelQuery()
  * @method static Builder<static>|Part newQuery()
  * @method static Builder<static>|Part onlyTrashed()
@@ -42,6 +50,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Part whereCreatedAt($value)
  * @method static Builder<static>|Part whereCreatedBy($value)
  * @method static Builder<static>|Part whereDeletedAt($value)
+ * @method static Builder<static>|Part whereDeletedBy($value)
  * @method static Builder<static>|Part whereId($value)
  * @method static Builder<static>|Part whereItemPrice($value)
  * @method static Builder<static>|Part whereManufacturer($value)
@@ -49,12 +58,12 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Part whereNotes($value)
  * @method static Builder<static>|Part wherePartNumber($value)
  * @method static Builder<static>|Part whereSerialNumber($value)
+ * @method static Builder<static>|Part whereSupplierId($value)
  * @method static Builder<static>|Part whereUpdatedAt($value)
  * @method static Builder<static>|Part whereUpdatedBy($value)
  * @method static Builder<static>|Part withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Part withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperPart
  */
 class Part extends Model
 {

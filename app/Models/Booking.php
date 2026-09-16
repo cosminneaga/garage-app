@@ -32,38 +32,48 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property string $number
+ * @property string|null $number
  * @property BookingStatus $status
- * @property string $service_type
- * @property string $priority
- * @property string|null $appointment_start
- * @property string|null $appointment_finish
- * @property string|null $reminder_sent_at
- * @property string|null $checked_in_at
- * @property string|null $completed_at
- * @property string|null $cancelled_at
- * @property int|null $estimated_duration
- * @property string|null $status_info
+ * @property ServiceType $service_type
+ * @property Priority $priority
+ * @property Carbon|null $appointment_start
+ * @property Carbon|null $appointment_finish
+ * @property int|null $estimated_duration_minutes
+ * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes
+ * @property float $estimated_cost
+ * @property Carbon|null $reminder_sent_at
+ * @property Carbon|null $checked_in_at
+ * @property Carbon|null $cancelled_at
+ * @property Carbon|null $completed_at
+ * @property Carbon|null $in_review_at
+ * @property Carbon|null $in_progress_at
  * @property string|null $client_notes
- * @property numeric $estimated_cost
+ * @property string|null $client_url_token
+ * @property int $company_id
  * @property int $client_id
  * @property int $vehicle_id
- * @property int $company_id
  * @property int $advisor_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read User|null $creator
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
- * @property-read User|null $updater
- * @method static BookingFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $advisor
+ * @property-read \App\Models\Client|null $client
+ * @property-read Collection<int, \App\Models\File> $clientFiles
+ * @property-read int|null $client_files_count
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Vehicle|null $vehicle
+ * @property-read Collection<int, \App\Models\Workorder> $workorders
+ * @property-read int|null $workorders_count
+ * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
  * @method static Builder<static>|Booking newModelQuery()
  * @method static Builder<static>|Booking newQuery()
  * @method static Builder<static>|Booking onlyTrashed()
@@ -75,29 +85,32 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Booking whereCheckedInAt($value)
  * @method static Builder<static>|Booking whereClientId($value)
  * @method static Builder<static>|Booking whereClientNotes($value)
+ * @method static Builder<static>|Booking whereClientUrlToken($value)
  * @method static Builder<static>|Booking whereCompanyId($value)
  * @method static Builder<static>|Booking whereComplaint($value)
  * @method static Builder<static>|Booking whereCompletedAt($value)
  * @method static Builder<static>|Booking whereCreatedAt($value)
  * @method static Builder<static>|Booking whereCreatedBy($value)
+ * @method static Builder<static>|Booking whereCurrentStatusInfo($value)
  * @method static Builder<static>|Booking whereDeletedAt($value)
+ * @method static Builder<static>|Booking whereDeletedBy($value)
  * @method static Builder<static>|Booking whereEstimatedCost($value)
- * @method static Builder<static>|Booking whereEstimatedDuration($value)
+ * @method static Builder<static>|Booking whereEstimatedDurationMinutes($value)
  * @method static Builder<static>|Booking whereId($value)
+ * @method static Builder<static>|Booking whereInProgressAt($value)
+ * @method static Builder<static>|Booking whereInReviewAt($value)
  * @method static Builder<static>|Booking whereNotes($value)
  * @method static Builder<static>|Booking whereNumber($value)
  * @method static Builder<static>|Booking wherePriority($value)
  * @method static Builder<static>|Booking whereReminderSentAt($value)
  * @method static Builder<static>|Booking whereServiceType($value)
  * @method static Builder<static>|Booking whereStatus($value)
- * @method static Builder<static>|Booking whereStatusInfo($value)
  * @method static Builder<static>|Booking whereUpdatedAt($value)
  * @method static Builder<static>|Booking whereUpdatedBy($value)
  * @method static Builder<static>|Booking whereVehicleId($value)
  * @method static Builder<static>|Booking withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Booking withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperBooking
  */
 
 #[UsePolicy(BookingPolicy::class)]

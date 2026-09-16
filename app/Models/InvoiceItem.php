@@ -26,16 +26,17 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property int $invoice_id
  * @property int $supplier_id
  * @property int $part_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Invoice|null $invoice
- * @property-read Supplier|null $supplier
- * @method static InvoiceItemFactory factory($count = null, $state = [])
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read \App\Models\Supplier|null $supplier
+ * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
  * @method static Builder<static>|InvoiceItem newModelQuery()
  * @method static Builder<static>|InvoiceItem newQuery()
  * @method static Builder<static>|InvoiceItem onlyTrashed()
@@ -43,6 +44,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceItem whereCreatedAt($value)
  * @method static Builder<static>|InvoiceItem whereCreatedBy($value)
  * @method static Builder<static>|InvoiceItem whereDeletedAt($value)
+ * @method static Builder<static>|InvoiceItem whereDeletedBy($value)
  * @method static Builder<static>|InvoiceItem whereId($value)
  * @method static Builder<static>|InvoiceItem whereInvoiceId($value)
  * @method static Builder<static>|InvoiceItem whereItemPrice($value)
@@ -57,7 +59,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|InvoiceItem withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperInvoiceItem
  */
 class InvoiceItem extends Model
 {

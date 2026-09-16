@@ -10,7 +10,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
- * @mixin IdeHelperCarMake
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CarModel> $models
+ * @property-read int|null $models_count
+ * @method static \Database\Factories\CarMakeFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarMake whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class CarMake extends Model
 {

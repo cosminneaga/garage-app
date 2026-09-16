@@ -44,15 +44,15 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
+ * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Booking> $bookingsAdvised
+ * @property-read int|null $bookings_advised_count
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
+ * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read User|null $creator
- * @property-read Collection<int, User> $managers
- * @property-read int|null $managers_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
@@ -64,7 +64,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read User|null $updater
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static UserFactory factory($count = null, $state = [])
+ * @property-read Collection<int, \App\Models\Workorder> $woAssigned
+ * @property-read int|null $wo_assigned_count
+ * @property-read Collection<int, \App\Models\WorkorderOperation> $woOperationAssigned
+ * @property-read int|null $wo_operation_assigned_count
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static Builder<static>|User newModelQuery()
  * @method static Builder<static>|User newQuery()
  * @method static Builder<static>|User onlyTrashed()
@@ -91,7 +95,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder<static>|User withoutTeam($teams)
  * @method static Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperUser
  */
 #[UsePolicy(UserPolicy::class)]
 class User extends Authenticatable

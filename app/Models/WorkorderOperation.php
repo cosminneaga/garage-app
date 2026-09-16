@@ -19,7 +19,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property string $type
+ * @property WorkorderOperationType $type
  * @property int|null $part_installed_odometer
  * @property int|null $expected_life_km
  * @property int|null $expected_life_months
@@ -27,13 +27,24 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property int $workorder_id
  * @property int|null $part_id
  * @property int $performed_by
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property-read User|null $creator
- * @property-read User|null $updater
+ * @property int|null $deleted_by
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
+ * @property-read int|null $files_count
+ * @property-read \App\Models\Part|null $part
+ * @property-read \App\Models\User|null $performedBy
+ * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Workorder|null $workorder
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $workorderOperationTimes
+ * @property-read int|null $workorder_operation_times_count
+ * @method static \Database\Factories\WorkorderOperationFactory factory($count = null, $state = [])
  * @method static Builder<static>|WorkorderOperation newModelQuery()
  * @method static Builder<static>|WorkorderOperation newQuery()
  * @method static Builder<static>|WorkorderOperation onlyTrashed()
@@ -41,6 +52,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|WorkorderOperation whereCreatedAt($value)
  * @method static Builder<static>|WorkorderOperation whereCreatedBy($value)
  * @method static Builder<static>|WorkorderOperation whereDeletedAt($value)
+ * @method static Builder<static>|WorkorderOperation whereDeletedBy($value)
  * @method static Builder<static>|WorkorderOperation whereExpectedLifeKm($value)
  * @method static Builder<static>|WorkorderOperation whereExpectedLifeMonths($value)
  * @method static Builder<static>|WorkorderOperation whereId($value)
@@ -55,7 +67,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|WorkorderOperation withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|WorkorderOperation withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperWorkorderOperation
  */
 class WorkorderOperation extends Model
 {
