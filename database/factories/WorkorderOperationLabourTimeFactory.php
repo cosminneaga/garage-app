@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\WorkorderOperationLabourTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 /**
  * @extends Factory<WorkorderOperationLabourTime>
@@ -17,6 +18,8 @@ class WorkorderOperationLabourTimeFactory extends Factory
      */
     public function definition(): array
     {
-        return [];
+        return [
+            'start' => Carbon::now(),
+        ];
     }
 }

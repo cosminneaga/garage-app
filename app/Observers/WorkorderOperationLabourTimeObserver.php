@@ -8,7 +8,6 @@ use App\Enums\Status\WorkorderStatus;
 use App\Models\WorkorderOperationLabourTime;
 use App\Traits\ObserverHelper;
 use Carbon\Carbon;
-use Error;
 
 class WorkorderOperationLabourTimeObserver
 {
@@ -19,12 +18,17 @@ class WorkorderOperationLabourTimeObserver
         $wo = $time->operation->workorder;
 
         # this check stops the creation of another time window if wo has status in progress
-        if ($wo->status === WorkorderStatus::IN_PROGRESS) {
-            throw new Error('This time window cannot be attached! Another window has been alocated to given workorder');
-        }
+        // if ($wo->status === WorkorderStatus::IN_PROGRESS) {
+        //     throw new Error('This time window cannot be attached! Another window has been alocated to given workorder');
+        // }
 
         $wo->in_progress_at = Carbon::now();
         $wo->save();
+
+        $wo->statuses()->create([
+            'status' => WorkorderStatus::IN_PROGRESS,
+            'description' => 'Status was triggered from "WorkorderOperationLabourTime", start was set at ' . $time->start,
+        ]);
     }
 
     public function updated(WorkorderOperationLabourTime $time): void
@@ -35,6 +39,12 @@ class WorkorderOperationLabourTimeObserver
         if ($this->columnInsertCheck($time, 'end')) {
             $wo->in_pause_at = $time->end;
             $wo->save();
+
+            $wo->statuses()->create([
+                'status' => WorkorderStatus::PAUSED,
+                'description' => 'Status was triggered from "WorkorderOperationLabourTime", end was set at ' . $time->end,
+            ]);
+
             return;
         }
     }

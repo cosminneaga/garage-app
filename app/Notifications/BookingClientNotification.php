@@ -29,10 +29,11 @@ class BookingClientNotification extends Notification
     {
         return (new MailMessage())
             ->subject('Hey in regards with your booking ' . $this->booking->number)
-            ->markdown('mail.booking-client-notification', [
+            ->markdown('mail.generic-mail', [
                 'title' => $this->title,
                 'messages' => $this->messages,
                 'url' => '#',
+                'button_text' => 'Go to your booking',
             ]);
     }
 }

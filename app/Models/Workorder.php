@@ -176,7 +176,7 @@ class Workorder extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function workorderOperations(): HasMany
+    public function operations(): HasMany
     {
         return $this->hasMany(WorkorderOperation::class);
     }
@@ -184,5 +184,10 @@ class Workorder extends Model
     public function files(): BelongsToMany
     {
         return $this->belongsToMany(File::class);
+    }
+
+    public function statuses(): HasMany
+    {
+        return $this->hasMany(WorkorderStatusHistory::class);
     }
 }

@@ -38,7 +38,7 @@ class BookingCreatedNotification extends Notification
     {
         return (new MailMessage())
             ->subject('Booking ' . $this->booking->number . ' created')
-            ->markdown('mail.booking-created-notification', $this->toArray());
+            ->markdown('mail.generic-mail', $this->toArray());
     }
 
     public function toArray(): array
@@ -46,8 +46,11 @@ class BookingCreatedNotification extends Notification
         return [
             'type' => 'booking.created',
             'title' => 'Booking ' . $this->booking->number . ' created',
-            'message' => 'Booking with number: ' . $this->booking->number . ' has been created and added to company: ' . $this->booking->company->name,
+            'messages' => [
+                'Booking with number: ' . $this->booking->number . ' has been created and added to company: ' . $this->booking->company->name
+            ],
             'url' => route('bookings.companies.edit', [$this->booking, $this->booking->company]),
+            'button_text' => 'Go to booking',
         ];
     }
 }

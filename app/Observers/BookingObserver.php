@@ -41,48 +41,6 @@ class BookingObserver
             $old = $booking->getOriginal('status');
             Notification::send($users, new BookingStatusUpdateNotification($booking, $old));
 
-            # Client Notifications on several statuses
-            switch ($booking->status) {
-                case BookingStatus::CHECKED_IN:
-                    $title = 'Booking with number ' . $booking->number . ' has been checked in successfully';
-                    $messages = [
-                        'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
-                        'You can click the button below to see more details about your booking and also add respective notes and/or photos related to the state of the vehicle which can help us in our investigation.',
-                    ];
-                    Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
-                    break;
-
-                case BookingStatus::CONFIRMED:
-                    $title = 'Booking with number ' . $booking->number . ' has been confirmed successfully';
-                    $messages = [
-                        'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
-                        'You can click the button below to see more details about your booking and also add respective notes and/or photos related to the state of the vehicle which can help us in our investigation.',
-                    ];
-                    Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
-                    break;
-
-                case BookingStatus::IN_PROGRESS:
-                    $title = 'Booking with number ' . $booking->number . ' is in progress';
-                    $messages = [
-                        'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
-                        'We just want to let you know that a technician has been assigned to your vehicle.',
-                    ];
-                    Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
-                    break;
-
-                case BookingStatus::CANCELLED:
-                    $title = 'Booking with number ' . $booking->number . ' has been cancelled';
-                    $messages = [
-                        'Booking number ' . $booking->number . ' has been cancelled.',
-                        'Please contact our administration team to book another appointment.',
-                    ];
-                    Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
-                    break;
-
-                default:
-                    break;
-            }
-
             return;
         }
 
@@ -96,6 +54,13 @@ class BookingObserver
             $booking->status = BookingStatus::CHECKED_IN;
             $booking->save();
 
+            $title = 'Booking with number ' . $booking->number . ' has been checked in successfully';
+            $messages = [
+                'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
+                'You can click the button below to see more details about your booking and also add respective notes and/or photos related to the state of the vehicle which can help us in our investigation.',
+            ];
+            Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
+
             return;
         }
 
@@ -103,6 +68,13 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'appointment_start')) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
+
+            $title = 'Booking with number ' . $booking->number . ' has been confirmed successfully';
+            $messages = [
+                'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
+                'You can click the button below to see more details about your booking and also add respective notes and/or photos related to the state of the vehicle which can help us in our investigation.',
+            ];
+            Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
 
             return;
         }
@@ -120,6 +92,13 @@ class BookingObserver
             $booking->status = BookingStatus::IN_PROGRESS;
             $booking->save();
 
+            $title = 'Booking with number ' . $booking->number . ' is in progress';
+            $messages = [
+                'Vehicle with registration ' . $booking->vehicle->registration . ' has been successfully assigned to the booking number stated above.',
+                'We just want to let you know that a technician has been assigned to your vehicle.',
+            ];
+            Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
+
             return;
         }
 
@@ -127,6 +106,13 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'cancelled_at')) {
             $booking->status = BookingStatus::CANCELLED;
             $booking->save();
+
+            $title = 'Booking with number ' . $booking->number . ' has been cancelled';
+            $messages = [
+                'Booking number ' . $booking->number . ' has been cancelled.',
+                'Please contact our administration team to book another appointment.',
+            ];
+            Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
 
             return;
         }

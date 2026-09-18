@@ -18,8 +18,7 @@ class BookingStatusUpdateNotification extends Notification
     public function __construct(
         public Booking $booking,
         public BookingStatus $oldStatus
-    ) {
-    }
+    ) {}
 
     public function via(): array
     {
@@ -40,7 +39,7 @@ class BookingStatusUpdateNotification extends Notification
     {
         return (new MailMessage())
             ->subject('Booking ' . $this->booking->number . ' status has changed')
-            ->markdown('mail.booking-status-update-notification', $this->toArray());
+            ->markdown('mail.generic-mail', $this->toArray());
     }
 
     public function toArray(): array
@@ -48,8 +47,12 @@ class BookingStatusUpdateNotification extends Notification
         return [
             'type' => 'booking.status.updated',
             'title' => 'Booking ' . $this->booking->number . ' status updated',
-            'message' => 'Booking with number: ' . $this->booking->number . ' status has been updated from "' . $this->oldStatus->label() . '" to "' . $this->booking->status->label() . '"',
-            'url' => route('bookings.edit', $this->booking),
+            'messages' => [
+                'Booking with number: ' . $this->booking->number . ' status has been updated from "' . $this->oldStatus->label() . '" to "' . $this->booking->status->label() . '"',
+            ],
+            // 'url' => route('bookings.edit', $this->booking),
+            'url' => '#',
+            'button_text' => 'Go to booking',
         ];
     }
 }

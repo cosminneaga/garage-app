@@ -81,6 +81,7 @@ class WorkorderOperation extends Model
         'expected_life_km',
         'expected_life_months',
         'notes',
+        'performed_by',
     ];
 
     protected $casts = [
@@ -133,9 +134,9 @@ class WorkorderOperation extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function workorderOperationTimes(): HasMany
+    public function times(): HasMany
     {
-        return $this->hasMany(WorkorderOperationLabourTime::class);
+        return $this->hasMany(WorkorderOperationLabourTime::class, 'workorder_operation_id', 'id');
     }
 
     public function files(): BelongsToMany

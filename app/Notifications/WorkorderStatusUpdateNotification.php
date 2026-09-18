@@ -37,7 +37,7 @@ class WorkorderStatusUpdateNotification extends Notification
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage())->markdown('mail.workorder-status-update-notification');
+        return (new MailMessage())->markdown('mail.generic-mail');
     }
 
     public function toArray(): array
@@ -45,8 +45,11 @@ class WorkorderStatusUpdateNotification extends Notification
         return [
             'type' => 'workorder.status.updated',
             'title' => 'Workorder ' . $this->workorder->number . ' status has changed',
-            'message' => 'Workorder with number ' . $this->workorder->number . ' status has been updated from "' . $this->oldStatus->label() . '" to "' . $this->workorder->status->label() . '"',
+            'messages' => [
+                'Workorder with number ' . $this->workorder->number . ' status has been updated from "' . $this->oldStatus->label() . '" to "' . $this->workorder->status->label() . '"',
+            ],
             'url' => route('workorders.bookings.edit', $this->workorder, $this->workorder->booking),
+            'button_text' => 'Go to Workorder'
         ];
     }
 }

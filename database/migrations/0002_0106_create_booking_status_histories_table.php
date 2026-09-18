@@ -12,14 +12,13 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('booking_status_history', function (Blueprint $table) {
+        Schema::create('booking_status_histories', function (Blueprint $table) {
             $table->id();
             $table->string('status')->default(BookingStatus::PENDING->value);
-            $table->longText('notes')->nullable();
+            $table->string('description')->nullable();
 
-            $table->foreignIdFor(Booking::class, 'booking_id')->constrained()->cascadeOnUpdate();
-
-            $table->auditColumns();
+            $table->foreignIdFor(Booking::class)->constrained()->cascadeOnUpdate();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +27,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('booking_status_history');
+        Schema::dropIfExists('booking_status_histories');
     }
 };

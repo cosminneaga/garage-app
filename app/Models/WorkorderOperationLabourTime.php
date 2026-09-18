@@ -74,7 +74,7 @@ class WorkorderOperationLabourTime extends Model
         });
     }
 
-    public function workorderOperation(): BelongsTo
+    public function operation(): BelongsTo
     {
         return $this->belongsTo(WorkorderOperation::class, 'workorder_operation_id', 'id');
     }
