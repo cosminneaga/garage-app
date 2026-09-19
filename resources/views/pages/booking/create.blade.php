@@ -2,25 +2,25 @@
     <h1>Booking create</h1>
 
     <x-card description="Edit booking details">
-        <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
-            <section
-                class="space-y-2"
-                x-data="{
-                    resource: null,
-                    id: {{ $companies[0]->id }},
+        <div
+            class="grid grid-rows-1 gap-4 md:grid-cols-3"
+            x-data="{
+                resource: null,
+                id: {{ $companies[0]->id }},
 
-                    async fetchResource() {
-                        const response = await fetch(`/companies/${this.id}/load_relations`);
+                async fetchResource() {
+                    const response = await fetch(`/companies/${this.id}/load_relations`);
 
-                        if (!response.ok) {
-                            throw new Error('Failed to fetch resource');
-                        }
-
-                        this.resource = await response.json();
-                        $store.form_data.setCompany(this.resource.company);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch resource');
                     }
-                }"
-            >
+
+                    this.resource = await response.json();
+                    $store.form_data.setCompany(this.resource.company);
+                }
+            }"
+        >
+            <section class="space-y-2">
                 <x-form.field.select
                     name="company_id"
                     label="Selected company"
@@ -31,101 +31,94 @@
                     @change="fetchResource"
                 />
 
-                <x-button
-                    class="w-fit"
-                    id="create-booking-reveal-company-relations-button"
-                    data-modal-target="create-booking-reveal-company-relations-modal"
-                    data-modal-toggle="create-booking-reveal-company-relations-modal"
-                    type="button"
-                    variant="primary"
-                    @click="fetchResource"
+                <section
+                    class="grid gap-2 grid-cols-[1fr_auto_auto]"
+                    x-data="{
+                        options: [],
+                        async setOptions() {
+                            const response = await fetch('/clients/companies/' + $store.form_data.company?.id);
+                            this.options = await response.json();
+                        }
+                    }"
                 >
-                    Show clients & vehicles
-                </x-button>
+                    <select
+                        class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
+                        id="client_id"
+                        name="client_id"
+                    >
+                        <template
+                            x-for="option in options.data"
+                            :key="option.id"
+                        >
+                            <option
+                                :value="option.id"
+                                x-text="option.name"
+                            ></option>
+                        </template>
+                    </select>
 
-                <x-modal.wrapper
-                    id="create-booking-reveal-company-relations-modal"
-                    title="Company's clients & vehicles"
-                    size="7xl"
+                    <x-button
+                        type="button"
+                        @click="setOptions()"
+                    >fetch</x-button>
+
+                    <x-button
+                        id="client-create-button"
+                        data-modal-target="client_create_modal"
+                        data-modal-toggle="client_create_modal"
+                        type="button"
+                        @click="$refs.client_create_form.action = `/clients/companies/${$store.form_data.company.id}`"
+                    >
+                        new
+                    </x-button>
+                    <x-modal.client.create
+                        id="client_create"
+                        :countries="$countries"
+                    />
+                </section>
+
+                <section
+                    class="grid gap-2 grid-cols-[1fr_auto_auto]"
+                    x-data="{
+                        options: [],
+                        async setOptions() {
+                            const response = await fetch('/vehicles/companies/' + $store.form_data.company?.id);
+                            this.options = await response.json();
+                        }
+                    }"
                 >
+                    <select
+                        class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
+                        id="vehicle_id"
+                        name="vehicle_id"
+                    >
+                        <template
+                            x-for="option in options.data"
+                            :key="option.id"
+                        >
+                            <option
+                                :value="option.id"
+                                x-text="option.registration"
+                            ></option>
+                        </template>
+                    </select>
 
-                    <div class="grid grid-cols-2 gap-4 p-2">
-                        <div class="grid grid-cols-2 items-center">
-                            <h3 class="text-lg">CLIENTS</h3>
+                    <x-button
+                        type="button"
+                        @click="setOptions()"
+                    >fetch</x-button>
 
-                            <x-button
-                                id="client-create-button"
-                                data-modal-target="client_create_modal"
-                                data-modal-toggle="client_create_modal"
-                                type="button"
-                                @click="$refs.client_create_form.action = `/clients/companies/${$store.form_data.company.id}`"
-                            >
-                                Create
-                            </x-button>
-                            <x-modal.client.create
-                                id="client_create"
-                                :countries="$countries"
-                            />
-                        </div>
-                        <div class="grid grid-cols-2 items-center">
-                            <h3 class="text-lg">VEHICLES</h3>
-
-                            <x-button
-                                id="vehicle-create-button"
-                                data-modal-target="vehicle_create_modal"
-                                data-modal-toggle="vehicle_create_modal"
-                                type="button"
-                                @click="$refs.vehicle_create_form.action = `/vehicles/companies/${$store.form_data.company.id}`"
-                            >
-                                Create
-                            </x-button>
-                            <x-modal.vehicle.create
-                                id="vehicle_create"
-                            />
-                        </div>
-                    </div>
-                    <div class="h-175 grid grid-cols-2 gap-4 pt-3">
-
-                        <div class="overflow-y-auto">
-                            <template
-                                x-for="client in resource?.company?.clients"
-                                :key="client.id"
-                            >
-                                <x-form.field.radio
-                                    id="`client-${client.id}`"
-                                    name="client_id"
-                                    ::value="client.id"
-                                    label="client.name"
-                                />
-                            </template>
-                        </div>
-
-                        <div class="overflow-y-auto">
-                            <template
-                                x-for="vehicle in resource?.company?.vehicles"
-                                :key="vehicle.id"
-                            >
-                                <x-form.field.radio
-                                    id="`vehicle-${vehicle.id}`"
-                                    name="vehicle_id"
-                                    ::value="vehicle.id"
-                                    label="vehicle.registration"
-                                />
-                            </template>
-                        </div>
-                    </div>
-                </x-modal.wrapper>
-
-                <x-form.field.text
-                    name="client_id"
-                    label="Selected client"
-                    disabled
-                />
-                <x-form.field.text
-                    name="vehicle_id"
-                    label="Selected vehicle"
-                    disabled
-                />
+                    <x-button
+                        id="vehicle-create-button"
+                        data-modal-target="vehicle_create_modal"
+                        data-modal-toggle="vehicle_create_modal"
+                        type="button"
+                        @click="$refs.vehicle_create_form.action = `/vehicles/companies/${$store.form_data.company.id}`"
+                    >
+                        new
+                    </x-button>
+                    <x-modal.vehicle.create id="vehicle_create" />
+                </section>
             </section>
 
             <section class="space-y-2">
@@ -173,8 +166,8 @@
                 />
                 <x-form.field.text
                     name="estimated_duration_minutes"
-                    label="Estimated duration (minutes)"
                     type="number"
+                    label="Estimated duration (minutes)"
                 />
                 <x-form.field.textarea
                     name="notes"

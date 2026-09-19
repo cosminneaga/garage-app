@@ -69,6 +69,14 @@
     <!-- ALERT AREA -->
 
     @stack ('scripts')
+
+    {{-- <script type="module">
+        (async function () {
+            const response = await fetch('/clients/companies/1');
+            const data = await response.json();
+            console.log(data);
+        })();
+    </script> --}}
 </body>
 
 </html>

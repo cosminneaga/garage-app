@@ -9,7 +9,6 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\Country;
-use App\Models\CarMake;
 use App\Traits\RelatedModelGuard;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -43,9 +42,6 @@ class BookingController extends Controller
         return view('pages.booking.create', [
             'companies' => Auth::user()->companies()->orderBy('id')->get(),
             'countries' => Country::all(),
-            'makes' => CarMake::all(),
-            // 'models' => CarModel::all(),
-            // 'data' => CarData::all(),
         ]);
     }
 

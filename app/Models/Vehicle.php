@@ -15,9 +15,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -86,6 +88,7 @@ class Vehicle extends Model
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;
+    use Searchable;
 
     protected $fillable = [
         'vin',
@@ -114,9 +117,19 @@ class Vehicle extends Model
         'status' => VehicleStatus::ACTIVE->value,
     ];
 
-    public function companies(): BelongsTo
+    public function toSearchableArray(): array
     {
-        return $this->belongsTo(Company::class);
+        return [
+            'vin' => $this->vin,
+            'registration' => $this->registration,
+            'fuel' => $this->fuel,
+            'status' => $this->status,
+        ];
+    }
+
+    public function companies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class);
     }
 
     public function bookings(): HasMany

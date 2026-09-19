@@ -14,6 +14,7 @@ use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Exception;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,15 @@ class ClientController extends Controller
 {
     use RelatedModelGuard;
     use ResponseMessage;
+
+    public function modelIndex(Request $request, Company $company): JsonResponse
+    {
+        $search = $request->string('search')->value();
+        $existingClients = Client::whereHas('companies', fn ($query) => $query->whereIn('companies.id', [$company->id]))->pluck('clients.id');
+        $clients = Client::search($search)->whereIn('id', $existingClients)->paginate(env('PAGINATE_DEFAULT_PER_PAGE', 10), 'company_clients');
+
+        return response()->json($clients);
+    }
 
     public function modelStore(
         StoreClientRequest $request,

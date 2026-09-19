@@ -16,14 +16,14 @@ class ProfileController extends Controller
     public function edit(): View
     {
         return match(request()->query('tab')) {
-            'statistics' => view('pages.profile.edit.statistics', ['user' => Auth::user()]),
-            'contacts' => view('pages.profile.edit.contacts', ['user' => Auth::user()]),
-            'addresses' => view('pages.profile.edit.addresses', [
+            'statistics' => view('pages.user.profile.edit.statistics', ['user' => Auth::user()]),
+            'contacts' => view('pages.user.profile.edit.contacts', ['user' => Auth::user()]),
+            'addresses' => view('pages.user.profile.edit.addresses', [
                 'user' => Auth::user(),
                 'countries' => Country::all(),
             ]),
-            'settings' => view('pages.profile.edit.settings', ['user' => Auth::user()]),
-            default => view('pages.profile.edit.index', ['user' => Auth::user()]),
+            'settings' => view('pages.user.profile.edit.settings', ['user' => Auth::user()]),
+            default => view('pages.user.profile.edit.index', ['user' => Auth::user()]),
         };
     }
 
