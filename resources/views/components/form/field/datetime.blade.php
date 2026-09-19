@@ -11,7 +11,7 @@
     data-modal-toggle="timepicker-modal"
     type="button"
 >
-    <x-fwb-o-clock class="mr-2 h-5 w-5" />
+    <x-icon-o-clock class="mr-2 h-5 w-5" />
     {{ $label }}
 </button>
 
@@ -35,7 +35,7 @@
                     data-modal-toggle="timepicker-modal"
                     type="button"
                 >
-                    <x-fwb-o-close class="h-3 w-3" />
+                    <x-icon-o-x-mark class="h-3 w-3" />
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>

@@ -34,9 +34,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Invoice|null $invoice
- * @property-read \App\Models\Supplier|null $supplier
- * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
+ * @property-read Invoice|null $invoice
+ * @property-read Supplier|null $supplier
+ * @method static InvoiceItemFactory factory($count = null, $state = [])
  * @method static Builder<static>|InvoiceItem newModelQuery()
  * @method static Builder<static>|InvoiceItem newQuery()
  * @method static Builder<static>|InvoiceItem onlyTrashed()
@@ -59,6 +59,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|InvoiceItem withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperInvoiceItem
  */
 class InvoiceItem extends Model
 {

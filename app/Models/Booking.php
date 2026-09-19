@@ -22,8 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Override;
@@ -63,17 +61,17 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\User|null $advisor
- * @property-read \App\Models\Client|null $client
- * @property-read Collection<int, \App\Models\File> $clientFiles
+ * @property-read User|null $advisor
+ * @property-read Client|null $client
+ * @property-read Collection<int, File> $clientFiles
  * @property-read int|null $client_files_count
- * @property-read \App\Models\Company|null $company
- * @property-read \App\Models\User|null $creator
- * @property-read \App\Models\User|null $updater
- * @property-read \App\Models\Vehicle|null $vehicle
- * @property-read Collection<int, \App\Models\Workorder> $workorders
+ * @property-read Company|null $company
+ * @property-read User|null $creator
+ * @property-read User|null $updater
+ * @property-read Vehicle|null $vehicle
+ * @property-read Collection<int, Workorder> $workorders
  * @property-read int|null $workorders_count
- * @method static \Database\Factories\BookingFactory factory($count = null, $state = [])
+ * @method static BookingFactory factory($count = null, $state = [])
  * @method static Builder<static>|Booking newModelQuery()
  * @method static Builder<static>|Booking newQuery()
  * @method static Builder<static>|Booking onlyTrashed()
@@ -111,8 +109,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Booking withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Booking withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperBooking
  */
-
 #[UsePolicy(BookingPolicy::class)]
 #[ObservedBy(BookingObserver::class)]
 class Booking extends Model

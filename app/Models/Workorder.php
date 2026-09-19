@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\Activitylog\Models\Activity;
+use Database\Factories\WorkorderFactory;
 use App\Enums\UserRole;
 use App\Enums\Status\WorkorderStatus;
 use App\Observers\WorkorderObserver;
@@ -46,17 +49,19 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Booking|null $booking
- * @property-read \App\Models\User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
+ * @property-read Booking|null $booking
+ * @property-read User|null $creator
+ * @property-read Collection<int, File> $files
  * @property-read int|null $files_count
- * @property-read \App\Models\User|null $technician
- * @property-read \App\Models\User|null $updater
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $workorderOperations
- * @property-read int|null $workorder_operations_count
- * @method static \Database\Factories\WorkorderFactory factory($count = null, $state = [])
+ * @property-read Collection<int, WorkorderOperation> $operations
+ * @property-read int|null $operations_count
+ * @property-read Collection<int, WorkorderStatusHistory> $statuses
+ * @property-read int|null $statuses_count
+ * @property-read User|null $technician
+ * @property-read User|null $updater
+ * @method static WorkorderFactory factory($count = null, $state = [])
  * @method static Builder<static>|Workorder newModelQuery()
  * @method static Builder<static>|Workorder newQuery()
  * @method static Builder<static>|Workorder onlyTrashed()
@@ -89,8 +94,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Workorder withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Workorder withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperWorkorder
  */
-
 #[ObservedBy(WorkorderObserver::class)]
 class Workorder extends Model
 {

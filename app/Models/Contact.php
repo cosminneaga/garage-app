@@ -30,15 +30,15 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\User> $clients
+ * @property-read Collection<int, User> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, \App\Models\Company> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read Collection<int, \App\Models\User> $users
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static \Database\Factories\ContactFactory factory($count = null, $state = [])
+ * @method static ContactFactory factory($count = null, $state = [])
  * @method static Builder<static>|Contact newModelQuery()
  * @method static Builder<static>|Contact newQuery()
  * @method static Builder<static>|Contact onlyTrashed()
@@ -58,6 +58,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Contact withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Contact withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperContact
  */
 class Contact extends Model
 {

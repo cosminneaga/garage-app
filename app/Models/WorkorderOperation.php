@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\Activitylog\Models\Activity;
+use Database\Factories\WorkorderOperationFactory;
 use App\Enums\UserRole;
 use App\Enums\Type\WorkorderOperationType;
 use App\Traits\Blameable;
@@ -33,18 +36,18 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
+ * @property-read User|null $creator
+ * @property-read Collection<int, File> $files
  * @property-read int|null $files_count
- * @property-read \App\Models\Part|null $part
- * @property-read \App\Models\User|null $performedBy
- * @property-read \App\Models\User|null $updater
- * @property-read \App\Models\Workorder|null $workorder
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $workorderOperationTimes
- * @property-read int|null $workorder_operation_times_count
- * @method static \Database\Factories\WorkorderOperationFactory factory($count = null, $state = [])
+ * @property-read Part|null $part
+ * @property-read User|null $performedBy
+ * @property-read Collection<int, WorkorderOperationLabourTime> $times
+ * @property-read int|null $times_count
+ * @property-read User|null $updater
+ * @property-read Workorder|null $workorder
+ * @method static WorkorderOperationFactory factory($count = null, $state = [])
  * @method static Builder<static>|WorkorderOperation newModelQuery()
  * @method static Builder<static>|WorkorderOperation newQuery()
  * @method static Builder<static>|WorkorderOperation onlyTrashed()
@@ -67,6 +70,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|WorkorderOperation withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|WorkorderOperation withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperWorkorderOperation
  */
 class WorkorderOperation extends Model
 {

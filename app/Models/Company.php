@@ -36,23 +36,23 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Address> $addresses
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, \App\Models\Booking> $bookings
+ * @property-read Collection<int, Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read Collection<int, \App\Models\Client> $clients
+ * @property-read Collection<int, Client> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, \App\Models\Contact> $contacts
+ * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read \App\Models\User|null $creator
- * @property-read Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read User|null $creator
+ * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read \App\Models\User|null $updater
- * @property-read Collection<int, \App\Models\User> $users
+ * @property-read User|null $updater
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @property-read Collection<int, \App\Models\Vehicle> $vehicles
+ * @property-read Collection<int, Vehicle> $vehicles
  * @property-read int|null $vehicles_count
- * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
+ * @method static CompanyFactory factory($count = null, $state = [])
  * @method static Builder<static>|Company newModelQuery()
  * @method static Builder<static>|Company newQuery()
  * @method static Builder<static>|Company onlyTrashed()
@@ -73,6 +73,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Company withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Company withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperCompany
  */
 #[UsePolicy(CompanyPolicy::class)]
 class Company extends Model

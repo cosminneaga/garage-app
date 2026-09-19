@@ -29,23 +29,23 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $building
  * @property string|null $floor
  * @property string|null $unit
- * @property \App\Dto\Coordinates|null $coordinates
+ * @property Coordinates|null $coordinates
  * @property int $country_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Client> $clients
+ * @property-read Collection<int, Client> $clients
  * @property-read int|null $clients_count
- * @property-read Collection<int, \App\Models\Company> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read \App\Models\Country|null $country
- * @property-read Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read Country|null $country
+ * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
- * @property-read Collection<int, \App\Models\User> $users
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
+ * @method static AddressFactory factory($count = null, $state = [])
  * @method static Builder<static>|Address newModelQuery()
  * @method static Builder<static>|Address newQuery()
  * @method static Builder<static>|Address onlyTrashed()
@@ -66,6 +66,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Address withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Address withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperAddress
  */
 class Address extends Model
 {

@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\Activitylog\Models\Activity;
+use Database\Factories\CarDataFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -17,25 +22,26 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string $transmission
  * @property int $make_id
  * @property int $model_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @method static \Database\Factories\CarDataFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereCylinders($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereDisplacement($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereDrive($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereMakeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereTransmission($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CarData whereUpdatedAt($value)
+ * @method static CarDataFactory factory($count = null, $state = [])
+ * @method static Builder<static>|CarData newModelQuery()
+ * @method static Builder<static>|CarData newQuery()
+ * @method static Builder<static>|CarData query()
+ * @method static Builder<static>|CarData whereCreatedAt($value)
+ * @method static Builder<static>|CarData whereCylinders($value)
+ * @method static Builder<static>|CarData whereDisplacement($value)
+ * @method static Builder<static>|CarData whereDrive($value)
+ * @method static Builder<static>|CarData whereId($value)
+ * @method static Builder<static>|CarData whereMakeId($value)
+ * @method static Builder<static>|CarData whereModelId($value)
+ * @method static Builder<static>|CarData whereName($value)
+ * @method static Builder<static>|CarData whereTransmission($value)
+ * @method static Builder<static>|CarData whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperCarData
  */
 class CarData extends Model
 {

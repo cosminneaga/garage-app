@@ -1,9 +1,4 @@
-@props([
-    'id',
-    'action' => '#',
-    'trigger' => false,
-    'countries' => []
-])
+@props(['id', 'action' => '#', 'trigger' => false, 'countries' => []])
 
 @php
     $ids = BladeModalHelper::ids($id);

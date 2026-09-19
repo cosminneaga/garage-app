@@ -109,7 +109,7 @@
                     class="bg-danger hover:bg-brand-strong focus:ring-brand-medium shadow-xs rounded-base box-border inline-flex items-center border border-transparent px-4 py-2.5 text-sm font-medium leading-5 text-white focus:outline-none focus:ring-4"
                     type="submit"
                 >
-                    <x-fwb-o-arrow-right-to-bracket />
+                    <x-icon-o-arrow-left-end-on-rectangle />
                     Logout
                 </button>
             </form>

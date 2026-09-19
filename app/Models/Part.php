@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\Activitylog\Models\Activity;
+use Database\Factories\PartFactory;
 use App\Traits\Blameable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,14 +35,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
+ * @property-read User|null $creator
+ * @property-read Collection<int, WorkorderOperation> $operations
  * @property-read int|null $operations_count
- * @property-read \App\Models\Supplier|null $supplier
- * @property-read \App\Models\User|null $updater
- * @method static \Database\Factories\PartFactory factory($count = null, $state = [])
+ * @property-read Supplier|null $supplier
+ * @property-read User|null $updater
+ * @method static PartFactory factory($count = null, $state = [])
  * @method static Builder<static>|Part newModelQuery()
  * @method static Builder<static>|Part newQuery()
  * @method static Builder<static>|Part onlyTrashed()
@@ -64,6 +67,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Part withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Part withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperPart
  */
 class Part extends Model
 {

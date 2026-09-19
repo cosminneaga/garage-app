@@ -35,17 +35,17 @@ use Throwable;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Address> $addresses
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, \App\Models\Company> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, \App\Models\Contact> $contacts
+ * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read \App\Models\User|null $creator
- * @property-read Collection<int, \App\Models\Part> $parts
+ * @property-read User|null $creator
+ * @property-read Collection<int, Part> $parts
  * @property-read int|null $parts_count
- * @property-read \App\Models\User|null $updater
- * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
+ * @property-read User|null $updater
+ * @method static SupplierFactory factory($count = null, $state = [])
  * @method static Builder<static>|Supplier newModelQuery()
  * @method static Builder<static>|Supplier newQuery()
  * @method static Builder<static>|Supplier onlyTrashed()
@@ -65,6 +65,7 @@ use Throwable;
  * @method static Builder<static>|Supplier withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Supplier withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperSupplier
  */
 class Supplier extends Model
 {

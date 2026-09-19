@@ -44,4 +44,12 @@
   .absolute-center {
      @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
   }
+
+  .form-label {
+    @apply text-heading mb-1.25 text-base block font-medium
+  }
+
+  .form-item {
+    @apply bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm
+  }
 }

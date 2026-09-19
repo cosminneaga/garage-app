@@ -43,7 +43,7 @@
         role="alert"
     >
         <div class="w-16">
-            <x-fwb-o-bell-active-alt class="h-8 w-8" />
+            <x-icon-o-bell-alert class="h-8 w-8" />
         </div>
 
         <div class="mr-6">
@@ -72,7 +72,7 @@
             aria-label="Close"
         >
             <span class="sr-only">Close</span>
-            <x-fwb-o-close />
+            <x-icon-o-x-mark />
         </button>
     </div>
 </div>

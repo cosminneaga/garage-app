@@ -1,9 +1,4 @@
-@props([
-    'name',
-    'identifier' => '',
-    'label' => false,
-    'value' => null,
-])
+@props(['name', 'identifier' => '', 'label' => false, 'value' => null])
 
 @php
     $helper = BladeFormHelper::names($identifier, $name);

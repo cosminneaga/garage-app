@@ -32,9 +32,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\User|null $creator
- * @property-read \App\Models\User|null $updater
- * @method static \Database\Factories\FileFactory factory($count = null, $state = [])
+ * @property-read User|null $creator
+ * @property-read User|null $updater
+ * @method static FileFactory factory($count = null, $state = [])
  * @method static Builder<static>|File newModelQuery()
  * @method static Builder<static>|File newQuery()
  * @method static Builder<static>|File onlyTrashed()
@@ -55,6 +55,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|File withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|File withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperFile
  */
 class File extends Model
 {

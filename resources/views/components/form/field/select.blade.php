@@ -1,11 +1,11 @@
 @props([
-    'label' => false,
     'name',
+    'identifier' => '',
+    'label' => false,
     'value' => null,
     'options' => [],
     'select_map_value' => 'value',
     'select_map_label' => 'label',
-    'identifier' => '',
 ])
 @php
     $helper = BladeFormHelper::names($identifier, $name);
@@ -32,7 +32,11 @@
                 value="{{ $option->$select_map_value }}"
                 @selected($value === $option->$select_map_value)
             >
-                {{ $option->$select_map_label }}
+                @if (is_string($select_map_label))
+                    {{ $option->$select_map_label }}
+                @elseif (is_array($select_map_label))
+                    hey hoo
+                @endif
             </option>
         @endforeach
     </select>

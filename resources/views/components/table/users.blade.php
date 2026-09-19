@@ -32,8 +32,7 @@
                 class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
 
                 <!-- GENERIC DATABASE COLUMNS -->
-                <th
-                    class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+                <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                     {{ $row->id }}
                 </th>
                 <td class="px-6 py-4">

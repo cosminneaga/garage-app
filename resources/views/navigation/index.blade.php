@@ -11,7 +11,7 @@
                         type="button"
                         aria-controls="app-drawer"
                     >
-                        <x-fwb-o-bars class="h-8 w-8 text-gray-600" />
+                        <x-icon-o-bars-3 class="h-8 w-8 text-gray-600" />
                     </button>
                 @endauth
 

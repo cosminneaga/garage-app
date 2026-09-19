@@ -21,20 +21,4 @@ Alpine.store("notification", {
     },
 });
 
-Alpine.store("form_data", {
-    company: null,
-    car: {
-        make_id: null,
-        model_id: null,
-        data_id: null,
-    },
-
-    setCompany(company) {
-        this.company = company;
-    },
-    getCompany() {
-        return this.company;
-    },
-});
-
 Alpine.start();

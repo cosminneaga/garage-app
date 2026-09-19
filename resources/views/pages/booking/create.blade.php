@@ -5,71 +5,91 @@
         <div
             class="grid grid-rows-1 gap-4 md:grid-cols-3"
             x-data="{
-                resource: null,
-                id: {{ $companies[0]->id }},
-
-                async fetchResource() {
-                    const response = await fetch(`/companies/${this.id}/load_relations`);
-
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch resource');
+                companies: @js($companies),
+                clients: [],
+                vehicles: [],
+                company_id: null,
+                client_id: null,
+                vehicle_id: null,
+            
+                async setCompany(id) {
+                    const response = await fetch(`/companies/${id}/load_relations`);
+                    this.company_id = await response.json().id;
+            
+                    if (!this.company_id) {
+                        this.company_id = this.companies[0].id;
                     }
-
-                    this.resource = await response.json();
-                    $store.form_data.setCompany(this.resource.company);
-                }
+                },
+                async setClients(company_id) {
+                    const response = await fetch('/clients/companies/' + company_id);
+                    this.clients = await response.json();
+                },
+                async setVehicles(company_id) {
+                    const response = await fetch('/vehicles/companies/' + company_id);
+                    this.vehicles = await response.json();
+                },
             }"
+            x-init="await setCompany(companies[0].id);
+            await setClients(companies[0].id);
+            await setVehicles(companies[0].id);"
         >
             <section class="space-y-2">
-                <x-form.field.select
-                    name="company_id"
-                    label="Selected company"
-                    select_map_value="id"
-                    select_map_label="name"
-                    :options="$companies"
-                    x-model="id"
-                    @change="fetchResource"
-                />
-
-                <section
-                    class="grid gap-2 grid-cols-[1fr_auto_auto]"
-                    x-data="{
-                        options: [],
-                        async setOptions() {
-                            const response = await fetch('/clients/companies/' + $store.form_data.company?.id);
-                            this.options = await response.json();
-                        }
-                    }"
-                >
+                <section>
+                    <label class="form-label">Companies</label>
                     <select
-                        class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
-                        id="client_id"
-                        name="client_id"
+                        class="form-item"
+                        name="company_id"
+                        x-model="company_id"
                     >
                         <template
-                            x-for="option in options.data"
-                            :key="option.id"
+                            x-for="company in companies"
+                            :key="company.id"
                         >
                             <option
-                                :value="option.id"
-                                x-text="option.name"
+                                :value="company.id"
+                                x-text="company.name"
                             ></option>
                         </template>
                     </select>
+                </section>
+
+                <section class="grid grid-cols-[1fr_auto_auto] items-end gap-2">
+                    <section>
+                        <label
+                            class="form-label"
+                            for="vehicle_id"
+                        >Client</label>
+                        <select
+                            class="form-item"
+                            id="client_id"
+                            name="client_id"
+                            x-model="client_id"
+                        >
+                            <template
+                                x-for="client in clients.data"
+                                :key="client.id"
+                            >
+                                <option
+                                    :value="client.id"
+                                    x-text="client.name + ' | ' + client.email"
+                                ></option>
+                            </template>
+                        </select>
+                    </section>
 
                     <x-button
                         type="button"
-                        @click="setOptions()"
-                    >fetch</x-button>
+                        @click="setClients(company_id ?? companies[0].id)"
+                    ><x-icon-o-arrow-path /></x-button>
 
                     <x-button
                         id="client-create-button"
                         data-modal-target="client_create_modal"
                         data-modal-toggle="client_create_modal"
                         type="button"
-                        @click="$refs.client_create_form.action = `/clients/companies/${$store.form_data.company.id}`"
+                        @click="$refs.client_create_form.action = `/clients/companies/${company_id}`"
                     >
-                        new
+                        <x-icon-o-document-plus />
                     </x-button>
                     <x-modal.client.create
                         id="client_create"
@@ -77,45 +97,42 @@
                     />
                 </section>
 
-                <section
-                    class="grid gap-2 grid-cols-[1fr_auto_auto]"
-                    x-data="{
-                        options: [],
-                        async setOptions() {
-                            const response = await fetch('/vehicles/companies/' + $store.form_data.company?.id);
-                            this.options = await response.json();
-                        }
-                    }"
-                >
-                    <select
-                        class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
-                        id="vehicle_id"
-                        name="vehicle_id"
-                    >
-                        <template
-                            x-for="option in options.data"
-                            :key="option.id"
+                <section class="grid grid-cols-[1fr_auto_auto] items-end gap-2">
+                    <section>
+                        <label
+                            class="form-label"
+                            for="vehicle_id"
+                        >Vehicle</label>
+                        <select
+                            class="form-item"
+                            id="vehicle_id"
+                            name="vehicle_id"
                         >
-                            <option
-                                :value="option.id"
-                                x-text="option.registration"
-                            ></option>
-                        </template>
-                    </select>
+                            <template
+                                x-for="vehicle in vehicles.data"
+                                :key="vehicle.id"
+                            >
+                                <option
+                                    :value="vehicle.id"
+                                    x-text="vehicle.registration + ' | ' + vehicle.vin"
+                                ></option>
+                            </template>
+                        </select>
+                    </section>
 
                     <x-button
                         type="button"
-                        @click="setOptions()"
-                    >fetch</x-button>
+                        @click="setVehicles(company_id ?? companies[0].id)"
+                    ><x-icon-o-arrow-path /></x-button>
 
                     <x-button
                         id="vehicle-create-button"
                         data-modal-target="vehicle_create_modal"
                         data-modal-toggle="vehicle_create_modal"
                         type="button"
-                        @click="$refs.vehicle_create_form.action = `/vehicles/companies/${$store.form_data.company.id}`"
+                        @click="$refs.vehicle_create_form.action = `/vehicles/companies/${company_id}`"
                     >
-                        new
+                        <x-icon-o-document-plus />
                     </x-button>
                     <x-modal.vehicle.create id="vehicle_create" />
                 </section>
@@ -181,25 +198,3 @@
         </div>
     </x-card>
 </x-layout::index>
-
-<script>
-    function resourceComponent(id) {
-        console.log(id)
-        return {
-            resource: null,
-
-            async fetchResource() {
-                const response = await fetch(
-                    `/companies/${id}/load_relations`);
-
-                this.resource = await response.json();
-
-                console.log(this.resource);
-            }
-        }
-    }
-
-    function submitForm(company_id) {
-        console.log(company_id);
-    }
-</script>

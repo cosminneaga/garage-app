@@ -25,7 +25,7 @@
                         data-modal-hide="{{ $id }}"
                         type="button"
                     >
-                        <x-fwb-o-close class="h-5 w-5" />
+                        <x-icon-o-x-mark class="h-5 w-5" />
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
@@ -36,7 +36,7 @@
                 data-modal-hide="{{ $id }}"
                 type="button"
             >
-                <x-fwb-o-close class="h-5 w-5" />
+                <x-icon-o-x-mark class="h-5 w-5" />
                 <span class="sr-only">Close modal</span>
             </button>
         @endif

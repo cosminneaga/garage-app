@@ -18,7 +18,8 @@ class BookingStatusUpdateNotification extends Notification
     public function __construct(
         public Booking $booking,
         public BookingStatus $oldStatus
-    ) {}
+    ) {
+    }
 
     public function via(): array
     {

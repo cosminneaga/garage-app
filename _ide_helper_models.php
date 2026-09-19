@@ -800,7 +800,8 @@ namespace App\Models{
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read \App\Models\Company|null $companies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
+ * @property-read int|null $companies_count
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
@@ -869,10 +870,12 @@ namespace App\Models{
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
+ * @property-read int|null $operations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderStatusHistory> $statuses
+ * @property-read int|null $statuses_count
  * @property-read \App\Models\User|null $technician
  * @property-read \App\Models\User|null $updater
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $workorderOperations
- * @property-read int|null $workorder_operations_count
  * @method static \Database\Factories\WorkorderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newQuery()
@@ -935,10 +938,10 @@ namespace App\Models{
  * @property-read int|null $files_count
  * @property-read \App\Models\Part|null $part
  * @property-read \App\Models\User|null $performedBy
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $times
+ * @property-read int|null $times_count
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Workorder|null $workorder
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $workorderOperationTimes
- * @property-read int|null $workorder_operation_times_count
  * @method static \Database\Factories\WorkorderOperationFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperation newQuery()
@@ -982,8 +985,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\WorkorderOperation|null $operation
  * @property-read \App\Models\User|null $updater
- * @property-read \App\Models\WorkorderOperation|null $workorderOperation
  * @method static \Database\Factories\WorkorderOperationLabourTimeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime newQuery()
@@ -1005,5 +1008,34 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperWorkorderOperationLabourTime {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $status
+ * @property string|null $description
+ * @property int $workorder_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Workorder|null $workorder
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereWorkorderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperWorkorderStatusHistory {}
 }
 
