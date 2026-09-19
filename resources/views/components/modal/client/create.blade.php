@@ -28,6 +28,7 @@
     >
         @csrf
 
+        <br>
         <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
             <x-form.content.client
                 identifier="modal_client"

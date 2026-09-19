@@ -30,6 +30,7 @@
         >
             @csrf
 
+            <br>
             <div class="grid grid-rows-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <x-form.content.vehicle identifier="vehicle" />
             </div>

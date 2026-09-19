@@ -11,11 +11,11 @@
                 company_id: null,
                 client_id: null,
                 vehicle_id: null,
-            
+
                 async setCompany(id) {
                     const response = await fetch(`/companies/${id}/load_relations`);
                     this.company_id = await response.json().id;
-            
+
                     if (!this.company_id) {
                         this.company_id = this.companies[0].id;
                     }
@@ -40,6 +40,7 @@
                         class="form-item"
                         name="company_id"
                         x-model="company_id"
+                        @change="await setClients(company_id); await setVehicles(company_id);"
                     >
                         <template
                             x-for="company in companies"
@@ -53,7 +54,7 @@
                     </select>
                 </section>
 
-                <section class="grid grid-cols-[1fr_auto_auto] items-end gap-2">
+                <section class="grid grid-cols-[1fr_auto] items-end gap-2">
                     <section>
                         <label
                             class="form-label"
@@ -78,11 +79,6 @@
                     </section>
 
                     <x-button
-                        type="button"
-                        @click="setClients(company_id ?? companies[0].id)"
-                    ><x-icon-o-arrow-path /></x-button>
-
-                    <x-button
                         id="client-create-button"
                         data-modal-target="client_create_modal"
                         data-modal-toggle="client_create_modal"
@@ -97,7 +93,7 @@
                     />
                 </section>
 
-                <section class="grid grid-cols-[1fr_auto_auto] items-end gap-2">
+                <section class="grid grid-cols-[1fr_auto] items-end gap-2">
                     <section>
                         <label
                             class="form-label"
@@ -119,11 +115,6 @@
                             </template>
                         </select>
                     </section>
-
-                    <x-button
-                        type="button"
-                        @click="setVehicles(company_id ?? companies[0].id)"
-                    ><x-icon-o-arrow-path /></x-button>
 
                     <x-button
                         id="vehicle-create-button"

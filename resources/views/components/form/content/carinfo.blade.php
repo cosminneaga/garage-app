@@ -44,6 +44,7 @@
             name="{{ $name_make }}"
             data-test="{{ $helper_make->get('testName') }}"
             x-model="make_id"
+            @change="await setModels(make_id ?? makes[0].id); await setData(make_id ?? makes[0].id, model_id ?? models[0].id);"
         >
             <template
                 x-for="make in makes"
@@ -59,62 +60,44 @@
 
     <section>
         <label class="form-label">Car model</label>
-        <div class="grid grid-cols-[auto_1fr] gap-2">
-            <x-button
-                type="button"
-                ::disabled="makes.length <= 0"
-                @click="setModels(make_id ?? makes[0].id)"
+        <select
+            class="form-item"
+            id="{{ $name_model }}"
+            name="{{ $name_model }}"
+            data-test="{{ $helper_model->get('testName') }}"
+            x-model="model_id"
+            @change="await setData(make_id, model_id ?? models[0].id);"
+        >
+            <template
+                x-for="model in models"
+                :key="model.id"
             >
-                <x-icon-o-arrow-path />
-            </x-button>
-
-            <select
-                class="form-item"
-                id="{{ $name_model }}"
-                name="{{ $name_model }}"
-                data-test="{{ $helper_model->get('testName') }}"
-                x-model="model_id"
-            >
-                <template
-                    x-for="model in models"
-                    :key="model.id"
-                >
-                    <option
-                        :value="model.id"
-                        x-text="model.name"
-                    ></option>
-                </template>
-            </select>
-        </div>
+                <option
+                    :value="model.id"
+                    x-text="model.name"
+                ></option>
+            </template>
+        </select>
     </section>
 
     <section>
         <label class="form-label">Car data</label>
-        <div class="grid grid-cols-[auto_1fr] gap-2">
-            <x-button
-                type="button"
-                @click="setData(make_id ?? makes[0].id, model_id ?? models[0].id)"
+        <select
+            class="form-item"
+            id="{{ $name_data }}"
+            name="{{ $name_data }}"
+            data-test="{{ $helper_data->get('testName') }}"
+            x-model="data_id"
+        >
+            <template
+                x-for="option in data"
+                :key="option.id"
             >
-                <x-icon-o-arrow-path />
-            </x-button>
-
-            <select
-                class="form-item"
-                id="{{ $name_data }}"
-                name="{{ $name_data }}"
-                data-test="{{ $helper_data->get('testName') }}"
-                x-model="data_id"
-            >
-                <template
-                    x-for="option in data"
-                    :key="option.id"
-                >
-                    <option
-                        :value="option.id"
-                        x-text="option.name"
-                    ></option>
-                </template>
-            </select>
-        </div>
+                <option
+                    :value="option.id"
+                    x-text="option.name"
+                ></option>
+            </template>
+        </select>
     </section>
 </div>
