@@ -18,10 +18,14 @@
         make_id: null,
         model_id: null,
         data_id: null,
-    
+
         async setMakes() {
             const response = await fetch('/car/makes');
             this.makes = await response.json();
+
+            if (!this.make_id) {
+                this.make_id = this.makes[0].id;
+            }
         },
         async setModels(make_id) {
             const response = await fetch('/car/makes/' + make_id + '/models');
@@ -44,7 +48,7 @@
             name="{{ $name_make }}"
             data-test="{{ $helper_make->get('testName') }}"
             x-model="make_id"
-            @change="await setModels(make_id ?? makes[0].id); await setData(make_id ?? makes[0].id, model_id ?? models[0].id);"
+            @change="await setModels(make_id); await setData(make_id, model_id ?? models[0].id);"
         >
             <template
                 x-for="make in makes"
