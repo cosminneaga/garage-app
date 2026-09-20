@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Enums\Priority;
+use App\Enums\Status\BookingStatus;
 use App\Enums\Type\ServiceType;
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
@@ -29,24 +30,20 @@ class StoreBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'service_type' => [new Enum(ServiceType::class)],
-            'priority' => [new Enum(Priority::class)],
-            'appointment_start' => ['date_format:d-m-Y H:i:s'],
-            'appointment_finish' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],
-            'reminder_sent_at' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],
-            'checked_in_at' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],
-            'completed_at' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],
-            'cancelled_at' => ['date_format:d-m-Y H:i:s', 'after:appointment_start'],
-            'estimated_duration_minutes' => ['integer'],
-            'current_status_info' => ['string', 'max:255'],
-            'complaint' => ['string', 'max:450'],
-            'notes' => ['string', 'max:450'],
-            'estimated_cost' => ['decimal:2'],
+            'status' =>                     [new Enum(BookingStatus::class)],
+            'current_status_info' =>        ['sometimes', 'string', 'max:255'],
+            'service_type' =>               [new Enum(ServiceType::class)],
+            'priority' =>                   [new Enum(Priority::class)],
+            'appointment_start' =>          ['sometimes', 'date_format:d-m-Y H:i:s'],
+            'checked_in_at' =>              ['sometimes', 'date_format:d-m-Y H:i:s', 'after:appointment_start'],
+            'estimated_cost' =>             ['sometimes', 'nullable', 'decimal:2'],
+            'estimated_duration_minutes' => ['sometimes', 'nullable', 'integer'],
+            'notes' =>                      ['sometimes', 'nullable', 'string', 'max:450'],
 
             # relations
-            'company_id' => ['required', 'integer', 'exists:company,id'],
-            'client_id' => ['required', 'integer', 'exists:client,id'],
-            'vehicle_id' => ['required', 'integer', 'exists:vehicle,id'],
+            'company_id' =>                 ['required', 'integer', 'exists:companies,id'],
+            'client_id' =>                  ['required', 'integer', 'exists:clients,id'],
+            'vehicle_id' =>                 ['required', 'integer', 'exists:vehicles,id'],
         ];
     }
 }

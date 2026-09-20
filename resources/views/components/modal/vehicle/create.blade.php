@@ -38,6 +38,7 @@
             <br>
             <x-button
                 id="{{ $ids->get('submit') }}"
+                form_id="{{ $ids->get('form') }}"
                 type="submit"
             >Submit</x-button>
         </form>

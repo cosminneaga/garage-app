@@ -11,7 +11,7 @@
     data-modal-toggle="timepicker-modal"
     type="button"
 >
-    <x-icon-o-clock class="mr-2 h-5 w-5" />
+    <x-icon-o-clock class="mr-2 h-8 w-8" />
     {{ $label }}
 </button>
 
@@ -28,7 +28,7 @@
             <div
                 class="border-default flex items-center justify-between rounded-t border-b p-4">
                 <h3 class="text-heading font-medium">
-                    Schedule an appointment
+                    Pick date & time
                 </h3>
                 <button
                     class="text-body hover:bg-neutral-tertiary hover:text-heading rounded-base ms-auto inline-flex h-9 w-9 items-center justify-center bg-transparent text-sm"

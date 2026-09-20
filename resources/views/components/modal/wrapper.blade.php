@@ -40,6 +40,6 @@
                 <span class="sr-only">Close modal</span>
             </button>
         @endif
-        <div class="">{{ $slot }}</div>
+        <main>{{ $slot }}</main>
     </div>
 </div>

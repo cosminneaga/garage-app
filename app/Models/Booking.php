@@ -143,12 +143,7 @@ class Booking extends Model
         'notes',
         'client_notes',
         'estimated_cost',
-        'reminder_sent_at',
         'checked_in_at',
-        'completed_at',
-        'cancelled_at',
-        'in_review_at',
-        'in_progress_at',
     ];
 
     protected $casts = [

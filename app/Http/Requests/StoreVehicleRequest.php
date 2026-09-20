@@ -35,12 +35,12 @@ class StoreVehicleRequest extends FormRequest
             'status' =>                 [new Enum(VehicleStatus::class)],
             'first_visit_odometer' =>   ['required', 'integer', 'min:0', 'max:100000000000000'],
             'first_visit' =>            ['required', 'date_format:d-m-Y H:i:s'],
-            'technical_notes' =>        ['nullable', 'string', 'max:600'],
-            'notes' =>                  ['nullable', 'string', 'max:600'],
-            'diagnostic_information' => ['nullable', 'string', 'max:600'],
-            'make_id' =>                ['nullable', 'exists:car_makes,id'],
-            'model_id' =>               ['nullable', 'exists:car_models,id'],
-            'data_id' =>                ['nullable', 'exists:car_data,id'],
+            'technical_notes' =>        ['sometimes', 'nullable', 'string', 'max:600'],
+            'notes' =>                  ['sometimes', 'nullable', 'string', 'max:600'],
+            'diagnostic_information' => ['sometimes', 'nullable', 'string', 'max:600'],
+            'make_id' =>                ['sometimes', 'nullable', 'exists:car_makes,id'],
+            'model_id' =>               ['sometimes', 'nullable', 'exists:car_models,id'],
+            'data_id' =>                ['sometimes', 'nullable', 'exists:car_data,id'],
         ];
     }
 }

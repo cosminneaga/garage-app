@@ -144,11 +144,11 @@ Route::controller(BookingController::class)
             Route::get('/bookings', 'index')->name('bookings.index');
 
             Route::get('/bookings/create', 'create')->name('bookings.create');
-            Route::post('/bookings/company/{company}', 'modelStore')->name('bookings.companies.store');
+            Route::post('/bookings/companies/{company}', 'modelStore')->name('bookings.companies.store');
 
-            Route::get('/bookings/{booking}/company/{company}', 'modelEdit')->name('bookings.companies.edit');
-            Route::put('/bookings/{booking}/company/{company}', 'modelUpdate')->name('bookings.companies.update');
-            Route::delete('/bookings/{booking}/company/{company}', 'modelDestroy')->name('bookings.companies.destroy');
+            Route::get('/bookings/{booking}/companies/{company}', 'modelEdit')->name('bookings.companies.edit');
+            Route::put('/bookings/{booking}/companies/{company}', 'modelUpdate')->name('bookings.companies.update');
+            Route::delete('/bookings/{booking}/companies/{company}', 'modelDestroy')->name('bookings.companies.destroy');
         });
     });
 

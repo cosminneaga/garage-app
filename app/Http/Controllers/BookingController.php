@@ -51,7 +51,11 @@ class BookingController extends Controller
         $this->authorize('store', Booking::class);
 
         try {
-            Booking::create();
+            $booking = Booking::forceCreate([
+                ...$request->safe()->all(),
+                'advisor_id' => Auth::user()->id,
+            ]);
+            $booking->save();
         } catch (Exception $e) {
             return back()
                 ->withInput()
