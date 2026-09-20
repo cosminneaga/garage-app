@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -46,6 +49,28 @@ class ExtensionServiceProvider extends ServiceProvider
             // Rebuild into bracket notation
             $root = array_shift($segments);
             return $root . array_reduce($segments, fn ($carry, $segment) => $carry . '[' . $segment . ']', '');
+        });
+
+        Carbon::macro('generateTimeSlots', function (string $start, string $end, int $interval = 30): array {
+            $slots = [];
+
+            $current = Carbon::createFromFormat('H:i', $start);
+            $finish = Carbon::createFromFormat('H:i', $end);
+
+            while ($current->lt($finish)) {
+                $slots[] = $current->format('H:i');
+                $current->addMinutes($interval);
+            }
+
+            return $slots;
+        });
+
+        Blueprint::macro('auditColumns', function () {
+            $this->foreignIdFor(User::class, 'created_by')->nullable()->constrained();
+            $this->foreignIdFor(User::class, 'updated_by')->nullable()->constrained();
+            $this->foreignIdFor(User::class, 'deleted_by')->nullable()->constrained();
+            $this->softDeletes();
+            $this->timestamps();
         });
     }
 }

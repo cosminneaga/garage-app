@@ -37,16 +37,14 @@
                     select_map_label="label"
                     :options="Priority::selectOptions()"
                 />
-                <div class="grid grid-cols-2">
-                    <x-form.field.datetime
-                        name="appointment_start"
-                        label="Appointment start"
-                    />
-                    <x-form.field.datetime
-                        name="appointment_finish"
-                        label="Appointment finish"
-                    />
-                </div>
+                <x-form.field.datetime
+                    name="appointment_start"
+                    label="Appointment start"
+                />
+                <x-form.field.datetime
+                    name="appointment_finish"
+                    label="Appointment finish"
+                />
             </section>
         </div>
     </x-card>

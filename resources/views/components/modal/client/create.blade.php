@@ -22,7 +22,6 @@
 >
     <form
         id="{{ $ids->get('form') }}"
-        x-ref="{{ $ids->get('form') }}"
         action="{{ $action }}"
         method="POST"
     >

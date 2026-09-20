@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\Status\BookingStatus;
+use App\Casts\FormattedDateTime;
 use App\Enums\Priority;
+use App\Enums\Status\BookingStatus;
 use App\Enums\Type\ServiceType;
 use App\Enums\UserRole;
 use App\Observers\BookingObserver;
@@ -147,14 +148,14 @@ class Booking extends Model
     ];
 
     protected $casts = [
-        'appointment_start' => 'datetime',
-        'appointment_finish' => 'datetime',
-        'reminder_sent_at' => 'datetime',
-        'checked_in_at' => 'datetime',
-        'completed_at' => 'datetime',
-        'cancelled_at' => 'datetime',
-        'in_review_at' => 'datetime',
-        'in_progress_at' => 'datetime',
+        'appointment_start' => FormattedDateTime::class,
+        'appointment_finish' => FormattedDateTime::class,
+        'reminder_sent_at' => FormattedDateTime::class,
+        'checked_in_at' => FormattedDateTime::class,
+        'completed_at' => FormattedDateTime::class,
+        'cancelled_at' => FormattedDateTime::class,
+        'in_review_at' => FormattedDateTime::class,
+        'in_progress_at' => FormattedDateTime::class,
         'estimated_cost' => 'float',
         'status' => BookingStatus::class,
         'service_type' => ServiceType::class,

@@ -8,6 +8,7 @@ use App\Enums\Columns\BookingColumns;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
+use App\Models\Company;
 use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use Exception;
@@ -35,12 +36,14 @@ class BookingController extends Controller
         ]);
     }
 
-    public function create(Request $request): View
+    public function modelCreate(Request $request, Company $company): View
     {
+        self::guard('update', $request, $company->id);
         $this->authorize('store', Booking::class);
 
         return view('pages.booking.create', [
-            'companies' => Auth::user()->companies()->orderBy('id')->get(),
+            'company' => $company,
+            'available_companies' => Auth::user()->companies()->orderBy('id')->get(),
             'countries' => Country::all(),
         ]);
     }

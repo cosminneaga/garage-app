@@ -7,13 +7,13 @@
 <div class="my-3 text-start">
     @if ($label)
         <label
-            class="text-heading mb-1.25 text-md block font-medium"
+            class="form-label"
             for="{{ $name }}"
         >{{ $label }}</label>
     @endif
 
     <input
-        class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm"
+        class="form-item"
         {{ $attributes->merge([
             'value' => old($helper->get('errorName'), $value),
             'name' => $name,

@@ -69,19 +69,19 @@ namespace App\Models{
  * @property \App\Enums\Status\BookingStatus $status
  * @property \App\Enums\Type\ServiceType $service_type
  * @property \App\Enums\Priority $priority
- * @property \Illuminate\Support\Carbon|null $appointment_start
- * @property \Illuminate\Support\Carbon|null $appointment_finish
+ * @property $appointment_start
+ * @property $appointment_finish
  * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes
  * @property float|null $estimated_cost
  * @property int|null $estimated_duration_minutes
- * @property \Illuminate\Support\Carbon|null $reminder_sent_at
- * @property \Illuminate\Support\Carbon|null $checked_in_at
- * @property \Illuminate\Support\Carbon|null $cancelled_at
- * @property \Illuminate\Support\Carbon|null $completed_at
- * @property \Illuminate\Support\Carbon|null $in_review_at
- * @property \Illuminate\Support\Carbon|null $in_progress_at
+ * @property $reminder_sent_at
+ * @property $checked_in_at
+ * @property $cancelled_at
+ * @property $completed_at
+ * @property $in_review_at
+ * @property $in_progress_at
  * @property string|null $client_notes
  * @property string|null $client_url_token
  * @property int $company_id
@@ -763,6 +763,7 @@ namespace App\Models{
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
+ * @property-read \App\Models\UserSetting|null $setting
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
  * @property-read int|null $teams_count
  * @property-read User|null $updater
@@ -802,6 +803,31 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperUser {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $default_company
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Company|null $defaultCompany
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting whereDefaultCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSetting whereUserId($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperUserSetting {}
 }
 
 namespace App\Models{

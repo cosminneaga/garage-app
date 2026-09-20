@@ -37,6 +37,7 @@ use App\Models\CarMake;
 use App\Models\CarModel;
 use App\Models\Country;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -87,6 +88,7 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('BladeModalHelper', BladeModalHelper::class);
 
         $loader->alias('ClientTabs', ClientTabs::class);
+        $loader->alias('Carbon', Carbon::class);
     }
 
     /**

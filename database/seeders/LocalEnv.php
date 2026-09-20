@@ -125,6 +125,15 @@ class LocalEnv extends Seeder
                 'end' => null,
             ],
         ]);
+        $users[1]->setting()->create([
+            'default_company' => $companies[0]->id,
+        ]);
+        $users[2]->setting()->create([
+            'default_company' => $companies[0]->id,
+        ]);
+        $users[3]->setting()->create([
+            'default_company' => $companies[0]->id,
+        ]);
 
 
         // 7. create clients with address & contact & attach to the first company

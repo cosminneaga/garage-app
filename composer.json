@@ -58,7 +58,7 @@
             "@php artisan migrate:fresh",
             "@php artisan db:seed --class=LocalEnv"
         ],
-        "migrate:prod": [
+        "migrate:prod:init": [
             "@php artisan migrate",
             "@php artisan db:seed --class=PermissionsSeeder",
             "@php artisan db:seed --class=CountriesSeeder",

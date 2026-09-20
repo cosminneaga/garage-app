@@ -29,12 +29,12 @@ class StoreVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vin' =>                    ['required', 'string', 'max:255', 'unique:vehicles,vin'],
+            'vin' =>                    ['sometimes', 'nullable', 'string', 'max:255', 'unique:vehicles,vin'],
             'registration' =>           ['required', 'string', 'max:255'],
             'fuel' =>                   [new Enum(FuelType::class)],
             'status' =>                 [new Enum(VehicleStatus::class)],
-            'first_visit_odometer' =>   ['required', 'integer', 'min:0', 'max:100000000000000'],
-            'first_visit' =>            ['required', 'date_format:d-m-Y H:i:s'],
+            'first_visit_odometer' =>   ['sometimes', 'nullable', 'integer', 'min:0', 'max:100000000000000'],
+            'first_visit' =>            ['sometimes', 'nullable', 'date_format:d-m-Y H:i:s'],
             'technical_notes' =>        ['sometimes', 'nullable', 'string', 'max:600'],
             'notes' =>                  ['sometimes', 'nullable', 'string', 'max:600'],
             'diagnostic_information' => ['sometimes', 'nullable', 'string', 'max:600'],

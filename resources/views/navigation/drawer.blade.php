@@ -54,7 +54,7 @@
         :store="[UserPermission::BOOKING, 'store']"
         :restore="[UserPermission::BOOKING, 'restore']"
         route_list="{{ route('bookings.index') }}"
-        route_store="{{ route('bookings.create') }}"
+        route_store="{{ route('bookings.companies.create', Auth::user()->setting->default_company) }}"
         {{-- route_restore="{{ route('bookings.removed') }}" --}}
     />
 

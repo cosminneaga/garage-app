@@ -9,6 +9,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CarInfoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CompanyScheduleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
@@ -71,6 +72,14 @@ Route::controller(CompanyController::class)
         Route::get('/companies/restore', 'removed')->name('companies.removed');
         Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');
         Route::get('/companies/{company}/load_relations', 'loadRelations')->name('companies.relations');
+    });
+
+Route::controller(CompanyScheduleController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::get('/company-schedules/companies/{company}', 'modelIndex')->name('schedules.companies.index');
+        });
     });
 
 Route::controller(ClientController::class)
@@ -143,7 +152,7 @@ Route::controller(BookingController::class)
         Route::group(['model' => RelatedModel::COMPANY], function () {
             Route::get('/bookings', 'index')->name('bookings.index');
 
-            Route::get('/bookings/create', 'create')->name('bookings.create');
+            Route::get('/bookings/companies/{company}/create', 'modelCreate')->name('bookings.companies.create');
             Route::post('/bookings/companies/{company}', 'modelStore')->name('bookings.companies.store');
 
             Route::get('/bookings/{booking}/companies/{company}', 'modelEdit')->name('bookings.companies.edit');
