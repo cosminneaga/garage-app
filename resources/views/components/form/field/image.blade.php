@@ -12,7 +12,7 @@
     >
         <div
             class="text-body flex flex-col items-center justify-center pb-6 pt-5">
-            <x-fwb-o-upload class="mb-6 h-7 w-7" />
+            <x-icon-o-arrow-up-tray class="mb-6 h-7 w-7" />
             <p class="mb-2 text-sm">
                 <span class="font-semibold">Click to upload
                 </span>
