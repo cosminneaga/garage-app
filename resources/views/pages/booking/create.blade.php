@@ -12,11 +12,11 @@
                 vehicle_id: null,
                 client_create_url: null,
                 vehicle_create_url: null,
-
+            
                 async setCompany(id) {
                     const response = await fetch(`/companies/${id}/load_relations`);
                     this.company_id = await response.json().id;
-
+            
                     if (!this.company_id) {
                         this.company_id = this.companies[0].id;
                     }

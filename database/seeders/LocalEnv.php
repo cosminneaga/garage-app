@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\UserRole;
+use App\Enums\WeekDays;
 use App\Models\Address;
 use App\Models\Client;
 use App\Models\Company;
@@ -87,6 +88,43 @@ class LocalEnv extends Seeder
             $users[1]->companies()->attach($company);
         });
         $companies[0]->users()->attach([$users[2], $users[3]]);
+        $companies[0]->schedules()->createMany([
+            [
+                'name' => WeekDays::MONDAY,
+                'start' => '08:00',
+                'end' => '17:00',
+            ],
+            [
+                'name' => WeekDays::TUESDAY,
+                'start' => '08:00',
+                'end' => '17:00',
+            ],
+            [
+                'name' => WeekDays::WEDNESDAY,
+                'start' => '08:00',
+                'end' => '17:00',
+            ],
+            [
+                'name' => WeekDays::THURSDAY,
+                'start' => '08:00',
+                'end' => '17:00',
+            ],
+            [
+                'name' => WeekDays::FRIDAY,
+                'start' => '08:00',
+                'end' => '17:00',
+            ],
+            [
+                'name' => WeekDays::SATURDAY,
+                'start' => '10:00',
+                'end' => '14:00',
+            ],
+            [
+                'name' => WeekDays::SUNDAY,
+                'start' => null,
+                'end' => null,
+            ],
+        ]);
 
 
         // 7. create clients with address & contact & attach to the first company

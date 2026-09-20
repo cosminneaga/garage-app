@@ -18,11 +18,11 @@
         make_id: null,
         model_id: null,
         data_id: null,
-
+    
         async setMakes() {
             const response = await fetch('/car/makes');
             this.makes = await response.json();
-
+    
             if (!this.make_id) {
                 this.make_id = this.makes[0].id;
             }

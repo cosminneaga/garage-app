@@ -49,12 +49,12 @@
         }
     },
     "scripts": {
-        "migrate:dev:withVehicle": [
+        "migrate:local:vehicle": [
             "@php artisan migrate:fresh",
-            "@php artisan db:seed --class=DevUsers",
-            "@php artisan db:seed --class=VehicleSeeder"
+            "@php artisan db:seed --class=LocalEnv",
+            "@php artisan db:seed --class=CarSeeder"
         ],
-        "migrate:dev": [
+        "migrate:local": [
             "@php artisan migrate:fresh",
             "@php artisan db:seed --class=LocalEnv"
         ],
@@ -62,7 +62,7 @@
             "@php artisan migrate",
             "@php artisan db:seed --class=PermissionsSeeder",
             "@php artisan db:seed --class=CountriesSeeder",
-            "@php artisan db:seed --class=VehicleSeeder"
+            "@php artisan db:seed --class=CarSeeder"
         ],
         "migrate:test": [
             "@php artisan migrate:fresh",

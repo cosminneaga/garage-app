@@ -67,7 +67,8 @@
     id="{{ $ids['modal'] }}"
     position="center"
 >
-    <x-icon-o-information-circle class="text-fg-disabled mx-auto mb-4 h-12 w-12" />
+    <x-icon-o-information-circle
+        class="text-fg-disabled mx-auto mb-4 h-12 w-12" />
     <h3 class="text-body mb-6">{{ $message }}</h3>
     <div class="flex items-center justify-center space-x-4">
 

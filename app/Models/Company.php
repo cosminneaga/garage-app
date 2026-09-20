@@ -157,4 +157,9 @@ class Company extends Model
     {
         return $this->belongsToMany(Vehicle::class);
     }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(CompanySchedule::class);
+    }
 }

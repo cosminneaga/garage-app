@@ -71,11 +71,11 @@ namespace App\Models{
  * @property \App\Enums\Priority $priority
  * @property \Illuminate\Support\Carbon|null $appointment_start
  * @property \Illuminate\Support\Carbon|null $appointment_finish
- * @property int|null $estimated_duration_minutes
  * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes
- * @property float $estimated_cost
+ * @property float|null $estimated_cost
+ * @property int|null $estimated_duration_minutes
  * @property \Illuminate\Support\Carbon|null $reminder_sent_at
  * @property \Illuminate\Support\Carbon|null $checked_in_at
  * @property \Illuminate\Support\Carbon|null $cancelled_at
@@ -325,6 +325,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CompanySchedule> $schedules
+ * @property-read int|null $schedules_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
  * @property-read int|null $suppliers_count
  * @property-read \App\Models\User|null $updater
@@ -356,6 +358,34 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperCompany {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property \App\Enums\WeekDays $name
+ * @property string|null $start
+ * @property string|null $end
+ * @property int $company_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Company|null $company
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule whereEnd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule whereStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CompanySchedule whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperCompanySchedule {}
 }
 
 namespace App\Models{
