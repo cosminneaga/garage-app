@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
+use LogicException;
 use Override;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -131,6 +132,14 @@ class Booking extends Model
             $model->saveQuietly();
         });
 
+        static::updating(function ($model) {
+            if (
+                $model->isDirty('completed_at') &&
+                $model->getOriginal('completed_at') !== null
+            ) {
+                throw new LogicException('completed_at can only be set once');
+            }
+        });
     }
 
     protected $fillable = [

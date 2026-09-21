@@ -10,6 +10,7 @@ use App\Notifications\BookingClientNotification;
 use App\Notifications\BookingCreatedNotification;
 use App\Notifications\BookingStatusUpdateNotification;
 use App\Traits\ObserverHelper;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
 class BookingObserver
@@ -52,6 +53,12 @@ class BookingObserver
         # CHECKED_IN
         if ($this->columnInsertCheck($booking, 'checked_in_at')) {
             $booking->status = BookingStatus::CHECKED_IN;
+
+            if ($booking->vehicle->first_visit === null) {
+                $booking->vehicle->first_visit = Carbon::now();
+                $booking->vehicle->save();
+            }
+
             $booking->save();
 
             $title = 'Booking with number ' . $booking->number . ' has been checked in successfully';
@@ -118,7 +125,19 @@ class BookingObserver
         }
 
         # COMPLETED
-        # This status should be triggered by invoicing part of the system
+        if ($this->columnInsertCheck($booking, 'completed_at')) {
+            $booking->status = BookingStatus::COMPLETED;
+            $booking->save();
+
+            $title = 'Booking with number ' . $booking->number . ' has been finsalised';
+            $messages = [
+                'Booking number ' . $booking->number . ' has been completed.',
+                'Please follow the below link to preview generated invoice.',
+            ];
+            Notification::send($booking->client, new BookingClientNotification($booking, $title, $messages));
+
+            return;
+        }
     }
 
     public function deleted(Booking $booking): void
