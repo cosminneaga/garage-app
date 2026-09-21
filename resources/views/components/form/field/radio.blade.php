@@ -10,7 +10,7 @@
     $helper = BladeFormHelper::names($identifier, $name);
 @endphp
 
-<div class="space-y-2 text-start">
+<div class="my-2 text-start">
     <div
         class="border-default bg-neutral-primary-soft rounded-base my-2 flex items-center border ps-4">
         <input

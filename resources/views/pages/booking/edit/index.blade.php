@@ -1,11 +1,14 @@
 @php
-    Session::flashInput($resource->toArray());
+    Session::flashInput($booking->toArray());
 @endphp
-{{-- @dd(BookingStatus::selectOptions()) --}}
-<x-layout::index title="{{ $resource->number }}">
+{{-- @dump($booking->toArray()) --}}
+<x-layout::index title="{{ $booking->number }}">
     <x-card description="Edit booking details">
-        <div class="grid grid-rows-1 md:grid-cols-3">
-            <section class="space-y-2">
+        <form method="POST" action="{{ route('bookings.companies.update', [$booking, $booking->company]) }}">
+            @csrf
+            @method('PUT')
+
+            <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 <x-form.field.text
                     name="id"
                     label="ID"
@@ -22,6 +25,12 @@
                     select_map_value="value"
                     select_map_label="label"
                     :options="BookingStatus::selectOptions()"
+                    disabled
+                />
+                <x-form.field.textarea
+                    name="current_status_info"
+                    value="The booking is being updated"
+                    label="Status info"
                 />
                 <x-form.field.select
                     name="service_type"
@@ -37,15 +46,73 @@
                     select_map_label="label"
                     :options="Priority::selectOptions()"
                 />
+                <x-form.field.textarea
+                    name="client_url_token"
+                    label="Client Token"
+                    disabled
+                />
                 <x-form.field.datetime
                     name="start"
-                    label="Start Date & Time"
+                    label="Start At"
                 />
                 <x-form.field.datetime
                     name="finish"
-                    label="Finish Date & Time"
+                    label="Finish At"
                 />
-            </section>
-        </div>
+                <x-form.field.datetime
+                    name="checked_in_at"
+                    label="Checked In At"
+                />
+                <x-form.field.datetime
+                    name="cancelled_at"
+                    label="Cancelled At"
+                />
+                <x-form.field.datetime
+                    name="completed_at"
+                    label="Completed At"
+                    disabled
+                />
+                <x-form.field.datetime
+                    name="in_review_at"
+                    label="In Review At"
+                    disabled
+                />
+                <x-form.field.datetime
+                    name="in_progress_at"
+                    label="In Progress At"
+                    disabled
+                />
+                <x-form.field.datetime
+                    name="remainder_sent_at"
+                    label="Remainder Sent At"
+                    disabled
+                />
+                <x-form.field.text
+                    name="estimated_duration_minutes"
+                    type="number"
+                    label="Estimated duration (minutes)"
+                />
+                <x-form.field.textarea
+                    name="notes"
+                    label="General notes"
+                />
+                <x-form.field.textarea
+                    name="client_notes"
+                    label="Client Notes"
+                />
+                <x-form.field.textarea
+                    name="complaint"
+                    label="Complaint"
+                />
+                <x-form.field.text
+                    name="estimated_cost"
+                    label="Estimated cost"
+                />
+            </div>
+
+            <div class="mt-4">
+                <x-button type="submit">Update</x-button>
+            </div>
+        </form>
     </x-card>
 </x-layout::index>

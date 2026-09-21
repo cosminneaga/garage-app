@@ -4,7 +4,7 @@
     $helper = BladeFormHelper::names($identifier, $name);
 @endphp
 
-<div class="my-3 text-start">
+<div class="my-2 text-start">
     @if ($label)
         <label
             class="form-label"

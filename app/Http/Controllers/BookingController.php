@@ -84,7 +84,7 @@ class BookingController extends Controller
         $this->authorize('show', $booking);
 
         return view('pages.booking.edit.index', [
-            'resource' => $booking,
+            'booking' => $booking,
         ]);
     }
 

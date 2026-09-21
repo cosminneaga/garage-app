@@ -11,7 +11,7 @@
     $helper = BladeFormHelper::names($identifier, $name);
 @endphp
 
-<div class="space-y-2 text-start">
+<div class="my-2 text-start">
     @if ($label)
         <label
             class="text-heading mb-1.25 text-md block font-medium"

@@ -56,32 +56,35 @@
         });
 </script>
 
-<label
-    class="form-label"
-    for="{{ $name }}"
->{{ $label }}</label>
-<div class="flex">
-    <input
-        class="form-item"
-        {{ $attributes->merge([
-            'value' => old($helper->get('errorName'), $value),
-            'name' => $name,
-            'id' => $name,
-            'data-test' => $helper->get('testName'),
-        ]) }}
-    />
-    <button
-        class="text-heading bg-neutral-secondary-medium rounded-s-0 border-default-medium inline-flex items-center rounded-e-md border border-s-0 px-3 text-sm"
-        data-modal-target="{{ $ids->get('modal') }}"
-        data-modal-toggle="{{ $ids->get('modal') }}"
-        type="button"
-    >
-        <x-icon-o-clock />
-    </button>
+<div class="my-2 text-start">
+    <label
+        class="form-label"
+        for="{{ $name }}"
+    >{{ $label }}</label>
+    <div class="flex">
+        <input
+            class="form-item"
+            {{ $attributes->merge([
+                'value' => old($helper->get('errorName'), $value),
+                'name' => $name,
+                'id' => $name,
+                'data-test' => $helper->get('testName'),
+            ]) }}
+        />
+        <button
+            class="text-heading bg-neutral-secondary-medium rounded-s-0 border-default-medium inline-flex items-center rounded-e-md border border-s-0 px-3 text-sm"
+            data-modal-target="{{ $ids->get('modal') }}"
+            data-modal-toggle="{{ $ids->get('modal') }}"
+            type="button"
+            @if ($attributes->has('disabled')) disabled @endif
+        >
+            <x-icon-o-clock />
+        </button>
+    </div>
+    @error($helper->get('errorName'))
+        <p class="text-xs text-red-600">{{ $message }}</p>
+    @enderror
 </div>
-@error($helper->get('errorName'))
-    <p class="text-xs text-red-600">{{ $message }}</p>
-@enderror
 
 <x-modal.wrapper
     id="{{ $ids->get('modal') }}"

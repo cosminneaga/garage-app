@@ -75,24 +75,9 @@
                             :schedule="$company->schedules"
                         />
                     </section>
-
-                    <section>
-                        <x-form.field.datetime
-                            name="checked_in_at"
-                            label="CheckIn Date"
-                            :schedule="$company->schedules"
-                        />
-                    </section>
                 </section>
 
                 <section class="space-y-2">
-                    <x-form.field.select
-                        name="status"
-                        label="Status"
-                        select_map_value="value"
-                        select_map_label="label"
-                        :options="BookingStatus::selectOptions()"
-                    />
                     <x-form.field.textarea
                         name="current_status_info"
                         value="The booking was created recently"

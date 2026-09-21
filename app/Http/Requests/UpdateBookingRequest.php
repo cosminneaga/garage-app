@@ -29,19 +29,19 @@ class UpdateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'service_type' => [new Enum(ServiceType::class)],
-            'priority' => [new Enum(Priority::class)],
-            'start' => ['required', 'date_format:d-m-Y H:i:s'],
-            'finish' => ['date_format:d-m-Y H:i:s', 'after:start'],
-            'reminder_sent_at' => ['date_format:d-m-Y H:i:s', 'after:start'],
-            'checked_in_at' => ['date_format:d-m-Y H:i:s', 'after:start'],
-            'completed_at' => ['date_format:d-m-Y H:i:s', 'after:start'],
-            'cancelled_at' => ['date_format:d-m-Y H:i:s', 'after:start'],
-            'estimated_duration_minutes' => ['integer'],
-            'current_status_info' => ['string', 'max:255'],
-            'complaint' => ['string', 'max:450'],
-            'notes' => ['string', 'max:450'],
-            'estimated_cost' => ['decimal:2'],
+            'service_type' =>                   [new Enum(ServiceType::class)],
+            'priority' =>                       [new Enum(Priority::class)],
+            'start' =>                          ['required', 'date_format:d-m-Y H:i'],
+            'finish' =>                         ['sometimes', 'nullable', 'date_format:d-m-Y H:i', 'after:start'],
+            'reminder_sent_at' =>               ['sometimes', 'nullable', 'date_format:d-m-Y H:i', 'after:start'],
+            'checked_in_at' =>                  ['sometimes', 'nullable', 'date_format:d-m-Y H:i', 'after:start'],
+            'completed_at' =>                   ['sometimes', 'nullable', 'date_format:d-m-Y H:i', 'after:start'],
+            'cancelled_at' =>                   ['sometimes', 'nullable', 'date_format:d-m-Y H:i', 'after:start'],
+            'estimated_duration_minutes' =>     ['sometimes', 'nullable', 'integer'],
+            'current_status_info' =>            ['sometimes', 'nullable', 'string', 'max:255'],
+            'complaint' =>                      ['sometimes', 'nullable', 'string', 'max:450'],
+            'notes' =>                          ['sometimes', 'nullable', 'string', 'max:450'],
+            'estimated_cost' =>                 ['sometimes', 'nullable', 'decimal:2'],
         ];
     }
 }

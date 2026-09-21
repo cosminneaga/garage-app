@@ -154,6 +154,8 @@ class Booking extends Model
         'client_notes',
         'estimated_cost',
         'checked_in_at',
+        'cancelled_at',
+        'completed_at',
     ];
 
     protected $casts = [
@@ -230,5 +232,10 @@ class Booking extends Model
     public function workorders(): HasMany
     {
         return $this->hasMany(Workorder::class);
+    }
+
+    public function statuses(): HasMany
+    {
+        return $this->hasMany(BookingStatusHistory::class);
     }
 }
