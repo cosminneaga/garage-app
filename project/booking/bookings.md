@@ -8,7 +8,7 @@
 | advisor_id          | foreignId nullable | Service advisor handling booking                                           |
 | technician_id       | foreignId nullable | Assigned technician (optional)                                             |
 | status              | enum               | pending, confirmed, checked_in, in_progress, completed, cancelled, no_show |
-| appointment_start   | datetime           | Scheduled start                                                            |
+| start   | datetime           | Scheduled start                                                            |
 | appointment_end     | datetime           | Scheduled finish                                                           |
 | estimated_duration  | integer            | Minutes                                                                    |
 | service_type        | enum/string        | MOT, Service, Repair, Diagnostics, Tyres, etc.                             |

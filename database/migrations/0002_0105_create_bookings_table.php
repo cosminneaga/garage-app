@@ -1,7 +1,7 @@
 <?php
 
-use App\Enums\Status\BookingStatus;
 use App\Enums\Priority;
+use App\Enums\Status\BookingStatus;
 use App\Enums\Type\ServiceType;
 use App\Models\Client;
 use App\Models\Company;
@@ -23,8 +23,8 @@ return new class () extends Migration {
             $table->string('status')->default(BookingStatus::PENDING->value);
             $table->string('service_type')->default(ServiceType::SERVICE->value);
             $table->string('priority')->default(Priority::LOW->value);
-            $table->dateTime('appointment_start')->nullable();
-            $table->dateTime('appointment_finish')->nullable();
+            $table->dateTime('start')->nullable();
+            $table->dateTime('finish')->nullable();
             $table->text('current_status_info')->nullable();
             $table->longText('complaint')->nullable();
             $table->longText('notes')->nullable();
@@ -51,7 +51,7 @@ return new class () extends Migration {
             $table->index('status', 'bk_status_idx');
             $table->index('service_type', 'bk_servicetype_idx');
             $table->index('priority', 'bk_priority_idx');
-            $table->index('appointment_start', 'bk_appointmentstart_idx');
+            $table->index('start', 'bk_start_idx');
             $table->index('checked_in_at', 'bk_checkedinat_idx');
             $table->index('completed_at', 'bk_completedat_idx');
             $table->index('cancelled_at', 'bk_cancelledat_idx');
@@ -68,7 +68,7 @@ return new class () extends Migration {
             $table->dropIndex('bk_status_idx');
             $table->dropIndex('bk_servicetype_idx');
             $table->dropIndex('bk_priority_idx');
-            $table->dropIndex('bk_appointmentstart_idx');
+            $table->dropIndex('bk_start_idx');
             $table->dropIndex('bk_checkedinat_idx');
             $table->dropIndex('bk_completedat_idx');
             $table->dropIndex('bk_cancelledat_idx');

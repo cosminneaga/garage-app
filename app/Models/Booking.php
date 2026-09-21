@@ -35,8 +35,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property BookingStatus $status
  * @property ServiceType $service_type
  * @property Priority $priority
- * @property Carbon|null $appointment_start
- * @property Carbon|null $appointment_finish
+ * @property Carbon|null $start
+ * @property Carbon|null $finish
  * @property int|null $estimated_duration_minutes
  * @property string|null $current_status_info
  * @property string|null $complaint
@@ -136,8 +136,8 @@ class Booking extends Model
     protected $fillable = [
         'service_type',
         'priority',
-        'appointment_start',
-        'appointment_finish',
+        'start',
+        'finish',
         'estimated_duration_minutes',
         'current_status_info',
         'complaint',
@@ -148,8 +148,8 @@ class Booking extends Model
     ];
 
     protected $casts = [
-        'appointment_start' => FormattedDateTime::class,
-        'appointment_finish' => FormattedDateTime::class,
+        'start' => FormattedDateTime::class,
+        'finish' => FormattedDateTime::class,
         'reminder_sent_at' => FormattedDateTime::class,
         'checked_in_at' => FormattedDateTime::class,
         'completed_at' => FormattedDateTime::class,
@@ -175,7 +175,7 @@ class Booking extends Model
             'status' => $this->status,
             'service_type' => $this->service_type,
             'priority' => $this->priority,
-            'appointment_start' => $this->appointment_start,
+            'start' => $this->start,
         ];
     }
 

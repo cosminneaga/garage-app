@@ -70,7 +70,7 @@
 
                     <section>
                         <x-form.field.datetime
-                            name="appointment_start"
+                            name="start"
                             label="Start Date"
                             :schedule="$company->schedules"
                         />

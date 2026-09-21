@@ -69,8 +69,8 @@ namespace App\Models{
  * @property \App\Enums\Status\BookingStatus $status
  * @property \App\Enums\Type\ServiceType $service_type
  * @property \App\Enums\Priority $priority
- * @property $appointment_start
- * @property $appointment_finish
+ * @property $start
+ * @property $finish
  * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes

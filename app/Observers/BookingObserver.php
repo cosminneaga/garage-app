@@ -28,7 +28,7 @@ class BookingObserver
         }
 
         # CONFIRMED
-        if ($booking->appointment_start !== null) {
+        if ($booking->start !== null) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
         }
@@ -65,7 +65,7 @@ class BookingObserver
         }
 
         # CONFIRMED
-        if ($this->columnInsertCheck($booking, 'appointment_start')) {
+        if ($this->columnInsertCheck($booking, 'start')) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
 

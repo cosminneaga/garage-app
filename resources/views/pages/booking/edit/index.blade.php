@@ -38,12 +38,12 @@
                     :options="Priority::selectOptions()"
                 />
                 <x-form.field.datetime
-                    name="appointment_start"
-                    label="Appointment start"
+                    name="start"
+                    label="Start Date & Time"
                 />
                 <x-form.field.datetime
-                    name="appointment_finish"
-                    label="Appointment finish"
+                    name="finish"
+                    label="Finish Date & Time"
                 />
             </section>
         </div>
