@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use App\Policies\CompanyPolicy;
 use App\Traits\Blameable;
 use Database\Factories\CompanyFactory;
@@ -121,6 +122,12 @@ class Company extends Model
     public function findClientByEmail(string $email): ?Client
     {
         return $this->clients()->where('email', $email)->first();
+    }
+
+    public function managers(): BelongsToMany
+    {
+        return $this->users()
+            ->role(UserRole::MANAGER);
     }
 
     public function users(): BelongsToMany

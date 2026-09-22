@@ -11,6 +11,7 @@ use App\Notifications\BookingCreatedNotification;
 use App\Notifications\BookingStatusUpdateNotification;
 use App\Traits\ObserverHelper;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class BookingObserver
@@ -19,47 +20,56 @@ class BookingObserver
 
     public function created(Booking $booking): void
     {
-        $users = $booking->company->users;
-        Notification::send($users, new BookingCreatedNotification($booking));
+        $managers = $booking->company->managers;
+        Notification::send([...$managers, Auth::user()], new BookingCreatedNotification($booking));
 
         # CHECKED_IN
         if ($booking->checked_in_at !== null) {
             $booking->status = BookingStatus::CHECKED_IN;
             $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "checked_in_at" ' . $booking->checked_in_at . ' on creation stage',
+            ]);
         }
 
         # CONFIRMED
         if ($booking->start !== null) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "start" ' . $booking->start . ' on creation stage',
+            ]);
         }
     }
 
     public function updated(Booking $booking): void
     {
+        # send internal notification on each status change
         if ($this->columnChangeCheck($booking, 'status')) {
-            $users = $booking->company->users;
+            $managers = $booking->company->managers;
             $old = $booking->getOriginal('status');
-            Notification::send($users, new BookingStatusUpdateNotification($booking, $old));
+            Notification::send([...$managers, Auth::user()], new BookingStatusUpdateNotification($booking, $old));
 
             return;
         }
 
-        /**
-         * Status protected changes are placed below the above status check
-         * in order to avoid infinite loops
-         */
-
         # CHECKED_IN
         if ($this->columnInsertCheck($booking, 'checked_in_at')) {
             $booking->status = BookingStatus::CHECKED_IN;
+            $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "checked_in_at" ' . $booking->checked_in_at,
+            ]);
 
+            # insert into attached vehicle first_visit field
             if ($booking->vehicle->first_visit === null) {
                 $booking->vehicle->first_visit = Carbon::now();
                 $booking->vehicle->save();
             }
 
-            $booking->save();
 
             $title = 'Booking with number ' . $booking->number . ' has been checked in successfully';
             $messages = [
@@ -75,6 +85,10 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'start')) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "start" ' . $booking->start,
+            ]);
 
             $title = 'Booking with number ' . $booking->number . ' has been confirmed successfully';
             $messages = [
@@ -90,6 +104,10 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'in_review_at')) {
             $booking->status = BookingStatus::IN_REVIEW;
             $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "in_review_at" ' . $booking->in_review_at,
+            ]);
 
             return;
         }
@@ -98,6 +116,10 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'in_progress_at')) {
             $booking->status = BookingStatus::IN_PROGRESS;
             $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "in_progress_at" ' . $booking->in_progress_at,
+            ]);
 
             $title = 'Booking with number ' . $booking->number . ' is in progress';
             $messages = [
@@ -113,6 +135,10 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'cancelled_at')) {
             $booking->status = BookingStatus::CANCELLED;
             $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "cancelled_at" ' . $booking->cancelled_at,
+            ]);
 
             $title = 'Booking with number ' . $booking->number . ' has been cancelled';
             $messages = [
@@ -128,6 +154,10 @@ class BookingObserver
         if ($this->columnInsertCheck($booking, 'completed_at')) {
             $booking->status = BookingStatus::COMPLETED;
             $booking->save();
+            $booking->statuses()->create([
+                'status' => $booking->status,
+                'description' => 'Status was triggered by inserting value into "completed_at" ' . $booking->completed_at,
+            ]);
 
             $title = 'Booking with number ' . $booking->number . ' has been finsalised';
             $messages = [

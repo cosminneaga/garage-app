@@ -14,7 +14,7 @@ class WorkorderOperationLabourTimeObserver
 {
     use ObserverHelper;
 
-    public function creating(WorkorderOperationLabourTime $time)
+    public function creating(WorkorderOperationLabourTime $time): void
     {
         $wo = $time->operation->workorder;
 

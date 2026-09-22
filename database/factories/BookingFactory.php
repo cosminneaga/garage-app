@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @extends Factory<Booking>
@@ -24,7 +25,7 @@ class BookingFactory extends Factory
             'client_id' => Client::factory()->create(),
             'vehicle_id' => Vehicle::factory()->create(),
             'company_id' => null,
-            'advisor_id' => User::factory()->create(),
+            'advisor_id' => Auth::user() ?? User::factory()->create(),
         ];
     }
 }

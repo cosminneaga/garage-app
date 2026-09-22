@@ -102,6 +102,8 @@ namespace App\Models{
  * @property-read int|null $client_files_count
  * @property-read \App\Models\Company|null $company
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BookingStatusHistory> $statuses
+ * @property-read int|null $statuses_count
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Vehicle|null $vehicle
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Workorder> $workorders
@@ -112,8 +114,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAdvisorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAppointmentFinish($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereAppointmentStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCancelledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCheckedInAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientId($value)
@@ -129,6 +129,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDurationMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereFinish($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInProgressAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInReviewAt($value)
@@ -137,6 +138,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereReminderSentAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereServiceType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedBy($value)
@@ -147,6 +149,35 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperBooking {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $status
+ * @property string|null $description
+ * @property int $booking_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Booking|null $booking
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperBookingStatusHistory {}
 }
 
 namespace App\Models{
@@ -325,6 +356,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $managers
+ * @property-read int|null $managers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CompanySchedule> $schedules
  * @property-read int|null $schedules_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
@@ -740,9 +773,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string|null $image_path
  * @property string $password
+ * @property string|null $remember_token
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property string|null $remember_token
+ * @property int|null $deleted_by
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -785,6 +819,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
@@ -908,10 +943,10 @@ namespace App\Models{
  * @property numeric $labour_price_hourly
  * @property numeric $labour_total_cost
  * @property numeric $part_total_cost
- * @property \Illuminate\Support\Carbon|null $completed_at
- * @property \Illuminate\Support\Carbon|null $cancelled_at
- * @property \Illuminate\Support\Carbon|null $in_progress_at
- * @property \Illuminate\Support\Carbon|null $in_pause_at
+ * @property $completed_at
+ * @property $cancelled_at
+ * @property $in_progress_at
+ * @property $in_pause_at
  * @property int $booking_id
  * @property int $technician_id
  * @property int|null $created_by
@@ -1029,8 +1064,8 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property \Illuminate\Support\Carbon|null $start
- * @property \Illuminate\Support\Carbon|null $end
+ * @property $start
+ * @property $end
  * @property int $workorder_operation_id
  * @property int|null $created_by
  * @property int|null $updated_by

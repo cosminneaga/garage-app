@@ -11,7 +11,8 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            <div
+                class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 <x-form.field.text
                     name="id"
                     label="ID"
