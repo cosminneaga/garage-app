@@ -4,11 +4,14 @@
 {{-- @dump($booking->toArray()) --}}
 <x-layout::index title="{{ $booking->number }}">
     <x-card description="Edit booking details">
-        <form method="POST" action="{{ route('bookings.companies.update', [$booking, $booking->company]) }}">
+        <form
+            method="POST"
+            action="{{ route('bookings.companies.update', [$booking, $booking->company]) }}"
+        >
             @csrf
             @method('PUT')
 
-            <div class="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+            <div class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 <x-form.field.text
                     name="id"
                     label="ID"
@@ -25,9 +28,10 @@
                     select_map_value="value"
                     select_map_label="label"
                     :options="BookingStatus::selectOptions()"
+                    :value="old('status', 'pending')"
                     disabled
                 />
-                <x-form.field.textarea
+                <x-form.field.text
                     name="current_status_info"
                     value="The booking is being updated"
                     label="Status info"
@@ -46,7 +50,7 @@
                     select_map_label="label"
                     :options="Priority::selectOptions()"
                 />
-                <x-form.field.textarea
+                <x-form.field.text
                     name="client_url_token"
                     label="Client Token"
                     disabled
@@ -87,26 +91,31 @@
                     label="Remainder Sent At"
                     disabled
                 />
-                <x-form.field.text
-                    name="estimated_duration_minutes"
-                    type="number"
-                    label="Estimated duration (minutes)"
-                />
+                <div>
+                    <x-form.field.text
+                        name="estimated_duration_minutes"
+                        type="number"
+                        label="Estimated duration (minutes)"
+                    />
+                    <x-form.field.text
+                        name="estimated_cost"
+                        label="Estimated cost"
+                    />
+                </div>
                 <x-form.field.textarea
                     name="notes"
                     label="General notes"
+                    rows="5"
                 />
                 <x-form.field.textarea
                     name="client_notes"
                     label="Client Notes"
+                    rows="5"
                 />
                 <x-form.field.textarea
                     name="complaint"
                     label="Complaint"
-                />
-                <x-form.field.text
-                    name="estimated_cost"
-                    label="Estimated cost"
+                    rows="5"
                 />
             </div>
 

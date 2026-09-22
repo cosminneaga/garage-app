@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
-use Spatie\Activitylog\Models\Activity;
-use Database\Factories\WorkorderOperationFactory;
-use App\Enums\UserRole;
 use App\Enums\Type\WorkorderOperationType;
+use App\Enums\UserRole;
 use App\Traits\Blameable;
+use Database\Factories\WorkorderOperationFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -121,6 +121,20 @@ class WorkorderOperation extends Model
         }
 
         return (bool) $this->performed_by === $user->id;
+    }
+
+    public function hasActiveTime(): bool
+    {
+        $status = false;
+
+        foreach ($this->times as $time) {
+            if (!$time->end) {
+                $status = true;
+                break;
+            }
+        }
+
+        return $status;
     }
 
     public function workorder(): BelongsTo

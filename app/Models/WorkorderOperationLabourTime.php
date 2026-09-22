@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
-use Spatie\Activitylog\Models\Activity;
-use Database\Factories\WorkorderOperationLabourTimeFactory;
-use Illuminate\Database\Eloquent\Builder;
+use App\Casts\FormattedDateTime;
 use App\Observers\WorkorderOperationLabourTimeObserver;
 use App\Traits\Blameable;
 use Carbon\Carbon;
+use Database\Factories\WorkorderOperationLabourTimeFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -68,8 +69,8 @@ class WorkorderOperationLabourTime extends Model
     ];
 
     protected $casts = [
-        'start' => 'datetime',
-        'end' => 'datetime',
+        'start' => FormattedDateTime::class,
+        'end' => FormattedDateTime::class,
     ];
 
     protected static function booted()

@@ -19,7 +19,7 @@ class WorkorderOperationLabourTimeFactory extends Factory
     public function definition(): array
     {
         return [
-            'start' => Carbon::now(),
+            'start' => Carbon::now()->format('d-m-Y H:i'),
         ];
     }
 }

@@ -23,6 +23,7 @@
             'name' => $name,
             'id' => $name,
             'data-test' => $helper->get('testName'),
+            'rows' => 10,
         ]) }}
     >{{ old($name, $value) }}</textarea>
 

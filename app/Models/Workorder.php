@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
-use Spatie\Activitylog\Models\Activity;
-use Database\Factories\WorkorderFactory;
-use App\Enums\UserRole;
+use App\Casts\FormattedDateTime;
 use App\Enums\Status\WorkorderStatus;
+use App\Enums\UserRole;
 use App\Observers\WorkorderObserver;
 use App\Traits\Blameable;
+use Database\Factories\WorkorderFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Override;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -129,10 +130,10 @@ class Workorder extends Model
 
     protected $casts = [
         'status' => WorkorderStatus::class,
-        'completed_at' => 'datetime',
-        'cancelled_at' => 'datetime',
-        'in_progress_at' => 'datetime',
-        'in_pause_at' => 'datetime',
+        'completed_at' => FormattedDateTime::class,
+        'cancelled_at' => FormattedDateTime::class,
+        'in_progress_at' => FormattedDateTime::class,
+        'in_pause_at' => FormattedDateTime::class,
     ];
 
     protected $attributes = [
