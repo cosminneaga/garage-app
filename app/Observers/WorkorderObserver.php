@@ -6,8 +6,10 @@ namespace App\Observers;
 
 use App\Enums\Status\WorkorderStatus;
 use App\Models\Workorder;
+use App\Notifications\WorkorderStatusUpdateNotification;
 use App\Traits\ObserverHelper;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
 
 class WorkorderObserver
 {
@@ -21,6 +23,14 @@ class WorkorderObserver
 
     public function updated(Workorder $workorder): void
     {
+        # send internal notification to management on each status change
+        if ($this->columnChangeCheck($workorder, 'status')) {
+            $managers = $workorder->booking->company->managers;
+            Notification::send($managers, new WorkorderStatusUpdateNotification($workorder, $workorder->getOriginal('status')));
+
+            return;
+        }
+
         # IN_PROGRESS
         if ($this->columnInsertCheck($workorder, 'odometer_on_start')) {
             $workorder->status = WorkorderStatus::IN_PROGRESS;
@@ -29,7 +39,7 @@ class WorkorderObserver
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "odometer_at_start" ' . $workorder->odometer_on_start,
             ]);
-            $workorder->saveQuietly();
+            $workorder->save();
 
             return;
         }
@@ -42,7 +52,7 @@ class WorkorderObserver
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "odometer_on_finish" ' . $workorder->odometer_on_finish . ' ,also "completed_at" has been populated with ' . $workorder->completed_at,
             ]);
-            $workorder->saveQuietly();
+            $workorder->save();
 
             $workorder->booking->in_review_at = $workorder->completed_at;
             $workorder->booking->save();
@@ -58,7 +68,7 @@ class WorkorderObserver
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "cancelled_at" ' . $workorder->cancelled_at,
             ]);
-            $workorder->saveQuietly();
+            $workorder->save();
 
             $workorder->booking->cancelled_at = $workorder->cancelled_at;
             $workorder->booking->save();
