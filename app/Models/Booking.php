@@ -145,22 +145,20 @@ class Booking extends Model
     protected $fillable = [
         'service_type',
         'priority',
-        'start',
-        'finish',
         'estimated_duration_minutes',
         'current_status_info',
         'complaint',
         'notes',
         'client_notes',
         'estimated_cost',
+        'confirmed_at',
         'checked_in_at',
         'cancelled_at',
         'completed_at',
     ];
 
     protected $casts = [
-        'start' => FormattedDateTime::class,
-        'finish' => FormattedDateTime::class,
+        'confirmed_at' => FormattedDateTime::class,
         'reminder_sent_at' => FormattedDateTime::class,
         'checked_in_at' => FormattedDateTime::class,
         'completed_at' => FormattedDateTime::class,
@@ -186,7 +184,7 @@ class Booking extends Model
             'status' => $this->status,
             'service_type' => $this->service_type,
             'priority' => $this->priority,
-            'start' => $this->start,
+            'confirmed_at' => $this->confirmed_at,
         ];
     }
 

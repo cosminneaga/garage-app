@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Enums\UserRole;
 use App\Enums\WeekDays;
 use App\Models\Address;
+use App\Models\CarData;
+use App\Models\CarMake;
+use App\Models\CarModel;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Contact;
@@ -147,5 +150,10 @@ class LocalEnv extends Seeder
         // 8. create vehicles & attach to the first company
         $vehicles = Vehicle::factory(10)->create();
         $companies[0]->vehicles()->attach($vehicles);
+
+        // 9. create default cars
+        $carMake = CarMake::factory()->create();
+        $carModel = CarModel::factory()->create(['make_id' => $carMake->id]);
+        $carData = CarData::factory()->create(['make_id' => $carMake->id, 'model_id' => $carModel->id]);
     }
 }

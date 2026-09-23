@@ -23,13 +23,12 @@ return new class () extends Migration {
             $table->string('status')->default(BookingStatus::PENDING->value);
             $table->string('service_type')->default(ServiceType::SERVICE->value);
             $table->string('priority')->default(Priority::LOW->value);
-            $table->dateTime('start')->nullable();
-            $table->dateTime('finish')->nullable();
             $table->text('current_status_info')->nullable();
             $table->longText('complaint')->nullable();
             $table->longText('notes')->nullable();
             $table->decimal('estimated_cost', 10, 2)->nullable();
             $table->integer('estimated_duration_minutes')->nullable();
+            $table->dateTime('confirmed_at')->nullable();
             $table->dateTime('reminder_sent_at')->nullable();
             $table->dateTime('checked_in_at')->nullable();
             $table->dateTime('cancelled_at')->nullable();
@@ -51,7 +50,7 @@ return new class () extends Migration {
             $table->index('status', 'bk_status_idx');
             $table->index('service_type', 'bk_servicetype_idx');
             $table->index('priority', 'bk_priority_idx');
-            $table->index('start', 'bk_start_idx');
+            $table->index('confirmed_at', 'bk_confirmedat_idx');
             $table->index('checked_in_at', 'bk_checkedinat_idx');
             $table->index('completed_at', 'bk_completedat_idx');
             $table->index('cancelled_at', 'bk_cancelledat_idx');
@@ -68,7 +67,7 @@ return new class () extends Migration {
             $table->dropIndex('bk_status_idx');
             $table->dropIndex('bk_servicetype_idx');
             $table->dropIndex('bk_priority_idx');
-            $table->dropIndex('bk_start_idx');
+            $table->dropIndex('bk_confirmedat_idx');
             $table->dropIndex('bk_checkedinat_idx');
             $table->dropIndex('bk_completedat_idx');
             $table->dropIndex('bk_cancelledat_idx');

@@ -32,7 +32,7 @@ class StoreBookingRequest extends FormRequest
             'current_status_info' =>        ['sometimes', 'string', 'max:255'],
             'service_type' =>               [new Enum(ServiceType::class)],
             'priority' =>                   [new Enum(Priority::class)],
-            'start' =>                      ['sometimes', 'nullable', 'date_format:d-m-Y H:i'],
+            'confirmed_at' =>               ['required', 'date_format:d-m-Y H:i'],
             'estimated_cost' =>             ['sometimes', 'nullable', 'decimal:2'],
             'estimated_duration_minutes' => ['sometimes', 'nullable', 'integer'],
             'notes' =>                      ['sometimes', 'nullable', 'string', 'max:450'],

@@ -17,7 +17,7 @@ class WorkorderObserver
 
     public function created(Workorder $workorder): void
     {
-        $workorder->booking->in_progress_at = Carbon::now();
+        $workorder->booking->in_progress_at = Carbon::now()->format('d-m-Y H:i');
         $workorder->booking->save();
     }
 

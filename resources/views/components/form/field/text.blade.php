@@ -1,4 +1,4 @@
-@props(['name', 'identifier' => '', 'label' => false, 'value' => null])
+@props(['name', 'identifier' => '', 'label' => false])
 
 @php
     $helper = BladeFormHelper::names($identifier, $name);
@@ -13,9 +13,8 @@
     @endif
 
     <input
-        class="form-item"
         {{ $attributes->merge([
-            'value' => old($helper->get('errorName'), $value),
+            'class' => 'form-item',
             'name' => $name,
             'id' => $name,
             'data-test' => $helper->get('testName'),

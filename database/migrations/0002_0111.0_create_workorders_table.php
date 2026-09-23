@@ -24,9 +24,9 @@ return new class () extends Migration {
             $table->longText('initial_inspection_notes')->nullable();
             $table->longText('notes')->nullable();
             $table->longText('part_notes')->nullable();
-            $table->decimal('labour_price_hourly', 10, 2)->default(0.00);
-            $table->decimal('labour_total_cost', 10, 2)->default(0.00);
-            $table->decimal('part_total_cost', 10, 2)->default(0.00);
+            $table->decimal('labour_price_hourly', 10, 2)->nullable();
+            $table->decimal('labour_total_cost', 10, 2)->nullable();
+            $table->decimal('part_total_cost', 10, 2)->nullable();
             $table->dateTime('completed_at')->nullable();
             $table->dateTime('cancelled_at')->nullable();
             $table->dateTime('in_progress_at')->nullable();

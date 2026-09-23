@@ -82,12 +82,12 @@ class BookingObserver
         }
 
         # CONFIRMED
-        if ($this->columnInsertCheck($booking, 'start')) {
+        if ($this->columnInsertCheck($booking, 'confirmed_at')) {
             $booking->status = BookingStatus::CONFIRMED;
             $booking->save();
             $booking->statuses()->create([
                 'status' => $booking->status,
-                'description' => 'Status was triggered by inserting value into "start" ' . $booking->start,
+                'description' => 'Status was triggered by inserting value into "confirmed_at" ' . $booking->confirmed_at,
             ]);
 
             $title = 'Booking with number ' . $booking->number . ' has been confirmed successfully';
@@ -159,7 +159,7 @@ class BookingObserver
                 'description' => 'Status was triggered by inserting value into "completed_at" ' . $booking->completed_at,
             ]);
 
-            $title = 'Booking with number ' . $booking->number . ' has been finsalised';
+            $title = 'Booking with number ' . $booking->number . ' has been finalised';
             $messages = [
                 'Booking number ' . $booking->number . ' has been completed.',
                 'Please follow the below link to preview generated invoice.',

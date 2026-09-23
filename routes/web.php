@@ -166,6 +166,7 @@ Route::controller(WorkorderController::class)
     ->group(function () {
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {
+            Route::get('/workorders/bookings/{booking}', 'modelCreate')->name('workorders.bookings.create');
             Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
             Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');
             Route::put('/workorders/{workorder}/bookings/{booking}', 'modelUpdate')->name('workorders.bookings.update');

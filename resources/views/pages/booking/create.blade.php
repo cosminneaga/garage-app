@@ -41,6 +41,7 @@
                             data-modal-target="client_create_modal"
                             data-modal-toggle="client_create_modal"
                             type="button"
+                            class="mb-2"
                         >
                             <x-icon-o-document-plus />
                         </x-button>
@@ -62,6 +63,7 @@
                             data-modal-target="vehicle_create_modal"
                             data-modal-toggle="vehicle_create_modal"
                             type="button"
+                            class="mb-2"
                         >
                             <x-icon-o-document-plus />
                         </x-button>
@@ -70,8 +72,8 @@
 
                     <section>
                         <x-form.field.datetime
-                            name="start"
-                            label="Start Date"
+                            name="confirmed_at"
+                            label="Confirmed At"
                             :schedule="$company->schedules"
                         />
                     </section>
