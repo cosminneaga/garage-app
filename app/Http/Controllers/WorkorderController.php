@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserRole;
 use App\Http\Requests\StoreWorkorderRequest;
+use App\Http\Requests\UpdateWorkorderRequest;
 use App\Models\Booking;
 use App\Models\Workorder;
 use App\Traits\RelatedModelGuard;
@@ -19,19 +19,23 @@ class WorkorderController extends Controller
     use ResponseMessage;
     use RelatedModelGuard;
 
-    public function modelCreate(Request $request, Booking $booking): View
-    {
+    public function modelCreate(
+        Request $request,
+        Booking $booking
+    ): View {
         self::guard('update', $request, $booking->id);
         $this->authorize('store', Workorder::class);
 
         return view('pages.workorder.create', [
-            'booking' => self::$entity,
-            'technicians' => self::$entity->company->users()->role([UserRole::MANAGER, UserRole::USER])->get()
+            'booking' => $booking,
+            'technicians' => $booking->availableTechnicians()->get()
         ]);
     }
 
-    public function modelStore(StoreWorkorderRequest $request, Booking $booking): RedirectResponse
-    {
+    public function modelStore(
+        StoreWorkorderRequest $request,
+        Booking $booking
+    ): RedirectResponse {
         self::guard('update', $request, $booking->id);
         Workorder::create([
             ...$request->safe()->all(),
@@ -50,17 +54,34 @@ class WorkorderController extends Controller
         Request $request,
         Workorder $workorder,
         Booking $booking
-    ): never {
+    ): View {
         self::guard('show', $request, $booking->id);
-        dd($workorder);
+        $this->authorize('update', $workorder);
+
+        return view('pages.workorder.edit.index', [
+            'workorder' => $workorder,
+            'booking' => $booking,
+            'technicians' => $booking->availableTechnicians()->get(),
+        ]);
     }
 
-    public function modelUpdate(Request $request, Workorder $workorder, Booking $booking)
-    {
-        dd($workorder->toArray(), $booking->toArray());
+    public function modelUpdate(
+        UpdateWorkorderRequest $request,
+        Workorder $workorder,
+        Booking $booking
+    ): RedirectResponse {
+        self::guard('update', $request, $booking->id);
+        $this->authorize('update', $workorder);
+
+        $workorder->update([...$request->safe()->all()]);
+
+        return back()
+            ->with(self::flashMessage(
+                'success',
+                'Resource updated',
+                'Workorder updated successfully'
+            ));
     }
 
-    public function modelDestroy()
-    {
-    }
+    public function modelDestroy() {}
 }

@@ -24,7 +24,7 @@ class WorkorderOperationLabourTimeObserver
         }
 
         if ($wo->status !== WorkorderStatus::IN_PROGRESS) {
-            $wo->in_progress_at = Carbon::now();
+            $wo->in_progress_at = Carbon::now()->format('d-m-Y H:i');
             $wo->save();
 
             $wo->statuses()->create([

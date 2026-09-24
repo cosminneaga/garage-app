@@ -202,6 +202,11 @@ class Booking extends Model
         return (bool) $this->advisor_id === $user->id;
     }
 
+    public function availableTechnicians(): BelongsToMany
+    {
+        return $this->company->users()->role([UserRole::MANAGER, UserRole::USER]);
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

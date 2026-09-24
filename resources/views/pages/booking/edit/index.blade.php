@@ -4,6 +4,8 @@
 {{-- @dump($booking->toArray()) --}}
 <x-layout::index title="{{ $booking->number }}">
     <x-card>
+        <x-card.booking :booking="$booking" />
+
         <form
             method="POST"
             action="{{ route('bookings.companies.update', [$booking, $booking->company]) }}"
@@ -11,26 +13,6 @@
             @csrf
             @method('PUT')
 
-            <x-card :description="'Booking number: ' . $booking->number . ', ID: ' . $booking->id">
-                <p class="text-base font-bold"></p>
-                <p class="text-sm">Status: {{ $booking->status->label() }}</p>
-                <p class="text-sm">Client Token: {{ $booking->client_url_token }}</p>
-                @if ($booking->completed_at)
-                    <p class="text-sm">Completed At: {{ $booking->completed_at }}</p>
-                @endif
-                @if ($booking->in_progress_at)
-                    <p class="text-sm">In Progress At: {{ $booking->in_progress_at }}</p>
-                @endif
-                @if ($booking->in_review_at)
-                    <p class="text-sm">In Review At: {{ $booking->in_review_at }}</p>
-                @endif
-                @if ($booking->cancelled_at)
-                    <p class="text-sm">Cancelled At: {{ $booking->cancelled_at }}</p>
-                @endif
-                @if ($booking->reminder_sent_at)
-                    <p class="text-sm">Reminder Sent At: {{ $booking->reminder_sent_at }}</p>
-                @endif
-            </x-card>
 
             <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
                 <section>
@@ -99,7 +81,7 @@
             <div class="mt-4 flex gap-2">
                 <x-button type="submit">Update Booking</x-button>
 
-                @if (!count($booking->workorders))
+                @if (!count($workorders))
                     <x-button
                         id="booking_create_workorder_button"
                         link="{{ route('workorders.bookings.create', $booking) }}"
@@ -108,35 +90,12 @@
             </div>
         </form>
 
-        @if (count($booking->workorders))
-            <br>
-            @foreach ($booking->workorders as $workorder)
-                <x-card :description="'Workorder number: ' . $workorder->number . ', ID: ' . $workorder->id">
-                    <p class="text-sm">Status: {{ $workorder->status->label() }}</p>
-                </x-card>
-
-                <form
-                    action="{{ route('workorders.bookings.update', [$workorder, $booking]) }}"
-                    method="post"
-                >
-                    @csrf
-                    @method('PUT')
-
-                    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-                        <section>
-                            <x-form.field.text
-                                name="title"
-                                value="Oil Change (JobName Enum)"
-                                label="Title"
-                            />
-                        </section>
-                    </div>
-
-                    <div class="mt-4">
-                        <x-button type="submit">Update Workorder: {{ $workorder->number }}</x-button>
-                    </div>
-                </form>
-            @endforeach
-        @endif
+        <br>
+        <h4 class="text-xl font-bold">Workorders</h4>
+        <x-table.related.workorders
+            :data="$workorders"
+            :resource="$booking"
+            :edit="Permission::can(UserPermission::WORKORDER, 'update')"
+        />
     </x-card>
 </x-layout::index>

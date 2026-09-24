@@ -34,7 +34,7 @@ class WorkorderObserver
         # IN_PROGRESS
         if ($this->columnInsertCheck($workorder, 'odometer_on_start')) {
             $workorder->status = WorkorderStatus::IN_PROGRESS;
-            $workorder->in_progress_at = Carbon::now();
+            $workorder->in_progress_at = Carbon::now()->format('d-m-Y H:i');
             $workorder->statuses()->create([
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "odometer_at_start" ' . $workorder->odometer_on_start,
@@ -47,7 +47,7 @@ class WorkorderObserver
         # COMPLETED
         if ($this->columnInsertCheck($workorder, 'odometer_on_finish')) {
             $workorder->status = WorkorderStatus::COMPLETED;
-            $workorder->completed_at = Carbon::now();
+            $workorder->completed_at = Carbon::now()->format('d-m-Y H:i');
             $workorder->statuses()->create([
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "odometer_on_finish" ' . $workorder->odometer_on_finish . ' ,also "completed_at" has been populated with ' . $workorder->completed_at,
@@ -63,7 +63,7 @@ class WorkorderObserver
         # CANCELLED
         if ($this->columnInsertCheck($workorder, 'cancelled_at')) {
             $workorder->status = WorkorderStatus::CANCELLED;
-            $workorder->cancelled_at = Carbon::now();
+            $workorder->cancelled_at = Carbon::now()->format('d-m-Y H:i');
             $workorder->statuses()->create([
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "cancelled_at" ' . $workorder->cancelled_at,
@@ -85,7 +85,7 @@ class WorkorderObserver
             ]);
             $workorder->saveQuietly();
 
-            $workorder->booking->in_progress_at = Carbon::now();
+            $workorder->booking->in_progress_at = Carbon::now()->format('d-m-Y H:i');
             $workorder->booking->save();
 
             return;

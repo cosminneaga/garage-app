@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\Columns\BookingColumns;
+use App\Enums\Columns\WorkorderColumns;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
@@ -85,6 +86,7 @@ class BookingController extends Controller
 
         return view('pages.booking.edit.index', [
             'booking' => $booking,
+            'workorders' => $booking->workorders()->get(WorkorderColumns::values()->toArray()),
         ]);
     }
 
@@ -93,7 +95,7 @@ class BookingController extends Controller
         Booking $booking
     ): RedirectResponse {
         $this->authorize('update', $booking);
-        $booking->update([...$request->except(['_token', '_method'])]);
+        $booking->update([...$request->safe()->all()]);
 
         return back()
             ->with(self::flashMessage(

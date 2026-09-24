@@ -128,6 +128,7 @@ class Workorder extends Model
         'part_total_cost',
         'technician_id',
         'booking_id',
+        'cancelled_at',
     ];
 
     protected $casts = [

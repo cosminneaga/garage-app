@@ -66,7 +66,7 @@ class BookingObserver
 
             # insert into attached vehicle first_visit field
             if ($booking->vehicle->first_visit === null) {
-                $booking->vehicle->first_visit = Carbon::now();
+                $booking->vehicle->first_visit = Carbon::now()->format('d-m-Y H:i');
                 $booking->vehicle->save();
             }
 

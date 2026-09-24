@@ -1,24 +1,6 @@
 <x-layout::index title="Workorder Create">
     <x-card>
-        <x-card :description="'Booking number: ' . $booking->number . ', ID: ' . $booking->id">
-            <p class="text-sm">Status: {{ $booking->status->label() }}</p>
-            <p class="text-sm">Client Token: {{ $booking->client_url_token }}</p>
-            @if ($booking->completed_at)
-                <p class="text-sm">Completed At: {{ $booking->completed_at }}</p>
-            @endif
-            @if ($booking->in_progress_at)
-                <p class="text-sm">In Progress At: {{ $booking->in_progress_at }}</p>
-            @endif
-            @if ($booking->in_review_at)
-                <p class="text-sm">In Review At: {{ $booking->in_review_at }}</p>
-            @endif
-            @if ($booking->cancelled_at)
-                <p class="text-sm">Cancelled At: {{ $booking->cancelled_at }}</p>
-            @endif
-            @if ($booking->reminder_sent_at)
-                <p class="text-sm">Reminder Sent At: {{ $booking->reminder_sent_at }}</p>
-            @endif
-        </x-card>
+        <x-card.booking :booking="$booking" />
 
         <form action="{{ route('workorders.bookings.store', $booking) }}" method="post">
             @csrf
@@ -32,8 +14,9 @@
                     />
                     <x-form.field.text
                         name="labour_price_hourly"
-                        type="number"
                         label="Labour Price Hourly"
+                        type="number"
+                        step="0.01"
                     />
                     <x-form.field.select
                         name="technician_id"

@@ -154,7 +154,6 @@ Route::controller(BookingController::class)
 
             Route::get('/bookings/companies/{company}/create', 'modelCreate')->name('bookings.companies.create');
             Route::post('/bookings/companies/{company}', 'modelStore')->name('bookings.companies.store');
-
             Route::get('/bookings/{booking}/companies/{company}', 'modelEdit')->name('bookings.companies.edit');
             Route::put('/bookings/{booking}/companies/{company}', 'modelUpdate')->name('bookings.companies.update');
             Route::delete('/bookings/{booking}/companies/{company}', 'modelDestroy')->name('bookings.companies.destroy');

@@ -32,7 +32,7 @@ class UpdateBookingRequest extends FormRequest
         return [
             'service_type' =>                   [new Enum(ServiceType::class)],
             'priority' =>                       [new Enum(Priority::class)],
-            'checked_in_at' =>                  ['sometimes', 'nullable', 'date_format:d-m-Y H:i', Rule::prohibitedIf(fn () => $this->route('booking')?->confirmed_at !== null && $this->input('checked_in_at') !== $this->route('booking')->checked_in_at)],
+            'checked_in_at' =>                  ['sometimes', 'nullable', 'date_format:d-m-Y H:i', Rule::prohibitedIf(fn () => $this->route('booking')?->confirmed_at !== null && $this->input('checked_in_at') != $this->route('booking')->checked_in_at)],
             'confirmed_at' =>                   ['sometimes', 'nullable', 'date_format:d-m-Y H:i'],
             'cancelled_at' =>                   ['sometimes', 'nullable', 'date_format:d-m-Y H:i', 'after:start', Rule::prohibitedIf(fn () => $this->route('booking')?->confirmed_at === null)],
             'estimated_duration_minutes' =>     ['sometimes', 'nullable', 'integer'],

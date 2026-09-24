@@ -43,4 +43,9 @@ trait Blameable
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
+    public function deletor()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
 }
