@@ -13,20 +13,16 @@
             $class = 'text-fg-brand-strong bg-brand-soft border-brand-subtle';
             break;
         case 'error':
-            $class =
-                'text-fg-danger-strong bg-danger-soft border-danger-subtle';
+            $class = 'text-fg-danger-strong bg-danger-soft border-danger-subtle';
             break;
         case 'warning':
-            $class =
-                'text-fg-warning-strong bg-warning-soft border-warning-subtle';
+            $class = 'text-fg-warning-strong bg-warning-soft border-warning-subtle';
             break;
         case 'success':
-            $class =
-                'text-fg-success-strong bg-success-soft border-success-subtle';
+            $class = 'text-fg-success-strong bg-success-soft border-success-subtle';
             break;
         default:
-            $class =
-                'text-fg-success-strong bg-success-soft border-success-subtle';
+            $class = 'text-fg-success-strong bg-success-soft border-success-subtle';
             break;
     }
 @endphp
@@ -49,19 +45,20 @@
         <div class="mr-6">
             <span class="sr-only">Info</span>
             <div>
-                <p class="max-w-[80vw] break-all text-lg">{{ $title }}
+                <p class="max-w-[80vw] break-all text-lg">
+                    {{ $title }}
                 </p>
-                @if (count($message_list))
-                    <ul class="mt-2 list-outside list-disc space-y-1 ps-2.5">
-                        @foreach ($message_list as $msg)
-                            <li><span
-                                    class="max-w-[80vw] break-all">{{ $msg }}</span>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="max-w-[80vw] break-all">{{ $message }}</p>
-                @endif
+
+                <!-- NOTIFICATION LIST -->
+                <ul class="mt-2 list-outside list-disc space-y-1 ps-2.5">
+                    @forelse ($message_list as $message)
+                        <li>
+                            <span class="max-w-[80vw] break-all">{{ $msg }}</span>
+                        </li>
+                    @empty
+                        <p class="max-w-[80vw] break-all">{{ $message }}</p>
+                    @endforelse
+                </ul>
             </div>
         </div>
 

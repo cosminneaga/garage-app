@@ -81,12 +81,12 @@
             <div class="mt-4 flex gap-2">
                 <x-button type="submit">Update Booking</x-button>
 
-                @if (!count($workorders))
+                @unless (count($workorders))
                     <x-button
                         id="booking_create_workorder_button"
                         link="{{ route('workorders.bookings.create', $booking) }}"
                     >Create Workorder</x-button>
-                @endif
+                @endunless
             </div>
         </form>
 

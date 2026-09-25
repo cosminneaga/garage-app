@@ -12,7 +12,7 @@
 <div class="my-2 py-4 text-start">
     @if ($label)
         <label
-            class="text-heading mb-1.25 text-md block font-medium"
+            class="form-label"
             for="{{ $name }}"
         >{{ $label }}</label>
     @endif
@@ -23,19 +23,21 @@
         @endisset
         <div class="relative w-11 cursor-pointer">
             <input
-                class="absolute-center @testing z-1 @endtesting peer"
+                @class([
+                    'absolute-center peer',
+                    'z-1' => config('app.env') === 'testing',
+                ])
                 type="checkbox"
                 {{ $attributes->merge([
                     'name' => $name,
                     'id' => $name,
                     'data-test' => $helper->get('testName'),
                     'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
-                ]) }}
-            />
+                ]) }}>
 
             <label
                 class="absolute-center bg-neutral-quaternary peer-focus:ring-brand-soft dark:peer-focus:ring-brand-soft peer-checked:after:border-buffer peer-checked:bg-brand after:inset-s-0.5 peer h-5 w-9 rounded-full after:absolute after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-focus:outline-none peer-focus:ring-4 rtl:peer-checked:after:-translate-x-full"
-                for={{ $name }}
+                for="{{ $name }}"
             >
             </label>
         </div>

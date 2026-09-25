@@ -17,9 +17,8 @@
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
                     src="{{ $resource->image_path && !Str::isUrl($resource->image_path) ? asset('storage/' . $resource->image_path) : $resource->image_path }}"
-                    alt="alt"
-                />
-                <br />
+                    alt="alt">
+                <br>
 
                 <x-form.content.company identifier="company-update" />
 

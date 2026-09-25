@@ -44,7 +44,7 @@
                     <span
                         class="text-heading font-semibold">{{ $data->lastPage() }}</span>
                 </span>
-                <br />
+                <br>
                 <span
                     class="text-body mb-4 block w-full text-sm font-normal md:mb-0 md:inline md:w-auto"
                 >

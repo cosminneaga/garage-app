@@ -23,5 +23,4 @@
     src="{{ $src }}"
     title="{{ $title }}"
     alt="{{ $alt }}"
-    {{ $attributes }}
-/>
+    {{ $attributes }}>

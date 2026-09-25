@@ -47,7 +47,7 @@
   }
 
   .form-label {
-    @apply text-heading mb-1.25 text-base block font-medium
+    @apply text-heading mb-1 text-sm block font-bold
   }
 
   .form-item {

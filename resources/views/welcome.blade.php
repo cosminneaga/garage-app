@@ -1,4 +1,4 @@
-<?php
+@php
 $options = [
     'responsive' => true,
     'scales' => [
@@ -9,13 +9,13 @@ $options = [
         ],
     ],
 ];
-?>
+@endphp
 
 <x-layout::index>
     <h2 class="text-2xl font-bold">
         Hello, {{ Auth::user() ? Auth::user()->name : 'Guest' }}!
     </h2>
-    <br /><br />
+    <br><br>
     @auth
         <div class="grid grid-cols-1 md:grid-cols-3">card</div>
     @endauth

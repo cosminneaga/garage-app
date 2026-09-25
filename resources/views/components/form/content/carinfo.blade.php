@@ -18,31 +18,31 @@
         make_id: null,
         model_id: null,
         data_id: null,
-    
+
         async setMakes() {
             const response = await fetch('/car/makes');
             this.makes = await response.json();
-    
+
             if (response.ok && this.makes.length > 0) {
                 this.make_id = this.makes[0].id;
             }
         },
         async setModels(make_id) {
             if (!make_id) return;
-    
+
             const response = await fetch('/car/makes/' + make_id + '/models');
             this.models = await response.json();
-    
+
             if (response.ok && this.models.length > 0) {
                 this.model_id = this.models[0].id;
             }
         },
         async setData(make_id, model_id) {
             if (!make_id || !model_id) return;
-    
+
             const response = await fetch('/car/makes/' + make_id + '/models/' + model_id + '/data');
             this.data = await response.json();
-    
+
             if (response.ok && this.data.length > 0) {
                 this.data_id = this.data[0].id;
             }
@@ -52,8 +52,8 @@
     await setModels(make_id);
     await setData(make_id, model_id);"
 >
-    <section>
-        <label class="form-label">Car make</label>
+    <section class="my-2">
+        <label class="form-label" for="{{ $name_make }}">Car make</label>
         <select
             class="form-item"
             id="{{ $name_make }}"
@@ -74,8 +74,8 @@
         </select>
     </section>
 
-    <section>
-        <label class="form-label">Car model</label>
+    <section class="my-2">
+        <label class="form-label" for="{{ $name_model }}">Car model</label>
         <select
             class="form-item"
             id="{{ $name_model }}"
@@ -96,8 +96,8 @@
         </select>
     </section>
 
-    <section>
-        <label class="form-label">Car data</label>
+    <section class="my-2">
+        <label class="form-label" for="{{ $name_data }}">Car data</label>
         <select
             class="form-item"
             id="{{ $name_data }}"

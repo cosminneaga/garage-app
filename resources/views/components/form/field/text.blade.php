@@ -18,8 +18,7 @@
             'name' => $name,
             'id' => $name,
             'data-test' => $helper->get('testName'),
-        ]) }}
-    />
+        ]) }}>
 
     @error($helper->get('errorName'))
         <p class="text-xs text-red-600">{{ $message }}</p>

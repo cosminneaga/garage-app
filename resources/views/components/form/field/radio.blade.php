@@ -25,8 +25,8 @@
             x-bind:id="{{ $id }}"
         >
         <label
-            class="text-heading ms-2 w-full select-none py-4 text-sm font-medium"
-            for={{ $id }}
+            class="form-label"
+            for="{{ $id }}"
             x-text="{{ $label }}"
             x-bind:for="{{ $id }}"
         >{{ $label }}</label>

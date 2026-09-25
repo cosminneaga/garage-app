@@ -69,13 +69,12 @@ namespace App\Models{
  * @property \App\Enums\Status\BookingStatus $status
  * @property \App\Enums\Type\ServiceType $service_type
  * @property \App\Enums\Priority $priority
- * @property $start
- * @property $finish
  * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes
  * @property float|null $estimated_cost
  * @property int|null $estimated_duration_minutes
+ * @property $confirmed_at
  * @property $reminder_sent_at
  * @property $checked_in_at
  * @property $cancelled_at
@@ -102,6 +101,7 @@ namespace App\Models{
  * @property-read int|null $client_files_count
  * @property-read \App\Models\Company|null $company
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BookingStatusHistory> $statuses
  * @property-read int|null $statuses_count
  * @property-read \App\Models\User|null $updater
@@ -122,6 +122,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereComplaint($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereConfirmedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCurrentStatusInfo($value)
@@ -129,7 +130,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDurationMinutes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereFinish($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInProgressAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInReviewAt($value)
@@ -138,7 +138,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking wherePriority($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereReminderSentAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereServiceType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedBy($value)
@@ -290,6 +289,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
@@ -356,6 +356,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $managers
  * @property-read int|null $managers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CompanySchedule> $schedules
@@ -519,6 +520,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\FileFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File newModelQuery()
@@ -658,6 +660,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
  * @property-read int|null $operations_count
  * @property-read \App\Models\Supplier|null $supplier
@@ -715,6 +718,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Part> $parts
  * @property-read int|null $parts_count
  * @property-read \App\Models\User|null $updater
@@ -791,6 +795,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
@@ -894,6 +899,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newModelQuery()
@@ -940,9 +946,9 @@ namespace App\Models{
  * @property string|null $initial_inspection_notes
  * @property string|null $notes
  * @property string|null $part_notes
- * @property numeric $labour_price_hourly
- * @property numeric $labour_total_cost
- * @property numeric $part_total_cost
+ * @property numeric|null $labour_price_hourly
+ * @property numeric|null $labour_total_cost
+ * @property numeric|null $part_total_cost
  * @property $completed_at
  * @property $cancelled_at
  * @property $in_progress_at
@@ -959,6 +965,7 @@ namespace App\Models{
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Booking|null $booking
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
@@ -1025,6 +1032,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
  * @property-read \App\Models\Part|null $part
@@ -1076,6 +1084,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read \App\Models\WorkorderOperation|null $operation
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\WorkorderOperationLabourTimeFactory factory($count = null, $state = [])

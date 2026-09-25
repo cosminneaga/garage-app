@@ -18,7 +18,7 @@
     @endif
 
     <textarea
-        class="bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border p-3.5 text-sm"
+        class="form-item"
         {{ $attributes->merge([
             'name' => $name,
             'id' => $name,

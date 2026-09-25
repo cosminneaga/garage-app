@@ -20,8 +20,7 @@
                         class="h-auto w-20 rounded-sm"
                         src="{{ asset('logo-4x3.webp') }}"
                         title="GarageApp Logo"
-                        alt="GarageApp Logo"
-                    />
+                        alt="GarageApp Logo">
                 </a>
             </div>
         </div>

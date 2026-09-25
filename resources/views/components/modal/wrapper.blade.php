@@ -5,7 +5,6 @@
     id="{{ $id }}"
     data-modal-backdrop="static"
     data-modal-placement="{{ $position }}"
-    aria-hidden="true"
     tabindex="-1"
 >
     <div

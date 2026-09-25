@@ -1,6 +1,6 @@
 @props(['label', 'route_list', 'route_removed' => false])
 
-<br />
+<br>
 <div class="border-default border-b">
     <span class="text-heading">{{ $label }}</span>
 </div>

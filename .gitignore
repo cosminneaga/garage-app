@@ -28,3 +28,5 @@ tests/Browser
 **/caddy
 frankenphp
 frankenphp-worker.php
+
+notes.txt

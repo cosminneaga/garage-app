@@ -28,7 +28,7 @@ class WorkorderController extends Controller
 
         return view('pages.workorder.create', [
             'booking' => $booking,
-            'technicians' => $booking->availableTechnicians()->get()
+            'technicians' => $booking->availableTechnicians()->get(),
         ]);
     }
 
@@ -83,5 +83,7 @@ class WorkorderController extends Controller
             ));
     }
 
-    public function modelDestroy() {}
+    public function modelDestroy()
+    {
+    }
 }

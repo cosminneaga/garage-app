@@ -11,6 +11,6 @@
     @if ($description)
         <p class="text-muted-foreground mt-1">{{ $description }}</p>
     @endif
-    <br />
+    <br>
     <div>{{ $slot }}</div>
 </div>

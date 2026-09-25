@@ -15,7 +15,7 @@
     :id="$id"
     position="center"
 >
-    <form action="#">
+    <form action="#" method="POST">
         @csrf
 
         <x-form.field.textarea

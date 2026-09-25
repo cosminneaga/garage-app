@@ -15,8 +15,7 @@
     <img
         class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
         src="{{ !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
-        alt="User avatar"
-    />
+        alt="User avatar">
 
     <!-- NOTIFICATION INDICATOR -->
     <span
@@ -43,7 +42,7 @@
         class="text-body p-2 text-sm font-medium"
         aria-labelledby="nav-dropdown-profile-btn"
     >
-        <div>
+        <ul>
             <strong>Administrative</strong>
             @super
                 <li>
@@ -68,7 +67,7 @@
                 >Profile</a>
             </li>
             <br>
-        </div>
+        </ul>
 
         @auth
             <div

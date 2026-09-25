@@ -69,8 +69,7 @@
                 'name' => $name,
                 'id' => $name,
                 'data-test' => $helper->get('testName'),
-            ]) }}
-        />
+            ]) }}>
         <button
             class="text-heading bg-neutral-secondary-medium rounded-s-0 border-default-medium inline-flex items-center rounded-e-md border border-s-0 px-3 text-sm"
             data-modal-target="{{ $ids->get('modal') }}"

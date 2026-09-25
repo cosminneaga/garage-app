@@ -22,8 +22,7 @@
 
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr
-                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
 
                 <!-- GENERIC DATABASE COLUMNS -->
                 <th class="text-heading whitespace-nowrap px-6 py-4 font-medium">
@@ -33,8 +32,7 @@
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-user-pic"
-                            :src="$row->image_path &&
-                            !Str::isUrl($row->image_path)
+                            :src="$row->image_path && !Str::isUrl($row->image_path)
                                 ? asset('storage/' . $row->image_path)
                                 : $row->image_path"
                             :title="$row->name"
@@ -69,9 +67,9 @@
                         @endif
                         @if ($attach)
                             <form
-                                action="{{ route('users.' . $parentname . '.attach', [$row, $resource]) }}"
+                                :id="'user_attach_form_' . $row->id"
                                 method="POST"
-                                id="user-attach-submit"
+                                action="{{ route('users.' . $parentname . '.attach', [$row, $resource]) }}"
                             >
                                 @csrf
                                 @method('PUT')
@@ -79,8 +77,8 @@
                                 <button
                                     class="text-success hover:cursor-pointer"
                                     data-test="user-attach-{{ $row->id }}-button"
+                                    :form="'user_attach_form_' . $row->id"
                                     type="submit"
-                                    form="user-attach-submit"
                                 >
                                     Attach
                                 </button>

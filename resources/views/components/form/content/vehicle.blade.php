@@ -5,7 +5,7 @@
 
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Basic Information *</h3>
-    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
+    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
 
     <x-form.field.text
         identifier="{{ $identifier }}"
@@ -31,7 +31,7 @@
 
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Extra Information</h3>
-    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
+    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
 
     <x-form.field.select
         identifier="{{ $identifier }}"
@@ -68,7 +68,7 @@
 
 <section class="space-y-2">
     <h3 class="text-lg font-bold">Technical Data</h3>
-    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0" />
+    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
 
     <x-form.content.carinfo
         identifier="{{ $identifier }}"

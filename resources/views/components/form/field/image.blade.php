@@ -23,9 +23,8 @@
             class="hidden"
             name="{{ $name }}"
             type="file"
-            onchange="handleImage(event, '{{ $identifier }}')"
-            {{ $attributes }}
-        />
+            @change="handleImage(event, '{{ $identifier }}')"
+            {{ $attributes }}>
     </label>
 
     @error($helper->get('errorName'))

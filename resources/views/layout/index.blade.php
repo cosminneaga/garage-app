@@ -1,37 +1,24 @@
-@props([
-    'title' => 'Garage Application',
-])
-
 <!DOCTYPE html>
-<html
-    lang="en"
-    class="dark"
->
+<html lang="en" class="dark">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    />
-    <meta
-        http-equiv="X-UA-Compatible"
-        content="ie=edge"
-    />
-    <title>{{ $title }} | Garage Application</title>
-    <link
-        href="{{ asset('favicon.ico') }}"
-        rel="icon"
-    />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Garage App">
+    <title>{{ config('app.name') }} | Garage Application</title>
+    <link rel="canonical" href="{{ config('app.url') }}">
+    <link href="{{ asset('favicon.ico') }}" rel="icon">
 
     @vite (['resources/css/app.css', 'resources/js/app.js'])
-
 </head>
 
 <body class="bg-neutral-200 text-black dark:bg-gray-800 dark:text-white">
-    {{-- <body> --}}
 
-    <div class="@auth lg:grid-cols-[280px_1fr] @endauth grid grid-cols-1">
+    <div @class([
+            'grid grid-cols-1',
+            'lg:grid-cols-[280px_1fr]' => Auth::check()
+        ])>
         @auth
             <x-navigation::drawer
                 class="lg:translate-none fixed -translate-x-full lg:relative lg:transform-none"

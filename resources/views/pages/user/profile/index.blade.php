@@ -16,9 +16,8 @@
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
                     src="{{ $user->image_path && !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
-                    alt="alt"
-                />
-                <br />
+                    alt="alt">
+                <br>
 
                 <x-form.content.user
                     identifier="profile_update"
