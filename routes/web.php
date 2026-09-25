@@ -177,9 +177,10 @@ Route::controller(WorkorderOperationController::class)
     ->group(function () {
         # workorders
         Route::group(['model' => RelatedModel::WORKORDER], function () {
-            Route::post('/workorder_operations/workorders/{workorder}', 'modelStore')->name('operations.workorders.store');
-            Route::get('/workorder_operations/{operation}/workorders/{workorder}', 'modelEdit')->name('operations.workorders.edit');
-            Route::put('/workorder_operations/{operation}/workorders/{workorder}', 'modelUpdate')->name('operations.workorders.update');
+            Route::get('/operations/workorders/{workorder}', 'modelCreate')->name('operations.workorders.create');
+            Route::post('/operations/workorders/{workorder}', 'modelStore')->name('operations.workorders.store');
+            Route::get('/operations/{operation}/workorders/{workorder}', 'modelEdit')->name('operations.workorders.edit');
+            Route::put('/operations/{operation}/workorders/{workorder}', 'modelUpdate')->name('operations.workorders.update');
         });
     });
 

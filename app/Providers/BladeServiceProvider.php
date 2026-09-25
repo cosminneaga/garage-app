@@ -15,6 +15,7 @@ use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
 use App\Enums\Columns\VehicleColumns;
 use App\Enums\Columns\WorkorderColumns;
+use App\Enums\Columns\WorkorderOperationColumns;
 use App\Enums\Priority;
 use App\Enums\Related\RelatedModel;
 use App\Enums\Status\BookingStatus;
@@ -80,6 +81,7 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('VehicleColumns', VehicleColumns::class);
         $loader->alias('ClientColumns', ClientColumns::class);
         $loader->alias('WorkorderColumns', WorkorderColumns::class);
+        $loader->alias('WorkorderOperationColumns', WorkorderOperationColumns::class);
 
         $loader->alias('CarMake', CarMake::class);
         $loader->alias('CarModel', CarModel::class);

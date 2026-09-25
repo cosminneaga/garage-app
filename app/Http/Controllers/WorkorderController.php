@@ -60,6 +60,7 @@ class WorkorderController extends Controller
 
         return view('pages.workorder.edit.index', [
             'workorder' => $workorder,
+            'operations' => $workorder->operations,
             'booking' => $booking,
             'technicians' => $booking->availableTechnicians()->get(),
         ]);

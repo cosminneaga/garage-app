@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Part;
-use App\Models\Supplier;
 use App\Models\CarMake;
+use App\Models\Part;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,12 +18,16 @@ class PartFactory extends Factory
      */
     public function definition(): array
     {
-        $supplier = Supplier::latest()->first() ?? Supplier::factory()->create();
-
         return [
             'name' => fake()->randomElement(['Oil Filter MANN', 'Oil Pan', 'Head Gasket', 'Piston', 'Piston Ring', 'Timing Kit']),
             'brand' => CarMake::factory()->create(),
-            'supplier_id' => $supplier,
+            'item_price' => fake()->randomFloat(2, 0, 100000),
+            'commercial_markup' => fake()->randomFloat(2, 0, 100),
+            'manufacturer' => fake()->randomElement(['MANN', 'Brembo', 'Bosch', 'VM']),
+            'part_number' => fake()->ean8(),
+            'serial_number' => fake()->ean13(),
+            'code' => fake()->bothify('#####-????????-#######'),
+            'notes' => fake()->paragraph(2),
         ];
     }
 }

@@ -9,6 +9,17 @@
             <x-card.workorder :workorder="$workorder" />
         </div>
 
+        @if (count($operations))
+            <br>
+            <h4 class="text-xl font-bold mb-1">Operations</h4>
+            <x-table.related.workorder_operations
+                :data="$operations"
+                :resource="$workorder"
+                :edit="Permission::can(UserPermission::WORKORDER_OPERATION, 'update')"
+            />
+            <br>
+        @endif
+
         <form action="{{ route('workorders.bookings.update', [$workorder, $booking]) }}" method="POST">
             @csrf
             @method('PUT')
@@ -96,9 +107,14 @@
             </div>
 
             <div class="mt-4">
-                <x-button
-                    type="submit"
-                >Update</x-button>
+                <x-button type="submit">Update</x-button>
+
+                @unless (false)
+                    <x-button
+                        id="workorder_create_operation_button"
+                        link="{{ route('operations.workorders.create', $workorder) }}"
+                    >Create Operation</x-button>
+                @endunless
             </div>
         </form>
     </x-card>

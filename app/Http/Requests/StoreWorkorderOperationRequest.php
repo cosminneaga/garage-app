@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Enums\UserPermission;
+use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreWorkorderOperationRequest extends FormRequest
@@ -14,18 +15,21 @@ class StoreWorkorderOperationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Permission::can(UserPermission::WORKORDER_OPERATION, 'store');
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'part_id' => ['sometimes', 'nullable', 'exists:parts,id'],
+            'expected_life_km' => ['sometimes', 'nullable', 'integer'],
+            'expected_life_months' => ['sometimes', 'nullable', 'integer'],
+            'notes' => ['sometimes', 'nullable', 'string', 'max:450'],
         ];
     }
 }

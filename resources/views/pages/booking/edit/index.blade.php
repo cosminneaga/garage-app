@@ -6,6 +6,17 @@
     <x-card>
         <x-card.booking :booking="$booking" />
 
+        @if (count($workorders))
+            <br>
+            <h4 class="text-xl font-bold mb-1">Workorders</h4>
+            <x-table.related.workorders
+                :data="$workorders"
+                :resource="$booking"
+                :edit="Permission::can(UserPermission::WORKORDER, 'update')"
+            />
+            <br>
+        @endif
+
         <form
             method="POST"
             action="{{ route('bookings.companies.update', [$booking, $booking->company]) }}"
@@ -81,7 +92,7 @@
             <div class="mt-4 flex gap-2">
                 <x-button type="submit">Update Booking</x-button>
 
-                @unless (count($workorders))
+                @unless (count($workorders) && $booking->checked_in_at === null)
                     <x-button
                         id="booking_create_workorder_button"
                         link="{{ route('workorders.bookings.create', $booking) }}"
@@ -89,13 +100,5 @@
                 @endunless
             </div>
         </form>
-
-        <br>
-        <h4 class="text-xl font-bold">Workorders</h4>
-        <x-table.related.workorders
-            :data="$workorders"
-            :resource="$booking"
-            :edit="Permission::can(UserPermission::WORKORDER, 'update')"
-        />
     </x-card>
 </x-layout::index>

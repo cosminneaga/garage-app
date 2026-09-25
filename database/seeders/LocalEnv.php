@@ -12,6 +12,7 @@ use App\Models\Client;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\Country;
+use App\Models\Part;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -77,21 +78,14 @@ class LocalEnv extends Seeder
         $users[3]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
         $users[3]->contacts()->attach(Contact::factory()->create());
 
-        // 6. creating & attaching companies & suppliers
-        $companies = Company::factory(10)->create();
-        $companies->each(function ($company) use ($country, $users) {
-            $company->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
-            $company->contacts()->attach(Contact::factory()->create());
+        // 6. creating & attach company to users
+        $company = Company::factory()->create();
+        $company->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $company->contacts()->attach(Contact::factory()->create());
+        $company->users()->attach([$users[1], $users[2], $users[3]]);
 
-            $supplier = Supplier::factory()->create();
-            $supplier->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
-            $supplier->contacts()->attach(Contact::factory()->create());
-            $company->suppliers()->attach($supplier);
-
-            $users[1]->companies()->attach($company);
-        });
-        $companies[0]->users()->attach([$users[2], $users[3]]);
-        $companies[0]->schedules()->createMany([
+        // 7. create first company default schedule
+        $company->schedules()->createMany([
             [
                 'name' => WeekDays::MONDAY,
                 'start' => '08:00',
@@ -128,32 +122,42 @@ class LocalEnv extends Seeder
                 'end' => null,
             ],
         ]);
+
+        // 8. create & set default_company for created users
         $users[1]->setting()->create([
-            'default_company' => $companies[0]->id,
+            'default_company' => $company->id,
         ]);
         $users[2]->setting()->create([
-            'default_company' => $companies[0]->id,
+            'default_company' => $company->id,
         ]);
         $users[3]->setting()->create([
-            'default_company' => $companies[0]->id,
+            'default_company' => $company->id,
         ]);
 
+        // 9. create supplier & attach to company
+        $supplier = Supplier::factory()->create();
+        $supplier->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $supplier->contacts()->attach(Contact::factory()->create());
+        $company->suppliers()->attach($supplier);
 
-        // 7. create clients with address & contact & attach to the first company
-        $clients = Client::factory(10)->create();
-        $clients->each(function ($client) use ($country, $companies) {
-            $client->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
-            $client->contacts()->attach(Contact::factory()->create());
-            $client->companies()->attach($companies[0]);
-        });
 
-        // 8. create vehicles & attach to the first company
-        $vehicles = Vehicle::factory(10)->create();
-        $companies[0]->vehicles()->attach($vehicles);
+
+        // 7. create client with address & contact & attach to company
+        $client = Client::factory()->create();
+        $client->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $client->contacts()->attach(Contact::factory()->create());
+        $company->clients()->attach($client);
+
+        // 8. create vehicle & attach to company
+        $vehicle = Vehicle::factory()->create();
+        $company->vehicles()->attach($vehicle);
 
         // 9. create default cars
         $carMake = CarMake::factory()->create();
         $carModel = CarModel::factory()->create(['make_id' => $carMake->id]);
         $carData = CarData::factory()->create(['make_id' => $carMake->id, 'model_id' => $carModel->id]);
+
+        // 10. create parts & attach to suupplier
+        Part::factory(10)->create(['supplier_id' => $supplier->id, 'brand' => $carMake->id]);
     }
 }

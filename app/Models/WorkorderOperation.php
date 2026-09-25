@@ -85,7 +85,8 @@ class WorkorderOperation extends Model
         'expected_life_km',
         'expected_life_months',
         'notes',
-        'performed_by',
+        'part_id',
+        'performed_by'
     ];
 
     protected $casts = [
