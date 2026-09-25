@@ -50,9 +50,16 @@ class WorkorderOperationController extends Controller
         Request $request,
         WorkorderOperation $operation,
         Workorder $workorder
-    ): never {
+    ): View {
         self::guard('show', $request, $workorder->id);
-        dd($operation);
+        $this->authorize('show', $operation);
+
+        return view('pages.workorder_operation.edit.index', [
+            'workorder' => $workorder,
+            'operation' => $operation,
+            'times' => $operation->times,
+            'available_parts' => Part::whereIn('supplier_id', $workorder->booking->company->suppliers->select('id'))->get(),
+        ]);
     }
 
     public function modelUpdate()

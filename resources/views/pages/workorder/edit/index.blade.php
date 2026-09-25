@@ -109,12 +109,12 @@
             <div class="mt-4">
                 <x-button type="submit">Update</x-button>
 
-                @unless (false)
+                @if ($workorder->odometer_on_start)
                     <x-button
                         id="workorder_create_operation_button"
                         link="{{ route('operations.workorders.create', $workorder) }}"
                     >Create Operation</x-button>
-                @endunless
+                @endif
             </div>
         </form>
     </x-card>

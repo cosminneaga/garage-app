@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\Type\WorkorderOperationType;
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreWorkorderOperationRequest extends FormRequest
 {
@@ -26,10 +28,11 @@ class StoreWorkorderOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'part_id' => ['sometimes', 'nullable', 'exists:parts,id'],
-            'expected_life_km' => ['sometimes', 'nullable', 'integer'],
-            'expected_life_months' => ['sometimes', 'nullable', 'integer'],
-            'notes' => ['sometimes', 'nullable', 'string', 'max:450'],
+            'type' =>                   ['required', new Enum(WorkorderOperationType::class)],
+            'part_id' =>                ['sometimes', 'nullable', 'exists:parts,id'],
+            'expected_life_km' =>       ['sometimes', 'nullable', 'integer'],
+            'expected_life_months' =>   ['sometimes', 'nullable', 'integer'],
+            'notes' =>                  ['sometimes', 'nullable', 'string', 'max:450'],
         ];
     }
 }

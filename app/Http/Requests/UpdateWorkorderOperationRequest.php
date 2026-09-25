@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use App\Enums\Type\WorkorderOperationType;
+use App\Enums\UserPermission;
+use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateWorkorderOperationRequest extends FormRequest
 {
@@ -14,18 +17,22 @@ class UpdateWorkorderOperationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Permission::can(UserPermission::WORKORDER_OPERATION, 'update');
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array<mixed>|string>
+     * @return array<string, array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'type' =>                   ['required', new Enum(WorkorderOperationType::class)],
+            'part_id' =>                ['sometimes', 'nullable', 'exists:parts,id'],
+            'expected_life_km' =>       ['sometimes', 'nullable', 'integer'],
+            'expected_life_months' =>   ['sometimes', 'nullable', 'integer'],
+            'notes' =>                  ['sometimes', 'nullable', 'string', 'max:450'],
         ];
     }
 }

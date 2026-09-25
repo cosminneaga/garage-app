@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Type;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum WorkorderOperationType: string
 {
+    use HasEnumOptions;
+
     case ADJUSTMENT = 'adjustment';
     case CALIBRATION = 'calibration';
     case DIAGNOSTICS = 'diagnostics';
@@ -33,12 +35,5 @@ enum WorkorderOperationType: string
             self::REPLACE_PART => 'Replace Part',
             self::TESTING => 'Testing',
         };
-    }
-
-    public function values(): array
-    {
-        return Collection::make(self::cases())
-            ->map(fn (WorkorderOperationType $case) => $case->value)
-            ->toArray();
     }
 }

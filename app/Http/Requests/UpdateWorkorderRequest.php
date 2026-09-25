@@ -7,7 +7,6 @@ namespace App\Http\Requests;
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Override;
 
 class UpdateWorkorderRequest extends FormRequest
@@ -30,8 +29,8 @@ class UpdateWorkorderRequest extends FormRequest
         return [
             'title' =>                      ['required', 'string', 'max:255'],
             'technician_id' =>              ['required', 'exists:users,id'],
-            'odometer_on_start' =>          ['sometimes', 'nullable', 'integer', Rule::prohibitedIf(fn () => $this->route('workorder')?->odometer_on_start !== null && $this->input('odometer_on_start') != $this->route('workorder')->odometer_on_start)],
-            'odometer_on_finish' =>         ['sometimes', 'nullable', 'integer', Rule::prohibitedIf(fn () => $this->route('workorder')?->odometer_on_start === null || (int) $this->input('odometer_on_finish') < $this->route('workorder')->odometer_on_start)],
+            'odometer_on_start' =>          ['sometimes', 'nullable', 'integer', 'min:0', 'required_if:cancelled_at,null'],
+            'odometer_on_finish' =>         ['sometimes', 'nullable', 'integer', 'min:0', 'prohibited_if:odometer_on_start,null', 'gte:odometer_on_start'],
             'labour_price_hourly' =>        ['sometimes', 'nullable', 'decimal:2'],
             'labour_total_cost' =>          ['sometimes', 'nullable', 'decimal:2'],
             'part_total_cost' =>            ['sometimes', 'nullable', 'decimal:2'],
@@ -49,8 +48,8 @@ class UpdateWorkorderRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'odometer_on_start.prohibited' => 'Start odometer cannot be modified',
-            'odometer_on_finish.prohibited' => 'Finish odometer cannot be modified, cannot be less that start odometer',
+            'odometer_on_start.required_if' => 'Start odometer is required',
+            'odometer_on_finish.prohibited_if' => 'Finish odometer cannot be modified, cannot be less than start odometer',
         ];
     }
 }

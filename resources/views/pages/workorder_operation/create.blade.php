@@ -10,6 +10,14 @@
             <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
                 <section>
                     <x-form.field.select
+                        name="type"
+                        label="Operation Type"
+                        :options="WorkorderOperationType::selectOptions()"
+                        select_map_value="value"
+                        select_map_label="label"
+                        :value="$operation->type->value"
+                    />
+                    <x-form.field.select
                         name="part_id"
                         label="Select part"
                         :options="$available_parts"

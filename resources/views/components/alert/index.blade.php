@@ -53,7 +53,7 @@
                 <ul class="mt-2 list-outside list-disc space-y-1 ps-2.5">
                     @forelse ($message_list as $message)
                         <li>
-                            <span class="max-w-[80vw] break-all">{{ $msg }}</span>
+                            <span class="max-w-[80vw] break-all">{{ $message }}</span>
                         </li>
                     @empty
                         <p class="max-w-[80vw] break-all">{{ $message }}</p>
@@ -68,8 +68,7 @@
             type="button"
             aria-label="Close"
         >
-            <span class="sr-only">Close</span>
-            <x-icon-o-x-mark />
+            <x-icon-o-x-mark class="absolute-center" />
         </button>
     </div>
 </div>

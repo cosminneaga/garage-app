@@ -10,7 +10,7 @@
     'restore_route' => null,
 ])
 
-<td class="px-6 py-4">
+<td class="px-6 py-4 w-[250px]">
     @if ($edit)
         <a
             class="text-brand"
