@@ -70,7 +70,7 @@ class BookingController extends Controller
                 ));
         }
 
-        return back()
+        return redirect()->intended(route('bookings.companies.edit', [$booking, $booking->company]))
             ->with(self::flashMessage(
                 'success',
                 'Resource created',
