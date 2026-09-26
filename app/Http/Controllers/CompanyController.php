@@ -30,10 +30,12 @@ class CompanyController extends Controller
     ) {
     }
 
-    public function query(Request $request)
-    {
-        dd($request->all());
-    }
+    # QUERY EXAMPLE
+    // public function query(Request $request)
+    // {
+    //     $search = $request->string('search')->value();
+    //     dd($search);
+    // }
 
     public function index(Request $request): View
     {

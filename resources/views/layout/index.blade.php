@@ -73,7 +73,8 @@
 
     @stack ('scripts')
 
-    <script type="module">
+    {{-- QUERY EXAMPLE --}}
+    {{-- <script type="module">
         (async function() {
             const response = await fetch('/companies/query', {
                 method: 'QUERY',
@@ -88,7 +89,7 @@
             const data = await response.json();
             console.log(data);
         })();
-    </script>
+    </script> --}}
 </body>
 
 </html>

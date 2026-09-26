@@ -1,0 +1,11 @@
+version: "3"
+
+server:
+  command: "php artisan octane:start --server=roadrunner"
+
+http:
+  address: "0.0.0.0:9500"
+
+logs:
+  mode: production
+  level: warn
