@@ -39,17 +39,17 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read User|null $creator
- * @property-read User|null $deletor
- * @property-read Collection<int, File> $files
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
+ * @property-read Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
- * @property-read Part|null $part
- * @property-read User|null $performedBy
- * @property-read Collection<int, WorkorderOperationLabourTime> $times
+ * @property-read \App\Models\Part|null $part
+ * @property-read \App\Models\User|null $performedBy
+ * @property-read Collection<int, \App\Models\WorkorderOperationLabourTime> $times
  * @property-read int|null $times_count
- * @property-read User|null $updater
- * @property-read Workorder|null $workorder
- * @method static WorkorderOperationFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Workorder|null $workorder
+ * @method static \Database\Factories\WorkorderOperationFactory factory($count = null, $state = [])
  * @method static Builder<static>|WorkorderOperation newModelQuery()
  * @method static Builder<static>|WorkorderOperation newQuery()
  * @method static Builder<static>|WorkorderOperation onlyTrashed()
@@ -72,7 +72,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|WorkorderOperation withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|WorkorderOperation withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperWorkorderOperation
  */
 #[Fillable([
     'type',

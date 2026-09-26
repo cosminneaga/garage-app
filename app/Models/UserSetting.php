@@ -21,8 +21,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Company|null $defaultCompany
- * @property-read User|null $user
+ * @property-read \App\Models\Company|null $defaultCompany
+ * @property-read \App\Models\User|null $user
  * @method static Builder<static>|UserSetting newModelQuery()
  * @method static Builder<static>|UserSetting newQuery()
  * @method static Builder<static>|UserSetting query()
@@ -32,7 +32,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|UserSetting whereUpdatedAt($value)
  * @method static Builder<static>|UserSetting whereUserId($value)
  * @mixin \Eloquent
- * @mixin IdeHelperUserSetting
  */
 #[Fillable([
     'default_company',

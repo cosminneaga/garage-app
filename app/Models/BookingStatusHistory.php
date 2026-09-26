@@ -24,7 +24,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Booking|null $booking
+ * @property-read \App\Models\Booking|null $booking
  * @method static Builder<static>|BookingStatusHistory newModelQuery()
  * @method static Builder<static>|BookingStatusHistory newQuery()
  * @method static Builder<static>|BookingStatusHistory onlyTrashed()
@@ -38,7 +38,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|BookingStatusHistory withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|BookingStatusHistory withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperBookingStatusHistory
  */
 #[Fillable([
     'status',

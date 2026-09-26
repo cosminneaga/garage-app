@@ -25,7 +25,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Company|null $company
+ * @property-read \App\Models\Company|null $company
  * @method static Builder<static>|CompanySchedule newModelQuery()
  * @method static Builder<static>|CompanySchedule newQuery()
  * @method static Builder<static>|CompanySchedule query()
@@ -37,7 +37,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|CompanySchedule whereStart($value)
  * @method static Builder<static>|CompanySchedule whereUpdatedAt($value)
  * @mixin \Eloquent
- * @mixin IdeHelperCompanySchedule
  */
 #[Fillable([
     'name',

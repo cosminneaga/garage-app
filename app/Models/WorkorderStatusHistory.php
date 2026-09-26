@@ -24,7 +24,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Workorder|null $workorder
+ * @property-read \App\Models\Workorder|null $workorder
  * @method static Builder<static>|WorkorderStatusHistory newModelQuery()
  * @method static Builder<static>|WorkorderStatusHistory newQuery()
  * @method static Builder<static>|WorkorderStatusHistory onlyTrashed()
@@ -38,7 +38,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|WorkorderStatusHistory withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|WorkorderStatusHistory withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperWorkorderStatusHistory
  */
 #[Fillable([
     'status',

@@ -46,14 +46,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Booking> $bookings
+ * @property-read Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read User|null $creator
- * @property-read User|null $deletor
- * @property-read User|null $updater
- * @method static VehicleFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
  * @method static Builder<static>|Vehicle newModelQuery()
  * @method static Builder<static>|Vehicle newQuery()
  * @method static Builder<static>|Vehicle onlyTrashed()
@@ -81,7 +81,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Vehicle withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Vehicle withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperVehicle
  */
 #[UsePolicy(VehiclePolicy::class)]
 #[Fillable([

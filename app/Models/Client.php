@@ -47,16 +47,16 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
+ * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, Booking> $bookings
+ * @property-read Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
+ * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read User|null $creator
- * @property-read User|null $deletor
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\User|null $deletor
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
@@ -65,8 +65,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $roles_count
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
- * @property-read User|null $updater
- * @method static ClientFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
  * @method static Builder<static>|Client newModelQuery()
  * @method static Builder<static>|Client newQuery()
  * @method static Builder<static>|Client onlyTrashed()
@@ -92,7 +92,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder<static>|Client withoutTeam($teams)
  * @method static Builder<static>|Client withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperClient
  */
 #[UsePolicy(ClientPolicy::class)]
 #[ObservedBy(ClientObserver::class)]

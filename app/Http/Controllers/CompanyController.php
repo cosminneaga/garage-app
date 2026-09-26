@@ -30,6 +30,11 @@ class CompanyController extends Controller
     ) {
     }
 
+    public function query(Request $request)
+    {
+        dd($request->all());
+    }
+
     public function index(Request $request): View
     {
         $this->authorize('showAll', Company::class);
