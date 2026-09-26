@@ -71,7 +71,7 @@
     </div>
     <!-- ALERT AREA -->
 
-    @stack ('scripts')
+    {{-- @stack ('scripts') --}}
 
     {{-- QUERY EXAMPLE --}}
     {{-- <script type="module">
