@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Enums\Type\WorkorderOperationType;
 use App\Enums\UserRole;
 use App\Traits\Blameable;
@@ -39,6 +40,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read Collection<int, File> $files
  * @property-read int|null $files_count
  * @property-read Part|null $part
@@ -72,30 +74,21 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperWorkorderOperation
  */
+#[Fillable([
+    'type',
+    'part_installed_odometer',
+    'expected_life_km',
+    'expected_life_months',
+    'notes',
+    'part_id',
+    'performed_by',
+])]
 class WorkorderOperation extends Model
 {
     use Blameable;
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;
-
-    protected $fillable = [
-        'type',
-        'part_installed_odometer',
-        'expected_life_km',
-        'expected_life_months',
-        'notes',
-        'part_id',
-        'performed_by'
-    ];
-
-    protected $casts = [
-        'type' => WorkorderOperationType::class,
-        'part_installed_odometer' => 'integer',
-        'expected_life_km' => 'integer',
-        'expected_life_months' => 'integer',
-        'notes' => 'string',
-    ];
 
     protected $attributes = [
         'type' => WorkorderOperationType::REPAIR->value,
@@ -161,5 +154,15 @@ class WorkorderOperation extends Model
     public function files(): BelongsToMany
     {
         return $this->belongsToMany(File::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'type' => WorkorderOperationType::class,
+            'part_installed_odometer' => 'integer',
+            'expected_life_km' => 'integer',
+            'expected_life_months' => 'integer',
+            'notes' => 'string',
+        ];
     }
 }

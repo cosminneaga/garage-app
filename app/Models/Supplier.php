@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Enums\Type\SupplierType;
 use App\Traits\Blameable;
 use Database\Factories\SupplierFactory;
@@ -42,6 +43,7 @@ use Throwable;
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read Collection<int, Part> $parts
  * @property-read int|null $parts_count
  * @property-read User|null $updater
@@ -67,6 +69,13 @@ use Throwable;
  * @mixin \Eloquent
  * @mixin IdeHelperSupplier
  */
+#[Fillable([
+    'name',
+    'code',
+    'type',
+    'tax_id',
+    'registration_number',
+])]
 class Supplier extends Model
 {
     use HasFactory;
@@ -74,18 +83,6 @@ class Supplier extends Model
     use SoftDeletes;
     use Searchable;
     use Blameable;
-
-    protected $fillable = [
-        'name',
-        'code',
-        'type',
-        'tax_id',
-        'registration_number',
-    ];
-
-    protected $casts = [
-        'type' => SupplierType::class,
-    ];
 
     protected $attributes = [
         'type' => SupplierType::DISTRIBUTOR->value,
@@ -130,5 +127,11 @@ class Supplier extends Model
     public function parts(): HasMany
     {
         return $this->hasMany(Part::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'type' => SupplierType::class,
+        ];
     }
 }

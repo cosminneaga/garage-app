@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use Database\Factories\AddressFactory;
 use App\Dto\Coordinates;
@@ -68,24 +69,23 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperAddress
  */
+#[Fillable([
+    'street_number',
+    'street',
+    'postcode',
+    'building',
+    'floor',
+    'unit',
+    'country_id',
+    'coordinates',
+    'coordinates->latitude',
+    'coordinates->longitude',
+])]
 class Address extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
-
-    protected $fillable = [
-        'street_number',
-        'street',
-        'postcode',
-        'building',
-        'floor',
-        'unit',
-        'country_id',
-        'coordinates',
-        'coordinates->latitude',
-        'coordinates->longitude',
-    ];
 
     /**
      * $address = Address::query()->create([

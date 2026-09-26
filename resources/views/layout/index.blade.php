@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html
+    class="dark"
+    lang="en"
+>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="Garage App">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="ie=edge"
+    >
+    <meta
+        name="description"
+        content="Garage App"
+    >
     <title>{{ config('app.name') }} | Garage Application</title>
-    <link rel="canonical" href="{{ config('app.url') }}">
-    <link href="{{ asset('favicon.ico') }}" rel="icon">
+    <link
+        href="{{ config('app.url') }}"
+        rel="canonical"
+    >
+    <link
+        href="{{ asset('favicon.ico') }}"
+        rel="icon"
+    >
 
     @vite (['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -16,13 +34,11 @@
 <body class="bg-neutral-200 text-black dark:bg-gray-800 dark:text-white">
 
     <div @class([
-            'grid grid-cols-1',
-            'lg:grid-cols-[280px_1fr]' => Auth::check()
-        ])>
+        'grid grid-cols-1',
+        'lg:grid-cols-[280px_1fr]' => Auth::check(),
+    ])>
         @auth
-            <x-navigation::drawer
-                class="lg:translate-none fixed -translate-x-full lg:relative lg:transform-none"
-            />
+            <x-navigation::drawer class="lg:translate-none fixed -translate-x-full lg:relative lg:transform-none" />
         @endauth
         <main class="p-2 lg:px-4">
             <x-navigation::index />
@@ -57,13 +73,22 @@
 
     @stack ('scripts')
 
-    {{-- <script type="module">
-        (async function () {
-            const response = await fetch('/clients/companies/1');
+    <script type="module">
+        (async function() {
+            const response = await fetch('/companies/query', {
+                method: 'QUERY',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    search: 'Cosmin',
+                }),
+            });
             const data = await response.json();
             console.log(data);
         })();
-    </script> --}}
+    </script>
 </body>
 
 </html>

@@ -1074,6 +1074,7 @@ namespace App\Models{
  * @property int $id
  * @property $start
  * @property $end
+ * @property int|null $minutes
  * @property int $workorder_operation_id
  * @property int|null $created_by
  * @property int|null $updated_by
@@ -1098,6 +1099,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereEnd($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereMinutes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime whereUpdatedBy($value)

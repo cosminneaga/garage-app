@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Casts\FormattedDateTime;
 use App\Enums\Status\WorkorderStatus;
 use App\Enums\UserRole;
@@ -35,13 +36,13 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $initial_inspection_notes
  * @property string|null $notes
  * @property string|null $part_notes
- * @property numeric $labour_price_hourly
- * @property numeric $labour_total_cost
- * @property numeric $part_total_cost
- * @property Carbon|null $completed_at
- * @property Carbon|null $cancelled_at
- * @property Carbon|null $in_progress_at
- * @property Carbon|null $in_pause_at
+ * @property numeric|null $labour_price_hourly
+ * @property numeric|null $labour_total_cost
+ * @property numeric|null $part_total_cost
+ * @property $completed_at
+ * @property $cancelled_at
+ * @property $in_progress_at
+ * @property $in_pause_at
  * @property int $booking_id
  * @property int $technician_id
  * @property int|null $created_by
@@ -54,6 +55,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read int|null $activities_as_subject_count
  * @property-read Booking|null $booking
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read Collection<int, File> $files
  * @property-read int|null $files_count
  * @property-read Collection<int, WorkorderOperation> $operations
@@ -98,6 +100,22 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin IdeHelperWorkorder
  */
 #[ObservedBy(WorkorderObserver::class)]
+#[Fillable([
+    'title',
+    'status',
+    'odometer_on_start',
+    'odometer_on_finish',
+    'complaint',
+    'initial_inspection_notes',
+    'notes',
+    'part_notes',
+    'labour_price_hourly',
+    'labour_total_cost',
+    'part_total_cost',
+    'technician_id',
+    'booking_id',
+    'cancelled_at',
+])]
 class Workorder extends Model
 {
     use Blameable;
@@ -113,31 +131,6 @@ class Workorder extends Model
             $model->saveQuietly();
         });
     }
-
-    protected $fillable = [
-        'title',
-        'status',
-        'odometer_on_start',
-        'odometer_on_finish',
-        'complaint',
-        'initial_inspection_notes',
-        'notes',
-        'part_notes',
-        'labour_price_hourly',
-        'labour_total_cost',
-        'part_total_cost',
-        'technician_id',
-        'booking_id',
-        'cancelled_at',
-    ];
-
-    protected $casts = [
-        'status' => WorkorderStatus::class,
-        'completed_at' => FormattedDateTime::class,
-        'cancelled_at' => FormattedDateTime::class,
-        'in_progress_at' => FormattedDateTime::class,
-        'in_pause_at' => FormattedDateTime::class,
-    ];
 
     protected $attributes = [
         'status' => WorkorderStatus::PENDING->value,
@@ -198,5 +191,15 @@ class Workorder extends Model
     public function statuses(): HasMany
     {
         return $this->hasMany(WorkorderStatusHistory::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'status' => WorkorderStatus::class,
+            'completed_at' => FormattedDateTime::class,
+            'cancelled_at' => FormattedDateTime::class,
+            'in_progress_at' => FormattedDateTime::class,
+            'in_pause_at' => FormattedDateTime::class,
+        ];
     }
 }

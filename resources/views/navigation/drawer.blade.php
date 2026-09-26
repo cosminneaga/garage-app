@@ -4,7 +4,7 @@
     tabindex="-1"
     {{ $attributes->merge([
         'class' =>
-            'bg-neutral-primary-soft border-default text-heading overflow-y-auto border-e p-4 max-w-96 min-h-screen left-0 top-0 z-40 transition-transform',
+            'bg-neutral-primary-soft border-default text-heading overflow-y-auto border-e p-4 max-w-96 min-w-60 min-h-screen left-0 top-0 z-40 transition-transform',
     ]) }}
 >
     <div class="flex flex-col items-start gap-2 pb-4">

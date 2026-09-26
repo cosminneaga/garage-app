@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Enums\UserRole;
 use App\Policies\CompanyPolicy;
 use App\Traits\Blameable;
@@ -46,6 +47,11 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
+ * @property-read Collection<int, User> $managers
+ * @property-read int|null $managers_count
+ * @property-read Collection<int, CompanySchedule> $schedules
+ * @property-read int|null $schedules_count
  * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
  * @property-read User|null $updater
@@ -77,6 +83,16 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin IdeHelperCompany
  */
 #[UsePolicy(CompanyPolicy::class)]
+#[Fillable([
+    'name',
+    'tax_id',
+    'tax_value',
+    'invoice_prefix',
+    'registration_number',
+    'image_path',
+    'created_by',
+    'updated_by',
+])]
 class Company extends Model
 {
     use HasFactory;
@@ -84,21 +100,6 @@ class Company extends Model
     use Searchable;
     use SoftDeletes;
     use Blameable;
-
-    protected $fillable = [
-        'name',
-        'tax_id',
-        'tax_value',
-        'invoice_prefix',
-        'registration_number',
-        'image_path',
-        'created_by',
-        'updated_by',
-    ];
-
-    protected $casts = [
-        'tax_value' => 'float',
-    ];
 
     public function toSearchableArray(): array
     {
@@ -168,5 +169,11 @@ class Company extends Model
     public function schedules(): HasMany
     {
         return $this->hasMany(CompanySchedule::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'tax_value' => 'float',
+        ];
     }
 }

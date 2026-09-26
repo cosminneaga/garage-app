@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use App\Observers\ClientObserver;
 use App\Policies\ClientPolicy;
 use App\Traits\Blameable;
@@ -54,6 +56,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
@@ -93,6 +96,15 @@ use Spatie\Permission\Traits\HasRoles;
  */
 #[UsePolicy(ClientPolicy::class)]
 #[ObservedBy(ClientObserver::class)]
+#[Fillable([
+    'name',
+    'email',
+    'password',
+    'active',
+])]
+#[Hidden([
+    'password',
+])]
 class Client extends Model
 {
     use HasFactory;
@@ -110,17 +122,6 @@ class Client extends Model
             $model->access_token = Str::random(64);
         });
     }
-
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'active',
-    ];
-
-    protected $hidden = [
-        'password',
-    ];
 
     protected $attributes = [
         'active' => false,

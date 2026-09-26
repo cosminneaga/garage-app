@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use Database\Factories\ContactFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -60,19 +61,18 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperContact
  */
+#[Fillable([
+    'mobile',
+    'landline',
+    'email',
+    'info',
+    'url',
+])]
 class Contact extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
-
-    protected $fillable = [
-        'mobile',
-        'landline',
-        'email',
-        'info',
-        'url',
-    ];
 
     public function users(): BelongsToMany
     {

@@ -21,12 +21,11 @@ class WorkorderOperationLabourTimeController extends Controller
     public function modelStore(
         Request $request,
         WorkorderOperation $operation
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         self::guard('update', $request, $operation->id);
         $this->authorize('store', WorkorderOperationLabourTime::class);
         $operation->times()->create([
-            'start' => Carbon::now()->format('d-m-Y H:i')
+            'start' => Carbon::now()->format('d-m-Y H:i'),
         ]);
 
         return back()
@@ -42,12 +41,11 @@ class WorkorderOperationLabourTimeController extends Controller
         Request $request,
         WorkorderOperationLabourTime $time,
         WorkorderOperation $operation,
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         self::guard('update', $request, $operation->id);
         $this->authorize('update', $time);
         $time->update([
-            'end' => Carbon::now()->format('d-m-Y H:i')
+            'end' => Carbon::now()->format('d-m-Y H:i'),
         ]);
 
         return back()

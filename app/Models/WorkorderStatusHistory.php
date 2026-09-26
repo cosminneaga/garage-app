@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Activitylog\Models\Activity;
@@ -39,15 +40,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperWorkorderStatusHistory
  */
+#[Fillable([
+    'status',
+    'description',
+])]
 class WorkorderStatusHistory extends Model
 {
     use SoftDeletes;
     use LogsActivity;
-
-    protected $fillable = [
-        'status',
-        'description',
-    ];
 
     protected $attributes = [
         'status' => WorkorderStatus::class,

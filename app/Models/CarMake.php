@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Activitylog\Models\Activity;
@@ -34,14 +35,13 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperCarMake
  */
+#[Fillable([
+    'name',
+])]
 class CarMake extends Model
 {
     use HasFactory;
     use LogsActivity;
-
-    protected $fillable = [
-        'name',
-    ];
 
     public function models(): HasMany
     {

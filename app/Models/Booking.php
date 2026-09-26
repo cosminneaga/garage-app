@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Casts\FormattedDateTime;
 use App\Enums\Priority;
 use App\Enums\Status\BookingStatus;
@@ -36,19 +37,18 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property BookingStatus $status
  * @property ServiceType $service_type
  * @property Priority $priority
- * @property Carbon|null $start
- * @property Carbon|null $finish
- * @property int|null $estimated_duration_minutes
  * @property string|null $current_status_info
  * @property string|null $complaint
  * @property string|null $notes
- * @property float $estimated_cost
- * @property Carbon|null $reminder_sent_at
- * @property Carbon|null $checked_in_at
- * @property Carbon|null $cancelled_at
- * @property Carbon|null $completed_at
- * @property Carbon|null $in_review_at
- * @property Carbon|null $in_progress_at
+ * @property float|null $estimated_cost
+ * @property int|null $estimated_duration_minutes
+ * @property $confirmed_at
+ * @property $reminder_sent_at
+ * @property $checked_in_at
+ * @property $cancelled_at
+ * @property $completed_at
+ * @property $in_review_at
+ * @property $in_progress_at
  * @property string|null $client_notes
  * @property string|null $client_url_token
  * @property int $company_id
@@ -69,6 +69,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read int|null $client_files_count
  * @property-read Company|null $company
  * @property-read User|null $creator
+ * @property-read User|null $deletor
+ * @property-read Collection<int, BookingStatusHistory> $statuses
+ * @property-read int|null $statuses_count
  * @property-read User|null $updater
  * @property-read Vehicle|null $vehicle
  * @property-read Collection<int, Workorder> $workorders
@@ -79,8 +82,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Booking onlyTrashed()
  * @method static Builder<static>|Booking query()
  * @method static Builder<static>|Booking whereAdvisorId($value)
- * @method static Builder<static>|Booking whereAppointmentFinish($value)
- * @method static Builder<static>|Booking whereAppointmentStart($value)
  * @method static Builder<static>|Booking whereCancelledAt($value)
  * @method static Builder<static>|Booking whereCheckedInAt($value)
  * @method static Builder<static>|Booking whereClientId($value)
@@ -89,6 +90,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Booking whereCompanyId($value)
  * @method static Builder<static>|Booking whereComplaint($value)
  * @method static Builder<static>|Booking whereCompletedAt($value)
+ * @method static Builder<static>|Booking whereConfirmedAt($value)
  * @method static Builder<static>|Booking whereCreatedAt($value)
  * @method static Builder<static>|Booking whereCreatedBy($value)
  * @method static Builder<static>|Booking whereCurrentStatusInfo($value)
@@ -115,6 +117,20 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 #[UsePolicy(BookingPolicy::class)]
 #[ObservedBy(BookingObserver::class)]
+#[Fillable([
+    'service_type',
+    'priority',
+    'estimated_duration_minutes',
+    'current_status_info',
+    'complaint',
+    'notes',
+    'client_notes',
+    'estimated_cost',
+    'confirmed_at',
+    'checked_in_at',
+    'cancelled_at',
+    'completed_at',
+])]
 class Booking extends Model
 {
     use Blameable;
@@ -141,35 +157,6 @@ class Booking extends Model
             }
         });
     }
-
-    protected $fillable = [
-        'service_type',
-        'priority',
-        'estimated_duration_minutes',
-        'current_status_info',
-        'complaint',
-        'notes',
-        'client_notes',
-        'estimated_cost',
-        'confirmed_at',
-        'checked_in_at',
-        'cancelled_at',
-        'completed_at',
-    ];
-
-    protected $casts = [
-        'confirmed_at' => FormattedDateTime::class,
-        'reminder_sent_at' => FormattedDateTime::class,
-        'checked_in_at' => FormattedDateTime::class,
-        'completed_at' => FormattedDateTime::class,
-        'cancelled_at' => FormattedDateTime::class,
-        'in_review_at' => FormattedDateTime::class,
-        'in_progress_at' => FormattedDateTime::class,
-        'estimated_cost' => 'float',
-        'status' => BookingStatus::class,
-        'service_type' => ServiceType::class,
-        'priority' => Priority::class,
-    ];
 
     protected $attributes = [
         'status' => BookingStatus::PENDING->value,
@@ -240,5 +227,21 @@ class Booking extends Model
     public function statuses(): HasMany
     {
         return $this->hasMany(BookingStatusHistory::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'confirmed_at' => FormattedDateTime::class,
+            'reminder_sent_at' => FormattedDateTime::class,
+            'checked_in_at' => FormattedDateTime::class,
+            'completed_at' => FormattedDateTime::class,
+            'cancelled_at' => FormattedDateTime::class,
+            'in_review_at' => FormattedDateTime::class,
+            'in_progress_at' => FormattedDateTime::class,
+            'estimated_cost' => 'float',
+            'status' => BookingStatus::class,
+            'service_type' => ServiceType::class,
+            'priority' => Priority::class,
+        ];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use App\Enums\JobName;
 use Database\Factories\InvoiceItemFactory;
@@ -61,22 +62,17 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperInvoiceItem
  */
+#[Fillable([
+    'job_name',
+    'quantity',
+    'item_price',
+    'labour_price',
+])]
 class InvoiceItem extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
-
-    protected $fillable = [
-        'job_name',
-        'quantity',
-        'item_price',
-        'labour_price',
-    ];
-
-    protected $casts = [
-        'job_name' => JobName::class,
-    ];
 
     protected $attributes = [
         'quantity' => 0,
@@ -92,5 +88,11 @@ class InvoiceItem extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'job_name' => JobName::class,
+        ];
     }
 }

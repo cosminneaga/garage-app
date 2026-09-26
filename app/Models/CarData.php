@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Activitylog\Models\Activity;
@@ -43,20 +44,21 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperCarData
  */
+#[Fillable([
+    'name',
+    'cylinders',
+    'displacement',
+    'drive',
+    'transmission',
+])]
 class CarData extends Model
 {
     use HasFactory;
     use LogsActivity;
-
-    protected $fillable = [
-        'name',
-        'cylinders',
-        'displacement',
-        'drive',
-        'transmission',
-    ];
-
-    protected $casts = [
-        'displacement' => 'float',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'displacement' => 'float',
+        ];
+    }
 }

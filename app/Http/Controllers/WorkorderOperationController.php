@@ -13,7 +13,6 @@ use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class WorkorderOperationController extends Controller
 {
@@ -36,7 +35,7 @@ class WorkorderOperationController extends Controller
         self::guard('update', $request, $workorder->id);
         $this->authorize('store', WorkorderOperation::class);
         $workorder->operations()->create([
-            ...$request->safe()->all()
+            ...$request->safe()->all(),
         ]);
 
         return redirect()->intended(route('workorders.bookings.edit', [$workorder, $workorder->booking]))
@@ -63,10 +62,12 @@ class WorkorderOperationController extends Controller
         ]);
     }
 
-    public function modelUpdate(Request $request)
+    public function modelUpdate(Request $request): never
     {
         dd($request->all());
     }
 
-    public function modelDestroy() {}
+    public function modelDestroy()
+    {
+    }
 }

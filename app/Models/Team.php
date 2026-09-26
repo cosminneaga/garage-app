@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -25,9 +26,8 @@ use Illuminate\Support\Carbon;
  * @mixin \Eloquent
  * @mixin IdeHelperTeam
  */
+#[Table(name: 'teams')]
 class Team extends Model
 {
-    protected $table = 'teams';
-
     protected $attributes = [];
 }

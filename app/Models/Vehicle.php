@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Enums\Status\VehicleStatus;
 use App\Enums\Type\FuelType;
 use App\Policies\VehiclePolicy;
@@ -50,6 +51,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read User|null $updater
  * @method static VehicleFactory factory($count = null, $state = [])
  * @method static Builder<static>|Vehicle newModelQuery()
@@ -82,6 +84,21 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin IdeHelperVehicle
  */
 #[UsePolicy(VehiclePolicy::class)]
+#[Fillable([
+    'vin',
+    'registration',
+    'fuel',
+    'status',
+    'first_visit_odometer',
+    'first_registration',
+    'first_visit',
+    'technical_notes',
+    'notes',
+    'diagnostic_information',
+    'make_id',
+    'model_id',
+    'data_id',
+])]
 class Vehicle extends Model
 {
     use Blameable;
@@ -89,28 +106,6 @@ class Vehicle extends Model
     use SoftDeletes;
     use LogsActivity;
     use Searchable;
-
-    protected $fillable = [
-        'vin',
-        'registration',
-        'fuel',
-        'status',
-        'first_visit_odometer',
-        'first_registration',
-        'first_visit',
-        'technical_notes',
-        'notes',
-        'diagnostic_information',
-        'make_id',
-        'model_id',
-        'data_id',
-    ];
-
-    protected $casts = [
-        'fuel' => FuelType::class,
-        'status' => VehicleStatus::class,
-        'first_visit' => 'datetime',
-    ];
 
     protected $attributes = [
         'fuel' => FuelType::OTHER->value,
@@ -135,5 +130,13 @@ class Vehicle extends Model
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'fuel' => FuelType::class,
+            'status' => VehicleStatus::class,
+            'first_visit' => 'datetime',
+        ];
     }
 }

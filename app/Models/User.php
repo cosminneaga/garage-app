@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
 use App\Traits\Blameable;
@@ -37,9 +39,10 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $email_verified_at
  * @property string|null $image_path
  * @property string $password
+ * @property string|null $remember_token
  * @property int|null $created_by
  * @property int|null $updated_by
- * @property string|null $remember_token
+ * @property int|null $deleted_by
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -54,12 +57,14 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
+ * @property-read UserSetting|null $setting
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
  * @property-read User|null $updater
@@ -81,6 +86,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder<static>|User whereCreatedAt($value)
  * @method static Builder<static>|User whereCreatedBy($value)
  * @method static Builder<static>|User whereDeletedAt($value)
+ * @method static Builder<static>|User whereDeletedBy($value)
  * @method static Builder<static>|User whereEmail($value)
  * @method static Builder<static>|User whereEmailVerifiedAt($value)
  * @method static Builder<static>|User whereId($value)
@@ -99,6 +105,19 @@ use Spatie\Permission\Traits\HasRoles;
  * @mixin IdeHelperUser
  */
 #[UsePolicy(UserPolicy::class)]
+#[Fillable([
+    'name',
+    'email',
+    'password',
+    'active',
+    'image_path',
+    'created_by',
+    'updated_by',
+])]
+#[Hidden([
+    'password',
+    'remember_token',
+])]
 class User extends Authenticatable
 {
     use Blameable;
@@ -109,39 +128,8 @@ class User extends Authenticatable
     use SoftDeletes;
     use LogsActivity;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'active',
-        'image_path',
-        'created_by',
-        'updated_by',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
     protected $attributes = [
         'active' => false,
-    ];
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-        'active' => 'boolean',
     ];
 
     public function toSearchableArray(): array
@@ -296,5 +284,13 @@ class User extends Authenticatable
     public function setting(): HasOne
     {
         return $this->hasOne(UserSetting::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'active' => 'boolean',
+        ];
     }
 }

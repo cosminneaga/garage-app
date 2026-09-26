@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Casts\FormattedDateTime;
 use App\Observers\WorkorderOperationLabourTimeObserver;
 use App\Traits\Blameable;
@@ -21,18 +22,20 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property \Illuminate\Support\Carbon|null $start
- * @property \Illuminate\Support\Carbon|null $end
+ * @property $start
+ * @property $end
+ * @property int|null $minutes
  * @property int $workorder_operation_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read WorkorderOperation|null $operation
  * @property-read User|null $updater
  * @method static WorkorderOperationLabourTimeFactory factory($count = null, $state = [])
@@ -46,6 +49,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|WorkorderOperationLabourTime whereDeletedBy($value)
  * @method static Builder<static>|WorkorderOperationLabourTime whereEnd($value)
  * @method static Builder<static>|WorkorderOperationLabourTime whereId($value)
+ * @method static Builder<static>|WorkorderOperationLabourTime whereMinutes($value)
  * @method static Builder<static>|WorkorderOperationLabourTime whereStart($value)
  * @method static Builder<static>|WorkorderOperationLabourTime whereUpdatedAt($value)
  * @method static Builder<static>|WorkorderOperationLabourTime whereUpdatedBy($value)
@@ -56,22 +60,16 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin IdeHelperWorkorderOperationLabourTime
  */
 #[ObservedBy(WorkorderOperationLabourTimeObserver::class)]
+#[Fillable([
+    'start',
+    'end',
+])]
 class WorkorderOperationLabourTime extends Model
 {
     use Blameable;
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;
-
-    protected $fillable = [
-        'start',
-        'end',
-    ];
-
-    protected $casts = [
-        'start' => FormattedDateTime::class,
-        'end' => FormattedDateTime::class,
-    ];
 
     protected static function booted()
     {
@@ -89,5 +87,12 @@ class WorkorderOperationLabourTime extends Model
     public function operation(): BelongsTo
     {
         return $this->belongsTo(WorkorderOperation::class, 'workorder_operation_id', 'id');
+    }
+    protected function casts(): array
+    {
+        return [
+            'start' => FormattedDateTime::class,
+            'end' => FormattedDateTime::class,
+        ];
     }
 }

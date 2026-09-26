@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use App\Enums\Status\InvoiceStatus;
 use Database\Factories\InvoiceFactory;
@@ -53,23 +54,18 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperInvoice
  */
+#[Fillable([
+    'work_time',
+    'hourly_charge',
+    'status',
+    'discount_applied',
+    'paid_amount',
+])]
 class Invoice extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
-
-    protected $fillable = [
-        'work_time',
-        'hourly_charge',
-        'status',
-        'discount_applied',
-        'paid_amount',
-    ];
-
-    protected $casts = [
-        'status' => InvoiceStatus::class,
-    ];
 
     protected $attributes = [
         'status' => InvoiceStatus::DRAFT->value,
@@ -80,5 +76,11 @@ class Invoice extends Model
     public function items(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'status' => InvoiceStatus::class,
+        ];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Support\Carbon;
 use App\Enums\Type\FileType;
 use App\Traits\Blameable;
@@ -33,6 +34,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read User|null $updater
  * @method static FileFactory factory($count = null, $state = [])
  * @method static Builder<static>|File newModelQuery()
@@ -57,6 +59,13 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperFile
  */
+#[Fillable([
+    'name',
+    'extension',
+    'path',
+    'type',
+    'description',
+])]
 class File extends Model
 {
     use HasFactory;
@@ -64,19 +73,13 @@ class File extends Model
     use SoftDeletes;
     use Blameable;
 
-    protected $fillable = [
-        'name',
-        'extension',
-        'path',
-        'type',
-        'description',
-    ];
-
-    protected $casts = [
-        'type' => FileType::class,
-    ];
-
     protected $attributes = [
         'type' => FileType::OTHER->value,
     ];
+    protected function casts(): array
+    {
+        return [
+            'type' => FileType::class,
+        ];
+    }
 }

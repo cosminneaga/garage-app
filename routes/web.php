@@ -68,6 +68,7 @@ Route::controller(UserController::class)
 Route::controller(CompanyController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
+        Route::match(['QUERY'], '/companies/query', 'query')->name('companies.query');
         Route::resource('companies', CompanyController::class)->except('show');
         Route::get('/companies/restore', 'removed')->name('companies.removed');
         Route::post('/companies/{company}/restore', 'restore')->name('companies.restore');

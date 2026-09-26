@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Activitylog\Models\Activity;
 use Database\Factories\PartFactory;
@@ -38,6 +39,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read User|null $creator
+ * @property-read User|null $deletor
  * @property-read Collection<int, WorkorderOperation> $operations
  * @property-read int|null $operations_count
  * @property-read Supplier|null $supplier
@@ -69,28 +71,22 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperPart
  */
+#[Fillable([
+    'name',
+    'manufacturer',
+    'part_number',
+    'serial_number',
+    'code',
+    'notes',
+    'item_price',
+    'commercial_markup',
+])]
 class Part extends Model
 {
     use Blameable;
     use HasFactory;
     use SoftDeletes;
     use LogsActivity;
-
-    protected $fillable = [
-        'name',
-        'manufacturer',
-        'part_number',
-        'serial_number',
-        'code',
-        'notes',
-        'item_price',
-        'commercial_markup',
-    ];
-
-    protected $casts = [
-        'item_price' => 'float',
-        'commercial_markup' => 'float',
-    ];
 
     protected $attributes = [
         'item_price' => 0.00,
@@ -105,5 +101,12 @@ class Part extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'item_price' => 'float',
+            'commercial_markup' => 'float',
+        ];
     }
 }
