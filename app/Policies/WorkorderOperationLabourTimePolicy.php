@@ -16,7 +16,7 @@ class WorkorderOperationLabourTimePolicy implements StandardPolicyInterface
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'show');
     }
 
-    public function show(User $user, mixed $address): bool
+    public function show(User $user, mixed $time): bool
     {
         Permission::isSuper();
 
@@ -28,21 +28,21 @@ class WorkorderOperationLabourTimePolicy implements StandardPolicyInterface
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'store');
     }
 
-    public function update(User $user, mixed $address): bool
+    public function update(User $user, mixed $time): bool
     {
         Permission::isSuper();
 
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'update');
     }
 
-    public function destroy(User $user, mixed $address): bool
+    public function destroy(User $user, mixed $time): bool
     {
         Permission::isSuper();
 
         return Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'destroy');
     }
 
-    public function restore(User $user, mixed $address): bool
+    public function restore(User $user, mixed $time): bool
     {
         Permission::isSuper();
 

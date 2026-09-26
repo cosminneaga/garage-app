@@ -1,7 +1,6 @@
 @props([
     'data' => null,
     'limit' => 10,
-    'edit' => false,
     'resource',
 ])
 
@@ -12,7 +11,7 @@
 <x-table.wrapper :data="$data">
     <x-table.extension.thead
         :columns="$columns"
-        action_column_enabled="{{ $edit }}"
+        action_column_enabled
     />
 
     <x-slot name="tbody">
@@ -25,14 +24,26 @@
                 @endforeach
 
                 <!-- ACTION COLUMNS -->
-                @if ($edit)
-                    <x-table.extension.action
-                        identifier="id"
-                        name="workorder_operation_times"
-                        :data="$row"
-                        :edit="$edit"
-                        edit_route="#"
-                    />
+                @if ($row->end)
+                    <td class="px-6 py-4">
+                        Worked Time: {{ Carbon\CarbonInterval::minutes($row->minutes)->cascade()->forHumans() }}
+                    </td>
+                @else
+                    <td class="px-6 py-4">
+                        <form
+                            action="{{ route('times.operations.update', [$row, $resource]) }}"
+                            method="POST"
+                        >
+                            @csrf
+                            @method('PUT')
+
+                            <x-button
+                                type="submit"
+                                variant="success"
+                                :disabled="$row->end"
+                            >End</x-button>
+                        </form>
+                    </td>
                 @endif
             </tr>
         @endforeach

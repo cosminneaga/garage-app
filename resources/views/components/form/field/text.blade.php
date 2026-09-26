@@ -1,10 +1,10 @@
-@props(['name', 'identifier' => '', 'label' => false])
+@props(['name', 'identifier' => '', 'label' => false, 'visible' => true])
 
 @php
     $helper = BladeFormHelper::names($identifier, $name);
 @endphp
 
-<div class="my-2 text-start">
+<div @class(['text-start', 'my-2' => $visible])>
     @if ($label)
         <label
             class="form-label"
@@ -13,12 +13,13 @@
     @endif
 
     <input
+        @class(['form-item', 'hidden' => !$visible])
         {{ $attributes->merge([
-            'class' => 'form-item',
             'name' => $name,
             'id' => $name,
             'data-test' => $helper->get('testName'),
-        ]) }}>
+        ]) }}
+    >
 
     @error($helper->get('errorName'))
         <p class="text-xs text-red-600">{{ $message }}</p>

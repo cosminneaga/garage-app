@@ -4,7 +4,7 @@
 
         @if (count($times))
             <br>
-            <h4 class="text-xl font-bold mb-1">Window Times</h4>
+            <h4 class="mb-1 text-xl font-bold">Window Times</h4>
             <x-table.related.workorder_operation_times
                 :data="$times"
                 :resource="$operation"
@@ -13,11 +13,15 @@
             <br>
         @endif
 
-        <form action="{{ route('operations.workorders.update', [$operation, $workorder]) }}" method="POST">
+        <form
+            id="operation_update_form"
+            action="{{ route('operations.workorders.update', [$operation, $workorder]) }}"
+            method="POST"
+        >
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
                 <section>
                     <x-form.field.select
                         name="type"
@@ -69,14 +73,27 @@
                     />
                 </section>
             </div>
-
-            <div class="mt-4">
-                <x-button type="submit">Submit</x-button>
-                <x-button
-                        id="workorder_create_operation_button"
-                        link="{{ route('operations.workorders.create', $workorder) }}"
-                    >Create Time Window</x-button>
-            </div>
         </form>
+
+        <div class="mt-4 flex gap-2">
+            <x-button
+                form="operation_update_form"
+                type="submit"
+            >Submit</x-button>
+
+            @unless ($operation->hasActiveTime())
+                <form
+                    action="{{ route('times.operations.store', $operation) }}"
+                    method="POST"
+                >
+                    @csrf
+                    <x-button
+                        id="workorder_create_operation_button"
+                        type="submit"
+                    >Create Time Window</x-button>
+
+                </form>
+            @endunless
+        </div>
     </x-card>
 </x-layout::index>

@@ -190,7 +190,6 @@ Route::controller(WorkorderOperationLabourTimeController::class)
         # workorder_operations
         Route::group(['model' => RelatedModel::WORKORDER_OPERATION], function () {
             Route::post('/workorder_operation_labour_times/workorder_operations/{operation}', 'modelStore')->name('times.operations.store');
-            Route::get('/workorder_operation_labour_times/{time}/workorder_operations/{operation}', 'modelEdit')->name('times.operations.edit');
             Route::put('/workorder_operation_labour_times/{time}/workorder_operations/{operation}', 'modelUpdate')->name('times.operations.update');
         });
     });

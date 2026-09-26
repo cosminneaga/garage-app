@@ -15,7 +15,6 @@
                         :options="WorkorderOperationType::selectOptions()"
                         select_map_value="value"
                         select_map_label="label"
-                        :value="$operation->type->value"
                     />
                     <x-form.field.select
                         name="part_id"
@@ -34,6 +33,15 @@
                         type="number"
                         label="Expected life (Months)"
                     />
+                    @hasanyrole([UserRole::ADMINISTRATOR, UserRole::MANAGER])
+                        <x-form.field.select
+                            name="performed_by"
+                            label="Performed By (administration only)"
+                            :options="$workorder->booking->company->users"
+                            select_map_value="id"
+                            :select_map_label="['name', 'email']"
+                        />
+                    @endhasanyrole
                 </section>
 
                 <section>

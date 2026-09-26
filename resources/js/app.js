@@ -16,4 +16,9 @@ window.submitResourceDeleteForm = (formId) => {
     form.submit();
 };
 
+window.setInputValue = (inputId) => {
+    console.log('Time has been set for input with ID: ' + inputId);
+    const input = document.getElementById(inputId);
+    input.value = moment().format('DD-MM-Y H:mm');
+};
 

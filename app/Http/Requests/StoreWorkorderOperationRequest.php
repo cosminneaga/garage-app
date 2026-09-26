@@ -6,9 +6,11 @@ namespace App\Http\Requests;
 
 use App\Enums\Type\WorkorderOperationType;
 use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+use Override;
 
 class StoreWorkorderOperationRequest extends FormRequest
 {
@@ -18,6 +20,16 @@ class StoreWorkorderOperationRequest extends FormRequest
     public function authorize(): bool
     {
         return Permission::can(UserPermission::WORKORDER_OPERATION, 'store');
+    }
+
+    #[Override]
+    protected function prepareForValidation()
+    {
+        if (!$this->user()->hasAnyRole([UserRole::ADMINISTRATOR, UserRole::MANAGER])) {
+            $this->merge([
+                'performed_by' => $this->user()->id,
+            ]);
+        }
     }
 
     /**
@@ -33,6 +45,7 @@ class StoreWorkorderOperationRequest extends FormRequest
             'expected_life_km' =>       ['sometimes', 'nullable', 'integer'],
             'expected_life_months' =>   ['sometimes', 'nullable', 'integer'],
             'notes' =>                  ['sometimes', 'nullable', 'string', 'max:450'],
+            'performed_by' =>           ['required', 'integer', 'exists:users,id'],
         ];
     }
 }

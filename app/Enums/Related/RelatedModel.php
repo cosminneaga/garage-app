@@ -15,7 +15,6 @@ use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\StorePartRequest;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\StoreWorkorderOperationLabourTimeRequest;
 use App\Http\Requests\StoreWorkorderOperationRequest;
 use App\Http\Requests\StoreWorkorderRequest;
 use App\Http\Requests\UpdateBookingRequest;
@@ -27,7 +26,6 @@ use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Requests\UpdatePartRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\UpdateWorkorderOperationLabourTimeRequest;
 use App\Http\Requests\UpdateWorkorderOperationRequest;
 use App\Http\Requests\UpdateWorkorderRequest;
 use App\Models\Address;
@@ -216,8 +214,8 @@ enum RelatedModel: string
                 'update' => UpdateWorkorderOperationRequest::class,
             ],
             self::WORKORDER_OPERATION_LABOUR_TIME => [
-                'store' => StoreWorkorderOperationLabourTimeRequest::class,
-                'update' => UpdateWorkorderOperationLabourTimeRequest::class,
+                'store' => null,
+                'update' => null,
             ],
         };
     }

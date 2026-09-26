@@ -7,7 +7,6 @@ namespace App\Models;
 use App\Casts\FormattedDateTime;
 use App\Observers\WorkorderOperationLabourTimeObserver;
 use App\Traits\Blameable;
-use Carbon\Carbon;
 use Database\Factories\WorkorderOperationLabourTimeFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -77,6 +77,12 @@ class WorkorderOperationLabourTime extends Model
     {
         static::creating(function (WorkorderOperationLabourTime $time) {
             $time->start ??= Carbon::now();
+        });
+
+        static::updating(function (WorkorderOperationLabourTime $time) {
+            $start = Carbon::parse($time->start);
+            $end = Carbon::parse($time->end);
+            $time->minutes = $start->diffInMinutes($end);
         });
     }
 

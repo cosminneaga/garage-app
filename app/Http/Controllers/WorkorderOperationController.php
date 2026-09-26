@@ -35,8 +35,9 @@ class WorkorderOperationController extends Controller
     {
         self::guard('update', $request, $workorder->id);
         $this->authorize('store', WorkorderOperation::class);
-
-        $workorder->operations()->create([...$request->safe()->all(), 'performed_by' => Auth::user()->id]);
+        $workorder->operations()->create([
+            ...$request->safe()->all()
+        ]);
 
         return redirect()->intended(route('workorders.bookings.edit', [$workorder, $workorder->booking]))
             ->with(self::flashMessage(
@@ -62,11 +63,10 @@ class WorkorderOperationController extends Controller
         ]);
     }
 
-    public function modelUpdate()
+    public function modelUpdate(Request $request)
     {
+        dd($request->all());
     }
 
-    public function modelDestroy()
-    {
-    }
+    public function modelDestroy() {}
 }
