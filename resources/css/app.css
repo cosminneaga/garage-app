@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "flowbite/src/themes/mono";
-@config "../../tailwind.config.js";
+@import "./beacon.css";
 
+@config "../../tailwind.config.js";
 
 @source "../../node_modules/flowbite";
 @source "../../node_modules/flowbite-datepicker";

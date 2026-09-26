@@ -2,6 +2,11 @@
     <x-card>
         <x-card.workorder :workorder="$workorder" />
 
+        @unless ($operation->times->last()->end)
+            <br>
+            <x-time.active :start="$operation->times->last()->start" />
+        @endunless
+
         @if (count($times))
             <br>
             <h4 class="mb-1 text-xl font-bold">Window Times</h4>
