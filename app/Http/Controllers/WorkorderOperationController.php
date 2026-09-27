@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWorkorderOperationRequest;
+use App\Http\Requests\UpdateWorkorderOperationRequest;
 use App\Models\Part;
 use App\Models\Workorder;
 use App\Models\WorkorderOperation;
@@ -62,9 +63,21 @@ class WorkorderOperationController extends Controller
         ]);
     }
 
-    public function modelUpdate(Request $request): never
-    {
-        dd($request->all());
+    public function modelUpdate(
+        UpdateWorkorderOperationRequest $request,
+        WorkorderOperation $operation,
+        Workorder $workorder
+    ): RedirectResponse {
+        self::guard('update', $request, $workorder->id);
+        $this->authorize('update', $operation);
+        $operation->update($request->safe()->all());
+
+        return back()
+            ->with(self::flashMessage(
+                'success',
+                'Resource updated',
+                'Workorder Operation has been successfully updated'
+            ));
     }
 
     public function modelDestroy()

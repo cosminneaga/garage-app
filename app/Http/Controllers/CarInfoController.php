@@ -9,7 +9,6 @@ use App\Models\CarMake;
 use App\Models\CarModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Spiral\RoadRunner\Http\Request as HttpRequest;
 
 class CarInfoController extends Controller
 {
@@ -32,7 +31,8 @@ class CarInfoController extends Controller
         return response()->json($data);
     }
 
-    public function makeSearch(Request $request): JsonResponse {
+    public function makeSearch(Request $request): JsonResponse
+    {
         $search = $request->string('search')->value();
         $makes = CarMake::search($search)
             ->get()

@@ -1,3 +1,7 @@
+@php
+    Session::flashInput($operation->toArray());
+@endphp
+
 <x-layout::index title="Operation">
     <x-card>
         <x-card.workorder :workorder="$workorder" />
@@ -43,6 +47,8 @@
                             route="{{ route('parts.search') }}"
                             map_value="id"
                             map_label="name"
+                            {{-- :map_labels="['name', 'code']" --}}
+                            :value="\App\Models\Part::find(old('part_id'))"
                         />
                         <x-button.resource-create
                             id="part_create_button"
@@ -108,8 +114,6 @@
             @endunless
         </div>
     </x-card>
-
-    <x-modal.part.create
-        id="part_create"
-    />
 </x-layout::index>
+
+<x-modal.part.create id="part_create" />

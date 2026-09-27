@@ -20,6 +20,7 @@ enum WorkorderOperationType: string
     case REPAIR = 'repair';
     case REPLACE_PART = 'replace_part';
     case TESTING = 'testing';
+    case OTHER = 'other';
 
     public function label(): string
     {
@@ -34,6 +35,7 @@ enum WorkorderOperationType: string
             self::REPAIR => 'Repair',
             self::REPLACE_PART => 'Replace Part',
             self::TESTING => 'Testing',
+            self::OTHER => 'Other',
         };
     }
 }

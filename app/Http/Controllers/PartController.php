@@ -19,17 +19,25 @@ class PartController extends Controller
         $makes = Part::search($search)
             ->get()
             ->unique('name')
-            ->map(fn($model) => $model->setVisible(['id', 'name']))
+            // ->map(fn($model) => $model->setVisible(['id', 'name']))
             ->values();
 
         return response()->json($makes->toArray());
     }
 
-    public function modelStore() {}
+    public function modelStore()
+    {
+    }
 
-    public function modelEdit() {}
+    public function modelEdit()
+    {
+    }
 
-    public function modelUpdate() {}
+    public function modelUpdate()
+    {
+    }
 
-    public function modelDestroy() {}
+    public function modelDestroy()
+    {
+    }
 }

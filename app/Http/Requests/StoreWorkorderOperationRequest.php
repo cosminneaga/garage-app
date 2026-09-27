@@ -40,12 +40,13 @@ class StoreWorkorderOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' =>                   ['required', new Enum(WorkorderOperationType::class)],
-            'part_id' =>                ['sometimes', 'nullable', 'exists:parts,id'],
-            'expected_life_km' =>       ['sometimes', 'nullable', 'integer'],
-            'expected_life_months' =>   ['sometimes', 'nullable', 'integer'],
-            'notes' =>                  ['sometimes', 'nullable', 'string', 'max:450'],
-            'performed_by' =>           ['required', 'integer', 'exists:users,id'],
+            'type' =>                           ['required', new Enum(WorkorderOperationType::class)],
+            'part_id' =>                        ['sometimes', 'nullable', 'exists:parts,id'],
+            'part_installed_odometer' =>        ['sometimes', 'nullable', 'integer'],
+            'expected_life_km' =>               ['sometimes', 'nullable', 'integer'],
+            'expected_life_months' =>           ['sometimes', 'nullable', 'integer'],
+            'notes' =>                          ['sometimes', 'nullable', 'string', 'max:450'],
+            'performed_by' =>                   ['required', 'integer', 'exists:users,id'],
         ];
     }
 }

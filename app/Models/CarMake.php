@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
-use Override;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
@@ -24,9 +23,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\CarModel> $models
+ * @property-read Collection<int, CarModel> $models
  * @property-read int|null $models_count
- * @method static \Database\Factories\CarMakeFactory factory($count = null, $state = [])
+ * @method static CarMakeFactory factory($count = null, $state = [])
  * @method static Builder<static>|CarMake newModelQuery()
  * @method static Builder<static>|CarMake newQuery()
  * @method static Builder<static>|CarMake query()
@@ -35,6 +34,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|CarMake whereName($value)
  * @method static Builder<static>|CarMake whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperCarMake
  */
 #[Fillable([
     'name',
