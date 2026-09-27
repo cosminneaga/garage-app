@@ -13,11 +13,19 @@ use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WorkorderController extends Controller
 {
     use ResponseMessage;
     use RelatedModelGuard;
+
+    public function modelIndex(): View
+    {
+        return view('pages.workorder.index', [
+            'workorders' => Auth::user()->woAssigned,
+        ]);
+    }
 
     public function modelCreate(
         Request $request,
@@ -71,7 +79,7 @@ class WorkorderController extends Controller
         Workorder $workorder,
         Booking $booking
     ): RedirectResponse {
-        self::guard('update', $request, $booking->id);
+        self::guard('show', $request, $booking->id);
         $this->authorize('update', $workorder);
 
         $workorder->update([...$request->safe()->all()]);

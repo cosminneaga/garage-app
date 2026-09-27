@@ -23,6 +23,23 @@ class ClientController extends Controller
     use RelatedModelGuard;
     use ResponseMessage;
 
+    public function modelSearch(
+        Request $request,
+        Company $company
+    ): JsonResponse {
+        self::guard('show', $request, $company->id);
+        $this->authorize('showAll', Client::class);
+        $search = $request->string('search')->value();
+        $existingClients = Client::whereHas('companies', fn ($query) => $query->whereIn('companies.id', [$company->id]))->pluck('clients.id');
+        $clients = Client::search($search)->whereIn('id', $existingClients)->get();
+
+        if (!count($clients)) {
+            $clients = Client::search('')->whereIn('id', $existingClients)->get();
+        }
+
+        return response()->json($clients);
+    }
+
     public function modelIndex(Request $request, Company $company): JsonResponse
     {
         $search = $request->string('search')->value();

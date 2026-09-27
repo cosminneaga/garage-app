@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Casts\FormattedDateTime;
+use App\Enums\JobName;
 use App\Enums\Status\WorkorderStatus;
 use App\Enums\UserRole;
 use App\Observers\WorkorderObserver;
+use App\Policies\WorkorderPolicy;
 use App\Traits\Blameable;
 use Database\Factories\WorkorderFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -99,6 +102,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperWorkorder
  */
+
+#[UsePolicy(WorkorderPolicy::class)]
 #[ObservedBy(WorkorderObserver::class)]
 #[Fillable([
     'title',
@@ -134,6 +139,7 @@ class Workorder extends Model
 
     protected $attributes = [
         'status' => WorkorderStatus::PENDING->value,
+        'title' => JobName::OTHER->value,
     ];
 
     public function toSearchableArray(): array
@@ -156,7 +162,7 @@ class Workorder extends Model
             return $this->isPartOfMyCompany($user);
         }
 
-        return (bool) $this->booking->advisor_id === $user->id;
+        return $this->booking->advisor_id === $user->id;
     }
 
     public function isMine(User $user): bool
@@ -165,7 +171,7 @@ class Workorder extends Model
             return $this->isPartOfMyCompany($user);
         }
 
-        return (bool) $this->technician_id === $user->id;
+        return $this->technician_id === $user->id;
     }
 
     public function booking(): BelongsTo
@@ -196,6 +202,7 @@ class Workorder extends Model
     {
         return [
             'status' => WorkorderStatus::class,
+            'title' => JobName::class,
             'completed_at' => FormattedDateTime::class,
             'cancelled_at' => FormattedDateTime::class,
             'in_progress_at' => FormattedDateTime::class,

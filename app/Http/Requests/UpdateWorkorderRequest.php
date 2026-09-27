@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Enums\JobName;
 use App\Enums\UserPermission;
+use App\Enums\UserRole;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 use Override;
 
 class UpdateWorkorderRequest extends FormRequest
@@ -19,6 +22,16 @@ class UpdateWorkorderRequest extends FormRequest
         return Permission::can(UserPermission::WORKORDER, 'update');
     }
 
+    #[Override]
+    protected function prepareForValidation()
+    {
+        if (!$this->user()->hasAnyRole([UserRole::ADMINISTRATOR, UserRole::MANAGER])) {
+            $this->merge([
+                'technician_id' => $this->user()->id,
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,7 +40,7 @@ class UpdateWorkorderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' =>                      ['required', 'string', 'max:255'],
+            'title' =>                      ['required', 'string', 'max:255', new Enum(JobName::class)],
             'technician_id' =>              ['required', 'exists:users,id'],
             'odometer_on_start' =>          ['sometimes', 'nullable', 'integer', 'min:0', 'required_if:cancelled_at,null'],
             'odometer_on_finish' =>         ['sometimes', 'nullable', 'integer', 'min:0', 'prohibited_if:odometer_on_start,null', 'gte:odometer_on_start'],

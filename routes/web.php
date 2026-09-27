@@ -90,6 +90,7 @@ Route::controller(ClientController::class)
 
         # companies
         Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::match(['QUERY'], '/clients/companies/{company}', 'modelSearch')->name('clients.companies.search');
             Route::get('/clients/companies/{company}', 'modelIndex')->name('clients.companies.index');
             Route::post('/clients/companies/{company}', 'modelStore')->name('clients.companies.store');
             Route::get('/clients/{client}/companies/{company}', 'modelEdit')->name('clients.companies.edit');
@@ -103,6 +104,7 @@ Route::controller(VehicleController::class)
     ->group(function () {
         #companies
         Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::match(['QUERY'], '/vehicles/companies/{company}', 'modelSearch')->name('vehicles.companies.search');
             Route::get('/vehicles/companies/{company}', 'modelIndex')->name('vehicles.companies.index');
             Route::post('/vehicles/companies/{company}', 'modelStore')->name('vehicles.companies.store');
         });
@@ -169,6 +171,7 @@ Route::controller(WorkorderController::class)
     ->group(function () {
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {
+            Route::get('/workorders', 'modelIndex')->name('workorders.index');
             Route::get('/workorders/bookings/{booking}', 'modelCreate')->name('workorders.bookings.create');
             Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
             Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');

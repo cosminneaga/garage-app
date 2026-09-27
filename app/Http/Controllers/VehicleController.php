@@ -18,6 +18,23 @@ class VehicleController extends Controller
     use ResponseMessage;
     use RelatedModelGuard;
 
+    public function modelSearch(
+        Request $request,
+        Company $company
+    ): JsonResponse {
+        self::guard('show', $request, $company->id);
+        $this->authorize('showAll', Vehicle::class);
+        $search = $request->string('search')->value();
+        $existingVehicle = Vehicle::whereHas('companies', fn ($query) => $query->whereIn('companies.id', [$company->id]))->pluck('vehicles.id');
+        $vehicles = Vehicle::search($search)->whereIn('id', $existingVehicle)->get();
+
+        if (!count($vehicles)) {
+            $vehicles = Vehicle::search('')->whereIn('id', $existingVehicle)->get();
+        }
+
+        return response()->json($vehicles);
+    }
+
     public function modelIndex(Request $request, Company $company): JsonResponse
     {
         $search = $request->string('search')->value();

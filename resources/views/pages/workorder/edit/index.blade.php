@@ -26,19 +26,23 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <section>
-                    <x-form.field.text
+                    <x-form.field.select
+                        identifier="workorder"
                         name="title"
                         label="Title"
+                        :options="JobName::selectOptions()"
                         :value="old('title')"
                     />
-                    <x-form.field.select
-                        name="technician_id"
-                        label="Assigned technician"
-                        :options="$technicians"
-                        select_map_value="id"
-                        :select_map_label="['name', 'email']"
-                        :value="old('technician_id')"
-                    />
+                    @hasanyrole([UserRole::ADMINISTRATOR, UserRole::MANAGER])
+                        <x-form.field.select
+                            name="technician_id"
+                            label="Assigned technician"
+                            :options="$technicians"
+                            select_map_value="id"
+                            :select_map_label="['name', 'email']"
+                            :value="old('technician_id')"
+                        />
+                    @endhasanyrole
                     <x-form.field.datetime
                         name="cancelled_at"
                         label="Cancelled At"

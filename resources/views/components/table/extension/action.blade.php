@@ -5,12 +5,20 @@
     'edit' => false,
     'delete' => false,
     'restore' => false,
+    'show_route' => null,
     'edit_route' => null,
     'delete_route' => null,
     'restore_route' => null,
 ])
 
-<td class="px-6 py-4 w-[250px]">
+<td class="px-6 py-4 w-62.5">
+    @if ($show_route)
+        <a
+            class="text-brand"
+            data-test="{{ $name }}-{{ $data->id }}-show-button"
+            href="{{ $show_route }}"
+        >Show</a>
+    @endif
     @if ($edit)
         <a
             class="text-brand"

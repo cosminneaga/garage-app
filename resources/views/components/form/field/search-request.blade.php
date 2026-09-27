@@ -10,6 +10,21 @@
     'value' => null,
 ])
 
+{{--
+    EXAMPLE
+
+    <x-form.field.search-request
+        name="part_id"
+        label="Part"
+        route="{{ route('parts.search') }}"
+        map_value="id"
+        // map_label="name"
+        :map_labels="['name', 'code']"
+        :value="\App\Models\Part::find(old('part_id'))"
+    />
+
+--}}
+
 @php
     $ids = BladeModalHelper::ids($name);
     $name = Str::generateFormFieldName($name, $nested_parent_name);

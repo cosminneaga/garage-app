@@ -5,7 +5,7 @@
     'value' => null,
     'options' => [],
     'select_map_value' => 'value',
-    'select_map_label' => [],
+    'select_map_label' => 'label',
 ])
 @php
     $helper = BladeFormHelper::names($identifier, $name);

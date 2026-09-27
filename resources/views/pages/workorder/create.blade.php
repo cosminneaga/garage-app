@@ -7,10 +7,11 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <section>
-                    <x-form.field.text
+                    <x-form.field.select
+                        identifier="workorder"
                         name="title"
-                        value="Oil Change (JobName Enum)"
                         label="Title"
+                        :options="JobName::selectOptions()"
                     />
                     <x-form.field.text
                         name="labour_price_hourly"

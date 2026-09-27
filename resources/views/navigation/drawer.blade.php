@@ -48,14 +48,22 @@
         route_restore="{{ route('companies.removed') }}"
     />
 
+    @hasanyrole([UserRole::ADMINISTRATOR, UserRole::MANAGER])
+        <x-navigation.link-list.permission
+            label="Bookings"
+            :show="[UserPermission::BOOKING, 'show']"
+            :store="[UserPermission::BOOKING, 'store']"
+            :restore="[UserPermission::BOOKING, 'restore']"
+            route_list="{{ route('bookings.index') }}"
+            route_store="{{ route('bookings.companies.create', Auth::user()->setting->default_company) }}"
+            {{-- route_restore="{{ route('bookings.removed') }}" --}}
+        />
+    @endhasanyrole
+
     <x-navigation.link-list.permission
-        label="Bookings"
-        :show="[UserPermission::BOOKING, 'show']"
-        :store="[UserPermission::BOOKING, 'store']"
-        :restore="[UserPermission::BOOKING, 'restore']"
-        route_list="{{ route('bookings.index') }}"
-        route_store="{{ route('bookings.companies.create', Auth::user()->setting->default_company) }}"
-        {{-- route_restore="{{ route('bookings.removed') }}" --}}
+        label="Workorders"
+        :show="[UserPermission::WORKORDER, 'show']"
+        route_list="{{ route('workorders.index') }}"
     />
 
     @super

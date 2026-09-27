@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Casts\FormattedDateTime;
 use App\Observers\WorkorderOperationLabourTimeObserver;
+use App\Policies\WorkorderOperationLabourTimePolicy;
 use App\Traits\Blameable;
 use Database\Factories\WorkorderOperationLabourTimeFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,6 +61,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperWorkorderOperationLabourTime
  */
+#[UsePolicy(WorkorderOperationLabourTimePolicy::class)]
 #[ObservedBy(WorkorderOperationLabourTimeObserver::class)]
 #[Fillable([
     'start',

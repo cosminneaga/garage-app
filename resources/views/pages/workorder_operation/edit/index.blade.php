@@ -6,10 +6,10 @@
     <x-card>
         <x-card.workorder :workorder="$workorder" />
 
-        @unless ($operation->times?->last()?->end)
+        @if ($operation->times->last() && !$operation->times->last()->end)
             <br>
-            <x-time.active :start="$operation->times?->last()?->start" />
-        @endunless
+            <x-time.active :start="$operation->times->last()->start" />
+        @endif
 
         @if (count($times))
             <br>
@@ -46,37 +46,41 @@
                             label="Part"
                             route="{{ route('parts.search') }}"
                             map_value="id"
-                            map_label="name"
-                            {{-- :map_labels="['name', 'code']" --}}
+                            :map_labels="['name', 'manufacturer', 'code']"
                             :value="\App\Models\Part::find(old('part_id'))"
                         />
-                        <x-button.resource-create
-                            id="part_create_button"
-                            data-modal-target="part_create_modal"
-                            data-modal-toggle="part_create_modal"
-                        />
+                        @permitted(UserPermission::PART, 'store')
+                            <x-button.resource-create
+                                id="part_create_button"
+                                data-modal-target="part_create_modal"
+                                data-modal-toggle="part_create_modal"
+                            />
+                        @endpermitted
                     </x-form.field.wrapper>
                     <x-form.field.text
                         name="expected_life_km"
                         type="number"
-                        label="Excepted life (KM)"
+                        label="Expected life (KM)"
+                        :value="old('expected_life_km')"
                     />
                     <x-form.field.text
                         name="expected_life_months"
                         type="number"
                         label="Expected life (Months)"
+                        :value="old('expected_life_months')"
                     />
                     <x-form.field.text
                         name="part_installed_odometer"
                         type="number"
                         label="Part installed odometer (KM)"
+                        :value="old('part_installed_odometer')"
                     />
 
                     @hasanyrole([UserRole::ADMINISTRATOR, UserRole::MANAGER])
                         <x-form.field.select
                             name="performed_by"
                             label="Performed By (administration only)"
-                            :options="$workorder->booking->company->users"
+                            :options="$technicians"
                             select_map_value="id"
                             :select_map_label="['name', 'email']"
                             :value="$operation->performed_by"
@@ -108,7 +112,7 @@
                     <x-button
                         id="workorder_create_operation_button"
                         type="submit"
-                    >Create Time Window</x-button>
+                    >Start Work</x-button>
 
                 </form>
             @endunless

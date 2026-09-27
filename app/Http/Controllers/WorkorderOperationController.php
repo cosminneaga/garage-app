@@ -28,6 +28,7 @@ class WorkorderOperationController extends Controller
         return view('pages.workorder_operation.create', [
             'workorder' => $workorder,
             'available_parts' => Part::whereIn('supplier_id', $workorder->booking->company->suppliers->select('id'))->get(),
+            'technicians' => $workorder->booking->availableTechnicians()->get(),
         ]);
     }
 
@@ -35,11 +36,12 @@ class WorkorderOperationController extends Controller
     {
         self::guard('update', $request, $workorder->id);
         $this->authorize('store', WorkorderOperation::class);
-        $workorder->operations()->create([
+        $operation = WorkorderOperation::forceCreate([
             ...$request->safe()->all(),
+            'workorder_id' => $workorder->id,
         ]);
 
-        return redirect()->intended(route('workorders.bookings.edit', [$workorder, $workorder->booking]))
+        return redirect()->intended(route('operations.workorders.edit', [$operation, $workorder]))
             ->with(self::flashMessage(
                 'success',
                 'Resource created',
@@ -60,6 +62,7 @@ class WorkorderOperationController extends Controller
             'operation' => $operation,
             'times' => $operation->times,
             'available_parts' => Part::whereIn('supplier_id', $workorder->booking->company->suppliers->select('id'))->get(),
+            'technicians' => $workorder->booking->availableTechnicians()->get(),
         ]);
     }
 

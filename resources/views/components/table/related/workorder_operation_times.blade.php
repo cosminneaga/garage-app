@@ -41,7 +41,7 @@
                                 type="submit"
                                 variant="success"
                                 :disabled="$row->end"
-                            >End</x-button>
+                            >End Work</x-button>
                         </form>
                     </td>
                 @endif

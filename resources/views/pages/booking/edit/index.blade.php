@@ -8,7 +8,7 @@
 
         @if (count($workorders))
             <br>
-            <h4 class="text-xl font-bold mb-1">Workorders</h4>
+            <h4 class="mb-1 text-xl font-bold">Workorders</h4>
             <x-table.related.workorders
                 :data="$workorders"
                 :resource="$booking"
@@ -89,16 +89,18 @@
                 </section>
             </div>
 
-            <div class="mt-4 flex gap-2">
-                <x-button type="submit">Update Booking</x-button>
+            @permitted(UserPermission::BOOKING, 'update')
+                <div class="mt-4 flex gap-2">
+                    <x-button type="submit">Update Booking</x-button>
 
-                @if ((!count($workorders) && $booking->checked_in_at !== null) && $booking->cancelled_at === null)
-                    <x-button
-                        id="booking_create_workorder_button"
-                        link="{{ route('workorders.bookings.create', $booking) }}"
-                    >Create Workorder</x-button>
-                @endif
-            </div>
+                    @if (!count($workorders) && $booking->checked_in_at !== null && $booking->cancelled_at === null)
+                        <x-button
+                            id="booking_create_workorder_button"
+                            link="{{ route('workorders.bookings.create', $booking) }}"
+                        >Create Workorder</x-button>
+                    @endif
+                </div>
+            @endpermitted
         </form>
     </x-card>
 </x-layout::index>

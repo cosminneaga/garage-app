@@ -1,8 +1,13 @@
 @props(['booking'])
 
-<x-card :description="'Booking number: ' . $booking->number . ', ID: ' . $booking->id">
+<x-card
+    :description="'Booking number: ' . $booking->number . ', ID: ' . $booking->id"
+    onclick="location.href = '{{ route('bookings.companies.edit', [$booking, $booking->company]) }}'"
+    class="hover:cursor-pointer hover:bg-gray-950"
+>
     <p class="text-sm"><b>Status:</b> {{ $booking->status->label() }}</p>
     <p class="text-sm"><b>Client Token:</b> {{ $booking->client_url_token }}</p>
+    <p class="text-sm"><b>Confirmed At:</b> {{ $booking->confirmed_at }}</p>
     <p class="text-sm"><b>Completed At:</b> {{ $booking->completed_at }}</p>
     <p class="text-sm"><b>In Progress At:</b> {{ $booking->in_progress_at }}</p>
     <p class="text-sm"><b>In Review At:</b> {{ $booking->in_review_at }}</p>

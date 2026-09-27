@@ -937,7 +937,7 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $title
+ * @property \App\Enums\JobName $title
  * @property string|null $number
  * @property \App\Enums\Status\WorkorderStatus $status
  * @property int|null $odometer_on_start

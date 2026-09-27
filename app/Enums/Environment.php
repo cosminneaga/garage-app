@@ -17,214 +17,85 @@ enum Environment: string
 
     public static function getBase(Environment $environment)
     {
+        $source = [
+            UserRole::ADMINISTRATOR->value => [
+                ...UserPermission::list(
+                    excludeReferences: [
+                        'country',
+                    ]
+                ),
+                ...UserPermission::list(
+                    onlyReferences: [
+                        'country',
+                    ],
+                    onlyActions: ['show']
+                ),
+            ],
+            UserRole::MANAGER->value => [
+                ...UserPermission::list(
+                    excludeReferences: [
+                        'country',
+                        'company',
+                        'manager',
+                    ]
+                ),
+                ...UserPermission::list(
+                    onlyReferences: [
+                        'country',
+                    ],
+                    onlyActions: ['show']
+                ),
+                ...UserPermission::list(
+                    onlyReferences: ['company'],
+                    onlyActions: ['show', 'update']
+                ),
+            ],
+            UserRole::USER->value => [
+                ...UserPermission::list(
+                    onlyReferences: [
+                        'address',
+                        'booking',
+                        'contact',
+                        'company',
+                        'country',
+                        'client',
+                        'supplier',
+                        'permission',
+                        'file',
+                        'invoice',
+                        'invoice_item',
+                        'car_data',
+                        'car_make',
+                        'car_model',
+                        'part',
+                        'user',
+                        'vehicle',
+                        'workorder',
+                        'workorder_operation',
+                        'workorder_operation_labour_time',
+                    ],
+                    onlyActions: ['show']
+                ),
+                ...UserPermission::list(
+                    onlyReferences: [
+                        'workorder',
+                    ],
+                    onlyActions: ['update']
+                ),
+                ...UserPermission::list(
+                    onlyReferences: [
+                        'workorder_operation',
+                        'workorder_operation_labour_time',
+                    ],
+                    onlyActions: ['store', 'update'],
+                ),
+            ],
+        ];
+
         return match ($environment) {
-            self::PRODUCTION => [
-                UserRole::ADMINISTRATOR->value => [
-                    ...UserPermission::list(
-                        excludeReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ]
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                ],
-                UserRole::MANAGER->value => [
-                    ...UserPermission::list(
-                        excludeReferences: [
-                            'country',
-                            'company',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                            'manager',
-                        ]
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: ['company'],
-                        onlyActions: ['show', 'update']
-                    ),
-                ],
-                UserRole::USER->value => [
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'address',
-                            'booking',
-                            'contact',
-                            'company',
-                            'country',
-                            'client',
-                            'supplier',
-                            'permission',
-                            'repair',
-                            'file',
-                            'invoice',
-                            'invoice_item',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                            'user',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                ],
-            ],
-            self::LOCAL => [
-                UserRole::ADMINISTRATOR->value => [
-                    ...UserPermission::list(
-                        excludeReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ]
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                ],
-                UserRole::MANAGER->value => [
-                    ...UserPermission::list(
-                        excludeReferences: [
-                            'country',
-                            'company',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                            'manager',
-                        ]
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: ['company'],
-                        onlyActions: ['show', 'update']
-                    ),
-                ],
-                UserRole::USER->value => [
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'address',
-                            'booking',
-                            'contact',
-                            'company',
-                            'country',
-                            'client',
-                            'supplier',
-                            'permission',
-                            'repair',
-                            'file',
-                            'invoice',
-                            'invoice_item',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                            'user',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                ],
-            ],
-            self::TEST => [
-                UserRole::ADMINISTRATOR->value => [
-                    ...UserPermission::list(
-                        excludeReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ]
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                ],
-                UserRole::MANAGER->value => [
-                    ...UserPermission::list(
-                        excludeReferences: [
-                            'country',
-                            'company',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                            'manager',
-                        ]
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'country',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                    ...UserPermission::list(
-                        onlyReferences: ['company'],
-                        onlyActions: ['show', 'update']
-                    ),
-                ],
-                UserRole::USER->value => [
-                    ...UserPermission::list(
-                        onlyReferences: [
-                            'address',
-                            'booking',
-                            'contact',
-                            'company',
-                            'country',
-                            'client',
-                            'supplier',
-                            'permission',
-                            'repair',
-                            'file',
-                            'invoice',
-                            'invoice_item',
-                            'car_data',
-                            'car_make',
-                            'car_model',
-                            'user',
-                        ],
-                        onlyActions: ['show']
-                    ),
-                ],
-            ],
+            self::PRODUCTION => $source,
+            self::LOCAL => $source,
+            self::TEST => $source,
         };
     }
 

@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Enums\Type\WorkorderOperationType;
 use App\Enums\UserRole;
+use App\Policies\WorkorderOperationPolicy;
 use App\Traits\Blameable;
 use Database\Factories\WorkorderOperationFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -74,6 +76,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperWorkorderOperation
  */
+#[UsePolicy(WorkorderOperationPolicy::class)]
 #[Fillable([
     'type',
     'part_installed_odometer',
@@ -105,7 +108,7 @@ class WorkorderOperation extends Model
             return $this->isPartOfMyCompany($user);
         }
 
-        return (bool) $this->workorder->technician_id === $user->id;
+        return $this->workorder->technician_id === $user->id;
     }
 
     public function isMine(User $user): bool
@@ -114,7 +117,7 @@ class WorkorderOperation extends Model
             return $this->isPartOfMyCompany($user);
         }
 
-        return (bool) $this->performed_by === $user->id;
+        return $this->performed_by === $user->id;
     }
 
     public function hasActiveTime(): bool

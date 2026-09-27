@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Casts\FormattedDateTime;
 use App\Enums\Priority;
 use App\Enums\Status\BookingStatus;
@@ -14,6 +13,7 @@ use App\Observers\BookingObserver;
 use App\Policies\BookingPolicy;
 use App\Traits\Blameable;
 use Database\Factories\BookingFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
@@ -186,7 +186,7 @@ class Booking extends Model
             return $this->isPartOfMyCompany($user);
         }
 
-        return (bool) $this->advisor_id === $user->id;
+        return $this->advisor_id === $user->id;
     }
 
     public function availableTechnicians(): BelongsToMany

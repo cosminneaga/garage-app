@@ -24,13 +24,13 @@
                     />
 
                     <x-form.field.wrapper>
-                        <x-form.field.select
+                        <x-form.field.search-request
                             identifier="booking"
                             name="client_id"
                             label="Client"
-                            :options="$company->clients"
-                            select_map_value="id"
-                            :select_map_label="['name', 'email']"
+                            route="{{ route('clients.companies.search', $company) }}"
+                            map_value="id"
+                            :map_labels="['name', 'email']"
                         />
 
                         <!-- CLIENT CREATE MODAL TRIGGER -->
@@ -44,13 +44,13 @@
                     </x-form.field.wrapper>
 
                     <x-form.field.wrapper>
-                        <x-form.field.select
+                        <x-form.field.search-request
                             identifier="booking"
                             name="vehicle_id"
                             label="Vehicle"
-                            :options="$company->vehicles"
-                            select_map_value="id"
-                            :select_map_label="['registration', 'vin']"
+                            route="{{ route('vehicles.companies.search', $company) }}"
+                            map_value="id"
+                            :map_labels="['registration', 'vin']"
                         />
 
                         <!-- VEHICLE CREATE MODAL TRIGGER -->

@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->string('status')->default(WorkorderStatus::PENDING->value);
             $table->string('description')->nullable();
 
-            $table->foreignIdFor(Workorder::class)->constrained()->cascadeOnUpdate();
+            $table->foreignIdFor(Workorder::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
