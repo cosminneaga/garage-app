@@ -8,8 +8,9 @@
 <button
     class="relative flex items-center gap-2 hover:cursor-pointer"
     id="nav-dropdown-profile-btn"
-    data-dropdown-toggle="nav-dropdown-profile-menu"
+    data-dropdown-toggle="profile-menu"
     data-dropdown-trigger="click"
+    data-dropdown-placement="bottom-start"
     type="button"
 >
     <img
@@ -29,8 +30,9 @@
 </button>
 
 <div
-    class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-auto border px-2.5 py-2 shadow-lg"
-    id="nav-dropdown-profile-menu"
+    {{-- class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-fit border px-2.5 py-2 shadow-lg" --}}
+    class="z-10 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-auto px-2.5 py-3"
+    id="profile-menu"
 >
     <div class="p-2">
         <div class="text-md">
@@ -38,6 +40,7 @@
             <div class="text-body">{{ $user->email }}</div>
         </div>
     </div>
+
     <ul
         class="text-body p-2 text-sm font-medium"
         aria-labelledby="nav-dropdown-profile-btn"
