@@ -55,7 +55,7 @@
         identifier="{{ $identifier }}"
         name="{{ $name }}"
         x-model="selected"
-        :visible="true"
+        :visible="false"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
