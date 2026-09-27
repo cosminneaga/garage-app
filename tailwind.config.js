@@ -1,5 +1,7 @@
 const colors = require("tailwindcss/colors");
 
+/* -------------- https://v2.tailwindcss.com/docs/configuration ------------- */
+
 // module.exports = {
 //     theme: {
 //         colors: {
