@@ -141,7 +141,6 @@ class LocalEnv extends Seeder
         $company->suppliers()->attach($supplier);
 
 
-
         // 7. create client with address & contact & attach to company
         $client = Client::factory()->create();
         $client->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
@@ -153,11 +152,17 @@ class LocalEnv extends Seeder
         $company->vehicles()->attach($vehicle);
 
         // 9. create default cars
-        $carMake = CarMake::factory()->create();
-        $carModel = CarModel::factory()->create(['make_id' => $carMake->id]);
-        $carData = CarData::factory()->create(['make_id' => $carMake->id, 'model_id' => $carModel->id]);
+        $carMakes = CarMake::factory()->createMany([
+            ['name' => 'Opel'],
+            ['name' => 'Mazda'],
+            ['name' => 'Nissan'],
+            ['name' => 'Renault'],
+            ['name' => 'BMW'],
+        ]);
+        $carModel = CarModel::factory()->create(['make_id' => $carMakes[0]->id]);
+        $carData = CarData::factory()->create(['make_id' => $carMakes[0]->id, 'model_id' => $carModel->id]);
 
         // 10. create parts & attach to suupplier
-        Part::factory(10)->create(['supplier_id' => $supplier->id, 'brand' => $carMake->id]);
+        Part::factory(10)->create(['supplier_id' => $supplier->id, 'brand' => $carMakes[0]->id]);
     }
 }

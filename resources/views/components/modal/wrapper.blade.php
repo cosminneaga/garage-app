@@ -36,7 +36,6 @@
                 type="button"
             >
                 <x-icon-o-x-mark class="h-5 w-5" />
-                <span class="sr-only">Close modal</span>
             </button>
         @endif
         <main>{{ $slot }}</main>

@@ -11,15 +11,17 @@
         data-modal-toggle="{{ $ids->get('modal') }}"
         type="button"
     >
-        Add vehicle
+        Add part
     </x-button>
 @endif
 
+
 <x-modal.wrapper
     id="{{ $ids->get('modal') }}"
-    title="Create new vehicle"
+    title="Create new part"
     size="7xl"
 >
+
     <form
         id="{{ $ids->get('form') }}"
         x-ref="{{ $ids->get('form') }}"
@@ -29,8 +31,8 @@
         @csrf
 
         <br>
-        <div class="grid grid-rows-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <x-form.content.vehicle identifier="vehicle" />
+        <div class="grid grid-rows-1 gap-4 md:grid-cols-2">
+            <x-form.content.part />
         </div>
 
         <br>

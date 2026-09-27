@@ -113,6 +113,7 @@ Route::controller(PartController::class)
     ->group(function () {
         # suppliers
         Route::group(['model' => RelatedModel::SUPPLIER], function () {
+            Route::match(['QUERY'], '/parts', 'modelSearch')->name('parts.search');
             Route::post('/parts/suppliers/{supplier}', 'modelStore')->name('parts.suppliers.store');
             Route::get('/parts/{part}/suppliers/{supplier}', 'modelEdit')->name('parts.suppliers.edit');
             Route::put('/parts/{part}/suppliers/{supplier}', 'modelUpdate')->name('parts.suppliers.update');
@@ -123,6 +124,7 @@ Route::controller(PartController::class)
 Route::controller(CarInfoController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
+        Route::match(['QUERY'], '/car/makes/search', 'makeSearch')->name('car.makes.search');
         Route::get('/car/makes', 'makes')->name('car.makes');
         Route::get('/car/makes/{make}/models', 'models')->name('car.makes.models');
         Route::get('/car/makes/{make}/models/{model}/data', 'data')->name('car.makes.models.data');

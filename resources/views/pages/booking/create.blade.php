@@ -11,21 +11,19 @@
                 @csrf
 
                 <section class="space-y-2">
-                    <section>
-                        <x-form.field.select
-                            identifier="booking"
-                            name="company_id"
-                            value="{{ $company->id }}"
-                            label="Company"
-                            :options="$available_companies"
-                            select_map_value="id"
-                            select_map_label="name"
-                            x-model="company_id"
-                            @change="location.href = `/bookings/companies/${company_id}/create`"
-                        />
-                    </section>
+                    <x-form.field.select
+                        identifier="booking"
+                        name="company_id"
+                        value="{{ $company->id }}"
+                        label="Company"
+                        :options="$available_companies"
+                        select_map_value="id"
+                        select_map_label="name"
+                        x-model="company_id"
+                        @change="location.href = `/bookings/companies/${company_id}/create`"
+                    />
 
-                    <section class="grid grid-cols-[1fr_auto] items-end gap-2">
+                    <x-form.field.wrapper>
                         <x-form.field.select
                             identifier="booking"
                             name="client_id"
@@ -36,18 +34,16 @@
                         />
 
                         <!-- CLIENT CREATE MODAL TRIGGER -->
-                        <x-button
+                        <x-button.resource-create
                             id="client_create_trigger"
                             data-modal-target="client_create_modal"
                             data-modal-toggle="client_create_modal"
-                            type="button"
-                            class="mb-2"
                         >
                             <x-icon-o-document-plus />
-                        </x-button>
-                    </section>
+                        </x-button.resource-create>
+                    </x-form.field.wrapper>
 
-                    <section class="grid grid-cols-[1fr_auto] items-end gap-2">
+                    <x-form.field.wrapper>
                         <x-form.field.select
                             identifier="booking"
                             name="vehicle_id"
@@ -58,25 +54,20 @@
                         />
 
                         <!-- VEHICLE CREATE MODAL TRIGGER -->
-                        <x-button
+                        <x-button.resource-create
                             id="vehicle_create_trigger"
                             data-modal-target="vehicle_create_modal"
                             data-modal-toggle="vehicle_create_modal"
-                            type="button"
-                            class="mb-2"
                         >
                             <x-icon-o-document-plus />
-                        </x-button>
+                        </x-button.resource-create>
+                    </x-form.field.wrapper>
 
-                    </section>
-
-                    <section>
-                        <x-form.field.datetime
-                            name="confirmed_at"
-                            label="Confirmed At"
-                            :schedule="$company->schedules"
-                        />
-                    </section>
+                    <x-form.field.datetime
+                        name="confirmed_at"
+                        label="Confirmed At"
+                        :schedule="$company->schedules"
+                    />
                 </section>
 
                 <section class="space-y-2">

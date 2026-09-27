@@ -2,9 +2,9 @@
     <x-card>
         <x-card.workorder :workorder="$workorder" />
 
-        @unless ($operation->times->last()->end)
+        @unless ($operation->times?->last()?->end)
             <br>
-            <x-time.active :start="$operation->times->last()->start" />
+            <x-time.active :start="$operation->times?->last()?->start" />
         @endunless
 
         @if (count($times))
@@ -36,13 +36,20 @@
                         select_map_label="label"
                         :value="$operation->type->value"
                     />
-                    <x-form.field.select
-                        name="part_id"
-                        label="Part"
-                        :options="$available_parts"
-                        select_map_value="id"
-                        :select_map_label="['name', 'manufacturer', 'part_number']"
-                    />
+                    <x-form.field.wrapper>
+                        <x-form.field.search-request
+                            name="part_id"
+                            label="Part"
+                            route="{{ route('parts.search') }}"
+                            map_value="id"
+                            map_label="name"
+                        />
+                        <x-button.resource-create
+                            id="part_create_button"
+                            data-modal-target="part_create_modal"
+                            data-modal-toggle="part_create_modal"
+                        />
+                    </x-form.field.wrapper>
                     <x-form.field.text
                         name="expected_life_km"
                         type="number"
@@ -101,4 +108,8 @@
             @endunless
         </div>
     </x-card>
+
+    <x-modal.part.create
+        id="part_create"
+    />
 </x-layout::index>

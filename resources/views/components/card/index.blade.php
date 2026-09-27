@@ -1,7 +1,7 @@
 <div
     {{ $attributes->merge([
         'class' =>
-            'border-2 border-white w-full px-4 py-6 bg-neutral-primary-soft rounded-base shadow-xs text-gray-600"',
+            'border-2 border-white w-full p-4 bg-neutral-primary-soft rounded-base shadow-xs text-gray-600"',
     ]) }}>
     @isset($title)
         <h1 class="text-2xl font-bold tracking-tight">{{ $title }}</h1>

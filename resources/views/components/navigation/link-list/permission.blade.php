@@ -17,14 +17,14 @@
     <ul class="space-y-2 font-medium">
         <li class="my-2">
             <a
-                class="w-full"
+                class="hover:underline underline-offset-4 w-full text-sm"
                 href="{{ $route_list }}"
             > List </a>
         </li>
         @permitted($store[0], $store[1])
             <li class="my-2">
                 <a
-                    class="w-full"
+                    class="hover:underline underline-offset-4 w-full text-sm"
                     href="{{ $route_store }}"
                 > Create </a>
             </li>
@@ -32,7 +32,7 @@
         @permitted($restore[0], $restore[1])
             <li class="my-2">
                 <a
-                    class="w-full"
+                    class="hover:underline underline-offset-4 w-full text-sm"
                     href="{{ $route_restore }}"
                 > Removed </a>
             </li>
