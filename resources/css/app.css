@@ -54,4 +54,12 @@
   .form-item {
     @apply bg-neutral-secondary-medium border-default-medium text-heading rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body block w-full border px-3 py-2.5 text-sm
   }
+
+  .link-item-single {
+    @apply hover:bg-neutral-tertiary hover:text-fg-brand flex gap-2 items-center m-0 outline-none
+  }
+
+  .link-button {
+    @apply w-full text-xs flex justify-start items-center gap-2 px-1.5 py-3
+  }
 }

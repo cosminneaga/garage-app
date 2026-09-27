@@ -169,9 +169,11 @@ Route::controller(BookingController::class)
 Route::controller(WorkorderController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
+        Route::get('/workorders', 'index')->name('workorders.index');
+
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {
-            Route::get('/workorders', 'modelIndex')->name('workorders.index');
+            Route::get('/workorders/bookings', 'modelIndex')->name('workorders.bookings.index');
             Route::get('/workorders/bookings/{booking}', 'modelCreate')->name('workorders.bookings.create');
             Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
             Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');

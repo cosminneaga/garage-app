@@ -20,7 +20,7 @@ class WorkorderController extends Controller
     use ResponseMessage;
     use RelatedModelGuard;
 
-    public function modelIndex(): View
+    public function index(): View
     {
         return view('pages.workorder.index', [
             'workorders' => Auth::user()->woAssigned,

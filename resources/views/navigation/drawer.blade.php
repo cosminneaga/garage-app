@@ -14,56 +14,125 @@
             title="GarageApp Logo"
             alt="GarageApp Logo"
         /> --}}
-        <span class="text-heading whitespace-nowrap text-xl font-semibold">Garage
-            App</span>
+        <span class="text-heading whitespace-nowrap text-xl font-semibold">
+            Garage App
+        </span>
     </div>
 
-    <x-navigation.link-list.permission
-        label="Users"
-        :show="[UserPermission::USER, 'show']"
-        :store="[UserPermission::USER, 'store']"
-        :restore="[UserPermission::USER, 'restore']"
-        route_list="{{ route('users.index') }}"
-        route_store="{{ route('users.create') }}"
-        route_restore="{{ route('users.removed') }}"
+    <x-navigation.group
+        title="Users"
+        :permission="[UserPermission::USER, 'show']"
+        :items="[
+            [
+                'type' => 'single',
+                'title' => 'List of Users',
+                'icon' => 'icon-o-table-cells',
+                'permission' => [UserPermission::USER, 'show'],
+                'route' => route('users.index'),
+            ],
+            [
+                'type' => 'single',
+                'title' => 'Create',
+                'icon' => 'icon-o-document-plus',
+                'permission' => [UserPermission::USER, 'store'],
+                'route' => route('users.create'),
+            ],
+            [
+                'type' => 'single',
+                'title' => 'Removed Users',
+                'icon' => 'icon-o-document-minus',
+                'permission' => [UserPermission::USER, 'restore'],
+                'route' => route('users.removed'),
+            ],
+            [
+                'type' => 'dropdown',
+                'title' => 'Managers',
+                'icon' => 'icon-o-user-group',
+                'permission' => [UserPermission::MANAGER, 'show'],
+                'items' => [
+                    [
+                        'title' => 'Create',
+                        'icon' => 'icon-o-document-plus',
+                        'route' => route('managers.create'),
+                        'permission' => [UserPermission::MANAGER, 'store'],
+                    ],
+                    [
+                        'title' => 'List',
+                        'icon' => 'icon-o-table-cells',
+                        'route' => route('managers.index'),
+                        'permission' => [UserPermission::MANAGER, 'show'],
+                    ],
+                    [
+                        'title' => 'Removed',
+                        'icon' => 'icon-o-document-minus',
+                        'permission' => [UserPermission::MANAGER, 'restore'],
+                        'route' => route('managers.removed'),
+                    ],
+                ],
+            ],
+        ]"
     />
 
-    <x-navigation.link-list.permission
-        label="Managers"
-        :show="[UserPermission::MANAGER, 'show']"
-        :store="[UserPermission::MANAGER, 'store']"
-        :restore="[UserPermission::MANAGER, 'restore']"
-        route_list="{{ route('managers.index') }}"
-        route_store="{{ route('managers.create') }}"
-        route_restore="{{ route('managers.removed') }}"
-    />
-
-    <x-navigation.link-list.permission
-        label="Companies"
-        :show="[UserPermission::COMPANY, 'show']"
-        :store="[UserPermission::COMPANY, 'store']"
-        :restore="[UserPermission::COMPANY, 'restore']"
-        route_list="{{ route('companies.index') }}"
-        route_store="{{ route('companies.create') }}"
-        route_restore="{{ route('companies.removed') }}"
-    />
-
-    @hasanyrole([UserRole::ADMINISTRATOR, UserRole::MANAGER])
-        <x-navigation.link-list.permission
-            label="Bookings"
-            :show="[UserPermission::BOOKING, 'show']"
-            :store="[UserPermission::BOOKING, 'store']"
-            :restore="[UserPermission::BOOKING, 'restore']"
-            route_list="{{ route('bookings.index') }}"
-            route_store="{{ route('bookings.companies.create', Auth::user()->setting->default_company) }}"
-            {{-- route_restore="{{ route('bookings.removed') }}" --}}
-        />
-    @endhasanyrole
-
-    <x-navigation.link-list.permission
-        label="Workorders"
-        :show="[UserPermission::WORKORDER, 'show']"
-        route_list="{{ route('workorders.index') }}"
+    <x-navigation.group
+        title="Company"
+        :permission="[UserPermission::COMPANY, 'show']"
+        :items="[
+            [
+                'type' => 'single',
+                'title' => 'List of Companies',
+                'icon' => 'icon-o-building-office',
+                'route' => route('companies.index'),
+                'permission' => [UserPermission::COMPANY, 'show'],
+            ],
+            [
+                'type' => 'single',
+                'title' => 'Create',
+                'icon' => 'icon-o-document-plus',
+                'route' => route('companies.create'),
+                'permission' => [UserPermission::COMPANY, 'store'],
+            ],
+            [
+                'type' => 'single',
+                'title' => 'Removed',
+                'icon' => 'icon-o-document-minus',
+                'route' => route('companies.removed'),
+                'permission' => [UserPermission::COMPANY, 'restore'],
+            ],
+            [
+                'type' => 'dropdown',
+                'title' => 'Bookings',
+                'icon' => 'icon-o-calendar-days',
+                'permission' => [UserPermission::BOOKING, 'show'],
+                'items' => [
+                    [
+                        'title' => 'List of Bookings',
+                        'icon' => 'icon-o-table-cells',
+                        'route' => route('bookings.index'),
+                        'permission' => [UserPermission::BOOKING, 'show'],
+                    ],
+                    [
+                        'title' => 'Create for Default Company',
+                        'icon' => 'icon-o-document-plus',
+                        'route' => Auth::user()->setting ? route('bookings.companies.create', Auth::user()->setting->default_company) : '#',
+                        'permission' => [UserPermission::BOOKING, 'store'],
+                    ],
+                ],
+            ],
+            [
+                'type' => 'dropdown',
+                'title' => 'Workorders',
+                'icon' => 'icon-o-briefcase',
+                'permission' => [UserPermission::WORKORDER, 'show'],
+                'items' => [
+                    [
+                        'title' => 'Assigned',
+                        'icon' => 'icon-o-table-cells',
+                        'route' => route('workorders.index'),
+                        'permission' => [UserPermission::WORKORDER, 'show'],
+                    ],
+                ],
+            ],
+        ]"
     />
 
     @super
