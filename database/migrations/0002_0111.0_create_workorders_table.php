@@ -2,6 +2,7 @@
 
 use App\Enums\Status\WorkorderStatus;
 use App\Models\Booking;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -32,7 +33,8 @@ return new class () extends Migration {
             $table->dateTime('in_progress_at')->nullable();
             $table->dateTime('in_pause_at')->nullable();
 
-            $table->foreignIdFor(Booking::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Booking::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Company::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'technician_id')->constrained()->cascadeOnDelete();
 
             $table->auditColumns();

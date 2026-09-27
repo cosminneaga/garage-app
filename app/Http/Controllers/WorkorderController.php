@@ -48,6 +48,7 @@ class WorkorderController extends Controller
         Workorder::create([
             ...$request->safe()->all(),
             'booking_id' => $booking->id,
+            'company_id' => $booking->company->id,
         ]);
 
         return redirect()->intended(route('bookings.companies.edit', [$booking, $booking->company]))

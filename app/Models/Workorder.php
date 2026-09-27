@@ -117,9 +117,11 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'labour_price_hourly',
     'labour_total_cost',
     'part_total_cost',
-    'technician_id',
-    'booking_id',
     'cancelled_at',
+
+    'booking_id',
+    'company_id',
+    'technician_id',
 ])]
 class Workorder extends Model
 {
@@ -142,6 +144,18 @@ class Workorder extends Model
         'title' => JobName::OTHER->value,
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'status' => WorkorderStatus::class,
+            'title' => JobName::class,
+            'completed_at' => FormattedDateTime::class,
+            'cancelled_at' => FormattedDateTime::class,
+            'in_progress_at' => FormattedDateTime::class,
+            'in_pause_at' => FormattedDateTime::class,
+        ];
+    }
+
     public function toSearchableArray(): array
     {
         return [
@@ -153,7 +167,7 @@ class Workorder extends Model
 
     public function isPartOfMyCompany(User $user): bool
     {
-        return (bool) $this->booking->company->users()->find($user->id);
+        return (bool) $this->company->users()->find($user->id);
     }
 
     public function isPartOfMyBooking(User $user): bool
@@ -179,6 +193,11 @@ class Workorder extends Model
         return $this->belongsTo(Booking::class);
     }
 
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function technician(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -197,16 +216,5 @@ class Workorder extends Model
     public function statuses(): HasMany
     {
         return $this->hasMany(WorkorderStatusHistory::class);
-    }
-    protected function casts(): array
-    {
-        return [
-            'status' => WorkorderStatus::class,
-            'title' => JobName::class,
-            'completed_at' => FormattedDateTime::class,
-            'cancelled_at' => FormattedDateTime::class,
-            'in_progress_at' => FormattedDateTime::class,
-            'in_pause_at' => FormattedDateTime::class,
-        ];
     }
 }

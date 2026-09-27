@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Enums\UserRole;
 use App\Policies\CompanyPolicy;
 use App\Traits\Blameable;
 use Database\Factories\CompanyFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -101,6 +101,13 @@ class Company extends Model
     use SoftDeletes;
     use Blameable;
 
+    protected function casts(): array
+    {
+        return [
+            'tax_value' => 'float',
+        ];
+    }
+
     public function toSearchableArray(): array
     {
         return [
@@ -161,6 +168,11 @@ class Company extends Model
         return $this->hasMany(Booking::class);
     }
 
+    public function workorders(): HasMany
+    {
+        return $this->hasMany(Workorder::class);
+    }
+
     public function vehicles(): BelongsToMany
     {
         return $this->belongsToMany(Vehicle::class);
@@ -169,11 +181,5 @@ class Company extends Model
     public function schedules(): HasMany
     {
         return $this->hasMany(CompanySchedule::class);
-    }
-    protected function casts(): array
-    {
-        return [
-            'tax_value' => 'float',
-        ];
     }
 }
