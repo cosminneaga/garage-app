@@ -39,7 +39,7 @@ class WorkorderStatusUpdateNotification extends Notification
     {
         return (new MailMessage())
             ->subject('Workorder ' . $this->workorder->number . ' status updated')
-            ->markdown('mail.generic-mail', $this->toArray());
+            ->markdown('mail.generic', $this->toArray());
     }
 
     public function toArray(): array

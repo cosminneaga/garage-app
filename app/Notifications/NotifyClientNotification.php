@@ -30,7 +30,7 @@ class NotifyClientNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage())
             ->subject('Hey your account has been created successfully')
-            ->markdown('mail.generic-mail', [
+            ->markdown('mail.generic', [
                 'title' => $this->title,
                 'messages' => $this->messages,
                 'button_text' => 'Go to your account',

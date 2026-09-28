@@ -40,7 +40,7 @@ class BookingStatusUpdateNotification extends Notification
     {
         return (new MailMessage())
             ->subject('Booking ' . $this->booking->number . ' status has changed')
-            ->markdown('mail.generic-mail', $this->toArray());
+            ->markdown('mail.generic', $this->toArray());
     }
 
     public function toArray(): array

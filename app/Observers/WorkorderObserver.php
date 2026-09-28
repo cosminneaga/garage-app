@@ -6,6 +6,7 @@ namespace App\Observers;
 
 use App\Enums\Status\WorkorderStatus;
 use App\Models\Workorder;
+use App\Notifications\WorkorderAssignedNotification;
 use App\Notifications\WorkorderStatusUpdateNotification;
 use App\Traits\ObserverHelper;
 use Carbon\Carbon;
@@ -19,6 +20,9 @@ class WorkorderObserver
     {
         $workorder->booking->in_progress_at = Carbon::now()->format('d-m-Y H:i');
         $workorder->booking->save();
+
+        # send internal notification to assigned user
+        Notification::send($workorder->technician, new WorkorderAssignedNotification($workorder));
     }
 
     public function updated(Workorder $workorder): void
