@@ -6,6 +6,7 @@ namespace App\Observers;
 
 use App\Enums\Status\BookingStatus;
 use App\Models\Booking;
+use App\Models\User;
 use App\Notifications\BookingClientNotification;
 use App\Notifications\BookingCreatedNotification;
 use App\Notifications\BookingStatusUpdateNotification;
@@ -20,7 +21,7 @@ class BookingObserver
 
     public function created(Booking $booking): void
     {
-        $managers = $booking->company->managers;
+        $managers = $booking->company->managers->reject(fn (User $user) => $user->is(Auth::user()));
         Notification::send([...$managers, Auth::user()], new BookingCreatedNotification($booking));
 
         # CHECKED_IN
@@ -48,7 +49,7 @@ class BookingObserver
     {
         # send internal notification on each status change
         if ($this->columnChangeCheck($booking, 'status')) {
-            $managers = $booking->company->managers;
+            $managers = $booking->company->managers->reject(fn (User $user) => $user->is(Auth::user()));
             $old = $booking->getOriginal('status');
             Notification::send([...$managers, Auth::user()], new BookingStatusUpdateNotification($booking, $old));
 

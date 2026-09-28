@@ -130,6 +130,10 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'checked_in_at',
     'cancelled_at',
     'completed_at',
+    'advisor_id',
+    'company_id',
+    'client_id',
+    'vehicle_id'
 ])]
 class Booking extends Model
 {
