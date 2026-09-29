@@ -14,12 +14,7 @@ class WorkorderOperationObserver
      */
     public function created(WorkorderOperation $operation): void
     {
-        // $wo = $operation->workorder;
-
-        // if ($operation->part) {
-        //     $wo->part_total_cost += $operation->part->selling_price;
-        //     $wo->saveQuietly();
-        // }
+        //
     }
 
     /**
@@ -27,27 +22,7 @@ class WorkorderOperationObserver
      */
     public function updated(WorkorderOperation $operation): void
     {
-        // $wo = $operation->workorder;
-        // $operations = $wo->operations;
-
-        // $totalHours = 0.00;
-        // $totalParts = 0.00;
-
-        // foreach ($operations as $op) {
-        //     $totalHours += round($operation->times->sum('minutes') / 60, 2);
-        //     $totalParts += $op->part->selling_price;
-        // }
-
-        // $wo->labour_total_cost += $wo->labour_total_cost * $totalHours;
-        // $wo->part_total_cost += $totalParts;
-
-        // if ($this->columnInsertCheck($operation, 'part')) {
-        //     $wo = $operation->workorder;
-        //     $wo->part_total_cost += $operation->part->selling_price;
-        //     $wo->saveQuietly();
-
-        //     return;
-        // }
+        //
     }
 
     /**

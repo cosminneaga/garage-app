@@ -39,7 +39,7 @@ class BookingStatusUpdateNotification extends Notification
     public function toMail(): MailMessage
     {
         return (new MailMessage())
-            ->subject('Booking ' . $this->booking->number . ' status has changed')
+            ->subject('Booking ' . $this->booking->number . ' status updated')
             ->markdown('mail.generic', $this->toArray());
     }
 
@@ -51,8 +51,7 @@ class BookingStatusUpdateNotification extends Notification
             'messages' => [
                 'Booking with number: ' . $this->booking->number . ' status has been updated from "' . $this->oldStatus->label() . '" to "' . $this->booking->status->label() . '"',
             ],
-            // 'url' => route('bookings.edit', $this->booking),
-            'url' => '#',
+            'url' => route('bookings.companies.edit', [$this->booking, $this->booking->company]),
             'button_text' => 'Go to booking',
         ];
     }

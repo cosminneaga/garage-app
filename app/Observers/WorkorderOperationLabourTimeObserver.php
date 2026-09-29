@@ -39,13 +39,16 @@ class WorkorderOperationLabourTimeObserver
         # END
         if ($this->columnInsertCheck($time, 'end')) {
             $wo = $time->operation->workorder;
-            $wo->in_pause_at = $time->end;
-            $wo->save();
 
-            $wo->statuses()->create([
-                'status' => WorkorderStatus::PAUSED,
-                'description' => 'Status was triggered from "WorkorderOperationLabourTime", end was set at ' . $time->end,
-            ]);
+            if ($wo->status !== WorkorderStatus::PAUSED) {
+                $wo->in_pause_at = $time->end;
+                $wo->save();
+
+                $wo->statuses()->create([
+                    'status' => WorkorderStatus::PAUSED,
+                    'description' => 'Status was triggered from "WorkorderOperationLabourTime", end was set at ' . $time->end,
+                ]);
+            }
 
             return;
         }
