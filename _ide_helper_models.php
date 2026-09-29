@@ -73,7 +73,7 @@ namespace App\Models{
  * @property string|null $complaint
  * @property string|null $notes
  * @property float|null $estimated_cost
- * @property int|null $estimated_duration_minutes
+ * @property int|null $estimated_duration_hours
  * @property $confirmed_at
  * @property $reminder_sent_at
  * @property $checked_in_at
@@ -946,7 +946,7 @@ namespace App\Models{
  * @property string|null $initial_inspection_notes
  * @property string|null $notes
  * @property string|null $part_notes
- * @property numeric|null $labour_price_hourly
+ * @property numeric|null $labour_rate
  * @property numeric|null $labour_total_cost
  * @property numeric|null $part_total_cost
  * @property $completed_at

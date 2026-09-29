@@ -98,9 +98,9 @@
                         label="Estimated cost"
                     />
                     <x-form.field.text
-                        name="estimated_duration_minutes"
+                        name="estimated_duration_hours"
                         type="number"
-                        label="Estimated duration (minutes)"
+                        label="Estimated duration (hours)"
                     />
                     <x-form.field.textarea
                         name="notes"

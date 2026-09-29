@@ -30,45 +30,52 @@
                     <x-form.field.text
                         name="current_status_info"
                         value="Booking has been updated"
+                        value="{{ old('current_status_info', '') }}"
                         label="Current Status info"
                     />
                     <x-form.field.select
                         name="service_type"
+                        value="{{ old('service_type') }}"
                         label="Service Type"
                         select_map_value="value"
                         select_map_label="label"
                         :options="ServiceType::selectOptions()"
-                        :value="old('service_type')"
                     />
                     <x-form.field.select
                         name="priority"
+                        value="{{ old('priority') }}"
                         label="Priority"
                         select_map_value="value"
                         select_map_label="label"
                         :options="Priority::selectOptions()"
-                        :value="old('priority')"
                     />
                     <x-form.field.datetime
                         name="confirmed_at"
+                        value="{{ old('confirmed_at', '') }}"
                         label="Confirmed At"
                     />
                     <x-form.field.datetime
                         name="checked_in_at"
+                        value="{{ old('checked_in_at', '') }}"
                         label="Checked In At"
                     />
                     <x-form.field.datetime
                         name="cancelled_at"
+                        value="{{ old('cancelled_at', '') }}"
                         label="Cancelled At"
                     />
-                    <x-form.field.text
-                        name="estimated_duration_minutes"
-                        type="number"
-                        label="Estimated duration (minutes)"
-                    />
-                    <x-form.field.text
-                        name="estimated_cost"
-                        label="Estimated cost"
-                    />
+                    <div class="grid grid-cols-2 gap-2">
+                        <x-form.field.text
+                            name="estimated_duration_hours"
+                            type="number"
+                            value="{{ old('estimated_duration_hours', '') }}"
+                            label="Estimated duration (hours)"
+                        />
+                        <x-form.field.text
+                            name="estimated_cost"
+                            label="Estimated cost"
+                        />
+                    </div>
                 </section>
                 <section>
                     <x-form.field.textarea

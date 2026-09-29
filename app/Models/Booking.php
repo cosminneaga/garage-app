@@ -41,7 +41,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $complaint
  * @property string|null $notes
  * @property float|null $estimated_cost
- * @property int|null $estimated_duration_minutes
+ * @property int|null $estimated_duration_hours
  * @property $confirmed_at
  * @property $reminder_sent_at
  * @property $checked_in_at
@@ -120,7 +120,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 #[Fillable([
     'service_type',
     'priority',
-    'estimated_duration_minutes',
+    'estimated_duration_hours',
     'current_status_info',
     'complaint',
     'notes',

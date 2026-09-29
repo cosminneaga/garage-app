@@ -28,7 +28,7 @@ class StoreWorkorderRequest extends FormRequest
         return [
             'title' =>                  ['required', 'string', 'max:255'],
             'technician_id' =>          ['required', 'exists:users,id'],
-            'labour_price_hourly' =>    ['sometimes', 'nullable', 'decimal:2'],
+            'labour_rate' =>    ['sometimes', 'nullable', 'decimal:2'],
             'notes' =>                  ['sometimes', 'nullable', 'string', 'max:450'],
             'part_notes' =>             ['sometimes', 'nullable', 'string', 'max:450'],
         ];

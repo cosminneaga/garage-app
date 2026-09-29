@@ -19,8 +19,8 @@ class PartFactory extends Factory
     {
         return [
             'name' => fake()->randomElement(['Oil Filter MANN', 'Oil Pan', 'Head Gasket', 'Piston', 'Piston Ring', 'Timing Kit']),
-            'item_price' => fake()->randomFloat(2, 0, 100000),
-            'commercial_markup' => fake()->randomFloat(2, 0, 100),
+            'item_price' => fake()->randomFloat(2, 0, 1000),
+            'commercial_markup' => fake()->randomFloat(2, 0, 1),
             'manufacturer' => fake()->randomElement(['MANN', 'Brembo', 'Bosch', 'VM']),
             'part_number' => fake()->ean8(),
             'serial_number' => fake()->ean13(),

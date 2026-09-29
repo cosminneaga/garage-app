@@ -39,7 +39,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $initial_inspection_notes
  * @property string|null $notes
  * @property string|null $part_notes
- * @property numeric|null $labour_price_hourly
+ * @property numeric|null $labour_rate
  * @property numeric|null $labour_total_cost
  * @property numeric|null $part_total_cost
  * @property $completed_at
@@ -114,9 +114,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'initial_inspection_notes',
     'notes',
     'part_notes',
-    'labour_price_hourly',
-    'labour_total_cost',
+    'labour_rate',
     'part_total_cost',
+    'labour_total_cost',
     'cancelled_at',
 
     'booking_id',

@@ -105,6 +105,14 @@ class Part extends Model
         'commercial_markup' => 0.00,
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'item_price' => 'float',
+            'commercial_markup' => 'float',
+        ];
+    }
+
     public function toSearchableArray(): array
     {
         return [
@@ -117,6 +125,11 @@ class Part extends Model
         ];
     }
 
+    public function getSellingPriceAttribute(): float
+    {
+        return $this->item_price * (1 + ($this->commercial_markup / 100));
+    }
+
     public function operations(): HasMany
     {
         return $this->hasMany(WorkorderOperation::class);
@@ -125,12 +138,5 @@ class Part extends Model
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
-    }
-    protected function casts(): array
-    {
-        return [
-            'item_price' => 'float',
-            'commercial_markup' => 'float',
-        ];
     }
 }

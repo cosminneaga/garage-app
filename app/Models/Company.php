@@ -92,6 +92,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'image_path',
     'created_by',
     'updated_by',
+    'labour_rate_hourly',
 ])]
 class Company extends Model
 {

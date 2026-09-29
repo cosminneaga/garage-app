@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->string('registration_number');
             $table->string('tax_id');
             $table->decimal('tax_value', 4, 2)->default(20.00);
-            $table->decimal('labour_hourly_rate')->default(0.00);
+            $table->decimal('labour_rate_hourly')->default(0.00);
             $table->string('invoice_prefix')->nullable(false);
             $table->string('image_path')->references('id')->on('users')->nullable();
 

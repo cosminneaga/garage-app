@@ -60,9 +60,9 @@
                         type="number"
                     />
                     <x-form.field.text
-                        name="labour_price_hourly"
-                        label="Labour Price Hourly"
-                        :value="old('labour_price_hourly')"
+                        name="labour_rate"
+                        label="Labour Rate (hourly)"
+                        :value="old('labour_rate')"
                         type="number"
                         step="0.01"
                     />

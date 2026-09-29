@@ -6,10 +6,12 @@ namespace App\Models;
 
 use App\Enums\Type\WorkorderOperationType;
 use App\Enums\UserRole;
+use App\Observers\WorkorderOperationObserver;
 use App\Policies\WorkorderOperationPolicy;
 use App\Traits\Blameable;
 use Database\Factories\WorkorderOperationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -77,6 +79,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin IdeHelperWorkorderOperation
  */
 #[UsePolicy(WorkorderOperationPolicy::class)]
+#[ObservedBy(WorkorderOperationObserver::class)]
 #[Fillable([
     'type',
     'part_installed_odometer',
@@ -96,6 +99,17 @@ class WorkorderOperation extends Model
     protected $attributes = [
         'type' => WorkorderOperationType::REPAIR->value,
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => WorkorderOperationType::class,
+            'part_installed_odometer' => 'integer',
+            'expected_life_km' => 'integer',
+            'expected_life_months' => 'integer',
+            'notes' => 'string',
+        ];
+    }
 
     public function isPartOfMyCompany(User $user): bool
     {
@@ -157,15 +171,5 @@ class WorkorderOperation extends Model
     public function files(): BelongsToMany
     {
         return $this->belongsToMany(File::class);
-    }
-    protected function casts(): array
-    {
-        return [
-            'type' => WorkorderOperationType::class,
-            'part_installed_odometer' => 'integer',
-            'expected_life_km' => 'integer',
-            'expected_life_months' => 'integer',
-            'notes' => 'string',
-        ];
     }
 }

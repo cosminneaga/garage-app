@@ -32,16 +32,13 @@ class WorkorderOperationLabourTimeObserver
                 'description' => 'Status was triggered from "WorkorderOperationLabourTime", start was set at ' . $time->start,
             ]);
         }
-
-
     }
 
     public function updated(WorkorderOperationLabourTime $time): void
     {
-        $wo = $time->operation->workorder;
-
         # END
         if ($this->columnInsertCheck($time, 'end')) {
+            $wo = $time->operation->workorder;
             $wo->in_pause_at = $time->end;
             $wo->save();
 

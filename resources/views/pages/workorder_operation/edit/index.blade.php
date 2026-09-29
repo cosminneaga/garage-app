@@ -38,7 +38,7 @@
                         :options="WorkorderOperationType::selectOptions()"
                         select_map_value="value"
                         select_map_label="label"
-                        :value="$operation->type->value"
+                        value="{{ $operation->type->value }}"
                     />
                     <x-form.field.wrapper>
                         <x-form.field.search-query
@@ -61,19 +61,19 @@
                         name="expected_life_km"
                         type="number"
                         label="Expected life (KM)"
-                        :value="old('expected_life_km')"
+                        value="{{ old('expected_life_km') }}"
                     />
                     <x-form.field.text
                         name="expected_life_months"
                         type="number"
                         label="Expected life (Months)"
-                        :value="old('expected_life_months')"
+                        value="{{ old('expected_life_months') }}"
                     />
                     <x-form.field.text
                         name="part_installed_odometer"
                         type="number"
                         label="Part installed odometer (KM)"
-                        :value="old('part_installed_odometer')"
+                        value="{{ old('part_installed_odometer') }}"
                     />
 
                     @hasanyrole([UserRole::ADMINISTRATOR, UserRole::MANAGER])
@@ -83,7 +83,7 @@
                             :options="$technicians"
                             select_map_value="id"
                             :select_map_label="['name', 'email']"
-                            :value="$operation->performed_by"
+                            value="{{ $operation->performed_by }}"
                         />
                     @endhasanyrole
                 </section>
@@ -92,6 +92,7 @@
                     <x-form.field.textarea
                         name="notes"
                         label="General notes"
+                        value="{{ old('notes', '') }}"
                     />
                 </section>
             </div>

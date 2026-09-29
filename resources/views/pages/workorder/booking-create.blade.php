@@ -14,10 +14,11 @@
                         :options="JobName::selectOptions()"
                     />
                     <x-form.field.text
-                        name="labour_price_hourly"
-                        label="Labour Price Hourly"
+                        name="labour_rate"
+                        label="Labour Rate (hourly)"
                         type="number"
                         step="0.01"
+                        value="{{ $booking->company->labour_rate_hourly }}"
                     />
                     <x-form.field.select
                         name="technician_id"

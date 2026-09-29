@@ -17,7 +17,7 @@ enum BookingColumns: string
     case PRIORITY = 'priority';
     case CONFIRMED_AT = 'confirmed_at';
     case CHECKED_IN_AT = 'checked_in_at';
-    case ESTIMATED_DURATION_MINUTES = 'estimated_duration_minutes';
+    case ESTIMATED_DURATION_HOURS = 'estimated_duration_hours';
     case ESTIMATED_COST = 'estimated_cost';
 
 }

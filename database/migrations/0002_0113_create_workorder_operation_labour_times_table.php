@@ -15,7 +15,7 @@ return new class () extends Migration {
             $table->id();
             $table->dateTime('start')->nullable();
             $table->dateTime('end')->nullable();
-            $table->integer('minutes')->nullable();
+            $table->integer('minutes')->default(0);
 
             $table->foreignIdFor(WorkorderOperation::class)->constrained()->cascadeOnDelete();
 

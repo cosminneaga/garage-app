@@ -27,7 +27,7 @@ return new class () extends Migration {
             $table->longText('complaint')->nullable();
             $table->longText('notes')->nullable();
             $table->decimal('estimated_cost', 10, 2)->nullable();
-            $table->integer('estimated_duration_minutes')->nullable();
+            $table->integer('estimated_duration_hours')->nullable();
             $table->dateTime('confirmed_at')->nullable();
             $table->dateTime('reminder_sent_at')->nullable();
             $table->dateTime('checked_in_at')->nullable();

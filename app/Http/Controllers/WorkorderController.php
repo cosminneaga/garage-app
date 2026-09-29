@@ -34,7 +34,9 @@ class WorkorderController extends Controller
         self::guard('update', $request, $booking->id);
         $this->authorize('store', Workorder::class);
 
-        return view('pages.workorder.create', [
+        $modelName = $request->route()->getAction('model')->value;
+
+        return view('pages.workorder.' . $modelName . '-create', [
             'booking' => $booking,
             'technicians' => $booking->availableTechnicians()->get(),
         ]);
@@ -93,7 +95,5 @@ class WorkorderController extends Controller
             ));
     }
 
-    public function modelDestroy()
-    {
-    }
+    public function modelDestroy() {}
 }

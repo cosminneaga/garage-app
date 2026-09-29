@@ -44,7 +44,7 @@ class UpdateWorkorderRequest extends FormRequest
             'technician_id' =>              ['required', 'exists:users,id'],
             'odometer_on_start' =>          ['sometimes', 'nullable', 'integer', 'min:0', 'required_if:cancelled_at,null'],
             'odometer_on_finish' =>         ['sometimes', 'nullable', 'integer', 'min:0', 'prohibited_if:odometer_on_start,null', 'gte:odometer_on_start'],
-            'labour_price_hourly' =>        ['sometimes', 'nullable', 'decimal:2'],
+            'labour_rate' =>        ['sometimes', 'nullable', 'decimal:2'],
             'labour_total_cost' =>          ['sometimes', 'nullable', 'decimal:2'],
             'part_total_cost' =>            ['sometimes', 'nullable', 'decimal:2'],
 

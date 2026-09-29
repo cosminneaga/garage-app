@@ -44,11 +44,11 @@ and old values but not for default values -->
         />
         <x-form.field.text
             identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('labour_hourly_rate', $nested_parent_name) }}"
+            name="{{ Str::generateFormFieldName('labour_rate_hourly', $nested_parent_name) }}"
             label="Labour Rate (hourly)"
             type="number"
             step="0.01"
-            value="{{ old('labour_hourly_rate', '') }}"
+            value="{{ old('labour_rate_hourly', '') }}"
         />
     </div>
 </section>

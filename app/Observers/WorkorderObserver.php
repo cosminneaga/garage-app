@@ -10,6 +10,7 @@ use App\Notifications\WorkorderAssignedNotification;
 use App\Notifications\WorkorderStatusUpdateNotification;
 use App\Traits\ObserverHelper;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class WorkorderObserver
@@ -27,6 +28,22 @@ class WorkorderObserver
 
     public function updated(Workorder $workorder): void
     {
+        Log::info('WORKORDER UPDATED');
+        Log::info(json_encode($workorder, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        # on each update reflect total prices
+        $operations = $workorder->operations;
+        $totalHours = 0.00;
+        $totalParts = 0.00;
+
+        foreach ($operations as $operation) {
+            $totalHours += round($operation->times?->sum('minutes') / 60, 2);
+            $totalParts += $operation->part?->selling_price;
+        }
+
+        $workorder->labour_total_cost = $workorder->labour_rate * $totalHours;
+        $workorder->part_total_cost = $totalParts;
+
         # send internal notification to management on each status change
         if ($this->columnChangeCheck($workorder, 'status')) {
             $managers = $workorder->booking->company->managers;
@@ -43,7 +60,7 @@ class WorkorderObserver
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "odometer_at_start" ' . $workorder->odometer_on_start,
             ]);
-            $workorder->save();
+            $workorder->saveQuietly();
 
             return;
         }
@@ -56,7 +73,7 @@ class WorkorderObserver
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "odometer_on_finish" ' . $workorder->odometer_on_finish . ' ,also "completed_at" has been populated with ' . $workorder->completed_at,
             ]);
-            $workorder->save();
+            $workorder->saveQuietly();
 
             $workorder->booking->in_review_at = $workorder->completed_at;
             $workorder->booking->save();
@@ -72,7 +89,7 @@ class WorkorderObserver
                 'status' => $workorder->status,
                 'description' => 'Status was trigger by inserting value into "cancelled_at" ' . $workorder->cancelled_at,
             ]);
-            $workorder->save();
+            $workorder->saveQuietly();
 
             $workorder->booking->cancelled_at = $workorder->cancelled_at;
             $workorder->booking->save();
