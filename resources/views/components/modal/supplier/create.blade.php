@@ -17,7 +17,7 @@
 
 <x-modal.wrapper
     id="{{ $ids->get('modal') }}"
-    size="6xl"
+    size="7xl"
 >
     <form
         id="{{ $ids->get('form') }}"

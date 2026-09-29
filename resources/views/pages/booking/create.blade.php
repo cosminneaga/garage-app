@@ -24,7 +24,7 @@
                     />
 
                     <x-form.field.wrapper>
-                        <x-form.field.search-request
+                        <x-form.field.search-query
                             identifier="booking"
                             name="client_id"
                             label="Client"
@@ -44,7 +44,7 @@
                     </x-form.field.wrapper>
 
                     <x-form.field.wrapper>
-                        <x-form.field.search-request
+                        <x-form.field.search-query
                             identifier="booking"
                             name="vehicle_id"
                             label="Vehicle"

@@ -16,7 +16,7 @@
         <input
             class="text-neutral-primary border-default-medium bg-neutral-secondary-medium checked:border-brand focus:ring-brand-subtle h-4 w-4 appearance-none rounded-full border focus:outline-none focus:ring-2"
             {{ $attributes->merge([
-                'value' => old($helper->get('errorName'), $value),
+                'value' => $value,
                 'type' => 'radio',
                 'name' => $name,
                 'id' => $id,

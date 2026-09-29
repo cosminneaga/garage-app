@@ -17,7 +17,7 @@
                         select_map_label="label"
                     />
                     <x-form.field.wrapper>
-                        <x-form.field.search-request
+                        <x-form.field.search-query
                             name="part_id"
                             label="Part"
                             route="{{ route('parts.search') }}"

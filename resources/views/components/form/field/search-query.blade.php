@@ -1,19 +1,19 @@
 @props([
     'name',
     'route',
-    'nested_parent_name' => false,
     'identifier' => '',
+    'value' => null,
+    'nested_parent_name' => false,
     'label' => false,
     'map_value' => 'id',
     'map_label' => 'label',
     'map_labels' => null,
-    'value' => null,
 ])
 
 {{--
     EXAMPLE
 
-    <x-form.field.search-request
+    <x-form.field.search-query
         name="part_id"
         label="Part"
         route="{{ route('parts.search') }}"

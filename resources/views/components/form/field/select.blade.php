@@ -1,8 +1,8 @@
 @props([
     'name',
     'identifier' => 'select',
-    'label' => false,
     'value' => null,
+    'label' => false,
     'options' => [],
     'select_map_value' => 'value',
     'select_map_label' => 'label',

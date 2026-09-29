@@ -12,17 +12,19 @@
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
         label="Name"
+        value="{{ old('name', '') }}"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('email', $nested_parent_name) }}"
         type="email"
         label="Email"
+        value="{{ old('email', '') }}"
     />
     <x-form.field.switch
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('active', $nested_parent_name) }}"
-        checked
+        value="{{ old('active', 'false') }}"
     >
         <x-slot name="before">
             Inactive

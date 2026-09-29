@@ -13,26 +13,7 @@
                 @csrf
                 @method('PUT')
 
-                <x-form.field.text
-                    identifier="client"
-                    name="name"
-                    label="Name"
-                />
-                <x-form.field.text
-                    identifier="client"
-                    name="email"
-                    label="Email"
-                    type="email"
-                />
-                <x-form.field.switch
-                    identifier="client"
-                    name="active"
-                    label="Active"
-                    checked="{{ old('active') }}"
-                >
-                    <x-slot name="before">Inactive</x-slot>
-                    <x-slot name="after">Active</x-slot>
-                </x-form.field.switch>
+                <x-form.content.client identifier="company" />
 
                 <div class="mt-5 flex gap-1">
                     @permitted(UserPermission::CLIENT, 'update')

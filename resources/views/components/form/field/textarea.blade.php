@@ -25,7 +25,7 @@
             'data-test' => $helper->get('testName'),
             'rows' => 10,
         ]) }}
-    >{{ old($name, $value) }}</textarea>
+    >{{ $value }}</textarea>
 
     @error($helper->get('errorName'))
         <p class="text-xs text-red-600">{{ $message }}</p>

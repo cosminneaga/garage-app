@@ -14,11 +14,13 @@ and old values but not for default values -->
         name="{{ Str::generateFormFieldName('email', $nested_parent_name) }}"
         type="email"
         label="Email"
+        value="{{ old('email', '') }}"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('mobile', $nested_parent_name) }}"
         label="Mobile Phone"
+        value="{{ old('mobile', '') }}"
     />
 </section>
 
@@ -29,16 +31,19 @@ and old values but not for default values -->
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('url', $nested_parent_name) }}"
         label="URL"
+        value="{{ old('url', '') }}"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('landline', $nested_parent_name) }}"
         label="Landline Phone"
+        value="{{ old('landline', '') }}"
     />
     <x-form.field.textarea
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('info', $nested_parent_name) }}"
         label="More Information"
         rows="15"
+        value="{{ old('info', '') }}"
     />
 </section>

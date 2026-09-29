@@ -13,27 +13,44 @@ and old values but not for default values -->
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
         label="Name"
-    />
-    <x-form.field.text
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('tax_id', $nested_parent_name) }}"
-        label="Tax ID"
+        value="{{ old('name', '') }}"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('registration_number', $nested_parent_name) }}"
         label="Registration Number"
+        value="{{ old('registration_number', '') }}"
     />
-    <x-form.field.text
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('tax_value', $nested_parent_name) }}"
-        label="Tax Value"
-    />
-    <x-form.field.text
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('invoice_prefix', $nested_parent_name) }}"
-        label="Invoice Prefix"
-    />
+    <div class="grid grid-cols-2 gap-2">
+        <x-form.field.text
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('tax_id', $nested_parent_name) }}"
+            label="Tax ID"
+            value="{{ old('tax_id', '') }}"
+        />
+        <x-form.field.text
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('tax_value', $nested_parent_name) }}"
+            label="Tax Value"
+            value="{{ old('tax_value', '') }}"
+        />
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+        <x-form.field.text
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('invoice_prefix', $nested_parent_name) }}"
+            label="Invoice Prefix"
+            value="{{ old('invoice_prefix', '') }}"
+        />
+        <x-form.field.text
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('labour_hourly_rate', $nested_parent_name) }}"
+            label="Labour Rate (hourly)"
+            type="number"
+            step="0.01"
+            value="{{ old('labour_hourly_rate', '') }}"
+        />
+    </div>
 </section>
 
 <section class="space-y-2">

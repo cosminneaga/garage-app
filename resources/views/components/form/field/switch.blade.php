@@ -1,8 +1,8 @@
 @props([
-    'label' => false,
     'name',
-    'checked' => false,
     'identifier' => '',
+    'label' => false,
+    'value' => false,
 ])
 
 @php
@@ -32,7 +32,7 @@
                     'name' => $name,
                     'id' => $name,
                     'data-test' => $helper->get('testName'),
-                    'checked' => filter_var($checked, FILTER_VALIDATE_BOOLEAN),
+                    'checked' => filter_var($value, FILTER_VALIDATE_BOOLEAN),
                 ]) }}>
 
             <label

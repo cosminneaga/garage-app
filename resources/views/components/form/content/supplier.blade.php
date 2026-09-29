@@ -14,29 +14,38 @@ and old values but not for default values -->
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
         label="Name"
+        value="{{ old('name', '') }}"
     />
-    <x-form.field.text
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('code', $nested_parent_name) }}"
-        label="Code"
-    />
-    <x-form.field.select
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('type', $nested_parent_name) }}"
-        label="Type"
-        select_map_label="label"
-        select_map_value="value"
-        :options="SupplierType::selectOptions()"
-        :selected_value="SupplierType::DISTRIBUTOR->value"
-    />
-    <x-form.field.text
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('tax_id', $nested_parent_name) }}"
-        label="Tax ID"
-    />
-    <x-form.field.text
-        identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('registration_number', $nested_parent_name) }}"
-        label="Registration Number"
-    />
+    <div class="grid grid-cols-2 gap-2">
+        <x-form.field.text
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('code', $nested_parent_name) }}"
+            label="Code"
+            value="{{ old('code', '') }}"
+        />
+        <x-form.field.select
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('type', $nested_parent_name) }}"
+            label="Type"
+            select_map_label="label"
+            select_map_value="value"
+            :options="SupplierType::selectOptions()"
+            :selected_value="SupplierType::DISTRIBUTOR->value"
+            value="{{ old('type', '') }}"
+        />
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+        <x-form.field.text
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('tax_id', $nested_parent_name) }}"
+            label="Tax ID"
+            value="{{ old('tax_id', '') }}"
+        />
+        <x-form.field.text
+            identifier="{{ $identifier }}"
+            name="{{ Str::generateFormFieldName('registration_number', $nested_parent_name) }}"
+            label="Registration Number"
+            value="{{ old('registration_number', '') }}"
+        />
+    </div>
 </section>

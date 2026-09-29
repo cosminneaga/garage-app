@@ -65,7 +65,7 @@
         <input
             class="form-item"
             {{ $attributes->merge([
-                'value' => old($helper->get('errorName'), $value),
+                'value' => $value,
                 'name' => $name,
                 'id' => $name,
                 'data-test' => $helper->get('testName'),

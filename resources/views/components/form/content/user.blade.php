@@ -67,7 +67,7 @@ and old values but not for default values -->
         <x-form.field.switch
             identifier="{{ $identifier }}"
             name="{{ Str::generateFormFieldName('active', $nested_parent_name) }}"
-            checked="{{ old('active') }}"
+            value="{{ old('active', 'false') }}"
         >
             <x-slot name="before">
                 Inactive

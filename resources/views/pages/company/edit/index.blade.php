@@ -39,8 +39,9 @@
                             data-modal-toggle="company-delete-modal"
                             type="button"
                             variant="danger"
-                        >Delete
-                            Company</x-button>
+                        >
+                            Delete Company
+                        </x-button>
                     @endpermitted
                 </div>
             </form>

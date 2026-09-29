@@ -26,20 +26,20 @@
         <input
             class="form-item"
             {{ $attributes->merge([
-                'value' => old($helper->get('errorName'), $value),
+                'value' => $value,
                 'name' => $name,
                 'id' => $name,
                 'data-test' => $helper->get('testName'),
                 'placeholder' => 'Search',
             ]) }}>
         <button
-            class="bg-brand hover:bg-brand-strong focus:ring-brand-medium shadow-xs inset-e-1.5 absolute bottom-1.5 box-border rounded border border-transparent px-3 py-1.5 text-xs font-medium leading-5 text-white focus:outline-none focus:ring-4"
+            class="bg-brand hover:bg-brand-strong focus:ring-brand-medium shadow-xs inset-e-1 absolute bottom-1 box-border rounded border border-transparent px-3 py-1.5 text-xs font-medium leading-5 text-white focus:outline-none focus:ring-4"
             {{ $attributes->merge([
                 'type' => 'submit',
                 'id' => $helper->get('testName') . '_submit',
                 'data-test' => $helper->get('testName') . '_submit',
             ]) }}
-        >Search</button>
+        >@svg('icon-s-magnifying-glass')</button>
     </div>
 
     @error($helper->get('errorName'))
