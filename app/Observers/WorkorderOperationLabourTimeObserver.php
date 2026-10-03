@@ -6,8 +6,10 @@ namespace App\Observers;
 
 use App\Enums\Status\WorkorderStatus;
 use App\Models\WorkorderOperationLabourTime;
+use App\Services\WorkorderService;
 use App\Traits\ObserverHelper;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use LogicException;
 
 class WorkorderOperationLabourTimeObserver
@@ -24,48 +26,22 @@ class WorkorderOperationLabourTimeObserver
         }
 
         if ($wo->status !== WorkorderStatus::IN_PROGRESS) {
-            $wo->in_progress_at = Carbon::now()->format('d-m-Y H:i');
-            $wo->save();
-
-            $wo->statuses()->create([
-                'status' => WorkorderStatus::IN_PROGRESS,
-                'description' => 'Status was triggered from "WorkorderOperationLabourTime", start was set at ' . $time->start,
-            ]);
+            App::make(WorkorderService::class, ['model' => $wo])->updateInProgressAtWithStatus(Carbon::now());
         }
+
+        App::make(WorkorderService::class, [ 'model' => $wo ])->refreshCosts();
     }
 
     public function updated(WorkorderOperationLabourTime $time): void
     {
+        $wo = $time->operation->workorder;
+        App::make(WorkorderService::class, [ 'model' => $wo ])->refreshCosts();
+
         # END
         if ($this->columnInsertCheck($time, 'end')) {
-            $wo = $time->operation->workorder;
-
             if ($wo->status !== WorkorderStatus::PAUSED) {
-                $wo->in_pause_at = $time->end;
-                $wo->save();
-
-                $wo->statuses()->create([
-                    'status' => WorkorderStatus::PAUSED,
-                    'description' => 'Status was triggered from "WorkorderOperationLabourTime", end was set at ' . $time->end,
-                ]);
+                App::make(WorkorderService::class, ['model' => $wo])->updateInPauseAtWithStatus(Carbon::now());
             }
-
-            return;
         }
-    }
-
-    public function deleted(WorkorderOperationLabourTime $time): void
-    {
-        //
-    }
-
-    public function restored(WorkorderOperationLabourTime $time): void
-    {
-        //
-    }
-
-    public function forceDeleted(WorkorderOperationLabourTime $time): void
-    {
-        //
     }
 }

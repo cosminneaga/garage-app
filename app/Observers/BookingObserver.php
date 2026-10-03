@@ -170,19 +170,4 @@ class BookingObserver
             return;
         }
     }
-
-    public function deleted(Booking $booking): void
-    {
-        //
-    }
-
-    public function restored(Booking $booking): void
-    {
-        //
-    }
-
-    public function forceDeleted(Booking $booking): void
-    {
-        //
-    }
 }

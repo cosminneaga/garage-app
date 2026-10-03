@@ -118,6 +118,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'part_total_cost',
     'labour_total_cost',
     'cancelled_at',
+    'in_progress_at',
+    'in_pause_at',
 
     'booking_id',
     'company_id',

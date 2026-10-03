@@ -3,49 +3,22 @@
 namespace App\Observers;
 
 use App\Models\WorkorderOperation;
+use App\Services\WorkorderService;
 use App\Traits\ObserverHelper;
+use Illuminate\Support\Facades\App;
 
 class WorkorderOperationObserver
 {
     use ObserverHelper;
 
-    /**
-     * Handle the WorkorderOperation "created" event.
-     */
     public function created(WorkorderOperation $operation): void
     {
-        //
+        App::make(WorkorderService::class, [ 'model' => $operation->workorder ])->refreshCosts();
     }
 
-    /**
-     * Handle the WorkorderOperation "updated" event.
-     */
     public function updated(WorkorderOperation $operation): void
     {
-        //
-    }
-
-    /**
-     * Handle the WorkorderOperation "deleted" event.
-     */
-    public function deleted(WorkorderOperation $operation): void
-    {
-        //
-    }
-
-    /**
-     * Handle the WorkorderOperation "restored" event.
-     */
-    public function restored(WorkorderOperation $operation): void
-    {
-        //
-    }
-
-    /**
-     * Handle the WorkorderOperation "force deleted" event.
-     */
-    public function forceDeleted(WorkorderOperation $operation): void
-    {
-        //
+        # update workorder prices
+        App::make(WorkorderService::class, [ 'model' => $operation->workorder ])->refreshCosts();
     }
 }
