@@ -24,13 +24,13 @@ class CompanyUpdateAction
             ->toArray();
 
         if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {
-            $data['company']['image_path'] = $attributes['image']->store('companies', 'public');
+            $data['company']['image_path'] = $attributes['image']->store('companies');
         }
 
         DB::transaction(function () use ($data, $company) {
             // replace old image with new one
-            if (Arr::has($data, 'company.image_path') && ($company->image_path && Storage::disk('public')->exists($company->image_path))) {
-                Storage::disk('public')->delete($company->image_path);
+            if (Arr::has($data, 'company.image_path') && ($company->image_path && Storage::disk('local')->exists($company->image_path))) {
+                Storage::disk('local')->delete($company->image_path);
             }
 
             $company->update($data['company']);

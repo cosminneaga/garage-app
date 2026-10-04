@@ -11,6 +11,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CompanyScheduleController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\PartController;
@@ -211,6 +212,12 @@ Route::controller(WorkorderOperationLabourTimeController::class)
             Route::post('/workorder_operation_labour_times/workorder_operations/{operation}', 'modelStore')->name('times.operations.store');
             Route::put('/workorder_operation_labour_times/{time}/workorder_operations/{operation}', 'modelUpdate')->name('times.operations.update');
         });
+    });
+
+Route::controller(FileController::class)
+    ->middleware(['auth'])
+    ->group(function () {
+        Route::get('/user/{user}/image/preview', 'userImage')->name('user.image.preview');
     });
 
 Route::controller(SuperController::class)

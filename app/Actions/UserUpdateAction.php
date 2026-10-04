@@ -26,16 +26,16 @@ class UserUpdateAction
         }
 
         if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {
-            $data['user']['image_path'] = $attributes['image']->store('users', 'public');
+            $data['user']['image_path'] = $attributes['image']->store('users');
         }
 
         return DB::transaction(function () use ($user, $data): User {
             // replace old image with new one
             if (
                 Arr::has($data, 'user.image_path') &&
-                ($user->image_path && Storage::disk('public')->exists($user->image_path))
+                ($user->image_path && Storage::disk('local')->exists($user->image_path))
             ) {
-                Storage::disk('public')->delete($user->image_path);
+                Storage::disk('local')->delete($user->image_path);
             }
 
             if (Arr::has($data, 'role')) {

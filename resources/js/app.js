@@ -5,6 +5,7 @@ import './echo';
 import "./pagination";
 import "./alpine";
 import ServerRequest from "./request";
+import Dropzone from "dropzone";
 
 
 window.axios = axios;
@@ -12,6 +13,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 window.DatePicker = Datepicker;
 window.moment = moment;
 window.ServerRequest = ServerRequest;
+window.Dropzone = Dropzone;
 
 window.submitResourceDeleteForm = (formId) => {
     const form = document.querySelector(`form#${formId}`);

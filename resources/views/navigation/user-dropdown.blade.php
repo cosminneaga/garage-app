@@ -1,8 +1,6 @@
 @php
     $user = Auth::user();
-    $unreadNotifications = $user
-        ? $user->unreadNotifications()->latest()->take(3)->get()
-        : [];
+    $unreadNotifications = $user ? $user->unreadNotifications()->latest()->take(3)->get() : [];
 @endphp
 
 <button
@@ -15,13 +13,15 @@
 >
     <img
         class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
-        src="{{ !Str::isUrl($user->image_path) ? asset('storage/' . $user->image_path) : $user->image_path }}"
-        alt="User avatar">
+        src="{{ route('user.image.preview', $user) }}"
+        title="{{ $user->name }}"
+        alt="{{ $user->name }}"
+    >
 
     <!-- NOTIFICATION INDICATOR -->
     <span
-        x-data
         class="bg-success right-2 top-0 me-0 hidden h-4 w-4 rounded-full"
+        x-data
         :class="{
             'hidden': !$store.notification.indicator_show,
             'absolute': $store.notification.indicator_show,
@@ -30,9 +30,9 @@
 </button>
 
 <div
-    {{-- class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-fit border px-2.5 py-2 shadow-lg" --}}
-    class="z-10 hidden bg-neutral-primary-medium border border-default-medium rounded-base shadow-lg w-auto px-2.5 py-3"
+    class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-auto border px-2.5 py-3 shadow-lg"
     id="profile-menu"
+    {{-- class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-fit border px-2.5 py-2 shadow-lg" --}}
 >
     <div class="p-2">
         <div class="text-md">
@@ -80,8 +80,8 @@
                 <strong>Notifications</strong>
 
                 <ul
-                    x-data
                     class="text-heading bg-neutral-primary-soft border-default rounded-base w-48 border text-sm font-medium"
+                    x-data
                 >
                     <template
                         x-for="notification in $store.notification.data"

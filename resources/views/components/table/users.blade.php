@@ -39,11 +39,9 @@
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-user-pic"
-                            :src="$row->image_path &&
-                            !Str::isUrl($row->image_path)
-                                ? asset('storage/' . $row->image_path)
-                                : $row->image_path"
-                            :title="$row->name"
+                            src="{{ route('user.image.preview', $row) }}"
+                            title="{{ $row->name }}"
+                            alt="{{ $row->name }}"
                             size="small"
                         />
                         {{ $row->name }}

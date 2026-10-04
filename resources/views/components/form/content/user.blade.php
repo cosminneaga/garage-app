@@ -14,12 +14,14 @@ and old values but not for default values -->
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
         label="Name"
+        value="{{ old('name', '') }}"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('email', $nested_parent_name) }}"
         type="email"
         label="Email"
+        value="{{ old('email', '') }}"
     />
 </section>
 
@@ -44,6 +46,7 @@ and old values but not for default values -->
             name="{{ Str::generateFormFieldName('password', $nested_parent_name) }}"
             type="password"
             label="Password"
+            value="{{ old('password', '') }}"
         />
     @endif
     @if (collect($exclude)->doesntContain('password_confirmed'))
@@ -54,15 +57,6 @@ and old values but not for default values -->
             label="Password Confirmation"
         />
     @endif
-    {{-- @if (collect($exclude)->doesntContain('role'))
-        <x-form.field
-            identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('role', $nested_parent_name) }}"
-            type="select"
-            label="Select a role"
-            :options="UserRole::ui()"
-        />
-    @endif --}}
     @if (collect($exclude)->doesntContain('active'))
         <x-form.field.switch
             identifier="{{ $identifier }}"

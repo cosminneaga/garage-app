@@ -1,0 +1,18 @@
+#image-dropzone .dz-preview {
+    width: auto;
+    height: auto;
+    margin: auto;
+    border: 1px solid white;
+}
+
+#image-dropzone .dz-preview .dz-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+
+#image-dropzone .dz-preview .dz-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}

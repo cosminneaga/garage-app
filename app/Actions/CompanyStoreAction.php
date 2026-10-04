@@ -8,10 +8,10 @@ use App\Models\Address;
 use App\Models\Company;
 use App\Models\Contact;
 use App\Models\User;
+use Exception;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Exception;
 
 class CompanyStoreAction
 {
@@ -40,7 +40,7 @@ class CompanyStoreAction
             ->toArray();
 
         if (Arr::has($attributes, 'image')) {
-            $data['company']['image_path'] = $attributes['image']->store('companies', 'public');
+            $data['company']['image_path'] = $attributes['image']->store('companies');
         }
 
         return DB::transaction(function () use ($data) {

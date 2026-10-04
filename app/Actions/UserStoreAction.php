@@ -43,7 +43,7 @@ class UserStoreAction
         $data['role'] = $this->user->isAdministrator() ? UserRole::MANAGER->value : UserRole::USER->value;
 
         if (Arr::has($attributes, 'image') && $attributes['image'] !== null) {
-            $data['user']['image_path'] = $attributes['image']->store('users', 'public');
+            $data['user']['image_path'] = $attributes['image']->store('users');
         }
 
         return DB::transaction(function () use ($data) {
