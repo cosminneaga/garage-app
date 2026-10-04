@@ -49,7 +49,7 @@ class WorkorderAssignedNotification extends Notification
                 'Technician: ' . $this->workorder->technician->name,
                 'This workorder is now ready to have operations attached, please use the given screen to create as many operations needed with active time of labour',
             ],
-            'url' => route('workorders.bookings.edit', [$this->workorder, $this->workorder->booking]),
+            'url' => route('workorders.companies.edit', [$this->workorder, $this->workorder->company]),
             'button_text' => 'Go to workorder',
         ];
     }

@@ -1,8 +1,8 @@
 <x-layout::index title="Workorder Create">
     <x-card>
-        <x-card.booking :booking="$booking" />
+        <x-card.booking :booking="$parent" />
 
-        <form action="{{ route('workorders.bookings.store', $booking) }}" method="post">
+        <form action="{{ route('workorders.bookings.store', $parent) }}" method="post">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -18,7 +18,7 @@
                         label="Labour Rate (hourly)"
                         type="number"
                         step="0.01"
-                        value="{{ $booking->company->labour_rate_hourly }}"
+                        value="{{ $parent->company->labour_rate_hourly }}"
                     />
                     <x-form.field.select
                         name="technician_id"
@@ -48,3 +48,4 @@
         </form>
     </x-card>
 </x-layout::index>
+

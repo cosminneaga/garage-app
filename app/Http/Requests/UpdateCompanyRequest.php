@@ -24,12 +24,12 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'tax_id' => ['required', 'string', 'max:255'],
-            'registration_number' => ['required', 'string', 'max:255'],
-            'tax_value' => ['required', 'string', 'max:255'],
-            'invoice_prefix' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
+            'name' =>                   ['required', 'string', 'max:255'],
+            'tax_id' =>                 ['required', 'string', 'max:255'],
+            'registration_number' =>    ['required', 'string', 'max:255'],
+            'tax_value' =>              ['required', 'string', 'max:255'],
+            'invoice_prefix' =>         ['required', 'string', 'max:255'],
+            'image' =>                  ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }
 }

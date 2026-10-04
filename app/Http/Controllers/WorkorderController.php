@@ -50,10 +50,8 @@ class WorkorderController extends Controller
         self::guard('update', $request, $model_id);
         $this->authorize('store', Workorder::class);
 
-        $modelName = $request->route()->getAction('model')->value;
-
-        return view('pages.workorder.' . $modelName . '-create', [
-            'booking' => self::$entity,
+        return view('pages.workorder.create.' . self::$relatedName, [
+            'parent' => self::$entity,
             'technicians' => self::$entity->availableTechnicians()->get(),
         ]);
     }
@@ -74,14 +72,14 @@ class WorkorderController extends Controller
                 ],
         };
 
-        Workorder::create([
+        $workorder = Workorder::create([
             ...$request->safe()->all(),
             ...$fields,
         ]);
 
         $route = match (self::$entity::class) {
             Booking::class => route('bookings.companies.edit', [self::$entity, self::$entity->company]),
-            Company::class => route('workorders.companies.edit', [self::$entity, self::$entity->company]),
+            Company::class => route('workorders.companies.edit', [$workorder, self::$entity]),
         };
 
         return redirect()->intended($route)
@@ -100,7 +98,7 @@ class WorkorderController extends Controller
         self::guard('show', $request, $model_id);
         $this->authorize('update', $workorder);
 
-        return view('pages.workorder.edit.index', [
+        return view('pages.workorder.edit.' . self::$relatedName, [
             'workorder' => $workorder,
             'operations' => $workorder->operations,
             'parent' => self::$entity,

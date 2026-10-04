@@ -16,10 +16,10 @@
         @foreach ($tabs as $index => $tab)
             <li class="me-2">
                 <a
-                    class="{{ $queryTab === $tab->slug ? $activeClass : '' }} rounded-t-base active group inline-flex items-center justify-center border-b p-4"
-                    href="{{ $url }}?tab={{ $tab->slug }}"
+                    class="{{ $queryTab === $tab->value ? $activeClass : '' }} rounded-t-base active group inline-flex items-center justify-center border-b p-4"
+                    href="{{ $url }}?tab={{ $tab->value }}"
                     aria-current="page"
-                    data-test="{{ $tab->slug }}"
+                    data-test="{{ $tab->value }}"
                 >
                     {{ $tab->label }}
                 </a>
@@ -39,7 +39,7 @@
 
         foreach ($divs as $index => $div) {
             $class = 'rounded-base bg-neutral-secondary-soft p-4 ';
-            $class .= $queryTab === $tabs[$index]->slug ? 'block' : 'hidden';
+            $class .= $queryTab === $tabs[$index]->value ? 'block' : 'hidden';
 
             $div->setAttribute('id', 'tab-' . $index);
             $div->setAttribute('class', $class);

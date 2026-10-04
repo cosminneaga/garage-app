@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
 class StoreUserRequest extends FormRequest
 {
@@ -18,6 +19,14 @@ class StoreUserRequest extends FormRequest
         return Permission::can(UserPermission::USER, 'store');
     }
 
+    #[Override]
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'active' => $this->input('active') ? true : false,
+        ]);
+    }
+
     public function rules(): array
     {
         return [
@@ -25,7 +34,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6', 'max:40'],
             'password_confirmed' => ['required', 'string', 'same:password'],
-            'active' => ['string'],
+            'active' => ['required', 'boolean'],
             'contact.mobile' => ['required', 'string', 'min:6', 'max:40'],
             'contact.landline' => ['nullable', 'string', 'min:6', 'max:40'],
             'contact.email' => ['required', 'email', 'max:255'],

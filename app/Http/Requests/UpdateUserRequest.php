@@ -7,6 +7,7 @@ namespace App\Http\Requests;
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
 use Illuminate\Foundation\Http\FormRequest;
+use Override;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -18,13 +19,21 @@ class UpdateUserRequest extends FormRequest
         return Permission::can(UserPermission::USER, 'update');
     }
 
+    #[Override]
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'active' => $this->input('active') ? true : false,
+        ]);
+    }
+
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'active' => ['string'],
-            'image' => ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
+            'name' =>       ['required', 'string', 'max:255'],
+            'email' =>      ['required', 'email', 'max:255'],
+            'active' =>     ['required', 'boolean'],
+            'image' =>      ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }
 }

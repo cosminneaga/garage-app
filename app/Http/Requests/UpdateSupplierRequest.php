@@ -28,11 +28,11 @@ class UpdateSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:255'],
-            'code' => ['required', 'string', 'min:3', 'max:255'],
-            'type' => ['required', new Enum(SupplierType::class)],
-            'tax_id' => ['required', 'string', 'min:5', 'max:255'],
-            'registration_number' => ['required', 'string', 'max:255'],
+            'name' =>                   ['required', 'string', 'min:3', 'max:255'],
+            'code' =>                   ['required', 'string', 'min:3', 'max:255'],
+            'type' =>                   ['required', new Enum(SupplierType::class)],
+            'tax_id' =>                 ['required', 'string', 'min:5', 'max:255'],
+            'registration_number' =>    ['required', 'string', 'max:255'],
         ];
     }
 }

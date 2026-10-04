@@ -50,8 +50,7 @@ class WorkorderStatusUpdateNotification extends Notification
             'messages' => [
                 'Workorder with number ' . $this->workorder->number . ' status has been updated from "' . $this->oldStatus->label() . '" to "' . $this->workorder->status->label() . '"',
             ],
-            // 'url' => route('workorders.bookings.edit', $this->workorder, $this->workorder->booking),
-            'url' => '#',
+            'url' => route('workorders.companies.edit', [$this->workorder, $this->workorder->company]),
             'button_text' => 'Go to Workorder',
         ];
     }

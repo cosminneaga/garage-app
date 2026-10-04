@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use App\Enums\Status\VehicleStatus;
 use App\Enums\Type\FuelType;
 use App\Policies\VehiclePolicy;
 use App\Traits\Blameable;
 use Database\Factories\VehicleFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -112,6 +113,15 @@ class Vehicle extends Model
         'status' => VehicleStatus::ACTIVE->value,
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'fuel' => FuelType::class,
+            'status' => VehicleStatus::class,
+            'first_visit' => 'datetime',
+        ];
+    }
+
     public function toSearchableArray(): array
     {
         return [
@@ -131,12 +141,9 @@ class Vehicle extends Model
     {
         return $this->hasMany(Booking::class);
     }
-    protected function casts(): array
+
+    public function workorder(): BelongsTo
     {
-        return [
-            'fuel' => FuelType::class,
-            'status' => VehicleStatus::class,
-            'first_visit' => 'datetime',
-        ];
+        return $this->belongsTo(Workorder::class);
     }
 }

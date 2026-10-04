@@ -2,8 +2,10 @@
 
 use App\Enums\Status\WorkorderStatus;
 use App\Models\Booking;
+use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -36,6 +38,8 @@ return new class () extends Migration {
             $table->foreignIdFor(Booking::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Company::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'technician_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Client::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Vehicle::class)->nullable()->constrained()->cascadeOnDelete();
 
             $table->auditColumns();
 

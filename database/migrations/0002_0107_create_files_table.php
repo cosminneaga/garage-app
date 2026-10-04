@@ -15,11 +15,11 @@ return new class () extends Migration {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
 
+            $table->string('type')->default(FileType::OTHER->value);
+            $table->longText('description')->nullable();
             $table->string('name')->nullable(false);
             $table->string('extension')->nullable(false);
             $table->string('path')->nullable(false);
-            $table->string('type')->default(FileType::OTHER->value);
-            $table->longText('description')->nullable();
 
             $table->foreignIdFor(User::class, 'uploaded_by')->constrained()->cascadeOnUpdate();
 

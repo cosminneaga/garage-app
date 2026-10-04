@@ -6,9 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWorkorderOperationRequest;
 use App\Http\Requests\UpdateWorkorderOperationRequest;
-use App\Models\Part;
 use App\Models\Workorder;
 use App\Models\WorkorderOperation;
+use App\Services\PartService;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
@@ -20,15 +20,26 @@ class WorkorderOperationController extends Controller
     use RelatedModelGuard;
     use ResponseMessage;
 
+    public function __construct(
+        protected PartService $partService
+    ) {
+        //
+    }
+
     public function modelCreate(Request $request, Workorder $workorder): View
     {
         self::guard('update', $request, $workorder->id);
         $this->authorize('store', WorkorderOperation::class);
 
+        $parent = $workorder->company;
+        if ($workorder->booking) {
+            $parent = $workorder->booking;
+        }
+
         return view('pages.workorder_operation.create', [
             'workorder' => $workorder,
-            'available_parts' => Part::whereIn('supplier_id', $workorder->booking->company->suppliers->select('id'))->get(),
-            'technicians' => $workorder->booking->availableTechnicians()->get(),
+            'available_parts' => $this->partService->getAllByParentModel($parent),
+            'technicians' => $parent->availableTechnicians()->get(),
         ]);
     }
 
@@ -57,12 +68,18 @@ class WorkorderOperationController extends Controller
         self::guard('show', $request, $workorder->id);
         $this->authorize('show', $operation);
 
+        $parent = $workorder->company;
+        if ($workorder->booking) {
+            $parent = $workorder->booking;
+        }
+
         return view('pages.workorder_operation.edit.index', [
             'workorder' => $workorder,
+            'workorder_parent' => $parent,
             'operation' => $operation,
             'times' => $operation->times,
-            'available_parts' => Part::whereIn('supplier_id', $workorder->booking->company->suppliers->select('id'))->get(),
-            'technicians' => $workorder->booking->availableTechnicians()->get(),
+            'available_parts' => $this->partService->getAllByParentModel($parent),
+            'technicians' => $parent->availableTechnicians()->get(),
         ]);
     }
 
@@ -81,9 +98,5 @@ class WorkorderOperationController extends Controller
                 'Resource updated',
                 'Workorder Operation has been successfully updated'
             ));
-    }
-
-    public function modelDestroy()
-    {
     }
 }

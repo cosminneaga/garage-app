@@ -95,6 +95,12 @@
                         'route' => Auth::user()->setting ? route('workorders.companies.index', Auth::user()->setting->default_company) : '#',
                         'permission' => [UserPermission::WORKORDER, 'show'],
                     ],
+                    [
+                        'title' => 'Create for Default Company',
+                        'icon' => 'icon-o-document-plus',
+                        'route' => Auth::user()->setting ? route('workorders.companies.create', Auth::user()->setting->default_company) : '#',
+                        'permission' => [UserPermission::BOOKING, 'store'],
+                    ],
                 ],
             ],
         ]"

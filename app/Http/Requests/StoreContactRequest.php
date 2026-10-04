@@ -26,11 +26,11 @@ class StoreContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mobile' => ['required', 'string', 'min:6', 'max:40'],
-            'landline' => ['nullable', 'string', 'min:6', 'max:40'],
-            'email' => ['required', 'email', 'max:255'],
-            'url' => ['nullable', 'url', 'max:255'],
-            'info' => ['nullable', 'string', 'max:255'],
+            'mobile' =>     ['required', 'string', 'min:6', 'max:40'],
+            'landline' =>   ['nullable', 'string', 'min:6', 'max:40'],
+            'email' =>      ['required', 'email', 'max:255'],
+            'url' =>        ['nullable', 'url', 'max:255'],
+            'info' =>       ['nullable', 'string', 'max:255'],
         ];
     }
 }

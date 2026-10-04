@@ -34,7 +34,7 @@ class StoreBookingRequest extends FormRequest
             'priority' =>                   [new Enum(Priority::class)],
             'confirmed_at' =>               ['required', 'date_format:d-m-Y H:i'],
             'estimated_cost' =>             ['sometimes', 'nullable', 'decimal:2'],
-            'estimated_duration_hours' => ['sometimes', 'nullable', 'integer'],
+            'estimated_duration_hours' =>   ['sometimes', 'nullable', 'integer'],
             'notes' =>                      ['sometimes', 'nullable', 'string', 'max:450'],
 
             # relations

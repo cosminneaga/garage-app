@@ -19,11 +19,13 @@ class WorkorderObserver
 
     public function created(Workorder $workorder): void
     {
-        $workorder->booking->in_progress_at = Carbon::now()->format('d-m-Y H:i');
-        $workorder->booking->save();
-
         # send internal notification to assigned user
         Notification::send($workorder->technician, new WorkorderAssignedNotification($workorder));
+
+        if ($workorder->booking) {
+            $workorder->booking->in_progress_at = Carbon::now()->format('d-m-Y H:i');
+            $workorder->booking->save();
+        }
     }
 
     public function updated(Workorder $workorder): void
@@ -51,11 +53,12 @@ class WorkorderObserver
                 'description' => 'Status was trigger by inserting value into "odometer_on_finish" ' . $workorder->odometer_on_finish . ' ,also "completed_at" has been populated with ' . $workorder->completed_at,
             ]);
 
-            $workorder->booking->in_review_at = $workorder->completed_at;
-            $workorder->booking->save();
-
-            $managers = $workorder->booking->company->managers;
             App::make(WorkorderService::class, ['model' => $workorder])->refreshCosts();
+
+            if ($workorder->booking) {
+                $workorder->booking->in_review_at = $workorder->completed_at;
+                $workorder->booking->save();
+            }
         }
 
         # CANCELLED
@@ -70,8 +73,10 @@ class WorkorderObserver
                 'description' => 'Status was trigger by inserting value into "cancelled_at" ' . $workorder->cancelled_at,
             ]);
 
-            $workorder->booking->cancelled_at = $workorder->cancelled_at;
-            $workorder->booking->save();
+            if ($workorder->booking) {
+                $workorder->booking->cancelled_at = $workorder->cancelled_at;
+                $workorder->booking->save();
+            }
         }
 
         # IN_PROGRESS
@@ -83,8 +88,10 @@ class WorkorderObserver
             ]);
             $workorder->saveQuietly();
 
-            $workorder->booking->in_progress_at = Carbon::now()->format('d-m-Y H:i');
-            $workorder->booking->save();
+            if ($workorder->booking) {
+                $workorder->booking->in_progress_at = Carbon::now()->format('d-m-Y H:i');
+                $workorder->booking->save();
+            }
         }
 
         # PAUSED

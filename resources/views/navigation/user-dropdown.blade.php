@@ -121,6 +121,7 @@
 
 @auth
     <script type="module">
+        const currentRouteName = @js(Route::currentRouteName());
         const unreadNotifications = @json($unreadNotifications);
         const userId = {{ Auth::user()->id }};
         const store = Alpine.store("notification");
@@ -132,6 +133,10 @@
             store.showIndicator();
             if (store.data.length < 3) {
                 store.data.push(notification);
+            }
+
+            if (currentRouteName === 'users.notifications') {
+                window.location.reload();
             }
         });
 

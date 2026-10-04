@@ -4,7 +4,7 @@
 
 <x-layout::index title="Operation">
     <x-card>
-        <x-card.workorder :workorder="$workorder" />
+        <x-card.workorder :workorder="$workorder" :resource="$workorder_parent" />
 
         @if ($operation->times->last() && !$operation->times->last()->end)
             <br>

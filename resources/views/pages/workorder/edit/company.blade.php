@@ -1,22 +1,11 @@
 @php
     Session::flashInput($workorder->toArray());
-    $parentname = $parent->getTable();
-    // dd($parentname);
 @endphp
 
 <x-layout::index title="Workorder updated">
     <x-card>
         <div class="grid gap-2 grid-cols-1 md:grid-cols-2">
-            @switch($parent::class)
-                @case(\App\Models\Booking::class)
-                    <x-card.booking :booking="$parent" />
-                    @break
-                @case(\App\Models\Company::class)
-                    <x-card.company :company="$parent" />
-                    @break
-                @default
-                <div></div>
-            @endswitch
+            <x-card.company :company="$parent" />
             <x-card.workorder :workorder="$workorder" :resource="$parent" />
         </div>
 
@@ -31,7 +20,7 @@
             <br>
         @endif
 
-        <form action="{{ route('workorders.' .$parentname. '.update', [$workorder, $parent]) }}" method="POST">
+        <form action="{{ route('workorders.companies.update', [$workorder, $parent]) }}" method="POST">
             @csrf
             @method('PUT')
 

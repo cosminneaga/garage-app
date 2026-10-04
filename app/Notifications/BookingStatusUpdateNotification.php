@@ -23,7 +23,7 @@ class BookingStatusUpdateNotification extends Notification
 
     public function via(): array
     {
-        return ['database', 'broadcast', 'mail'];
+        return ['database', 'broadcast'];
     }
 
     public function toDatabase(): array

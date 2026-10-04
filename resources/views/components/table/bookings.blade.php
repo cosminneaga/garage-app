@@ -42,9 +42,7 @@
                         identifier="number"
                         :data="$row"
                         :edit="$edit"
-                        :delete="$delete"
                         edit_route="{{ route('bookings.companies.edit', [$row->id, $row->company_id]) }}"
-                        delete_route="{{ route('bookings.companies.destroy', [$row->id, $row->company_id]) }}"
                     />
                 @endif
             </tr>

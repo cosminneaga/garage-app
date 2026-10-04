@@ -124,6 +124,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'booking_id',
     'company_id',
     'technician_id',
+    'client_id',
+    'vehicle_id',
 ])]
 class Workorder extends Model
 {
@@ -203,6 +205,16 @@ class Workorder extends Model
     public function technician(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function vehicle(): BelongsTo
+    {
+        return $this->belongsTo(Vehicle::class);
     }
 
     public function operations(): HasMany

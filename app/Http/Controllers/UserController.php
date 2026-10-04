@@ -57,9 +57,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request, UserStoreAction $action): RedirectResponse
     {
-        $attributes = $request->safe()->all();
-        $attributes['active'] = $request->boolean('active');
-        $action->handle($attributes);
+        $action->handle($request->safe()->all());
 
         return redirect(route('users.index'))
             ->with(self::flashMessage(
@@ -117,9 +115,7 @@ class UserController extends Controller
                 ));
         }
 
-        $attributes = $request->safe()->all();
-        $attributes['active'] = $request->boolean('active');
-        $action->handle($attributes, $user);
+        $action->handle($request->safe()->all(), $user);
 
         return back()
             ->with(self::flashMessage(

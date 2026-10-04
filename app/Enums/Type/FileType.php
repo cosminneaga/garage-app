@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Type;
 
+use App\Traits\HasEnumOptions;
+
 enum FileType: string
 {
+    use HasEnumOptions;
+
     case AFTER_REPAIR = 'after_repair';
     case BEFORE_REPAIR = 'before_repair';
     case CLIENT_REFERENCE = 'client_reference';
@@ -37,10 +41,5 @@ enum FileType: string
             self::PART => 'Vehicle Part',
             self::SHOWCASE => 'Showcase File',
         };
-    }
-
-    public static function values(): array
-    {
-        return array_map(fn (FileType $status) => $status->value, self::cases());
     }
 }
