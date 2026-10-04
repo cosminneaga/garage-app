@@ -28,6 +28,7 @@
 @php
     $ids = BladeModalHelper::ids($name);
     $name = Str::generateFormFieldName($name, $nested_parent_name);
+    $helper = BladeFormHelper::names($identifier, $name);
 @endphp
 
 <div
@@ -66,11 +67,13 @@
         }
     }"
 >
-    <x-form.field.text
-        identifier="{{ $identifier }}"
+    <input
+        type="text"
         name="{{ $name }}"
+        id="{{ $name }}"
+        data-test="{{ $helper->get('testName') }}"
         x-model="selected"
-        :visible="false"
+        class="hidden"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
