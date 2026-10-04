@@ -4,7 +4,7 @@
             'border-2 border-white w-full p-4 bg-neutral-primary-soft rounded-base shadow-xs text-gray-600"',
     ]) }}>
     @isset($title)
-        <h1 class="text-2xl font-bold tracking-tight">{{ $title }}</h1>
+        <h1 class="text-2xl font-bold tracking-tight mb-2">{{ $title }}</h1>
     @endisset
     @isset($description)
         <p class="text-muted-foreground text-lg">{{ $description }}</p>

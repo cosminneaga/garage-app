@@ -6,6 +6,7 @@
 ])
 
 @php
+    $parentname = $resource->getTable();
     $columns = WorkorderColumns::tableColumns();
 @endphp
 
@@ -31,7 +32,7 @@
                         name="workorders"
                         :data="$row"
                         :edit="$edit"
-                        edit_route="{{ route('workorders.bookings.edit', [$row, $resource]) }}"
+                        edit_route="{{ route('workorders.' . $parentname . '.edit', [$row, $resource]) }}"
                     />
                 @endif
             </tr>

@@ -84,7 +84,7 @@
                                     class="text-brand"
                                     href="{{ route($edit_route ? $edit_route : 'users.edit', $row) }}"
                                     data-test="user-{{ $row->id }}-edit-button"
-                                >Edit</a>
+                                >Show</a>
                             @endisCurrentUser
                         @endif
                         @if ($delete)

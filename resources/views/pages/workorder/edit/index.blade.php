@@ -5,8 +5,17 @@
 <x-layout::index title="Workorder updated">
     <x-card>
         <div class="grid gap-2 grid-cols-1 md:grid-cols-2">
-            <x-card.booking :booking="$booking" />
-            <x-card.workorder :workorder="$workorder" />
+            @switch($parent::class)
+                @case(\App\Models\Booking::class)
+                    <x-card.booking :booking="$parent" />
+                    @break
+                @case(\App\Models\Company::class)
+                    <x-card.company :company="$parent" />
+                    @break
+                @default
+                <div></div>
+            @endswitch
+            <x-card.workorder :workorder="$workorder" :resource="$parent" />
         </div>
 
         @if (count($operations))
@@ -20,7 +29,7 @@
             <br>
         @endif
 
-        <form action="{{ route('workorders.bookings.update', [$workorder, $booking]) }}" method="POST">
+        <form action="{{ route('workorders.bookings.update', [$workorder, $parent]) }}" method="POST">
             @csrf
             @method('PUT')
 

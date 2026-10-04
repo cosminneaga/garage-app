@@ -24,7 +24,7 @@
             class="text-brand"
             data-test="{{ $name }}-{{ $data->id }}-edit-button"
             href="{{ $edit_route }}"
-        >Edit</a>
+        >Show</a>
     @endif
     @if ($delete)
         <x-modal.confirm

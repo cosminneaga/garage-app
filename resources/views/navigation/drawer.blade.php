@@ -74,6 +74,33 @@
     />
 
     <x-navigation.group
+        title="Work"
+        :permission="[UserPermission::WORKORDER, 'show']"
+        :items="[
+            [
+                'type' => 'dropdown',
+                'title' => 'Workorders',
+                'icon' => 'icon-o-briefcase',
+                'permission' => [UserPermission::WORKORDER, 'show'],
+                'items' => [
+                    [
+                        'title' => 'Assigned',
+                        'icon' => 'icon-o-table-cells',
+                        'route' => route('workorders.index'),
+                        'permission' => [UserPermission::WORKORDER, 'show'],
+                    ],
+                    [
+                        'title' => 'By default Company',
+                        'icon' => 'icon-o-building-office',
+                        'route' => Auth::user()->setting ? route('workorders.companies.index', Auth::user()->setting->default_company) : '#',
+                        'permission' => [UserPermission::WORKORDER, 'show'],
+                    ],
+                ],
+            ],
+        ]"
+    />
+
+    <x-navigation.group
         title="Company"
         :permission="[UserPermission::COMPANY, 'show']"
         :items="[
@@ -115,20 +142,6 @@
                         'icon' => 'icon-o-document-plus',
                         'route' => Auth::user()->setting ? route('bookings.companies.create', Auth::user()->setting->default_company) : '#',
                         'permission' => [UserPermission::BOOKING, 'store'],
-                    ],
-                ],
-            ],
-            [
-                'type' => 'dropdown',
-                'title' => 'Workorders',
-                'icon' => 'icon-o-briefcase',
-                'permission' => [UserPermission::WORKORDER, 'show'],
-                'items' => [
-                    [
-                        'title' => 'Assigned',
-                        'icon' => 'icon-o-table-cells',
-                        'route' => route('workorders.index'),
-                        'permission' => [UserPermission::WORKORDER, 'show'],
                     ],
                 ],
             ],

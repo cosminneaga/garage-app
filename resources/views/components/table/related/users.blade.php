@@ -94,7 +94,7 @@
                                 <a
                                     class="text-brand"
                                     href="{{ route('users.edit', $row) }}"
-                                >Edit</a>
+                                >Show</a>
                             @endisCurrentUser
                         @endif
                         @if ($delete)

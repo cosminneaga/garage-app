@@ -1,8 +1,26 @@
-@props(['workorder'])
+@props(['workorder', 'resource' => null])
+
+@php
+    $class = $resource ? $resource::class : '';
+    $route = match($class) {
+        \App\Models\Booking::class => [
+            'name' => 'workorders.bookings.edit',
+            'relation' => 'booking',
+        ],
+        \App\Models\Company::class => [
+            'name' => 'workorders.companies.edit',
+            'relation' => 'company',
+        ],
+        default => [
+            'name' => 'workorders.bookings.edit',
+            'relation' => 'booking',
+        ],
+    };
+@endphp
 
 <x-card
     :description="'Workorder number: ' . $workorder->number . ', ID: ' . $workorder->id"
-    onclick="location.href = '{{ route('workorders.bookings.edit', [$workorder, $workorder->booking]) }}'"
+    onclick="location.href = '{{ route($route['name'], [$workorder, $workorder[$route['relation']]]) }}'"
     class="hover:cursor-pointer hover:bg-gray-950"
 >
     <p class="text-sm font-bold"><b>Title:</b> {{ $workorder->title->label() }}</p>

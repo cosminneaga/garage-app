@@ -133,6 +133,11 @@ class Company extends Model
         return $this->clients()->where('email', $email)->first();
     }
 
+    public function availableTechnicians(): BelongsToMany
+    {
+        return $this->users()->role([UserRole::MANAGER, UserRole::USER]);
+    }
+
     public function managers(): BelongsToMany
     {
         return $this->users()
