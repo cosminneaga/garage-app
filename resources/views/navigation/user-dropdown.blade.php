@@ -13,7 +13,7 @@
 >
     <img
         class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
-        src="{{ route('users.image.preview', $user->image_path) }}"
+        src="{{ route('users.image.preview', $user) }}"
         title="{{ $user->name }}"
         alt="{{ $user->name }}"
     >

@@ -217,7 +217,7 @@ Route::controller(WorkorderOperationLabourTimeController::class)
 Route::controller(FileController::class)
     ->middleware(['auth'])
     ->group(function () {
-        Route::get('/files/users/{user}/preview')->name('users.image.preview');
+        Route::get('/files/users/{user}/preview', 'userImage')->name('users.image.preview');
         Route::get('/files/{file}/preview', 'preview')->name('files.preview');
         // Route::post('/files', 'store')->name('files.store');
 
