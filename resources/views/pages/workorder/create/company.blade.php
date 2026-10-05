@@ -64,8 +64,8 @@
                         name="technician_id"
                         label="Assign technician"
                         :options="$technicians"
-                        select_map_value="id"
-                        :select_map_label="['name', 'email']"
+                        map_value="id"
+                        :map_label="['name', 'email']"
                     />
                 </section>
                 <section>

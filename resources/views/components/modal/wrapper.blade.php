@@ -38,6 +38,9 @@
                 <x-icon-o-x-mark class="h-5 w-5" />
             </button>
         @endif
+
+        <br>
+
         <main>{{ $slot }}</main>
     </div>
 </div>

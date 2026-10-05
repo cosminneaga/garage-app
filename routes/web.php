@@ -217,7 +217,14 @@ Route::controller(WorkorderOperationLabourTimeController::class)
 Route::controller(FileController::class)
     ->middleware(['auth'])
     ->group(function () {
-        Route::get('/user/{user}/image/preview', 'userImage')->name('user.image.preview');
+        Route::get('/files/users/{user}/preview')->name('users.image.preview');
+        Route::get('/files/{file}/preview', 'preview')->name('files.preview');
+        // Route::post('/files', 'store')->name('files.store');
+
+        Route::group(['model' => RelatedModel::WORKORDER], function () {
+            Route::get('/files/workorders/{workorders}', 'indexModel')->name('files.workorders.index');
+            Route::post('/files/workorders/{workorder}/store', 'storeModel')->name('files.workorders.store');
+        });
     });
 
 Route::controller(SuperController::class)

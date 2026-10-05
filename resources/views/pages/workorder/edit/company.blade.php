@@ -4,14 +4,46 @@
 
 <x-layout::index title="Workorder updated">
     <x-card>
-        <div class="grid gap-2 grid-cols-1 md:grid-cols-2">
+        <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
             <x-card.company :company="$parent" />
-            <x-card.workorder :workorder="$workorder" :resource="$parent" />
+            <x-card.workorder
+                :workorder="$workorder"
+                :resource="$parent"
+            />
         </div>
+
+        <br>
+        <x-modal.file.create
+            id="images"
+            action="{{ route('files.workorders.store', $workorder) }}"
+            max_files="2"
+        />
+        <br>
+        {{-- @json($workorder->files) --}}
+
+        @if (count($workorder->files))
+            <br>
+            <h3 class="text-lg font-bold">Gallery</h3>
+            <div class="grid grid-cols-4 gap-2">
+                @foreach ($workorder->files as $file)
+                    <div>
+                        <div class="h-auto w-auto">
+                            <img
+                                src="{{ route('files.preview', $file) }}"
+                                alt=""
+                            >
+                        </div>
+                        <p class="font-bold">{{ $file->type->label() }}</p>
+                        <p class="text-sm">{{ $file->description }}</p>
+                    </div>
+                @endforeach
+            </div>
+            <br>
+        @endif
 
         @if (count($operations))
             <br>
-            <h4 class="text-xl font-bold mb-1">Operations</h4>
+            <h4 class="mb-1 text-xl font-bold">Operations</h4>
             <x-table.related.workorder_operations
                 :data="$operations"
                 :resource="$workorder"
@@ -20,11 +52,14 @@
             <br>
         @endif
 
-        <form action="{{ route('workorders.companies.update', [$workorder, $parent]) }}" method="POST">
+        <form
+            action="{{ route('workorders.companies.update', [$workorder, $parent]) }}"
+            method="POST"
+        >
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
                 <section>
                     <x-form.field.select
                         identifier="workorder"
@@ -38,8 +73,8 @@
                             name="technician_id"
                             label="Assigned technician"
                             :options="$technicians"
-                            select_map_value="id"
-                            :select_map_label="['name', 'email']"
+                            map_value="id"
+                            :map_label="['name', 'email']"
                             :value="old('technician_id')"
                         />
                     @endhasanyrole
@@ -49,35 +84,35 @@
                     />
                     <x-form.field.text
                         name="odometer_on_start"
+                        type="number"
                         label="Start odometer"
                         :value="old('odometer_on_start')"
-                        type="number"
                     />
                     <x-form.field.text
                         name="odometer_on_finish"
+                        type="number"
                         label="Finish odometer"
                         :value="old('odometer_on_finish')"
-                        type="number"
                     />
                     <x-form.field.text
                         name="labour_rate"
+                        type="number"
                         label="Labour Rate (hourly)"
                         :value="old('labour_rate')"
-                        type="number"
                         step="0.01"
                     />
                     <x-form.field.text
                         name="labour_total_cost"
+                        type="number"
                         label="Labour Total Cost"
                         :value="old('labour_total_cost')"
-                        type="number"
                         step="0.01"
                     />
                     <x-form.field.text
                         name="part_total_cost"
+                        type="number"
                         label="Part Total Cost"
                         :value="old('part_total_cost')"
-                        type="number"
                         step="0.01"
                     />
                 </section>
@@ -123,3 +158,12 @@
         </form>
     </x-card>
 </x-layout::index>
+
+{{-- <script type="module">
+    (async () => {
+        const workorder = @js($workorder);
+        const res = await fetch('/files/workorders/' + workorder.id);
+        const data = await res.json();
+        console.log(data)
+    })();
+</script> --}}

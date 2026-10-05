@@ -4,8 +4,8 @@
     'value' => null,
     'label' => false,
     'options' => [],
-    'select_map_value' => 'value',
-    'select_map_label' => 'label',
+    'map_value' => 'value',
+    'map_label' => 'label',
 ])
 @php
     $helper = BladeFormHelper::names($identifier, $name);
@@ -29,13 +29,13 @@
     >
         @foreach ($options as $option)
             <option
-                value="{{ $option->$select_map_value }}"
-                @selected($value == $option->$select_map_value)
+                value="{{ $option->$map_value }}"
+                @selected($value == $option->$map_value)
             >
-                @if (is_string($select_map_label))
-                    {{ $option->$select_map_label }}
-                @elseif (is_array($select_map_label))
-                    @foreach ($select_map_label as $label)
+                @if (is_string($map_label))
+                    {{ $option->$map_label }}
+                @elseif (is_array($map_label))
+                    @foreach ($map_label as $label)
                         {{ $option[$label] }} |
                     @endforeach
                 @endif

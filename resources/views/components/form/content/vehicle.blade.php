@@ -31,16 +31,16 @@
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('fuel', $nested_parent_name) }}"
         label="Fuel"
-        select_map_value="value"
-        select_map_label="label"
+        map_value="value"
+        map_label="label"
         :options="FuelType::selectOptions()"
     />
     <x-form.field.select
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('status', $nested_parent_name) }}"
         label="Status"
-        select_map_value="value"
-        select_map_label="label"
+        map_value="value"
+        map_label="label"
         :options="VehicleStatus::selectOptions()"
     />
 </section>

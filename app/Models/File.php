@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Support\Carbon;
 use App\Enums\Type\FileType;
 use App\Traits\Blameable;
 use Database\Factories\FileFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -65,6 +65,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'path',
     'type',
     'description',
+    'uploaded_by'
 ])]
 class File extends Model
 {

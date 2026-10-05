@@ -35,8 +35,8 @@ and old values but not for default values -->
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('country_id', $nested_parent_name) }}"
         label="Select a country"
-        select_map_label="name"
-        select_map_value="id"
+        map_label="name"
+        map_value="id"
         :options="$countries"
         value="{{ old('country_id', '') }}"
     />

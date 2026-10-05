@@ -31,6 +31,12 @@
             <br>
         @endif
 
+        <x-modal.file.create
+            id="images"
+            action="{{ route('files.workorders.store', $workorder) }}"
+            max_files="2"
+        />
+
         <form action="{{ route('workorders.' .$parentname. '.update', [$workorder, $parent]) }}" method="POST">
             @csrf
             @method('PUT')
@@ -49,8 +55,8 @@
                             name="technician_id"
                             label="Assigned technician"
                             :options="$technicians"
-                            select_map_value="id"
-                            :select_map_label="['name', 'email']"
+                            map_value="id"
+                            :map_label="['name', 'email']"
                             :value="old('technician_id')"
                         />
                     @endhasanyrole

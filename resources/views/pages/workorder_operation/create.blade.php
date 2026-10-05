@@ -13,8 +13,8 @@
                         name="type"
                         label="Operation Type"
                         :options="WorkorderOperationType::selectOptions()"
-                        select_map_value="value"
-                        select_map_label="label"
+                        map_value="value"
+                        map_label="label"
                     />
                     <x-form.field.wrapper>
                         <x-form.field.search-query
@@ -48,8 +48,8 @@
                             name="performed_by"
                             label="Performed By (administration only)"
                             :options="$technicians"
-                            select_map_value="id"
-                            :select_map_label="['name', 'email']"
+                            map_value="id"
+                            :map_label="['name', 'email']"
                         />
                     @endhasanyrole
                 </section>

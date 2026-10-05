@@ -55,15 +55,15 @@
         name="{{ Str::generateFormFieldName('supplier_id', $nested_parent_name) }}"
         label="Supplier"
         :options="$available_suppliers"
-        select_map_value="id"
-        select_map_label="name"
+        map_value="id"
+        map_label="name"
     />
     <x-form.field.select
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('brand', $nested_parent_name) }}"
         label="Vehicle Brand"
         :options="$available_vehicle_makes"
-        select_map_value="id"
-        select_map_label="name"
+        map_value="id"
+        map_label="name"
     />
 </section>

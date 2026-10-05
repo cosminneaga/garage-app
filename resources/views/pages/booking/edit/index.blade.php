@@ -37,16 +37,16 @@
                         name="service_type"
                         value="{{ old('service_type') }}"
                         label="Service Type"
-                        select_map_value="value"
-                        select_map_label="label"
+                        map_value="value"
+                        map_label="label"
                         :options="ServiceType::selectOptions()"
                     />
                     <x-form.field.select
                         name="priority"
                         value="{{ old('priority') }}"
                         label="Priority"
-                        select_map_value="value"
-                        select_map_label="label"
+                        map_value="value"
+                        map_label="label"
                         :options="Priority::selectOptions()"
                     />
                     <x-form.field.datetime

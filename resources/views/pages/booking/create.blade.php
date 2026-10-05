@@ -17,8 +17,8 @@
                         value="{{ $company->id }}"
                         label="Company"
                         :options="$available_companies"
-                        select_map_value="id"
-                        select_map_label="name"
+                        map_value="id"
+                        map_label="name"
                         x-model="company_id"
                         @change="location.href = `/bookings/companies/${company_id}/create`"
                     />
@@ -79,15 +79,15 @@
                     <x-form.field.select
                         name="service_type"
                         label="Service Type"
-                        select_map_value="value"
-                        select_map_label="label"
+                        map_value="value"
+                        map_label="label"
                         :options="ServiceType::selectOptions()"
                     />
                     <x-form.field.select
                         name="priority"
                         label="Priority"
-                        select_map_value="value"
-                        select_map_label="label"
+                        map_value="value"
+                        map_label="label"
                         :options="Priority::selectOptions()"
                     />
                 </section>

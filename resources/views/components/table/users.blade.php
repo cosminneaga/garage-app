@@ -39,7 +39,7 @@
                     <div class="flex items-end gap-1">
                         <x-avatar
                             alt="{{ $row->id }}-user-pic"
-                            src="{{ route('user.image.preview', $row) }}"
+                            src="{{ route('users.image.preview', $row->image_path) }}"
                             title="{{ $row->name }}"
                             alt="{{ $row->name }}"
                             size="small"

@@ -43,6 +43,7 @@
         <main class="p-2 lg:px-4">
             <x-navigation::index />
             <br>
+            {{-- <x-modal.file.create id="images" action="{{ route('files.store') }}" max_files="2" /> --}}
             <div class="max-w-500 mx-auto">
                 {{ $slot }}
             </div>
