@@ -16,28 +16,14 @@
         <x-modal.file.create
             id="images"
             action="{{ route('files.workorders.store', $workorder) }}"
-            max_files="2"
+            max_files="5"
+            accepted_files="{{ FileFormatType::mergeForm([FileFormatType::IMAGE, FileFormatType::DOCUMENT, FileFormatType::VIDEO]) }}"
         />
         <br>
-        {{-- @json($workorder->files) --}}
 
         @if (count($workorder->files))
             <br>
-            <h3 class="text-lg font-bold">Gallery</h3>
-            <div class="grid grid-cols-4 gap-2">
-                @foreach ($workorder->files as $file)
-                    <div>
-                        <div class="h-auto w-auto">
-                            <img
-                                src="{{ route('files.preview', $file) }}"
-                                alt=""
-                            >
-                        </div>
-                        <p class="font-bold">{{ $file->type->label() }}</p>
-                        <p class="text-sm">{{ $file->description }}</p>
-                    </div>
-                @endforeach
-            </div>
+            <x-gallery.files :files="$workorder->files" />
             <br>
         @endif
 

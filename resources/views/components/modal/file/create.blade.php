@@ -1,4 +1,11 @@
-@props(['id', 'action' => '#', 'trigger' => false, 'parent_name' => false, 'max_files' => 1])
+@props([
+    'id',
+    'action' => '#',
+    'trigger' => false,
+    'parent_name' => false,
+    'max_files' => 1,
+    'accepted_files' => FileFormatType::ALL->form(),
+])
 
 @php
     $ids = BladeModalHelper::ids($id);
@@ -43,20 +50,22 @@
             </section>
             <section>
                 <h3 class="font-bold">Media</h3>
-                <x-form.field.image
+                <x-form.field.file
                     identifier="store_files"
                     name="{{ Str::generateFormFieldName('images[]', $parent_name) }}"
                     max_files="{{ $max_files }}"
+                    accepted_files="{{ $accepted_files }}"
                 />
             </section>
         </div>
 
         <div class="grid grid-cols-1">
-            <span class="text-danger text-sm font-bold">Max files accepted: {{ $max_files }}</span>
+            <span class="text-danger text-sm font-bold">Max files accepted per group upload: {{ $max_files }}</span>
 
             <x-button
                 id="{{ $ids->get('submit') }}"
                 type="submit"
+                class="w-fit"
             >Submit</x-button>
         </div>
 

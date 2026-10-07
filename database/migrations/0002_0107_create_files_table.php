@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->string('type')->default(FileType::OTHER->value);
             $table->longText('description')->nullable();
             $table->string('name')->nullable(false);
-            $table->string('extension')->nullable(false);
+            $table->string('mime')->nullable(false);
             $table->string('path')->nullable(false);
 
             $table->foreignIdFor(User::class, 'uploaded_by')->constrained()->cascadeOnUpdate();

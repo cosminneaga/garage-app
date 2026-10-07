@@ -61,7 +61,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 #[Fillable([
     'name',
-    'extension',
+    'mime',
     'path',
     'type',
     'description',

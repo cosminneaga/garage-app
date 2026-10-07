@@ -28,7 +28,7 @@ class FileGroupUpload
                         'type' => $type,
                         'description' => $description,
                         'name' => $file->getClientOriginalName(),
-                        'extension' => $file->getClientOriginalExtension(),
+                        'mime' => $file->getMimeType(),
                         'path' => $path,
                         'uploaded_by' => $this->user->id,
                     ]);

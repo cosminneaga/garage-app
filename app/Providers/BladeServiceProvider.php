@@ -28,6 +28,7 @@ use App\Enums\Tabs\NotificationTabs;
 use App\Enums\Tabs\SupplierTabs;
 use App\Enums\Tabs\UserProfileTabs;
 use App\Enums\Tabs\UserTabs;
+use App\Enums\Type\FileFormatType;
 use App\Enums\Type\FileType;
 use App\Enums\Type\FuelType;
 use App\Enums\Type\ServiceType;
@@ -90,6 +91,7 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('WorkorderOperationTimeColumns', WorkorderOperationTimeColumns::class);
         $loader->alias('JobName', JobName::class);
         $loader->alias('FileType', FileType::class);
+        $loader->alias('FileFormatType', FileFormatType::class);
 
         $loader->alias('CarMake', CarMake::class);
         $loader->alias('CarModel', CarModel::class);

@@ -1,18 +1,27 @@
-#image-dropzone .dz-preview {
-    width: auto;
-    height: auto;
-    margin: auto;
-    border: 1px solid white;
+.dropzone .dz-preview {
+    width: auto!important;
+    height: auto!important;
+    margin: auto!important;
+    min-width: 120px!important;
+    border: 1px solid white!important;
 }
 
-#image-dropzone .dz-preview .dz-image {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
+.dropzone .dz-preview .dz-image {
+    position: relative!important;
+    width: 100%!important;
+    height: 100%!important;
+    border-radius: 0!important;
+    z-index: 1!important;
 }
 
-#image-dropzone .dz-preview .dz-image img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
+.dropzone .dz-preview .dz-image img {
+    width: 100%!important;
+    height: auto!important;
+    object-fit: contain!important;
+}
+
+.dropzone .dz-preview .dz-error-mark {
+    position: absolute!important;
+    z-index: 20!important;
+    cursor: pointer!important;
 }
