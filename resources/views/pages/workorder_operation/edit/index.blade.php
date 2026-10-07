@@ -4,13 +4,15 @@
 
 <x-layout::index title="Operation">
     <x-card>
-        <x-card.workorder :workorder="$workorder" :resource="$workorder_parent" />
+        <x-card.workorder
+            :workorder="$workorder"
+            :resource="$workorder_parent"
+        />
 
         @if ($operation->times->last() && !$operation->times->last()->end)
             <br>
             <x-time.active :start="$operation->times->last()->start" />
         @endif
-
         @if (count($times))
             <br>
             <h4 class="mb-1 text-xl font-bold">Window Times</h4>
@@ -19,6 +21,21 @@
                 :resource="$operation"
                 :edit="Permission::can(UserPermission::WORKORDER_OPERATION_LABOUR_TIME, 'update')"
             />
+            <br>
+        @endif
+
+        <br>
+        <x-modal.file.create
+            id="files"
+            action="{{ route('files.operations.store', $operation) }}"
+            max_files="5"
+            accepted_files="{{ FileFormatType::mergeForm([FileFormatType::IMAGE, FileFormatType::DOCUMENT, FileFormatType::VIDEO]) }}"
+        />
+        <br>
+
+        @if (count($operation->files))
+            <br>
+            <x-gallery.files :files="$operation->files" />
             <br>
         @endif
 
@@ -34,11 +51,11 @@
                 <section>
                     <x-form.field.select
                         name="type"
+                        value="{{ $operation->type->value }}"
                         label="Operation Type"
                         :options="WorkorderOperationType::selectOptions()"
                         map_value="value"
                         map_label="label"
-                        value="{{ $operation->type->value }}"
                     />
                     <x-form.field.wrapper>
                         <x-form.field.search-query
@@ -60,30 +77,30 @@
                     <x-form.field.text
                         name="expected_life_km"
                         type="number"
-                        label="Expected life (KM)"
                         value="{{ old('expected_life_km') }}"
+                        label="Expected life (KM)"
                     />
                     <x-form.field.text
                         name="expected_life_months"
                         type="number"
-                        label="Expected life (Months)"
                         value="{{ old('expected_life_months') }}"
+                        label="Expected life (Months)"
                     />
                     <x-form.field.text
                         name="part_installed_odometer"
                         type="number"
-                        label="Part installed odometer (KM)"
                         value="{{ old('part_installed_odometer') }}"
+                        label="Part installed odometer (KM)"
                     />
 
                     @hasanyrole([UserRole::ADMINISTRATOR, UserRole::MANAGER])
                         <x-form.field.select
                             name="performed_by"
+                            value="{{ $operation->performed_by }}"
                             label="Performed By (administration only)"
                             :options="$technicians"
                             map_value="id"
                             :map_label="['name', 'email']"
-                            value="{{ $operation->performed_by }}"
                         />
                     @endhasanyrole
                 </section>
@@ -91,8 +108,8 @@
                 <section>
                     <x-form.field.textarea
                         name="notes"
-                        label="General notes"
                         value="{{ old('notes', '') }}"
+                        label="General notes"
                     />
                 </section>
             </div>

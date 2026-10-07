@@ -12,11 +12,11 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('workorder_operation_file', function (Blueprint $table) {
+        Schema::create('file_workorder_operation', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(WorkorderOperation::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(File::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(WorkorderOperation::class)->constrained()->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('workorder_operation_file');
+        Schema::dropIfExists('file_workorder_operation');
     }
 };

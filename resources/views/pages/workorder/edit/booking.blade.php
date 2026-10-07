@@ -9,6 +9,21 @@
             <x-card.workorder :workorder="$workorder" :resource="$parent" />
         </div>
 
+        <br>
+        <x-modal.file.create
+            id="files"
+            action="{{ route('files.workorders.store', $workorder) }}"
+            max_files="5"
+            accepted_files="{{ FileFormatType::mergeForm([FileFormatType::IMAGE, FileFormatType::DOCUMENT, FileFormatType::VIDEO]) }}"
+        />
+        <br>
+
+        @if (count($workorder->files))
+            <br>
+            <x-gallery.files :files="$workorder->files" />
+            <br>
+        @endif
+
         @if (count($operations))
             <br>
             <h4 class="text-xl font-bold mb-1">Operations</h4>

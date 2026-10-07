@@ -8,7 +8,7 @@
             target="_blank"
         >
             <div
-                class="bg-neutral-primary-soft border-default rounded-base shadow-xs hover:bg-neutral-secondary-medium block h-72 w-72 max-w-sm border p-6">
+                class="bg-neutral-primary-soft border-default rounded-base hover:bg-neutral-secondary-medium block h-auto min-h-72 w-72 max-w-sm border p-6 shadow-md hover:shadow-lg">
                 <section class="relative h-2/3 w-57.5">
 
                     @if (FileFormatType::checkMime(FileFormatType::IMAGE, $file->mime))

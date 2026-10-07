@@ -222,8 +222,13 @@ Route::controller(FileController::class)
         // Route::post('/files', 'store')->name('files.store');
 
         Route::group(['model' => RelatedModel::WORKORDER], function () {
-            Route::get('/files/workorders/{workorders}', 'indexModel')->name('files.workorders.index');
-            Route::post('/files/workorders/{workorder}/store', 'storeModel')->name('files.workorders.store');
+            Route::get('/files/workorders/{workorders}', 'modelIndex')->name('files.workorders.index');
+            Route::post('/files/workorders/{workorder}/store', 'modelStore')->name('files.workorders.store');
+        });
+
+        Route::group(['model' => RelatedModel::WORKORDER_OPERATION], function () {
+            Route::get('/files/operations/{operation}', 'modelIndex')->name('files.operations.index');
+            Route::post('/files/operations/{operation}/store', 'modelStore')->name('files.operations.store');
         });
     });
 

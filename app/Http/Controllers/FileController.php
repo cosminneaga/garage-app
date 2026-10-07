@@ -39,7 +39,11 @@ class FileController extends Controller
         StoreFileGroupRequest $request,
         FileGroupUpload $upload
     ): RedirectResponse {
-        $upload->handle(FileType::tryFrom($request->type), $request->description, $request->images);
+        $upload->handle(
+            FileType::tryFrom($request->type),
+            $request->description,
+            $request->file('files')
+        );
 
         return back()
             ->with(self::flashMessage(
@@ -49,21 +53,25 @@ class FileController extends Controller
             ));
     }
 
-    public function indexModel(request $request, string|int $model_id): JsonResponse
+    public function modelIndex(request $request, string|int $model_id): JsonResponse
     {
         self::guard('show', $request, $model_id);
 
         return response()->json(self::$entity->files);
     }
 
-    public function storeModel(
+    public function modelStore(
         StoreFileGroupRequest $request,
         string|int $model_id,
         FileGroupUpload $upload
     ): RedirectResponse {
         self::guard('update', $request, $model_id);
 
-        $files = $upload->handle(FileType::tryFrom($request->type), $request->description, $request->images);
+        $files = $upload->handle(
+            FileType::tryFrom($request->type),
+            $request->description,
+            $request->file('files')
+        );
         self::$entity->files()->attach($files);
 
         return back()

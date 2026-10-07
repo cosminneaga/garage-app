@@ -52,7 +52,7 @@
                 <h3 class="font-bold">Media</h3>
                 <x-form.field.file
                     identifier="store_files"
-                    name="{{ Str::generateFormFieldName('images[]', $parent_name) }}"
+                    name="{{ Str::generateFormFieldName('files[]', $parent_name) }}"
                     max_files="{{ $max_files }}"
                     accepted_files="{{ $accepted_files }}"
                 />
