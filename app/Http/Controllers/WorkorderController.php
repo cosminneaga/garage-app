@@ -25,21 +25,6 @@ class WorkorderController extends Controller
     {
         return view('pages.workorder.index', [
             'workorders' => Auth::user()->woAssigned,
-            'parent' => null,
-        ]);
-    }
-
-    public function modelIndex(
-        Request $request,
-        string|int $model_id
-    ): View
-    {
-        self::guard('show', $request, $model_id);
-        $this->authorize('showAll', Workorder::class);
-
-        return view('pages.workorder.index', [
-            'workorders' => self::$entity->workorders,
-            'parent' => self::$entity,
         ]);
     }
 
@@ -64,12 +49,12 @@ class WorkorderController extends Controller
 
         $fields = match (self::$entity::class) {
             Booking::class => [
-                    'booking_id' => self::$entity->id,
-                    'company_id' => self::$entity->company->id,
-                ],
+                'booking_id' => self::$entity->id,
+                'company_id' => self::$entity->company->id,
+            ],
             Company::class => [
-                    'company_id' => self::$entity->id,
-                ],
+                'company_id' => self::$entity->id,
+            ],
         };
 
         $workorder = Workorder::create([
@@ -100,8 +85,6 @@ class WorkorderController extends Controller
 
         return view('pages.workorder.edit.' . self::$relatedName, [
             'workorder' => $workorder,
-            'operations' => $workorder->operations,
-            'parent' => self::$entity,
             'technicians' => self::$entity->availableTechnicians()->get(),
         ]);
     }

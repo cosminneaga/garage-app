@@ -15,7 +15,11 @@
                         <img
                             class="contain mx-auto h-full w-auto"
                             src="{{ route('files.preview', $file) }}"
-                            alt=""
+                            alt="{{ $file->name }}"
+                            title="{{ $file->name }}"
+                            loading="lazy"
+                            height="100"
+                            width="100"
                         >
                     @elseif (FileFormatType::checkMime(FileFormatType::VIDEO, $file->mime))
                         <video
@@ -32,6 +36,10 @@
                             class="contain mx-auto h-full w-auto"
                             src="/image/not_found.jpeg"
                             alt="not_found_image"
+                            title="not_found_image"
+                            loading="lazy"
+                            height="100"
+                            width="100"
                         >
                     @endif
                 </section>

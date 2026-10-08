@@ -65,7 +65,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'path',
     'type',
     'description',
-    'uploaded_by'
+    'uploaded_by',
 ])]
 class File extends Model
 {

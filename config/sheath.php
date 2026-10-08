@@ -100,6 +100,7 @@ return [
         'seo-require-open-graph' => 'off',
         'seo-meta-description' => 'off',
         'blade-no-logic-in-views' => 'off',
+        'a11y-form-label' => 'off',
     ],
 
     /*

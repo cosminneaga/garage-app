@@ -29,7 +29,6 @@
                 <section>
                     <x-form.field.text
                         name="current_status_info"
-                        value="Booking has been updated"
                         value="{{ old('current_status_info', '') }}"
                         label="Current Status info"
                     />

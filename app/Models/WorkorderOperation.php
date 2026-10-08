@@ -116,12 +116,7 @@ class WorkorderOperation extends Model
         if ($this->workorder?->booking?->company?->users()->find($user->id)) {
             return true;
         }
-
-        if ($this->workorder?->company?->users()->find($user->id)) {
-            return true;
-        }
-
-        return false;
+        return (bool) $this->workorder?->company?->users()->find($user->id);
     }
 
     public function isPartOfMyWorkorder(User $user): bool

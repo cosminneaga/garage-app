@@ -1,25 +1,9 @@
 @props([
     'data' => null,
     'limit' => 10,
-    'resource' => null,
 ])
 
 @php
-    $class = $resource ? $resource::class : '';
-    $route = match($class) {
-        \App\Models\Booking::class => [
-            'name' => 'workorders.bookings.edit',
-            'relation' => 'booking',
-        ],
-        \App\Models\Company::class => [
-            'name' => 'workorders.companies.edit',
-            'relation' => 'company',
-        ],
-        default => [
-            'name' => 'workorders.bookings.edit',
-            'relation' => 'booking',
-        ],
-    };
     $columns = WorkorderColumns::tableColumns();
 @endphp
 
@@ -43,7 +27,7 @@
                     identifier="number"
                     name="workorders"
                     :data="$row"
-                    show_route="{{ route($route['name'], [$row, $row[$route['relation']]]) }}"
+                    show_route="{{ route('workorders.companies.edit', [$row, $row->company]) }}"
                 />
             </tr>
         @endforeach

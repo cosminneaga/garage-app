@@ -23,7 +23,7 @@ class StoreUserRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'active' => $this->input('active') ? true : false,
+            'active' => (bool) $this->input('active'),
         ]);
     }
 

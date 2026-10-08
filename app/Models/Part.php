@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Blameable;
 use Database\Factories\PartFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -125,9 +126,9 @@ class Part extends Model
         ];
     }
 
-    public function getSellingPriceAttribute(): float
+    protected function sellingPrice(): Attribute
     {
-        return $this->item_price * (1 + ($this->commercial_markup / 100));
+        return Attribute::make(get: fn () => $this->item_price * (1 + ($this->commercial_markup / 100)));
     }
 
     public function operations(): HasMany

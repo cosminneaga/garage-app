@@ -129,7 +129,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDurationMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEstimatedDurationHours($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInProgressAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereInReviewAt($value)
@@ -299,6 +299,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
  * @property-read int|null $teams_count
  * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Workorder|null $workorder
  * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newQuery()
@@ -334,9 +335,10 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $name
- * @property string $tax_id
  * @property string $registration_number
+ * @property string $tax_id
  * @property float $tax_value
+ * @property numeric $labour_rate_hourly
  * @property string $invoice_prefix
  * @property string|null $image_path
  * @property int|null $created_by
@@ -349,6 +351,8 @@ namespace App\Models{
  * @property-read int|null $activities_as_subject_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $availableTechnicians
+ * @property-read int|null $available_technicians_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Client> $clients
@@ -368,6 +372,8 @@ namespace App\Models{
  * @property-read int|null $users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Vehicle> $vehicles
  * @property-read int|null $vehicles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Workorder> $workorders
+ * @property-read int|null $workorders_count
  * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newQuery()
@@ -380,6 +386,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereImagePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereInvoicePrefix($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereLabourRateHourly($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereRegistrationNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereTaxId($value)
@@ -505,11 +512,11 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $name
- * @property string $extension
- * @property string $path
  * @property \App\Enums\Type\FileType $type
  * @property string|null $description
+ * @property string $name
+ * @property string $mime
+ * @property string $path
  * @property int $uploaded_by
  * @property int|null $created_by
  * @property int|null $updated_by
@@ -532,8 +539,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereExtension($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereMime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File wherePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereType($value)
@@ -663,6 +670,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
  * @property-read int|null $operations_count
+ * @property-read mixed $selling_price
  * @property-read \App\Models\Supplier|null $supplier
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\PartFactory factory($count = null, $state = [])
@@ -901,6 +909,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $deletor
  * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Workorder|null $workorder
  * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Vehicle newQuery()
@@ -946,15 +955,18 @@ namespace App\Models{
  * @property string|null $initial_inspection_notes
  * @property string|null $notes
  * @property string|null $part_notes
- * @property numeric|null $labour_rate
- * @property numeric|null $labour_total_cost
- * @property numeric|null $part_total_cost
+ * @property numeric $labour_rate
+ * @property numeric $labour_total_cost
+ * @property numeric $part_total_cost
  * @property $completed_at
  * @property $cancelled_at
  * @property $in_progress_at
  * @property $in_pause_at
- * @property int $booking_id
+ * @property int|null $booking_id
+ * @property int|null $company_id
  * @property int $technician_id
+ * @property int|null $client_id
+ * @property int|null $vehicle_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -964,6 +976,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Booking|null $booking
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
@@ -974,6 +988,7 @@ namespace App\Models{
  * @property-read int|null $statuses_count
  * @property-read \App\Models\User|null $technician
  * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Vehicle|null $vehicle
  * @method static \Database\Factories\WorkorderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder newQuery()
@@ -981,6 +996,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereBookingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCancelledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereComplaint($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCompletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereCreatedAt($value)
@@ -991,7 +1008,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInPauseAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInProgressAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereInitialInspectionNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereLabourPriceHourly($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereLabourRate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereLabourTotalCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereNumber($value)
@@ -1004,6 +1021,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder whereVehicleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Workorder withoutTrashed()
  * @mixin \Eloquent
@@ -1074,7 +1092,7 @@ namespace App\Models{
  * @property int $id
  * @property $start
  * @property $end
- * @property int|null $minutes
+ * @property int $minutes
  * @property int $workorder_operation_id
  * @property int|null $created_by
  * @property int|null $updated_by

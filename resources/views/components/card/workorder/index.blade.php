@@ -21,7 +21,7 @@
 <x-card
     :description="'Workorder number: ' . $workorder->number . ', ID: ' . $workorder->id"
     onclick="location.href = '{{ route($route['name'], [$workorder, $workorder[$route['relation']]]) }}'"
-    class="hover:cursor-pointer hover:bg-gray-950"
+    class="hover:cursor-pointer hover:bg-gray-950 min-w-62"
 >
     <p class="text-sm font-bold"><b>Title:</b> {{ $workorder->title->label() }}</p>
     <p class="text-sm"><b>Status:</b> {{ $workorder->status->label() }}</p>

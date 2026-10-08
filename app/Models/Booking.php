@@ -133,7 +133,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'advisor_id',
     'company_id',
     'client_id',
-    'vehicle_id'
+    'vehicle_id',
 ])]
 class Booking extends Model
 {

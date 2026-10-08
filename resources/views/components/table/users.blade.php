@@ -41,7 +41,6 @@
                             alt="{{ $row->id }}-user-pic"
                             src="{{ route('users.image.preview', $row) }}"
                             title="{{ $row->name }}"
-                            alt="{{ $row->name }}"
                             size="small"
                         />
                         {{ $row->name }}

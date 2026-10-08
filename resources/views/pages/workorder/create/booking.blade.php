@@ -1,6 +1,7 @@
 <x-layout::index title="Workorder Create">
     <x-card>
         <x-card.booking :booking="$parent" />
+        <br>
 
         <form action="{{ route('workorders.bookings.store', $parent) }}" method="post">
             @csrf

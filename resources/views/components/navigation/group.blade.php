@@ -51,6 +51,7 @@
                             <div class="link-item-single">
 
                                 <button
+                                    type="button"
                                     class="link-button pl-0 ml-0"
                                     data-collapse-toggle="{{ $item['title'] }}-dropdown"
                                     aria-controls="{{ $item['title'] }}-dropdown"

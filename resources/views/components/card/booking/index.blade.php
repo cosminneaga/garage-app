@@ -3,7 +3,7 @@
 <x-card
     :description="'Booking number: ' . $booking->number . ', ID: ' . $booking->id"
     onclick="location.href = '{{ route('bookings.companies.edit', [$booking, $booking->company]) }}'"
-    class="hover:cursor-pointer hover:bg-gray-950"
+    class="hover:cursor-pointer hover:bg-gray-950 min-w-62"
 >
     <p class="text-sm"><b>Status:</b> {{ $booking->status->label() }}</p>
     <p class="text-sm"><b>Client Token:</b> {{ $booking->client_url_token }}</p>

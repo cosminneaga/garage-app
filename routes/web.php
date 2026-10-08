@@ -175,7 +175,6 @@ Route::controller(WorkorderController::class)
 
         # companies
         Route::group(['model' => RelatedModel::COMPANY], function () {
-            Route::get('/workorders/companies/{company}', 'modelIndex')->name('workorders.companies.index');
             Route::get('/workorders/companies/{company}/create', 'modelCreate')->name('workorders.companies.create');
             Route::post('/workorders/companies/{company}', 'modelStore')->name('workorders.companies.store');
             Route::get('/workorders/{workorder}/companies/{company}', 'modelEdit')->name('workorders.companies.edit');
@@ -184,7 +183,6 @@ Route::controller(WorkorderController::class)
 
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {
-            Route::get('/workorders/bookings', 'modelIndex')->name('workorders.bookings.index');
             Route::get('/workorders/bookings/{booking}', 'modelCreate')->name('workorders.bookings.create');
             Route::post('/workorders/bookings/{booking}', 'modelStore')->name('workorders.bookings.store');
             Route::get('/workorders/{workorder}/bookings/{booking}', 'modelEdit')->name('workorders.bookings.edit');

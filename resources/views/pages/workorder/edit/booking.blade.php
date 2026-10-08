@@ -4,9 +4,13 @@
 
 <x-layout::index title="Workorder updated">
     <x-card>
-        <div class="grid gap-2 grid-cols-1 md:grid-cols-2">
-            <x-card.booking :booking="$parent" />
-            <x-card.workorder :workorder="$workorder" :resource="$parent" />
+        <div class="grid grid-flow-row lg:grid-flow-col gap-2">
+            <x-card.company :company="$workorder->company" />
+            <x-card.booking :booking="$workorder->booking" />
+            <x-card.workorder
+                :workorder="$workorder"
+                :resource="$workorder->company"
+            />
         </div>
 
         <br>
@@ -24,18 +28,18 @@
             <br>
         @endif
 
-        @if (count($operations))
+        @if (count($workorder->operations))
             <br>
             <h4 class="text-xl font-bold mb-1">Operations</h4>
             <x-table.related.workorder_operations
-                :data="$operations"
+                :data="$workorder->operations"
                 :resource="$workorder"
                 :edit="Permission::can(UserPermission::WORKORDER_OPERATION, 'update')"
             />
             <br>
         @endif
 
-        <form action="{{ route('workorders.bookings.update', [$workorder, $parent]) }}" method="POST">
+        <form action="{{ route('workorders.bookings.update', [$workorder, $workorder->booking]) }}" method="POST">
             @csrf
             @method('PUT')
 

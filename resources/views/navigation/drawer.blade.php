@@ -25,7 +25,7 @@
         :items="[
             [
                 'type' => 'single',
-                'title' => 'List of Users',
+                'title' => 'Sheet',
                 'icon' => 'icon-o-table-cells',
                 'permission' => [UserPermission::USER, 'show'],
                 'route' => route('users.index'),
@@ -39,7 +39,7 @@
             ],
             [
                 'type' => 'single',
-                'title' => 'Removed Users',
+                'title' => 'Removed',
                 'icon' => 'icon-o-document-minus',
                 'permission' => [UserPermission::USER, 'restore'],
                 'route' => route('users.removed'),
@@ -51,16 +51,16 @@
                 'permission' => [UserPermission::MANAGER, 'show'],
                 'items' => [
                     [
+                        'title' => 'Sheet',
+                        'icon' => 'icon-o-table-cells',
+                        'route' => route('managers.index'),
+                        'permission' => [UserPermission::MANAGER, 'show'],
+                    ],
+                    [
                         'title' => 'Create',
                         'icon' => 'icon-o-document-plus',
                         'route' => route('managers.create'),
                         'permission' => [UserPermission::MANAGER, 'store'],
-                    ],
-                    [
-                        'title' => 'List',
-                        'icon' => 'icon-o-table-cells',
-                        'route' => route('managers.index'),
-                        'permission' => [UserPermission::MANAGER, 'show'],
                     ],
                     [
                         'title' => 'Removed',
@@ -90,13 +90,7 @@
                         'permission' => [UserPermission::WORKORDER, 'show'],
                     ],
                     [
-                        'title' => 'By default Company',
-                        'icon' => 'icon-o-building-office',
-                        'route' => Auth::user()->setting ? route('workorders.companies.index', Auth::user()->setting->default_company) : '#',
-                        'permission' => [UserPermission::WORKORDER, 'show'],
-                    ],
-                    [
-                        'title' => 'Create for Default Company',
+                        'title' => 'Create',
                         'icon' => 'icon-o-document-plus',
                         'route' => Auth::user()->setting ? route('workorders.companies.create', Auth::user()->setting->default_company) : '#',
                         'permission' => [UserPermission::BOOKING, 'store'],
@@ -138,13 +132,13 @@
                 'permission' => [UserPermission::BOOKING, 'show'],
                 'items' => [
                     [
-                        'title' => 'List of Bookings',
+                        'title' => 'Sheet',
                         'icon' => 'icon-o-table-cells',
                         'route' => route('bookings.index'),
                         'permission' => [UserPermission::BOOKING, 'show'],
                     ],
                     [
-                        'title' => 'Create for Default Company',
+                        'title' => 'Create',
                         'icon' => 'icon-o-document-plus',
                         'route' => Auth::user()->setting ? route('bookings.companies.create', Auth::user()->setting->default_company) : '#',
                         'permission' => [UserPermission::BOOKING, 'store'],

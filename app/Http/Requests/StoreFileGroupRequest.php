@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Enums\Type\FileFormatType;
@@ -32,7 +34,7 @@ class StoreFileGroupRequest extends FormRequest
             'type' =>           ['required', new Enum(FileType::class)],
             'description' =>    ['sometimes', 'nullable', 'string', 'max:450'],
             'files' =>          ['nullable', 'array'],
-            'files.*' =>        ['required', 'file', $mimes, 'max:25000']
+            'files.*' =>        ['required', 'file', $mimes, 'max:25000'],
         ];
     }
 }

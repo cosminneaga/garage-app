@@ -43,7 +43,7 @@ and old values but not for default values -->
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('info', $nested_parent_name) }}"
         label="More Information"
-        rows="15"
+        rows="10"
         value="{{ old('info', '') }}"
     />
 </section>

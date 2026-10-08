@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions;
 
 use App\Enums\Type\FileType;
@@ -19,20 +21,18 @@ class FileGroupUpload
 
     public function handle(FileType $type, string $description, array $files, string $name = 'files'): Collection
     {
-        return DB::transaction(function () use ($type, $description, $files, $name) {
-            return Collection::make($files)
-                ->map(function (UploadedFile $file) use ($name, $type, $description) {
-                    $path = $file->store($name, 'local');
+        return DB::transaction(fn () => Collection::make($files)
+            ->map(function (UploadedFile $file) use ($name, $type, $description) {
+                $path = $file->store($name, 'local');
 
-                    return File::create([
-                        'type' => $type,
-                        'description' => $description,
-                        'name' => $file->getClientOriginalName(),
-                        'mime' => $file->getMimeType(),
-                        'path' => $path,
-                        'uploaded_by' => $this->user->id,
-                    ]);
-                });
-        });
+                return File::create([
+                    'type' => $type,
+                    'description' => $description,
+                    'name' => $file->getClientOriginalName(),
+                    'mime' => $file->getMimeType(),
+                    'path' => $path,
+                    'uploaded_by' => $this->user->id,
+                ]);
+            }));
     }
 }
