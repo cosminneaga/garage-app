@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 // use App\Http\Middleware\BeforeMiddleware;
+
+use App\Http\Middleware\AuthenticateUserOrClient;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,14 +23,15 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // $middleware->append(BeforeMiddleware::class);
 
-        // $middleware->validateCsrfTokens(except: [
-        //     // '/login',
+        // $middleware->appendToGroup('user-or-client', [
+        //     AuthenticateUserOrClient::class
         // ]);
 
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+            'auth.user-or-client' => AuthenticateUserOrClient::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

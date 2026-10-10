@@ -22,7 +22,6 @@ return new class () extends Migration {
             $table->auditColumns();
 
             $table->index('name', 'usr_name_idx');
-            $table->index('active', 'usr_active_idx');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -48,7 +47,6 @@ return new class () extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropIndex('usr_name_idx');
-            $table->dropIndex('usr_active_idx');
         });
 
         Schema::dropIfExists('users');

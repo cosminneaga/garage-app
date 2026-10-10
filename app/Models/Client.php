@@ -15,23 +15,19 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
-use Override;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property int $id
@@ -102,35 +98,31 @@ use Spatie\Permission\Traits\HasRoles;
     'email',
     'password',
     'active',
+    'image_path',
+    'created_by',
+    'updated_by',
 ])]
 #[Hidden([
     'password',
+    'remember_token',
 ])]
-class Client extends Model
+class Client extends Authenticatable
 {
     use HasFactory;
-    use HasRoles;
     use LogsActivity;
     use Notifiable;
     use SoftDeletes;
     use Blameable;
     use Searchable;
 
-    #[Override]
-    protected static function booted(): void
-    {
-        static::creating(function ($model) {
-            $model->access_token = Str::random(64);
-        });
-    }
-
     protected $attributes = [
-        'active' => false,
+        'active' => true,
     ];
 
     protected function casts(): array
     {
         return [
+            'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'active' => 'boolean',
         ];
@@ -140,6 +132,7 @@ class Client extends Model
     {
         return [
             'name' => $this->name,
+            'email' => $this->email,
         ];
     }
 
@@ -152,6 +145,11 @@ class Client extends Model
             ->where('client_company.client_id', $this->id)
             ->where('users.id', $user->id)
             ->exists();
+    }
+
+    public function isMyBooking(Booking $booking): bool
+    {
+        return (bool) $this->bookings()->find($booking)->first();
     }
 
     public function companies(): BelongsToMany
@@ -174,8 +172,8 @@ class Client extends Model
         return $this->hasMany(Booking::class);
     }
 
-    public function workorder(): BelongsTo
+    public function workorders(): HasMany
     {
-        return $this->belongsTo(Workorder::class);
+        return $this->hasMany(Workorder::class);
     }
 }

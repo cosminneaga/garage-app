@@ -17,17 +17,11 @@ class UpdateProfileRequest extends FormRequest
         return Auth::check();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
             'name' =>       ['required', 'string', 'max:255'],
             'email' =>      ['required', 'email', 'max:255'],
-            'active' =>     ['string'],
             'image' =>      ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
         ];
     }

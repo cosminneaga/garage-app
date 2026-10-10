@@ -15,10 +15,12 @@
 @endphp
 
 <x-table.wrapper :data="$data">
-    <x-table.extension.search
-        :route="$search_route"
-        label="Search bookings..."
-    />
+    @if ($search_route)
+        <x-table.extension.search
+            :route="$search_route"
+            label="Search bookings..."
+        />
+    @endif
 
     <x-table.extension.thead
         :columns="$columns"
@@ -27,8 +29,7 @@
 
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr
-                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
 
                 <!-- GENERIC DATABASE COLUMNS -->
                 @foreach ($columns as $column)
@@ -38,11 +39,11 @@
                 <!-- ACTION COLUMNS -->
                 @if ($edit || $delete || $restore)
                     <x-table.extension.action
-                        name="bookings"
                         identifier="number"
+                        name="bookings"
                         :data="$row"
                         :edit="$edit"
-                        edit_route="{{ route('bookings.companies.edit', [$row->id, $row->company_id]) }}"
+                        edit_route="{{ $edit_route($row) }}"
                     />
                 @endif
             </tr>

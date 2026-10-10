@@ -7,6 +7,8 @@ namespace App\Policies;
 use App\Enums\UserPermission;
 use App\Helpers\Permission;
 use App\Interfaces\StandardPolicyInterface;
+use App\Models\Booking;
+use App\Models\Client;
 use App\Models\User;
 
 class BookingPolicy implements StandardPolicyInterface
@@ -54,5 +56,10 @@ class BookingPolicy implements StandardPolicyInterface
         Permission::isSuper();
 
         return Permission::can(UserPermission::BOOKING, 'restore');
+    }
+
+    public function clientEdit(Client $client, Booking $booking,): bool
+    {
+        return $client->isMyBooking($booking);
     }
 }

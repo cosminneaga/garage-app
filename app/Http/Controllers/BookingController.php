@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\FileGroupUpload;
 use App\Enums\Columns\BookingColumns;
 use App\Enums\Columns\WorkorderColumns;
+use App\Enums\Type\FileType;
+use App\Http\Requests\StoreBookingClientDataRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
@@ -29,7 +32,7 @@ class BookingController extends Controller
 
         $bookings = Booking::search($search)
             ->whereIn('company_id', Auth::user()->companies()->select('companies.id'))
-            ->query(fn ($query) => $query->select([...BookingColumns::values(), 'company_id']))
+            ->query(fn($query) => $query->select([...BookingColumns::values(), 'company_id']))
             ->get();
 
         return view('pages.booking.index', [
@@ -118,10 +121,52 @@ class BookingController extends Controller
             ));
     }
 
-    public function clientData(): void
+    public function editClientData(Booking $booking): View
     {
-        # grab and validate client_url_token
-        # grab client notes
-        # grab client files
+        $this->authorize('clientEdit', $booking);
+
+        return view('pages.client.portal.booking.edit', [
+            'booking' => (object) $booking->only([
+                'id',
+                'number',
+                'status',
+                'service_type',
+                'complaint',
+                'client_notes',
+                'advisor_id',
+                'company_id',
+                'clientFiles'
+            ]),
+        ]);
+    }
+
+    public function storeClientData(
+        StoreBookingClientDataRequest $request,
+        Booking $booking,
+        FileGroupUpload $fileGroupUpload
+    ): RedirectResponse {
+
+        // dd($request->safe()->all(), $booking);
+
+        $booking->update([
+            'client_notes' => $request->client_notes,
+            'complaint' => $request->complaint,
+        ]);
+
+        if ($request->file('files')) {
+            $files = $fileGroupUpload->handle(
+                FileType::CLIENT_REFERENCE,
+                'Client uploaded files',
+                $request->file('files'),
+            );
+            $booking->clientFiles()->attach($files);
+        }
+
+        return back()
+            ->with(self::flashMessage(
+                'success',
+                'Resource updated',
+                'Booking has been updated successfully'
+            ));
     }
 }

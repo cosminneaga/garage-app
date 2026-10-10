@@ -13,7 +13,7 @@
 >
     <img
         class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
-        src="{{ route('users.image.preview', $user) }}"
+        src="{{ route('images.users.preview', $user) }}"
         title="{{ $user->name }}"
         alt="{{ $user->name }}"
     >
@@ -103,7 +103,7 @@
 
         <li>
             <form
-                action="/logout"
+                action="{{ route('logout') }}"
                 method="POST"
             >
                 @csrf

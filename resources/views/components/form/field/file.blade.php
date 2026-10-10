@@ -1,8 +1,16 @@
-@props(['name', 'identifier' => '', 'max_files' => 1, 'accepted_files' => FileFormatType::ALL->form()])
+@props(['name', 'identifier' => '', 'max_files' => 1, 'accepted_files' => FileFormatType::ALL->form(), 'label' => null])
 
 @php
     $helper = BladeFormHelper::names($identifier, $name);
 @endphp
+
+
+@if ($label)
+    <label
+        class="form-label"
+        for="{{ $name }}"
+    >{{ $label }}</label>
+@endif
 
 <input
     {{ $attributes->merge([

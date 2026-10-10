@@ -52,7 +52,6 @@ class ClientCreatedNotification extends Notification implements ShouldQueue
                 'Also an account has been created for the entitled client',
                 'Name: ' . $this->client->name,
                 'Email: ' .$this->client->email,
-                'Access token: ' . $this->client->access_token,
                 'Company attached to: ' . $this->client->companies()->first()->name,
             ],
             'url' => '#',

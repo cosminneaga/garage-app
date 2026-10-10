@@ -25,7 +25,6 @@ class ClientObserver
             'Name: ' . $client->name,
             'Email: ' .$client->email,
             'Password: ' . $password,
-            'Access token: ' . $client->access_token,
             'Use your email and password to change your password.',
         ];
         Notification::send($client, new NotifyClientNotification($client, $title, $messages));

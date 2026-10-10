@@ -66,6 +66,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'type',
     'description',
     'uploaded_by',
+    'uploaded_by_type',
 ])]
 class File extends Model
 {
@@ -77,10 +78,16 @@ class File extends Model
     protected $attributes = [
         'type' => FileType::OTHER->value,
     ];
+
     protected function casts(): array
     {
         return [
             'type' => FileType::class,
         ];
+    }
+
+    public function usesPolymorphicBlame(): bool
+    {
+        return true;
     }
 }

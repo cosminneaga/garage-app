@@ -6,7 +6,6 @@
     class="hover:cursor-pointer hover:bg-gray-950 min-w-62"
 >
     <p class="text-sm"><b>Status:</b> {{ $booking->status->label() }}</p>
-    <p class="text-sm"><b>Client Token:</b> {{ $booking->client_url_token }}</p>
     <p class="text-sm"><b>Confirmed At:</b> {{ $booking->confirmed_at }}</p>
     <p class="text-sm"><b>Completed At:</b> {{ $booking->completed_at }}</p>
     <p class="text-sm"><b>In Progress At:</b> {{ $booking->in_progress_at }}</p>

@@ -28,13 +28,23 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'show'])->name('login');
-    Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
-});
+Route::middleware('auth:client')
+    ->group(function () {
+        Route::post('/client/logout', [AuthController::class, 'clientLogout'])->name('clients.logout');
+    });
+
+Route::controller(AuthController::class)
+    ->middleware('guest')
+    ->group(function () {
+        Route::get('/login', 'show')->name('login');
+        Route::post('/login', 'authenticate')->name('login.authenticate');
+
+        Route::get('/client/login', 'clientShow')->name('clients.login');
+        Route::post('/client/login', 'clientAuthenticate')->name('clients.login.authenticate');
+    });
 
 Route::controller(ManagerController::class)
     ->middleware(['auth', 'role:super|administrator'])
@@ -66,6 +76,27 @@ Route::controller(UserController::class)
         });
     });
 
+Route::controller(ClientController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+
+        # companies
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::match(['QUERY'], '/clients/companies/{company}', 'modelSearch')->name('clients.companies.search');
+            Route::get('/clients/companies/{company}', 'modelIndex')->name('clients.companies.index');
+            Route::post('/clients/companies/{company}', 'modelStore')->name('clients.companies.store');
+            Route::get('/clients/{client}/companies/{company}', 'modelEdit')->name('clients.companies.edit');
+            Route::put('/clients/{client}/companies/{company}', 'modelUpdate')->name('clients.companies.update');
+            Route::delete('/clients/{client}/companies/{company}', 'modelDestroy')->name('clients.companies.destroy');
+        });
+    });
+
+Route::controller(ClientController::class)
+    ->middleware('auth:client')
+    ->group(function () {
+        Route::get('/client', 'index')->name('clients.home');
+    });
+
 Route::controller(CompanyController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
@@ -82,21 +113,6 @@ Route::controller(CompanyScheduleController::class)
     ->group(function () {
         Route::group(['model' => RelatedModel::COMPANY], function () {
             Route::get('/company-schedules/companies/{company}', 'modelIndex')->name('schedules.companies.index');
-        });
-    });
-
-Route::controller(ClientController::class)
-    ->middleware(['auth', 'role:super|administrator|manager|user'])
-    ->group(function () {
-
-        # companies
-        Route::group(['model' => RelatedModel::COMPANY], function () {
-            Route::match(['QUERY'], '/clients/companies/{company}', 'modelSearch')->name('clients.companies.search');
-            Route::get('/clients/companies/{company}', 'modelIndex')->name('clients.companies.index');
-            Route::post('/clients/companies/{company}', 'modelStore')->name('clients.companies.store');
-            Route::get('/clients/{client}/companies/{company}', 'modelEdit')->name('clients.companies.edit');
-            Route::put('/clients/{client}/companies/{company}', 'modelUpdate')->name('clients.companies.update');
-            Route::delete('/clients/{client}/companies/{company}', 'modelDestroy')->name('clients.companies.destroy');
         });
     });
 
@@ -167,6 +183,13 @@ Route::controller(BookingController::class)
         });
     });
 
+Route::controller(BookingController::class)
+    ->middleware('auth:client')
+    ->group(function () {
+        Route::get('/client/booking/{booking}', 'editClientData')->name('clients.bookings.edit');
+        Route::put('/client/booking/{booking}', 'storeClientData')->name('clients.bookings.update');
+    });
+
 Route::controller(WorkorderController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
@@ -215,9 +238,7 @@ Route::controller(WorkorderOperationLabourTimeController::class)
 Route::controller(FileController::class)
     ->middleware(['auth'])
     ->group(function () {
-        Route::get('/files/users/{user}/preview', 'userImage')->name('users.image.preview');
-        Route::get('/files/{file}/preview', 'preview')->name('files.preview');
-        // Route::post('/files', 'store')->name('files.store');
+        Route::get('/files/users/{user}/preview', 'userImage')->name('images.users.preview');
 
         Route::group(['model' => RelatedModel::WORKORDER], function () {
             Route::get('/files/workorders/{workorders}', 'modelIndex')->name('files.workorders.index');
@@ -228,6 +249,12 @@ Route::controller(FileController::class)
             Route::get('/files/operations/{operation}', 'modelIndex')->name('files.operations.index');
             Route::post('/files/operations/{operation}/store', 'modelStore')->name('files.operations.store');
         });
+    });
+
+Route::controller(FileController::class)
+    ->middleware(['auth.user-or-client'])
+    ->group(function () {
+        Route::get('/files/{file}/preview', 'preview')->name('files.preview');
     });
 
 Route::controller(SuperController::class)

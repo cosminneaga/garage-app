@@ -1,12 +1,11 @@
 <?php
 
 use App\Enums\Type\FileType;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class() extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,9 +20,17 @@ return new class () extends Migration {
             $table->string('mime')->nullable(false);
             $table->string('path')->nullable(false);
 
-            $table->foreignIdFor(User::class, 'uploaded_by')->constrained()->cascadeOnUpdate();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->string('created_by_type')->nullable();
 
-            $table->auditColumns();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->string('updated_by_type')->nullable();
+
+            $table->unsignedBigInteger('deleted_by')->nullable();
+            $table->string('deleted_by_type')->nullable();
+
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

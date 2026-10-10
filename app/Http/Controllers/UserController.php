@@ -249,7 +249,6 @@ class UserController extends Controller
     {
         self::guard('update', $request, $modelId);
         $attributes = $request->safe()->all();
-        $attributes['active'] = $request->boolean('active');
         $user = $action->handle($attributes);
 
         self::$entity->users()->attach($user);

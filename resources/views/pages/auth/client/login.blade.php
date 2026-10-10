@@ -2,12 +2,12 @@
     <x-form.wrapper
         class="mx-auto max-w-md"
         title="Login"
-        description="Login into your account"
+        description="Client Portal"
     >
         <div>
             <form
                 class="mt-10 space-y-4 text-start"
-                action="{{ route('login.authenticate') }}"
+                action="{{ route('clients.login.authenticate') }}"
                 method="POST"
             >
                 @csrf

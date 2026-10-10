@@ -36,7 +36,7 @@
                 @endforeach
 
                 <!-- ACTION COLUMNS -->
-                @if ($edit || $delete || $restore)
+                @if ($edit || $delete)
                     <x-table.extension.action
                         name="address"
                         identifier="street"

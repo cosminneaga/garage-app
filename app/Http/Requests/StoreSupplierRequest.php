@@ -42,9 +42,9 @@ class StoreSupplierRequest extends FormRequest
             'address.street' =>                 ['required', 'string', 'max:60'],
             'address.postcode' =>               ['required', 'string', 'max:20'],
             'address.country_id' =>             ['required', 'integer', 'exists:countries,id'],
-            'address.coordinates' =>            [config('app.env') !== 'testing' ? 'required' : 'nullable', 'array'],
-            'address.coordinates.latitude' =>   [config('app.env') !== 'testing' ? 'required' : 'nullable', 'string', 'max:20'],
-            'address.coordinates.longitude' =>  [config('app.env') !== 'testing' ? 'required' : 'nullable', 'string', 'max:20'],
+            'address.coordinates' =>            ['sometimes', 'nullable', 'array'],
+            'address.coordinates.latitude' =>   ['sometimes', 'nullable', 'string', 'max:20'],
+            'address.coordinates.longitude' =>  ['sometimes', 'nullable', 'string', 'max:20'],
         ];
     }
 }

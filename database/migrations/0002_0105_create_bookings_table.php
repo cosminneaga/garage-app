@@ -37,7 +37,6 @@ return new class () extends Migration {
             $table->dateTime('in_progress_at')->nullable();
 
             $table->longText('client_notes')->nullable();
-            $table->string('client_url_token')->nullable();
 
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();

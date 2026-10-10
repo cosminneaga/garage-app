@@ -9,7 +9,7 @@ and old values but not for default values -->
 
 {{-- @dd(old()) --}}
 
-<section class="space-y-2">
+<section>
     <h3 class="text-lg font-bold">Address Basic Information *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
 
@@ -42,8 +42,8 @@ and old values but not for default values -->
     />
 </section>
 
-<section class="space-y-2">
-    <h3 class="text-lg font-bold">Address Location</h3>
+<section>
+    <h3 class="text-lg font-bold">Address Extra Information</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
 
     <div class="grid grid-cols-2 gap-2">
@@ -60,30 +60,23 @@ and old values but not for default values -->
             label="Longitude"
         />
     </div>
-</section>
 
-<section class="space-y-2">
-    <h3 class="text-lg font-bold">Address Extra Information</h3>
-    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
-
-    <div class="grid grid-cols-3 gap-2">
-        <x-form.field.text
-            identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('building', $nested_parent_name) }}"
-            value="{{ old('building', '') }}"
-            label="Building"
-        />
-        <x-form.field.text
-            identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('floor', $nested_parent_name) }}"
-            value="{{ old('floor', '') }}"
-            label="Floor"
-        />
-        <x-form.field.text
-            identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('unit', $nested_parent_name) }}"
-            value="{{ old('unit', '') }}"
-            label="Unit"
-        />
-    </div>
+    <x-form.field.text
+        identifier="{{ $identifier }}"
+        name="{{ Str::generateFormFieldName('building', $nested_parent_name) }}"
+        value="{{ old('building', '') }}"
+        label="Building"
+    />
+    <x-form.field.text
+        identifier="{{ $identifier }}"
+        name="{{ Str::generateFormFieldName('floor', $nested_parent_name) }}"
+        value="{{ old('floor', '') }}"
+        label="Floor"
+    />
+    <x-form.field.text
+        identifier="{{ $identifier }}"
+        name="{{ Str::generateFormFieldName('unit', $nested_parent_name) }}"
+        value="{{ old('unit', '') }}"
+        label="Unit"
+    />
 </section>

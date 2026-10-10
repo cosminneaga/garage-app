@@ -19,13 +19,13 @@ return new class () extends Migration {
             $table->string('building', 50)->nullable();
             $table->string('floor', 20)->nullable();
             $table->string('unit', 20)->nullable();
-            $geo = $table->geography('coordinates', subtype: 'point', srid: 4326);
+            $geo = $table->geography('coordinates', subtype: 'point', srid: 4326)->nullable();
 
-            if (Schema::getConnection()->getDriverName() === 'sqlite') {
-                $geo->nullable();
-            } else {
-                $table->spatialIndex('coordinates');
-            }
+            // if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            //     $geo->nullable();
+            // } else {
+            //     $table->spatialIndex('coordinates');
+            // }
 
             $table->foreignIdFor(Country::class)
                 ->constrained()

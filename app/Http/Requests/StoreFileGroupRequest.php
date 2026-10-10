@@ -28,7 +28,11 @@ class StoreFileGroupRequest extends FormRequest
      */
     public function rules(): array
     {
-        $mimes = FileFormatType::mergeValidation([FileFormatType::IMAGE, FileFormatType::DOCUMENT, FileFormatType::VIDEO]);
+        $mimes = FileFormatType::mergeValidation([
+            FileFormatType::IMAGE,
+            FileFormatType::DOCUMENT,
+            FileFormatType::VIDEO
+        ]);
 
         return [
             'type' =>           ['required', new Enum(FileType::class)],

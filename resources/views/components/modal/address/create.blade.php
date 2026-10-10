@@ -18,7 +18,7 @@
 <x-modal.wrapper
     id="{{ $ids->get('modal') }}"
     title="Create new address"
-    size="5xl"
+    size="2xl"
 >
     <form
         id="{{ $ids->get('form') }}"
@@ -27,7 +27,7 @@
     >
         @csrf
 
-        <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
+        <div class="grid grid-rows-1 gap-4 md:grid-cols-2">
             <x-form.content.address
                 identifier="address"
                 :countries="$countries"

@@ -129,17 +129,8 @@ class User extends Authenticatable
     use LogsActivity;
 
     protected $attributes = [
-        'active' => false,
+        'active' => true,
     ];
-
-    public function toSearchableArray(): array
-    {
-        return [
-            'name' => $this->name,
-            'email' => $this->email,
-            'active' => $this->active,
-        ];
-    }
 
     protected function casts(): array
     {
@@ -147,6 +138,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'active' => 'boolean',
+        ];
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
         ];
     }
 

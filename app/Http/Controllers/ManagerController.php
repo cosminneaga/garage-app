@@ -54,7 +54,6 @@ class ManagerController extends Controller
         UserStoreAction $action
     ): RedirectResponse {
         $attributes = $request->safe()->all();
-        $attributes['active'] = $request->boolean('active');
         $action->handle($attributes);
 
         return redirect(route('managers.index'))
@@ -109,7 +108,6 @@ class ManagerController extends Controller
         }
 
         $attributes = $request->safe()->all();
-        $attributes['active'] = $request->boolean('active');
         $action->handle($attributes, $manager);
 
         return back()

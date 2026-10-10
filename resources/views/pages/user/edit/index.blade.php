@@ -19,7 +19,7 @@
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
-                    src="{{ route('users.image.preview', $resource) }}"
+                    src="{{ route('images.users.preview', $resource) }}"
                     alt="{{ $resource->name }}"
                     title="{{ $resource->name }}">
                 <br>

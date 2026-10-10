@@ -78,6 +78,7 @@
             "@php artisan db:seed"
         ],
         "clear": [
+            "@php artisan cache:clear",
             "@php artisan optimize:clear",
             "@php artisan permission:cache-reset",
             "@php artisan activitylog:clean",

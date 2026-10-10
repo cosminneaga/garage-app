@@ -18,7 +18,7 @@
 <x-modal.wrapper
     id="{{ $ids->get('modal') }}"
     title="Create new contact"
-    size="5xl"
+    size="2xl"
 >
     <form
         id="{{ $ids->get('form') }}"

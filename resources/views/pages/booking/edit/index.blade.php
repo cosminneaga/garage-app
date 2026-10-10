@@ -6,6 +6,10 @@
     <x-card>
         <x-card.booking :booking="$booking" />
 
+        @if (count($booking->clientFiles))
+            <x-gallery.files :files="$booking->clientFiles" />
+        @endif
+
         @if (count($workorders))
             <br>
             <h4 class="mb-1 text-xl font-bold">Workorders</h4>
@@ -72,6 +76,7 @@
                         />
                         <x-form.field.text
                             name="estimated_cost"
+                            value="{{ old('estimated_cost', '') }}"
                             label="Estimated cost"
                         />
                     </div>
@@ -79,16 +84,19 @@
                 <section>
                     <x-form.field.textarea
                         name="notes"
+                        value="{{ old('notes', '') }}"
                         label="General notes"
                         rows="5"
                     />
                     <x-form.field.textarea
                         name="client_notes"
+                        value="{{ old('client_notes', '') }}"
                         label="Client Notes"
                         rows="5"
                     />
                     <x-form.field.textarea
                         name="complaint"
+                        value="{{ old('complaint', '') }}"
                         label="Complaint"
                         rows="5"
                     />

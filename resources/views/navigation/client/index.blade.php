@@ -2,8 +2,7 @@
     <div class="mx-auto flex items-center justify-between">
         <div>
             <div class="flex items-center gap-4">
-                @auth
-                    {{-- DRAWER BUTTON --}}
+                {{-- @auth
                     <button
                         class="hover:cursor-pointer lg:hidden"
                         data-drawer-target="app-drawer"
@@ -13,7 +12,7 @@
                     >
                         <x-icon-o-bars-3 class="h-8 w-8 text-gray-600" />
                     </button>
-                @endauth
+                @endauth --}}
 
                 <a href="/">
                     <img
@@ -28,7 +27,7 @@
         <div class="flex flex-col gap-2">
             <div class="flex items-center gap-x-5">
                 @auth
-                    <x-navigation::dropdown />
+                    <x-navigation::client.dropdown />
                 @endauth
 
                 @guest

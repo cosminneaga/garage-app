@@ -148,7 +148,6 @@ class Booking extends Model
     {
         static::created(function ($model) {
             $model->number = sprintf('BK-%s-%d', now()->timestamp, $model->id);
-            $model->client_url_token = sprintf('%s%d', now()->timestamp, random_int(1000, 9999));
             $model->saveQuietly();
         });
 
@@ -220,7 +219,7 @@ class Booking extends Model
 
     public function clientFiles(): BelongsToMany
     {
-        return $this->belongsToMany(File::class);
+        return $this->belongsToMany(File::class, 'booking_client_file');
     }
 
     public function workorders(): HasMany
