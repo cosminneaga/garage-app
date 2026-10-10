@@ -82,7 +82,6 @@ namespace App\Models{
  * @property $in_review_at
  * @property $in_progress_at
  * @property string|null $client_notes
- * @property string|null $client_url_token
  * @property int $company_id
  * @property int $client_id
  * @property int $vehicle_id
@@ -100,10 +99,13 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $clientFiles
  * @property-read int|null $client_files_count
  * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BookingStatusHistory> $statuses
  * @property-read int|null $statuses_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Vehicle|null $vehicle
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Workorder> $workorders
@@ -118,7 +120,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCheckedInAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientNotes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereClientUrlToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereComplaint($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCompletedAt($value)
@@ -270,8 +271,10 @@ namespace App\Models{
  * @property string $name
  * @property string $email
  * @property bool $active
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $image_path
  * @property string|null $password
- * @property string|null $access_token
+ * @property string|null $remember_token
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -288,42 +291,36 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
- * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
- * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
- * @property-read int|null $teams_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
- * @property-read \App\Models\Workorder|null $workorder
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Workorder> $workorders
+ * @property-read int|null $workorders_count
  * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Client permission($permissions, bool $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Client role($roles, ?string $guard = null, bool $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Client team($teams, bool $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereAccessToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereImagePath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutPermission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutRole($roles, ?string $guard = null)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTeam($teams)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTrashed()
  * @mixin \Eloquent
  */
@@ -359,7 +356,9 @@ namespace App\Models{
  * @property-read int|null $clients_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $managers
  * @property-read int|null $managers_count
@@ -367,6 +366,7 @@ namespace App\Models{
  * @property-read int|null $schedules_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
  * @property-read int|null $suppliers_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
@@ -517,17 +517,22 @@ namespace App\Models{
  * @property string $name
  * @property string $mime
  * @property string $path
- * @property int $uploaded_by
  * @property int|null $created_by
+ * @property string|null $created_by_type
  * @property int|null $updated_by
+ * @property string|null $updated_by_type
  * @property int|null $deleted_by
+ * @property string|null $deleted_by_type
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\FileFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File newModelQuery()
@@ -536,8 +541,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereCreatedByType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDeletedByType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereMime($value)
@@ -546,7 +553,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUploadedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereUpdatedByType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File withoutTrashed()
  * @mixin \Eloquent
@@ -666,12 +673,15 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
  * @property-read int|null $operations_count
  * @property-read mixed $selling_price
  * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\PartFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Part newModelQuery()
@@ -725,10 +735,13 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Part> $parts
  * @property-read int|null $parts_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newModelQuery()
@@ -802,7 +815,9 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read User|null $deletor
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
@@ -813,6 +828,7 @@ namespace App\Models{
  * @property-read \App\Models\UserSetting|null $setting
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
  * @property-read int|null $teams_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
  * @property-read int|null $users_count
@@ -906,8 +922,11 @@ namespace App\Models{
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Workorder|null $workorder
  * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
@@ -978,7 +997,9 @@ namespace App\Models{
  * @property-read \App\Models\Booking|null $booking
  * @property-read \App\Models\Client|null $client
  * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
@@ -987,6 +1008,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderStatusHistory> $statuses
  * @property-read int|null $statuses_count
  * @property-read \App\Models\User|null $technician
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Vehicle|null $vehicle
  * @method static \Database\Factories\WorkorderFactory factory($count = null, $state = [])
@@ -1049,7 +1071,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
@@ -1057,6 +1081,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $performedBy
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperationLabourTime> $times
  * @property-read int|null $times_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Workorder|null $workorder
  * @method static \Database\Factories\WorkorderOperationFactory factory($count = null, $state = [])
@@ -1102,9 +1127,12 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \App\Models\WorkorderOperation|null $operation
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\WorkorderOperationLabourTimeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderOperationLabourTime newModelQuery()

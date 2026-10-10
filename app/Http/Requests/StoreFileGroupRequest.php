@@ -31,7 +31,7 @@ class StoreFileGroupRequest extends FormRequest
         $mimes = FileFormatType::mergeValidation([
             FileFormatType::IMAGE,
             FileFormatType::DOCUMENT,
-            FileFormatType::VIDEO
+            FileFormatType::VIDEO,
         ]);
 
         return [

@@ -58,7 +58,7 @@ class BookingPolicy implements StandardPolicyInterface
         return Permission::can(UserPermission::BOOKING, 'restore');
     }
 
-    public function clientEdit(Client $client, Booking $booking,): bool
+    public function clientEdit(Client $client, Booking $booking): bool
     {
         return $client->isMyBooking($booking);
     }

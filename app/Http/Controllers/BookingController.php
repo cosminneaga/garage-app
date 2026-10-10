@@ -32,7 +32,7 @@ class BookingController extends Controller
 
         $bookings = Booking::search($search)
             ->whereIn('company_id', Auth::user()->companies()->select('companies.id'))
-            ->query(fn($query) => $query->select([...BookingColumns::values(), 'company_id']))
+            ->query(fn ($query) => $query->select([...BookingColumns::values(), 'company_id']))
             ->get();
 
         return view('pages.booking.index', [
@@ -135,7 +135,7 @@ class BookingController extends Controller
                 'client_notes',
                 'advisor_id',
                 'company_id',
-                'clientFiles'
+                'clientFiles',
             ]),
         ]);
     }
