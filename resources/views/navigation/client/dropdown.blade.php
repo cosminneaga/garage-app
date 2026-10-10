@@ -1,5 +1,5 @@
 @php
-    $user = Auth::user();
+    $user = Auth::guard('client')->user();
     $unreadNotifications = $user ? $user->unreadNotifications()->latest()->take(3)->get() : [];
 @endphp
 
@@ -13,7 +13,7 @@
 >
     <img
         class="ring-default h-15 w-15 rounded-full object-cover p-1 ring-2"
-        src="{{ route('images.users.preview', $user) }}"
+        src="{{ route('avatar.preview') }}"
         title="{{ $user->name }}"
         alt="{{ $user->name }}"
     >
@@ -32,7 +32,6 @@
 <div
     class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-auto border px-2.5 py-3 shadow-lg"
     id="profile-menu"
-    {{-- class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-fit border px-2.5 py-2 shadow-lg" --}}
 >
     <div class="p-2">
         <div class="text-md">
@@ -45,6 +44,14 @@
         class="text-body p-2 text-sm font-medium"
         aria-labelledby="nav-dropdown-profile-btn"
     >
+        <li>
+            <a
+                class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
+                href="{{ route('profile.users.edit', $user) }}"
+            >Profile</a>
+        </li>
+        <br>
+
         @auth('client')
             <div
                 x-data
@@ -66,10 +73,10 @@
                     </template>
                 </ul>
 
-                {{-- <a
+                <a
                     class="hover:bg-neutral-tertiary-medium hover:text-heading inline-flex w-full items-center rounded p-2"
                     href="{{ route('users.notifications') }}"
-                >See all notifications</a> --}}
+                >See all notifications</a>
                 <br>
             </div>
         @endauth
@@ -92,11 +99,11 @@
     </ul>
 </div>
 
-{{-- @auth('client')
+@auth('client')
     <script type="module">
         const currentRouteName = @js(Route::currentRouteName());
         const unreadNotifications = @json($unreadNotifications);
-        const userId = {{ Auth::user()->id }};
+        const userId = {{ Auth::guard('client')->user()->id }};
         const store = Alpine.store("notification");
 
         Echo.private(`App.Models.Client.${userId}`).notification((notification) => {
@@ -121,4 +128,4 @@
                 .data);
         }
     </script>
-@endauth --}}
+@endauth

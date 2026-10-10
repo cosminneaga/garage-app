@@ -2,7 +2,7 @@
     Session::flashInput($user->toArray());
 @endphp
 
-<x-layout::index title="{{ $user->name }} | Profile">
+<x-layout::client title="{{ $user->name }} | Profile">
     <x-tabs :tabs="UserProfileTabs::tabs()">
         <x-card description="Visualise & Edit your details">
             <form
@@ -22,7 +22,7 @@
 
                 <x-form.content.user
                     identifier="profile_update"
-                    :exclude="['active', 'password', 'password_confirmed']"
+                    :exclude="['active']"
                 />
 
                 <div class="mt-5 flex gap-1">
@@ -35,4 +35,4 @@
             </form>
         </x-card>
     </x-tabs>
-</x-layout::index>
+</x-layout::client>

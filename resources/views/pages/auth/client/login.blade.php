@@ -1,4 +1,4 @@
-<x-layout::index>
+<x-layout::client>
     <x-form.wrapper
         class="mx-auto max-w-md"
         title="Login"
@@ -32,4 +32,4 @@
             </form>
         </div>
     </x-form.wrapper>
-</x-layout::index>
+</x-layout::client>

@@ -31,9 +31,6 @@ class ClientController extends Controller
         return view('pages.client.portal.home', [
             'bookings' => $client->bookings,
             'workorders' => $client->workorders,
-            'contacts' => $client->contacts,
-            'addresses' => $client->addresses,
-            'countries' => Country::all(),
         ]);
     }
 

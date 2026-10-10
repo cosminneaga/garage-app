@@ -4,6 +4,7 @@
     'edit' => false,
     'delete' => false,
     'resource',
+    'trigger' => true,
 ])
 
 @php
@@ -11,11 +12,13 @@
     $columns = ContactColumns::tableColumns();
 @endphp
 
-<x-modal.contact.create
-    id="contact_create"
-    action="{{ route('contacts.' . $parentname . '.store', $resource) }}"
-    trigger
-/>
+@if ($trigger)
+    <x-modal.contact.create
+        id="contact_create"
+        action="{{ route('contacts.' . $parentname . '.store', $resource) }}"
+        trigger
+    />
+@endif
 
 <x-table.wrapper :data="$data">
     <x-table.extension.thead
@@ -25,8 +28,7 @@
 
     <x-slot name="tbody">
         @foreach ($data as $row)
-            <tr
-                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
 
                 <!-- GENERIC DATABASE COLUMNS -->
                 @foreach ($columns as $column)

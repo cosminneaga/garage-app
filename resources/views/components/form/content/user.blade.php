@@ -8,7 +8,7 @@ and old values but not for default values -->
 ])
 
 <section class="mt-5 space-y-2">
-    <h3 class="text-lg font-bold">User Basic Information *</h3>
+    <h3 class="text-lg font-bold">Basic Information *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
     <x-form.field.text
         identifier="{{ $identifier }}"
@@ -26,7 +26,7 @@ and old values but not for default values -->
 </section>
 
 <section class="mt-5 space-y-2">
-    <h3 class="text-lg font-bold">User Media</h3>
+    <h3 class="text-lg font-bold">Media</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
     @if (collect($exclude)->doesntContain('image'))
         <x-form.field.image
@@ -38,7 +38,7 @@ and old values but not for default values -->
 </section>
 
 <section class="mt-5 space-y-2">
-    <h3 class="text-lg font-bold">User Authentication *</h3>
+    <h3 class="text-lg font-bold">Authentication *</h3>
     <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
     @if (collect($exclude)->doesntContain('password'))
         <x-form.field.text

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\UserUpdateAction;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Client;
 use App\Models\Country;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -15,15 +16,30 @@ class ProfileController extends Controller
 {
     public function edit(): View
     {
-        return match(request()->query('tab')) {
-            'statistics' => view('pages.user.profile.statistics', ['user' => Auth::user()]),
-            'contacts' => view('pages.user.profile.contacts', ['user' => Auth::user()]),
+        $user = Auth::guard('web')->user() ?? Auth::guard('client')->user();
+
+        if (get_class($user) === Client::class) {
+            return match (request()->query('tab')) {
+                'statistics' => view('pages.client.portal.profile.statistics', ['user' => $user]),
+                'contacts' => view('pages.client.portal.profile.contacts', ['user' => $user]),
+                'addresses' => view('pages.client.portal.profile.addresses', [
+                    'user' => $user,
+                    'countries' => Country::all(),
+                ]),
+                'settings' => view('pages.client.portal.profile.settings', ['user' => $user]),
+                default => view('pages.client.portal.profile.index', ['user' => $user]),
+            };
+        }
+
+        return match (request()->query('tab')) {
+            'statistics' => view('pages.user.profile.statistics', ['user' => $user]),
+            'contacts' => view('pages.user.profile.contacts', ['user' => $user]),
             'addresses' => view('pages.user.profile.addresses', [
-                'user' => Auth::user(),
+                'user' => $user,
                 'countries' => Country::all(),
             ]),
-            'settings' => view('pages.user.profile.settings', ['user' => Auth::user()]),
-            default => view('pages.user.profile.index', ['user' => Auth::user()]),
+            'settings' => view('pages.user.profile.settings', ['user' => $user]),
+            default => view('pages.user.profile.index', ['user' => $user]),
         };
     }
 
@@ -31,7 +47,8 @@ class ProfileController extends Controller
         UpdateProfileRequest $request,
         UserUpdateAction $action
     ): RedirectResponse {
-        $action->handle($request->safe()->all(), Auth::user());
+        $user = Auth::guard('web')->user() ?? Auth::guard('client')->user();
+        $action->handle($request->safe()->all(), $user);
 
         return back()
             ->with(self::flashMessage(

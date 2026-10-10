@@ -36,6 +36,10 @@
                         class="border-b-0! hover:border-b-4! hover:border-t-4! border-primary-500 px-2 transition-all delay-150 duration-100 ease-in-out">
                         <a href="/login">Login</a>
                     </div>
+                    <div
+                        class="border-b-0! hover:border-b-4! hover:border-t-4! border-primary-500 px-2 transition-all delay-150 duration-100 ease-in-out">
+                        <a href="/client/login">Client Portal</a>
+                    </div>
                 @endguest
             </div>
         </div>

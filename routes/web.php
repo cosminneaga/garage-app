@@ -91,6 +91,13 @@ Route::controller(ClientController::class)
         });
     });
 
+Route::controller(ProfileController::class)
+    ->middleware(['auth.user-or-client'])
+    ->group(function () {
+        Route::get('/profile/users', 'edit')->name('profile.users.edit');
+        Route::put('/profile/users', 'update')->name('profile.users.update');
+    });
+
 Route::controller(ClientController::class)
     ->middleware('auth:client')
     ->group(function () {
@@ -147,13 +154,6 @@ Route::controller(CarInfoController::class)
         Route::get('/car/makes', 'makes')->name('car.makes');
         Route::get('/car/makes/{make}/models', 'models')->name('car.makes.models');
         Route::get('/car/makes/{make}/models/{model}/data', 'data')->name('car.makes.models.data');
-    });
-
-Route::controller(ProfileController::class)
-    ->middleware(['auth'])
-    ->group(function () {
-        Route::get('/profile/users', 'edit')->name('profile.users.edit');
-        Route::put('/profile/users', 'update')->name('profile.users.update');
     });
 
 Route::controller(SupplierController::class)
@@ -238,7 +238,7 @@ Route::controller(WorkorderOperationLabourTimeController::class)
 Route::controller(FileController::class)
     ->middleware(['auth'])
     ->group(function () {
-        Route::get('/files/users/{user}/preview', 'userImage')->name('images.users.preview');
+        Route::get('/files/user/{user}/avatar', 'userAvatar')->name('files.users.avatar');
 
         Route::group(['model' => RelatedModel::WORKORDER], function () {
             Route::get('/files/workorders/{workorders}', 'modelIndex')->name('files.workorders.index');
@@ -254,6 +254,7 @@ Route::controller(FileController::class)
 Route::controller(FileController::class)
     ->middleware(['auth.user-or-client'])
     ->group(function () {
+        Route::get('/files/avatar/', 'avatar')->name('avatar.preview');
         Route::get('/files/{file}/preview', 'preview')->name('files.preview');
     });
 

@@ -5,6 +5,7 @@
     'delete' => false,
     'resource',
     'countries',
+    'trigger' => true,
 ])
 
 @php
@@ -12,12 +13,14 @@
     $columns = AddressColumns::tableColumns();
 @endphp
 
-<x-modal.address.create
-    id="address_create"
-    :countries="$countries"
-    action="{{ route('addresses.' . $parentname . '.store', $resource) }}"
-    trigger
-/>
+@if ($trigger)
+    <x-modal.address.create
+        id="address_create"
+        :countries="$countries"
+        action="{{ route('addresses.' . $parentname . '.store', $resource) }}"
+        trigger
+    />
+@endif
 
 <x-table.wrapper :data="$data">
     <x-table.extension.thead
@@ -27,8 +30,7 @@
 
     <x-slot name="tbody">
         @forelse ($data as $row)
-            <tr
-                class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+            <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
 
                 <!-- GENERIC DATABASE COLUMNS -->
                 @foreach ($columns as $column)
@@ -38,8 +40,8 @@
                 <!-- ACTION COLUMNS -->
                 @if ($edit || $delete)
                     <x-table.extension.action
-                        name="address"
                         identifier="street"
+                        name="address"
                         :data="$row"
                         :edit="$edit"
                         :delete="$delete"

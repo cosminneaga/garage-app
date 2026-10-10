@@ -36,8 +36,7 @@ class UpdateBookingRequest extends FormRequest
             'cancelled_at' =>                   ['sometimes', 'nullable', 'date_format:d-m-Y H:i', 'after_or_equal:confirmed_at', 'prohibited_if:confirmed_at,null'],
             'estimated_duration_hours' =>       ['sometimes', 'nullable', 'integer'],
             'current_status_info' =>            ['sometimes', 'nullable', 'string', 'max:255'],
-            'complaint' =>                      ['sometimes', 'nullable', 'string', 'max:450'],
-            'notes' =>                          ['sometimes', 'nullable', 'string', 'max:450'],
+            'notes' =>                          ['sometimes', 'nullable', 'string'],
             'estimated_cost' =>                 ['sometimes', 'nullable', 'decimal:2'],
         ];
     }

@@ -45,7 +45,7 @@ class UpdateWorkorderOperationRequest extends FormRequest
             'part_installed_odometer' =>        ['sometimes', 'nullable', 'integer'],
             'expected_life_km' =>               ['sometimes', 'nullable', 'integer'],
             'expected_life_months' =>           ['sometimes', 'nullable', 'integer'],
-            'notes' =>                          ['sometimes', 'nullable', 'string', 'max:450'],
+            'notes' =>                          ['sometimes', 'nullable', 'string'],
             'performed_by' =>                   ['required', 'integer', 'exists:users,id'],
         ];
     }

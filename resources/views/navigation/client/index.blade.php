@@ -2,19 +2,7 @@
     <div class="mx-auto flex items-center justify-between">
         <div>
             <div class="flex items-center gap-4">
-                {{-- @auth
-                    <button
-                        class="hover:cursor-pointer lg:hidden"
-                        data-drawer-target="app-drawer"
-                        data-drawer-show="app-drawer"
-                        type="button"
-                        aria-controls="app-drawer"
-                    >
-                        <x-icon-o-bars-3 class="h-8 w-8 text-gray-600" />
-                    </button>
-                @endauth --}}
-
-                <a href="/">
+                <a href="/client">
                     <img
                         class="h-auto w-20 rounded-sm"
                         src="{{ asset('logo-4x3.webp') }}"
@@ -26,14 +14,18 @@
 
         <div class="flex flex-col gap-2">
             <div class="flex items-center gap-x-5">
-                @auth
+                @auth('client')
                     <x-navigation::client.dropdown />
                 @endauth
 
-                @guest
+                @guest('client')
                     <div
                         class="border-b-0! hover:border-b-4! hover:border-t-4! border-primary-500 px-2 transition-all delay-150 duration-100 ease-in-out">
-                        <a href="/login">Login</a>
+                        <a href="/login">User Portal</a>
+                    </div>
+                    <div
+                        class="border-b-0! hover:border-b-4! hover:border-t-4! border-primary-500 px-2 transition-all delay-150 duration-100 ease-in-out">
+                        <a href="/client/login">Login</a>
                     </div>
                 @endguest
             </div>

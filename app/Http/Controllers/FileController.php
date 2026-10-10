@@ -13,7 +13,7 @@ use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
@@ -21,7 +21,17 @@ class FileController extends Controller
     use ResponseMessage;
     use RelatedModelGuard;
 
-    public function userImage(Request $request, User $user)
+    public function avatar()
+    {
+        $user = Auth::guard('web')->user() ?? Auth::guard('client')->user();
+
+        $path = Storage::disk('local')->path($user->image_path);
+        abort_unless(file_exists($path), 404);
+
+        return response()->file($path);
+    }
+
+    public function userAvatar(User $user)
     {
         $path = Storage::disk('local')->path($user->image_path);
         abort_unless(file_exists($path), 404);
@@ -29,7 +39,7 @@ class FileController extends Controller
         return response()->file($path);
     }
 
-    public function preview(Request $request, File $file)
+    public function preview(File $file)
     {
         $path = Storage::disk('local')->path($file->path);
         abort_unless(file_exists($path), 404);

@@ -48,10 +48,10 @@ class UpdateWorkorderRequest extends FormRequest
             'labour_total_cost' =>          ['sometimes', 'nullable', 'decimal:2'],
             'part_total_cost' =>            ['sometimes', 'nullable', 'decimal:2'],
 
-            'notes' =>                      ['sometimes', 'nullable', 'string', 'max:450'],
-            'initial_inspection_notes' =>   ['sometimes', 'nullable', 'string', 'max:450'],
-            'part_notes' =>                 ['sometimes', 'nullable', 'string', 'max:450'],
-            'complaint' =>                  ['sometimes', 'nullable', 'string', 'max:450'],
+            'notes' =>                      ['sometimes', 'nullable', 'string'],
+            'initial_inspection_notes' =>   ['sometimes', 'nullable', 'string'],
+            'part_notes' =>                 ['sometimes', 'nullable', 'string'],
+            'complaint' =>                  ['sometimes', 'nullable', 'string'],
 
             'cancelled_at' =>               ['sometimes', 'nullable', 'date_format:d-m-Y H:i'],
         ];
