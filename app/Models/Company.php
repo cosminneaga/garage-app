@@ -188,4 +188,9 @@ class Company extends Model
     {
         return $this->hasMany(CompanySchedule::class);
     }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

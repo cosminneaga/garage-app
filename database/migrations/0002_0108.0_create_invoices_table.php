@@ -18,7 +18,7 @@ return new class () extends Migration {
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->unique();
+            $table->string('number')->nullable();
             $table->string('status')->default(InvoiceStatus::DRAFT->value);
             $table->dateTime('due_date')->nullable();               # set on creation
             $table->dateTime('paid_at')->nullable();                # set on payment
@@ -45,6 +45,9 @@ return new class () extends Migration {
 
             # Audit
             $table->auditColumns();
+
+            # Indexes
+            $table->index('number', 'inv_number_idx');
         });
     }
 
@@ -53,6 +56,10 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+        Schema::table('invoices', function (Blueprint $table) {
+            $table->dropIndex('inv_number_idx');
+        });
+
         Schema::dropIfExists('invoices');
     }
 };

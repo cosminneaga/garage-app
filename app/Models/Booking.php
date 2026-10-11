@@ -152,10 +152,7 @@ class Booking extends Model
         });
 
         static::updating(function ($model) {
-            if (
-                $model->isDirty('completed_at') &&
-                $model->getOriginal('completed_at') !== null
-            ) {
+            if ($model->isDirty('completed_at') && $model->getOriginal('completed_at') !== null) {
                 throw new LogicException('completed_at can only be set once');
             }
         });

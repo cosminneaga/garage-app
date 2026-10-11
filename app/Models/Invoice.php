@@ -13,9 +13,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Override;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -78,6 +80,20 @@ class Invoice extends Model
     use SoftDeletes;
     use Blameable;
 
+    #[Override]
+    protected static function booted(): void
+    {
+        static::created(function ($model) {
+            $model->number = sprintf(
+                '%s-%s-%010d',
+                $model->company->invoice_prefix,
+                Carbon::now()->format('dmY'),
+                $model->id
+            );
+            $model->saveQuietly();
+        });
+    }
+
     protected $attributes = [
         'status' => InvoiceStatus::DRAFT->value,
         'payment_method' => PaymentMethod::OTHER->value,
@@ -96,6 +112,11 @@ class Invoice extends Model
             'status' => InvoiceStatus::class,
             'payment_method' => PaymentMethod::class,
         ];
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 
     public function items(): HasMany
