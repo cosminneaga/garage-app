@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Support\Carbon;
+use App\Enums\PaymentMethod;
 use App\Enums\Status\InvoiceStatus;
+use App\Traits\Blameable;
 use Database\Factories\InvoiceFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -55,32 +57,49 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin IdeHelperInvoice
  */
 #[Fillable([
-    'work_time',
-    'hourly_charge',
     'status',
-    'discount_applied',
-    'paid_amount',
+    'due_date',
+    'paid_at',
+    'sent_at',
+    'subtotal',
+    'discount',
+    'tax_amount',
+    'total',
+    'worked_minutes',
+    'amount_due',
+    'amount_paid',
+    'payment_method',
+    'notes'
 ])]
 class Invoice extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
+    use Blameable;
 
     protected $attributes = [
         'status' => InvoiceStatus::DRAFT->value,
-        'discount_applied' => 0.00,
-        'paid_amount' => 0.00,
+        'payment_method' => PaymentMethod::OTHER->value,
+        'subtotal' => 0.00,
+        'discount' => 0.00,
+        'tax_amount' => 0.00,
+        'total' => 0.00,
+        'worked_minutes' => 0,
+        'amount_due' => 0.00,
+        'amount_paid' => 0.00,
     ];
 
-    public function items(): HasMany
-    {
-        return $this->hasMany(InvoiceItem::class);
-    }
     protected function casts(): array
     {
         return [
             'status' => InvoiceStatus::class,
+            'payment_method' => PaymentMethod::class,
         ];
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(InvoiceItem::class);
     }
 }

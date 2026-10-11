@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\JobName;
 use App\Enums\Status\WorkorderStatus;
 use App\Models\Booking;
 use App\Models\Client;
@@ -18,8 +19,8 @@ return new class () extends Migration {
     {
         Schema::create('workorders', function (Blueprint $table) {
             $table->id();
-            $table->text('title');
             $table->string('number')->nullable();
+            $table->text('title')->default(JobName::OTHER->value);
             $table->string('status')->default(WorkorderStatus::PENDING->value);
             $table->integer('odometer_on_start')->nullable();
             $table->integer('odometer_on_finish')->nullable();

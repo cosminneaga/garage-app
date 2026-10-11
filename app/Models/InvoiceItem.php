@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Support\Carbon;
 use App\Enums\JobName;
+use App\Traits\Blameable;
 use Database\Factories\InvoiceItemFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -64,35 +66,41 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  */
 #[Fillable([
     'job_name',
-    'quantity',
-    'item_price',
-    'labour_price',
+    'workorder_number',
+    'odometer_on_start',
+    'odometer_on_finish',
+    'worked_minutes',
+    'labour_rate',
+    'total_cost',
 ])]
 class InvoiceItem extends Model
 {
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
+    use Blameable;
 
     protected $attributes = [
-        'quantity' => 0,
-        'item_price' => 0.00,
-        'labour_price' => 0.00,
+        'job_name' => JobName::OIL_CHANGE->value,
+        'worked_minutes' => 0,
+        'labour_rate' => 0.00,
+        'total_cost' => 0.00,
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'job_name' => JobName::class,
+        ];
+    }
 
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
     }
 
-    public function supplier(): BelongsTo
+    public function lineItems(): HasMany
     {
-        return $this->belongsTo(Supplier::class);
-    }
-    protected function casts(): array
-    {
-        return [
-            'job_name' => JobName::class,
-        ];
+        return $this->hasMany(InvoiceLineItem::class);
     }
 }
