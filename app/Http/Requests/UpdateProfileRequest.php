@@ -24,7 +24,7 @@ class UpdateProfileRequest extends FormRequest
             'email' =>              ['required', 'email', 'max:255'],
             'image' =>              ['nullable', 'mimes:png,jpg,jpeg,webp', 'max:5000'],
             'password' =>           ['sometimes', 'nullable', 'string'],
-            'password_confirmed' => ['required_with:password', 'nullable', 'string', 'same:password']
+            'password_confirmed' => ['required_with:password', 'nullable', 'string', 'same:password'],
         ];
     }
 }

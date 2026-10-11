@@ -18,7 +18,7 @@ class ProfileController extends Controller
     {
         $user = Auth::guard('web')->user() ?? Auth::guard('client')->user();
 
-        if (get_class($user) === Client::class) {
+        if (($user !== null ? $user::class : self::class) === Client::class) {
             return match (request()->query('tab')) {
                 'statistics' => view('pages.client.portal.profile.statistics', ['user' => $user]),
                 'contacts' => view('pages.client.portal.profile.contacts', ['user' => $user]),

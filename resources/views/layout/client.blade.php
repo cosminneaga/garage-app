@@ -41,6 +41,16 @@
         </div>
     </main>
 
+    @session('message')
+        <div class="fixed right-5 top-5 z-50">
+            <x-alert
+                :title="$value->title"
+                :message="$value->message"
+                :type="$value->type"
+            />
+        </div>
+    @endsession
+
 </body>
 
 </html>
