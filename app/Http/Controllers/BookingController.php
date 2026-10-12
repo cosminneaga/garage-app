@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Actions\FileGroupUpload;
 use App\Enums\Columns\BookingColumns;
 use App\Enums\Columns\WorkorderColumns;
+use App\Enums\Status\BookingStatus;
 use App\Enums\Type\FileType;
 use App\Http\Requests\StoreBookingClientDataRequest;
 use App\Http\Requests\StoreBookingRequest;
@@ -167,6 +168,22 @@ class BookingController extends Controller
                 'success',
                 'Resource updated',
                 'Booking has been updated successfully'
+            ));
+    }
+
+    public function approve(Request $request, Booking $booking, Company $company)
+    {
+        self::guard('update', $request, $company->id);
+        $this->authorize('update', $booking);
+
+        $booking->status = BookingStatus::COMPLETED;
+        $booking->save();
+
+        return back()
+            ->with(self::flashMessage(
+                'success',
+                'Resource updated',
+                'Booking status updated successfully'
             ));
     }
 }

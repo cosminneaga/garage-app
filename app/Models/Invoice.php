@@ -76,7 +76,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'amount_due',
     'amount_paid',
     'payment_method',
-    'notes'
+    'notes',
 ])]
 class Invoice extends Model
 {

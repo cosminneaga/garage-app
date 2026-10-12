@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\Type\WorkorderOperationType;
@@ -11,6 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+
+/**
+ * @mixin IdeHelperInvoiceLineItem
+ */
 #[Fillable(
     'type',
     'worked_minutes',

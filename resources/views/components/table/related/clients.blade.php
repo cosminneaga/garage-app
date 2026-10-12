@@ -51,3 +51,5 @@
         @endforeach
     </x-slot>
 </x-table.wrapper>
+
+

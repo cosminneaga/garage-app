@@ -92,7 +92,7 @@
                     [
                         'title' => 'Create',
                         'icon' => 'icon-o-document-plus',
-                        'route' => Auth::user()->setting ? route('workorders.companies.create', Auth::user()->setting->default_company) : '#',
+                        'route' => Auth::user()->settings ? route('workorders.companies.create', Auth::user()->settings->default_company) : '#',
                         'permission' => [UserPermission::BOOKING, 'store'],
                     ],
                 ],
@@ -101,14 +101,21 @@
     />
 
     <x-navigation.group
-        title="Company"
+        title="Company: {{ Auth::user()->settings->defaultCompany->name }}"
         :permission="[UserPermission::COMPANY, 'show']"
         :items="[
             [
                 'type' => 'single',
-                'title' => 'List of Companies',
+                'title' => 'List',
                 'icon' => 'icon-o-building-office',
                 'route' => route('companies.index'),
+                'permission' => [UserPermission::COMPANY, 'show'],
+            ],
+            [
+                'type' => 'single',
+                'title' => 'Invoices',
+                'icon' => 'icon-o-document-currency-dollar',
+                'route' => route('invoices.companies.index', Auth::user()->settings->default_company),
                 'permission' => [UserPermission::COMPANY, 'show'],
             ],
             [
@@ -140,7 +147,7 @@
                     [
                         'title' => 'Create',
                         'icon' => 'icon-o-document-plus',
-                        'route' => Auth::user()->setting ? route('bookings.companies.create', Auth::user()->setting->default_company) : '#',
+                        'route' => Auth::user()->settings ? route('bookings.companies.create', Auth::user()->settings->default_company) : '#',
                         'permission' => [UserPermission::BOOKING, 'store'],
                     ],
                 ],

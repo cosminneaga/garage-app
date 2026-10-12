@@ -14,6 +14,7 @@ enum InvoiceStatus: string
     case ISSUED = 'issued';                     # due_date set
     case PAID = 'paid';                         # amount_paid set
     case PAID_PARTIALLY = 'paid_partially';     # amount_paid set
+    case PENDING = 'pending';                   # manually set on approval
     case OVERDUE = 'overdue';                   # background job action
     case CANCELLED = 'cancelled';               # manual set
     case REFUNDED = 'refunded';                 # amount set to 0.00 from value
@@ -29,6 +30,7 @@ enum InvoiceStatus: string
             self::ISSUED => 'Issued / Sent',
             self::PAID => 'Paid',
             self::PAID_PARTIALLY => 'Paid Partially',
+            self::PENDING => 'Pending',
             self::OVERDUE => 'Overdue',
             self::CANCELLED => 'Cancelled',
             self::REFUNDED => 'Refunded',

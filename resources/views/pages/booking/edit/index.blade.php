@@ -111,10 +111,37 @@
                         <x-button
                             id="booking_create_workorder_button"
                             link="{{ route('workorders.bookings.create', $booking) }}"
+                            variant="info"
                         >Create Workorder</x-button>
+                    @endif
+
+                    @if ($booking->status === BookingStatus::IN_REVIEW)
+                        <x-button
+                            id="booking_approve_button"
+                            variant="success"
+                            type="button"
+                            data-modal-target="booking_approve-modal"
+                            data-modal-toggle="booking_approve-modal"
+                        >Approve</x-button>
+                    @endif
+
+                    @if ($booking->status === BookingStatus::COMPLETED)
+                        <x-button
+                            id="booking_create_invoice_button"
+                            variant="success"
+                            link="{{ route('invoices.bookings.create', $booking) }}"
+                        >Invoice It</x-button>
                     @endif
                 </div>
             @endpermitted
         </form>
     </x-card>
 </x-layout::index>
+
+<x-modal.confirm
+    id="booking_approve"
+    method="POST"
+    action="{{ route('bookings.companies.approve', [$booking, $booking->company]) }}"
+    message="Confirm that you want to Approve this booking"
+    type="success"
+/>

@@ -10,6 +10,7 @@ use App\Enums\Columns\BookingColumns;
 use App\Enums\Columns\ClientColumns;
 use App\Enums\Columns\CompanyColumns;
 use App\Enums\Columns\ContactColumns;
+use App\Enums\Columns\InvoiceColumns;
 use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
 use App\Enums\Columns\UserColumns;
@@ -58,49 +59,63 @@ class BladeServiceProvider extends ServiceProvider
     {
         $loader = AliasLoader::getInstance();
 
+        # columns
         $loader->alias('AddressColumns', AddressColumns::class);
-        $loader->alias('CompanyColumns', CompanyColumns::class);
-        $loader->alias('CompanyTabs', CompanyTabs::class);
-        $loader->alias('ContactColumns', ContactColumns::class);
-        $loader->alias('Country', Country::class);
-        $loader->alias('NotificationTabs', NotificationTabs::class);
-        $loader->alias('Permission', Permission::class);
-        $loader->alias('PermissionColumns', PermissionColumns::class);
-        $loader->alias('SupplierColumns', SupplierColumns::class);
-        $loader->alias('SupplierTabs', SupplierTabs::class);
-        $loader->alias('SupplierType', SupplierType::class);
-        $loader->alias('UserColumns', UserColumns::class);
-        $loader->alias('UserPermission', UserPermission::class);
-        $loader->alias('UserProfileTabs', UserProfileTabs::class);
-        $loader->alias('UserRole', UserRole::class);
-        $loader->alias('UserTabs', UserTabs::class);
-        $loader->alias('RelatedModel', RelatedModel::class);
-
-        $loader->alias('BookingStatus', BookingStatus::class);
-        $loader->alias('ServiceType', ServiceType::class);
-        $loader->alias('Priority', Priority::class);
-        $loader->alias('FuelType', FuelType::class);
-        $loader->alias('WorkorderOperationType', WorkorderOperationType::class);
-        $loader->alias('VehicleStatus', VehicleStatus::class);
-        $loader->alias('BookingColumns', BookingColumns::class);
         $loader->alias('ActionColumn', ActionColumn::class);
-        $loader->alias('VehicleColumns', VehicleColumns::class);
+        $loader->alias('BookingColumns', BookingColumns::class);
         $loader->alias('ClientColumns', ClientColumns::class);
+        $loader->alias('CompanyColumns', CompanyColumns::class);
+        $loader->alias('ContactColumns', ContactColumns::class);
+        $loader->alias('InvoiceColumns', InvoiceColumns::class);
+        $loader->alias('SupplierColumns', SupplierColumns::class);
+        $loader->alias('PermissionColumns', PermissionColumns::class);
+        $loader->alias('UserColumns', UserColumns::class);
+        $loader->alias('VehicleColumns', VehicleColumns::class);
         $loader->alias('WorkorderColumns', WorkorderColumns::class);
         $loader->alias('WorkorderOperationColumns', WorkorderOperationColumns::class);
         $loader->alias('WorkorderOperationTimeColumns', WorkorderOperationTimeColumns::class);
-        $loader->alias('JobName', JobName::class);
+
+        # tabs
+        $loader->alias('CompanyTabs', CompanyTabs::class);
+        $loader->alias('ClientTabs', ClientTabs::class);
+        $loader->alias('NotificationTabs', NotificationTabs::class);
+        $loader->alias('SupplierTabs', SupplierTabs::class);
+        $loader->alias('UserProfileTabs', UserProfileTabs::class);
+        $loader->alias('UserTabs', UserTabs::class);
+
+        # permission & role
+        $loader->alias('Permission', Permission::class);
+        $loader->alias('UserPermission', UserPermission::class);
+        $loader->alias('UserRole', UserRole::class);
+
+        # status
+        $loader->alias('BookingStatus', BookingStatus::class);
+        $loader->alias('VehicleStatus', VehicleStatus::class);
+
+        # type
         $loader->alias('FileType', FileType::class);
         $loader->alias('FileFormatType', FileFormatType::class);
+        $loader->alias('FuelType', FuelType::class);
+        $loader->alias('ServiceType', ServiceType::class);
+        $loader->alias('SupplierType', SupplierType::class);
+        $loader->alias('WorkorderOperationType', WorkorderOperationType::class);
 
+        # general selectors
+        $loader->alias('Priority', Priority::class);
+        $loader->alias('JobName', JobName::class);
+
+        # resources
+        $loader->alias('Country', Country::class);
         $loader->alias('CarMake', CarMake::class);
         $loader->alias('CarModel', CarModel::class);
         $loader->alias('CarData', CarData::class);
 
+        # relation
+        $loader->alias('RelatedModel', RelatedModel::class);
+
+        # libs & helpers
         $loader->alias('BladeFormHelper', BladeFormHelper::class);
         $loader->alias('BladeModalHelper', BladeModalHelper::class);
-
-        $loader->alias('ClientTabs', ClientTabs::class);
         $loader->alias('Carbon', Carbon::class);
     }
 

@@ -154,17 +154,14 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $status
+ * @property \App\Enums\Status\BookingStatus $status
  * @property string|null $description
  * @property int $booking_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Booking|null $booking
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereBookingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereCreatedAt($value)
@@ -172,8 +169,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BookingStatusHistory withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -360,6 +355,8 @@ namespace App\Models{
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invoice> $invoices
+ * @property-read int|null $invoices_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $managers
  * @property-read int|null $managers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CompanySchedule> $schedules
@@ -565,36 +562,75 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $invoice_number
- * @property numeric $work_time
- * @property numeric $hourly_charge
+ * @property string|null $number
  * @property \App\Enums\Status\InvoiceStatus $status
- * @property numeric $discount_applied
- * @property numeric $paid_amount
- * @property string|null $description
+ * @property numeric $subtotal
+ * @property numeric $discount
+ * @property numeric $tax_amount
+ * @property numeric $total
+ * @property int $worked_minutes
+ * @property numeric $amount_due
+ * @property numeric $amount_paid
+ * @property \App\Enums\PaymentMethod $payment_method
+ * @property $due_date
+ * @property $paid_at
+ * @property $issued_at
+ * @property string|null $cancelled_at
+ * @property string|null $notes
+ * @property int $company_id
+ * @property int $vehicle_id
+ * @property int $client_id
+ * @property int|null $booking_id
+ * @property int|null $workorder_id
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Company|null $company
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
  * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereAmountDue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereAmountPaid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCancelledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDiscountApplied($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereHourlyCharge($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDueDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereInvoiceNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice wherePaidAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereIssuedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice wherePaymentMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereSubtotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereTaxAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereWorkTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereVehicleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereWorkedMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereWorkorderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withoutTrashed()
  * @mixin \Eloquent
@@ -607,13 +643,13 @@ namespace App\Models{
 /**
  * @property int $id
  * @property \App\Enums\JobName $job_name
- * @property string $sku
- * @property int $quantity
- * @property numeric $item_price
- * @property numeric $labour_price
+ * @property string $workorder_number
+ * @property int|null $odometer_on_start
+ * @property int|null $odometer_on_finish
+ * @property int $worked_minutes
+ * @property numeric $labour_rate
+ * @property numeric $total_cost
  * @property int $invoice_id
- * @property int $supplier_id
- * @property int $part_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -622,8 +658,15 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
  * @property-read \App\Models\Invoice|null $invoice
- * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceLineItem> $lineItems
+ * @property-read int|null $line_items_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
  * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newQuery()
@@ -635,21 +678,81 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereItemPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereJobName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereLabourPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem wherePartId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSku($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereSupplierId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereLabourRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereOdometerOnFinish($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereOdometerOnStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereTotalCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereWorkedMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem whereWorkorderNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperInvoiceItem {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property \App\Enums\Type\WorkorderOperationType $type
+ * @property int $worked_minutes
+ * @property int|null $part_id
+ * @property numeric $total_cost
+ * @property int $invoice_item_id
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\InvoiceItem|null $item
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereInvoiceItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem wherePartId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereTotalCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem whereWorkedMinutes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperInvoiceLineItem {}
+}
+
+namespace App\Models{
+/**
+ * @property \App\Enums\Status\InvoiceStatus $status
+ * @property-read \App\Models\Invoice|null $invoice
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory query()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperInvoiceStatusHistory {}
 }
 
 namespace App\Models{
@@ -825,7 +928,7 @@ namespace App\Models{
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
- * @property-read \App\Models\UserSetting|null $setting
+ * @property-read \App\Models\UserSetting|null $settings
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $teams
  * @property-read int|null $teams_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
@@ -965,8 +1068,8 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property \App\Enums\JobName $title
  * @property string|null $number
+ * @property \App\Enums\JobName $title
  * @property \App\Enums\Status\WorkorderStatus $status
  * @property int|null $odometer_on_start
  * @property int|null $odometer_on_finish
@@ -1161,17 +1264,14 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property string $status
+ * @property \App\Enums\Status\WorkorderStatus $status
  * @property string|null $description
  * @property int $workorder_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
  * @property-read \App\Models\Workorder|null $workorder
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereDescription($value)
@@ -1179,8 +1279,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory whereWorkorderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkorderStatusHistory withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]

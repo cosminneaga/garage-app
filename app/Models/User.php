@@ -64,7 +64,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $permissions_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
- * @property-read UserSetting|null $setting
+ * @property-read UserSetting|null $settings
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
  * @property-read User|null $updater
@@ -289,7 +289,7 @@ class User extends Authenticatable
         return $this->hasMany(WorkorderOperation::class, 'performed_by', 'id');
     }
 
-    public function setting(): HasOne
+    public function settings(): HasOne
     {
         return $this->hasOne(UserSetting::class);
     }

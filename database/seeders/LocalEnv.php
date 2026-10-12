@@ -129,13 +129,13 @@ class LocalEnv extends Seeder
         ]);
 
         // 8. create & set default_company for created users
-        $users[1]->setting()->create([
+        $users[1]->settings()->create([
             'default_company' => $company->id,
         ]);
-        $users[2]->setting()->create([
+        $users[2]->settings()->create([
             'default_company' => $company->id,
         ]);
-        $users[3]->setting()->create([
+        $users[3]->settings()->create([
             'default_company' => $company->id,
         ]);
 

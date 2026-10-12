@@ -13,6 +13,7 @@ use App\Http\Controllers\CompanyScheduleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\ProfileController;
@@ -168,6 +169,21 @@ Route::controller(SupplierController::class)
         });
     });
 
+Route::controller(InvoiceController::class)
+    ->middleware(['auth', 'role:super|administrator|manager|user'])
+    ->group(function () {
+        # bookings
+        Route::group(['model' => RelatedModel::BOOKING], function () {
+            Route::get('/invoices/bookings/{booking}', 'modelCreate')->name('invoices.bookings.create');
+        });
+
+        # companies
+        Route::group(['model' => RelatedModel::COMPANY], function () {
+            Route::get('/invoices/companies/{company}', 'modelIndex')->name('invoices.companies.index');
+            Route::get('/invoices/{invoice}/companies/{company}', 'modelEdit')->name('invoices.companies.edit');
+        });
+    });
+
 Route::controller(BookingController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
@@ -179,6 +195,7 @@ Route::controller(BookingController::class)
             Route::post('/bookings/companies/{company}', 'modelStore')->name('bookings.companies.store');
             Route::get('/bookings/{booking}/companies/{company}', 'modelEdit')->name('bookings.companies.edit');
             Route::put('/bookings/{booking}/companies/{company}', 'modelUpdate')->name('bookings.companies.update');
+            Route::post('/bookings/{booking}/companies/{company}', 'approve')->name('bookings.companies.approve');
             // Route::delete('/bookings/{booking}/companies/{company}', 'modelDestroy')->name('bookings.companies.destroy');
         });
     });
