@@ -62,8 +62,6 @@ enum Environment: string
                         'supplier',
                         'permission',
                         'file',
-                        'invoice',
-                        'invoice_item',
                         'car_data',
                         'car_make',
                         'car_model',

@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Status;
 
+use App\Traits\HasEnumOptions;
+
 enum RepairStatus: string
 {
+    use HasEnumOptions;
+
     case RECEPTION = 'reception';
     case INITIAL_INSPECTION = 'initial_inspection';
     case DIAGNOSIS = 'diagnosis';
@@ -29,10 +33,5 @@ enum RepairStatus: string
             self::FINAL_INSPECTION => 'Final Inspection',
             self::DELIVERY => 'Delivered',
         };
-    }
-
-    public static function values(): array
-    {
-        return array_map(fn (RepairStatus $status) => $status->value, self::cases());
     }
 }

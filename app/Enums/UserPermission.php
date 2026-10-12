@@ -29,6 +29,7 @@ enum UserPermission: string
     case WORKORDER_OPERATION_LABOUR_TIME = 'workorder_operation_labour_time';
     case INVOICE = 'invoice';
     case INVOICE_ITEM = 'invoice_item';
+    case INVOICE_LINE_ITEM = 'invoice_line_item';
 
     case USER = 'user';
     case MANAGER = 'manager';

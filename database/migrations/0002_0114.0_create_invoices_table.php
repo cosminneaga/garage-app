@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Vehicle;
+use App\Models\Workorder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,9 +21,6 @@ return new class () extends Migration {
             $table->id();
             $table->string('number')->nullable();
             $table->string('status')->default(InvoiceStatus::DRAFT->value);
-            $table->dateTime('due_date')->nullable();               # set on creation
-            $table->dateTime('paid_at')->nullable();                # set on payment
-            $table->dateTime('sent_at')->nullable();                # set on notification sent
 
             # Totals
             $table->decimal('subtotal', 10, 2)->default(0.00);      # total before tax & discount
@@ -34,6 +32,12 @@ return new class () extends Migration {
             $table->decimal('amount_paid', 10, 2)->default(0.00);   # calculated on payment
             $table->string('payment_method')->default(PaymentMethod::OTHER->value);
 
+            # Dates
+            $table->dateTime('due_date')->nullable();
+            $table->dateTime('paid_at')->nullable();                # set on payment
+            $table->dateTime('issued_at')->nullable();              # set on notification sent
+            $table->dateTime('cancelled_at')->nullable();
+
             # Details
             $table->longText('notes')->nullable();
 
@@ -42,6 +46,7 @@ return new class () extends Migration {
             $table->foreignIdFor(Vehicle::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Booking::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Workorder::class)->nullable()->constrained()->cascadeOnDelete();
 
             # Audit
             $table->auditColumns();

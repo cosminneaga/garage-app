@@ -17,9 +17,7 @@ class SupplierPolicy implements StandardPolicyInterface
     }
     public function show(User $user, mixed $supplier): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::SUPPLIER, 'show') && $supplier->isMySupplier($user);
     }
@@ -31,27 +29,21 @@ class SupplierPolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $supplier): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::SUPPLIER, 'update') && $supplier->isMySupplier($user);
     }
 
     public function destroy(User $user, mixed $supplier): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::SUPPLIER, 'delete') && $supplier->isMySupplier($user);
     }
 
     public function restore(User $user, mixed $supplier): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::SUPPLIER, 'restore') && $supplier->isMySupplier($user);
     }

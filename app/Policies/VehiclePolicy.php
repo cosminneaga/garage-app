@@ -18,9 +18,7 @@ class VehiclePolicy implements StandardPolicyInterface
 
     public function show(User $user, mixed $vehicle): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::VEHICLE, 'show');
     }
@@ -32,27 +30,21 @@ class VehiclePolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $vehicle): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::VEHICLE, 'update');
     }
 
     public function destroy(User $user, mixed $vehicle): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::VEHICLE, 'delete');
     }
 
     public function restore(User $user, mixed $vehicle): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::VEHICLE, 'restore');
     }

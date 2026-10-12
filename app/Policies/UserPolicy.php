@@ -19,9 +19,7 @@ class UserPolicy implements StandardPolicyInterface
 
     public function show(User $user, mixed $model): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         if (!Permission::can(UserPermission::USER, 'show')) {
             return false;
@@ -42,9 +40,7 @@ class UserPolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $model): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         if (!Permission::can(UserPermission::USER, 'update')) {
             return false;
@@ -60,9 +56,7 @@ class UserPolicy implements StandardPolicyInterface
 
     public function destroy(User $user, mixed $model): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         if (!Permission::can(UserPermission::USER, 'delete')) {
             return false;
@@ -78,9 +72,7 @@ class UserPolicy implements StandardPolicyInterface
 
     public function restore(User $user, mixed $model): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         if (!Permission::can(UserPermission::USER, 'restore')) {
             return false;

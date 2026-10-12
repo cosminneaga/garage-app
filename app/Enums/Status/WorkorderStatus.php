@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Status;
 
-use Illuminate\Support\Collection;
+use App\Traits\HasEnumOptions;
 
 enum WorkorderStatus: string
 {
+    use HasEnumOptions;
+
     case PENDING = 'pending';
     case IN_PROGRESS = 'in_progress';
     case PAUSED = 'paused';
@@ -23,12 +25,5 @@ enum WorkorderStatus: string
             self::COMPLETED => 'Completed',
             self::CANCELLED => 'Cancelled',
         };
-    }
-
-    public function values(): array
-    {
-        return Collection::make(self::cases())
-            ->map(fn (WorkorderStatus $case) => $case->value)
-            ->toArray();
     }
 }

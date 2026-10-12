@@ -164,6 +164,23 @@ class Booking extends Model
         'priority' => Priority::LOW->value,
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'confirmed_at' => FormattedDateTime::class,
+            'reminder_sent_at' => FormattedDateTime::class,
+            'checked_in_at' => FormattedDateTime::class,
+            'completed_at' => FormattedDateTime::class,
+            'cancelled_at' => FormattedDateTime::class,
+            'in_review_at' => FormattedDateTime::class,
+            'in_progress_at' => FormattedDateTime::class,
+            'estimated_cost' => 'float',
+            'status' => BookingStatus::class,
+            'service_type' => ServiceType::class,
+            'priority' => Priority::class,
+        ];
+    }
+
     public function toSearchableArray(): array
     {
         return [
@@ -227,21 +244,5 @@ class Booking extends Model
     public function statuses(): HasMany
     {
         return $this->hasMany(BookingStatusHistory::class);
-    }
-    protected function casts(): array
-    {
-        return [
-            'confirmed_at' => FormattedDateTime::class,
-            'reminder_sent_at' => FormattedDateTime::class,
-            'checked_in_at' => FormattedDateTime::class,
-            'completed_at' => FormattedDateTime::class,
-            'cancelled_at' => FormattedDateTime::class,
-            'in_review_at' => FormattedDateTime::class,
-            'in_progress_at' => FormattedDateTime::class,
-            'estimated_cost' => 'float',
-            'status' => BookingStatus::class,
-            'service_type' => ServiceType::class,
-            'priority' => Priority::class,
-        ];
     }
 }

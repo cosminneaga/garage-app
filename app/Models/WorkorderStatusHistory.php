@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Spatie\Activitylog\Models\Activity;
-use Illuminate\Database\Eloquent\Builder;
 use App\Enums\Status\WorkorderStatus;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Illuminate\Support\Carbon;
+use Spatie\Activitylog\Models\Activity;
 
 /**
  * @property int $id
@@ -46,12 +44,16 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 ])]
 class WorkorderStatusHistory extends Model
 {
-    use SoftDeletes;
-    use LogsActivity;
-
     protected $attributes = [
-        'status' => WorkorderStatus::class,
+        'status' => WorkorderStatus::PENDING->value,
     ];
+
+    protected function casts()
+    {
+        return [
+            'status' => WorkorderStatus::class,
+        ];
+    }
 
     public function workorder(): BelongsTo
     {

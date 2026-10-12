@@ -18,9 +18,7 @@ class ClientPolicy implements StandardPolicyInterface
 
     public function show(User $user, mixed $client): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::CLIENT, 'show') && $client->isMyClient($user);
     }
@@ -32,27 +30,21 @@ class ClientPolicy implements StandardPolicyInterface
 
     public function update(User $user, mixed $client): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::CLIENT, 'update') && $client->isMyClient($user);
     }
 
     public function destroy(User $user, mixed $client): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::CLIENT, 'delete') && $client->isMyClient($user);
     }
 
     public function restore(User $user, mixed $client): bool
     {
-        if ($user->isSuper()) {
-            return true;
-        }
+        Permission::isSuper();
 
         return Permission::can(UserPermission::CLIENT, 'restore') && $client->isMyClient($user);
     }

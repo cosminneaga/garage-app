@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Casts\FormattedDateTime;
 use App\Enums\PaymentMethod;
 use App\Enums\Status\InvoiceStatus;
+use App\Observers\InvoiceObserver;
 use App\Traits\Blameable;
 use Database\Factories\InvoiceFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Laravel\Scout\Searchable;
 use Override;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
@@ -58,11 +62,12 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin \Eloquent
  * @mixin IdeHelperInvoice
  */
+#[ObservedBy(InvoiceObserver::class)]
 #[Fillable([
     'status',
     'due_date',
     'paid_at',
-    'sent_at',
+    'issued_at',
     'subtotal',
     'discount',
     'tax_amount',
@@ -79,6 +84,7 @@ class Invoice extends Model
     use LogsActivity;
     use SoftDeletes;
     use Blameable;
+    use Searchable;
 
     #[Override]
     protected static function booted(): void
@@ -111,7 +117,40 @@ class Invoice extends Model
         return [
             'status' => InvoiceStatus::class,
             'payment_method' => PaymentMethod::class,
+            'due_date' => FormattedDateTime::class,
+            'paid_at' => FormattedDateTime::class,
+            'issued_at' => FormattedDateTime::class,
+            'subtotal' => 'decimal:2',
+            'discount' => 'decimal:2',
+            'tax_amount' => 'decimal:2',
+            'total' => 'decimal:2',
+            'worked_minutes' => 'integer',
+            'amount_due' => 'decimal:2',
+            'amount_paid' => 'decimal:2',
         ];
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'number' => $this->number,
+            'status' => $this->status,
+        ];
+    }
+
+    public function isLocked(): bool
+    {
+        return in_array($this->status, [
+            InvoiceStatus::PAID,
+            InvoiceStatus::CANCELLED,
+            InvoiceStatus::ARCHIVED,
+            InvoiceStatus::WRITTEN_OFF,
+        ], true);
+    }
+
+    public function isPartOfMyCompany(User $user): bool
+    {
+        return (bool) $this->company->users()->find($user->id);
     }
 
     public function company(): BelongsTo
@@ -122,5 +161,10 @@ class Invoice extends Model
     public function items(): HasMany
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    public function statuses(): HasMany
+    {
+        return $this->hasMany(InvoiceStatus::class);
     }
 }
