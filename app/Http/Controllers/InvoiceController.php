@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Vehicle;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
@@ -31,8 +33,19 @@ class InvoiceController extends Controller
         $this->authorize('store', Invoice::class);
 
         return view('pages.invoice.create.index', [
-            'parent' => self::$entity,
+            'resource' => self::$entity,
+            'vehicle' => self::$entity->vehicle,
+            'client' => self::$entity->client,
+            'company' => self::$entity->company,
         ]);
+    }
+
+    public function modelStore(Request $request, string|int $model_id, Client $client, Vehicle $vehicle)
+    {
+        self::guard('update', $request, $model_id);
+        $this->authorize('store', Invoice::class);
+
+        dd($request->all(), self::$entity, $client, $vehicle);
     }
 
     public function modelEdit(Request $request, Invoice $invoice, string|int $model_id): View

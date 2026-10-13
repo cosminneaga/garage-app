@@ -52,6 +52,8 @@ class ExtensionServiceProvider extends ServiceProvider
             return $root . array_reduce($segments, fn ($carry, $segment) => $carry . '[' . $segment . ']', '');
         });
 
+        Str::macro('classLower', fn ($class) => strtolower(class_basename($class)));
+
         Carbon::macro('generateTimeSlots', function (string $start, string $end, int $interval = 30): array {
             $slots = [];
 

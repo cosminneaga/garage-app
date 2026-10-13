@@ -1,7 +1,7 @@
 @props(['booking'])
 
 <x-card
-    :description="'Booking number: ' . $booking->number . ', ID: ' . $booking->id"
+    :description="'Booking number: ' . $booking->number"
     onclick="location.href = '{{ route('bookings.companies.edit', [$booking, $booking->company]) }}'"
     class="hover:cursor-pointer hover:bg-gray-950 min-w-62"
 >
@@ -14,5 +14,4 @@
     <p class="text-sm"><b>Reminder Sent At:</b> {{ $booking->reminder_sent_at }}</p>
     <p class="text-sm"><b>Created By:</b> {{ $booking->creator?->name }}</p>
     <p class="text-sm"><b>Updated By:</b> {{ $booking->updater?->name }}</p>
-    <p class="text-sm"><b>Deleted By:</b> {{ $booking->deletor?->name }}</p>
 </x-card>

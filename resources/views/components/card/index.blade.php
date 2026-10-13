@@ -7,7 +7,7 @@
         <h1 class="text-2xl font-bold tracking-tight mb-2">{{ $title }}</h1>
     @endisset
     @isset($description)
-        <p class="text-muted-foreground text-lg">{{ $description }}</p>
+        <p class="text-muted-foreground text-lg font-bold">{{ $description }}</p>
     @endisset
     <div>{{ $slot }}</div>
 </div>

@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Actions\FileGroupUpload;
 use App\Enums\Columns\BookingColumns;
 use App\Enums\Columns\WorkorderColumns;
-use App\Enums\Status\BookingStatus;
 use App\Enums\Type\FileType;
 use App\Http\Requests\StoreBookingClientDataRequest;
 use App\Http\Requests\StoreBookingRequest;
@@ -20,6 +19,7 @@ use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
@@ -176,7 +176,7 @@ class BookingController extends Controller
         self::guard('update', $request, $company->id);
         $this->authorize('update', $booking);
 
-        $booking->status = BookingStatus::COMPLETED;
+        $booking->completed_at = Carbon::now()->format('d-m-Y H:i');
         $booking->save();
 
         return back()

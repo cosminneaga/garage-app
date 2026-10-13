@@ -43,10 +43,10 @@ return new class () extends Migration {
 
             # Relations + Many to Many relation to InvoiceItem
             $table->foreignIdFor(Company::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Vehicle::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Booking::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Workorder::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Vehicle::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Client::class)->constrained()->cascadeOnDelete();
 
             # Audit
             $table->auditColumns();

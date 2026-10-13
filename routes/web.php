@@ -175,6 +175,7 @@ Route::controller(InvoiceController::class)
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {
             Route::get('/invoices/bookings/{booking}', 'modelCreate')->name('invoices.bookings.create');
+            Route::post('/invoices/bookings/{booking}/clients/{client}/vehicles/{vehicle}', 'modelStore')->name('invoices.bookings.store');
         });
 
         # companies

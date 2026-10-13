@@ -71,3 +71,7 @@
     @apply bg-neutral-secondary-medium border-default-medium! rounded-base! text-heading! shadow-xs block w-full border px-3 py-2.5 text-sm
   }
 }
+
+a:hover {
+    text-decoration: underline;
+}
