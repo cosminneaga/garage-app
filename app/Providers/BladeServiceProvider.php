@@ -19,9 +19,11 @@ use App\Enums\Columns\WorkorderColumns;
 use App\Enums\Columns\WorkorderOperationColumns;
 use App\Enums\Columns\WorkorderOperationTimeColumns;
 use App\Enums\JobName;
+use App\Enums\PaymentMethod;
 use App\Enums\Priority;
 use App\Enums\Related\RelatedModel;
 use App\Enums\Status\BookingStatus;
+use App\Enums\Status\InvoiceStatus;
 use App\Enums\Status\VehicleStatus;
 use App\Enums\Tabs\ClientTabs;
 use App\Enums\Tabs\CompanyTabs;
@@ -40,6 +42,7 @@ use App\Enums\UserRole;
 use App\Helpers\BladeFormHelper;
 use App\Helpers\BladeModalHelper;
 use App\Helpers\Permission;
+use App\Helpers\ResourceStringHelper;
 use App\Models\CarData;
 use App\Models\CarMake;
 use App\Models\CarModel;
@@ -91,6 +94,7 @@ class BladeServiceProvider extends ServiceProvider
         # status
         $loader->alias('BookingStatus', BookingStatus::class);
         $loader->alias('VehicleStatus', VehicleStatus::class);
+        $loader->alias('InvoiceStatus', InvoiceStatus::class);
 
         # type
         $loader->alias('FileType', FileType::class);
@@ -103,6 +107,7 @@ class BladeServiceProvider extends ServiceProvider
         # general selectors
         $loader->alias('Priority', Priority::class);
         $loader->alias('JobName', JobName::class);
+        $loader->alias('PaymentMethod', PaymentMethod::class);
 
         # resources
         $loader->alias('Country', Country::class);
@@ -116,6 +121,7 @@ class BladeServiceProvider extends ServiceProvider
         # libs & helpers
         $loader->alias('BladeFormHelper', BladeFormHelper::class);
         $loader->alias('BladeModalHelper', BladeModalHelper::class);
+        $loader->alias('ResourceStringHelper', ResourceStringHelper::class);
         $loader->alias('Carbon', Carbon::class);
     }
 

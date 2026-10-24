@@ -146,4 +146,19 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Workorder::class);
     }
+
+    public function make(): BelongsTo
+    {
+        return $this->belongsTo(CarMake::class, 'make_id');
+    }
+
+    public function model(): BelongsTo
+    {
+        return $this->belongsTo(CarModel::class, 'model_id');
+    }
+
+    public function data(): BelongsTo
+    {
+        return $this->belongsTo(CarData::class, 'data_id');
+    }
 }

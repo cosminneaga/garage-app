@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\InvoiceStoreAction;
+use App\Http\Requests\StoreInvoiceRequest;
 use App\Models\Client;
+use App\Models\Company;
 use App\Models\Invoice;
 use App\Models\Vehicle;
 use App\Traits\RelatedModelGuard;
@@ -40,21 +43,41 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function modelStore(Request $request, string|int $model_id, Client $client, Vehicle $vehicle)
-    {
+    public function modelStore(
+        StoreInvoiceRequest $request,
+        string|int $model_id,
+        Client $client,
+        Vehicle $vehicle,
+        InvoiceStoreAction $action
+    ) {
         self::guard('update', $request, $model_id);
-        $this->authorize('store', Invoice::class);
 
-        dd($request->all(), self::$entity, $client, $vehicle);
+        $invoice = $action->handle(self::$entity, $client, $vehicle, $request->safe()->all());
+
+        return redirect()
+            ->intended(route('invoices.companies.edit', [$invoice, self::$entity->company]))
+            ->with(self::flashMessage(
+                'success',
+                'Resource created',
+                'Invoice ' . $invoice->number . ' created successfully',
+            ));
     }
 
-    public function modelEdit(Request $request, Invoice $invoice, string|int $model_id): View
+    public function modelEdit(Request $request, Invoice $invoice, Company $company): View
     {
-        self::guard('update', $request, $model_id);
+        self::guard('update', $request, $company->id);
         $this->authorize('update', $invoice);
 
         return view('pages.invoice.edit.index', [
             'invoice' => $invoice,
         ]);
+    }
+
+    public function modelUpdate(Request $request, Invoice $invoice, Company $company)
+    {
+        self::guard('update', $request, $company->id);
+        $this->authorize('update', $invoice);
+
+        dd($request->all(), $invoice, $company);
     }
 }

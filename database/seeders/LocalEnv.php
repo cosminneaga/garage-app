@@ -157,17 +157,28 @@ class LocalEnv extends Seeder
         $company->vehicles()->attach($vehicle);
 
         // 9. create default cars
-        $carMakes = CarMake::factory()->createMany([
-            ['name' => 'Opel'],
-            ['name' => 'Mazda'],
-            ['name' => 'Nissan'],
-            ['name' => 'Renault'],
-            ['name' => 'BMW'],
+        $carMake = CarMake::factory()->create(['name' => 'BMW']);
+        $carModel = CarModel::factory()->create([
+            'make_id' => $carMake->id,
+            'name' => 'E60 530D',
+            'class' => 'Sport',
         ]);
-        $carModel = CarModel::factory()->create(['make_id' => $carMakes[0]->id]);
-        $carData = CarData::factory()->create(['make_id' => $carMakes[0]->id, 'model_id' => $carModel->id]);
+        $carData = CarData::factory()->create([
+            'make_id' => $carMake->id,
+            'model_id' => $carModel->id,
+            'name' => '7-Speed Automatic, Rear-Wheel Drive, 6 cylinders inline, 3.0L',
+            'cylinders' => 6,
+            'displacement' => 3.0,
+            'drive' => 'Rear-Wheel Drive (RWD)',
+            'transmission' => 'Automatic',
+        ]);
+        $vehicle->update([
+            'make_id' => $carMake->id,
+            'model_id' => $carModel->id,
+            'data_id' => $carData->id,
+        ]);
 
         // 10. create parts & attach to suupplier
-        Part::factory(10)->create(['supplier_id' => $supplier->id, 'brand' => $carMakes[0]->id]);
+        Part::factory(10)->create(['supplier_id' => $supplier->id, 'brand' => $carMake->id]);
     }
 }

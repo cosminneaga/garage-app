@@ -53,7 +53,7 @@
 @if ($link)
     <a
         {{ $attributes->merge([
-            'class' => $class,
+            'class' => $class . ' no-underline!',
             'data-test' => $id,
             'id' => $id,
             'href' => $link,

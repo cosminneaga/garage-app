@@ -23,7 +23,7 @@ class CarDataFactory extends Factory
             'name' => fake()->randomElement([
                 '4-Speed Automatic, Front-Wheel Drive, 4 cyl, 2.2L',
                 '5-Speed Manual, Front-Wheel Drive, 4 cyl, 2.2L',
-                '4-Speed Automatic, Front-Wheel Drive, 4 cyl, 2.3L',
+                '4-Speed Automatic, Front-Wheel Drive, 4 cyl, 2.2L',
             ]),
             'cylinders' => fake()->numberBetween($min = 3, $max = 18),
             'displacement' => fake()->randomFloat($nbMaxDecimals = 1, $min = 1.0, $max = 20.0),

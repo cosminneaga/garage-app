@@ -13,6 +13,15 @@ class InvoiceObserver
 {
     use ObserverHelper;
 
+    public function creating(Invoice $invoice): void
+    {
+        if (!$invoice->due_date) {
+            $invoice->status = InvoiceStatus::DRAFT;
+        } else {
+            $invoice->status = InvoiceStatus::PENDING;
+        }
+    }
+
     public function created(Invoice $invoice): void
     {
         if ($invoice->booking) {

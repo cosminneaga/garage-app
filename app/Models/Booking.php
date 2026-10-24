@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
@@ -239,6 +240,11 @@ class Booking extends Model
     public function workorders(): HasMany
     {
         return $this->hasMany(Workorder::class);
+    }
+
+    public function operations(): HasManyThrough
+    {
+        return $this->hasManyThrough(WorkorderOperation::class, Workorder::class);
     }
 
     public function statuses(): HasMany

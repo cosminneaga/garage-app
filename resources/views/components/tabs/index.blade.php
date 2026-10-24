@@ -16,7 +16,7 @@
         @foreach ($tabs as $index => $tab)
             <li class="me-2">
                 <a
-                    class="{{ $queryTab === $tab->value ? $activeClass : '' }} rounded-t-base active group inline-flex items-center justify-center border-b p-4"
+                    class="{{ $queryTab === $tab->value ? $activeClass : '' }} rounded-t-base active group inline-flex items-center justify-center border-b p-4 no-underline!"
                     href="{{ $url }}?tab={{ $tab->value }}"
                     aria-current="page"
                     data-test="{{ $tab->value }}"

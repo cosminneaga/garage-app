@@ -182,6 +182,7 @@ Route::controller(InvoiceController::class)
         Route::group(['model' => RelatedModel::COMPANY], function () {
             Route::get('/invoices/companies/{company}', 'modelIndex')->name('invoices.companies.index');
             Route::get('/invoices/{invoice}/companies/{company}', 'modelEdit')->name('invoices.companies.edit');
+            Route::put('/invoices/{invoice}/companies/{company}', 'modelUpdate')->name('invoices.companies.update');
         });
     });
 
