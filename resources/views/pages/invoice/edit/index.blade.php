@@ -18,8 +18,14 @@
 
             <section class="mb-2 grid grid-cols-1 gap-2 md:grid-cols-3">
                 <x-card.company :company="$invoice->company" />
-                <x-card.client :client="$invoice->client" :company="$invoice->company"  />
-                <x-card.vehicle :vehicle="$invoice->vehicle" :company="$invoice->company" />
+                <x-card.client
+                    :client="$invoice->client"
+                    :company="$invoice->company"
+                />
+                <x-card.vehicle
+                    :vehicle="$invoice->vehicle"
+                    :company="$invoice->company"
+                />
             </section>
 
             <section class="grid grid-cols-1 gap-2 lg:grid-cols-2">
@@ -52,17 +58,17 @@
                     <x-form.field.select
                         identifier="invoice"
                         name="payment_method"
+                        value="{{ $invoice->payment_method }}"
                         label="Payment Method"
                         map_value="value"
                         map_label="label"
                         :options="PaymentMethod::selectOptions()"
-                        value="{{ $invoice->payment_method }}"
                     />
                     <x-form.field.textarea
                         identifier="invoice"
                         name="notes"
-                        label="Notes"
                         value="{{ $invoice->notes }}"
+                        label="Notes"
                         rows="5"
                     />
                 </div>
@@ -123,6 +129,54 @@
                         />
                     </div>
                 </div>
+            </section>
+
+            <section class="">
+                @foreach ($invoice->items as $item)
+                    <div class="my-2 border px-3 py-2">
+                        <p class="text-md font-bold">{{ $item->job_name->label() }}</p>
+                        <p class="text-sm">Number: {{ $item->workorder_number }}</p>
+
+                        <div class="mt-2 grid grid-cols-3">
+                            <div>
+                                <p class="text-sm font-bold">Vehicle Data</p>
+                                <p class="text-sm">Start odometer: {{ $item->odometer_on_start }}</p>
+                                <p class="text-sm">End odometer: {{ $item->odometer_on_finish }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold">Work Data</p>
+                                <p class="text-sm">Worked time (minutes) per job: {{ $item->worked_minutes }}</p>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold">Price Data</div>
+                                <p class="text-sm">Labour Rate (hourly): {{ $item->labour_rate }}</p>
+                                <p class="text-sm">Total cost (part +): {{ $item->total_cost }}</p>
+                            </div>
+                        </div>
+
+                        <div class="py-2 px-1 space-y-2">
+                            @foreach ($item->lineItems as $lineItem)
+                                <div class="border p-3">
+                                    <p class="text-sm font-bold">{{ $lineItem->type->label() }}</p>
+
+                                    <div class="mt-1 grid grid-cols-2">
+                                        <div>
+                                            <p class="text-sm font-bold">Work Data</p>
+                                            <p class="text-sm">Minutes: {{ $lineItem->worked_minutes }}</p>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-bold">Price Data</div>
+                                            @if ($lineItem->part_id)
+                                                <p class="text-sm">Part: {{ ResourceStringHelper::part($lineItem->part) }}</p>
+                                            @endif
+                                            <p class="text-sm">Total Cost: {{ $lineItem->total_cost }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </section>
 
             <section class="mt-3">

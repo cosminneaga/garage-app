@@ -72,6 +72,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'worked_minutes',
     'labour_rate',
     'total_cost',
+    'invoice_id',
 ])]
 class InvoiceItem extends Model
 {

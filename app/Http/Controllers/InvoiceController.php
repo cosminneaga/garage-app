@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\InvoiceStoreAction;
 use App\Http\Requests\StoreInvoiceRequest;
+use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Invoice;
@@ -73,11 +74,11 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function modelUpdate(Request $request, Invoice $invoice, Company $company)
+    public function modelUpdate(UpdateInvoiceRequest $request, Invoice $invoice, Company $company): never
     {
         self::guard('update', $request, $company->id);
         $this->authorize('update', $invoice);
 
-        dd($request->all(), $invoice, $company);
+        dd($request->safe()->all(), $invoice, $company);
     }
 }

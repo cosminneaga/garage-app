@@ -20,7 +20,9 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 #[Fillable(
     'type',
     'worked_minutes',
-    'total_cost'
+    'total_cost',
+    'part_id',
+    'invoice_item_id',
 )]
 class InvoiceLineItem extends Model
 {
@@ -46,5 +48,10 @@ class InvoiceLineItem extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(InvoiceItem::class);
+    }
+
+    public function part(): BelongsTo
+    {
+        return $this->belongsTo(Part::class);
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 use App\Models\Address;
 use App\Models\Contact;
-
+use App\Models\Part;
 
 class ResourceStringHelper
 {
@@ -41,6 +43,21 @@ class ResourceStringHelper
 
         if ($contact->url) {
             $result .= ', URL ' . $contact->url;
+        }
+
+        return $result;
+    }
+
+    public static function part(Part $part): string
+    {
+        $result = $part->manufacturer . ' ' . $part->name;
+
+        if ($part->part_number) {
+            $result .= ', ' . $part->part_number;
+        }
+
+        if ($part->code) {
+            $result .= ', ' . $part->code;
         }
 
         return $result;

@@ -103,6 +103,8 @@ namespace App\Models{
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\WorkorderOperation> $operations
+ * @property-read int|null $operations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BookingStatusHistory> $statuses
  * @property-read int|null $statuses_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
@@ -578,10 +580,10 @@ namespace App\Models{
  * @property string|null $cancelled_at
  * @property string|null $notes
  * @property int $company_id
- * @property int $vehicle_id
- * @property int $client_id
  * @property int|null $booking_id
  * @property int|null $workorder_id
+ * @property int $vehicle_id
+ * @property int $client_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -590,6 +592,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
+ * @property-read \App\Models\Client|null $client
  * @property-read \App\Models\Company|null $company
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
@@ -599,6 +602,7 @@ namespace App\Models{
  * @property-read int|null $items_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Vehicle|null $vehicle
  * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
@@ -716,6 +720,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read \App\Models\InvoiceItem|null $item
+ * @property-read \App\Models\Part|null $part
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceLineItem newModelQuery()
@@ -1027,8 +1032,11 @@ namespace App\Models{
  * @property-read int|null $companies_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\CarData|null $data
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\CarMake|null $make
+ * @property-read \App\Models\CarModel|null $model
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Workorder|null $workorder
