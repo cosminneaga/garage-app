@@ -22,7 +22,11 @@
 
                 <!-- GENERIC DATABASE COLUMNS -->
                 @foreach ($columns as $column)
-                    <td class="px-6 py-4">{{ $row[$column->value] }}</td>
+                    @if ($column->value === 'items')
+                        <td class="px-6 py-4">{{ count($row[$column->value]) }}</td>
+                    @else
+                        <td class="px-6 py-4">{{ $row[$column->value] }}</td>
+                    @endif
                 @endforeach
 
                 <!-- ACTION COLUMNS -->

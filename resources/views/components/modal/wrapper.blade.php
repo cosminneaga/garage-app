@@ -1,11 +1,27 @@
 @props(['id', 'title' => null, 'size' => 'md', 'position' => 'center'])
 
 <div
-    class="z-99 fixed bottom-0 left-0 right-0 top-0 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
     id="{{ $id }}"
     data-modal-backdrop="static"
     data-modal-placement="{{ $position }}"
+    data-modal-target="{{ $id }}"
     tabindex="-1"
+    {{ $attributes->class([
+        'z-50',
+        'fixed',
+        'bottom-0',
+        'left-0',
+        'top-0',
+        'hidden',
+        'h-[calc(100%-1rem)]',
+        'max-h-full',
+        'w-full',
+        'items-center',
+        'justify-center',
+        'overflow-y-auto',
+        'overflow-x-hidden',
+        'md:inset-0'
+    ]) }}
 >
     <div
         class="bg-neutral-primary-soft border-default rounded-base max-w-{{ $size }} absolute top-1 w-full border p-4 shadow-sm sm:top-5 md:top-10 md:p-6">

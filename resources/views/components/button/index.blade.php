@@ -29,7 +29,7 @@
             break;
 
         case 'warning':
-            $class = 'text-white bg-warning hover:bg-warning-strong focus:ring-warning-medium';
+            $class = 'text-white bg-orange hover:bg-orange-500 focus:ring-4';
             break;
 
         case 'dark':

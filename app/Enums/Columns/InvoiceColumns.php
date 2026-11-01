@@ -15,4 +15,5 @@ enum InvoiceColumns: string
     case STATUS = 'status';
     case AMOUNT_DUE = 'amount_due';
     case AMOUNT_PAID = 'amount_paid';
+    case ITEMS = 'items';
 }

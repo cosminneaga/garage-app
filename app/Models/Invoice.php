@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Casts\FormattedDateTime;
-use App\Enums\PaymentMethod;
 use App\Enums\Status\InvoiceStatus;
 use App\Observers\InvoiceObserver;
 use App\Traits\Blameable;
@@ -75,7 +74,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
     'worked_minutes',
     'amount_due',
     'amount_paid',
-    'payment_method',
     'notes',
 ])]
 class Invoice extends Model
@@ -102,7 +100,6 @@ class Invoice extends Model
 
     protected $attributes = [
         'status' => InvoiceStatus::DRAFT->value,
-        'payment_method' => PaymentMethod::OTHER->value,
         'subtotal' => 0.00,
         'discount' => 0.00,
         'tax_amount' => 0.00,
@@ -116,7 +113,6 @@ class Invoice extends Model
     {
         return [
             'status' => InvoiceStatus::class,
-            'payment_method' => PaymentMethod::class,
             'due_date' => FormattedDateTime::class,
             'paid_at' => FormattedDateTime::class,
             'issued_at' => FormattedDateTime::class,
@@ -176,5 +172,10 @@ class Invoice extends Model
     public function statuses(): HasMany
     {
         return $this->hasMany(InvoiceStatus::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(InvoiceTransaction::class);
     }
 }

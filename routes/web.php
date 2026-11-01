@@ -172,6 +172,14 @@ Route::controller(SupplierController::class)
 Route::controller(InvoiceController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
+        Route::post('/invoices/{invoice}/payment', 'modelPaymentUpdate')->name('invoices.payment.update');
+        Route::post('/invoices/{invoice}/refund', 'modelRefundUpdate')->name('invoices.refund.update');
+        Route::post('/invoices/{invoice}/duedate', 'modelDueDateUpdate')->name('invoices.duedate.update');
+        Route::post('/invoices/{invoice}/notes', 'modelNotesUpdate')->name('invoices.notes.update');
+        Route::post('/invoices/{invoice}/discount', 'modelDiscountUpdate')->name('invoices.discount.update');
+        Route::post('/invoices/{invoice}/remainder', 'modelSendARemainder')->name('invoices.remainder.action');
+        Route::post('/invoices/{invoice}/download', 'modelDownload')->name('invoices.download.action');
+
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {
             Route::get('/invoices/bookings/{booking}', 'modelCreate')->name('invoices.bookings.create');
@@ -182,7 +190,7 @@ Route::controller(InvoiceController::class)
         Route::group(['model' => RelatedModel::COMPANY], function () {
             Route::get('/invoices/companies/{company}', 'modelIndex')->name('invoices.companies.index');
             Route::get('/invoices/{invoice}/companies/{company}', 'modelEdit')->name('invoices.companies.edit');
-            Route::put('/invoices/{invoice}/companies/{company}', 'modelUpdate')->name('invoices.companies.update');
+            // Route::put('/invoices/{invoice}/companies/{company}', 'modelUpdate')->name('invoices.companies.update');
         });
     });
 

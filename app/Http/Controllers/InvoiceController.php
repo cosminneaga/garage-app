@@ -81,4 +81,53 @@ class InvoiceController extends Controller
 
         dd($request->safe()->all(), $invoice, $company);
     }
+
+    public function modelPaymentUpdate(
+        Request $request,
+        Invoice $invoice,
+    ): never {
+        dd($request->all());
+    }
+
+    public function modelRefundUpdate(
+        Request $request,
+        Invoice $invoice,
+    ): never {
+        dd($request->all());
+    }
+
+    public function modelDueDateUpdate(
+        Request $request,
+        Invoice $invoice,
+    ): never {
+        dd($request->all());
+    }
+
+    public function modelNotesUpdate(
+        Request $request,
+        Invoice $invoice,
+    ): never {
+        dd($request->all());
+    }
+
+    public function modelDiscountUpdate(
+        Request $request,
+        Invoice $invoice,
+    ): never {
+        dd($request->all());
+    }
+
+    public function modelSendARemainder(
+        Request $request,
+        Invoice $invoice,
+    ): never {
+        dd($request->all());
+    }
+
+    public function modelDownload(
+        Request $request,
+        Invoice $invoice,
+    ): never {
+        dd($request->all());
+    }
 }

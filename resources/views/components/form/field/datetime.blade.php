@@ -89,6 +89,7 @@
     id="{{ $ids->get('modal') }}"
     title="Pick Date & Time"
     size="2xl"
+    class="datetime-modal"
 >
     <div class="max-w-160 relative max-h-full w-full p-2">
 

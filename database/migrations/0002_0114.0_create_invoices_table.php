@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\PaymentMethod;
 use App\Enums\Status\InvoiceStatus;
 use App\Models\Booking;
 use App\Models\Client;
@@ -30,7 +29,6 @@ return new class () extends Migration {
             $table->integer('worked_minutes')->default(0);          # operations sum of minutes
             $table->decimal('amount_due', 10, 2)->default(0.00);    # calculated after payment
             $table->decimal('amount_paid', 10, 2)->default(0.00);   # calculated on payment
-            $table->string('payment_method')->default(PaymentMethod::OTHER->value);
 
             # Dates
             $table->dateTime('due_date')->nullable();

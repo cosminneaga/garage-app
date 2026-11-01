@@ -573,7 +573,6 @@ namespace App\Models{
  * @property int $worked_minutes
  * @property numeric $amount_due
  * @property numeric $amount_paid
- * @property \App\Enums\PaymentMethod $payment_method
  * @property $due_date
  * @property $paid_at
  * @property $issued_at
@@ -600,6 +599,8 @@ namespace App\Models{
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
  * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceTransaction> $transactions
+ * @property-read int|null $transactions_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
  * @property-read \App\Models\Vehicle|null $vehicle
@@ -625,7 +626,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice wherePaidAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice wherePaymentMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereSubtotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereTaxAmount($value)
@@ -758,6 +758,31 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperInvoiceStatusHistory {}
+}
+
+namespace App\Models{
+/**
+ * @property \App\Enums\PaymentMethod $method
+ * @property \App\Enums\Type\TransactionType $type
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property-read int|null $activities_as_subject_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction withoutTrashed()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperInvoiceTransaction {}
 }
 
 namespace App\Models{

@@ -36,6 +36,7 @@ use App\Enums\Type\FileType;
 use App\Enums\Type\FuelType;
 use App\Enums\Type\ServiceType;
 use App\Enums\Type\SupplierType;
+use App\Enums\Type\TransactionType;
 use App\Enums\Type\WorkorderOperationType;
 use App\Enums\UserPermission;
 use App\Enums\UserRole;
@@ -102,6 +103,7 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('FuelType', FuelType::class);
         $loader->alias('ServiceType', ServiceType::class);
         $loader->alias('SupplierType', SupplierType::class);
+        $loader->alias('TransactionType', TransactionType::class);
         $loader->alias('WorkorderOperationType', WorkorderOperationType::class);
 
         # general selectors
