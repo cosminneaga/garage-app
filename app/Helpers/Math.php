@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 final class Math
 {
-
     # Calculate 20% of 150
     public static function of(float $value, float $percentage): float
     {
