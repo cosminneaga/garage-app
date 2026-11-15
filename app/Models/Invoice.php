@@ -171,7 +171,7 @@ class Invoice extends Model
 
     public function statuses(): HasMany
     {
-        return $this->hasMany(InvoiceStatus::class);
+        return $this->hasMany(InvoiceStatusHistory::class);
     }
 
     public function transactions(): HasMany

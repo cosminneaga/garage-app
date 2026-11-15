@@ -599,6 +599,8 @@ namespace App\Models{
  * @property-read \App\Models\User|null $deletor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
  * @property-read int|null $items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceStatusHistory> $statuses
+ * @property-read int|null $statuses_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceTransaction> $transactions
  * @property-read int|null $transactions_count
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
@@ -749,11 +751,22 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
  * @property \App\Enums\Status\InvoiceStatus $status
+ * @property string|null $description
+ * @property int $invoice_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Invoice|null $invoice
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereInvoiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Status\InvoiceStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'status',
     'description',
 )]
+#[Table(name: 'invoice_status_history')]
 class InvoiceStatusHistory extends Model
 {
     protected $attributes = [

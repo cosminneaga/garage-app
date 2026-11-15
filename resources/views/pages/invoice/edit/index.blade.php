@@ -177,13 +177,6 @@
                 type="button"
                 variant="success"
             >Pay</x-button>
-            <x-button
-                id="invoice-discount-btn"
-                data-modal-target="invoice-discount_modal"
-                data-modal-toggle="invoice-discount_modal"
-                type="button"
-                variant="success"
-            >Discount</x-button>
 
             <x-button
                 id="invoice-duedate-btn"
@@ -193,17 +186,23 @@
             >Due Date</x-button>
 
             <x-button
+                id="invoice-discount-btn"
+                data-modal-target="invoice-discount_modal"
+                data-modal-toggle="invoice-discount_modal"
+                type="button"
+                variant="dark"
+            >Discount</x-button>
+            <x-button
                 id="invoice-refund-btn"
                 data-modal-target="invoice-refund_modal"
                 data-modal-toggle="invoice-refund_modal"
                 type="button"
-                variant="warning"
+                variant="dark"
             >Refund</x-button>
-
             <x-button
                 id="invoice-remainder-btn"
                 type="button"
-                variant="warning"
+                variant="dark"
             >Send a remainder</x-button>
 
             <x-button

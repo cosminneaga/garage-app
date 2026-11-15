@@ -8,6 +8,8 @@ use App\Actions\InvoiceStoreAction;
 use App\Actions\InvoiceUpdateDiscountAction;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceDiscountRequest;
+use App\Http\Requests\UpdateInvoiceDueDateRequest;
+use App\Http\Requests\UpdateInvoiceNotesRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Client;
 use App\Models\Company;
@@ -101,17 +103,35 @@ class InvoiceController extends Controller
     }
 
     public function modelDueDateUpdate(
-        Request $request,
+        UpdateInvoiceDueDateRequest $request,
         Invoice $invoice,
-    ): never {
-        dd($request->all());
+    ): RedirectResponse {
+        $invoice->due_date = $request->validated('due_date');
+        $invoice->update();
+
+        return redirect()
+            ->back()
+            ->with(self::flashMessage(
+                'success',
+                'Invoice updated',
+                'Invoice due date has been updated'
+            ));
     }
 
     public function modelNotesUpdate(
-        Request $request,
+        UpdateInvoiceNotesRequest $request,
         Invoice $invoice,
-    ): never {
-        dd($request->all());
+    ): RedirectResponse {
+        $invoice->notes = $request->validated('notes');
+        $invoice->update();
+
+        return redirect()
+            ->back()
+            ->with(self::flashMessage(
+                'success',
+                'Invoice updated',
+                'Notes has been updated'
+            ));
     }
 
     public function modelDiscountUpdate(
