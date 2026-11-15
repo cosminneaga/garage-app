@@ -23,7 +23,7 @@ return new class () extends Migration {
 
             # Totals
             $table->decimal('subtotal', 10, 2)->default(0.00);      # total before tax & discount
-            $table->decimal('discount', 4, 2)->default(0.00);       # interface manageable
+            $table->decimal('discount', 6, 2)->default(0.00);       # interface manageable
             $table->decimal('tax_amount', 10, 2)->default(0.00);    # editable + taken from company
             $table->decimal('total', 10, 2)->default(0.00);         # total after tax + discount
             $table->integer('worked_minutes')->default(0);          # operations sum of minutes

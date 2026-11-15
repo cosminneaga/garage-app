@@ -16,8 +16,10 @@ class InvoiceUpdateDiscountAction
 
     public function handle(float $discount): void
     {
-        $this->invoice->subtotal = Math::decrease($this->invoice->subtotal, $discount);
+        $this->invoice->subtotal = Math::decrease((float) $this->invoice->subtotal, $discount);
         $this->invoice->discount = $discount;
+        $this->invoice->total = Math::increase((float) $this->invoice->subtotal, (float) $this->invoice->tax_amount);
+        $this->invoice->amount_due = $this->invoice->total;
         $this->invoice->update();
     }
 }
