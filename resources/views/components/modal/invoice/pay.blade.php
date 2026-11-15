@@ -25,7 +25,7 @@
         <section>
             <x-form.field.select
                 identifier="payment"
-                name="invoice[payment_method]"
+                name="invoice[method]"
                 label="Method"
                 map_value="value"
                 map_label="label"
@@ -34,7 +34,7 @@
 
             <x-form.field.text
                 identifier="payment"
-                name="invoice[payment_value]"
+                name="invoice[value]"
                 type="number"
                 label="Value"
                 step="0.01"

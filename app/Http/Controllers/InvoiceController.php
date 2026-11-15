@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\InvoiceStoreAction;
+use App\Actions\InvoiceUpdateDiscountAction;
 use App\Http\Requests\StoreInvoiceRequest;
+use App\Http\Requests\UpdateInvoiceDiscountRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Client;
 use App\Models\Company;
@@ -14,7 +16,9 @@ use App\Models\Vehicle;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class InvoiceController extends Controller
 {
@@ -111,10 +115,20 @@ class InvoiceController extends Controller
     }
 
     public function modelDiscountUpdate(
-        Request $request,
-        Invoice $invoice,
-    ): never {
-        dd($request->all());
+        UpdateInvoiceDiscountRequest $request,
+        Invoice $invoice
+    ): RedirectResponse {
+        App::make(InvoiceUpdateDiscountAction::class, [
+            'invoice' => $invoice,
+        ])->handle((float) $request->validated('discount'));
+
+        return redirect()
+            ->back()
+            ->with(self::flashMessage(
+                'success',
+                'Invoice updated',
+                'New discount has been applied'
+            ));
     }
 
     public function modelSendARemainder(

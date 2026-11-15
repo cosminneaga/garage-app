@@ -95,11 +95,12 @@
                         label="Number"
                         disabled
                     />
-                    <x-form.field.datetime
+                    <x-form.field.text
                         identifier="invoice"
                         name="due_date"
                         value="{{ $invoice->due_date }}"
                         label="Due Date"
+                        disabled
                     />
                     <x-form.field.textarea
                         identifier="invoice"
@@ -107,6 +108,7 @@
                         value="{{ $invoice->notes }}"
                         label="Notes"
                         rows="5"
+                        disabled
                     />
                 </div>
 
@@ -139,6 +141,7 @@
                         value="{{ $invoice->discount }}"
                         label="Discount (%)"
                         step="0.01"
+                        disabled
                     />
                     <x-form.field.text
                         identifier="invoice"

@@ -22,7 +22,7 @@
         <section>
             <x-form.field.select
                 identifier="refund"
-                name="invoice[payment_method]"
+                name="invoice[method]"
                 label="Method"
                 map_value="value"
                 map_label="label"
@@ -31,7 +31,7 @@
 
             <x-form.field.text
                 identifier="refund"
-                name="invoice[payment_value]"
+                name="invoice[value]"
                 label="Value"
                 type="number"
                 step="0.01"
