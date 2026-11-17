@@ -13,6 +13,7 @@ use App\Enums\Columns\ContactColumns;
 use App\Enums\Columns\InvoiceColumns;
 use App\Enums\Columns\PermissionColumns;
 use App\Enums\Columns\SupplierColumns;
+use App\Enums\Columns\TransactionColumns;
 use App\Enums\Columns\UserColumns;
 use App\Enums\Columns\VehicleColumns;
 use App\Enums\Columns\WorkorderColumns;
@@ -73,6 +74,7 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('InvoiceColumns', InvoiceColumns::class);
         $loader->alias('SupplierColumns', SupplierColumns::class);
         $loader->alias('PermissionColumns', PermissionColumns::class);
+        $loader->alias('TransactionColumns', TransactionColumns::class);
         $loader->alias('UserColumns', UserColumns::class);
         $loader->alias('VehicleColumns', VehicleColumns::class);
         $loader->alias('WorkorderColumns', WorkorderColumns::class);

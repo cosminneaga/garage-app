@@ -17,6 +17,7 @@ enum PaymentMethod: string
     case CHEQUE = 'cheque';
     case PAYPAL = 'paypal';
     case OTHER = 'other';
+    case PERCENTAGE = 'percentage';
 
     public function label(): string
     {
@@ -28,6 +29,7 @@ enum PaymentMethod: string
             self::CHEQUE => 'Cheque',
             self::PAYPAL => 'PayPal',
             self::OTHER => 'Other',
+            self::PERCENTAGE => 'Percentage',
         };
     }
 }

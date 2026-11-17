@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Helpers\Math;
+use App\Enums\PaymentMethod;
+use App\Enums\Type\TransactionType;
+use App\Helpers\MathPercentage;
 use App\Models\Invoice;
 
 class InvoiceUpdateDiscountAction
@@ -16,10 +18,15 @@ class InvoiceUpdateDiscountAction
 
     public function handle(float $discount): void
     {
-        $this->invoice->subtotal = Math::decrease((float) $this->invoice->subtotal, $discount);
         $this->invoice->discount = $discount;
-        $this->invoice->total = Math::increase((float) $this->invoice->subtotal, (float) $this->invoice->tax_amount);
-        $this->invoice->amount_due = $this->invoice->total;
+        $this->invoice->amount_due = MathPercentage::decrease((float) $this->invoice->amount_due, $discount);
         $this->invoice->update();
+
+        $this->invoice->transactions()->create([
+            'type' => TransactionType::DISCOUNT,
+            'method' => PaymentMethod::PERCENTAGE,
+            'value' => $discount,
+        ]);
     }
 }
+

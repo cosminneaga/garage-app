@@ -6,10 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Actions\InvoiceStoreAction;
 use App\Actions\InvoiceUpdateDiscountAction;
+use App\Actions\InvoiceUpdateRefundValueAction;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceDiscountRequest;
 use App\Http\Requests\UpdateInvoiceDueDateRequest;
 use App\Http\Requests\UpdateInvoiceNotesRequest;
+use App\Http\Requests\UpdateInvoiceRefundValueRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Client;
 use App\Models\Company;
@@ -96,10 +98,23 @@ class InvoiceController extends Controller
     }
 
     public function modelRefundUpdate(
-        Request $request,
+        UpdateInvoiceRefundValueRequest $request,
         Invoice $invoice,
-    ): never {
-        dd($request->all());
+    ): RedirectResponse {
+        App::make(InvoiceUpdateRefundValueAction::class, [
+            'invoice' => $invoice
+        ])->handle(
+            $request->validated('method'),
+            $request->validated('value')
+        );
+
+        return redirect()
+            ->back()
+            ->with(self::flashMessage(
+                'success',
+                'Invoice updated',
+                'Invoice refund value has been updated'
+            ));
     }
 
     public function modelDueDateUpdate(

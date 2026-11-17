@@ -12,12 +12,14 @@ enum TransactionType: string
 
     case PAYMENT = 'payment';
     case REFUND = 'refund';
+    case DISCOUNT = 'discount';
 
     public function label(): string
     {
         return match ($this) {
             self::PAYMENT => 'Payment',
             self::REFUND => 'Refund',
+            self::DISCOUNT => 'Discount',
         };
     }
 }

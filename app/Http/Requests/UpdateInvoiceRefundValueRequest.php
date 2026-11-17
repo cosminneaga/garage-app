@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Enums\PaymentMethod;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
+
+class UpdateInvoiceRefundValueRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        # using policy "update" method
+        return $this->user()->can('update', $this->route('invoice'));
+    }
+
+    public function validationData(): array
+    {
+        $data = $this->input('invoice');
+
+        return [
+            'method' => PaymentMethod::tryFrom($data['method']),
+            'value' => (float) $data['value'],
+        ];
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        $total = (float) $this->route('invoice')->total;
+
+        return [
+            'method' => ['required', new Enum(PaymentMethod::class)],
+            'value' => ['required', 'decimal:0,2', 'lte:'.$total]
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'value.lte' => 'The refund value cannot be greater than invoice\'s total'
+        ];
+    }
+}

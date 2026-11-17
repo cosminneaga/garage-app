@@ -129,15 +129,6 @@
                 />
                 <x-form.field.text
                     identifier="invoice"
-                    name="discount"
-                    type="number"
-                    value="{{ $invoice->discount }}"
-                    label="Discount (%)"
-                    step="0.01"
-                    disabled
-                />
-                <x-form.field.text
-                    identifier="invoice"
                     name="total"
                     type="number"
                     value="{{ $invoice->total }}"
@@ -146,6 +137,15 @@
                     disabled
                 />
 
+                <x-form.field.text
+                    identifier="invoice"
+                    name="discount"
+                    type="number"
+                    value="{{ $invoice->discount }}"
+                    label="Discount (%)"
+                    step="0.01"
+                    disabled
+                />
                 <div class="grid grid-cols-2 gap-2">
                     <x-form.field.text
                         identifier="invoice"
@@ -168,6 +168,12 @@
                 </div>
             </div>
         </section>
+
+        @if ($invoice->transactions)
+            <x-table.related.transactions
+                :data="$invoice->transactions"
+            />
+        @endif
 
         <section class="mt-3">
             <x-button

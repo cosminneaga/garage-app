@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Helpers\MathPercentage;
 use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Invoice;
@@ -51,7 +52,7 @@ class InvoiceStoreAction
 
         # invoice totals
         $invoice->tax_amount = $resource->company->tax_value;
-        $invoice->total = $invoice->subtotal * (1 + ($invoice->tax_amount / 100));
+        $invoice->total = MathPercentage::increase((float) $invoice->subtotal, (float) $invoice->tax_amount);
         $invoice->amount_due = $invoice->total;
 
         # invoice default fields
