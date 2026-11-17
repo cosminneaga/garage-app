@@ -6,13 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Actions\InvoiceStoreAction;
 use App\Actions\InvoiceUpdateDiscountAction;
+use App\Actions\InvoiceUpdatePaymentValueAction;
 use App\Actions\InvoiceUpdateRefundValueAction;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceDiscountRequest;
 use App\Http\Requests\UpdateInvoiceDueDateRequest;
 use App\Http\Requests\UpdateInvoiceNotesRequest;
+use App\Http\Requests\UpdateInvoicePaymentRequest;
 use App\Http\Requests\UpdateInvoiceRefundValueRequest;
-use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Invoice;
@@ -32,9 +33,12 @@ class InvoiceController extends Controller
     public function modelIndex(Request $request, string|int $model_id): View
     {
         self::guard('show', $request, $model_id);
+        $search = $request->string('search')->value();
 
         return view('pages.invoice.index', [
-            'invoices' => self::$entity->invoices,
+            'invoices' => Invoice::search($search)
+                ->whereIn('id', self::$entity->invoices->select('id'))
+                ->paginate(),
             'resource' => self::$entity,
         ]);
     }
@@ -75,26 +79,31 @@ class InvoiceController extends Controller
     public function modelEdit(Request $request, Invoice $invoice, Company $company): View
     {
         self::guard('update', $request, $company->id);
-        $this->authorize('update', $invoice);
+        $this->authorize('show', $invoice);
 
         return view('pages.invoice.edit.index', [
             'invoice' => $invoice,
         ]);
     }
 
-    public function modelUpdate(UpdateInvoiceRequest $request, Invoice $invoice, Company $company): never
-    {
-        self::guard('update', $request, $company->id);
-        $this->authorize('update', $invoice);
-
-        dd($request->safe()->all(), $invoice, $company);
-    }
-
     public function modelPaymentUpdate(
-        Request $request,
+        UpdateInvoicePaymentRequest $request,
         Invoice $invoice,
-    ): never {
-        dd($request->all());
+    ): RedirectResponse {
+        App::make(InvoiceUpdatePaymentValueAction::class, [
+            'invoice' => $invoice,
+        ])->handle(
+            $request->validated('method'),
+            $request->validated('value')
+        );
+
+        return redirect()
+            ->back()
+            ->with(self::flashMessage(
+                'success',
+                'Invoice updated',
+                'Invoice payment value has been updated'
+            ));
     }
 
     public function modelRefundUpdate(
@@ -102,7 +111,7 @@ class InvoiceController extends Controller
         Invoice $invoice,
     ): RedirectResponse {
         App::make(InvoiceUpdateRefundValueAction::class, [
-            'invoice' => $invoice
+            'invoice' => $invoice,
         ])->handle(
             $request->validated('method'),
             $request->validated('value')

@@ -51,6 +51,7 @@ return new class () extends Migration {
 
             # Indexes
             $table->index('number', 'inv_number_idx');
+            $table->index('status', 'inv_status_idx');
         });
     }
 
@@ -61,6 +62,7 @@ return new class () extends Migration {
     {
         Schema::table('invoices', function (Blueprint $table) {
             $table->dropIndex('inv_number_idx');
+            $table->dropIndex('inv_status_idx');
         });
 
         Schema::dropIfExists('invoices');

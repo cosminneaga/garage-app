@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions;
 
 use App\Enums\PaymentMethod;
@@ -31,7 +33,8 @@ class InvoiceUpdateRefundValueAction
         $this->invoice->transactions()->create([
             'type' => TransactionType::REFUND,
             'method' => $method,
-            'value' => $value
+            'value' => $value,
         ]);
     }
 }
+

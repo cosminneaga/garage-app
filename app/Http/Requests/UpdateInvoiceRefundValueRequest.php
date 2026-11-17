@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Enums\PaymentMethod;
@@ -34,18 +36,18 @@ class UpdateInvoiceRefundValueRequest extends FormRequest
      */
     public function rules(): array
     {
-        $total = (float) $this->route('invoice')->total;
+        $amount_due = (float) $this->route('invoice')->amount_due;
 
         return [
             'method' => ['required', new Enum(PaymentMethod::class)],
-            'value' => ['required', 'decimal:0,2', 'lte:'.$total]
+            'value' => ['required', 'decimal:0,2', 'lte:'.$amount_due],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'value.lte' => 'The refund value cannot be greater than invoice\'s total'
+            'value.lte' => 'The refund value cannot be greater than invoice amount that is due',
         ];
     }
 }

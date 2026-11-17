@@ -11,6 +11,11 @@
 @endphp
 
 <x-table.wrapper :data="$data">
+    <x-table.extension.search
+        route="{{ route('invoices.companies.index', $resource) }}"
+        label="Search by number or status"
+    />
+
     <x-table.extension.thead
         :columns="$columns"
         action_column_enabled

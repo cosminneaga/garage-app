@@ -1,7 +1,6 @@
 @props([
     'data' => [],
     'limit' => 10,
-    'resource',
 ])
 
 @php
