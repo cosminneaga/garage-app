@@ -18,12 +18,14 @@ use App\Models\Client;
 use App\Models\Company;
 use App\Models\Invoice;
 use App\Models\Vehicle;
+use App\Notifications\InvoiceSendClientRemainderNotification;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Notification;
 
 class InvoiceController extends Controller
 {
@@ -178,8 +180,18 @@ class InvoiceController extends Controller
     public function modelSendARemainder(
         Request $request,
         Invoice $invoice,
-    ): never {
-        dd($request->all());
+    ): RedirectResponse {
+        $this->authorize('update', $invoice);
+
+        Notification::send($invoice->client, new InvoiceSendClientRemainderNotification($invoice));
+
+        return redirect()
+            ->back()
+            ->with(self::flashMessage(
+                'success',
+                'Invoice remainder',
+                'Invoice remainder has been sent to the client'
+            ));
     }
 
     public function modelDownload(

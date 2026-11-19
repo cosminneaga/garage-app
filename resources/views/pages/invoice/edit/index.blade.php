@@ -207,6 +207,8 @@
             >Refund</x-button>
             <x-button
                 id="invoice-remainder-btn"
+                data-modal-target="invoice-send-remainder-modal"
+                data-modal-toggle="invoice-send-remainder-modal"
                 type="button"
                 variant="dark"
             >Send a remainder</x-button>
@@ -252,4 +254,11 @@
 <x-modal.invoice.discount
     id="invoice-discount"
     :invoice="$invoice"
+/>
+
+<x-modal.confirm
+	id="invoice-send-remainder"
+	action="{{ route('invoices.remainder.action', $invoice) }}"
+	message="Please confirm to send client's remainder"
+	type="confirm"
 />

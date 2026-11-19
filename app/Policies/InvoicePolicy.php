@@ -32,7 +32,7 @@ class InvoicePolicy implements StandardPolicyInterface
     {
         Permission::isSuper();
 
-        return Permission::can(UserPermission::INVOICE, 'update') && !$invoice->isLocked() && $invoice->isPartOfMyCompany($user);
+        return Permission::can(UserPermission::INVOICE, 'update') && $invoice->isPartOfMyCompany($user) && !$invoice->isLocked();
     }
 
     public function destroy(User $user, mixed $invoice): bool
