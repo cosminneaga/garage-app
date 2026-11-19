@@ -26,7 +26,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property int $id
  * @property $start
  * @property $end
- * @property int|null $minutes
+ * @property int $minutes
  * @property int $workorder_operation_id
  * @property int|null $created_by
  * @property int|null $updated_by
@@ -36,11 +36,14 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read User|null $creator
- * @property-read User|null $deletor
- * @property-read WorkorderOperation|null $operation
- * @property-read User|null $updater
- * @method static WorkorderOperationLabourTimeFactory factory($count = null, $state = [])
+ * @property-read Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\WorkorderOperation|null $operation
+ * @property-read Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\WorkorderOperationLabourTimeFactory factory($count = null, $state = [])
  * @method static Builder<static>|WorkorderOperationLabourTime newModelQuery()
  * @method static Builder<static>|WorkorderOperationLabourTime newQuery()
  * @method static Builder<static>|WorkorderOperationLabourTime onlyTrashed()
@@ -59,7 +62,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|WorkorderOperationLabourTime withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|WorkorderOperationLabourTime withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperWorkorderOperationLabourTime
  */
 #[UsePolicy(WorkorderOperationLabourTimePolicy::class)]
 #[ObservedBy(WorkorderOperationLabourTimeObserver::class)]

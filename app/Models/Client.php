@@ -34,8 +34,10 @@ use Spatie\Permission\Models\Role;
  * @property string $name
  * @property string $email
  * @property bool $active
+ * @property Carbon|null $email_verified_at
+ * @property string|null $image_path
  * @property string|null $password
- * @property string|null $access_token
+ * @property string|null $remember_token
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -44,52 +46,46 @@ use Spatie\Permission\Models\Role;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
+ * @property-read Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, Booking> $bookings
+ * @property-read Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
+ * @property-read Collection<int, \App\Models\Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read User|null $creator
- * @property-read User|null $deletor
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read Collection<int, Permission> $permissions
- * @property-read int|null $permissions_count
- * @property-read Collection<int, Role> $roles
- * @property-read int|null $roles_count
- * @property-read Collection<int, Permission> $teams
- * @property-read int|null $teams_count
- * @property-read User|null $updater
- * @method static ClientFactory factory($count = null, $state = [])
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @property-read Collection<int, \App\Models\Workorder> $workorders
+ * @property-read int|null $workorders_count
+ * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
  * @method static Builder<static>|Client newModelQuery()
  * @method static Builder<static>|Client newQuery()
  * @method static Builder<static>|Client onlyTrashed()
- * @method static Builder<static>|Client permission($permissions, bool $without = false)
  * @method static Builder<static>|Client query()
- * @method static Builder<static>|Client role($roles, ?string $guard = null, bool $without = false)
- * @method static Builder<static>|Client team($teams, bool $without = false)
- * @method static Builder<static>|Client whereAccessToken($value)
  * @method static Builder<static>|Client whereActive($value)
  * @method static Builder<static>|Client whereCreatedAt($value)
  * @method static Builder<static>|Client whereCreatedBy($value)
  * @method static Builder<static>|Client whereDeletedAt($value)
  * @method static Builder<static>|Client whereDeletedBy($value)
  * @method static Builder<static>|Client whereEmail($value)
+ * @method static Builder<static>|Client whereEmailVerifiedAt($value)
  * @method static Builder<static>|Client whereId($value)
+ * @method static Builder<static>|Client whereImagePath($value)
  * @method static Builder<static>|Client whereName($value)
  * @method static Builder<static>|Client wherePassword($value)
+ * @method static Builder<static>|Client whereRememberToken($value)
  * @method static Builder<static>|Client whereUpdatedAt($value)
  * @method static Builder<static>|Client whereUpdatedBy($value)
  * @method static Builder<static>|Client withTrashed(bool $withTrashed = true)
- * @method static Builder<static>|Client withoutPermission($permissions)
- * @method static Builder<static>|Client withoutRole($roles, ?string $guard = null)
- * @method static Builder<static>|Client withoutTeam($teams)
  * @method static Builder<static>|Client withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperClient
  */
 #[UsePolicy(ClientPolicy::class)]
 #[ObservedBy(ClientObserver::class)]

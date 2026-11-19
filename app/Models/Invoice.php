@@ -26,40 +26,82 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property string $invoice_number
- * @property numeric $work_time
- * @property numeric $hourly_charge
+ * @property string|null $number
  * @property InvoiceStatus $status
- * @property numeric $discount_applied
- * @property numeric $paid_amount
- * @property string|null $description
+ * @property numeric $subtotal
+ * @property numeric $discount
+ * @property numeric $tax_amount
+ * @property numeric $total
+ * @property int $worked_minutes
+ * @property numeric $amount_due
+ * @property numeric $amount_paid
+ * @property $due_date
+ * @property $paid_at
+ * @property $issued_at
+ * @property string|null $cancelled_at
+ * @property string|null $notes
+ * @property int $company_id
+ * @property int|null $booking_id
+ * @property int|null $workorder_id
+ * @property int $vehicle_id
+ * @property int $client_id
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, InvoiceItem> $items
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read Collection<int, \App\Models\InvoiceItem> $items
  * @property-read int|null $items_count
- * @method static InvoiceFactory factory($count = null, $state = [])
+ * @property-read Collection<int, \App\Models\InvoiceStatusHistory> $statuses
+ * @property-read int|null $statuses_count
+ * @property-read Collection<int, \App\Models\InvoiceTransaction> $transactions
+ * @property-read int|null $transactions_count
+ * @property-read Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Vehicle|null $vehicle
+ * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
  * @method static Builder<static>|Invoice newModelQuery()
  * @method static Builder<static>|Invoice newQuery()
  * @method static Builder<static>|Invoice onlyTrashed()
  * @method static Builder<static>|Invoice query()
+ * @method static Builder<static>|Invoice whereAmountDue($value)
+ * @method static Builder<static>|Invoice whereAmountPaid($value)
+ * @method static Builder<static>|Invoice whereBookingId($value)
+ * @method static Builder<static>|Invoice whereCancelledAt($value)
+ * @method static Builder<static>|Invoice whereClientId($value)
+ * @method static Builder<static>|Invoice whereCompanyId($value)
  * @method static Builder<static>|Invoice whereCreatedAt($value)
+ * @method static Builder<static>|Invoice whereCreatedBy($value)
  * @method static Builder<static>|Invoice whereDeletedAt($value)
- * @method static Builder<static>|Invoice whereDescription($value)
- * @method static Builder<static>|Invoice whereDiscountApplied($value)
- * @method static Builder<static>|Invoice whereHourlyCharge($value)
+ * @method static Builder<static>|Invoice whereDeletedBy($value)
+ * @method static Builder<static>|Invoice whereDiscount($value)
+ * @method static Builder<static>|Invoice whereDueDate($value)
  * @method static Builder<static>|Invoice whereId($value)
- * @method static Builder<static>|Invoice whereInvoiceNumber($value)
- * @method static Builder<static>|Invoice wherePaidAmount($value)
+ * @method static Builder<static>|Invoice whereIssuedAt($value)
+ * @method static Builder<static>|Invoice whereNotes($value)
+ * @method static Builder<static>|Invoice whereNumber($value)
+ * @method static Builder<static>|Invoice wherePaidAt($value)
  * @method static Builder<static>|Invoice whereStatus($value)
+ * @method static Builder<static>|Invoice whereSubtotal($value)
+ * @method static Builder<static>|Invoice whereTaxAmount($value)
+ * @method static Builder<static>|Invoice whereTotal($value)
  * @method static Builder<static>|Invoice whereUpdatedAt($value)
- * @method static Builder<static>|Invoice whereWorkTime($value)
+ * @method static Builder<static>|Invoice whereUpdatedBy($value)
+ * @method static Builder<static>|Invoice whereVehicleId($value)
+ * @method static Builder<static>|Invoice whereWorkedMinutes($value)
+ * @method static Builder<static>|Invoice whereWorkorderId($value)
  * @method static Builder<static>|Invoice withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Invoice withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperInvoice
  */
 #[ObservedBy(InvoiceObserver::class)]
 #[Fillable([

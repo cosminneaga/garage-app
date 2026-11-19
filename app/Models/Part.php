@@ -41,13 +41,17 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read User|null $creator
- * @property-read User|null $deletor
- * @property-read Collection<int, WorkorderOperation> $operations
+ * @property-read Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read Collection<int, \App\Models\WorkorderOperation> $operations
  * @property-read int|null $operations_count
- * @property-read Supplier|null $supplier
- * @property-read User|null $updater
- * @method static PartFactory factory($count = null, $state = [])
+ * @property-read mixed $selling_price
+ * @property-read \App\Models\Supplier|null $supplier
+ * @property-read Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\PartFactory factory($count = null, $state = [])
  * @method static Builder<static>|Part newModelQuery()
  * @method static Builder<static>|Part newQuery()
  * @method static Builder<static>|Part onlyTrashed()
@@ -72,7 +76,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Part withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Part withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperPart
  */
 #[Fillable([
     'name',

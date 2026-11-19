@@ -19,45 +19,51 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property string $name
- * @property string $extension
- * @property string $path
  * @property FileType $type
  * @property string|null $description
- * @property int $uploaded_by
+ * @property string $name
+ * @property string $mime
+ * @property string $path
  * @property int|null $created_by
+ * @property string|null $created_by_type
  * @property int|null $updated_by
+ * @property string|null $updated_by_type
  * @property int|null $deleted_by
+ * @property string|null $deleted_by_type
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read User|null $creator
- * @property-read User|null $deletor
- * @property-read User|null $updater
- * @method static FileFactory factory($count = null, $state = [])
+ * @property-read Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\FileFactory factory($count = null, $state = [])
  * @method static Builder<static>|File newModelQuery()
  * @method static Builder<static>|File newQuery()
  * @method static Builder<static>|File onlyTrashed()
  * @method static Builder<static>|File query()
  * @method static Builder<static>|File whereCreatedAt($value)
  * @method static Builder<static>|File whereCreatedBy($value)
+ * @method static Builder<static>|File whereCreatedByType($value)
  * @method static Builder<static>|File whereDeletedAt($value)
  * @method static Builder<static>|File whereDeletedBy($value)
+ * @method static Builder<static>|File whereDeletedByType($value)
  * @method static Builder<static>|File whereDescription($value)
- * @method static Builder<static>|File whereExtension($value)
  * @method static Builder<static>|File whereId($value)
+ * @method static Builder<static>|File whereMime($value)
  * @method static Builder<static>|File whereName($value)
  * @method static Builder<static>|File wherePath($value)
  * @method static Builder<static>|File whereType($value)
  * @method static Builder<static>|File whereUpdatedAt($value)
  * @method static Builder<static>|File whereUpdatedBy($value)
- * @method static Builder<static>|File whereUploadedBy($value)
+ * @method static Builder<static>|File whereUpdatedByType($value)
  * @method static Builder<static>|File withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|File withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperFile
  */
 #[Fillable([
     'name',

@@ -22,13 +22,13 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 /**
  * @property int $id
  * @property JobName $job_name
- * @property string $sku
- * @property int $quantity
- * @property numeric $item_price
- * @property numeric $labour_price
+ * @property string $workorder_number
+ * @property int|null $odometer_on_start
+ * @property int|null $odometer_on_finish
+ * @property int $worked_minutes
+ * @property numeric $labour_rate
+ * @property numeric $total_cost
  * @property int $invoice_id
- * @property int $supplier_id
- * @property int $part_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -37,9 +37,16 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Invoice|null $invoice
- * @property-read Supplier|null $supplier
- * @method static InvoiceItemFactory factory($count = null, $state = [])
+ * @property-read Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read Collection<int, \App\Models\InvoiceLineItem> $lineItems
+ * @property-read int|null $line_items_count
+ * @property-read Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
  * @method static Builder<static>|InvoiceItem newModelQuery()
  * @method static Builder<static>|InvoiceItem newQuery()
  * @method static Builder<static>|InvoiceItem onlyTrashed()
@@ -50,19 +57,18 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceItem whereDeletedBy($value)
  * @method static Builder<static>|InvoiceItem whereId($value)
  * @method static Builder<static>|InvoiceItem whereInvoiceId($value)
- * @method static Builder<static>|InvoiceItem whereItemPrice($value)
  * @method static Builder<static>|InvoiceItem whereJobName($value)
- * @method static Builder<static>|InvoiceItem whereLabourPrice($value)
- * @method static Builder<static>|InvoiceItem wherePartId($value)
- * @method static Builder<static>|InvoiceItem whereQuantity($value)
- * @method static Builder<static>|InvoiceItem whereSku($value)
- * @method static Builder<static>|InvoiceItem whereSupplierId($value)
+ * @method static Builder<static>|InvoiceItem whereLabourRate($value)
+ * @method static Builder<static>|InvoiceItem whereOdometerOnFinish($value)
+ * @method static Builder<static>|InvoiceItem whereOdometerOnStart($value)
+ * @method static Builder<static>|InvoiceItem whereTotalCost($value)
  * @method static Builder<static>|InvoiceItem whereUpdatedAt($value)
  * @method static Builder<static>|InvoiceItem whereUpdatedBy($value)
+ * @method static Builder<static>|InvoiceItem whereWorkedMinutes($value)
+ * @method static Builder<static>|InvoiceItem whereWorkorderNumber($value)
  * @method static Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|InvoiceItem withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperInvoiceItem
  */
 #[Fillable([
     'job_name',

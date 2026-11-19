@@ -30,8 +30,8 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property string $title
  * @property string|null $number
+ * @property JobName $title
  * @property WorkorderStatus $status
  * @property int|null $odometer_on_start
  * @property int|null $odometer_on_finish
@@ -39,15 +39,18 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $initial_inspection_notes
  * @property string|null $notes
  * @property string|null $part_notes
- * @property numeric|null $labour_rate
- * @property numeric|null $labour_total_cost
- * @property numeric|null $part_total_cost
+ * @property numeric $labour_rate
+ * @property numeric $labour_total_cost
+ * @property numeric $part_total_cost
  * @property $completed_at
  * @property $cancelled_at
  * @property $in_progress_at
  * @property $in_pause_at
- * @property int $booking_id
+ * @property int|null $booking_id
+ * @property int|null $company_id
  * @property int $technician_id
+ * @property int|null $client_id
+ * @property int|null $vehicle_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -56,24 +59,32 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Booking|null $booking
- * @property-read User|null $creator
- * @property-read User|null $deletor
- * @property-read Collection<int, File> $files
+ * @property-read \App\Models\Booking|null $booking
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read Model|\Eloquent|null $createdByActor
+ * @property-read \App\Models\User|null $creator
+ * @property-read Model|\Eloquent|null $deletedByActor
+ * @property-read \App\Models\User|null $deletor
+ * @property-read Collection<int, \App\Models\File> $files
  * @property-read int|null $files_count
- * @property-read Collection<int, WorkorderOperation> $operations
+ * @property-read Collection<int, \App\Models\WorkorderOperation> $operations
  * @property-read int|null $operations_count
- * @property-read Collection<int, WorkorderStatusHistory> $statuses
+ * @property-read Collection<int, \App\Models\WorkorderStatusHistory> $statuses
  * @property-read int|null $statuses_count
- * @property-read User|null $technician
- * @property-read User|null $updater
- * @method static WorkorderFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $technician
+ * @property-read Model|\Eloquent|null $updatedByActor
+ * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Vehicle|null $vehicle
+ * @method static \Database\Factories\WorkorderFactory factory($count = null, $state = [])
  * @method static Builder<static>|Workorder newModelQuery()
  * @method static Builder<static>|Workorder newQuery()
  * @method static Builder<static>|Workorder onlyTrashed()
  * @method static Builder<static>|Workorder query()
  * @method static Builder<static>|Workorder whereBookingId($value)
  * @method static Builder<static>|Workorder whereCancelledAt($value)
+ * @method static Builder<static>|Workorder whereClientId($value)
+ * @method static Builder<static>|Workorder whereCompanyId($value)
  * @method static Builder<static>|Workorder whereComplaint($value)
  * @method static Builder<static>|Workorder whereCompletedAt($value)
  * @method static Builder<static>|Workorder whereCreatedAt($value)
@@ -84,7 +95,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Workorder whereInPauseAt($value)
  * @method static Builder<static>|Workorder whereInProgressAt($value)
  * @method static Builder<static>|Workorder whereInitialInspectionNotes($value)
- * @method static Builder<static>|Workorder whereLabourPriceHourly($value)
+ * @method static Builder<static>|Workorder whereLabourRate($value)
  * @method static Builder<static>|Workorder whereLabourTotalCost($value)
  * @method static Builder<static>|Workorder whereNotes($value)
  * @method static Builder<static>|Workorder whereNumber($value)
@@ -97,10 +108,10 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Workorder whereTitle($value)
  * @method static Builder<static>|Workorder whereUpdatedAt($value)
  * @method static Builder<static>|Workorder whereUpdatedBy($value)
+ * @method static Builder<static>|Workorder whereVehicleId($value)
  * @method static Builder<static>|Workorder withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Workorder withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperWorkorder
  */
 
 #[UsePolicy(WorkorderPolicy::class)]

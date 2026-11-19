@@ -15,17 +15,14 @@ use Spatie\Activitylog\Models\Activity;
 
 /**
  * @property int $id
- * @property string $status
+ * @property BookingStatus $status
  * @property string|null $description
  * @property int $booking_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Collection<int, Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read Booking|null $booking
+ * @property-read \App\Models\Booking|null $booking
  * @method static Builder<static>|BookingStatusHistory newModelQuery()
  * @method static Builder<static>|BookingStatusHistory newQuery()
- * @method static Builder<static>|BookingStatusHistory onlyTrashed()
  * @method static Builder<static>|BookingStatusHistory query()
  * @method static Builder<static>|BookingStatusHistory whereBookingId($value)
  * @method static Builder<static>|BookingStatusHistory whereCreatedAt($value)
@@ -33,10 +30,7 @@ use Spatie\Activitylog\Models\Activity;
  * @method static Builder<static>|BookingStatusHistory whereId($value)
  * @method static Builder<static>|BookingStatusHistory whereStatus($value)
  * @method static Builder<static>|BookingStatusHistory whereUpdatedAt($value)
- * @method static Builder<static>|BookingStatusHistory withTrashed(bool $withTrashed = true)
- * @method static Builder<static>|BookingStatusHistory withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperBookingStatusHistory
  */
 #[Fillable([
     'status',
