@@ -207,7 +207,7 @@ class Booking extends Model
         return $this->advisor_id === $user->id;
     }
 
-    public function availableTechnicians(): BelongsToMany
+    public function availableTechnicians(): Collection
     {
         return $this->company->users()->role([UserRole::MANAGER, UserRole::USER]);
     }
