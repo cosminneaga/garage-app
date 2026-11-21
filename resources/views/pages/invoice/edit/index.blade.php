@@ -224,7 +224,7 @@
                 id="invoice-convertpdf-btn"
                 type="button"
                 variant="secondary"
-            >Download to PDF</x-button>
+            >Convert to PDF</x-button>
         </section>
 
     </x-card>

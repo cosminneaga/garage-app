@@ -12,7 +12,6 @@ use App\Enums\UserRole;
 use App\Observers\BookingObserver;
 use App\Policies\BookingPolicy;
 use App\Traits\Blameable;
-use Database\Factories\BookingFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
@@ -209,7 +208,7 @@ class Booking extends Model
         return $this->advisor_id === $user->id;
     }
 
-    public function availableTechnicians(): Collection
+    public function availableTechnicians(): BelongsToMany
     {
         return $this->company->users()->role([UserRole::MANAGER, UserRole::USER]);
     }
