@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Dto\Coordinates;
 
 test('format: formatting data from given array type', function () {

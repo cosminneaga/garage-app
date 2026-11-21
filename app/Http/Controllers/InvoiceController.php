@@ -21,9 +21,15 @@ use App\Models\Vehicle;
 use App\Notifications\InvoiceSendClientRemainderNotification;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
+use Brick\Money\Money;
+use Elegantly\Invoices\Enums\InvoiceState;
+use Elegantly\Invoices\Enums\InvoiceType;
+use Elegantly\Invoices\Pdf\PdfInvoice;
+use Elegantly\Invoices\Pdf\PdfInvoiceItem;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
 
@@ -194,10 +200,78 @@ class InvoiceController extends Controller
             ));
     }
 
-    public function modelDownload(
+    public function modelConvertPdf(
         Request $request,
         Invoice $invoice,
-    ): never {
-        dd($request->all());
+    ) {
+        // dd($invoice->status);
+        // dd(InvoiceState::tryFrom($invoice->status->value) ?? InvoiceState::Pending);
+
+        $companyAddress = $invoice->company->addresses()->first();
+        $companyContact = $invoice->company->contacts()->first();
+        $clientAddress = $invoice->client->addresses()->first();
+        $clientContact = $invoice->client->contacts()->first();
+
+        $inv = PdfInvoice::make([
+            'type' => InvoiceType::Invoice,
+            'state' => InvoiceState::tryFrom($invoice->status->value) ?? InvoiceState::Pending,
+            'serial_number' => $invoice->number,
+            'created_at' => $invoice->created_at,
+            'due_at' => Carbon::createFromFormat('d-m-Y H:i', $invoice->due_date),
+            'paid_at' => $invoice->paid_at ? Carbon::createFromFormat('d-m-Y H:i', $invoice->paid_at) : null,
+            'description' => 'Thank you for your business. This invoice has been created using Garage Application.',
+            'logo' => public_path('logo-4x3.webp'),
+            'seller' => [
+                'company' => $invoice->company->name,
+                'email' => $companyContact->email,
+                'address' => [
+                    'street' => $companyAddress->street_number . ' ' . $companyAddress->street,
+                    'postal_code' => $companyAddress->postcode,
+                    'country' => $companyAddress->country->name,
+                ],
+                'fields' => [
+                    'Mobile:' => $companyContact->mobile,
+                    'Landline:' => $companyContact->landline,
+                    'Website:' => $companyContact->url,
+                ],
+            ],
+            'buyer' => [
+                'name' => $invoice->client->name,
+                'email' => $companyContact->email,
+                'address' => [
+                    'street' => $clientAddress->street_number . ' ' . $clientAddress->street,
+                    'postal_code' => $clientAddress->postcode,
+                    'country' => $clientAddress->country->name,
+                ],
+                'fields' => [
+                    'Mobile:' => $clientContact->mobile,
+                    'Landline:' => $clientContact->landline,
+                    'Website:' => $clientContact->url,
+                ],
+            ],
+            'items' => [
+                ...$invoice->items->flatMap(fn ($item) => $item->lineItems->map(fn ($lineItem) => new PdfInvoiceItem(
+                    label: $item->job_name->label() . ' ' . $lineItem->type->label(),
+                    price: Money::of($lineItem->total_cost, 'EUR'),
+                    description: $item->workorder_number,
+                ))),
+            ],
+            'paymentInstructions' => [
+                [
+                    'name' => 'Bank Transfer',
+                    'description' => 'Use the invoice number as the payment reference.',
+                    'fields' => [
+                        'IBAN' => 'GB12ACME12345678123456',
+                        'SWIFT/BIC' => 'ACMEGB2L',
+                        'Reference' => 'INV-260001',
+                    ],
+                ],
+            ],
+        ]);
+
+
+        $inv->denormalize();
+
+        return $inv->stream();
     }
 }

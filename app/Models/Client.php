@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Observers\ClientObserver;
 use App\Policies\ClientPolicy;
 use App\Traits\Blameable;
@@ -26,8 +27,6 @@ use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 /**
  * @property int $id
@@ -46,25 +45,25 @@ use Spatie\Permission\Models\Role;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, \App\Models\Address> $addresses
+ * @property-read Collection<int, Address> $addresses
  * @property-read int|null $addresses_count
- * @property-read Collection<int, \App\Models\Booking> $bookings
+ * @property-read Collection<int, Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read Collection<int, \App\Models\Company> $companies
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, \App\Models\Contact> $contacts
+ * @property-read Collection<int, Contact> $contacts
  * @property-read int|null $contacts_count
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
+ * @property-read Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
+ * @property-read Model|\Eloquent|null $deletedByActor
  * @property-read \App\Models\User|null $deletor
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $updatedByActor
+ * @property-read Model|\Eloquent|null $updatedByActor
  * @property-read \App\Models\User|null $updater
- * @property-read Collection<int, \App\Models\Workorder> $workorders
+ * @property-read Collection<int, Workorder> $workorders
  * @property-read int|null $workorders_count
- * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
+ * @method static ClientFactory factory($count = null, $state = [])
  * @method static Builder<static>|Client newModelQuery()
  * @method static Builder<static>|Client newQuery()
  * @method static Builder<static>|Client onlyTrashed()
@@ -86,6 +85,7 @@ use Spatie\Permission\Models\Role;
  * @method static Builder<static>|Client withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Client withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperClient
  */
 #[UsePolicy(ClientPolicy::class)]
 #[ObservedBy(ClientObserver::class)]

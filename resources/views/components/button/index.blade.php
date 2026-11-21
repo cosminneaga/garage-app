@@ -2,6 +2,7 @@
     'id' => 'btn',
     'variant' => 'default',
     'link' => null,
+    'new_tab' => false,
 ])
 
 @php
@@ -58,6 +59,10 @@
             'id' => $id,
             'href' => $link,
         ]) }}
+        @if ($new_tab)
+            target="_blank"
+            rel="noopener norefferer"
+        @endif
     >{{ $slot }}
     </a>
 @else

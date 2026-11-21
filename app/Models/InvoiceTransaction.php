@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Database\Eloquent\Builder;
 use App\Enums\PaymentMethod;
 use App\Enums\Type\TransactionType;
 use App\Traits\Blameable;
@@ -23,36 +27,37 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read \App\Models\User|null $creator
+ * @property-read User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read \App\Models\User|null $deletor
- * @property-read \App\Models\Invoice|null $invoice
+ * @property-read User|null $deletor
+ * @property-read Invoice|null $invoice
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read \App\Models\User|null $updater
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereDeletedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereMethod($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction whereValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceTransaction withoutTrashed()
+ * @property-read User|null $updater
+ * @method static Builder<static>|InvoiceTransaction newModelQuery()
+ * @method static Builder<static>|InvoiceTransaction newQuery()
+ * @method static Builder<static>|InvoiceTransaction onlyTrashed()
+ * @method static Builder<static>|InvoiceTransaction query()
+ * @method static Builder<static>|InvoiceTransaction whereCreatedAt($value)
+ * @method static Builder<static>|InvoiceTransaction whereCreatedBy($value)
+ * @method static Builder<static>|InvoiceTransaction whereDeletedAt($value)
+ * @method static Builder<static>|InvoiceTransaction whereDeletedBy($value)
+ * @method static Builder<static>|InvoiceTransaction whereId($value)
+ * @method static Builder<static>|InvoiceTransaction whereInvoiceId($value)
+ * @method static Builder<static>|InvoiceTransaction whereMethod($value)
+ * @method static Builder<static>|InvoiceTransaction whereType($value)
+ * @method static Builder<static>|InvoiceTransaction whereUpdatedAt($value)
+ * @method static Builder<static>|InvoiceTransaction whereUpdatedBy($value)
+ * @method static Builder<static>|InvoiceTransaction whereValue($value)
+ * @method static Builder<static>|InvoiceTransaction withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|InvoiceTransaction withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperInvoiceTransaction
  */
 #[Fillable([
     'method',

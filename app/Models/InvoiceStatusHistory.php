@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use App\Enums\Status\InvoiceStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Table;
@@ -15,19 +17,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property InvoiceStatus $status
  * @property string|null $description
  * @property int $invoice_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Invoice|null $invoice
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereInvoiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceStatusHistory whereUpdatedAt($value)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Invoice|null $invoice
+ * @method static Builder<static>|InvoiceStatusHistory newModelQuery()
+ * @method static Builder<static>|InvoiceStatusHistory newQuery()
+ * @method static Builder<static>|InvoiceStatusHistory query()
+ * @method static Builder<static>|InvoiceStatusHistory whereCreatedAt($value)
+ * @method static Builder<static>|InvoiceStatusHistory whereDescription($value)
+ * @method static Builder<static>|InvoiceStatusHistory whereId($value)
+ * @method static Builder<static>|InvoiceStatusHistory whereInvoiceId($value)
+ * @method static Builder<static>|InvoiceStatusHistory whereStatus($value)
+ * @method static Builder<static>|InvoiceStatusHistory whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperInvoiceStatusHistory
  */
 #[Fillable(
     'status',

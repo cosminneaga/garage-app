@@ -224,6 +224,8 @@
                 id="invoice-convertpdf-btn"
                 type="button"
                 variant="secondary"
+                link="{{ route('invoices.pdf.action', $invoice) }}"
+                new_tab
             >Convert to PDF</x-button>
         </section>
 

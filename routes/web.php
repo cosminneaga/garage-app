@@ -178,7 +178,7 @@ Route::controller(InvoiceController::class)
         Route::post('/invoices/{invoice}/notes', 'modelNotesUpdate')->name('invoices.notes.update');
         Route::post('/invoices/{invoice}/discount', 'modelDiscountUpdate')->name('invoices.discount.update');
         Route::post('/invoices/{invoice}/remainder', 'modelSendARemainder')->name('invoices.remainder.action');
-        Route::post('/invoices/{invoice}/download', 'modelDownload')->name('invoices.download.action');
+        Route::get('/invoices/{invoice}/pdf', 'modelConvertPdf')->name('invoices.pdf.action');
 
         # bookings
         Route::group(['model' => RelatedModel::BOOKING], function () {

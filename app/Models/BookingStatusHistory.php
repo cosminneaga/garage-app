@@ -7,11 +7,9 @@ namespace App\Models;
 use App\Enums\Status\BookingStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Spatie\Activitylog\Models\Activity;
 
 /**
  * @property int $id
@@ -20,7 +18,7 @@ use Spatie\Activitylog\Models\Activity;
  * @property int $booking_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\Booking|null $booking
+ * @property-read Booking|null $booking
  * @method static Builder<static>|BookingStatusHistory newModelQuery()
  * @method static Builder<static>|BookingStatusHistory newQuery()
  * @method static Builder<static>|BookingStatusHistory query()
@@ -31,6 +29,7 @@ use Spatie\Activitylog\Models\Activity;
  * @method static Builder<static>|BookingStatusHistory whereStatus($value)
  * @method static Builder<static>|BookingStatusHistory whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperBookingStatusHistory
  */
 #[Fillable([
     'status',

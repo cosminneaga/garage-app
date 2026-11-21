@@ -9,7 +9,6 @@ use Rector\TypeDeclaration\Rector\ClassMethod\ReturnTypeFromStrictTypedCallRecto
 use Rector\TypeDeclaration\Rector\ClassMethod\ReturnUnionTypeRector;
 use Rector\TypeDeclaration\Rector\Closure\AddClosureNeverReturnTypeRector;
 use Rector\TypeDeclaration\Rector\Closure\AddClosureVoidReturnTypeWhereNoReturnRector;
-use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -28,9 +27,6 @@ return RectorConfig::configure()
         AddClosureVoidReturnTypeWhereNoReturnRector::class,
         ReturnTypeFromStrictTypedCallRector::class,
         ReturnUnionTypeRector::class,
-        DeclareStrictTypesRector::class => [
-            __DIR__.'/resources/views',
-        ],
         AddArrowFunctionReturnTypeRector::class,
         AddClosureNeverReturnTypeRector::class,
         NarrowObjectReturnTypeRector::class,
@@ -44,9 +40,9 @@ return RectorConfig::configure()
         privatization: true,
         earlyReturn: true,
     )
-    ->withRules([
-        DeclareStrictTypesRector::class,
-    ])
+    // ->withRules([
+    //     SafeDeclareStrictTypesRector::class,
+    // ])
     ->withImportNames(
         importShortClasses: true,
         removeUnusedImports: true

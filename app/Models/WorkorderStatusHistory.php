@@ -7,11 +7,9 @@ namespace App\Models;
 use App\Enums\Status\WorkorderStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Spatie\Activitylog\Models\Activity;
 
 /**
  * @property int $id
@@ -20,7 +18,7 @@ use Spatie\Activitylog\Models\Activity;
  * @property int $workorder_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\Workorder|null $workorder
+ * @property-read Workorder|null $workorder
  * @method static Builder<static>|WorkorderStatusHistory newModelQuery()
  * @method static Builder<static>|WorkorderStatusHistory newQuery()
  * @method static Builder<static>|WorkorderStatusHistory query()
@@ -31,6 +29,7 @@ use Spatie\Activitylog\Models\Activity;
  * @method static Builder<static>|WorkorderStatusHistory whereUpdatedAt($value)
  * @method static Builder<static>|WorkorderStatusHistory whereWorkorderId($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperWorkorderStatusHistory
  */
 #[Fillable([
     'status',
