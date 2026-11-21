@@ -97,6 +97,47 @@
                     ],
                 ],
             ],
+            [
+                'type' => 'dropdown',
+                'title' => 'Bookings',
+                'icon' => 'icon-o-calendar-days',
+                'permission' => [UserPermission::BOOKING, 'show'],
+                'items' => [
+                    [
+                        'title' => 'List',
+                        'icon' => 'icon-o-table-cells',
+                        'route' => route('bookings.index'),
+                        'permission' => [UserPermission::BOOKING, 'show'],
+                    ],
+                    [
+                        'title' => 'Create',
+                        'icon' => 'icon-o-document-plus',
+                        'route' => Auth::user()->settings ? route('bookings.companies.create', Auth::user()->settings->default_company) : '#',
+                        'permission' => [UserPermission::BOOKING, 'store'],
+                    ],
+                ],
+            ],
+        ]"
+    />
+
+    <x-navigation.group
+        title="Finances"
+        :permission="[UserPermission::INVOICE, 'show']"
+        :items="[
+            [
+                'type' => 'dropdown',
+                'title' => 'Invoices',
+                'icon' => 'icon-o-document-currency-dollar',
+                'permission' => [UserPermission::COMPANY, 'show'],
+                'items' => [
+                    [
+                        'title' => 'List',
+                        'icon' => 'icon-o-table-cells',
+                        'route' => route('invoices.companies.index', Auth::user()->settings->default_company),
+                        'permission' => [UserPermission::COMPANY, 'show'],
+                    ],
+                ],
+            ],
         ]"
     />
 
@@ -106,16 +147,9 @@
         :items="[
             [
                 'type' => 'single',
-                'title' => 'List',
+                'title' => 'List all',
                 'icon' => 'icon-o-building-office',
                 'route' => route('companies.index'),
-                'permission' => [UserPermission::COMPANY, 'show'],
-            ],
-            [
-                'type' => 'single',
-                'title' => 'Invoices',
-                'icon' => 'icon-o-document-currency-dollar',
-                'route' => route('invoices.companies.index', Auth::user()->settings->default_company),
                 'permission' => [UserPermission::COMPANY, 'show'],
             ],
             [
@@ -131,26 +165,6 @@
                 'icon' => 'icon-o-document-minus',
                 'route' => route('companies.removed'),
                 'permission' => [UserPermission::COMPANY, 'restore'],
-            ],
-            [
-                'type' => 'dropdown',
-                'title' => 'Bookings',
-                'icon' => 'icon-o-calendar-days',
-                'permission' => [UserPermission::BOOKING, 'show'],
-                'items' => [
-                    [
-                        'title' => 'Sheet',
-                        'icon' => 'icon-o-table-cells',
-                        'route' => route('bookings.index'),
-                        'permission' => [UserPermission::BOOKING, 'show'],
-                    ],
-                    [
-                        'title' => 'Create',
-                        'icon' => 'icon-o-document-plus',
-                        'route' => Auth::user()->settings ? route('bookings.companies.create', Auth::user()->settings->default_company) : '#',
-                        'permission' => [UserPermission::BOOKING, 'store'],
-                    ],
-                ],
             ],
         ]"
     />

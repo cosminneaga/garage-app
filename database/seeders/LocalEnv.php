@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\UserRole;
 use App\Enums\WeekDays;
+use App\Helpers\FileStorageHelper;
 use App\Models\Address;
 use App\Models\CarData;
 use App\Models\CarMake;
@@ -17,6 +18,7 @@ use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class LocalEnv extends Seeder
 {
@@ -32,6 +34,8 @@ class LocalEnv extends Seeder
         $this->call(CountriesSeeder::class);
         $country = Country::first(['*']);
 
+        Storage::disk('local')->deleteDirectory('users');
+
         // 3. seed super admin & rest of test users
         $users = User::factory()->createMany([
             [
@@ -39,24 +43,27 @@ class LocalEnv extends Seeder
                 'email' => 'super@garage.com',
                 'password' => 'password',
                 'active' => true,
+                'image_path' => FileStorageHelper::localReplace('database/assets/PeopleImages/ayoni.jpg', 'users'),
             ],
             [
                 'name' => 'Administrator User',
                 'email' => 'administrator@garage.com',
                 'password' => 'password',
                 'active' => true,
+                'image_path' => FileStorageHelper::localReplace('database/assets/PeopleImages/george.jpg', 'users'),
             ],
             [
                 'name' => 'Manager User',
                 'email' => 'manager@garage.com',
                 'password' => 'password',
                 'active' => true,
+                'image_path' => FileStorageHelper::localReplace('database/assets/PeopleImages/paula.jpg', 'users'),
             ],
             [
                 'name' => 'User',
                 'email' => 'user@garage.com',
                 'password' => 'password',
-                'active' => true,
+                'image_path' => FileStorageHelper::localReplace('database/assets/PeopleImages/joseph.jpg', 'users'),
             ],
         ]);
 

@@ -259,6 +259,7 @@
 <x-modal.confirm
 	id="invoice-send-remainder"
 	action="{{ route('invoices.remainder.action', $invoice) }}"
-	message="Please confirm to send client's remainder"
+	message="<p>Please confirm to send client's remainder.</p>
+            <p>This action will send and email to the entitled client with due amount.</p>"
 	type="confirm"
 />

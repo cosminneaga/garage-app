@@ -1,0 +1,277 @@
+# Vehicle History Report
+
+## Vehicle Information
+
+**Registration:** CJ 24 GRS
+**VIN:** WBA8E9C50GK123456
+**Make:** BMW
+**Model:** 320d
+**Year:** 2016
+**Fuel Type:** Diesel
+**Engine:** 2.0L Turbo Diesel
+**Transmission:** 8-Speed Automatic
+**Colour:** Mineral Grey
+**Current Odometer:** 184,320 km
+**First Registration:** 15/06/2016
+
+---
+
+## Service History
+
+### 15/06/2016 — Vehicle Registration
+
+**Odometer:** 12 km
+Vehicle first registered and delivered to the original owner.
+
+### 12/04/2018 — Scheduled Service
+
+**Odometer:** 31,450 km
+
+* Engine oil and oil filter replaced
+* Air filter inspected
+* Brake system inspected
+* Tyre pressures checked
+* Service interval reset
+
+**Status:** Completed
+
+### 22/11/2019 — Brake Service
+
+**Odometer:** 57,820 km
+
+* Front brake pads replaced
+* Front brake discs replaced
+* Brake fluid inspected
+* Brake system tested
+
+**Status:** Completed
+
+### 18/08/2020 — Major Service
+
+**Odometer:** 76,240 km
+
+* Engine oil replaced
+* Oil filter replaced
+* Air filter replaced
+* Cabin filter replaced
+* Fuel filter replaced
+* Battery tested
+* Suspension inspected
+
+**Status:** Completed
+
+### 06/05/2022 — Diagnostic Inspection
+
+**Odometer:** 108,615 km
+Customer reported intermittent engine warning light.
+
+**Findings:**
+
+* EGR system fault detected
+* EGR valve showed excessive carbon deposits
+
+**Repair:**
+
+* EGR valve removed and cleaned
+* Intake system inspected
+* Fault codes cleared
+* Road test completed
+
+**Status:** Completed
+
+### 14/02/2023 — Suspension Repair
+
+**Odometer:** 126,890 km
+Customer reported knocking noise from the front suspension.
+
+**Findings:**
+
+* Front lower control arm bushes worn
+* Front stabiliser links worn
+
+**Repair:**
+
+* Front lower control arm bushes replaced
+* Stabiliser links replaced
+* Wheel alignment performed
+
+**Status:** Completed
+
+### 09/10/2023 — Brake Service
+
+**Odometer:** 142,375 km
+
+* Rear brake pads replaced
+* Rear brake discs replaced
+* Brake fluid checked
+* Brake system inspected
+
+**Status:** Completed
+
+### 17/04/2024 — Air Conditioning Repair
+
+**Odometer:** 153,920 km
+Customer reported reduced air-conditioning performance.
+
+**Findings:**
+
+* Refrigerant level below specification
+* Minor leak detected at condenser connection
+
+**Repair:**
+
+* Connection seal replaced
+* System pressure tested
+* Air-conditioning system recharged
+* Temperature performance verified
+
+**Status:** Completed
+
+### 28/01/2025 — Timing System Inspection
+
+**Odometer:** 168,540 km
+Timing chain system inspected due to increased engine noise during cold starts.
+
+**Findings:**
+
+* Timing chain tensioner showing signs of wear
+
+**Repair:**
+
+* Timing chain kit replaced
+* Tensioner replaced
+* Engine oil and filter replaced
+* Engine timing verified
+
+**Status:** Completed
+
+### 03/09/2025 — Routine Maintenance
+
+**Odometer:** 176,850 km
+
+* Engine oil replaced
+* Oil filter replaced
+* Cabin filter replaced
+* Vehicle inspection completed
+* Tyres inspected
+* Brake system inspected
+
+**Status:** Completed
+
+### 07/10/2026 — Diagnostic & Inspection
+
+**Odometer:** 184,320 km
+Customer reported vibration during braking.
+
+**Findings:**
+
+* Front brake discs showing uneven wear
+* Front brake pads approximately 25% remaining
+
+**Recommendation:**
+Replace front brake discs and pads at next service.
+
+**Status:** Inspection completed — repair recommended
+
+---
+
+## Accident & Damage History
+
+**Recorded Accidents:** 1
+
+### 18/07/2021
+
+**Odometer:** 91,340 km
+
+Minor front-end collision reported.
+
+**Damage:**
+
+* Front bumper damaged
+* Right front grille damaged
+* Right fog-light surround damaged
+
+**Repairs:**
+
+* Front bumper replaced
+* Grille replaced
+* Fog-light surround replaced
+* Paintwork completed
+* Vehicle alignment and safety inspection performed
+
+**Repair Status:** Completed
+
+---
+
+## Parts Replacement History
+
+| Date       |   Odometer | Component              | Action   |
+| ---------- | ---------: | ---------------------- | -------- |
+| 22/11/2019 |  57,820 km | Front brake pads       | Replaced |
+| 22/11/2019 |  57,820 km | Front brake discs      | Replaced |
+| 18/08/2020 |  76,240 km | Battery                | Tested   |
+| 06/05/2022 | 108,615 km | EGR valve              | Cleaned  |
+| 14/02/2023 | 126,890 km | Suspension bushes      | Replaced |
+| 14/02/2023 | 126,890 km | Stabiliser links       | Replaced |
+| 09/10/2023 | 142,375 km | Rear brake pads        | Replaced |
+| 09/10/2023 | 142,375 km | Rear brake discs       | Replaced |
+| 17/04/2024 | 153,920 km | A/C seal               | Replaced |
+| 28/01/2025 | 168,540 km | Timing chain kit       | Replaced |
+| 28/01/2025 | 168,540 km | Timing chain tensioner | Replaced |
+
+---
+
+## Mileage History
+
+| Date       |   Odometer | Event                    |
+| ---------- | ---------: | ------------------------ |
+| 15/06/2016 |      12 km | First registration       |
+| 12/04/2018 |  31,450 km | Scheduled service        |
+| 22/11/2019 |  57,820 km | Brake service            |
+| 18/08/2020 |  76,240 km | Major service            |
+| 18/07/2021 |  91,340 km | Accident repair          |
+| 06/05/2022 | 108,615 km | Diagnostic repair        |
+| 14/02/2023 | 126,890 km | Suspension repair        |
+| 09/10/2023 | 142,375 km | Brake service            |
+| 17/04/2024 | 153,920 km | A/C repair               |
+| 28/01/2025 | 168,540 km | Timing chain replacement |
+| 03/09/2025 | 176,850 km | Routine service          |
+| 07/10/2026 | 184,320 km | Diagnostic inspection    |
+
+---
+
+## Current Vehicle Condition
+
+**Overall Status:** Good
+
+**Engine:** Good
+**Transmission:** Good
+**Brakes:** Service recommended
+**Suspension:** Good
+**Steering:** Good
+**Tyres:** Fair
+**Bodywork:** Good
+**Interior:** Good
+**Electrical System:** Good
+**Air Conditioning:** Good
+
+### Outstanding Recommendations
+
+1. Replace front brake discs and pads.
+2. Monitor tyre tread depth.
+3. Perform next scheduled engine oil service at the recommended interval.
+4. Continue monitoring suspension and steering components.
+
+---
+
+## Report Summary
+
+The vehicle has a documented service history from its first registration in 2016. One minor accident was recorded in 2021 and the affected components were subsequently repaired.
+
+Major maintenance performed includes front and rear brake replacement, suspension repairs, air-conditioning repair, and timing chain replacement.
+
+The current odometer reading is **184,320 km**. No mileage discrepancies are recorded in the available service history.
+
+**Report generated:** 07/10/2026
+**Report status:** Vehicle history available
+
