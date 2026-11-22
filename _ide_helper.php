@@ -32174,6 +32174,7 @@ namespace  {
     class Octane extends \Laravel\Octane\Facades\Octane {}
     class Pulse extends \Laravel\Pulse\Facades\Pulse {}
     class Livewire extends \Livewire\Livewire {}
+    class Country extends \App\Models\Country {}
     class AddressColumns extends \App\Enums\Columns\AddressColumns {}
     class ActionColumn extends \App\Enums\Columns\ActionColumn {}
     class BookingColumns extends \App\Enums\Columns\BookingColumns {}
@@ -32211,7 +32212,6 @@ namespace  {
     class Priority extends \App\Enums\Priority {}
     class JobName extends \App\Enums\JobName {}
     class PaymentMethod extends \App\Enums\PaymentMethod {}
-    class Country extends \App\Models\Country {}
     class CarMake extends \App\Models\CarMake {}
     class CarModel extends \App\Models\CarModel {}
     class CarData extends \App\Models\CarData {}

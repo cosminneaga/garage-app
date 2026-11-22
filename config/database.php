@@ -116,6 +116,23 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'world' => [
+            'driver' => 'mariadb',
+            'url' => env('WORLD_DB_URL'),
+            'host' => env('WORLD_DB_HOST', '127.0.0.1'),
+            'port' => env('WORLD_DB_PORT', '3306'),
+            'database' => env('WORLD_DB_DATABASE', 'world'),
+            'username' => env('WORLD_DB_USERNAME', 'root'),
+            'password' => env('WORLD_DB_PASSWORD', ''),
+            'unix_socket' => env('WORLD_DB_SOCKET', ''),
+            'charset' => env('WORLD_DB_CHARSET', 'utf8mb4'),
+            'collation' => env('WORLD_DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+        ],
+
     ],
 
     /*

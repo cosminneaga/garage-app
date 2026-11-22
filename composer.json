@@ -21,6 +21,7 @@
         "laravel/scout": "^11.2",
         "laravel/telescope": "^5.19",
         "laravel/tinker": "^3.0",
+        "nnjeim/world": "^2.0",
         "spatie/fork": "^1.2",
         "spatie/laravel-activitylog": "^5.0",
         "spatie/laravel-permission": "^7.2",
@@ -55,6 +56,9 @@
         }
     },
     "scripts": {
+        "migrate:world" : [
+            "@php -d memory_limit=2G artisan db:seed --class=WorldSeeder"
+        ],
         "migrate:local:vehicle": [
             "@php artisan migrate:fresh",
             "@php artisan db:seed --class=LocalEnv",
