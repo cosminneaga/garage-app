@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Enums\UserRole;
 use App\Policies\UserPolicy;
 use App\Traits\Blameable;
@@ -15,6 +14,8 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -262,9 +263,9 @@ class User extends Authenticatable
             ->exists();
     }
 
-    public function addresses(): BelongsToMany
+    public function address(): BelongsTo
     {
-        return $this->belongsToMany(Address::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function companies(): BelongsToMany

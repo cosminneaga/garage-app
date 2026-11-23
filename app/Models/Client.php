@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Observers\ClientObserver;
 use App\Policies\ClientPolicy;
 use App\Traits\Blameable;
@@ -16,6 +15,8 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -153,9 +154,9 @@ class Client extends Authenticatable
         return $this->belongsToMany(Company::class);
     }
 
-    public function addresses(): BelongsToMany
+    public function address(): BelongsTo
     {
-        return $this->belongsToMany(Address::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function contacts(): BelongsToMany

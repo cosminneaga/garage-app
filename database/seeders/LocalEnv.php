@@ -97,29 +97,29 @@ class LocalEnv extends Seeder
         $users[2]->memberAttach($users[3]);
 
         // 5. creating & attaching addresses & contacts
-        $users[0]->addresses()->attach(Address::factory()->create([
+        Address::factory()->create([
             'country_id' => 1,
             'state_id' => 1,
             'city_id' => 1,
-        ]));
+        ])->user()->associate($users[0])->save();
         $users[0]->contacts()->attach(Contact::factory()->create());
-        $users[1]->addresses()->attach(Address::factory()->create([
+        Address::factory()->create([
             'country_id' => 1,
             'state_id' => 2,
             'city_id' => 2,
-        ]));
+        ])->user()->associate($users[1])->save();
         $users[1]->contacts()->attach(Contact::factory()->create());
-        $users[2]->addresses()->attach(Address::factory()->create([
+        Address::factory()->create([
             'country_id' => 1,
             'state_id' => 2,
             'city_id' => 2,
-        ]));
+        ])->user()->associate($users[2])->save();
         $users[2]->contacts()->attach(Contact::factory()->create());
-        $users[3]->addresses()->attach(Address::factory()->create([
+        Address::factory()->create([
             'country_id' => 1,
             'state_id' => 2,
             'city_id' => 2,
-        ]));
+        ])->user()->associate($users[3])->save();
         $users[3]->contacts()->attach(Contact::factory()->create());
 
         // 6. creating & attach company to users
@@ -129,11 +129,11 @@ class LocalEnv extends Seeder
             'tax_value' => 20.00,
             'invoice_prefix' => 'KOEPP',
         ]);
-        $company->addresses()->attach(Address::factory()->create([
+        Address::factory()->create([
             'country_id' => 1,
             'state_id' => 2,
             'city_id' => 2,
-        ]));
+        ])->company()->associate($company)->save();
         $company->contacts()->attach(Contact::factory()->create());
         $company->users()->attach([$users[1], $users[2], $users[3]]);
 
@@ -189,22 +189,22 @@ class LocalEnv extends Seeder
 
         // 9. create supplier & attach to company
         $supplier = Supplier::factory()->create();
-        $supplier->addresses()->attach(Address::factory()->create([
+        Address::factory()->create([
             'country_id' => 10,
             'state_id' => 10,
             'city_id' => 10,
-        ]));
+        ])->supplier()->associate($supplier)->save();
         $supplier->contacts()->attach(Contact::factory()->create());
         $company->suppliers()->attach($supplier);
 
 
         // 7. create client with address & contact & attach to company
         $client = Client::factory()->create();
-        $client->addresses()->attach(Address::factory()->create([
+        Address::factory()->create([
             'country_id' => 1,
             'state_id' => 2,
             'city_id' => 2,
-        ]));
+        ])->client()->associate($client)->save();
         $client->contacts()->attach(Contact::factory()->create());
         $company->clients()->attach($client);
 
