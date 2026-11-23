@@ -47,7 +47,7 @@ class CompanyStoreAction
             $company = Company::create($data['company']);
             $company->users()->attach($this->user);
 
-            $company->addresses()->attach(Address::create($data['address']));
+            Address::create($data['address'])->company()->associate($company)->save();
             $company->contacts()->attach(Contact::create($data['contact']));
 
             return $company;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Address;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,8 @@ return new class () extends Migration {
             $table->string('registration_number');
 
             $table->auditColumns();
+
+            $table->foreignIdFor(Address::class)->nullable()->constrained()->cascadeOnDelete();
 
             $table->index('name', 'sup_name_idx');
             $table->index('code', 'sup_code_idx');

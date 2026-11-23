@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Address;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,6 +22,8 @@ return new class () extends Migration {
             $table->string('image_path')->references('id')->on('users')->nullable();
 
             $table->auditColumns();
+
+            $table->foreignIdFor(Address::class)->nullable()->constrained()->cascadeOnDelete();
 
             $table->index('name', 'cmp_name_idx');
             $table->index('tax_id', 'cmp_taxid_idx');

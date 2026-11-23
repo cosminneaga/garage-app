@@ -14,9 +14,9 @@ class CarSeeder extends Seeder
      */
     public function run(): void
     {
-        include './json/vehicles/makes.php';
-        include './json/vehicles/models.php';
-        include './json/vehicles/data.php';
+        include './database/assets/json/vehicles/makes.php';
+        include './database/assets/json/vehicles/models.php';
+        include './database/assets/json/vehicles/data.php';
 
         CarMake::factory()->createMany($makes);
         CarModel::factory()->createMany($models);

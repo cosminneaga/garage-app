@@ -42,7 +42,7 @@ class ClientStoreAction
             if (!$client) {
                 $client = Client::create($data['client']);
             }
-            $client->addresses()->attach(Address::create($data['address']));
+            Address::create($data['address'])->client()->associate($client)->save();
             $client->contacts()->attach(Contact::create($data['contact']));
             $company->clients()->attach($client);
 

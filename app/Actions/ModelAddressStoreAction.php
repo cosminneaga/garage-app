@@ -6,9 +6,9 @@ namespace App\Actions;
 
 use App\Dto\Coordinates;
 use App\Models\Address;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Exception;
 use Throwable;
 
 class ModelAddressStoreAction

@@ -1,9 +1,5 @@
 <?php
 
-use App\Models\Client;
-use App\Models\Company;
-use App\Models\Supplier;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,12 +25,6 @@ return new class () extends Migration {
             // } else {
             //     $table->spatialIndex('coordinates');
             // }
-
-            # relations
-            $table->foreignIdFor(Company::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Client::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Supplier::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
 
             # world relations
             $table->unsignedBigInteger('country_id')->nullable();
