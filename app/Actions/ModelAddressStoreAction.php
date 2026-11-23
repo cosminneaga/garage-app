@@ -27,13 +27,12 @@ class ModelAddressStoreAction
         }
 
         return DB::transaction(function () use ($attributes, $model, $coordinates) {
-            $address = Address::create([
-                ...$attributes,
-                'coordinates' => $coordinates,
-            ]);
-
-            if (! $model->addresses()->find($address->id)) {
-                $model->addresses()->attach($address);
+            if (! $model->address) {
+                $address = Address::create([
+                    ...$attributes,
+                    'coordinates' => $coordinates,
+                ]);
+                $model->address()->associate($address)->save();
             }
 
             return $address;

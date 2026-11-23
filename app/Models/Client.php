@@ -159,9 +159,9 @@ class Client extends Authenticatable
         return $this->belongsTo(Address::class);
     }
 
-    public function contacts(): BelongsToMany
+    public function contact(): BelongsTo
     {
-        return $this->belongsToMany(Contact::class);
+        return $this->belongsTo(Contact::class);
     }
 
     public function bookings(): HasMany

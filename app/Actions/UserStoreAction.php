@@ -50,8 +50,8 @@ class UserStoreAction
             $user = User::create($data['user']);
             $user->assignRole($data['role']);
 
-            $user->addresses()->attach(Address::create($data['address']));
-            $user->contacts()->attach(Contact::create($data['contact']));
+            $user->address()->associate(Address::create($data['address']))->save();
+            $user->contact()->associate(Contact::create($data['contact']))->save();
 
             $this->user->memberAttach($user);
 

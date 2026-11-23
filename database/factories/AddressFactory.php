@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Dto\Coordinates;
-use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,14 +17,6 @@ class AddressFactory extends Factory
      */
     public function definition(): array
     {
-        $country = Country::all()->first();
-
-        if ($country) {
-            $country = $country;
-        } else {
-            $country = Country::factory();
-        }
-
         return [
             'number' => fake()->buildingNumber(),
             'name' => fake()->streetName(),
@@ -34,7 +25,9 @@ class AddressFactory extends Factory
             'building' => fake()->buildingNumber(),
             'floor' => fake()->buildingNumber(),
             'unit' => fake()->buildingNumber(),
-            'country_id' => $country,
+            'country_id' => 1,
+            'state_id' => 1,
+            'city_id' => 1,
         ];
     }
 }

@@ -268,14 +268,14 @@ class User extends Authenticatable
         return $this->belongsTo(Address::class);
     }
 
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(Company::class);
-    }
-
-    public function contacts(): BelongsToMany
-    {
-        return $this->belongsToMany(Contact::class);
     }
 
     // !!! watch these for errors when called

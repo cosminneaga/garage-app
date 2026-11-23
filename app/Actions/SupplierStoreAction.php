@@ -43,8 +43,8 @@ class SupplierStoreAction
         return DB::transaction(function () use ($data, $company) {
 
             $supplier = Supplier::create($data['supplier']);
-            $supplier->contacts()->attach(Contact::create($data['contact']));
-            $supplier->addresses()->attach(Address::create($data['address']));
+            $supplier->address()->associate(Address::create($data['address']))->save();
+            $supplier->contact()->associate(Contact::create($data['contact']))->save();
             $company->suppliers()->attach($supplier);
 
             return $supplier;
