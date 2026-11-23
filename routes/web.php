@@ -24,6 +24,7 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WorkorderController;
 use App\Http\Controllers\WorkorderOperationController;
 use App\Http\Controllers\WorkorderOperationLabourTimeController;
+use App\Http\Controllers\WorldController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -316,6 +317,13 @@ Route::controller(SuperController::class)
             // Route::put('/super/suppliers/{supplier}', 'modelUpdate')->name('super.suppliers.update'); momentarily on hold
             Route::delete('/super/suppliers/{supplier}', 'modelDestroy')->name('super.suppliers.destroy');
         });
+    });
+
+Route::controller(WorldController::class)
+    // ->middleware(['auth'])
+    ->group(function () {
+        Route::get('/countries', 'countries')->name('world.countries');
+        Route::get('/countries/query', 'query')->name('world.countries.query');
     });
 
 
