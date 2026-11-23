@@ -13,7 +13,6 @@ use App\Enums\UserRole;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
-use App\Models\Country;
 use App\Services\CompanyService;
 use App\Services\UserService;
 use Illuminate\Contracts\View\View;
@@ -55,7 +54,7 @@ class CompanyController extends Controller
         $this->authorize('store', Company::class);
 
         return view('pages.company.create', [
-            'countries' => Country::all(),
+            'countries' => [],
         ]);
     }
 
@@ -87,7 +86,7 @@ class CompanyController extends Controller
             'statistics' => view('pages.company.edit.statistics'),
             'members' => view('pages.company.edit.members', [
                 'resource' => $company,
-                'countries' => Country::all(),
+                'countries' => [],
                 'non_members' => $this->userService
                     ->model()
                     ->team($forRole)
@@ -104,11 +103,11 @@ class CompanyController extends Controller
             ]),
             'addresses' => view('pages.company.edit.addresses', [
                 'resource' => $company,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             'suppliers' => view('pages.company.edit.suppliers', [
                 'resource' => $company,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             'vehicles' => view('pages.company.edit.vehicles', [
                 'resource' => $company,

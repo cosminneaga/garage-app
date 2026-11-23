@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Actions\SupplierStoreAction;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
-use App\Models\Country;
 use App\Models\Supplier;
 use App\Traits\RelatedModelGuard;
 use Illuminate\Contracts\View\View;
@@ -52,7 +51,7 @@ class SupplierController extends Controller
             ]),
             'addresses' => view('pages.supplier.edit.addresses', [
                 'resource' => $supplier,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             default => view('pages.supplier.edit.index', [
                 'company' => self::$entity,

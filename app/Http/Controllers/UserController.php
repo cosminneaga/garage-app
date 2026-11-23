@@ -12,7 +12,6 @@ use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Country;
 use App\Models\User;
 use App\Policies\PermissionPolicy;
 use App\Services\UserService;
@@ -51,7 +50,7 @@ class UserController extends Controller
         $this->authorize('store', Auth::user());
 
         return view('pages.user.create', [
-            'countries' => Country::all(),
+            'countries' => [],
         ]);
     }
 
@@ -89,7 +88,7 @@ class UserController extends Controller
             ]),
             'addresses' => view('pages.user.edit.addresses', [
                 'resource' => $user,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             'permissions' => view('pages.user.edit.permissions', [
                 'resource' => $user,

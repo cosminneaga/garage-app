@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Enums\UserPermission;
-use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -54,7 +53,7 @@ class SuperController extends Controller
             ]),
             'members' => view('pages.super.' . $name . '.edit.members', [
                 'resource' => self::$entity,
-                'countries' => Country::all(),
+                'countries' => [],
                 'non_members' => [], // !!! momentarily on hold
                 'members' => self::$entity->users()->get(),
             ]),
@@ -63,7 +62,7 @@ class SuperController extends Controller
             ]),
             'addresses' => view('pages.super.' . $name . '.edit.addresses', [
                 'resource' => self::$entity,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             'permissions' => view('pages.super.' . $name . '.edit.permissions', [
                 'resource' => self::$entity,
@@ -71,7 +70,7 @@ class SuperController extends Controller
             ]),
             'suppliers' => view('pages.super.' . $name . '.edit.suppliers', [
                 'resource' => self::$entity,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             default => view('pages.super.' . $name . '.edit.index', [
                 'resource' => self::$entity,

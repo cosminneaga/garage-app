@@ -19,30 +19,19 @@ enum Environment: string
     {
         $source = [
             UserRole::ADMINISTRATOR->value => [
+                ...UserPermission::list(),
                 ...UserPermission::list(
-                    excludeReferences: [
-                        'country',
-                    ]
-                ),
-                ...UserPermission::list(
-                    onlyReferences: [
-                        'country',
-                    ],
                     onlyActions: ['show']
                 ),
             ],
             UserRole::MANAGER->value => [
                 ...UserPermission::list(
                     excludeReferences: [
-                        'country',
                         'company',
                         'manager',
                     ]
                 ),
                 ...UserPermission::list(
-                    onlyReferences: [
-                        'country',
-                    ],
                     onlyActions: ['show']
                 ),
                 ...UserPermission::list(
@@ -57,7 +46,6 @@ enum Environment: string
                         'booking',
                         'contact',
                         'company',
-                        'country',
                         'client',
                         'supplier',
                         'permission',

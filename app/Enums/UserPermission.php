@@ -16,7 +16,6 @@ enum UserPermission: string
     case CLIENT = 'client';
     case COMPANY = 'company';
     case CONTACT = 'contact';
-    case COUNTRY = 'country';
     case SUPPLIER = 'supplier';
     case PART = 'part';
     case VEHICLE = 'vehicle';
@@ -47,7 +46,6 @@ enum UserPermission: string
             self::CLIENT => 'Client',
             self::COMPANY => 'Company',
             self::CONTACT => 'Contact',
-            self::COUNTRY => 'Company',
             self::SUPPLIER => 'Supplier',
             self::PART => 'Vehicle Part',
             self::VEHICLE => 'Vehicle',

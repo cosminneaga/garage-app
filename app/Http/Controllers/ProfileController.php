@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Actions\UserUpdateAction;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Client;
-use App\Models\Country;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +23,7 @@ class ProfileController extends Controller
                 'contacts' => view('pages.client.portal.profile.contacts', ['user' => $user]),
                 'addresses' => view('pages.client.portal.profile.addresses', [
                     'user' => $user,
-                    'countries' => Country::all(),
+                    'countries' => [],
                 ]),
                 'settings' => view('pages.client.portal.profile.settings', ['user' => $user]),
                 default => view('pages.client.portal.profile.index', ['user' => $user]),
@@ -36,7 +35,7 @@ class ProfileController extends Controller
             'contacts' => view('pages.user.profile.contacts', ['user' => $user]),
             'addresses' => view('pages.user.profile.addresses', [
                 'user' => $user,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             'settings' => view('pages.user.profile.settings', ['user' => $user]),
             default => view('pages.user.profile.index', ['user' => $user]),

@@ -15,15 +15,15 @@ and old values but not for default values -->
 
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('street_number', $nested_parent_name) }}"
-        value="{{ old('street_number', '') }}"
+        name="{{ Str::generateFormFieldName('number', $nested_parent_name) }}"
+        value="{{ old('number', '') }}"
         label="Number"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('street', $nested_parent_name) }}"
-        value="{{ old('street', '') }}"
-        label="Street"
+        name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
+        value="{{ old('name', '') }}"
+        label="Street Name"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"

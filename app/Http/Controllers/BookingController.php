@@ -13,7 +13,6 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\Company;
-use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -49,7 +48,7 @@ class BookingController extends Controller
         return view('pages.booking.create', [
             'company' => $company,
             'available_companies' => Auth::user()->companies()->orderBy('id')->get(),
-            'countries' => Country::all(),
+            'countries' => [],
         ]);
     }
 

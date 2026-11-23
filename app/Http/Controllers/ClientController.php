@@ -9,7 +9,6 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\Company;
-use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use App\Traits\ResponseMessage;
 use Exception;
@@ -107,7 +106,7 @@ class ClientController extends Controller
             ]),
             'addresses' => view('pages.client.edit.addresses', [
                 'resource' => $client,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             default => view('pages.client.edit.index', [
                 'resource' => $client,

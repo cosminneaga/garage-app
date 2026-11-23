@@ -48,7 +48,6 @@ use App\Helpers\ResourceStringHelper;
 use App\Models\CarData;
 use App\Models\CarMake;
 use App\Models\CarModel;
-use App\Models\Country;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -114,7 +113,6 @@ class BladeServiceProvider extends ServiceProvider
         $loader->alias('PaymentMethod', PaymentMethod::class);
 
         # resources
-        $loader->alias('Country', Country::class);
         $loader->alias('CarMake', CarMake::class);
         $loader->alias('CarModel', CarModel::class);
         $loader->alias('CarData', CarData::class);

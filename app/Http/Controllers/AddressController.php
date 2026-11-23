@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Actions\ModelAddressStoreAction;
 use App\Http\Requests\StoreAddressRequest;
 use App\Models\Address;
-use App\Models\Country;
 use App\Traits\RelatedModelGuard;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -55,7 +54,7 @@ class AddressController extends Controller
         $this->authorize('show', $resource);
 
         return view('pages.address.edit', [
-            'countries' => Country::all(),
+            'countries' => [],
             'resource' => $resource,
         ]);
     }

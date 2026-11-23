@@ -11,7 +11,6 @@ use App\Enums\UserPermission;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Country;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Contracts\View\View;
@@ -45,7 +44,7 @@ class ManagerController extends Controller
         $this->authorize('store', User::class);
 
         return view('pages.manager.create', [
-            'countries' => Country::all(),
+            'countries' => [],
         ]);
     }
 
@@ -81,7 +80,7 @@ class ManagerController extends Controller
             ]),
             'addresses' => view('pages.manager.edit.addresses', [
                 'resource' => $manager,
-                'countries' => Country::all(),
+                'countries' => [],
             ]),
             'permissions' => view('pages.user.edit.permissions', [
                 'resource' => $manager,
