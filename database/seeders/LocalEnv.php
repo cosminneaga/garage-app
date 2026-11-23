@@ -12,11 +12,11 @@ use App\Models\CarModel;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Contact;
-use App\Models\Country;
 use App\Models\Part;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Models\Vehicle;
+use App\Models\World\Country;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,9 +30,30 @@ class LocalEnv extends Seeder
         // 1. seed role-permissions
         $this->call(PermissionsSeeder::class);
 
-        // 2. seed countries
-        $this->call(CountriesSeeder::class);
-        $country = Country::first(['*']);
+        // 2. check if world database has been seeded
+        if (Country::query()->exists()) {
+            dump('World database has been seeded. Continuing.');
+        } else {
+            dump('World database has not been seeded. Please seed using command: composer migrate:world');
+            return;
+        }
+
+        // $address = Address::create([
+        //     'number' => 296,
+        //     'name' => 'Flowers Street',
+        //     'postcode' => 'B6574JN',
+        //     'building' => '1st Building',
+        //     'floor' => 3,
+        //     'unit' => '4B',
+        //     'country_id' => 1,
+        //     'state_id' => 1,
+        //     'city_id' => 1,
+        // ]);
+
+        // dump($address->country->toArray(), $address->state->toArray(), $address->city->toArray());
+        // dump($address->country->record->toArray());
+        // dump($address->country->timezone->toArray());
+        // return;
 
         Storage::disk('local')->deleteDirectory('users');
 
@@ -76,13 +97,29 @@ class LocalEnv extends Seeder
         $users[2]->memberAttach($users[3]);
 
         // 5. creating & attaching addresses & contacts
-        $users[0]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[0]->addresses()->attach(Address::factory()->create([
+            'country_id' => 1,
+            'state_id' => 1,
+            'city_id' => 1,
+        ]));
         $users[0]->contacts()->attach(Contact::factory()->create());
-        $users[1]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[1]->addresses()->attach(Address::factory()->create([
+            'country_id' => 1,
+            'state_id' => 2,
+            'city_id' => 2,
+        ]));
         $users[1]->contacts()->attach(Contact::factory()->create());
-        $users[2]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[2]->addresses()->attach(Address::factory()->create([
+            'country_id' => 1,
+            'state_id' => 2,
+            'city_id' => 2,
+        ]));
         $users[2]->contacts()->attach(Contact::factory()->create());
-        $users[3]->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $users[3]->addresses()->attach(Address::factory()->create([
+            'country_id' => 1,
+            'state_id' => 2,
+            'city_id' => 2,
+        ]));
         $users[3]->contacts()->attach(Contact::factory()->create());
 
         // 6. creating & attach company to users
@@ -92,7 +129,11 @@ class LocalEnv extends Seeder
             'tax_value' => 20.00,
             'invoice_prefix' => 'KOEPP',
         ]);
-        $company->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $company->addresses()->attach(Address::factory()->create([
+            'country_id' => 1,
+            'state_id' => 2,
+            'city_id' => 2,
+        ]));
         $company->contacts()->attach(Contact::factory()->create());
         $company->users()->attach([$users[1], $users[2], $users[3]]);
 
@@ -148,14 +189,22 @@ class LocalEnv extends Seeder
 
         // 9. create supplier & attach to company
         $supplier = Supplier::factory()->create();
-        $supplier->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $supplier->addresses()->attach(Address::factory()->create([
+            'country_id' => 10,
+            'state_id' => 10,
+            'city_id' => 10,
+        ]));
         $supplier->contacts()->attach(Contact::factory()->create());
         $company->suppliers()->attach($supplier);
 
 
         // 7. create client with address & contact & attach to company
         $client = Client::factory()->create();
-        $client->addresses()->attach(Address::factory()->create(['country_id' => $country->id]));
+        $client->addresses()->attach(Address::factory()->create([
+            'country_id' => 1,
+            'state_id' => 2,
+            'city_id' => 2,
+        ]));
         $client->contacts()->attach(Contact::factory()->create());
         $company->clients()->attach($client);
 

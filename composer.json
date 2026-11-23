@@ -62,7 +62,7 @@
         "migrate:local:vehicle": [
             "@php artisan migrate:fresh",
             "@php artisan db:seed --class=LocalEnv",
-            "@php artisan db:seed --class=CarSeeder"
+            "@php -d memory_limit=2G artisan db:seed --class=CarSeeder"
         ],
         "migrate:local": [
             "@php artisan migrate:fresh",

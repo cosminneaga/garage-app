@@ -30,7 +30,7 @@ class Country extends Model
 
     public function timezone(): HasOne
     {
-        return $this->hasOne(City::class, 'country_id');
+        return $this->hasOne(Timezone::class, 'country_id');
     }
 
     public function record(): HasOne

@@ -27,8 +27,8 @@ class AddressFactory extends Factory
         }
 
         return [
-            'street_number' => fake()->buildingNumber(),
-            'street' => fake()->streetName(),
+            'number' => fake()->buildingNumber(),
+            'name' => fake()->streetName(),
             'postcode' => fake()->postcode(),
             'coordinates' => new Coordinates(fake()->latitude(), fake()->longitude()),
             'building' => fake()->buildingNumber(),

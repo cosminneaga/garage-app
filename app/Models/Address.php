@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Support\Carbon;
-use Database\Factories\AddressFactory;
 use App\Dto\Coordinates;
+use App\Models\World\City;
+use App\Models\World\Country;
+use App\Models\World\State;
+use Database\Factories\AddressFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,7 +20,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
@@ -86,6 +90,30 @@ class Address extends Model
     use HasFactory;
     use LogsActivity;
     use SoftDeletes;
+
+
+    protected static function booted(): void
+    {
+        static::saving(function ($model) {
+            $errors = Collection::make();
+
+            if (blank($model->country_id)) {
+                $errors->put('country_id', 'Country is required');
+            }
+
+            if (blank($model->state_id)) {
+                $errors->put('state_id', 'State is required');
+            }
+
+            if (blank($model->city_id)) {
+                $errors->put('city_id', 'City is required');
+            }
+
+            if ($errors->isNotEmpty()) {
+                throw ValidationException::withMessages($errors->toArray());
+            }
+        });
+    }
 
     /**
      * $address = Address::query()->create([
@@ -181,9 +209,20 @@ class Address extends Model
         return $this->belongsToMany(Supplier::class);
     }
 
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
     }
 
 }
