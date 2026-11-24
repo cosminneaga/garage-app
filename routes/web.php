@@ -322,8 +322,9 @@ Route::controller(SuperController::class)
 Route::controller(WorldController::class)
     // ->middleware(['auth'])
     ->group(function () {
-        Route::get('/countries', 'countries')->name('world.countries');
-        Route::get('/countries/query', 'query')->name('world.countries.query');
+        Route::match(['QUERY'], '/countries', 'countries')->name('world.countries');
+        Route::match(['QUERY'], '/states', 'states')->name('world.states');
+        Route::match(['QUERY'], '/cities', 'cities')->name('world.cities');
     });
 
 

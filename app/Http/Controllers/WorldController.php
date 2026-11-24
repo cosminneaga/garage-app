@@ -2,28 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\World\City;
 use App\Models\World\Country;
+use App\Models\World\State;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class WorldController extends Controller
 {
-    public function countries(Request $request)
+    public function resourceCountries(Request $request): JsonResponse
     {
-        return response()->json(Country::all());
+        $search = $request->string('search')->value();
+        $countries = Country::with([
+            'states' => fn($query) => $query->select('id', 'country_id', 'name', 'country_code'),
+            'states.cities' => fn($query) => $query->select('id', 'state_id', 'country_id', 'name', 'country_code')
+        ])
+            ->where('name', 'LIKE', "%{$search}%")
+            ->limit(10)
+            ->get(['id', 'name', 'region']);
+
+        return response()->json($countries);
     }
 
-    public function query(Request $request)
+    public function countries(Request $request): JsonResponse
     {
-        $request_country = $request->query('country');
-        $request_state = $request->query('state');
-        $request_city = $request->query('city');
+        $search = $request->string('search')->value();
+        $data = Country::where('name', 'LIKE', "%{$search}%")
+            ->limit(10)
+            ->get(['id', 'name', 'region']);
 
-        $country = Country::findOrFail($request_country);
+        return response()->json($data);
+    }
 
-        return response()->json([
-            'country' => $country,
-            'states' => $country->states,
-            'cities' => $country->cities,
-        ]);
+    public function states(Request $request, Country $country): JsonResponse
+    {
+        $search = $request->string('search')->value();
+        $data = State::where('country_id', $country->id)
+            ->where('name', 'LIKE', "%{$search}%")
+            ->limit(10)
+            ->get(['id', 'name', 'region']);
+
+        return response()->json($data);
+    }
+
+    public function cities(Request $request, State $state): JsonResponse
+    {
+        $search = $request->string('search')->value();
+        $data = City::where('state_id', $state->id)
+            ->where('name', 'LIKE', "%{$search}%")
+            ->limit(10)
+            ->get(['id', 'name', 'region']);
+
+        return response()->json($data);
     }
 }

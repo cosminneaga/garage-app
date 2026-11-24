@@ -31,7 +31,7 @@ and old values but not for default values -->
         value="{{ old('postcode', '') }}"
         label="Postcode"
     />
-    <x-form.field.select
+    {{-- <x-form.field.select
         identifier="{{ $identifier }}"
         name="{{ Str::generateFormFieldName('country_id', $nested_parent_name) }}"
         value="{{ old('country_id', '') }}"
@@ -39,6 +39,14 @@ and old values but not for default values -->
         map_label="name"
         map_value="id"
         :options="$countries"
+    /> --}}
+    <x-form.field.search-query
+        identifier="{{ $identifier }}"
+        name="{{ Str::generateFormFieldName('country_id', $nested_parent_name) }}"
+        label="Country"
+        map_label="name"
+        map_value="id"
+        route="{{ route('world.countries') }}"
     />
 </section>
 
