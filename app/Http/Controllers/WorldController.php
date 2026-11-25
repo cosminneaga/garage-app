@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class WorldController extends Controller
 {
-    public function resourceCountries(Request $request): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $search = $request->string('search')->value();
         $countries = Country::with([
@@ -36,11 +36,12 @@ class WorldController extends Controller
 
     public function states(Request $request, Country $country): JsonResponse
     {
+        dd($country->getAttributes());
         $search = $request->string('search')->value();
         $data = State::where('country_id', $country->id)
             ->where('name', 'LIKE', "%{$search}%")
             ->limit(10)
-            ->get(['id', 'name', 'region']);
+            ->get(['id', 'name', 'country_code']);
 
         return response()->json($data);
     }

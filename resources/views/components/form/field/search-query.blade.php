@@ -73,7 +73,8 @@
         id="{{ $name }}"
         data-test="{{ $helper->get('testName') }}"
         x-model="selected"
-        class="hidden">
+        class="hidden"
+        {{ $attributes }}>
     <x-form.field.text
         identifier="{{ $identifier }}"
         name="{{ $name . '_search' }}"

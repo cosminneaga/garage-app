@@ -322,6 +322,7 @@ Route::controller(SuperController::class)
 Route::controller(WorldController::class)
     // ->middleware(['auth'])
     ->group(function () {
+        Route::match(['QUERY'], '/rsc/countries', 'index')->name('rsc.countries');
         Route::match(['QUERY'], '/countries', 'countries')->name('world.countries');
         Route::match(['QUERY'], '/states', 'states')->name('world.states');
         Route::match(['QUERY'], '/cities', 'cities')->name('world.cities');
