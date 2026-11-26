@@ -46,6 +46,10 @@
             $refs.make_search.value = label;
             this.dropdownInstance.hide();
         },
+        async clear(event) {
+            event.target.value = '';
+            await this.search(event);
+        },
     }"
     x-init="function() {
         const target = document.getElementById(@js($ids->get('modal')));
@@ -80,8 +84,9 @@
         name="{{ $name . '_search' }}"
         label="{{ $label }}"
         x-ref="make_search"
-        @keyup.debounce.500ms="search"
-        @click="dropdownInstance.show(); search($event);"
+        @keyup.debounce.700ms="search"
+        {{-- @click="dropdownInstance.show(); search($event);" --}}
+        @focus="clear"
     />
 
     <div

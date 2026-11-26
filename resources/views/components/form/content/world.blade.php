@@ -25,7 +25,6 @@
 
         async search(event) {
             this.countries = await ServerRequest.query('/rsc/countries', { search: event.target.value });
-            console.log(this.countries)
         },
         setCountry(country_id) {
             this.country_id = country_id;
@@ -39,6 +38,10 @@
             this.state_id = state_id;
             const state = this.states.find(state => state.id == state_id);
             this.cities = state.cities;
+        },
+        async clear(event) {
+            event.target.value = '';
+            await this.search(event);
         },
     }"
     x-init="function() {
@@ -62,8 +65,8 @@
             name="{{ $name_country . '_search' }}"
             label="Country"
             x-ref="make_search"
-            @keyup.debounce.500ms="search"
-            @focus="search"
+            @keyup.debounce.700ms="search"
+            @focus="clear"
         />
         <div
             class="bg-neutral-primary-medium border-default-medium rounded-base z-10 hidden w-full border shadow-lg"
@@ -96,6 +99,7 @@
             data-test="{{ $helper_state->get('testName') }}"
             x-model="state_id"
             @change="setState(state_id)"
+            value="{{ old($name_state, '') }}"
         >
             <template
                 x-for="state in states"
@@ -120,6 +124,7 @@
             name="{{ $name_city }}"
             data-test="{{ $helper_city->get('testName') }}"
             x-model="city_id"
+            value="{{ old($name_city, '') }}"
         >
             <template
                 x-for="city in cities"
