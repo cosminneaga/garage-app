@@ -38,15 +38,15 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read User|null $creator
+ * @property-read \App\Models\User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read User|null $deletor
- * @property-read Invoice|null $invoice
- * @property-read Collection<int, InvoiceLineItem> $lineItems
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read Collection<int, \App\Models\InvoiceLineItem> $lineItems
  * @property-read int|null $line_items_count
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read User|null $updater
- * @method static InvoiceItemFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
  * @method static Builder<static>|InvoiceItem newModelQuery()
  * @method static Builder<static>|InvoiceItem newQuery()
  * @method static Builder<static>|InvoiceItem onlyTrashed()
@@ -69,7 +69,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|InvoiceItem withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperInvoiceItem
  */
 #[Fillable([
     'job_name',

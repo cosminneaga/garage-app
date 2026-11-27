@@ -8,7 +8,33 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * @mixin IdeHelperCountry
+ * @property int $id
+ * @property string $iso2
+ * @property string $name
+ * @property int $status
+ * @property string $phone_code
+ * @property string $iso3
+ * @property string $region
+ * @property string $subregion
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\World\City> $cities
+ * @property-read int|null $cities_count
+ * @property-read \App\Models\World\City|null $currency
+ * @property-read \App\Models\World\Record|null $record
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\World\State> $states
+ * @property-read int|null $states_count
+ * @property-read \App\Models\World\Timezone|null $timezone
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereIso2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereIso3($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country wherePhoneCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereRegion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereSubregion($value)
+ * @mixin \Eloquent
  */
 #[Connection('world')]
 class Country extends Model

@@ -48,16 +48,16 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property int|null $address_id
+ * @property int|null $contact_id
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
- * @property-read int|null $addresses_count
- * @property-read Collection<int, Booking> $bookingsAdvised
+ * @property-read \App\Models\Address|null $address
+ * @property-read Collection<int, \App\Models\Booking> $bookingsAdvised
  * @property-read int|null $bookings_advised_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
- * @property-read int|null $contacts_count
+ * @property-read \App\Models\Contact|null $contact
  * @property-read Model|\Eloquent|null $createdByActor
  * @property-read User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
@@ -68,18 +68,18 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $permissions_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
- * @property-read UserSetting|null $settings
+ * @property-read \App\Models\UserSetting|null $settings
  * @property-read Collection<int, Permission> $teams
  * @property-read int|null $teams_count
  * @property-read Model|\Eloquent|null $updatedByActor
  * @property-read User|null $updater
  * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @property-read Collection<int, Workorder> $woAssigned
+ * @property-read Collection<int, \App\Models\Workorder> $woAssigned
  * @property-read int|null $wo_assigned_count
- * @property-read Collection<int, WorkorderOperation> $woOperationAssigned
+ * @property-read Collection<int, \App\Models\WorkorderOperation> $woOperationAssigned
  * @property-read int|null $wo_operation_assigned_count
- * @method static UserFactory factory($count = null, $state = [])
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static Builder<static>|User newModelQuery()
  * @method static Builder<static>|User newQuery()
  * @method static Builder<static>|User onlyTrashed()
@@ -88,6 +88,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder<static>|User role($roles, ?string $guard = null, bool $without = false)
  * @method static Builder<static>|User team($teams, bool $without = false)
  * @method static Builder<static>|User whereActive($value)
+ * @method static Builder<static>|User whereAddressId($value)
+ * @method static Builder<static>|User whereContactId($value)
  * @method static Builder<static>|User whereCreatedAt($value)
  * @method static Builder<static>|User whereCreatedBy($value)
  * @method static Builder<static>|User whereDeletedAt($value)
@@ -107,7 +109,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder<static>|User withoutTeam($teams)
  * @method static Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperUser
  */
 #[UsePolicy(UserPolicy::class)]
 #[Fillable([

@@ -35,28 +35,30 @@ use Throwable;
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property int|null $address_id
+ * @property int|null $contact_id
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Address> $addresses
- * @property-read int|null $addresses_count
- * @property-read Collection<int, Company> $companies
+ * @property-read \App\Models\Address|null $address
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read Collection<int, Contact> $contacts
- * @property-read int|null $contacts_count
+ * @property-read \App\Models\Contact|null $contact
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read User|null $creator
+ * @property-read \App\Models\User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read User|null $deletor
- * @property-read Collection<int, Part> $parts
+ * @property-read \App\Models\User|null $deletor
+ * @property-read Collection<int, \App\Models\Part> $parts
  * @property-read int|null $parts_count
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read User|null $updater
- * @method static SupplierFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $updater
+ * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
  * @method static Builder<static>|Supplier newModelQuery()
  * @method static Builder<static>|Supplier newQuery()
  * @method static Builder<static>|Supplier onlyTrashed()
  * @method static Builder<static>|Supplier query()
+ * @method static Builder<static>|Supplier whereAddressId($value)
  * @method static Builder<static>|Supplier whereCode($value)
+ * @method static Builder<static>|Supplier whereContactId($value)
  * @method static Builder<static>|Supplier whereCreatedAt($value)
  * @method static Builder<static>|Supplier whereCreatedBy($value)
  * @method static Builder<static>|Supplier whereDeletedAt($value)
@@ -71,7 +73,6 @@ use Throwable;
  * @method static Builder<static>|Supplier withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Supplier withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperSupplier
  */
 #[Fillable([
     'name',

@@ -10,7 +10,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @mixin IdeHelperState
+ * @property int $id
+ * @property int $country_id
+ * @property string $name
+ * @property string|null $country_code
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\World\City> $cities
+ * @property-read int|null $cities_count
+ * @property-read \App\Models\World\Country|null $country
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|State newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|State newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|State query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|State whereCountryCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|State whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|State whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|State whereName($value)
+ * @mixin \Eloquent
  */
 #[Connection('world')]
 class State extends Model

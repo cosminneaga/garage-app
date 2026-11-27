@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $invoice_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Invoice|null $invoice
+ * @property-read \App\Models\Invoice|null $invoice
  * @method static Builder<static>|InvoiceStatusHistory newModelQuery()
  * @method static Builder<static>|InvoiceStatusHistory newQuery()
  * @method static Builder<static>|InvoiceStatusHistory query()
@@ -30,7 +30,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder<static>|InvoiceStatusHistory whereStatus($value)
  * @method static Builder<static>|InvoiceStatusHistory whereUpdatedAt($value)
  * @mixin \Eloquent
- * @mixin IdeHelperInvoiceStatusHistory
  */
 #[Fillable(
     'status',

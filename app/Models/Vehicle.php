@@ -47,21 +47,21 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Booking> $bookings
+ * @property-read Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read Collection<int, Company> $companies
+ * @property-read Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read User|null $creator
- * @property-read CarData|null $data
+ * @property-read \App\Models\User|null $creator
+ * @property-read \App\Models\CarData|null $data
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read User|null $deletor
- * @property-read CarMake|null $make
- * @property-read CarModel|null $model
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\CarMake|null $make
+ * @property-read \App\Models\CarModel|null $model
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read User|null $updater
- * @property-read Workorder|null $workorder
- * @method static VehicleFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $updater
+ * @property-read \App\Models\Workorder|null $workorder
+ * @method static \Database\Factories\VehicleFactory factory($count = null, $state = [])
  * @method static Builder<static>|Vehicle newModelQuery()
  * @method static Builder<static>|Vehicle newQuery()
  * @method static Builder<static>|Vehicle onlyTrashed()
@@ -89,7 +89,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Vehicle withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Vehicle withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperVehicle
  */
 #[UsePolicy(VehiclePolicy::class)]
 #[Fillable([

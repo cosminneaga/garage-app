@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property int $booking_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Booking|null $booking
+ * @property-read \App\Models\Booking|null $booking
  * @method static Builder<static>|BookingStatusHistory newModelQuery()
  * @method static Builder<static>|BookingStatusHistory newQuery()
  * @method static Builder<static>|BookingStatusHistory query()
@@ -29,7 +29,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|BookingStatusHistory whereStatus($value)
  * @method static Builder<static>|BookingStatusHistory whereUpdatedAt($value)
  * @mixin \Eloquent
- * @mixin IdeHelperBookingStatusHistory
  */
 #[Fillable([
     'status',

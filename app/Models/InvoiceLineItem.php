@@ -34,13 +34,13 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read User|null $creator
+ * @property-read \App\Models\User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read User|null $deletor
- * @property-read InvoiceItem|null $item
- * @property-read Part|null $part
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\InvoiceItem|null $item
+ * @property-read \App\Models\Part|null $part
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read User|null $updater
+ * @property-read \App\Models\User|null $updater
  * @method static Builder<static>|InvoiceLineItem newModelQuery()
  * @method static Builder<static>|InvoiceLineItem newQuery()
  * @method static Builder<static>|InvoiceLineItem onlyTrashed()
@@ -60,7 +60,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceLineItem withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|InvoiceLineItem withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperInvoiceLineItem
  */
 #[Fillable(
     'type',

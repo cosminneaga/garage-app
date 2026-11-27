@@ -27,50 +27,51 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 /**
  * @property int $id
- * @property string $street_number
- * @property string $street
+ * @property string $number
+ * @property string $name
  * @property string $postcode
  * @property string|null $building
  * @property string|null $floor
  * @property string|null $unit
- * @property Coordinates|null $coordinates
- * @property int $country_id
+ * @property \App\Dto\Coordinates|null $coordinates
+ * @property int|null $country_id
+ * @property int|null $state_id
+ * @property int|null $city_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, Client> $clients
- * @property-read int|null $clients_count
- * @property-read Collection<int, Company> $companies
- * @property-read int|null $companies_count
+ * @property-read City|null $city
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
  * @property-read Country|null $country
- * @property-read Collection<int, Supplier> $suppliers
- * @property-read int|null $suppliers_count
- * @property-read Collection<int, User> $users
- * @property-read int|null $users_count
- * @method static AddressFactory factory($count = null, $state = [])
+ * @property-read State|null $state
+ * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
  * @method static Builder<static>|Address newModelQuery()
  * @method static Builder<static>|Address newQuery()
  * @method static Builder<static>|Address onlyTrashed()
  * @method static Builder<static>|Address query()
  * @method static Builder<static>|Address whereBuilding($value)
+ * @method static Builder<static>|Address whereCityId($value)
  * @method static Builder<static>|Address whereCoordinates($value)
  * @method static Builder<static>|Address whereCountryId($value)
  * @method static Builder<static>|Address whereCreatedAt($value)
  * @method static Builder<static>|Address whereDeletedAt($value)
  * @method static Builder<static>|Address whereFloor($value)
  * @method static Builder<static>|Address whereId($value)
+ * @method static Builder<static>|Address whereName($value)
+ * @method static Builder<static>|Address whereNumber($value)
  * @method static Builder<static>|Address wherePostcode($value)
- * @method static Builder<static>|Address whereStreet($value)
- * @method static Builder<static>|Address whereStreetNumber($value)
+ * @method static Builder<static>|Address whereStateId($value)
  * @method static Builder<static>|Address whereUnit($value)
  * @method static Builder<static>|Address whereUpdatedAt($value)
  * @method static Builder<static>|Address withCoordinates()
  * @method static Builder<static>|Address withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Address withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperAddress
  */
 #[Fillable([
     'street_number',

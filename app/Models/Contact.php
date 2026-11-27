@@ -23,43 +23,32 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $email
  * @property string|null $url
  * @property string|null $info
- * @property int|null $created_by
- * @property int|null $updated_by
- * @property int|null $deleted_by
- * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read Collection<int, User> $clients
- * @property-read int|null $clients_count
- * @property-read Collection<int, Company> $companies
- * @property-read int|null $companies_count
- * @property-read Collection<int, Supplier> $suppliers
- * @property-read int|null $suppliers_count
- * @property-read Collection<int, User> $users
- * @property-read int|null $users_count
- * @method static ContactFactory factory($count = null, $state = [])
+ * @property-read \App\Models\User|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\ContactFactory factory($count = null, $state = [])
  * @method static Builder<static>|Contact newModelQuery()
  * @method static Builder<static>|Contact newQuery()
  * @method static Builder<static>|Contact onlyTrashed()
  * @method static Builder<static>|Contact query()
  * @method static Builder<static>|Contact whereCreatedAt($value)
- * @method static Builder<static>|Contact whereCreatedBy($value)
  * @method static Builder<static>|Contact whereDeletedAt($value)
- * @method static Builder<static>|Contact whereDeletedBy($value)
  * @method static Builder<static>|Contact whereEmail($value)
  * @method static Builder<static>|Contact whereId($value)
  * @method static Builder<static>|Contact whereInfo($value)
  * @method static Builder<static>|Contact whereLandline($value)
  * @method static Builder<static>|Contact whereMobile($value)
  * @method static Builder<static>|Contact whereUpdatedAt($value)
- * @method static Builder<static>|Contact whereUpdatedBy($value)
  * @method static Builder<static>|Contact whereUrl($value)
  * @method static Builder<static>|Contact withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Contact withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperContact
  */
 #[Fillable([
     'mobile',

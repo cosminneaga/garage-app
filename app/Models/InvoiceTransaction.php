@@ -33,12 +33,12 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read User|null $creator
+ * @property-read \App\Models\User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read User|null $deletor
- * @property-read Invoice|null $invoice
+ * @property-read \App\Models\User|null $deletor
+ * @property-read \App\Models\Invoice|null $invoice
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read User|null $updater
+ * @property-read \App\Models\User|null $updater
  * @method static Builder<static>|InvoiceTransaction newModelQuery()
  * @method static Builder<static>|InvoiceTransaction newQuery()
  * @method static Builder<static>|InvoiceTransaction onlyTrashed()
@@ -57,7 +57,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceTransaction withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|InvoiceTransaction withoutTrashed()
  * @mixin \Eloquent
- * @mixin IdeHelperInvoiceTransaction
  */
 #[Fillable([
     'method',

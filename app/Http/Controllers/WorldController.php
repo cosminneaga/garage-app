@@ -14,8 +14,8 @@ class WorldController extends Controller
     {
         $search = $request->string('search')->value();
         $countries = Country::with([
-            'states' => fn($query) => $query->select('id', 'country_id', 'name', 'country_code'),
-            'states.cities' => fn($query) => $query->select('id', 'state_id', 'country_id', 'name', 'country_code')
+            'states' => fn ($query) => $query->select('id', 'country_id', 'name', 'country_code'),
+            'states.cities' => fn ($query) => $query->select('id', 'state_id', 'country_id', 'name', 'country_code'),
         ])
             ->where('name', 'LIKE', "%{$search}%")
             ->limit(10)

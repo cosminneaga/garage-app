@@ -27,7 +27,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @method static CarDataFactory factory($count = null, $state = [])
+ * @method static \Database\Factories\CarDataFactory factory($count = null, $state = [])
  * @method static Builder<static>|CarData newModelQuery()
  * @method static Builder<static>|CarData newQuery()
  * @method static Builder<static>|CarData query()
@@ -42,7 +42,6 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|CarData whereTransmission($value)
  * @method static Builder<static>|CarData whereUpdatedAt($value)
  * @mixin \Eloquent
- * @mixin IdeHelperCarData
  */
 #[Fillable([
     'name',

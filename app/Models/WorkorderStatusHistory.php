@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property int $workorder_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Workorder|null $workorder
+ * @property-read \App\Models\Workorder|null $workorder
  * @method static Builder<static>|WorkorderStatusHistory newModelQuery()
  * @method static Builder<static>|WorkorderStatusHistory newQuery()
  * @method static Builder<static>|WorkorderStatusHistory query()
@@ -29,7 +29,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|WorkorderStatusHistory whereUpdatedAt($value)
  * @method static Builder<static>|WorkorderStatusHistory whereWorkorderId($value)
  * @mixin \Eloquent
- * @mixin IdeHelperWorkorderStatusHistory
  */
 #[Fillable([
     'status',

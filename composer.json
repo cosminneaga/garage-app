@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.5",
         "barryvdh/laravel-dompdf": "^3.1",
         "blade-ui-kit/blade-heroicons": "^2.7",
         "elegantly/laravel-invoices": "^6.2",
@@ -41,7 +41,8 @@
         "pestphp/pest": "^4.4",
         "pestphp/pest-plugin-browser": "^4.3",
         "pestphp/pest-plugin-laravel": "^4.1",
-        "rector/rector": "^2.3"
+        "rector/rector": "^2.3",
+        "shipfastlabs/pun": "^0.4.5"
     },
     "autoload": {
         "psr-4": {
