@@ -24,6 +24,7 @@
         value="{{ old('address.postcode', '') }}"
         label="Postcode"
     />
+
     <x-form.content.world
         identifier="{{ $identifier }}"
     />

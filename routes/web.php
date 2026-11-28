@@ -322,10 +322,12 @@ Route::controller(SuperController::class)
 Route::controller(WorldController::class)
     // ->middleware(['auth'])
     ->group(function () {
-        Route::match(['QUERY'], '/rsc/countries', 'index')->name('rsc.countries');
+        Route::match(['QUERY'], '/search/countries', 'index')->name('search.countries');
         Route::match(['QUERY'], '/countries', 'countries')->name('world.countries');
         Route::match(['QUERY'], '/states', 'states')->name('world.states');
         Route::match(['QUERY'], '/cities', 'cities')->name('world.cities');
+
+        Route::get('/country/{country}', 'country')->name('world.country');
     });
 
 
@@ -368,12 +370,12 @@ Route::controller(ContactController::class)
 Route::controller(AddressController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        # users
+        # user
         Route::group(['model' => RelatedModel::USER], function () {
-            Route::get('/addresses/{address}/users/{user}', 'modelEdit')->name('addresses.users.edit');
-            Route::post('/addresses/users/{user}', 'modelStore')->name('addresses.users.store');
-            Route::put('/addresses/{address}/users/{user}', 'modelUpdate')->name('addresses.users.update');
-            Route::delete('/addresses/{address}/users/{user}', 'modelDestroy')->name('addresses.users.destroy');
+            Route::get('/address/{address}/user/{user}', 'modelEdit')->name('address.user.edit');
+            Route::post('/address/user/{user}', 'modelStore')->name('address.user.store');
+            Route::put('/address/{address}/user/{user}', 'modelUpdate')->name('address.user.update');
+            Route::delete('/address/{address}/user/{user}', 'modelDestroy')->name('address.user.destroy');
         });
 
         # companies

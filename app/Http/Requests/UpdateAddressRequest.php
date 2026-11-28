@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Enums\UserPermission;
+use App\Helpers\Permission;
+use Illuminate\Foundation\Http\FormRequest;
+use Override;
+
+class UpdateAddressRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return Permission::can(UserPermission::ADDRESS, 'update');
+    }
+
+    #[Override]
+    protected function prepareForValidation()
+    {
+        $this->replace($this->input('address', []));
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'number' =>                 ['required', 'string', 'max:10'],
+            'name' =>                   ['required', 'string', 'max:60'],
+            'postcode' =>               ['required', 'string', 'max:20'],
+            'building' =>               ['nullable', 'string', 'max:255'],
+            'floor' =>                  ['nullable', 'string', 'max:255'],
+            'unit' =>                   ['nullable', 'string', 'max:255'],
+            'country_id' =>             ['required', 'integer'],
+            'state_id' =>               ['required', 'integer'],
+            'city_id' =>                ['required', 'integer'],
+            'coordinates' =>            ['sometimes', 'nullable', 'array'],
+            'coordinates.latitude' =>   ['sometimes', 'nullable', 'string', 'max:20'],
+            'coordinates.longitude' =>  ['sometimes', 'nullable', 'string', 'max:20'],
+        ];
+    }
+}

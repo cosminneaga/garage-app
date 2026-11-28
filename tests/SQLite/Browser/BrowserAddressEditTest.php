@@ -35,7 +35,7 @@ test('administrator: should edit manager\'s address', function () {
     $this->administrator->managers()->attach($this->manager);
     actingAs($this->administrator);
 
-    visit(route('addresses.users.edit', [$this->manager_address, $this->manager]))
+    visit(route('address.user.edit', [$this->manager_address, $this->manager]))
         ->assertValue('@address_street_number', $this->manager_address->street_number)
         ->assertValue('@address_street', $this->manager_address->street)
         ->fill('@address_street_number', '9090')
@@ -54,7 +54,7 @@ test('administrator: should edit user\'s address', function () {
     $this->manager->users()->attach($this->user);
     actingAs($this->administrator);
 
-    visit(route('addresses.users.edit', [$this->user_address, $this->user]))
+    visit(route('address.user.edit', [$this->user_address, $this->user]))
         ->assertValue('@address_street_number', $this->user_address->street_number)
         ->assertValue('@address_street', $this->user_address->street)
         ->fill('@address_street_number', '9090')
@@ -109,7 +109,7 @@ test('manager: should not be able to edit administrator\'s address', function ()
     $this->administrator->managers()->attach($this->manager);
     actingAs($this->manager);
 
-    visit(route('addresses.users.edit', [$this->user_address, $this->administrator]))
+    visit(route('address.user.edit', [$this->user_address, $this->administrator]))
         ->assertSee('401 Unauthorized');
 });
 
@@ -117,7 +117,7 @@ test('manager: should edit user\'s address', function () {
     $this->manager->users()->attach($this->user);
     actingAs($this->manager);
 
-    visit(route('addresses.users.edit', [$this->user_address, $this->user]))
+    visit(route('address.user.edit', [$this->user_address, $this->user]))
         ->assertValue('@address_street_number', $this->user_address->street_number)
         ->assertValue('@address_street', $this->user_address->street)
         ->fill('@address_street_number', '9090')
@@ -172,7 +172,7 @@ test('user: should not edit manager\'s address', function () {
     $this->manager->users()->attach($this->user);
     actingAs($this->user);
 
-    visit(route('addresses.users.edit', [$this->manager_address, $this->manager]))
+    visit(route('address.user.edit', [$this->manager_address, $this->manager]))
         ->assertSee('401 Unauthorized');
 });
 
@@ -181,7 +181,7 @@ test('user: should not edit administrator\'s address', function () {
     $this->manager->users()->attach($this->user);
     actingAs($this->user);
 
-    visit(route('addresses.users.edit', [$this->manager_address, $this->manager]))
+    visit(route('address.user.edit', [$this->manager_address, $this->manager]))
         ->assertSee('401 Unauthorized');
 });
 
@@ -193,7 +193,7 @@ test('user: should not edit user\'s address', function () {
     $this->manager->users()->attach([$this->user, $user]);
     actingAs($this->user);
 
-    visit(route('addresses.users.edit', [$address, $user]))
+    visit(route('address.user.edit', [$address, $user]))
         ->assertValue('@address_street_number', $address->street_number)
         ->assertValue('@address_street', $address->street)
         ->click('@address_update')
@@ -213,7 +213,7 @@ test('user: with address permission only, should not edit user\'s address', func
 
     actingAs($this->user);
 
-    visit(route('addresses.users.edit', [$address, $user]))
+    visit(route('address.user.edit', [$address, $user]))
         ->assertValue('@address_street_number', $address->street_number)
         ->assertValue('@address_street', $address->street)
         ->click('@address_update')
@@ -233,7 +233,7 @@ test('user: with user permission only, should not edit user\'s address', functio
 
     actingAs($this->user);
 
-    visit(route('addresses.users.edit', [$address, $user]))
+    visit(route('address.user.edit', [$address, $user]))
         ->assertValue('@address_street_number', $address->street_number)
         ->assertValue('@address_street', $address->street)
         ->click('@address_update')
@@ -254,7 +254,7 @@ test('user: with address & user permissions should edit user\'s address', functi
 
     actingAs($this->user);
 
-    visit(route('addresses.users.edit', [$address, $user]))
+    visit(route('address.user.edit', [$address, $user]))
         ->assertValue('@address_street_number', $address->street_number)
         ->assertValue('@address_street', $address->street)
         ->fill('@address_street_number', '9090')

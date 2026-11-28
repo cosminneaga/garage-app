@@ -24,6 +24,12 @@ class WorldController extends Controller
         return response()->json($countries);
     }
 
+    public function country(Country $country): JsonResponse
+    {
+        $resource = Country::with(['states', 'states.cities'])->find($country->id);
+        return response()->json($resource);
+    }
+
     public function countries(Request $request): JsonResponse
     {
         $search = $request->string('search')->value();

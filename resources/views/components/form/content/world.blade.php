@@ -18,13 +18,13 @@
         countries: [],
         states: [],
         cities: [],
-        country_id: null,
-        state_id: null,
-        city_id: null,
+        country_id: @js(old('address.country_id', null)),
+        state_id: @js(old('address.state_id', null)),
+        city_id: @js(old('address.city_id', null)),
         dropdownInstance: null,
 
         async search(event) {
-            this.countries = await ServerRequest.query('/rsc/countries', { search: event.target.value });
+            this.countries = await ServerRequest.query('{{ route('search.countries') }}', { search: event.target.value });
         },
         setCountry(country_id) {
             this.country_id = country_id;
@@ -34,21 +34,40 @@
             $refs.make_search.value = country.name;
             this.dropdownInstance.hide();
         },
-        setState(state_id) {
-            this.state_id = state_id;
-            const state = this.states.find(state => state.id == state_id);
+        setState(id) {
+            this.state_id = id;
+            console.log(id)
+            const state = this.states.find(state => state.id == id);
             this.cities = state.cities;
+        },
+        setCity(id) {
+            this.city_id = id;
+            const city = this.cities.find(city => city.id == id);
         },
         async clear(event) {
             event.target.value = '';
             await this.search(event);
         },
     }"
-    x-init="function() {
+    x-init="async function() {
         const target = document.getElementById(@js($modal->get('modal')));
         const trigger = document.getElementById('address[country_search]');
         const dropdown = new Dropdown(target, trigger);
         dropdownInstance = dropdown;
+
+        if (this.country_id) {
+            const response = await window.ServerRequest.get(`/country/${this.country_id}`);
+            this.countries.push(response);
+            this.setCountry(this.country_id);
+        }
+
+        if (this.state_id) {
+            this.setState(this.state_id);
+        }
+
+        if (this.city_id) {
+            this.setCity(this.city_id);
+        }
     }"
 >
     <section class="my-2">
@@ -99,7 +118,6 @@
             data-test="{{ $helper_state->get('testName') }}"
             x-model="state_id"
             @change="setState(state_id)"
-            value="{{ old($name_state, '') }}"
         >
             <template
                 x-for="state in states"
@@ -108,6 +126,7 @@
                 <option
                     :value="state.id"
                     x-text="state.name"
+                    :selected="state.id === state_id"
                 ></option>
             </template>
         </select>
@@ -124,7 +143,7 @@
             name="{{ $name_city }}"
             data-test="{{ $helper_city->get('testName') }}"
             x-model="city_id"
-            value="{{ old($name_city, '') }}"
+            @change="setCity(city_id)"
         >
             <template
                 x-for="city in cities"
@@ -133,6 +152,7 @@
                 <option
                     :value="city.id"
                     x-text="city.name"
+                    :selected="city.id === city_id"
                 ></option>
             </template>
         </select>

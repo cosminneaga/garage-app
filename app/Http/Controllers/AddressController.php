@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\ModelAddressStoreAction;
 use App\Http\Requests\StoreAddressRequest;
+use App\Http\Requests\UpdateAddressRequest;
 use App\Models\Address;
 use App\Traits\RelatedModelGuard;
 use Exception;
@@ -60,14 +61,13 @@ class AddressController extends Controller
     }
 
     public function modelUpdate(
-        Request $request,
+        UpdateAddressRequest $request,
         Address $address,
         string|int $model_id
     ): RedirectResponse {
         self::guard('update', $request, $model_id);
-        $resource = self::$entity->addresses()->findOrFail($address->id);
-        $this->authorize('update', $resource);
-        $resource->update([...$request->except(['_token', '_method'])]);
+        $this->authorize('update', self::$entity->address);
+        self::$entity->address->update($request->safe()->all());
 
         return back()
             ->with(self::flashMessage(
