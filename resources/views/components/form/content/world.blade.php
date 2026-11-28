@@ -36,7 +36,6 @@
         },
         setState(id) {
             this.state_id = id;
-            console.log(id)
             const state = this.states.find(state => state.id == id);
             this.cities = state.cities;
         },
@@ -126,7 +125,7 @@
                 <option
                     :value="state.id"
                     x-text="state.name"
-                    :selected="state.id === state_id"
+                    :selected="state.id == state_id"
                 ></option>
             </template>
         </select>
@@ -152,7 +151,7 @@
                 <option
                     :value="city.id"
                     x-text="city.name"
-                    :selected="city.id === city_id"
+                    :selected="city.id == city_id"
                 ></option>
             </template>
         </select>
