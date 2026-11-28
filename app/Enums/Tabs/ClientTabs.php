@@ -12,8 +12,8 @@ enum ClientTabs: string
 
     case DETAILS = 'details';
     case STATISTICS = 'statistics';
-    case CONTACTS = 'contacts';
-    case ADDRESSES = 'addresses';
+    case CONTACT = 'contact';
+    case ADDRESS = 'address';
     case COMPANIES = 'companies';
 
     public function label(): string
@@ -21,8 +21,8 @@ enum ClientTabs: string
         return match ($this) {
             self::DETAILS => 'Details',
             self::STATISTICS => 'Statistics',
-            self::CONTACTS => 'Contacts',
-            self::ADDRESSES => 'Addresses',
+            self::CONTACT => 'Contact',
+            self::ADDRESS => 'Address',
             self::COMPANIES => 'Companies',
         };
     }

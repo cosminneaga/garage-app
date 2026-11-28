@@ -17,18 +17,11 @@
                 </div>
 
                 <div class="p-2">
-                    <x-form.content.address
-                        :countries="$countries"
-                        identifier="company"
-                        nested_parent_name="address"
-                    />
+                    <x-form.content.address identifier="company" />
                 </div>
 
                 <div class="p-2">
-                    <x-form.content.contact
-                        identifier="company"
-                        nested_parent_name="contact"
-                    />
+                    <x-form.content.contact identifier="company" />
                 </div>
             </div>
 

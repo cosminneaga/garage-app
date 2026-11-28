@@ -1,4 +1,4 @@
-@props(['id', 'action' => '#', 'trigger' => false, 'countries' => []])
+@props(['id', 'action' => '#', 'trigger' => false])
 
 @php
     $ids = BladeModalHelper::ids($id);
@@ -28,17 +28,8 @@
 
         <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
             <x-form.content.supplier identifier="supplier" />
-
-            <x-form.content.address
-                identifier="supplier"
-                :countries="$countries"
-                nested_parent_name="address"
-            />
-
-            <x-form.content.contact
-                identifier="supplier"
-                nested_parent_name="contact"
-            />
+            <x-form.content.address identifier="supplier" />
+            <x-form.content.contact identifier="supplier" />
         </div>
 
         <br>

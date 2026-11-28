@@ -1,16 +1,16 @@
 @php
-    Session::flashInput($resource->toArray());
+    Session::flashInput($user->toArray());
 @endphp
 
-<x-layout::index title="{{ $resource->name }} | Details">
+<x-layout::index title="{{ $user->name }} | Details">
     <x-tabs :tabs="UserTabs::tabs()">
         <x-card
-            :title="$resource->name"
-            description="Visualise & Edit {{ $resource->name }}'s details"
+            :title="$user->name"
+            description="Visualise & Edit {{ $user->name }}'s details"
         >
             <form
                 id="form-user-update"
-                action="{{ route('users.update', $resource) }}"
+                action="{{ route('users.update', $user) }}"
                 method="POST"
                 enctype="@enctype"
             >
@@ -19,9 +19,9 @@
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
-                    src="{{ route('files.users.avatar', $resource) }}"
-                    alt="{{ $resource->name }}"
-                    title="{{ $resource->name }}">
+                    src="{{ route('files.users.avatar', $user) }}"
+                    alt="{{ $user->name }}"
+                    title="{{ $user->name }}">
                 <br>
                 <x-form.content.user
                     identifier="user_update"
@@ -54,8 +54,8 @@
             <x-modal.confirm
                 id="user-delete"
                 type="delete"
-                action="{{ route('users.destroy', $resource->id) }}"
-                message="Are you sure you want to remove {{ $resource->name }} from your team?"
+                action="{{ route('users.destroy', $user->id) }}"
+                message="Are you sure you want to remove {{ $user->name }} from your team?"
             />
         </x-card>
     </x-tabs>

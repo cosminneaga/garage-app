@@ -13,8 +13,8 @@ enum CompanyTabs: string
     case DETAILS = 'details';
     case STATISTICS = 'statistics';
     case MEMBERS = 'members';
-    case CONTACTS = 'contacts';
-    case ADDRESSES = 'addresses';
+    case CONTACT = 'contact';
+    case ADDRESS = 'address';
     case SUPPLIERS = 'suppliers';
     case VEHICLES = 'vehicles';
     case CLIENTS = 'clients';
@@ -25,8 +25,8 @@ enum CompanyTabs: string
             self::DETAILS => 'Details',
             self::STATISTICS => 'Statistics',
             self::MEMBERS => 'Members',
-            self::CONTACTS => 'Contacts',
-            self::ADDRESSES => 'Addresses',
+            self::CONTACT => 'Contact',
+            self::ADDRESS => 'Address',
             self::SUPPLIERS => 'Suppliers',
             self::VEHICLES => 'Vehicles',
             self::CLIENTS => 'Clients',

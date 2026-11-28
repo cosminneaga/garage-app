@@ -73,21 +73,22 @@ class ManagerController extends Controller
 
         return match(FacadesRequest::query('tab')) {
             'statistics' => view('pages.manager.edit.statistics', [
-                'manager' => $manager,
+                'user' => $manager,
             ]),
-            'contacts' => view('pages.manager.edit.contacts', [
-                'resource' => $manager,
+            'contact' => view('pages.manager.edit.contact', [
+                'user' => $manager,
+                'contact' => $manager->contact,
             ]),
-            'addresses' => view('pages.manager.edit.addresses', [
-                'resource' => $manager,
-                'countries' => [],
+            'address' => view('pages.manager.edit.address', [
+                'user' => $manager,
+                'address' => $manager->address,
             ]),
             'permissions' => view('pages.user.edit.permissions', [
-                'resource' => $manager,
+                'user' => $manager,
                 'permissions' => UserPermission::tableStructure($manager->getAllPermissions()),
             ]),
             default => view('pages.manager.edit.index', [
-                'resource' => $manager,
+                'user' => $manager,
             ]),
         };
     }

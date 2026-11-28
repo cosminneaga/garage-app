@@ -1,13 +1,13 @@
 @php
-    Session::flashInput($resource->toArray());
+    Session::flashInput($company->toArray());
 @endphp
 
-<x-layout::index title="{{ $resource->name }}">
+<x-layout::index title="{{ $company->name }}">
     <x-tabs :tabs="CompanyTabs::tabs()">
-        <x-card description="Visualise & Edit {{ $resource->name }} details">
+        <x-card description="Visualise & Edit {{ $company->name }} details">
             <form
                 id="form-company-update"
-                action="{{ route('companies.update', $resource) }}"
+                action="{{ route('companies.update', $company) }}"
                 method="POST"
                 enctype="@enctype"
             >
@@ -16,7 +16,7 @@
 
                 <img
                     class="h-24 w-24 rounded-full border-4 border-white object-cover"
-                    src="{{ $resource->image_path && !Str::isUrl($resource->image_path) ? asset('storage/' . $resource->image_path) : $resource->image_path }}"
+                    src="{{ $company->image_path && !Str::isUrl($company->image_path) ? asset('storage/' . $company->image_path) : $company->image_path }}"
                     alt="alt">
                 <br>
 
@@ -48,8 +48,8 @@
             <x-modal.confirm
                 id="company-delete"
                 type="delete"
-                action="{{ route('companies.destroy', $resource->id) }}"
-                message="Are you sure you want to remove {{ $resource->name }} from your list of companies?"
+                action="{{ route('companies.destroy', $company->id) }}"
+                message="Are you sure you want to remove {{ $company->name }} from your list of companies?"
             />
         </x-card>
     </x-tabs>

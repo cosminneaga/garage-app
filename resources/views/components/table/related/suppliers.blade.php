@@ -4,7 +4,6 @@
     'edit' => false,
     'delete' => false,
     'resource',
-    'countries',
 ])
 
 @php
@@ -15,7 +14,6 @@
 <x-modal.supplier.create
     id="supplier_create"
     action="{{ route('suppliers.' . $parentname . '.store', $resource) }}"
-    :countries="$countries"
     trigger
 />
 

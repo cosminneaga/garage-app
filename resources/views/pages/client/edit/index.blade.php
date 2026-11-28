@@ -1,13 +1,13 @@
 @php
-    Session::flashInput($resource->toArray());
+    Session::flashInput($client->toArray());
 @endphp
 
 <x-layout::index title="Client">
     <x-tabs :tabs="ClientTabs::tabs()">
-        <x-card description="Visualise & Edit {{ $resource->name }} details">
+        <x-card description="Visualise & Edit {{ $client->name }} details">
             <form
                 method="POST"
-                action="{{ route('clients.companies.update', [$resource, $parent]) }}"
+                action="{{ route('clients.companies.update', [$client, $parent]) }}"
                 id="client-update-form"
             >
                 @csrf
@@ -41,8 +41,8 @@
             <x-modal.confirm
                 id="client-delete"
                 type="delete"
-                action="{{ route('clients.companies.destroy', [$resource, $parent]) }}"
-                message="Are you sure you want to remove {{ $resource->name }} from your list of clients?"
+                action="{{ route('clients.companies.destroy', [$client, $parent]) }}"
+                message="Are you sure you want to remove {{ $client->name }} from your list of clients?"
             />
         </x-card>
     </x-tabs>

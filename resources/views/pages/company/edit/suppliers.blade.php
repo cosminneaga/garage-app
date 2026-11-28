@@ -1,10 +1,9 @@
 <x-layout::index>
     <x-tabs :tabs="CompanyTabs::tabs()">
-        <x-card description="Visualise & Edit {{ $resource->name }}'s suppliers">
+        <x-card description="Visualise & Edit {{ $company->name }}'s suppliers">
             <x-table.related.suppliers
-                :data="$resource->suppliers"
-                :resource="$resource"
-                :countries="$countries"
+                :data="$suppliers"
+                :resource="$company"
                 :edit="Permission::can(UserPermission::SUPPLIER, 'show')"
                 :delete="Permission::can(UserPermission::SUPPLIER, 'delete')"
             />

@@ -104,6 +104,9 @@
             </ul>
         </div>
     </section>
+    @error('address.country_id')
+        <p class="text-xs text-red-600">{{ $message }}</p>
+    @enderror
 
     <section class="my-2">
         <label
@@ -130,6 +133,9 @@
             </template>
         </select>
     </section>
+    @error('address.state_id')
+        <p class="text-xs text-red-600">{{ $message }}</p>
+    @enderror
 
     <section class="my-2">
         <label
@@ -156,4 +162,7 @@
             </template>
         </select>
     </section>
+    @error('address.city_id')
+        <p class="text-xs text-red-600">{{ $message }}</p>
+    @enderror
 </div>

@@ -9,6 +9,7 @@ use App\Actions\CompanyUpdateAction;
 use App\Enums\Columns\ClientColumns;
 use App\Enums\Columns\VehicleColumns;
 use App\Enums\Resource\ResourceFilter;
+use App\Enums\Tabs\CompanyTabs;
 use App\Enums\UserRole;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
@@ -60,6 +61,7 @@ class CompanyController extends Controller
 
     public function store(StoreCompanyRequest $request, CompanyStoreAction $action): RedirectResponse
     {
+        dd($request->safe()->all());
         $action->handle($request->safe()->all());
 
         return back()
@@ -83,9 +85,9 @@ class CompanyController extends Controller
         };
 
         return match(request()->query('tab')) {
-            'statistics' => view('pages.company.edit.statistics'),
-            'members' => view('pages.company.edit.members', [
-                'resource' => $company,
+            CompanyTabs::STATISTICS->value => view('pages.company.edit.statistics'),
+            CompanyTabs::MEMBERS->value => view('pages.company.edit.members', [
+                'company' => $company,
                 'countries' => [],
                 'non_members' => $this->userService
                     ->model()
@@ -98,27 +100,28 @@ class CompanyController extends Controller
                     ->whereIn($company)
                     ->get(),
             ]),
-            'contacts' => view('pages.company.edit.contacts', [
-                'resource' => $company,
+            CompanyTabs::CONTACT->value => view('pages.company.edit.contact', [
+                'company' => $company,
+                'contact' => $company->contact,
             ]),
-            'addresses' => view('pages.company.edit.addresses', [
-                'resource' => $company,
-                'countries' => [],
+            CompanyTabs::ADDRESS->value => view('pages.company.edit.address', [
+                'company' => $company,
+                'address' => $company->address,
             ]),
-            'suppliers' => view('pages.company.edit.suppliers', [
-                'resource' => $company,
-                'countries' => [],
+            CompanyTabs::SUPPLIERS->value => view('pages.company.edit.suppliers', [
+                'company' => $company,
+                'suppliers' => $company->suppliers,
             ]),
-            'vehicles' => view('pages.company.edit.vehicles', [
-                'resource' => $company,
+            CompanyTabs::VEHICLES->value => view('pages.company.edit.vehicles', [
+                'company' => $company,
                 'vehicles' => $company->vehicles()->get(VehicleColumns::values()->map(fn ($value) => 'vehicles.' . $value)->toArray()),
             ]),
-            'clients' => view('pages.company.edit.clients', [
-                'resource' => $company,
+            CompanyTabs::CLIENTS->value => view('pages.company.edit.clients', [
+                'company' => $company,
                 'clients' => $company->clients()->get(ClientColumns::values()->map(fn ($value) => 'clients.' . $value)->toArray()),
             ]),
             default => view('pages.company.edit.index', [
-                'resource' => $company,
+                'company' => $company,
             ]),
         };
     }

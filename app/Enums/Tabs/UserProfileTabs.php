@@ -12,8 +12,8 @@ enum UserProfileTabs: string
 
     case DETAILS = 'details';
     case STATISTICS = 'statistics';
-    case CONTACTS = 'contacts';
-    case ADDRESSES = 'addresses';
+    case CONTACT = 'contact';
+    case ADDRESS = 'address';
     case SETTINGS = 'settings';
 
     public function label(): string
@@ -21,8 +21,8 @@ enum UserProfileTabs: string
         return match ($this) {
             self::DETAILS => 'Details',
             self::STATISTICS => 'Statistics',
-            self::CONTACTS => 'Contacts',
-            self::ADDRESSES => 'Addresses',
+            self::CONTACT => 'Contact',
+            self::ADDRESS => 'Address',
             self::SETTINGS => 'Settings',
         };
     }

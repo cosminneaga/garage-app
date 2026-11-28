@@ -12,16 +12,16 @@ enum SupplierTabs: string
 
     case DETAILS = 'details';
     case STATISTICS = 'statistics';
-    case CONTACTS = 'contacts';
-    case ADDRESSES = 'addresses';
+    case CONTACT = 'contact';
+    case ADDRESS = 'address';
 
     public function label(): string
     {
         return match ($this) {
             self::DETAILS => 'Details',
             self::STATISTICS => 'Statistics',
-            self::CONTACTS => 'Contacts',
-            self::ADDRESSES => 'Addresses',
+            self::CONTACT => 'Contact',
+            self::ADDRESS => 'Address',
         };
     }
 }

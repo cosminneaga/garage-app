@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\ClientStoreAction;
+use App\Enums\Tabs\ClientTabs;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
@@ -98,18 +99,19 @@ class ClientController extends Controller
         $this->authorize('show', $resource);
 
         return match (request()->query('tab')) {
-            'statistics' => view('pages.client.edit.statistics', [
-                'resource' => $client,
+            ClientTabs::STATISTICS->value => view('pages.client.edit.statistics', [
+                'client' => $client,
             ]),
-            'contacts' => view('pages.client.edit.contacts', [
-                'resource' => $client,
+            ClientTabs::CONTACT->value => view('pages.client.edit.contact', [
+                'client' => $client,
+                'contact' => $client->contact,
             ]),
-            'addresses' => view('pages.client.edit.addresses', [
-                'resource' => $client,
-                'countries' => [],
+            ClientTabs::ADDRESS->value => view('pages.client.edit.address', [
+                'client' => $client,
+                'address' => $client->address,
             ]),
             default => view('pages.client.edit.index', [
-                'resource' => $client,
+                'client' => $client,
                 'parent' => $company,
             ])
         };

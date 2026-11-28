@@ -1,9 +1,9 @@
 <x-layout::index title="Company's stored vehicles">
     <x-tabs :tabs="CompanyTabs::tabs()">
-        <x-card description="Visualise & Edit {{ $resource->name }}'s vehicles">
+        <x-card description="Visualise & Edit {{ $company->name }}'s vehicles">
             <x-table.related.vehicles
                 :data="$vehicles"
-                :resource="$resource"
+                :resource="$company"
                 :edit="Permission::can(UserPermission::VEHICLE, 'show')"
                 :delete="Permission::can(UserPermission::VEHICLE, 'delete')"
             />

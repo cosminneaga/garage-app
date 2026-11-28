@@ -1,6 +1,6 @@
-<x-layout::index title="{{ $manager->name }} | Statistics">
+<x-layout::index title="{{ $user->name }} | Statistics">
     <x-tabs :tabs="UserTabs::tabs()">
-        <x-card description="{{ $manager->name }} statistics">
+        <x-card description="{{ $user->name }} statistics">
             Stats goes here
         </x-card>
     </x-tabs>

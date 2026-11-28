@@ -29,21 +29,9 @@
 
         <br>
         <div class="grid grid-rows-1 gap-4 md:grid-cols-3">
-            <x-form.content.client
-                identifier="modal_client"
-                :countries="$countries"
-            />
-
-            <x-form.content.address
-                identifier="modal_client"
-                :countries="$countries"
-                nested_parent_name="address"
-            />
-
-            <x-form.content.contact
-                identifier="modal_client"
-                nested_parent_name="contact"
-            />
+            <x-form.content.client identifier="modal_client" />
+            <x-form.content.address identifier="modal_client" />
+            <x-form.content.contact identifier="modal_client" />
         </div>
 
         <br>

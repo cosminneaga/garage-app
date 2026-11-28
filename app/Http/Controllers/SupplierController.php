@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Actions\SupplierStoreAction;
+use App\Enums\Tabs\SupplierTabs;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Supplier;
@@ -43,19 +44,20 @@ class SupplierController extends Controller
         $this->authorize('show', $supplier);
 
         return match (request()->query('tab')) {
-            'statistics' => view('pages.supplier.edit.statistics', [
-                'resource' => $supplier,
+            SupplierTabs::STATISTICS->value => view('pages.supplier.edit.statistics', [
+                'supplier' => $supplier,
             ]),
-            'contacts' => view('pages.supplier.edit.contacts', [
-                'resource' => $supplier,
+            SupplierTabs::CONTACT->value => view('pages.supplier.edit.contact', [
+                'supplier' => $supplier,
+                'contact' => $supplier->contact,
             ]),
-            'addresses' => view('pages.supplier.edit.addresses', [
-                'resource' => $supplier,
-                'countries' => [],
+            SupplierTabs::ADDRESS->value => view('pages.supplier.edit.address', [
+                'supplier' => $supplier,
+                'address' => $supplier->address,
             ]),
             default => view('pages.supplier.edit.index', [
                 'company' => self::$entity,
-                'resource' => $supplier,
+                'supplier' => $supplier,
             ]),
         };
     }

@@ -3,7 +3,7 @@
         <x-card description="Visualise & Edit user permissions">
             <x-table.permissions
                 :data="$permissions"
-                :user="$resource"
+                :user="$user"
                 edit
             />
         </x-card>

@@ -1,21 +1,21 @@
 @php
-    Session::flashInput($resource->toArray());
+    Session::flashInput($supplier->toArray());
 @endphp
 
-<x-layout::index title="{{ $resource->name }} | Details">
+<x-layout::index title="{{ $supplier->name }} | Details">
     <x-tabs :tabs="SupplierTabs::tabs()">
         <x-card
-            :title="$resource->name"
-            description="Visualise & Edit {{ $resource->name }}'s details"
+            :title="$supplier->name"
+            description="Visualise & Edit {{ $supplier->name }}'s details"
         >
             <form
                 @isset($company)
                     :action="route('suppliers.companies.update', [
                         $company,
-                        $resource,
+                        $supplier,
                     ])"
                 @else
-                    :action="route('supplier.update', $resource)"
+                    :action="route('supplier.update', $supplier)"
                 @endisset
                 method="POST"
             >
