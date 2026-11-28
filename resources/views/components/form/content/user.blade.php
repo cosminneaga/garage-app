@@ -55,6 +55,7 @@ and old values but not for default values -->
             name="{{ Str::generateFormFieldName('password_confirmed', $nested_parent_name) }}"
             type="password"
             label="Password Confirmation"
+            value="{{ old('password_confirmed', '') }}"
         />
     @endif
     @if (collect($exclude)->doesntContain('active'))

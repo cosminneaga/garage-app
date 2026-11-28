@@ -83,12 +83,11 @@ class UserController extends Controller
             'statistics' => view('pages.user.edit.statistics', [
                 'resource' => $user,
             ]),
-            'contacts' => view('pages.user.edit.contacts', [
-                'resource' => $user,
+            'contact' => view('pages.user.edit.contact', [
+                'resource' => $user->contact,
             ]),
-            'addresses' => view('pages.user.edit.addresses', [
-                'resource' => $user,
-                'countries' => [],
+            'address' => view('pages.user.edit.address', [
+                'resource' => $user->address,
             ]),
             'permissions' => view('pages.user.edit.permissions', [
                 'resource' => $user,

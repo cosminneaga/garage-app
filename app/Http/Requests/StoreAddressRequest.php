@@ -26,13 +26,15 @@ class StoreAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'street_number' =>          ['required', 'string', 'max:10'],
-            'street' =>                 ['required', 'string', 'max:60'],
+            'number' =>                 ['required', 'string', 'max:10'],
+            'name' =>                   ['required', 'string', 'max:60'],
             'postcode' =>               ['required', 'string', 'max:20'],
             'building' =>               ['nullable', 'string', 'max:255'],
             'floor' =>                  ['nullable', 'string', 'max:255'],
             'unit' =>                   ['nullable', 'string', 'max:255'],
-            'country_id' =>             ['required', 'integer', 'exists:countries,id'],
+            'country_id' =>             ['required', 'integer'],
+            'state_id' =>               ['required', 'integer'],
+            'city_id' =>                ['required', 'integer'],
             'coordinates' =>            ['sometimes', 'nullable', 'array'],
             'coordinates.latitude' =>   ['sometimes', 'nullable', 'string', 'max:20'],
             'coordinates.longitude' =>  ['sometimes', 'nullable', 'string', 'max:20'],

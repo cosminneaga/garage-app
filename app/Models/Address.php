@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\AddressFactory;
 use App\Dto\Coordinates;
 use App\Models\World\City;
 use App\Models\World\Country;
 use App\Models\World\State;
-use Database\Factories\AddressFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
@@ -75,13 +75,15 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @mixin IdeHelperAddress
  */
 #[Fillable([
-    'street_number',
-    'street',
+    'number',
+    'name',
     'postcode',
     'building',
     'floor',
     'unit',
     'country_id',
+    'state_id',
+    'city_id',
     'coordinates',
     'coordinates->latitude',
     'coordinates->longitude',

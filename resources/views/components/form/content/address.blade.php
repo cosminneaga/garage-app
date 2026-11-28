@@ -1,34 +1,27 @@
-<!-- this component is ready to use for empty fields
-and old values but not for default values -->
-
 @props([
-    'countries' => [],
-    'identifier' => '',
-    'nested_parent_name' => false,
+    'identifier' => 'address',
 ])
 
-{{-- @dd(old()) --}}
-
-<section>
+<section class="mt-4">
     <h3 class="text-lg font-bold">Address Basic Information *</h3>
-    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
+    <hr class="bg-neutral-quaternary mb-3 mt-2 h-px border-0">
 
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('number', $nested_parent_name) }}"
-        value="{{ old('number', '') }}"
+        name="address[number]"
+        value="{{ old('address.number' , '') }}"
         label="Number"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('name', $nested_parent_name) }}"
-        value="{{ old('name', '') }}"
+        name="address[name]"
+        value="{{ old('address.name', '') }}"
         label="Street Name"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('postcode', $nested_parent_name) }}"
-        value="{{ old('postcode', '') }}"
+        name="address[postcode]"
+        value="{{ old('address.postcode', '') }}"
         label="Postcode"
     />
     <x-form.content.world
@@ -36,41 +29,41 @@ and old values but not for default values -->
     />
 </section>
 
-<section>
+<section class="mt-4">
     <h3 class="text-lg font-bold">Address Extra Information</h3>
-    <hr class="bg-neutral-quaternary mb-8 mt-2 h-px border-0">
+    <hr class="bg-neutral-quaternary mb-3 mt-2 h-px border-0">
 
     <div class="grid grid-cols-2 gap-2">
         <x-form.field.text
             identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('coordinates[latitude]', $nested_parent_name) }}"
-            value="{{ old('coordinates.latitude', '') }}"
+            name="address[coordinates][latitude]"
+            value="{{ old('address.coordinates.latitude', '') }}"
             label="Latitude"
         />
         <x-form.field.text
             identifier="{{ $identifier }}"
-            name="{{ Str::generateFormFieldName('coordinates[longitude]', $nested_parent_name) }}"
-            value="{{ old('coordinates.longitude', '') }}"
+            name="address[coordinates][longitude]"
+            value="{{ old('address.coordinates.longitude', '') }}"
             label="Longitude"
         />
     </div>
 
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('building', $nested_parent_name) }}"
-        value="{{ old('building', '') }}"
+        name="address[building]"
+        value="{{ old('address.building', '') }}"
         label="Building"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('floor', $nested_parent_name) }}"
-        value="{{ old('floor', '') }}"
+        name="address[floor]"
+        value="{{ old('address.floor', '') }}"
         label="Floor"
     />
     <x-form.field.text
         identifier="{{ $identifier }}"
-        name="{{ Str::generateFormFieldName('unit', $nested_parent_name) }}"
-        value="{{ old('unit', '') }}"
+        name="address[unit]"
+        value="{{ old('address.unit', '') }}"
         label="Unit"
     />
 </section>

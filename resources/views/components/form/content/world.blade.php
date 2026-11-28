@@ -5,9 +5,9 @@
     $helper_state = BladeFormHelper::names($identifier, 'state_id');
     $helper_city = BladeFormHelper::names($identifier, 'city_id');
 
-    $name_country = Str::generateFormFieldName('country_id');
-    $name_state = Str::generateFormFieldName('state_id');
-    $name_city = Str::generateFormFieldName('city_id');
+    $name_country = 'address[country_id]';
+    $name_state = 'address[state_id]';
+    $name_city = 'address[city_id]';
 
     $modal = BladeModalHelper::ids($name_country);
 @endphp
@@ -46,7 +46,7 @@
     }"
     x-init="function() {
         const target = document.getElementById(@js($modal->get('modal')));
-        const trigger = document.getElementById(@js($name_country . '_search'));
+        const trigger = document.getElementById('address[country_search]');
         const dropdown = new Dropdown(target, trigger);
         dropdownInstance = dropdown;
     }"
@@ -62,7 +62,7 @@
         >
         <x-form.field.text
             identifier="{{ $identifier }}"
-            name="{{ $name_country . '_search' }}"
+            name="address[country_search]"
             label="Country"
             x-ref="make_search"
             @keyup.debounce.700ms="search"
