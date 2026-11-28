@@ -1,30 +1,3 @@
-@php
-    Session::flashInput([
-        'name' => 'Cosmin Neaga',
-        'email' => 'cosmin@garage.com',
-        'password' => 'password',
-        'password_confirmed' => 'password',
-        'active' => true,
-        'address' => [
-            'number' => 132,
-            'name' => 'Eroilor',
-            'postcode' => 248200,
-            'coordinates' => [
-                'latitude' => 9.3728378,
-                'longitude' => 45.32878327,
-            ],
-            'building' => 21,
-            'floor' => 2,
-            'unit' => '23B',
-        ],
-        'contact' => [
-            'email' => 'cosmin@garage.com',
-            'mobile' => '0771331499',
-            'url' => 'https://cosminneaga.dev'
-        ],
-    ]);
-@endphp
-
 <x-layout::index title="Add User">
     <x-card
         title="Create user"
