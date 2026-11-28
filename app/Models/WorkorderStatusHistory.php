@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Override;
 use App\Enums\Status\WorkorderStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property int $workorder_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\Workorder|null $workorder
+ * @property-read Workorder|null $workorder
  * @method static Builder<static>|WorkorderStatusHistory newModelQuery()
  * @method static Builder<static>|WorkorderStatusHistory newQuery()
  * @method static Builder<static>|WorkorderStatusHistory query()
@@ -29,6 +30,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|WorkorderStatusHistory whereUpdatedAt($value)
  * @method static Builder<static>|WorkorderStatusHistory whereWorkorderId($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperWorkorderStatusHistory
  */
 #[Fillable([
     'status',
@@ -36,6 +38,7 @@ use Illuminate\Support\Carbon;
 ])]
 class WorkorderStatusHistory extends Model
 {
+    #[Override]
     protected $attributes = [
         'status' => WorkorderStatus::PENDING->value,
     ];

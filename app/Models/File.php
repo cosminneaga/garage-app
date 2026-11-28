@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Override;
 use App\Enums\Type\FileType;
 use App\Traits\Blameable;
 use Database\Factories\FileFactory;
@@ -36,12 +37,12 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read \App\Models\User|null $creator
+ * @property-read User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read \App\Models\User|null $deletor
+ * @property-read User|null $deletor
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read \App\Models\User|null $updater
- * @method static \Database\Factories\FileFactory factory($count = null, $state = [])
+ * @property-read User|null $updater
+ * @method static FileFactory factory($count = null, $state = [])
  * @method static Builder<static>|File newModelQuery()
  * @method static Builder<static>|File newQuery()
  * @method static Builder<static>|File onlyTrashed()
@@ -64,6 +65,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|File withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|File withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperFile
  */
 #[Fillable([
     'name',
@@ -81,6 +83,7 @@ class File extends Model
     use SoftDeletes;
     use Blameable;
 
+    #[Override]
     protected $attributes = [
         'type' => FileType::OTHER->value,
     ];

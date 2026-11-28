@@ -14,43 +14,45 @@
 namespace App\Models{
 /**
  * @property int $id
- * @property string $street_number
- * @property string $street
+ * @property string $number
+ * @property string $name
  * @property string $postcode
  * @property string|null $building
  * @property string|null $floor
  * @property string|null $unit
  * @property \App\Dto\Coordinates|null $coordinates
- * @property int $country_id
+ * @property int|null $country_id
+ * @property int|null $state_id
+ * @property int|null $city_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Client> $clients
- * @property-read int|null $clients_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
- * @property-read int|null $companies_count
- * @property-read \App\Models\Country|null $country
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
- * @property-read int|null $suppliers_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
+ * @property-read \App\Models\World\City|null $city
+ * @property-read \App\Models\Client|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\World\Country|null $country
+ * @property-read \App\Models\World\State|null $state
+ * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereBuilding($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereCoordinates($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereFloor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address wherePostcode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereStreet($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereStreetNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereStateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereUnit($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address withCoordinates()
@@ -278,16 +280,16 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $address_id
+ * @property int|null $contact_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
- * @property-read int|null $addresses_count
+ * @property-read \App\Models\Address|null $address
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
- * @property-read int|null $contacts_count
+ * @property-read \App\Models\Contact|null $contact
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
@@ -304,6 +306,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereAddressId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereContactId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereDeletedAt($value)
@@ -341,18 +345,18 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $address_id
+ * @property int|null $contact_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
- * @property-read int|null $addresses_count
+ * @property-read \App\Models\Address|null $address
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $availableTechnicians
  * @property-read int|null $available_technicians_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookings
  * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Client> $clients
  * @property-read int|null $clients_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
- * @property-read int|null $contacts_count
+ * @property-read \App\Models\Contact|null $contact
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
@@ -378,6 +382,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereAddressId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereContactId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Company whereDeletedAt($value)
@@ -436,38 +442,28 @@ namespace App\Models{
  * @property string|null $email
  * @property string|null $url
  * @property string|null $info
- * @property int|null $created_by
- * @property int|null $updated_by
- * @property int|null $deleted_by
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $clients
- * @property-read int|null $clients_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
- * @property-read int|null $companies_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Supplier> $suppliers
- * @property-read int|null $suppliers_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
+ * @property-read \App\Models\User|null $client
+ * @property-read \App\Models\Company|null $company
+ * @property-read \App\Models\Supplier|null $supplier
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\ContactFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereLandline($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Contact withoutTrashed()
@@ -475,37 +471,6 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperContact {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
- * @property string $code
- * @property string $name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
- * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $address
- * @property-read int|null $address_count
- * @method static \Database\Factories\CountryFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country withTrashed(bool $withTrashed = true)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Country withoutTrashed()
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperCountry {}
 }
 
 namespace App\Models{
@@ -893,14 +858,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $address_id
+ * @property int|null $contact_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
- * @property-read int|null $addresses_count
+ * @property-read \App\Models\Address|null $address
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
- * @property-read int|null $contacts_count
+ * @property-read \App\Models\Contact|null $contact
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read \App\Models\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
@@ -914,7 +879,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereAddressId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereContactId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Supplier whereDeletedAt($value)
@@ -937,27 +904,6 @@ namespace App\Models{
 namespace App\Models{
 /**
  * @property int $id
- * @property int $manager_id
- * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereManagerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Team whereUserId($value)
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperTeam {}
-}
-
-namespace App\Models{
-/**
- * @property int $id
  * @property string $name
  * @property string $email
  * @property bool $active
@@ -971,16 +917,16 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $address_id
+ * @property int|null $contact_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Activitylog\Models\Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
- * @property-read int|null $addresses_count
+ * @property-read \App\Models\Address|null $address
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Booking> $bookingsAdvised
  * @property-read int|null $bookings_advised_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Company> $companies
  * @property-read int|null $companies_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Contact> $contacts
- * @property-read int|null $contacts_count
+ * @property-read \App\Models\Contact|null $contact
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $createdByActor
  * @property-read User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $deletedByActor
@@ -1011,6 +957,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, ?string $guard = null, bool $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User team($teams, bool $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAddressId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereContactId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
@@ -1390,7 +1338,7 @@ namespace App\Models\World{
  * @property-read \App\Models\World\Record|null $record
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\World\State> $states
  * @property-read int|null $states_count
- * @property-read \App\Models\World\City|null $timezone
+ * @property-read \App\Models\World\Timezone|null $timezone
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Country newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Country query()
@@ -1491,6 +1439,8 @@ namespace App\Models\World{
  * @property int $country_id
  * @property string $name
  * @property string|null $country_code
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\World\City> $cities
+ * @property-read int|null $cities_count
  * @property-read \App\Models\World\Country|null $country
  * @method static \Illuminate\Database\Eloquent\Builder<static>|State newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|State newQuery()

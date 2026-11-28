@@ -28,11 +28,11 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\User|null $client
- * @property-read \App\Models\Company|null $company
- * @property-read \App\Models\Supplier|null $supplier
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\ContactFactory factory($count = null, $state = [])
+ * @property-read User|null $client
+ * @property-read Company|null $company
+ * @property-read Supplier|null $supplier
+ * @property-read User|null $user
+ * @method static ContactFactory factory($count = null, $state = [])
  * @method static Builder<static>|Contact newModelQuery()
  * @method static Builder<static>|Contact newQuery()
  * @method static Builder<static>|Contact onlyTrashed()
@@ -49,6 +49,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Contact withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Contact withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperContact
  */
 #[Fillable([
     'mobile',

@@ -57,7 +57,7 @@ class ExampleNotification extends Notification implements ShouldQueue
 
         $url = url('/booking/' . $this->booking->id);
 
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Example Notification on Booking')
             ->markdown('mail.example', [
                 'url' => $url,

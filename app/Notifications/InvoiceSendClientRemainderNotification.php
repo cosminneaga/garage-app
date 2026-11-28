@@ -36,7 +36,7 @@ class InvoiceSendClientRemainderNotification extends Notification
      */
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Hey in regards with your due invoice')
             ->markdown('mail.generic', [
                 'title' => 'Invoice number: ' . $this->invoice->number,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Override;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Activitylog\Models\Activity;
@@ -33,12 +34,12 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read \App\Models\User|null $creator
+ * @property-read User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read \App\Models\User|null $deletor
- * @property-read \App\Models\Invoice|null $invoice
+ * @property-read User|null $deletor
+ * @property-read Invoice|null $invoice
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read \App\Models\User|null $updater
+ * @property-read User|null $updater
  * @method static Builder<static>|InvoiceTransaction newModelQuery()
  * @method static Builder<static>|InvoiceTransaction newQuery()
  * @method static Builder<static>|InvoiceTransaction onlyTrashed()
@@ -57,6 +58,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|InvoiceTransaction withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|InvoiceTransaction withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperInvoiceTransaction
  */
 #[Fillable([
     'method',
@@ -71,6 +73,7 @@ class InvoiceTransaction extends Model
     use Blameable;
     use Searchable;
 
+    #[Override]
     protected $attributes = [
         'method' => PaymentMethod::OTHER->value,
         'type' => TransactionType::PAYMENT->value,

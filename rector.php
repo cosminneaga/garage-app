@@ -38,11 +38,7 @@ return RectorConfig::configure()
         codeQuality: true,
         typeDeclarations: true,
         privatization: true,
-        earlyReturn: true,
     )
-    // ->withRules([
-    //     SafeDeclareStrictTypesRector::class,
-    // ])
     ->withImportNames(
         importShortClasses: true,
         removeUnusedImports: true

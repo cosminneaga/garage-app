@@ -42,35 +42,35 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property int|null $contact_id
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Address|null $address
- * @property-read Collection<int, \App\Models\User> $availableTechnicians
+ * @property-read Address|null $address
+ * @property-read Collection<int, User> $availableTechnicians
  * @property-read int|null $available_technicians_count
- * @property-read Collection<int, \App\Models\Booking> $bookings
+ * @property-read Collection<int, Booking> $bookings
  * @property-read int|null $bookings_count
- * @property-read Collection<int, \App\Models\Client> $clients
+ * @property-read Collection<int, Client> $clients
  * @property-read int|null $clients_count
- * @property-read \App\Models\Contact|null $contact
+ * @property-read Contact|null $contact
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read \App\Models\User|null $creator
+ * @property-read User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read \App\Models\User|null $deletor
- * @property-read Collection<int, \App\Models\Invoice> $invoices
+ * @property-read User|null $deletor
+ * @property-read Collection<int, Invoice> $invoices
  * @property-read int|null $invoices_count
- * @property-read Collection<int, \App\Models\User> $managers
+ * @property-read Collection<int, User> $managers
  * @property-read int|null $managers_count
- * @property-read Collection<int, \App\Models\CompanySchedule> $schedules
+ * @property-read Collection<int, CompanySchedule> $schedules
  * @property-read int|null $schedules_count
- * @property-read Collection<int, \App\Models\Supplier> $suppliers
+ * @property-read Collection<int, Supplier> $suppliers
  * @property-read int|null $suppliers_count
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read \App\Models\User|null $updater
- * @property-read Collection<int, \App\Models\User> $users
+ * @property-read User|null $updater
+ * @property-read Collection<int, User> $users
  * @property-read int|null $users_count
- * @property-read Collection<int, \App\Models\Vehicle> $vehicles
+ * @property-read Collection<int, Vehicle> $vehicles
  * @property-read int|null $vehicles_count
- * @property-read Collection<int, \App\Models\Workorder> $workorders
+ * @property-read Collection<int, Workorder> $workorders
  * @property-read int|null $workorders_count
- * @method static \Database\Factories\CompanyFactory factory($count = null, $state = [])
+ * @method static CompanyFactory factory($count = null, $state = [])
  * @method static Builder<static>|Company newModelQuery()
  * @method static Builder<static>|Company newQuery()
  * @method static Builder<static>|Company onlyTrashed()
@@ -94,6 +94,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Company withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Company withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperCompany
  */
 #[UsePolicy(CompanyPolicy::class)]
 #[Fillable([

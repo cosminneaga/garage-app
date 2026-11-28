@@ -2,6 +2,7 @@
 
 namespace App\Models\World;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,17 +13,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $state_id
  * @property string $name
  * @property string $country_code
- * @property-read \App\Models\World\Country|null $country
- * @property-read \App\Models\World\State|null $state
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereCountryCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereCountryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|City whereStateId($value)
+ * @property-read Country|null $country
+ * @property-read State|null $state
+ * @method static Builder<static>|City newModelQuery()
+ * @method static Builder<static>|City newQuery()
+ * @method static Builder<static>|City query()
+ * @method static Builder<static>|City whereCountryCode($value)
+ * @method static Builder<static>|City whereCountryId($value)
+ * @method static Builder<static>|City whereId($value)
+ * @method static Builder<static>|City whereName($value)
+ * @method static Builder<static>|City whereStateId($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperCity
  */
 #[Connection('world')]
 class City extends Model

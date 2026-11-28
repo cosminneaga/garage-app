@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Override;
 use App\Enums\Type\SupplierType;
 use App\Traits\Blameable;
 use Database\Factories\SupplierFactory;
@@ -39,19 +40,19 @@ use Throwable;
  * @property int|null $contact_id
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Address|null $address
- * @property-read Collection<int, \App\Models\Company> $companies
+ * @property-read Address|null $address
+ * @property-read Collection<int, Company> $companies
  * @property-read int|null $companies_count
- * @property-read \App\Models\Contact|null $contact
+ * @property-read Contact|null $contact
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read \App\Models\User|null $creator
+ * @property-read User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read \App\Models\User|null $deletor
- * @property-read Collection<int, \App\Models\Part> $parts
+ * @property-read User|null $deletor
+ * @property-read Collection<int, Part> $parts
  * @property-read int|null $parts_count
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read \App\Models\User|null $updater
- * @method static \Database\Factories\SupplierFactory factory($count = null, $state = [])
+ * @property-read User|null $updater
+ * @method static SupplierFactory factory($count = null, $state = [])
  * @method static Builder<static>|Supplier newModelQuery()
  * @method static Builder<static>|Supplier newQuery()
  * @method static Builder<static>|Supplier onlyTrashed()
@@ -73,6 +74,7 @@ use Throwable;
  * @method static Builder<static>|Supplier withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Supplier withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperSupplier
  */
 #[Fillable([
     'name',
@@ -89,6 +91,7 @@ class Supplier extends Model
     use Searchable;
     use Blameable;
 
+    #[Override]
     protected $attributes = [
         'type' => SupplierType::DISTRIBUTOR->value,
     ];

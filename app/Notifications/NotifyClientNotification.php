@@ -28,7 +28,7 @@ class NotifyClientNotification extends Notification implements ShouldQueue
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Hey your account has been created successfully')
             ->markdown('mail.generic', [
                 'title' => $this->title,

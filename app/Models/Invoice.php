@@ -53,22 +53,22 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
- * @property-read \App\Models\Client|null $client
- * @property-read \App\Models\Company|null $company
+ * @property-read Client|null $client
+ * @property-read Company|null $company
  * @property-read Model|\Eloquent|null $createdByActor
- * @property-read \App\Models\User|null $creator
+ * @property-read User|null $creator
  * @property-read Model|\Eloquent|null $deletedByActor
- * @property-read \App\Models\User|null $deletor
- * @property-read Collection<int, \App\Models\InvoiceItem> $items
+ * @property-read User|null $deletor
+ * @property-read Collection<int, InvoiceItem> $items
  * @property-read int|null $items_count
- * @property-read Collection<int, \App\Models\InvoiceStatusHistory> $statuses
+ * @property-read Collection<int, InvoiceStatusHistory> $statuses
  * @property-read int|null $statuses_count
- * @property-read Collection<int, \App\Models\InvoiceTransaction> $transactions
+ * @property-read Collection<int, InvoiceTransaction> $transactions
  * @property-read int|null $transactions_count
  * @property-read Model|\Eloquent|null $updatedByActor
- * @property-read \App\Models\User|null $updater
- * @property-read \App\Models\Vehicle|null $vehicle
- * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
+ * @property-read User|null $updater
+ * @property-read Vehicle|null $vehicle
+ * @method static InvoiceFactory factory($count = null, $state = [])
  * @method static Builder<static>|Invoice newModelQuery()
  * @method static Builder<static>|Invoice newQuery()
  * @method static Builder<static>|Invoice onlyTrashed()
@@ -102,6 +102,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Invoice withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Invoice withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperInvoice
  */
 #[ObservedBy(InvoiceObserver::class)]
 #[Fillable([
@@ -140,6 +141,7 @@ class Invoice extends Model
         });
     }
 
+    #[Override]
     protected $attributes = [
         'status' => InvoiceStatus::DRAFT->value,
         'subtotal' => 0.00,

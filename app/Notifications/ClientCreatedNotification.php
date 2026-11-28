@@ -37,7 +37,7 @@ class ClientCreatedNotification extends Notification implements ShouldQueue
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Client created')
             ->markdown('mail.generic', $this->toArray());
     }

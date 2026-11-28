@@ -33,7 +33,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property string|null $building
  * @property string|null $floor
  * @property string|null $unit
- * @property \App\Dto\Coordinates|null $coordinates
+ * @property Coordinates|null $coordinates
  * @property int|null $country_id
  * @property int|null $state_id
  * @property int|null $city_id
@@ -43,13 +43,13 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @property-read Collection<int, Activity> $activitiesAsSubject
  * @property-read int|null $activities_as_subject_count
  * @property-read City|null $city
- * @property-read \App\Models\Client|null $client
- * @property-read \App\Models\Company|null $company
+ * @property-read Client|null $client
+ * @property-read Company|null $company
  * @property-read Country|null $country
  * @property-read State|null $state
- * @property-read \App\Models\Supplier|null $supplier
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
+ * @property-read Supplier|null $supplier
+ * @property-read User|null $user
+ * @method static AddressFactory factory($count = null, $state = [])
  * @method static Builder<static>|Address newModelQuery()
  * @method static Builder<static>|Address newQuery()
  * @method static Builder<static>|Address onlyTrashed()
@@ -72,6 +72,7 @@ use Spatie\Activitylog\Models\Concerns\LogsActivity;
  * @method static Builder<static>|Address withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Address withoutTrashed()
  * @mixin \Eloquent
+ * @mixin IdeHelperAddress
  */
 #[Fillable([
     'street_number',

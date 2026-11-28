@@ -36,7 +36,7 @@ class WorkorderAssignedNotification extends Notification
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Workorder ' . $this->workorder->number)
             ->markdown('mail.generic', $this->toArray());
     }

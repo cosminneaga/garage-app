@@ -27,7 +27,7 @@ class BookingClientNotification extends Notification
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Hey in regards with your booking ' . $this->booking->number)
             ->markdown('mail.generic', [
                 'title' => $this->title,

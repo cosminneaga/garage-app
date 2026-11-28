@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Override;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use App\Enums\Status\InvoiceStatus;
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $invoice_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\Invoice|null $invoice
+ * @property-read Invoice|null $invoice
  * @method static Builder<static>|InvoiceStatusHistory newModelQuery()
  * @method static Builder<static>|InvoiceStatusHistory newQuery()
  * @method static Builder<static>|InvoiceStatusHistory query()
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder<static>|InvoiceStatusHistory whereStatus($value)
  * @method static Builder<static>|InvoiceStatusHistory whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @mixin IdeHelperInvoiceStatusHistory
  */
 #[Fillable(
     'status',
@@ -38,6 +40,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Table(name: 'invoice_status_history')]
 class InvoiceStatusHistory extends Model
 {
+    #[Override]
     protected $attributes = [
         'status' => InvoiceStatus::DRAFT->value,
     ];

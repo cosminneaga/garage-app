@@ -37,7 +37,7 @@ class WorkorderStatusUpdateNotification extends Notification
 
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return new MailMessage()
             ->subject('Workorder ' . $this->workorder->number . ' status updated')
             ->markdown('mail.generic', $this->toArray());
     }
