@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\ModelContactStoreAction;
 use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
 use App\Traits\RelatedModelGuard;
 use Exception;
@@ -50,23 +51,20 @@ class ContactController extends Controller
         string|int $model_id
     ): View {
         self::guard('show', $request, $model_id);
-        $resource = self::$entity->contacts()->findOrFail($contact->id);
-        $this->authorize('show', $resource);
+        $this->authorize('show', $contact);
 
         return view('pages.contact.edit', [
-            'resource' => $resource,
+            'resource' => $contact,
         ]);
     }
 
     public function modelUpdate(
-        Request $request,
+        UpdateContactRequest $request,
         Contact $contact,
         string|int $model_id
     ): RedirectResponse {
         self::guard('update', $request, $model_id);
-        $resource = self::$entity->contacts()->findOrFail($contact->id);
-        $this->authorize('update', $resource);
-        $resource->update([...$request->except(['_token', '_method'])]);
+        $contact->update($request->safe()->all());
 
         return back()
             ->with(self::flashMessage(

@@ -84,7 +84,8 @@ class UserController extends Controller
                 'resource' => $user,
             ]),
             'contact' => view('pages.user.edit.contact', [
-                'resource' => $user->contact,
+                'user' => $user,
+                'contact' => $user->contact,
             ]),
             'address' => view('pages.user.edit.address', [
                 'user' => $user,

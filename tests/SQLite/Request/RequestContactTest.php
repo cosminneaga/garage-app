@@ -32,7 +32,7 @@ test('user: [with permissions] store user contact', function () {
     $this->manager->memberAttach($user);
     actingAs($this->user);
 
-    post(route('contacts.users.store', $user), [
+    post(route('contact.user.store', $user), [
         'mobile' => '316-599-5131',
         'landline' => '781.446.9941',
         'email' => 'test@garage.com',
@@ -58,7 +58,7 @@ test('user: [with permissions] update user contact', function () {
     $this->manager->memberAttach($user);
     actingAs($this->user);
 
-    put(route('contacts.users.update', [$contact, $user]), [
+    put(route('contact.user.update', [$contact, $user]), [
         'mobile' => '316-599-5131',
         'landline' => '781.446.9941',
         'email' => 'test@garage.com',
@@ -84,7 +84,7 @@ test('user: [with permissions] destroy user contact', function () {
     $this->manager->memberAttach($user);
     actingAs($this->user);
 
-    delete(route('contacts.users.destroy', [$contact, $user]))
+    delete(route('contact.user.destroy', [$contact, $user]))
         ->assertRedirectBack()
         ->assertSessionHas('message', (object) [
             'type' => 'info',

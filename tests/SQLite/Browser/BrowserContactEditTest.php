@@ -28,7 +28,7 @@ test('administrator: should edit manager\'s contact', function () {
     $this->administrator->managers()->attach($this->manager);
     actingAs($this->administrator);
 
-    visit(route('contacts.users.edit', [$this->manager_contact, $this->manager]))
+    visit(route('contact.user.edit', [$this->manager_contact, $this->manager]))
         ->assertValue('@contact_email', $this->manager_contact->email)
         ->assertValue('@contact_mobile', $this->manager_contact->mobile)
         ->fill('@contact_email', 'test@garage.com')

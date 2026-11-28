@@ -1,13 +1,13 @@
 @php
     Session::flashInput([
-        'address' => $address->toArray()
+        'address' => json_decode(json_encode($address), true)
     ]);
 @endphp
 
 <x-layout::index title="Address">
     <x-tabs :tabs="UserTabs::tabs()">
         <x-card
-            title="Visualise & Edit {{ $user->name }} location's details"
+            title="Visualise & Edit {{ $user->name }}'s location details"
         >
             <form action="{{ route('address.user.edit', [$address, $user]) }}" method="post">
                 @csrf

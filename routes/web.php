@@ -330,12 +330,12 @@ Route::controller(WorldController::class)
 Route::controller(ContactController::class)
     ->middleware(['auth', 'role:super|administrator|manager|user'])
     ->group(function () {
-        # users
+        # user
         Route::group(['model' => RelatedModel::USER], function () {
-            Route::get('/contacts/{contact}/users/{user}', 'modelEdit')->name('contacts.users.edit');
-            Route::post('/contacts/users/{user}', 'modelStore')->name('contacts.users.store');
-            Route::put('/contacts/{contact}/users/{user}', 'modelUpdate')->name('contacts.users.update');
-            Route::delete('/contacts/{contact}/users/{user}', 'modelDestroy')->name('contacts.users.destroy');
+            Route::get('/contact/{contact}/user/{user}', 'modelEdit')->name('contact.user.edit');
+            Route::post('/contact/user/{user}', 'modelStore')->name('contact.user.store');
+            Route::put('/contact/{contact}/user/{user}', 'modelUpdate')->name('contact.user.update');
+            Route::delete('/contact/{contact}/user/{user}', 'modelDestroy')->name('contact.user.destroy');
         });
 
         # companies
